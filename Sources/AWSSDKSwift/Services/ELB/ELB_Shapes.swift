@@ -22,7 +22,7 @@ extension ELB {
 
     //MARK: Shapes
 
-    public struct AccessLog: AWSShape {
+    public struct AccessLog: AWSEncodableShape & AWSDecodableShape {
 
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
         public let emitInterval: Int?
@@ -48,7 +48,7 @@ extension ELB {
         }
     }
 
-    public struct AddAvailabilityZonesInput: AWSShape {
+    public struct AddAvailabilityZonesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
@@ -69,7 +69,7 @@ extension ELB {
         }
     }
 
-    public struct AddAvailabilityZonesOutput: AWSShape {
+    public struct AddAvailabilityZonesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
@@ -86,7 +86,7 @@ extension ELB {
         }
     }
 
-    public struct AddTagsInput: AWSShape {
+    public struct AddTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
@@ -115,7 +115,7 @@ extension ELB {
         }
     }
 
-    public struct AddTagsOutput: AWSShape {
+    public struct AddTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -123,7 +123,7 @@ extension ELB {
 
     }
 
-    public struct AdditionalAttribute: AWSShape {
+    public struct AdditionalAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// This parameter is reserved.
         public let key: String?
@@ -148,7 +148,7 @@ extension ELB {
         }
     }
 
-    public struct AppCookieStickinessPolicy: AWSShape {
+    public struct AppCookieStickinessPolicy: AWSDecodableShape {
 
         /// The name of the application cookie used for stickiness.
         public let cookieName: String?
@@ -166,7 +166,7 @@ extension ELB {
         }
     }
 
-    public struct ApplySecurityGroupsToLoadBalancerInput: AWSShape {
+    public struct ApplySecurityGroupsToLoadBalancerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
@@ -187,7 +187,7 @@ extension ELB {
         }
     }
 
-    public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
+    public struct ApplySecurityGroupsToLoadBalancerOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
@@ -204,7 +204,7 @@ extension ELB {
         }
     }
 
-    public struct AttachLoadBalancerToSubnetsInput: AWSShape {
+    public struct AttachLoadBalancerToSubnetsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
@@ -225,7 +225,7 @@ extension ELB {
         }
     }
 
-    public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
+    public struct AttachLoadBalancerToSubnetsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
@@ -242,7 +242,7 @@ extension ELB {
         }
     }
 
-    public struct BackendServerDescription: AWSShape {
+    public struct BackendServerDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
@@ -263,7 +263,7 @@ extension ELB {
         }
     }
 
-    public struct ConfigureHealthCheckInput: AWSShape {
+    public struct ConfigureHealthCheckInput: AWSEncodableShape {
 
         /// The configuration information.
         public let healthCheck: HealthCheck
@@ -285,7 +285,7 @@ extension ELB {
         }
     }
 
-    public struct ConfigureHealthCheckOutput: AWSShape {
+    public struct ConfigureHealthCheckOutput: AWSDecodableShape {
 
         /// The updated health check.
         public let healthCheck: HealthCheck?
@@ -299,7 +299,7 @@ extension ELB {
         }
     }
 
-    public struct ConnectionDraining: AWSShape {
+    public struct ConnectionDraining: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether connection draining is enabled for the load balancer.
         public let enabled: Bool
@@ -317,7 +317,7 @@ extension ELB {
         }
     }
 
-    public struct ConnectionSettings: AWSShape {
+    public struct ConnectionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int
@@ -336,7 +336,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAccessPointInput: AWSShape {
+    public struct CreateAccessPointInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member")), 
@@ -391,7 +391,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAccessPointOutput: AWSShape {
+    public struct CreateAccessPointOutput: AWSDecodableShape {
 
         /// The DNS name of the load balancer.
         public let dNSName: String?
@@ -405,7 +405,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAppCookieStickinessPolicyInput: AWSShape {
+    public struct CreateAppCookieStickinessPolicyInput: AWSEncodableShape {
 
         /// The name of the application cookie used for stickiness.
         public let cookieName: String
@@ -427,7 +427,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
+    public struct CreateAppCookieStickinessPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -435,7 +435,7 @@ extension ELB {
 
     }
 
-    public struct CreateLBCookieStickinessPolicyInput: AWSShape {
+    public struct CreateLBCookieStickinessPolicyInput: AWSEncodableShape {
 
         /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
@@ -457,7 +457,7 @@ extension ELB {
         }
     }
 
-    public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
+    public struct CreateLBCookieStickinessPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -465,7 +465,7 @@ extension ELB {
 
     }
 
-    public struct CreateLoadBalancerListenerInput: AWSShape {
+    public struct CreateLoadBalancerListenerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
@@ -492,7 +492,7 @@ extension ELB {
         }
     }
 
-    public struct CreateLoadBalancerListenerOutput: AWSShape {
+    public struct CreateLoadBalancerListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -500,7 +500,7 @@ extension ELB {
 
     }
 
-    public struct CreateLoadBalancerPolicyInput: AWSShape {
+    public struct CreateLoadBalancerPolicyInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyAttributes", location: .body(locationName: "PolicyAttributes"), encoding: .list(member:"member"))
         ]
@@ -529,7 +529,7 @@ extension ELB {
         }
     }
 
-    public struct CreateLoadBalancerPolicyOutput: AWSShape {
+    public struct CreateLoadBalancerPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -537,7 +537,7 @@ extension ELB {
 
     }
 
-    public struct CrossZoneLoadBalancing: AWSShape {
+    public struct CrossZoneLoadBalancing: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
@@ -551,7 +551,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteAccessPointInput: AWSShape {
+    public struct DeleteAccessPointInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -565,7 +565,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteAccessPointOutput: AWSShape {
+    public struct DeleteAccessPointOutput: AWSDecodableShape {
 
 
         public init() {
@@ -573,7 +573,7 @@ extension ELB {
 
     }
 
-    public struct DeleteLoadBalancerListenerInput: AWSShape {
+    public struct DeleteLoadBalancerListenerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerPorts", location: .body(locationName: "LoadBalancerPorts"), encoding: .list(member:"member"))
         ]
@@ -594,7 +594,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteLoadBalancerListenerOutput: AWSShape {
+    public struct DeleteLoadBalancerListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -602,7 +602,7 @@ extension ELB {
 
     }
 
-    public struct DeleteLoadBalancerPolicyInput: AWSShape {
+    public struct DeleteLoadBalancerPolicyInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -620,7 +620,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteLoadBalancerPolicyOutput: AWSShape {
+    public struct DeleteLoadBalancerPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -628,7 +628,7 @@ extension ELB {
 
     }
 
-    public struct DeregisterEndPointsInput: AWSShape {
+    public struct DeregisterEndPointsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
@@ -649,7 +649,7 @@ extension ELB {
         }
     }
 
-    public struct DeregisterEndPointsOutput: AWSShape {
+    public struct DeregisterEndPointsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
@@ -666,7 +666,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccessPointsInput: AWSShape {
+    public struct DescribeAccessPointsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
         ]
@@ -696,7 +696,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccessPointsOutput: AWSShape {
+    public struct DescribeAccessPointsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerDescriptions", location: .body(locationName: "LoadBalancerDescriptions"), encoding: .list(member:"member"))
         ]
@@ -717,7 +717,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccountLimitsInput: AWSShape {
+    public struct DescribeAccountLimitsInput: AWSEncodableShape {
 
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -740,7 +740,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccountLimitsOutput: AWSShape {
+    public struct DescribeAccountLimitsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limits", location: .body(locationName: "Limits"), encoding: .list(member:"member"))
         ]
@@ -761,7 +761,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeEndPointStateInput: AWSShape {
+    public struct DescribeEndPointStateInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
@@ -782,7 +782,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeEndPointStateOutput: AWSShape {
+    public struct DescribeEndPointStateOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceStates", location: .body(locationName: "InstanceStates"), encoding: .list(member:"member"))
         ]
@@ -799,7 +799,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+    public struct DescribeLoadBalancerAttributesInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -813,7 +813,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
+    public struct DescribeLoadBalancerAttributesOutput: AWSDecodableShape {
 
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
@@ -827,7 +827,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPoliciesInput: AWSShape {
+    public struct DescribeLoadBalancerPoliciesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
@@ -848,7 +848,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
+    public struct DescribeLoadBalancerPoliciesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyDescriptions", location: .body(locationName: "PolicyDescriptions"), encoding: .list(member:"member"))
         ]
@@ -865,7 +865,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
+    public struct DescribeLoadBalancerPolicyTypesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyTypeNames", location: .body(locationName: "PolicyTypeNames"), encoding: .list(member:"member"))
         ]
@@ -882,7 +882,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
+    public struct DescribeLoadBalancerPolicyTypesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyTypeDescriptions", location: .body(locationName: "PolicyTypeDescriptions"), encoding: .list(member:"member"))
         ]
@@ -899,7 +899,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeTagsInput: AWSShape {
+    public struct DescribeTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
         ]
@@ -921,7 +921,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeTagsOutput: AWSShape {
+    public struct DescribeTagsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagDescriptions", location: .body(locationName: "TagDescriptions"), encoding: .list(member:"member"))
         ]
@@ -938,7 +938,7 @@ extension ELB {
         }
     }
 
-    public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
+    public struct DetachLoadBalancerFromSubnetsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
@@ -959,7 +959,7 @@ extension ELB {
         }
     }
 
-    public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
+    public struct DetachLoadBalancerFromSubnetsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
@@ -976,7 +976,7 @@ extension ELB {
         }
     }
 
-    public struct HealthCheck: AWSShape {
+    public struct HealthCheck: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
         public let healthyThreshold: Int
@@ -1017,7 +1017,7 @@ extension ELB {
         }
     }
 
-    public struct Instance: AWSShape {
+    public struct Instance: AWSEncodableShape & AWSDecodableShape {
 
         /// The instance ID.
         public let instanceId: String?
@@ -1031,7 +1031,7 @@ extension ELB {
         }
     }
 
-    public struct InstanceState: AWSShape {
+    public struct InstanceState: AWSDecodableShape {
 
         /// A description of the instance state. This string can contain one or more of the following messages.    N/A     A transient error occurred. Please try again later.     Instance has failed at least the UnhealthyThreshold number of health checks consecutively.     Instance has not passed the configured HealthyThreshold number of health checks consecutively.     Instance registration is still in progress.     Instance is in the EC2 Availability Zone for which LoadBalancer is not configured to route traffic to.     Instance is not currently registered with the LoadBalancer.     Instance deregistration currently in progress.     Disable Availability Zone is currently in progress.     Instance is in pending state.     Instance is in stopped state.     Instance is in terminated state.   
         public let description: String?
@@ -1057,7 +1057,7 @@ extension ELB {
         }
     }
 
-    public struct LBCookieStickinessPolicy: AWSShape {
+    public struct LBCookieStickinessPolicy: AWSDecodableShape {
 
         /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
@@ -1075,7 +1075,7 @@ extension ELB {
         }
     }
 
-    public struct Limit: AWSShape {
+    public struct Limit: AWSDecodableShape {
 
         /// The maximum value of the limit.
         public let max: String?
@@ -1093,7 +1093,7 @@ extension ELB {
         }
     }
 
-    public struct Listener: AWSShape {
+    public struct Listener: AWSEncodableShape & AWSDecodableShape {
 
         /// The port on which the instance is listening.
         public let instancePort: Int
@@ -1128,7 +1128,7 @@ extension ELB {
         }
     }
 
-    public struct ListenerDescription: AWSShape {
+    public struct ListenerDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
@@ -1149,7 +1149,7 @@ extension ELB {
         }
     }
 
-    public struct LoadBalancerAttributes: AWSShape {
+    public struct LoadBalancerAttributes: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "additionalAttributes", location: .body(locationName: "AdditionalAttributes"), encoding: .list(member:"member"))
         ]
@@ -1190,7 +1190,7 @@ extension ELB {
         }
     }
 
-    public struct LoadBalancerDescription: AWSShape {
+    public struct LoadBalancerDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "backendServerDescriptions", location: .body(locationName: "BackendServerDescriptions"), encoding: .list(member:"member")), 
@@ -1272,7 +1272,7 @@ extension ELB {
         }
     }
 
-    public struct ModifyLoadBalancerAttributesInput: AWSShape {
+    public struct ModifyLoadBalancerAttributesInput: AWSEncodableShape {
 
         /// The attributes for the load balancer.
         public let loadBalancerAttributes: LoadBalancerAttributes
@@ -1294,7 +1294,7 @@ extension ELB {
         }
     }
 
-    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
+    public struct ModifyLoadBalancerAttributesOutput: AWSDecodableShape {
 
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
@@ -1312,7 +1312,7 @@ extension ELB {
         }
     }
 
-    public struct Policies: AWSShape {
+    public struct Policies: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appCookieStickinessPolicies", location: .body(locationName: "AppCookieStickinessPolicies"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "lBCookieStickinessPolicies", location: .body(locationName: "LBCookieStickinessPolicies"), encoding: .list(member:"member")), 
@@ -1339,7 +1339,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttribute: AWSShape {
+    public struct PolicyAttribute: AWSEncodableShape {
 
         /// The name of the attribute.
         public let attributeName: String?
@@ -1357,7 +1357,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttributeDescription: AWSShape {
+    public struct PolicyAttributeDescription: AWSDecodableShape {
 
         /// The name of the attribute.
         public let attributeName: String?
@@ -1375,7 +1375,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttributeTypeDescription: AWSShape {
+    public struct PolicyAttributeTypeDescription: AWSDecodableShape {
 
         /// The name of the attribute.
         public let attributeName: String?
@@ -1405,7 +1405,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyDescription: AWSShape {
+    public struct PolicyDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyAttributeDescriptions", location: .body(locationName: "PolicyAttributeDescriptions"), encoding: .list(member:"member"))
         ]
@@ -1430,7 +1430,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyTypeDescription: AWSShape {
+    public struct PolicyTypeDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyAttributeTypeDescriptions", location: .body(locationName: "PolicyAttributeTypeDescriptions"), encoding: .list(member:"member"))
         ]
@@ -1455,7 +1455,7 @@ extension ELB {
         }
     }
 
-    public struct RegisterEndPointsInput: AWSShape {
+    public struct RegisterEndPointsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
@@ -1476,7 +1476,7 @@ extension ELB {
         }
     }
 
-    public struct RegisterEndPointsOutput: AWSShape {
+    public struct RegisterEndPointsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
@@ -1493,7 +1493,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveAvailabilityZonesInput: AWSShape {
+    public struct RemoveAvailabilityZonesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
@@ -1514,7 +1514,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveAvailabilityZonesOutput: AWSShape {
+    public struct RemoveAvailabilityZonesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
@@ -1531,7 +1531,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveTagsInput: AWSShape {
+    public struct RemoveTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
@@ -1560,7 +1560,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveTagsOutput: AWSShape {
+    public struct RemoveTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1568,7 +1568,7 @@ extension ELB {
 
     }
 
-    public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
+    public struct SetLoadBalancerListenerSSLCertificateInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1590,7 +1590,7 @@ extension ELB {
         }
     }
 
-    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
+    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1598,7 +1598,7 @@ extension ELB {
 
     }
 
-    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
+    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
@@ -1623,7 +1623,7 @@ extension ELB {
         }
     }
 
-    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
+    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1631,7 +1631,7 @@ extension ELB {
 
     }
 
-    public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
+    public struct SetLoadBalancerPoliciesOfListenerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
@@ -1656,7 +1656,7 @@ extension ELB {
         }
     }
 
-    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
+    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1664,7 +1664,7 @@ extension ELB {
 
     }
 
-    public struct SourceSecurityGroup: AWSShape {
+    public struct SourceSecurityGroup: AWSDecodableShape {
 
         /// The name of the security group.
         public let groupName: String?
@@ -1682,7 +1682,7 @@ extension ELB {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String
@@ -1709,7 +1709,7 @@ extension ELB {
         }
     }
 
-    public struct TagDescription: AWSShape {
+    public struct TagDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -1730,7 +1730,7 @@ extension ELB {
         }
     }
 
-    public struct TagKeyOnly: AWSShape {
+    public struct TagKeyOnly: AWSEncodableShape {
 
         /// The name of the key.
         public let key: String?

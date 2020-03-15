@@ -33,7 +33,7 @@ extension Personalize {
 
     //MARK: Shapes
 
-    public struct Algorithm: AWSShape {
+    public struct Algorithm: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String?
@@ -83,7 +83,7 @@ extension Personalize {
         }
     }
 
-    public struct AlgorithmImage: AWSShape {
+    public struct AlgorithmImage: AWSDecodableShape {
 
         /// The URI of the Docker container for the algorithm image.
         public let dockerURI: String
@@ -101,7 +101,7 @@ extension Personalize {
         }
     }
 
-    public struct AutoMLConfig: AWSShape {
+    public struct AutoMLConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The metric to optimize.
         public let metricName: String?
@@ -128,7 +128,7 @@ extension Personalize {
         }
     }
 
-    public struct AutoMLResult: AWSShape {
+    public struct AutoMLResult: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the best recipe.
         public let bestRecipeArn: String?
@@ -142,7 +142,7 @@ extension Personalize {
         }
     }
 
-    public struct BatchInferenceJob: AWSShape {
+    public struct BatchInferenceJob: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
@@ -196,7 +196,7 @@ extension Personalize {
         }
     }
 
-    public struct BatchInferenceJobInput: AWSShape {
+    public struct BatchInferenceJobInput: AWSEncodableShape & AWSDecodableShape {
 
         /// The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API endpoint you are calling.
         public let s3DataSource: S3DataConfig
@@ -214,7 +214,7 @@ extension Personalize {
         }
     }
 
-    public struct BatchInferenceJobOutput: AWSShape {
+    public struct BatchInferenceJobOutput: AWSEncodableShape & AWSDecodableShape {
 
         /// Information on the Amazon S3 bucket in which the batch inference job's output is stored.
         public let s3DataDestination: S3DataConfig
@@ -232,7 +232,7 @@ extension Personalize {
         }
     }
 
-    public struct BatchInferenceJobSummary: AWSShape {
+    public struct BatchInferenceJobSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
@@ -270,7 +270,7 @@ extension Personalize {
         }
     }
 
-    public struct Campaign: AWSShape {
+    public struct Campaign: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign. 
         public let campaignArn: String?
@@ -315,7 +315,7 @@ extension Personalize {
         }
     }
 
-    public struct CampaignSummary: AWSShape {
+    public struct CampaignSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
@@ -349,7 +349,7 @@ extension Personalize {
         }
     }
 
-    public struct CampaignUpdateSummary: AWSShape {
+    public struct CampaignUpdateSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the campaign update was created.
         public let creationDateTime: TimeStamp?
@@ -383,7 +383,7 @@ extension Personalize {
         }
     }
 
-    public struct CategoricalHyperParameterRange: AWSShape {
+    public struct CategoricalHyperParameterRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the hyperparameter.
         public let name: String?
@@ -409,7 +409,7 @@ extension Personalize {
         }
     }
 
-    public struct ContinuousHyperParameterRange: AWSShape {
+    public struct ContinuousHyperParameterRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum allowable value for the hyperparameter.
         public let maxValue: Double?
@@ -437,7 +437,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateBatchInferenceJobRequest: AWSShape {
+    public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
 
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
         public let jobInput: BatchInferenceJobInput
@@ -483,7 +483,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateBatchInferenceJobResponse: AWSShape {
+    public struct CreateBatchInferenceJobResponse: AWSDecodableShape {
 
         /// The ARN of the batch inference job.
         public let batchInferenceJobArn: String?
@@ -497,7 +497,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateCampaignRequest: AWSShape {
+    public struct CreateCampaignRequest: AWSEncodableShape {
 
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
         public let minProvisionedTPS: Int
@@ -528,7 +528,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateCampaignResponse: AWSShape {
+    public struct CreateCampaignResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
@@ -542,7 +542,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateDatasetGroupRequest: AWSShape {
+    public struct CreateDatasetGroupRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
         public let kmsKeyArn: String?
@@ -572,7 +572,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateDatasetGroupResponse: AWSShape {
+    public struct CreateDatasetGroupResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the new dataset group.
         public let datasetGroupArn: String?
@@ -586,7 +586,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateDatasetImportJobRequest: AWSShape {
+    public struct CreateDatasetImportJobRequest: AWSEncodableShape {
 
         /// The ARN of the dataset that receives the imported data.
         public let datasetArn: String
@@ -623,7 +623,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateDatasetImportJobResponse: AWSShape {
+    public struct CreateDatasetImportJobResponse: AWSDecodableShape {
 
         /// The ARN of the dataset import job.
         public let datasetImportJobArn: String?
@@ -637,7 +637,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateDatasetRequest: AWSShape {
+    public struct CreateDatasetRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
         public let datasetGroupArn: String
@@ -674,7 +674,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateDatasetResponse: AWSShape {
+    public struct CreateDatasetResponse: AWSDecodableShape {
 
         /// The ARN of the dataset.
         public let datasetArn: String?
@@ -688,7 +688,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateEventTrackerRequest: AWSShape {
+    public struct CreateEventTrackerRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset group that receives the event data.
         public let datasetGroupArn: String
@@ -714,7 +714,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateEventTrackerResponse: AWSShape {
+    public struct CreateEventTrackerResponse: AWSDecodableShape {
 
         /// The ARN of the event tracker.
         public let eventTrackerArn: String?
@@ -732,7 +732,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateSchemaRequest: AWSShape {
+    public struct CreateSchemaRequest: AWSEncodableShape {
 
         /// The name for the schema.
         public let name: String
@@ -757,7 +757,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateSchemaResponse: AWSShape {
+    public struct CreateSchemaResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the created schema.
         public let schemaArn: String?
@@ -771,7 +771,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateSolutionRequest: AWSShape {
+    public struct CreateSolutionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset group that provides the training data.
         public let datasetGroupArn: String
@@ -821,7 +821,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateSolutionResponse: AWSShape {
+    public struct CreateSolutionResponse: AWSDecodableShape {
 
         /// The ARN of the solution.
         public let solutionArn: String?
@@ -835,7 +835,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateSolutionVersionRequest: AWSShape {
+    public struct CreateSolutionVersionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
@@ -858,7 +858,7 @@ extension Personalize {
         }
     }
 
-    public struct CreateSolutionVersionResponse: AWSShape {
+    public struct CreateSolutionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the new solution version.
         public let solutionVersionArn: String?
@@ -872,7 +872,7 @@ extension Personalize {
         }
     }
 
-    public struct DataSource: AWSShape {
+    public struct DataSource: AWSEncodableShape & AWSDecodableShape {
 
         /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/training-data.csv 
         public let dataLocation: String?
@@ -890,7 +890,7 @@ extension Personalize {
         }
     }
 
-    public struct Dataset: AWSShape {
+    public struct Dataset: AWSDecodableShape {
 
         /// The creation date and time (in Unix time) of the dataset.
         public let creationDateTime: TimeStamp?
@@ -932,7 +932,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetGroup: AWSShape {
+    public struct DatasetGroup: AWSDecodableShape {
 
         /// The creation date and time (in Unix time) of the dataset group.
         public let creationDateTime: TimeStamp?
@@ -974,7 +974,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetGroupSummary: AWSShape {
+    public struct DatasetGroupSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the dataset group was created.
         public let creationDateTime: TimeStamp?
@@ -1008,7 +1008,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetImportJob: AWSShape {
+    public struct DatasetImportJob: AWSDecodableShape {
 
         /// The creation date and time (in Unix time) of the dataset import job.
         public let creationDateTime: TimeStamp?
@@ -1054,7 +1054,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetImportJobSummary: AWSShape {
+    public struct DatasetImportJobSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the dataset import job was created.
         public let creationDateTime: TimeStamp?
@@ -1088,7 +1088,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetSchema: AWSShape {
+    public struct DatasetSchema: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the schema was created.
         public let creationDateTime: TimeStamp?
@@ -1118,7 +1118,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetSchemaSummary: AWSShape {
+    public struct DatasetSchemaSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the schema was created.
         public let creationDateTime: TimeStamp?
@@ -1144,7 +1144,7 @@ extension Personalize {
         }
     }
 
-    public struct DatasetSummary: AWSShape {
+    public struct DatasetSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the dataset was created.
         public let creationDateTime: TimeStamp?
@@ -1178,7 +1178,7 @@ extension Personalize {
         }
     }
 
-    public struct DefaultCategoricalHyperParameterRange: AWSShape {
+    public struct DefaultCategoricalHyperParameterRange: AWSDecodableShape {
 
         /// Whether the hyperparameter is tunable.
         public let isTunable: Bool?
@@ -1200,7 +1200,7 @@ extension Personalize {
         }
     }
 
-    public struct DefaultContinuousHyperParameterRange: AWSShape {
+    public struct DefaultContinuousHyperParameterRange: AWSDecodableShape {
 
         /// Whether the hyperparameter is tunable.
         public let isTunable: Bool?
@@ -1226,7 +1226,7 @@ extension Personalize {
         }
     }
 
-    public struct DefaultHyperParameterRanges: AWSShape {
+    public struct DefaultHyperParameterRanges: AWSDecodableShape {
 
         /// The categorical hyperparameters and their default ranges.
         public let categoricalHyperParameterRanges: [DefaultCategoricalHyperParameterRange]?
@@ -1248,7 +1248,7 @@ extension Personalize {
         }
     }
 
-    public struct DefaultIntegerHyperParameterRange: AWSShape {
+    public struct DefaultIntegerHyperParameterRange: AWSDecodableShape {
 
         /// Indicates whether the hyperparameter is tunable.
         public let isTunable: Bool?
@@ -1274,7 +1274,7 @@ extension Personalize {
         }
     }
 
-    public struct DeleteCampaignRequest: AWSShape {
+    public struct DeleteCampaignRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign to delete.
         public let campaignArn: String
@@ -1293,7 +1293,7 @@ extension Personalize {
         }
     }
 
-    public struct DeleteDatasetGroupRequest: AWSShape {
+    public struct DeleteDatasetGroupRequest: AWSEncodableShape {
 
         /// The ARN of the dataset group to delete.
         public let datasetGroupArn: String
@@ -1312,7 +1312,7 @@ extension Personalize {
         }
     }
 
-    public struct DeleteDatasetRequest: AWSShape {
+    public struct DeleteDatasetRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
@@ -1331,7 +1331,7 @@ extension Personalize {
         }
     }
 
-    public struct DeleteEventTrackerRequest: AWSShape {
+    public struct DeleteEventTrackerRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the event tracker to delete.
         public let eventTrackerArn: String
@@ -1350,7 +1350,7 @@ extension Personalize {
         }
     }
 
-    public struct DeleteSchemaRequest: AWSShape {
+    public struct DeleteSchemaRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the schema to delete.
         public let schemaArn: String
@@ -1369,7 +1369,7 @@ extension Personalize {
         }
     }
 
-    public struct DeleteSolutionRequest: AWSShape {
+    public struct DeleteSolutionRequest: AWSEncodableShape {
 
         /// The ARN of the solution to delete.
         public let solutionArn: String
@@ -1388,7 +1388,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeAlgorithmRequest: AWSShape {
+    public struct DescribeAlgorithmRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the algorithm to describe.
         public let algorithmArn: String
@@ -1407,7 +1407,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeAlgorithmResponse: AWSShape {
+    public struct DescribeAlgorithmResponse: AWSDecodableShape {
 
         /// A listing of the properties of the algorithm.
         public let algorithm: Algorithm?
@@ -1421,7 +1421,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeBatchInferenceJobRequest: AWSShape {
+    public struct DescribeBatchInferenceJobRequest: AWSEncodableShape {
 
         /// The ARN of the batch inference job to describe.
         public let batchInferenceJobArn: String
@@ -1440,7 +1440,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeBatchInferenceJobResponse: AWSShape {
+    public struct DescribeBatchInferenceJobResponse: AWSDecodableShape {
 
         /// Information on the specified batch inference job.
         public let batchInferenceJob: BatchInferenceJob?
@@ -1454,7 +1454,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeCampaignRequest: AWSShape {
+    public struct DescribeCampaignRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
@@ -1473,7 +1473,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeCampaignResponse: AWSShape {
+    public struct DescribeCampaignResponse: AWSDecodableShape {
 
         /// The properties of the campaign.
         public let campaign: Campaign?
@@ -1487,7 +1487,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeDatasetGroupRequest: AWSShape {
+    public struct DescribeDatasetGroupRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset group to describe.
         public let datasetGroupArn: String
@@ -1506,7 +1506,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeDatasetGroupResponse: AWSShape {
+    public struct DescribeDatasetGroupResponse: AWSDecodableShape {
 
         /// A listing of the dataset group's properties.
         public let datasetGroup: DatasetGroup?
@@ -1520,7 +1520,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeDatasetImportJobRequest: AWSShape {
+    public struct DescribeDatasetImportJobRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset import job to describe.
         public let datasetImportJobArn: String
@@ -1539,7 +1539,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeDatasetImportJobResponse: AWSShape {
+    public struct DescribeDatasetImportJobResponse: AWSDecodableShape {
 
         /// Information about the dataset import job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED  
         public let datasetImportJob: DatasetImportJob?
@@ -1553,7 +1553,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeDatasetRequest: AWSShape {
+    public struct DescribeDatasetRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset to describe.
         public let datasetArn: String
@@ -1572,7 +1572,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeDatasetResponse: AWSShape {
+    public struct DescribeDatasetResponse: AWSDecodableShape {
 
         /// A listing of the dataset's properties.
         public let dataset: Dataset?
@@ -1586,7 +1586,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeEventTrackerRequest: AWSShape {
+    public struct DescribeEventTrackerRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the event tracker to describe.
         public let eventTrackerArn: String
@@ -1605,7 +1605,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeEventTrackerResponse: AWSShape {
+    public struct DescribeEventTrackerResponse: AWSDecodableShape {
 
         /// An object that describes the event tracker.
         public let eventTracker: EventTracker?
@@ -1619,7 +1619,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeFeatureTransformationRequest: AWSShape {
+    public struct DescribeFeatureTransformationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the feature transformation to describe.
         public let featureTransformationArn: String
@@ -1638,7 +1638,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeFeatureTransformationResponse: AWSShape {
+    public struct DescribeFeatureTransformationResponse: AWSDecodableShape {
 
         /// A listing of the FeatureTransformation properties.
         public let featureTransformation: FeatureTransformation?
@@ -1652,7 +1652,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeRecipeRequest: AWSShape {
+    public struct DescribeRecipeRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the recipe to describe.
         public let recipeArn: String
@@ -1671,7 +1671,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeRecipeResponse: AWSShape {
+    public struct DescribeRecipeResponse: AWSDecodableShape {
 
         /// An object that describes the recipe.
         public let recipe: Recipe?
@@ -1685,7 +1685,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeSchemaRequest: AWSShape {
+    public struct DescribeSchemaRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the schema to retrieve.
         public let schemaArn: String
@@ -1704,7 +1704,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeSchemaResponse: AWSShape {
+    public struct DescribeSchemaResponse: AWSDecodableShape {
 
         /// The requested schema.
         public let schema: DatasetSchema?
@@ -1718,7 +1718,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeSolutionRequest: AWSShape {
+    public struct DescribeSolutionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the solution to describe.
         public let solutionArn: String
@@ -1737,7 +1737,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeSolutionResponse: AWSShape {
+    public struct DescribeSolutionResponse: AWSDecodableShape {
 
         /// An object that describes the solution.
         public let solution: Solution?
@@ -1751,7 +1751,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeSolutionVersionRequest: AWSShape {
+    public struct DescribeSolutionVersionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the solution version.
         public let solutionVersionArn: String
@@ -1770,7 +1770,7 @@ extension Personalize {
         }
     }
 
-    public struct DescribeSolutionVersionResponse: AWSShape {
+    public struct DescribeSolutionVersionResponse: AWSDecodableShape {
 
         /// The solution version.
         public let solutionVersion: SolutionVersion?
@@ -1784,7 +1784,7 @@ extension Personalize {
         }
     }
 
-    public struct EventTracker: AWSShape {
+    public struct EventTracker: AWSDecodableShape {
 
         /// The Amazon AWS account that owns the event tracker.
         public let accountId: String?
@@ -1826,7 +1826,7 @@ extension Personalize {
         }
     }
 
-    public struct EventTrackerSummary: AWSShape {
+    public struct EventTrackerSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the event tracker was created.
         public let creationDateTime: TimeStamp?
@@ -1856,7 +1856,7 @@ extension Personalize {
         }
     }
 
-    public struct FeatureTransformation: AWSShape {
+    public struct FeatureTransformation: AWSDecodableShape {
 
         /// The creation date and time (in Unix time) of the feature transformation.
         public let creationDateTime: TimeStamp?
@@ -1890,7 +1890,7 @@ extension Personalize {
         }
     }
 
-    public struct GetSolutionMetricsRequest: AWSShape {
+    public struct GetSolutionMetricsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the solution version for which to get metrics.
         public let solutionVersionArn: String
@@ -1909,7 +1909,7 @@ extension Personalize {
         }
     }
 
-    public struct GetSolutionMetricsResponse: AWSShape {
+    public struct GetSolutionMetricsResponse: AWSDecodableShape {
 
         /// The metrics for the solution version.
         public let metrics: [String: Double]?
@@ -1927,7 +1927,7 @@ extension Personalize {
         }
     }
 
-    public struct HPOConfig: AWSShape {
+    public struct HPOConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The hyperparameters and their allowable ranges.
         public let algorithmHyperParameterRanges: HyperParameterRanges?
@@ -1955,7 +1955,7 @@ extension Personalize {
         }
     }
 
-    public struct HPOObjective: AWSShape {
+    public struct HPOObjective: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the metric.
         public let metricName: String?
@@ -1983,7 +1983,7 @@ extension Personalize {
         }
     }
 
-    public struct HPOResourceConfig: AWSShape {
+    public struct HPOResourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum number of training jobs when you create a solution version. The maximum value for maxNumberOfTrainingJobs is 40.
         public let maxNumberOfTrainingJobs: String?
@@ -2006,7 +2006,7 @@ extension Personalize {
         }
     }
 
-    public struct HyperParameterRanges: AWSShape {
+    public struct HyperParameterRanges: AWSEncodableShape & AWSDecodableShape {
 
         /// The categorical hyperparameters and their ranges.
         public let categoricalHyperParameterRanges: [CategoricalHyperParameterRange]?
@@ -2043,7 +2043,7 @@ extension Personalize {
         }
     }
 
-    public struct IntegerHyperParameterRange: AWSShape {
+    public struct IntegerHyperParameterRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum allowable value for the hyperparameter.
         public let maxValue: Int?
@@ -2071,7 +2071,7 @@ extension Personalize {
         }
     }
 
-    public struct ListBatchInferenceJobsRequest: AWSShape {
+    public struct ListBatchInferenceJobsRequest: AWSEncodableShape {
 
         /// The maximum number of batch inference job results to return in each page. The default value is 100.
         public let maxResults: Int?
@@ -2101,7 +2101,7 @@ extension Personalize {
         }
     }
 
-    public struct ListBatchInferenceJobsResponse: AWSShape {
+    public struct ListBatchInferenceJobsResponse: AWSDecodableShape {
 
         /// A list containing information on each job that is returned.
         public let batchInferenceJobs: [BatchInferenceJobSummary]?
@@ -2119,7 +2119,7 @@ extension Personalize {
         }
     }
 
-    public struct ListCampaignsRequest: AWSShape {
+    public struct ListCampaignsRequest: AWSEncodableShape {
 
         /// The maximum number of campaigns to return.
         public let maxResults: Int?
@@ -2149,7 +2149,7 @@ extension Personalize {
         }
     }
 
-    public struct ListCampaignsResponse: AWSShape {
+    public struct ListCampaignsResponse: AWSDecodableShape {
 
         /// A list of the campaigns.
         public let campaigns: [CampaignSummary]?
@@ -2167,7 +2167,7 @@ extension Personalize {
         }
     }
 
-    public struct ListDatasetGroupsRequest: AWSShape {
+    public struct ListDatasetGroupsRequest: AWSEncodableShape {
 
         /// The maximum number of dataset groups to return.
         public let maxResults: Int?
@@ -2191,7 +2191,7 @@ extension Personalize {
         }
     }
 
-    public struct ListDatasetGroupsResponse: AWSShape {
+    public struct ListDatasetGroupsResponse: AWSDecodableShape {
 
         /// The list of your dataset groups.
         public let datasetGroups: [DatasetGroupSummary]?
@@ -2209,7 +2209,7 @@ extension Personalize {
         }
     }
 
-    public struct ListDatasetImportJobsRequest: AWSShape {
+    public struct ListDatasetImportJobsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset to list the dataset import jobs for.
         public let datasetArn: String?
@@ -2239,7 +2239,7 @@ extension Personalize {
         }
     }
 
-    public struct ListDatasetImportJobsResponse: AWSShape {
+    public struct ListDatasetImportJobsResponse: AWSDecodableShape {
 
         /// The list of dataset import jobs.
         public let datasetImportJobs: [DatasetImportJobSummary]?
@@ -2257,7 +2257,7 @@ extension Personalize {
         }
     }
 
-    public struct ListDatasetsRequest: AWSShape {
+    public struct ListDatasetsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset group that contains the datasets to list.
         public let datasetGroupArn: String?
@@ -2287,7 +2287,7 @@ extension Personalize {
         }
     }
 
-    public struct ListDatasetsResponse: AWSShape {
+    public struct ListDatasetsResponse: AWSDecodableShape {
 
         /// An array of Dataset objects. Each object provides metadata information.
         public let datasets: [DatasetSummary]?
@@ -2305,7 +2305,7 @@ extension Personalize {
         }
     }
 
-    public struct ListEventTrackersRequest: AWSShape {
+    public struct ListEventTrackersRequest: AWSEncodableShape {
 
         /// The ARN of a dataset group used to filter the response.
         public let datasetGroupArn: String?
@@ -2335,7 +2335,7 @@ extension Personalize {
         }
     }
 
-    public struct ListEventTrackersResponse: AWSShape {
+    public struct ListEventTrackersResponse: AWSDecodableShape {
 
         /// A list of event trackers.
         public let eventTrackers: [EventTrackerSummary]?
@@ -2353,7 +2353,7 @@ extension Personalize {
         }
     }
 
-    public struct ListRecipesRequest: AWSShape {
+    public struct ListRecipesRequest: AWSEncodableShape {
 
         /// The maximum number of recipes to return.
         public let maxResults: Int?
@@ -2381,7 +2381,7 @@ extension Personalize {
         }
     }
 
-    public struct ListRecipesResponse: AWSShape {
+    public struct ListRecipesResponse: AWSDecodableShape {
 
         /// A token for getting the next set of recipes.
         public let nextToken: String?
@@ -2399,7 +2399,7 @@ extension Personalize {
         }
     }
 
-    public struct ListSchemasRequest: AWSShape {
+    public struct ListSchemasRequest: AWSEncodableShape {
 
         /// The maximum number of schemas to return.
         public let maxResults: Int?
@@ -2423,7 +2423,7 @@ extension Personalize {
         }
     }
 
-    public struct ListSchemasResponse: AWSShape {
+    public struct ListSchemasResponse: AWSDecodableShape {
 
         /// A token used to get the next set of schemas (if they exist).
         public let nextToken: String?
@@ -2441,7 +2441,7 @@ extension Personalize {
         }
     }
 
-    public struct ListSolutionVersionsRequest: AWSShape {
+    public struct ListSolutionVersionsRequest: AWSEncodableShape {
 
         /// The maximum number of solution versions to return.
         public let maxResults: Int?
@@ -2471,7 +2471,7 @@ extension Personalize {
         }
     }
 
-    public struct ListSolutionVersionsResponse: AWSShape {
+    public struct ListSolutionVersionsResponse: AWSDecodableShape {
 
         /// A token for getting the next set of solution versions (if they exist).
         public let nextToken: String?
@@ -2489,7 +2489,7 @@ extension Personalize {
         }
     }
 
-    public struct ListSolutionsRequest: AWSShape {
+    public struct ListSolutionsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
@@ -2519,7 +2519,7 @@ extension Personalize {
         }
     }
 
-    public struct ListSolutionsResponse: AWSShape {
+    public struct ListSolutionsResponse: AWSDecodableShape {
 
         /// A token for getting the next set of solutions (if they exist).
         public let nextToken: String?
@@ -2537,7 +2537,7 @@ extension Personalize {
         }
     }
 
-    public struct Recipe: AWSShape {
+    public struct Recipe: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses to train the model.
         public let algorithmArn: String?
@@ -2583,7 +2583,7 @@ extension Personalize {
         }
     }
 
-    public struct RecipeSummary: AWSShape {
+    public struct RecipeSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the recipe was created.
         public let creationDateTime: TimeStamp?
@@ -2613,7 +2613,7 @@ extension Personalize {
         }
     }
 
-    public struct S3DataConfig: AWSShape {
+    public struct S3DataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files of a batch inference job.
         public let kmsKeyArn: String?
@@ -2635,7 +2635,7 @@ extension Personalize {
         }
     }
 
-    public struct Solution: AWSShape {
+    public struct Solution: AWSDecodableShape {
 
         /// When performAutoML is true, specifies the best recipe found.
         public let autoMLResult: AutoMLResult?
@@ -2697,7 +2697,7 @@ extension Personalize {
         }
     }
 
-    public struct SolutionConfig: AWSShape {
+    public struct SolutionConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Lists the hyperparameter names and ranges.
         public let algorithmHyperParameters: [String: String]?
@@ -2741,7 +2741,7 @@ extension Personalize {
         }
     }
 
-    public struct SolutionSummary: AWSShape {
+    public struct SolutionSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that the solution was created.
         public let creationDateTime: TimeStamp?
@@ -2771,7 +2771,7 @@ extension Personalize {
         }
     }
 
-    public struct SolutionVersion: AWSShape {
+    public struct SolutionVersion: AWSDecodableShape {
 
         /// The date and time (in Unix time) that this version of the solution was created.
         public let creationDateTime: TimeStamp?
@@ -2841,7 +2841,7 @@ extension Personalize {
         }
     }
 
-    public struct SolutionVersionSummary: AWSShape {
+    public struct SolutionVersionSummary: AWSDecodableShape {
 
         /// The date and time (in Unix time) that this version of a solution was created.
         public let creationDateTime: TimeStamp?
@@ -2871,7 +2871,7 @@ extension Personalize {
         }
     }
 
-    public struct TunedHPOParams: AWSShape {
+    public struct TunedHPOParams: AWSDecodableShape {
 
         /// A list of the hyperparameter values of the best performing model.
         public let algorithmHyperParameters: [String: String]?
@@ -2885,7 +2885,7 @@ extension Personalize {
         }
     }
 
-    public struct UpdateCampaignRequest: AWSShape {
+    public struct UpdateCampaignRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
@@ -2915,7 +2915,7 @@ extension Personalize {
         }
     }
 
-    public struct UpdateCampaignResponse: AWSShape {
+    public struct UpdateCampaignResponse: AWSDecodableShape {
 
         /// The same campaign ARN as given in the request.
         public let campaignArn: String?

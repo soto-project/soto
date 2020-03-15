@@ -37,7 +37,7 @@ extension Detective {
 
     //MARK: Shapes
 
-    public struct AcceptInvitationRequest: AWSShape {
+    public struct AcceptInvitationRequest: AWSEncodableShape {
 
         /// The ARN of the behavior graph that the member account is accepting the invitation for. The member account status in the behavior graph must be INVITED.
         public let graphArn: String
@@ -55,7 +55,7 @@ extension Detective {
         }
     }
 
-    public struct Account: AWSShape {
+    public struct Account: AWSEncodableShape {
 
         /// The account identifier of the AWS account.
         public let accountId: String
@@ -82,7 +82,7 @@ extension Detective {
         }
     }
 
-    public struct CreateGraphResponse: AWSShape {
+    public struct CreateGraphResponse: AWSDecodableShape {
 
         /// The ARN of the new behavior graph.
         public let graphArn: String?
@@ -96,7 +96,7 @@ extension Detective {
         }
     }
 
-    public struct CreateMembersRequest: AWSShape {
+    public struct CreateMembersRequest: AWSEncodableShape {
 
         /// The list of AWS accounts to invite to become member accounts in the behavior graph. For each invited account, the account list contains the account identifier and the AWS account root user email address.
         public let accounts: [Account]
@@ -129,7 +129,7 @@ extension Detective {
         }
     }
 
-    public struct CreateMembersResponse: AWSShape {
+    public struct CreateMembersResponse: AWSDecodableShape {
 
         /// The set of member account invitation requests that Detective was able to process. This includes accounts that are being verified, that failed verification, and that passed verification and are being sent an invitation.
         public let members: [MemberDetail]?
@@ -147,7 +147,7 @@ extension Detective {
         }
     }
 
-    public struct DeleteGraphRequest: AWSShape {
+    public struct DeleteGraphRequest: AWSEncodableShape {
 
         /// The ARN of the behavior graph to disable.
         public let graphArn: String
@@ -165,7 +165,7 @@ extension Detective {
         }
     }
 
-    public struct DeleteMembersRequest: AWSShape {
+    public struct DeleteMembersRequest: AWSEncodableShape {
 
         /// The list of AWS account identifiers for the member accounts to delete from the behavior graph.
         public let accountIds: [String]
@@ -194,7 +194,7 @@ extension Detective {
         }
     }
 
-    public struct DeleteMembersResponse: AWSShape {
+    public struct DeleteMembersResponse: AWSDecodableShape {
 
         /// The list of AWS account identifiers for the member accounts that Detective successfully deleted from the behavior graph.
         public let accountIds: [String]?
@@ -212,7 +212,7 @@ extension Detective {
         }
     }
 
-    public struct DisassociateMembershipRequest: AWSShape {
+    public struct DisassociateMembershipRequest: AWSEncodableShape {
 
         /// The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED.
         public let graphArn: String
@@ -230,7 +230,7 @@ extension Detective {
         }
     }
 
-    public struct GetMembersRequest: AWSShape {
+    public struct GetMembersRequest: AWSEncodableShape {
 
         /// The list of AWS account identifiers for the member account for which to return member details. You cannot use GetMembers to retrieve information about member accounts that were removed from the behavior graph.
         public let accountIds: [String]
@@ -259,7 +259,7 @@ extension Detective {
         }
     }
 
-    public struct GetMembersResponse: AWSShape {
+    public struct GetMembersResponse: AWSDecodableShape {
 
         /// The member account details that Detective is returning in response to the request.
         public let memberDetails: [MemberDetail]?
@@ -277,7 +277,7 @@ extension Detective {
         }
     }
 
-    public struct Graph: AWSShape {
+    public struct Graph: AWSDecodableShape {
 
         /// The ARN of the behavior graph.
         public let arn: String?
@@ -295,7 +295,7 @@ extension Detective {
         }
     }
 
-    public struct ListGraphsRequest: AWSShape {
+    public struct ListGraphsRequest: AWSEncodableShape {
 
         /// The maximum number of graphs to return at a time. The total must be less than the overall limit on the number of results to return, which is currently 200.
         public let maxResults: Int?
@@ -320,7 +320,7 @@ extension Detective {
         }
     }
 
-    public struct ListGraphsResponse: AWSShape {
+    public struct ListGraphsResponse: AWSDecodableShape {
 
         /// A list of behavior graphs that the account is a master for.
         public let graphList: [Graph]?
@@ -338,7 +338,7 @@ extension Detective {
         }
     }
 
-    public struct ListInvitationsRequest: AWSShape {
+    public struct ListInvitationsRequest: AWSEncodableShape {
 
         /// The maximum number of behavior graph invitations to return in the response. The total must be less than the overall limit on the number of results to return, which is currently 200.
         public let maxResults: Int?
@@ -363,7 +363,7 @@ extension Detective {
         }
     }
 
-    public struct ListInvitationsResponse: AWSShape {
+    public struct ListInvitationsResponse: AWSDecodableShape {
 
         /// The list of behavior graphs for which the member account has open or accepted invitations.
         public let invitations: [MemberDetail]?
@@ -381,7 +381,7 @@ extension Detective {
         }
     }
 
-    public struct ListMembersRequest: AWSShape {
+    public struct ListMembersRequest: AWSEncodableShape {
 
         /// The ARN of the behavior graph for which to retrieve the list of member accounts.
         public let graphArn: String
@@ -411,7 +411,7 @@ extension Detective {
         }
     }
 
-    public struct ListMembersResponse: AWSShape {
+    public struct ListMembersResponse: AWSDecodableShape {
 
         /// The list of member accounts in the behavior graph. The results include member accounts that did not pass verification and member accounts that have not yet accepted the invitation to the behavior graph. The results do not include member accounts that were removed from the behavior graph.
         public let memberDetails: [MemberDetail]?
@@ -429,7 +429,7 @@ extension Detective {
         }
     }
 
-    public struct MemberDetail: AWSShape {
+    public struct MemberDetail: AWSDecodableShape {
 
         /// The AWS account identifier for the member account.
         public let accountId: String?
@@ -479,7 +479,7 @@ extension Detective {
         }
     }
 
-    public struct RejectInvitationRequest: AWSShape {
+    public struct RejectInvitationRequest: AWSEncodableShape {
 
         /// The ARN of the behavior graph to reject the invitation to. The member account's current member status in the behavior graph must be INVITED.
         public let graphArn: String
@@ -497,7 +497,7 @@ extension Detective {
         }
     }
 
-    public struct StartMonitoringMemberRequest: AWSShape {
+    public struct StartMonitoringMemberRequest: AWSEncodableShape {
 
         /// The account ID of the member account to try to enable. The account must be an invited member account with a status of ACCEPTED_BUT_DISABLED. 
         public let accountId: String
@@ -522,7 +522,7 @@ extension Detective {
         }
     }
 
-    public struct UnprocessedAccount: AWSShape {
+    public struct UnprocessedAccount: AWSDecodableShape {
 
         /// The AWS account identifier of the member account that was not processed.
         public let accountId: String?

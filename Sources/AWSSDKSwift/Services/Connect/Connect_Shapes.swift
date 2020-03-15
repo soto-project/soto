@@ -371,7 +371,7 @@ extension Connect {
 
     //MARK: Shapes
 
-    public struct ChatMessage: AWSShape {
+    public struct ChatMessage: AWSEncodableShape {
 
         /// The content of the chat message.
         public let content: String
@@ -396,7 +396,7 @@ extension Connect {
         }
     }
 
-    public struct ContactFlowSummary: AWSShape {
+    public struct ContactFlowSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
@@ -422,7 +422,7 @@ extension Connect {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
@@ -493,7 +493,7 @@ extension Connect {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the user account.
         public let userArn: String?
@@ -511,7 +511,7 @@ extension Connect {
         }
     }
 
-    public struct Credentials: AWSShape {
+    public struct Credentials: AWSDecodableShape {
 
         /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
@@ -537,7 +537,7 @@ extension Connect {
         }
     }
 
-    public struct CurrentMetric: AWSShape {
+    public struct CurrentMetric: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the metric.
         public let name: CurrentMetricName?
@@ -555,7 +555,7 @@ extension Connect {
         }
     }
 
-    public struct CurrentMetricData: AWSShape {
+    public struct CurrentMetricData: AWSDecodableShape {
 
         /// Information about the metric.
         public let metric: CurrentMetric?
@@ -573,7 +573,7 @@ extension Connect {
         }
     }
 
-    public struct CurrentMetricResult: AWSShape {
+    public struct CurrentMetricResult: AWSDecodableShape {
 
         /// The set of metrics.
         public let collections: [CurrentMetricData]?
@@ -591,7 +591,7 @@ extension Connect {
         }
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -618,7 +618,7 @@ extension Connect {
         }
     }
 
-    public struct DescribeUserHierarchyGroupRequest: AWSShape {
+    public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -645,7 +645,7 @@ extension Connect {
         }
     }
 
-    public struct DescribeUserHierarchyGroupResponse: AWSShape {
+    public struct DescribeUserHierarchyGroupResponse: AWSDecodableShape {
 
         /// Information about the hierarchy group.
         public let hierarchyGroup: HierarchyGroup?
@@ -659,7 +659,7 @@ extension Connect {
         }
     }
 
-    public struct DescribeUserHierarchyStructureRequest: AWSShape {
+    public struct DescribeUserHierarchyStructureRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
@@ -681,7 +681,7 @@ extension Connect {
         }
     }
 
-    public struct DescribeUserHierarchyStructureResponse: AWSShape {
+    public struct DescribeUserHierarchyStructureResponse: AWSDecodableShape {
 
         /// Information about the hierarchy structure.
         public let hierarchyStructure: HierarchyStructure?
@@ -695,7 +695,7 @@ extension Connect {
         }
     }
 
-    public struct DescribeUserRequest: AWSShape {
+    public struct DescribeUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -722,7 +722,7 @@ extension Connect {
         }
     }
 
-    public struct DescribeUserResponse: AWSShape {
+    public struct DescribeUserResponse: AWSDecodableShape {
 
         /// Information about the user account and configuration settings.
         public let user: User?
@@ -736,7 +736,7 @@ extension Connect {
         }
     }
 
-    public struct Dimensions: AWSShape {
+    public struct Dimensions: AWSDecodableShape {
 
         /// The channel used for grouping and filters.
         public let channel: Channel?
@@ -754,7 +754,7 @@ extension Connect {
         }
     }
 
-    public struct Filters: AWSShape {
+    public struct Filters: AWSEncodableShape {
 
         /// The channel to use to filter the metrics.
         public let channels: [Channel]?
@@ -778,7 +778,7 @@ extension Connect {
         }
     }
 
-    public struct GetContactAttributesRequest: AWSShape {
+    public struct GetContactAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "initialContactId", location: .uri(locationName: "InitialContactId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -807,7 +807,7 @@ extension Connect {
         }
     }
 
-    public struct GetContactAttributesResponse: AWSShape {
+    public struct GetContactAttributesResponse: AWSDecodableShape {
 
         /// Information about the attributes.
         public let attributes: [String: String]?
@@ -821,7 +821,7 @@ extension Connect {
         }
     }
 
-    public struct GetCurrentMetricDataRequest: AWSShape {
+    public struct GetCurrentMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
@@ -867,7 +867,7 @@ extension Connect {
         }
     }
 
-    public struct GetCurrentMetricDataResponse: AWSShape {
+    public struct GetCurrentMetricDataResponse: AWSDecodableShape {
 
         /// The time at which the metrics were retrieved and cached for pagination.
         public let dataSnapshotTime: TimeStamp?
@@ -889,7 +889,7 @@ extension Connect {
         }
     }
 
-    public struct GetFederationTokenRequest: AWSShape {
+    public struct GetFederationTokenRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
@@ -911,7 +911,7 @@ extension Connect {
         }
     }
 
-    public struct GetFederationTokenResponse: AWSShape {
+    public struct GetFederationTokenResponse: AWSDecodableShape {
 
         /// The credentials to use for federation.
         public let credentials: Credentials?
@@ -925,7 +925,7 @@ extension Connect {
         }
     }
 
-    public struct GetMetricDataRequest: AWSShape {
+    public struct GetMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
@@ -979,7 +979,7 @@ extension Connect {
         }
     }
 
-    public struct GetMetricDataResponse: AWSShape {
+    public struct GetMetricDataResponse: AWSDecodableShape {
 
         /// Information about the historical metrics. If no grouping is specified, a summary of metric data is returned.
         public let metricResults: [HistoricalMetricResult]?
@@ -997,7 +997,7 @@ extension Connect {
         }
     }
 
-    public struct HierarchyGroup: AWSShape {
+    public struct HierarchyGroup: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
@@ -1027,7 +1027,7 @@ extension Connect {
         }
     }
 
-    public struct HierarchyGroupSummary: AWSShape {
+    public struct HierarchyGroupSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
@@ -1049,7 +1049,7 @@ extension Connect {
         }
     }
 
-    public struct HierarchyLevel: AWSShape {
+    public struct HierarchyLevel: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the hierarchy level.
         public let arn: String?
@@ -1071,7 +1071,7 @@ extension Connect {
         }
     }
 
-    public struct HierarchyPath: AWSShape {
+    public struct HierarchyPath: AWSDecodableShape {
 
         /// Information about level five.
         public let levelFive: HierarchyGroupSummary?
@@ -1101,7 +1101,7 @@ extension Connect {
         }
     }
 
-    public struct HierarchyStructure: AWSShape {
+    public struct HierarchyStructure: AWSDecodableShape {
 
         /// Information about level five.
         public let levelFive: HierarchyLevel?
@@ -1131,7 +1131,7 @@ extension Connect {
         }
     }
 
-    public struct HistoricalMetric: AWSShape {
+    public struct HistoricalMetric: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the metric.
         public let name: HistoricalMetricName?
@@ -1157,7 +1157,7 @@ extension Connect {
         }
     }
 
-    public struct HistoricalMetricData: AWSShape {
+    public struct HistoricalMetricData: AWSDecodableShape {
 
         /// Information about the metric.
         public let metric: HistoricalMetric?
@@ -1175,7 +1175,7 @@ extension Connect {
         }
     }
 
-    public struct HistoricalMetricResult: AWSShape {
+    public struct HistoricalMetricResult: AWSDecodableShape {
 
         /// The set of metrics.
         public let collections: [HistoricalMetricData]?
@@ -1193,7 +1193,7 @@ extension Connect {
         }
     }
 
-    public struct HoursOfOperationSummary: AWSShape {
+    public struct HoursOfOperationSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the hours of operation.
         public let arn: String?
@@ -1215,7 +1215,7 @@ extension Connect {
         }
     }
 
-    public struct ListContactFlowsRequest: AWSShape {
+    public struct ListContactFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
@@ -1255,7 +1255,7 @@ extension Connect {
         }
     }
 
-    public struct ListContactFlowsResponse: AWSShape {
+    public struct ListContactFlowsResponse: AWSDecodableShape {
 
         /// Information about the contact flows.
         public let contactFlowSummaryList: [ContactFlowSummary]?
@@ -1273,7 +1273,7 @@ extension Connect {
         }
     }
 
-    public struct ListHoursOfOperationsRequest: AWSShape {
+    public struct ListHoursOfOperationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1307,7 +1307,7 @@ extension Connect {
         }
     }
 
-    public struct ListHoursOfOperationsResponse: AWSShape {
+    public struct ListHoursOfOperationsResponse: AWSDecodableShape {
 
         /// Information about the hours of operation.
         public let hoursOfOperationSummaryList: [HoursOfOperationSummary]?
@@ -1325,7 +1325,7 @@ extension Connect {
         }
     }
 
-    public struct ListPhoneNumbersRequest: AWSShape {
+    public struct ListPhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1371,7 +1371,7 @@ extension Connect {
         }
     }
 
-    public struct ListPhoneNumbersResponse: AWSShape {
+    public struct ListPhoneNumbersResponse: AWSDecodableShape {
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1389,7 +1389,7 @@ extension Connect {
         }
     }
 
-    public struct ListQueuesRequest: AWSShape {
+    public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1429,7 +1429,7 @@ extension Connect {
         }
     }
 
-    public struct ListQueuesResponse: AWSShape {
+    public struct ListQueuesResponse: AWSDecodableShape {
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1447,7 +1447,7 @@ extension Connect {
         }
     }
 
-    public struct ListRoutingProfilesRequest: AWSShape {
+    public struct ListRoutingProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1481,7 +1481,7 @@ extension Connect {
         }
     }
 
-    public struct ListRoutingProfilesResponse: AWSShape {
+    public struct ListRoutingProfilesResponse: AWSDecodableShape {
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1499,7 +1499,7 @@ extension Connect {
         }
     }
 
-    public struct ListSecurityProfilesRequest: AWSShape {
+    public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1533,7 +1533,7 @@ extension Connect {
         }
     }
 
-    public struct ListSecurityProfilesResponse: AWSShape {
+    public struct ListSecurityProfilesResponse: AWSDecodableShape {
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1551,7 +1551,7 @@ extension Connect {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1568,7 +1568,7 @@ extension Connect {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// Information about the tags.
         public let tags: [String: String]?
@@ -1582,7 +1582,7 @@ extension Connect {
         }
     }
 
-    public struct ListUserHierarchyGroupsRequest: AWSShape {
+    public struct ListUserHierarchyGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1616,7 +1616,7 @@ extension Connect {
         }
     }
 
-    public struct ListUserHierarchyGroupsResponse: AWSShape {
+    public struct ListUserHierarchyGroupsResponse: AWSDecodableShape {
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1634,7 +1634,7 @@ extension Connect {
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1668,7 +1668,7 @@ extension Connect {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListUsersResponse: AWSDecodableShape {
 
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -1686,7 +1686,7 @@ extension Connect {
         }
     }
 
-    public struct ParticipantDetails: AWSShape {
+    public struct ParticipantDetails: AWSEncodableShape {
 
         /// Display name of the participant.
         public let displayName: String
@@ -1705,7 +1705,7 @@ extension Connect {
         }
     }
 
-    public struct PhoneNumberSummary: AWSShape {
+    public struct PhoneNumberSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the phone number.
         public let arn: String?
@@ -1735,7 +1735,7 @@ extension Connect {
         }
     }
 
-    public struct QueueReference: AWSShape {
+    public struct QueueReference: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
@@ -1753,7 +1753,7 @@ extension Connect {
         }
     }
 
-    public struct QueueSummary: AWSShape {
+    public struct QueueSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
@@ -1779,7 +1779,7 @@ extension Connect {
         }
     }
 
-    public struct RoutingProfileSummary: AWSShape {
+    public struct RoutingProfileSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the routing profile.
         public let arn: String?
@@ -1801,7 +1801,7 @@ extension Connect {
         }
     }
 
-    public struct SecurityProfileSummary: AWSShape {
+    public struct SecurityProfileSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
@@ -1823,7 +1823,7 @@ extension Connect {
         }
     }
 
-    public struct StartChatContactRequest: AWSShape {
+    public struct StartChatContactRequest: AWSEncodableShape {
 
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
@@ -1872,7 +1872,7 @@ extension Connect {
         }
     }
 
-    public struct StartChatContactResponse: AWSShape {
+    public struct StartChatContactResponse: AWSDecodableShape {
 
         /// The identifier of this contact within the Amazon Connect instance. 
         public let contactId: String?
@@ -1894,7 +1894,7 @@ extension Connect {
         }
     }
 
-    public struct StartOutboundVoiceContactRequest: AWSShape {
+    public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
 
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
@@ -1945,7 +1945,7 @@ extension Connect {
         }
     }
 
-    public struct StartOutboundVoiceContactResponse: AWSShape {
+    public struct StartOutboundVoiceContactResponse: AWSDecodableShape {
 
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
@@ -1959,7 +1959,7 @@ extension Connect {
         }
     }
 
-    public struct StopContactRequest: AWSShape {
+    public struct StopContactRequest: AWSEncodableShape {
 
         /// The ID of the contact.
         public let contactId: String
@@ -1984,7 +1984,7 @@ extension Connect {
         }
     }
 
-    public struct StopContactResponse: AWSShape {
+    public struct StopContactResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1992,7 +1992,7 @@ extension Connect {
 
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2022,7 +2022,7 @@ extension Connect {
         }
     }
 
-    public struct Threshold: AWSShape {
+    public struct Threshold: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public let comparison: Comparison?
@@ -2040,7 +2040,7 @@ extension Connect {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -2072,7 +2072,7 @@ extension Connect {
         }
     }
 
-    public struct UpdateContactAttributesRequest: AWSShape {
+    public struct UpdateContactAttributesRequest: AWSEncodableShape {
 
         /// The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]
@@ -2107,7 +2107,7 @@ extension Connect {
         }
     }
 
-    public struct UpdateContactAttributesResponse: AWSShape {
+    public struct UpdateContactAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2115,7 +2115,7 @@ extension Connect {
 
     }
 
-    public struct UpdateUserHierarchyRequest: AWSShape {
+    public struct UpdateUserHierarchyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -2146,7 +2146,7 @@ extension Connect {
         }
     }
 
-    public struct UpdateUserIdentityInfoRequest: AWSShape {
+    public struct UpdateUserIdentityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -2178,7 +2178,7 @@ extension Connect {
         }
     }
 
-    public struct UpdateUserPhoneConfigRequest: AWSShape {
+    public struct UpdateUserPhoneConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -2210,7 +2210,7 @@ extension Connect {
         }
     }
 
-    public struct UpdateUserRoutingProfileRequest: AWSShape {
+    public struct UpdateUserRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -2241,7 +2241,7 @@ extension Connect {
         }
     }
 
-    public struct UpdateUserSecurityProfilesRequest: AWSShape {
+    public struct UpdateUserSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -2274,7 +2274,7 @@ extension Connect {
         }
     }
 
-    public struct User: AWSShape {
+    public struct User: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?
@@ -2324,7 +2324,7 @@ extension Connect {
         }
     }
 
-    public struct UserIdentityInfo: AWSShape {
+    public struct UserIdentityInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
@@ -2353,7 +2353,7 @@ extension Connect {
         }
     }
 
-    public struct UserPhoneConfig: AWSShape {
+    public struct UserPhoneConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The After Call Work (ACW) timeout setting, in seconds.
         public let afterContactWorkTimeLimit: Int?
@@ -2383,7 +2383,7 @@ extension Connect {
         }
     }
 
-    public struct UserSummary: AWSShape {
+    public struct UserSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?

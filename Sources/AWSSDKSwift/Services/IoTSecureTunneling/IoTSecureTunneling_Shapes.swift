@@ -34,7 +34,7 @@ extension IoTSecureTunneling {
 
     //MARK: Shapes
 
-    public struct CloseTunnelRequest: AWSShape {
+    public struct CloseTunnelRequest: AWSEncodableShape {
 
         /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
         public let delete: Bool?
@@ -56,7 +56,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct CloseTunnelResponse: AWSShape {
+    public struct CloseTunnelResponse: AWSDecodableShape {
 
 
         public init() {
@@ -64,7 +64,7 @@ extension IoTSecureTunneling {
 
     }
 
-    public struct ConnectionState: AWSShape {
+    public struct ConnectionState: AWSDecodableShape {
 
         /// The last time the connection status was updated.
         public let lastUpdatedAt: TimeStamp?
@@ -82,7 +82,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct DescribeTunnelRequest: AWSShape {
+    public struct DescribeTunnelRequest: AWSEncodableShape {
 
         /// The tunnel to describe.
         public let tunnelId: String
@@ -100,7 +100,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct DescribeTunnelResponse: AWSShape {
+    public struct DescribeTunnelResponse: AWSDecodableShape {
 
         /// The tunnel being described.
         public let tunnel: Tunnel?
@@ -114,7 +114,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct DestinationConfig: AWSShape {
+    public struct DestinationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of service names that identity the target application. Currently, you can only specify a single name. The AWS IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The AWS IoT client instantiates the local proxy which uses this information to connect to the destination application.
         public let services: [String]
@@ -145,7 +145,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceArn: String
@@ -164,7 +164,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags for the specified resource.
         public let tags: [Tag]?
@@ -178,7 +178,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct ListTunnelsRequest: AWSShape {
+    public struct ListTunnelsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return at once.
         public let maxResults: Int?
@@ -209,7 +209,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct ListTunnelsResponse: AWSShape {
+    public struct ListTunnelsResponse: AWSDecodableShape {
 
         /// A token to used to retrieve the next set of results.
         public let nextToken: String?
@@ -227,7 +227,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct OpenTunnelRequest: AWSShape {
+    public struct OpenTunnelRequest: AWSEncodableShape {
 
         /// A short text description of the tunnel. 
         public let description: String?
@@ -264,7 +264,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct OpenTunnelResponse: AWSShape {
+    public struct OpenTunnelResponse: AWSDecodableShape {
 
         /// The access token the destination local proxy uses to connect to AWS IoT Secure Tunneling.
         public let destinationAccessToken: String?
@@ -290,7 +290,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String
@@ -317,7 +317,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the resource.
         public let resourceArn: String
@@ -345,7 +345,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -353,7 +353,7 @@ extension IoTSecureTunneling {
 
     }
 
-    public struct TimeoutConfig: AWSShape {
+    public struct TimeoutConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum amount of time (in minutes) a tunnel can remain open. If not specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values are from 1 minute to 12 hours (720 minutes) 
         public let maxLifetimeTimeoutMinutes: Int?
@@ -372,7 +372,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct Tunnel: AWSShape {
+    public struct Tunnel: AWSDecodableShape {
 
         /// The time when the tunnel was created.
         public let createdAt: TimeStamp?
@@ -426,7 +426,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct TunnelSummary: AWSShape {
+    public struct TunnelSummary: AWSDecodableShape {
 
         /// The time the tunnel was created.
         public let createdAt: TimeStamp?
@@ -460,7 +460,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceArn: String
@@ -490,7 +490,7 @@ extension IoTSecureTunneling {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {

@@ -178,7 +178,7 @@ extension RoboMaker {
 
     //MARK: Shapes
 
-    public struct BatchDescribeSimulationJobRequest: AWSShape {
+    public struct BatchDescribeSimulationJobRequest: AWSEncodableShape {
 
         /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
         public let jobs: [String]
@@ -202,7 +202,7 @@ extension RoboMaker {
         }
     }
 
-    public struct BatchDescribeSimulationJobResponse: AWSShape {
+    public struct BatchDescribeSimulationJobResponse: AWSDecodableShape {
 
         /// A list of simulation jobs.
         public let jobs: [SimulationJob]?
@@ -220,7 +220,7 @@ extension RoboMaker {
         }
     }
 
-    public struct BatchPolicy: AWSShape {
+    public struct BatchPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of active simulation jobs create as part of the batch that can be in an active state at the same time.  Active states include: Pending,Preparing, Running, Restarting, RunningFailed and Terminating. All other states are terminal states. 
         public let maxConcurrency: Int?
@@ -238,7 +238,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CancelDeploymentJobRequest: AWSShape {
+    public struct CancelDeploymentJobRequest: AWSEncodableShape {
 
         /// The deployment job ARN to cancel.
         public let job: String
@@ -258,7 +258,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CancelDeploymentJobResponse: AWSShape {
+    public struct CancelDeploymentJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -266,7 +266,7 @@ extension RoboMaker {
 
     }
 
-    public struct CancelSimulationJobBatchRequest: AWSShape {
+    public struct CancelSimulationJobBatchRequest: AWSEncodableShape {
 
         /// The id of the batch to cancel.
         public let batch: String
@@ -286,7 +286,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CancelSimulationJobBatchResponse: AWSShape {
+    public struct CancelSimulationJobBatchResponse: AWSDecodableShape {
 
 
         public init() {
@@ -294,7 +294,7 @@ extension RoboMaker {
 
     }
 
-    public struct CancelSimulationJobRequest: AWSShape {
+    public struct CancelSimulationJobRequest: AWSEncodableShape {
 
         /// The simulation job ARN to cancel.
         public let job: String
@@ -314,7 +314,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CancelSimulationJobResponse: AWSShape {
+    public struct CancelSimulationJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -322,7 +322,7 @@ extension RoboMaker {
 
     }
 
-    public struct CreateDeploymentJobRequest: AWSShape {
+    public struct CreateDeploymentJobRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
@@ -375,7 +375,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateDeploymentJobResponse: AWSShape {
+    public struct CreateDeploymentJobResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -421,7 +421,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateFleetRequest: AWSShape {
+    public struct CreateFleetRequest: AWSEncodableShape {
 
         /// The name of the fleet.
         public let name: String
@@ -453,7 +453,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateFleetResponse: AWSShape {
+    public struct CreateFleetResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -479,7 +479,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateRobotApplicationRequest: AWSShape {
+    public struct CreateRobotApplicationRequest: AWSEncodableShape {
 
         /// The name of the robot application.
         public let name: String
@@ -522,7 +522,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateRobotApplicationResponse: AWSShape {
+    public struct CreateRobotApplicationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
@@ -564,7 +564,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateRobotApplicationVersionRequest: AWSShape {
+    public struct CreateRobotApplicationVersionRequest: AWSEncodableShape {
 
         /// The application information for the robot application.
         public let application: String
@@ -591,7 +591,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateRobotApplicationVersionResponse: AWSShape {
+    public struct CreateRobotApplicationVersionResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
@@ -629,7 +629,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateRobotRequest: AWSShape {
+    public struct CreateRobotRequest: AWSEncodableShape {
 
         /// The target architecture of the robot.
         public let architecture: Architecture
@@ -672,7 +672,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateRobotResponse: AWSShape {
+    public struct CreateRobotResponse: AWSDecodableShape {
 
         /// The target architecture of the robot.
         public let architecture: Architecture?
@@ -706,7 +706,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationApplicationRequest: AWSShape {
+    public struct CreateSimulationApplicationRequest: AWSEncodableShape {
 
         /// The name of the simulation application.
         public let name: String
@@ -759,7 +759,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationApplicationResponse: AWSShape {
+    public struct CreateSimulationApplicationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
@@ -809,7 +809,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationApplicationVersionRequest: AWSShape {
+    public struct CreateSimulationApplicationVersionRequest: AWSEncodableShape {
 
         /// The application information for the simulation application.
         public let application: String
@@ -836,7 +836,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationApplicationVersionResponse: AWSShape {
+    public struct CreateSimulationApplicationVersionResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
@@ -882,7 +882,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationJobRequest: AWSShape {
+    public struct CreateSimulationJobRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
@@ -970,7 +970,7 @@ extension RoboMaker {
         }
     }
 
-    public struct CreateSimulationJobResponse: AWSShape {
+    public struct CreateSimulationJobResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -1048,7 +1048,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DataSource: AWSShape {
+    public struct DataSource: AWSDecodableShape {
 
         /// The name of the data source.
         public let name: String?
@@ -1070,7 +1070,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DataSourceConfig: AWSShape {
+    public struct DataSourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the data source.
         public let name: String
@@ -1108,7 +1108,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeleteFleetRequest: AWSShape {
+    public struct DeleteFleetRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -1128,7 +1128,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeleteFleetResponse: AWSShape {
+    public struct DeleteFleetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1136,7 +1136,7 @@ extension RoboMaker {
 
     }
 
-    public struct DeleteRobotApplicationRequest: AWSShape {
+    public struct DeleteRobotApplicationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the the robot application.
         public let application: String
@@ -1163,7 +1163,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeleteRobotApplicationResponse: AWSShape {
+    public struct DeleteRobotApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1171,7 +1171,7 @@ extension RoboMaker {
 
     }
 
-    public struct DeleteRobotRequest: AWSShape {
+    public struct DeleteRobotRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
@@ -1191,7 +1191,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeleteRobotResponse: AWSShape {
+    public struct DeleteRobotResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1199,7 +1199,7 @@ extension RoboMaker {
 
     }
 
-    public struct DeleteSimulationApplicationRequest: AWSShape {
+    public struct DeleteSimulationApplicationRequest: AWSEncodableShape {
 
         /// The application information for the simulation application to delete.
         public let application: String
@@ -1226,7 +1226,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeleteSimulationApplicationResponse: AWSShape {
+    public struct DeleteSimulationApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1234,7 +1234,7 @@ extension RoboMaker {
 
     }
 
-    public struct DeploymentApplicationConfig: AWSShape {
+    public struct DeploymentApplicationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
@@ -1266,7 +1266,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeploymentConfig: AWSShape {
+    public struct DeploymentConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The percentage of robots receiving the deployment at the same time.
         public let concurrentDeploymentPercentage: Int?
@@ -1300,7 +1300,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeploymentJob: AWSShape {
+    public struct DeploymentJob: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -1342,7 +1342,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeploymentLaunchConfig: AWSShape {
+    public struct DeploymentLaunchConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of key/value pairs specifying environment variables for the robot application
         public let environmentVariables: [String: String]?
@@ -1395,7 +1395,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeregisterRobotRequest: AWSShape {
+    public struct DeregisterRobotRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -1422,7 +1422,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DeregisterRobotResponse: AWSShape {
+    public struct DeregisterRobotResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String?
@@ -1440,7 +1440,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeDeploymentJobRequest: AWSShape {
+    public struct DescribeDeploymentJobRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let job: String
@@ -1460,7 +1460,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeDeploymentJobResponse: AWSShape {
+    public struct DescribeDeploymentJobResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
@@ -1510,7 +1510,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeFleetRequest: AWSShape {
+    public struct DescribeFleetRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -1530,7 +1530,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeFleetResponse: AWSShape {
+    public struct DescribeFleetResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -1572,7 +1572,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeRobotApplicationRequest: AWSShape {
+    public struct DescribeRobotApplicationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
@@ -1599,7 +1599,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeRobotApplicationResponse: AWSShape {
+    public struct DescribeRobotApplicationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
@@ -1641,7 +1641,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeRobotRequest: AWSShape {
+    public struct DescribeRobotRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot to be described.
         public let robot: String
@@ -1661,7 +1661,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeRobotResponse: AWSShape {
+    public struct DescribeRobotResponse: AWSDecodableShape {
 
         /// The target architecture of the robot application.
         public let architecture: Architecture?
@@ -1711,7 +1711,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeSimulationApplicationRequest: AWSShape {
+    public struct DescribeSimulationApplicationRequest: AWSEncodableShape {
 
         /// The application information for the simulation application.
         public let application: String
@@ -1738,7 +1738,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeSimulationApplicationResponse: AWSShape {
+    public struct DescribeSimulationApplicationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot simulation application.
         public let arn: String?
@@ -1788,7 +1788,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeSimulationJobBatchRequest: AWSShape {
+    public struct DescribeSimulationJobBatchRequest: AWSEncodableShape {
 
         /// The id of the batch to describe.
         public let batch: String
@@ -1808,7 +1808,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeSimulationJobBatchResponse: AWSShape {
+    public struct DescribeSimulationJobBatchResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the batch.
         public let arn: String?
@@ -1866,7 +1866,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeSimulationJobRequest: AWSShape {
+    public struct DescribeSimulationJobRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job to be described.
         public let job: String
@@ -1886,7 +1886,7 @@ extension RoboMaker {
         }
     }
 
-    public struct DescribeSimulationJobResponse: AWSShape {
+    public struct DescribeSimulationJobResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -1976,7 +1976,7 @@ extension RoboMaker {
         }
     }
 
-    public struct FailedCreateSimulationJobRequest: AWSShape {
+    public struct FailedCreateSimulationJobRequest: AWSDecodableShape {
 
         /// The time, in milliseconds since the epoch, when the simulation job batch failed.
         public let failedAt: TimeStamp?
@@ -2002,7 +2002,7 @@ extension RoboMaker {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// The name of the filter.
         public let name: String?
@@ -2033,7 +2033,7 @@ extension RoboMaker {
         }
     }
 
-    public struct Fleet: AWSShape {
+    public struct Fleet: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
@@ -2067,7 +2067,7 @@ extension RoboMaker {
         }
     }
 
-    public struct LaunchConfig: AWSShape {
+    public struct LaunchConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The environment variables for the application launch.
         public let environmentVariables: [String: String]?
@@ -2115,7 +2115,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListDeploymentJobsRequest: AWSShape {
+    public struct ListDeploymentJobsRequest: AWSEncodableShape {
 
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
@@ -2148,7 +2148,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListDeploymentJobsResponse: AWSShape {
+    public struct ListDeploymentJobsResponse: AWSDecodableShape {
 
         /// A list of deployment jobs that meet the criteria of the request.
         public let deploymentJobs: [DeploymentJob]?
@@ -2166,7 +2166,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListFleetsRequest: AWSShape {
+    public struct ListFleetsRequest: AWSEncodableShape {
 
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
@@ -2199,7 +2199,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListFleetsResponse: AWSShape {
+    public struct ListFleetsResponse: AWSDecodableShape {
 
         /// A list of fleet details meeting the request criteria.
         public let fleetDetails: [Fleet]?
@@ -2217,7 +2217,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListRobotApplicationsRequest: AWSShape {
+    public struct ListRobotApplicationsRequest: AWSEncodableShape {
 
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
@@ -2257,7 +2257,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListRobotApplicationsResponse: AWSShape {
+    public struct ListRobotApplicationsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListRobotApplications request. When the results of a ListRobotApplications request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2275,7 +2275,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListRobotsRequest: AWSShape {
+    public struct ListRobotsRequest: AWSEncodableShape {
 
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
@@ -2308,7 +2308,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListRobotsResponse: AWSShape {
+    public struct ListRobotsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListRobots request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2326,7 +2326,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationApplicationsRequest: AWSShape {
+    public struct ListSimulationApplicationsRequest: AWSEncodableShape {
 
         /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
@@ -2366,7 +2366,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationApplicationsResponse: AWSShape {
+    public struct ListSimulationApplicationsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListSimulationApplications request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2384,7 +2384,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationJobBatchesRequest: AWSShape {
+    public struct ListSimulationJobBatchesRequest: AWSEncodableShape {
 
         /// Optional filters to limit results.
         public let filters: [Filter]?
@@ -2417,7 +2417,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationJobBatchesResponse: AWSShape {
+    public struct ListSimulationJobBatchesResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListSimulationJobBatches request. When the results of a ListSimulationJobBatches request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2435,7 +2435,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationJobsRequest: AWSShape {
+    public struct ListSimulationJobsRequest: AWSEncodableShape {
 
         /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
@@ -2468,7 +2468,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListSimulationJobsResponse: AWSShape {
+    public struct ListSimulationJobsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListSimulationJobs request. When the results of a ListRobot request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -2486,7 +2486,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2509,7 +2509,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The list of all tags added to the specified resource.
         public let tags: [String: String]?
@@ -2523,7 +2523,7 @@ extension RoboMaker {
         }
     }
 
-    public struct LoggingConfig: AWSShape {
+    public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A boolean indicating whether to record all ROS topics.
         public let recordAllRosTopics: Bool
@@ -2537,7 +2537,7 @@ extension RoboMaker {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
 
         /// The ID of the network interface.
         public let networkInterfaceId: String?
@@ -2559,7 +2559,7 @@ extension RoboMaker {
         }
     }
 
-    public struct OutputLocation: AWSShape {
+    public struct OutputLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The S3 bucket for output.
         public let s3Bucket: String?
@@ -2586,7 +2586,7 @@ extension RoboMaker {
         }
     }
 
-    public struct PortForwardingConfig: AWSShape {
+    public struct PortForwardingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The port mappings for the configuration.
         public let portMappings: [PortMapping]?
@@ -2608,7 +2608,7 @@ extension RoboMaker {
         }
     }
 
-    public struct PortMapping: AWSShape {
+    public struct PortMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The port number on the application.
         public let applicationPort: Int
@@ -2637,7 +2637,7 @@ extension RoboMaker {
         }
     }
 
-    public struct ProgressDetail: AWSShape {
+    public struct ProgressDetail: AWSDecodableShape {
 
         /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.  
         public let currentProgress: RobotDeploymentStep?
@@ -2663,7 +2663,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RegisterRobotRequest: AWSShape {
+    public struct RegisterRobotRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
@@ -2690,7 +2690,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RegisterRobotResponse: AWSShape {
+    public struct RegisterRobotResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
         public let fleet: String?
@@ -2708,7 +2708,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RenderingEngine: AWSShape {
+    public struct RenderingEngine: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the rendering engine.
         public let name: RenderingEngineType?
@@ -2732,7 +2732,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RestartSimulationJobRequest: AWSShape {
+    public struct RestartSimulationJobRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let job: String
@@ -2752,7 +2752,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RestartSimulationJobResponse: AWSShape {
+    public struct RestartSimulationJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2760,7 +2760,7 @@ extension RoboMaker {
 
     }
 
-    public struct Robot: AWSShape {
+    public struct Robot: AWSDecodableShape {
 
         /// The architecture of the robot.
         public let architecture: Architecture?
@@ -2806,7 +2806,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RobotApplicationConfig: AWSShape {
+    public struct RobotApplicationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The application information for the robot application.
         public let application: String
@@ -2838,7 +2838,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RobotApplicationSummary: AWSShape {
+    public struct RobotApplicationSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
@@ -2868,7 +2868,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RobotDeployment: AWSShape {
+    public struct RobotDeployment: AWSDecodableShape {
 
         /// The robot deployment Amazon Resource Name (ARN).
         public let arn: String?
@@ -2906,7 +2906,7 @@ extension RoboMaker {
         }
     }
 
-    public struct RobotSoftwareSuite: AWSShape {
+    public struct RobotSoftwareSuite: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the robot software suite (ROS distribution).
         public let name: RobotSoftwareSuiteType?
@@ -2924,7 +2924,7 @@ extension RoboMaker {
         }
     }
 
-    public struct S3KeyOutput: AWSShape {
+    public struct S3KeyOutput: AWSDecodableShape {
 
         /// The etag for the object.
         public let etag: String?
@@ -2942,7 +2942,7 @@ extension RoboMaker {
         }
     }
 
-    public struct S3Object: AWSShape {
+    public struct S3Object: AWSEncodableShape & AWSDecodableShape {
 
         /// The bucket containing the object.
         public let bucket: String
@@ -2973,7 +2973,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationApplicationConfig: AWSShape {
+    public struct SimulationApplicationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The application information for the simulation application.
         public let application: String
@@ -3005,7 +3005,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationApplicationSummary: AWSShape {
+    public struct SimulationApplicationSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
@@ -3039,7 +3039,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationJob: AWSShape {
+    public struct SimulationJob: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -3129,7 +3129,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationJobBatchSummary: AWSShape {
+    public struct SimulationJobBatchSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the batch.
         public let arn: String?
@@ -3167,7 +3167,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationJobRequest: AWSShape {
+    public struct SimulationJobRequest: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
         public let dataSources: [DataSourceConfig]?
@@ -3249,7 +3249,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationJobSummary: AWSShape {
+    public struct SimulationJobSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
@@ -3287,7 +3287,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SimulationSoftwareSuite: AWSShape {
+    public struct SimulationSoftwareSuite: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the simulation software suite.
         public let name: SimulationSoftwareSuiteType?
@@ -3311,7 +3311,7 @@ extension RoboMaker {
         }
     }
 
-    public struct Source: AWSShape {
+    public struct Source: AWSDecodableShape {
 
         /// The taget processor architecture for the application.
         public let architecture: Architecture?
@@ -3337,7 +3337,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SourceConfig: AWSShape {
+    public struct SourceConfig: AWSEncodableShape {
 
         /// The target processor architecture for the application.
         public let architecture: Architecture?
@@ -3368,7 +3368,7 @@ extension RoboMaker {
         }
     }
 
-    public struct StartSimulationJobBatchRequest: AWSShape {
+    public struct StartSimulationJobBatchRequest: AWSEncodableShape {
 
         /// The batch policy.
         public let batchPolicy: BatchPolicy?
@@ -3412,7 +3412,7 @@ extension RoboMaker {
         }
     }
 
-    public struct StartSimulationJobBatchResponse: AWSShape {
+    public struct StartSimulationJobBatchResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (arn) of the batch.
         public let arn: String?
@@ -3466,7 +3466,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SyncDeploymentJobRequest: AWSShape {
+    public struct SyncDeploymentJobRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
@@ -3493,7 +3493,7 @@ extension RoboMaker {
         }
     }
 
-    public struct SyncDeploymentJobResponse: AWSShape {
+    public struct SyncDeploymentJobResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the synchronization request.
         public let arn: String?
@@ -3535,7 +3535,7 @@ extension RoboMaker {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -3570,7 +3570,7 @@ extension RoboMaker {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3578,7 +3578,7 @@ extension RoboMaker {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -3611,7 +3611,7 @@ extension RoboMaker {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3619,7 +3619,7 @@ extension RoboMaker {
 
     }
 
-    public struct UpdateRobotApplicationRequest: AWSShape {
+    public struct UpdateRobotApplicationRequest: AWSEncodableShape {
 
         /// The application information for the robot application.
         public let application: String
@@ -3657,7 +3657,7 @@ extension RoboMaker {
         }
     }
 
-    public struct UpdateRobotApplicationResponse: AWSShape {
+    public struct UpdateRobotApplicationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the updated robot application.
         public let arn: String?
@@ -3695,7 +3695,7 @@ extension RoboMaker {
         }
     }
 
-    public struct UpdateSimulationApplicationRequest: AWSShape {
+    public struct UpdateSimulationApplicationRequest: AWSEncodableShape {
 
         /// The application information for the simulation application.
         public let application: String
@@ -3743,7 +3743,7 @@ extension RoboMaker {
         }
     }
 
-    public struct UpdateSimulationApplicationResponse: AWSShape {
+    public struct UpdateSimulationApplicationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the updated simulation application.
         public let arn: String?
@@ -3789,7 +3789,7 @@ extension RoboMaker {
         }
     }
 
-    public struct VPCConfig: AWSShape {
+    public struct VPCConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A boolean indicating whether to assign a public IP address.
         public let assignPublicIp: Bool?
@@ -3828,7 +3828,7 @@ extension RoboMaker {
         }
     }
 
-    public struct VPCConfigResponse: AWSShape {
+    public struct VPCConfigResponse: AWSDecodableShape {
 
         /// A boolean indicating if a public IP was assigned.
         public let assignPublicIp: Bool?

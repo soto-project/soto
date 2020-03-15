@@ -356,6 +356,18 @@ struct AWSService {
         return shapes.sorted{ $0.name < $1.name }
     }
 
+    /// flag shape used as request object
+    private func setShapeUsedAsRequest(shape: Shape) {
+        shape.request = true
+        setShapeUsed(shape: shape, inInput: true)
+    }
+    
+    /// flag shape used as request object
+    private func setShapeUsedAsResponse(shape: Shape) {
+        shape.response = true
+        setShapeUsed(shape: shape, inOutput: true)
+    }
+    
     /// flag which shape are used as input shapes and output shapes
     private func setShapeUsed(shape: Shape, inInput: Bool = false, inOutput: Bool = false) {
         if inInput {
@@ -418,7 +430,7 @@ struct AWSService {
                     if let xmlNamespace = json["input"]["xmlNamespace"]["uri"].string {
                         addShapeOperation(shapeName: inputShapeName, operation: SetXMLNamespaceOperation(xmlNamespace: xmlNamespace))
                     }
-                    setShapeUsed(shape: shapes[index], inInput: true)
+                    setShapeUsedAsRequest(shape: shapes[index])
                     inputShape = shapes[index]
                 }
             }
@@ -426,7 +438,7 @@ struct AWSService {
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
                 if let index = shapes.firstIndex(where: { outputShapeName == $0.name }) {
-                    setShapeUsed(shape: shapes[index], inOutput: true)
+                    setShapeUsedAsResponse(shape: shapes[index])
                     outputShape = shapes[index]
                 }
             }

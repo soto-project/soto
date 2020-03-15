@@ -54,7 +54,7 @@ extension ConnectParticipant {
 
     //MARK: Shapes
 
-    public struct ConnectionCredentials: AWSShape {
+    public struct ConnectionCredentials: AWSDecodableShape {
 
         /// The connection token.
         public let connectionToken: String?
@@ -72,7 +72,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct CreateParticipantConnectionRequest: AWSShape {
+    public struct CreateParticipantConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "participantToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
@@ -99,7 +99,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct CreateParticipantConnectionResponse: AWSShape {
+    public struct CreateParticipantConnectionResponse: AWSDecodableShape {
 
         /// Creates the participant's connection credentials. The authentication token associated with the participant's connection.
         public let connectionCredentials: ConnectionCredentials?
@@ -117,7 +117,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct DisconnectParticipantRequest: AWSShape {
+    public struct DisconnectParticipantRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
@@ -144,7 +144,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct DisconnectParticipantResponse: AWSShape {
+    public struct DisconnectParticipantResponse: AWSDecodableShape {
 
 
         public init() {
@@ -152,7 +152,7 @@ extension ConnectParticipant {
 
     }
 
-    public struct GetTranscriptRequest: AWSShape {
+    public struct GetTranscriptRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
@@ -205,7 +205,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct GetTranscriptResponse: AWSShape {
+    public struct GetTranscriptResponse: AWSDecodableShape {
 
         /// The initial contact ID for the contact. 
         public let initialContactId: String?
@@ -227,7 +227,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct Item: AWSShape {
+    public struct Item: AWSDecodableShape {
 
         /// The time when the message or event was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -269,7 +269,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct SendEventRequest: AWSShape {
+    public struct SendEventRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
@@ -308,7 +308,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct SendEventResponse: AWSShape {
+    public struct SendEventResponse: AWSDecodableShape {
 
         /// The time when the event was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -326,7 +326,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct SendMessageRequest: AWSShape {
+    public struct SendMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
@@ -365,7 +365,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct SendMessageResponse: AWSShape {
+    public struct SendMessageResponse: AWSDecodableShape {
 
         /// The time when the message was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -383,7 +383,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct StartPosition: AWSShape {
+    public struct StartPosition: AWSEncodableShape {
 
         /// The time in ISO format where to start. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -414,7 +414,7 @@ extension ConnectParticipant {
         }
     }
 
-    public struct Websocket: AWSShape {
+    public struct Websocket: AWSDecodableShape {
 
         /// The URL expiration timestamp in ISO date format. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let connectionExpiry: String?

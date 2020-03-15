@@ -62,7 +62,7 @@ extension ComputeOptimizer {
 
     //MARK: Shapes
 
-    public struct AutoScalingGroupConfiguration: AWSShape {
+    public struct AutoScalingGroupConfiguration: AWSDecodableShape {
 
         /// The desired capacity, or number of instances, for the Auto Scaling group.
         public let desiredCapacity: Int?
@@ -88,7 +88,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct AutoScalingGroupRecommendation: AWSShape {
+    public struct AutoScalingGroupRecommendation: AWSDecodableShape {
 
         /// The AWS account ID of the Auto Scaling group.
         public let accountId: String?
@@ -134,7 +134,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct AutoScalingGroupRecommendationOption: AWSShape {
+    public struct AutoScalingGroupRecommendationOption: AWSDecodableShape {
 
         /// An array of objects that describe an Auto Scaling group configuration.
         public let configuration: AutoScalingGroupConfiguration?
@@ -160,7 +160,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// The name of the filter. Specify Finding to filter the results to a specific findings classification. Specify RecommendationSourceType to filter the results to a specific resource type.
         public let name: FilterName?
@@ -178,7 +178,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetAutoScalingGroupRecommendationsRequest: AWSShape {
+    public struct GetAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
 
         /// The AWS account IDs for which to return Auto Scaling group recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -208,7 +208,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetAutoScalingGroupRecommendationsResponse: AWSShape {
+    public struct GetAutoScalingGroupRecommendationsResponse: AWSDecodableShape {
 
         /// An array of objects that describe Auto Scaling group recommendations.
         public let autoScalingGroupRecommendations: [AutoScalingGroupRecommendation]?
@@ -230,7 +230,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetEC2InstanceRecommendationsRequest: AWSShape {
+    public struct GetEC2InstanceRecommendationsRequest: AWSEncodableShape {
 
         /// The AWS account IDs for which to return instance recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -260,7 +260,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetEC2InstanceRecommendationsResponse: AWSShape {
+    public struct GetEC2InstanceRecommendationsResponse: AWSDecodableShape {
 
         /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an instance of an unsupported instance family.
         public let errors: [GetRecommendationError]?
@@ -282,7 +282,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetEC2RecommendationProjectedMetricsRequest: AWSShape {
+    public struct GetEC2RecommendationProjectedMetricsRequest: AWSEncodableShape {
 
         /// The time stamp of the last projected metrics data point to return.
         public let endTime: TimeStamp
@@ -312,7 +312,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetEC2RecommendationProjectedMetricsResponse: AWSShape {
+    public struct GetEC2RecommendationProjectedMetricsResponse: AWSDecodableShape {
 
         /// An array of objects that describe a projected metrics.
         public let recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]?
@@ -326,7 +326,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetEnrollmentStatusRequest: AWSShape {
+    public struct GetEnrollmentStatusRequest: AWSEncodableShape {
 
 
         public init() {
@@ -334,7 +334,7 @@ extension ComputeOptimizer {
 
     }
 
-    public struct GetEnrollmentStatusResponse: AWSShape {
+    public struct GetEnrollmentStatusResponse: AWSDecodableShape {
 
         /// Confirms the enrollment status of member accounts within the organization, if the account is a master account of an organization.
         public let memberAccountsEnrolled: Bool?
@@ -356,7 +356,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetRecommendationError: AWSShape {
+    public struct GetRecommendationError: AWSDecodableShape {
 
         /// The error code.
         public let code: String?
@@ -378,7 +378,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetRecommendationSummariesRequest: AWSShape {
+    public struct GetRecommendationSummariesRequest: AWSEncodableShape {
 
         /// The AWS account IDs for which to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -400,7 +400,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetRecommendationSummariesResponse: AWSShape {
+    public struct GetRecommendationSummariesResponse: AWSDecodableShape {
 
         /// The token to use to advance to the next page of recommendation summaries. This value is null when there are no more pages of recommendation summaries to return.
         public let nextToken: String?
@@ -418,7 +418,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct InstanceRecommendation: AWSShape {
+    public struct InstanceRecommendation: AWSDecodableShape {
 
         /// The AWS account ID of the instance recommendation.
         public let accountId: String?
@@ -468,7 +468,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct InstanceRecommendationOption: AWSShape {
+    public struct InstanceRecommendationOption: AWSDecodableShape {
 
         /// The instance type of the instance recommendation.
         public let instanceType: String?
@@ -494,7 +494,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct ProjectedMetric: AWSShape {
+    public struct ProjectedMetric: AWSDecodableShape {
 
         /// The name of the projected utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let name: MetricName?
@@ -516,7 +516,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct RecommendationSource: AWSShape {
+    public struct RecommendationSource: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public let recommendationSourceArn: String?
@@ -534,7 +534,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct RecommendationSummary: AWSShape {
+    public struct RecommendationSummary: AWSDecodableShape {
 
         /// The AWS account ID of the recommendation summary.
         public let accountId: String?
@@ -556,7 +556,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct RecommendedOptionProjectedMetric: AWSShape {
+    public struct RecommendedOptionProjectedMetric: AWSDecodableShape {
 
         /// An array of objects that describe a projected utilization metric.
         public let projectedMetrics: [ProjectedMetric]?
@@ -578,7 +578,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct Summary: AWSShape {
+    public struct Summary: AWSDecodableShape {
 
         /// The finding classification of the recommendation.
         public let name: Finding?
@@ -596,7 +596,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct UpdateEnrollmentStatusRequest: AWSShape {
+    public struct UpdateEnrollmentStatusRequest: AWSEncodableShape {
 
         /// Indicates whether to enroll member accounts within the organization, if the account is a master account of an organization.
         public let includeMemberAccounts: Bool?
@@ -614,7 +614,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct UpdateEnrollmentStatusResponse: AWSShape {
+    public struct UpdateEnrollmentStatusResponse: AWSDecodableShape {
 
         /// The enrollment status of the account.
         public let status: Status?
@@ -632,7 +632,7 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct UtilizationMetric: AWSShape {
+    public struct UtilizationMetric: AWSDecodableShape {
 
         /// The name of the utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let name: MetricName?

@@ -67,7 +67,7 @@ extension Amplify {
 
     //MARK: Shapes
 
-    public struct App: AWSShape {
+    public struct App: AWSDecodableShape {
 
         ///  ARN for the Amplify App. 
         public let appArn: String
@@ -161,7 +161,7 @@ extension Amplify {
         }
     }
 
-    public struct Artifact: AWSShape {
+    public struct Artifact: AWSDecodableShape {
 
         ///  File name for the artifact. 
         public let artifactFileName: String
@@ -179,7 +179,7 @@ extension Amplify {
         }
     }
 
-    public struct AutoBranchCreationConfig: AWSShape {
+    public struct AutoBranchCreationConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  Basic Authorization credentials for the auto created branch. 
         public let basicAuthCredentials: String?
@@ -237,7 +237,7 @@ extension Amplify {
         }
     }
 
-    public struct BackendEnvironment: AWSShape {
+    public struct BackendEnvironment: AWSDecodableShape {
 
         ///  Arn for a backend environment, part of an Amplify App. 
         public let backendEnvironmentArn: String
@@ -271,7 +271,7 @@ extension Amplify {
         }
     }
 
-    public struct Branch: AWSShape {
+    public struct Branch: AWSDecodableShape {
 
         ///  Id of the active job for a branch, part of an Amplify App. 
         public let activeJobId: String
@@ -385,7 +385,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateAppRequest: AWSShape {
+    public struct CreateAppRequest: AWSEncodableShape {
 
         ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
         public let accessToken: String?
@@ -496,7 +496,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateAppResult: AWSShape {
+    public struct CreateAppResult: AWSDecodableShape {
 
         public let app: App
 
@@ -509,7 +509,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateBackendEnvironmentRequest: AWSShape {
+    public struct CreateBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -549,7 +549,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateBackendEnvironmentResult: AWSShape {
+    public struct CreateBackendEnvironmentResult: AWSDecodableShape {
 
         ///  Backend environment structure for an amplify App. 
         public let backendEnvironment: BackendEnvironment
@@ -563,7 +563,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateBranchRequest: AWSShape {
+    public struct CreateBranchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -670,7 +670,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateBranchResult: AWSShape {
+    public struct CreateBranchResult: AWSDecodableShape {
 
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
@@ -684,7 +684,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateDeploymentRequest: AWSShape {
+    public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
@@ -721,7 +721,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateDeploymentResult: AWSShape {
+    public struct CreateDeploymentResult: AWSDecodableShape {
 
         ///  When the fileMap argument is provided in the request, the fileUploadUrls will contain a map of file names to upload url. 
         public let fileUploadUrls: [String: String]
@@ -743,7 +743,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateDomainAssociationRequest: AWSShape {
+    public struct CreateDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -782,7 +782,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateDomainAssociationResult: AWSShape {
+    public struct CreateDomainAssociationResult: AWSDecodableShape {
 
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
@@ -796,7 +796,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateWebhookRequest: AWSShape {
+    public struct CreateWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -829,7 +829,7 @@ extension Amplify {
         }
     }
 
-    public struct CreateWebhookResult: AWSShape {
+    public struct CreateWebhookResult: AWSDecodableShape {
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -843,7 +843,7 @@ extension Amplify {
         }
     }
 
-    public struct CustomRule: AWSShape {
+    public struct CustomRule: AWSEncodableShape & AWSDecodableShape {
 
         ///  The condition for a URL rewrite or redirect rule, e.g. country code. 
         public let condition: String?
@@ -880,7 +880,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteAppRequest: AWSShape {
+    public struct DeleteAppRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -902,7 +902,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteAppResult: AWSShape {
+    public struct DeleteAppResult: AWSDecodableShape {
 
         public let app: App
 
@@ -915,7 +915,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteBackendEnvironmentRequest: AWSShape {
+    public struct DeleteBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
@@ -944,7 +944,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteBackendEnvironmentResult: AWSShape {
+    public struct DeleteBackendEnvironmentResult: AWSDecodableShape {
 
         ///  Backend environment structure for an Amplify App. 
         public let backendEnvironment: BackendEnvironment
@@ -958,7 +958,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteBranchRequest: AWSShape {
+    public struct DeleteBranchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
@@ -987,7 +987,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteBranchResult: AWSShape {
+    public struct DeleteBranchResult: AWSDecodableShape {
 
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
@@ -1001,7 +1001,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteDomainAssociationRequest: AWSShape {
+    public struct DeleteDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
@@ -1029,7 +1029,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteDomainAssociationResult: AWSShape {
+    public struct DeleteDomainAssociationResult: AWSDecodableShape {
 
         public let domainAssociation: DomainAssociation
 
@@ -1042,7 +1042,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteJobRequest: AWSShape {
+    public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
@@ -1077,7 +1077,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteJobResult: AWSShape {
+    public struct DeleteJobResult: AWSDecodableShape {
 
         public let jobSummary: JobSummary
 
@@ -1090,7 +1090,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteWebhookRequest: AWSShape {
+    public struct DeleteWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
@@ -1111,7 +1111,7 @@ extension Amplify {
         }
     }
 
-    public struct DeleteWebhookResult: AWSShape {
+    public struct DeleteWebhookResult: AWSDecodableShape {
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -1125,7 +1125,7 @@ extension Amplify {
         }
     }
 
-    public struct DomainAssociation: AWSShape {
+    public struct DomainAssociation: AWSDecodableShape {
 
         ///  DNS Record for certificate verification. 
         public let certificateVerificationDNSRecord: String?
@@ -1163,7 +1163,7 @@ extension Amplify {
         }
     }
 
-    public struct GenerateAccessLogsRequest: AWSShape {
+    public struct GenerateAccessLogsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -1198,7 +1198,7 @@ extension Amplify {
         }
     }
 
-    public struct GenerateAccessLogsResult: AWSShape {
+    public struct GenerateAccessLogsResult: AWSDecodableShape {
 
         ///  Pre-signed URL for the requested access logs. 
         public let logUrl: String?
@@ -1212,7 +1212,7 @@ extension Amplify {
         }
     }
 
-    public struct GetAppRequest: AWSShape {
+    public struct GetAppRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -1234,7 +1234,7 @@ extension Amplify {
         }
     }
 
-    public struct GetAppResult: AWSShape {
+    public struct GetAppResult: AWSDecodableShape {
 
         public let app: App
 
@@ -1247,7 +1247,7 @@ extension Amplify {
         }
     }
 
-    public struct GetArtifactUrlRequest: AWSShape {
+    public struct GetArtifactUrlRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "artifactId", location: .uri(locationName: "artifactId"))
         ]
@@ -1268,7 +1268,7 @@ extension Amplify {
         }
     }
 
-    public struct GetArtifactUrlResult: AWSShape {
+    public struct GetArtifactUrlResult: AWSDecodableShape {
 
         ///  Unique Id for a artifact. 
         public let artifactId: String
@@ -1286,7 +1286,7 @@ extension Amplify {
         }
     }
 
-    public struct GetBackendEnvironmentRequest: AWSShape {
+    public struct GetBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
@@ -1315,7 +1315,7 @@ extension Amplify {
         }
     }
 
-    public struct GetBackendEnvironmentResult: AWSShape {
+    public struct GetBackendEnvironmentResult: AWSDecodableShape {
 
         ///  Backend environment structure for an an Amplify App. 
         public let backendEnvironment: BackendEnvironment
@@ -1329,7 +1329,7 @@ extension Amplify {
         }
     }
 
-    public struct GetBranchRequest: AWSShape {
+    public struct GetBranchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
@@ -1358,7 +1358,7 @@ extension Amplify {
         }
     }
 
-    public struct GetBranchResult: AWSShape {
+    public struct GetBranchResult: AWSDecodableShape {
 
         public let branch: Branch
 
@@ -1371,7 +1371,7 @@ extension Amplify {
         }
     }
 
-    public struct GetDomainAssociationRequest: AWSShape {
+    public struct GetDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
@@ -1399,7 +1399,7 @@ extension Amplify {
         }
     }
 
-    public struct GetDomainAssociationResult: AWSShape {
+    public struct GetDomainAssociationResult: AWSDecodableShape {
 
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
@@ -1413,7 +1413,7 @@ extension Amplify {
         }
     }
 
-    public struct GetJobRequest: AWSShape {
+    public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
@@ -1448,7 +1448,7 @@ extension Amplify {
         }
     }
 
-    public struct GetJobResult: AWSShape {
+    public struct GetJobResult: AWSDecodableShape {
 
         public let job: Job
 
@@ -1461,7 +1461,7 @@ extension Amplify {
         }
     }
 
-    public struct GetWebhookRequest: AWSShape {
+    public struct GetWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
@@ -1482,7 +1482,7 @@ extension Amplify {
         }
     }
 
-    public struct GetWebhookResult: AWSShape {
+    public struct GetWebhookResult: AWSDecodableShape {
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -1496,7 +1496,7 @@ extension Amplify {
         }
     }
 
-    public struct Job: AWSShape {
+    public struct Job: AWSDecodableShape {
 
         ///  Execution steps for an execution job, for an Amplify App. 
         public let steps: [Step]
@@ -1514,7 +1514,7 @@ extension Amplify {
         }
     }
 
-    public struct JobSummary: AWSShape {
+    public struct JobSummary: AWSDecodableShape {
 
         ///  Commit Id from 3rd party repository provider for the Job. 
         public let commitId: String
@@ -1560,7 +1560,7 @@ extension Amplify {
         }
     }
 
-    public struct ListAppsRequest: AWSShape {
+    public struct ListAppsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1588,7 +1588,7 @@ extension Amplify {
         }
     }
 
-    public struct ListAppsResult: AWSShape {
+    public struct ListAppsResult: AWSDecodableShape {
 
         ///  List of Amplify Apps. 
         public let apps: [App]
@@ -1606,7 +1606,7 @@ extension Amplify {
         }
     }
 
-    public struct ListArtifactsRequest: AWSShape {
+    public struct ListArtifactsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
@@ -1654,7 +1654,7 @@ extension Amplify {
         }
     }
 
-    public struct ListArtifactsResult: AWSShape {
+    public struct ListArtifactsResult: AWSDecodableShape {
 
         ///  List of artifacts. 
         public let artifacts: [Artifact]
@@ -1672,7 +1672,7 @@ extension Amplify {
         }
     }
 
-    public struct ListBackendEnvironmentsRequest: AWSShape {
+    public struct ListBackendEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1713,7 +1713,7 @@ extension Amplify {
         }
     }
 
-    public struct ListBackendEnvironmentsResult: AWSShape {
+    public struct ListBackendEnvironmentsResult: AWSDecodableShape {
 
         ///  List of backend environments for an Amplify App. 
         public let backendEnvironments: [BackendEnvironment]
@@ -1731,7 +1731,7 @@ extension Amplify {
         }
     }
 
-    public struct ListBranchesRequest: AWSShape {
+    public struct ListBranchesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1766,7 +1766,7 @@ extension Amplify {
         }
     }
 
-    public struct ListBranchesResult: AWSShape {
+    public struct ListBranchesResult: AWSDecodableShape {
 
         ///  List of branches for an Amplify App. 
         public let branches: [Branch]
@@ -1784,7 +1784,7 @@ extension Amplify {
         }
     }
 
-    public struct ListDomainAssociationsRequest: AWSShape {
+    public struct ListDomainAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1819,7 +1819,7 @@ extension Amplify {
         }
     }
 
-    public struct ListDomainAssociationsResult: AWSShape {
+    public struct ListDomainAssociationsResult: AWSDecodableShape {
 
         ///  List of Domain Associations. 
         public let domainAssociations: [DomainAssociation]
@@ -1837,7 +1837,7 @@ extension Amplify {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
@@ -1879,7 +1879,7 @@ extension Amplify {
         }
     }
 
-    public struct ListJobsResult: AWSShape {
+    public struct ListJobsResult: AWSDecodableShape {
 
         ///  Result structure for list job result request. 
         public let jobSummaries: [JobSummary]
@@ -1897,7 +1897,7 @@ extension Amplify {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1918,7 +1918,7 @@ extension Amplify {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         ///  Tags result for response. 
         public let tags: [String: String]?
@@ -1932,7 +1932,7 @@ extension Amplify {
         }
     }
 
-    public struct ListWebhooksRequest: AWSShape {
+    public struct ListWebhooksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1967,7 +1967,7 @@ extension Amplify {
         }
     }
 
-    public struct ListWebhooksResult: AWSShape {
+    public struct ListWebhooksResult: AWSDecodableShape {
 
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
@@ -1985,7 +1985,7 @@ extension Amplify {
         }
     }
 
-    public struct ProductionBranch: AWSShape {
+    public struct ProductionBranch: AWSDecodableShape {
 
         ///  Branch Name for Production Branch. 
         public let branchName: String?
@@ -2011,7 +2011,7 @@ extension Amplify {
         }
     }
 
-    public struct StartDeploymentRequest: AWSShape {
+    public struct StartDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
@@ -2050,7 +2050,7 @@ extension Amplify {
         }
     }
 
-    public struct StartDeploymentResult: AWSShape {
+    public struct StartDeploymentResult: AWSDecodableShape {
 
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
@@ -2064,7 +2064,7 @@ extension Amplify {
         }
     }
 
-    public struct StartJobRequest: AWSShape {
+    public struct StartJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
@@ -2121,7 +2121,7 @@ extension Amplify {
         }
     }
 
-    public struct StartJobResult: AWSShape {
+    public struct StartJobResult: AWSDecodableShape {
 
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
@@ -2135,7 +2135,7 @@ extension Amplify {
         }
     }
 
-    public struct Step: AWSShape {
+    public struct Step: AWSDecodableShape {
 
         ///  URL to the artifact for the execution step. 
         public let artifactsUrl: String?
@@ -2189,7 +2189,7 @@ extension Amplify {
         }
     }
 
-    public struct StopJobRequest: AWSShape {
+    public struct StopJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
@@ -2224,7 +2224,7 @@ extension Amplify {
         }
     }
 
-    public struct StopJobResult: AWSShape {
+    public struct StopJobResult: AWSDecodableShape {
 
         ///  Summary for the Job. 
         public let jobSummary: JobSummary
@@ -2238,7 +2238,7 @@ extension Amplify {
         }
     }
 
-    public struct SubDomain: AWSShape {
+    public struct SubDomain: AWSDecodableShape {
 
         ///  DNS record for the Subdomain. 
         public let dnsRecord: String
@@ -2260,7 +2260,7 @@ extension Amplify {
         }
     }
 
-    public struct SubDomainSetting: AWSShape {
+    public struct SubDomainSetting: AWSEncodableShape & AWSDecodableShape {
 
         ///  Branch name setting for the Subdomain. 
         public let branchName: String
@@ -2284,7 +2284,7 @@ extension Amplify {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2315,7 +2315,7 @@ extension Amplify {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2323,7 +2323,7 @@ extension Amplify {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -2356,7 +2356,7 @@ extension Amplify {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2364,7 +2364,7 @@ extension Amplify {
 
     }
 
-    public struct UpdateAppRequest: AWSShape {
+    public struct UpdateAppRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
@@ -2474,7 +2474,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateAppResult: AWSShape {
+    public struct UpdateAppResult: AWSDecodableShape {
 
         ///  App structure for the updated App. 
         public let app: App
@@ -2488,7 +2488,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateBranchRequest: AWSShape {
+    public struct UpdateBranchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
@@ -2586,7 +2586,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateBranchResult: AWSShape {
+    public struct UpdateBranchResult: AWSDecodableShape {
 
         ///  Branch structure for an Amplify App. 
         public let branch: Branch
@@ -2600,7 +2600,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateDomainAssociationRequest: AWSShape {
+    public struct UpdateDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
@@ -2640,7 +2640,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateDomainAssociationResult: AWSShape {
+    public struct UpdateDomainAssociationResult: AWSDecodableShape {
 
         ///  Domain Association structure. 
         public let domainAssociation: DomainAssociation
@@ -2654,7 +2654,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateWebhookRequest: AWSShape {
+    public struct UpdateWebhookRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "webhookId", location: .uri(locationName: "webhookId"))
         ]
@@ -2686,7 +2686,7 @@ extension Amplify {
         }
     }
 
-    public struct UpdateWebhookResult: AWSShape {
+    public struct UpdateWebhookResult: AWSDecodableShape {
 
         ///  Webhook structure. 
         public let webhook: Webhook
@@ -2700,7 +2700,7 @@ extension Amplify {
         }
     }
 
-    public struct Webhook: AWSShape {
+    public struct Webhook: AWSDecodableShape {
 
         ///  Name for a branch, part of an Amplify App. 
         public let branchName: String

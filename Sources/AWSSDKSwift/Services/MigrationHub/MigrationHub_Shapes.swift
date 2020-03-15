@@ -51,7 +51,7 @@ extension MigrationHub {
 
     //MARK: Shapes
 
-    public struct ApplicationState: AWSShape {
+    public struct ApplicationState: AWSDecodableShape {
 
         /// The configurationId from the Application Discovery Service that uniquely identifies an application.
         public let applicationId: String?
@@ -73,7 +73,7 @@ extension MigrationHub {
         }
     }
 
-    public struct AssociateCreatedArtifactRequest: AWSShape {
+    public struct AssociateCreatedArtifactRequest: AWSEncodableShape {
 
         /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.) 
         public let createdArtifact: CreatedArtifact
@@ -109,7 +109,7 @@ extension MigrationHub {
         }
     }
 
-    public struct AssociateCreatedArtifactResult: AWSShape {
+    public struct AssociateCreatedArtifactResult: AWSDecodableShape {
 
 
         public init() {
@@ -117,7 +117,7 @@ extension MigrationHub {
 
     }
 
-    public struct AssociateDiscoveredResourceRequest: AWSShape {
+    public struct AssociateDiscoveredResourceRequest: AWSEncodableShape {
 
         /// Object representing a Resource.
         public let discoveredResource: DiscoveredResource
@@ -153,7 +153,7 @@ extension MigrationHub {
         }
     }
 
-    public struct AssociateDiscoveredResourceResult: AWSShape {
+    public struct AssociateDiscoveredResourceResult: AWSDecodableShape {
 
 
         public init() {
@@ -161,7 +161,7 @@ extension MigrationHub {
 
     }
 
-    public struct CreateProgressUpdateStreamRequest: AWSShape {
+    public struct CreateProgressUpdateStreamRequest: AWSEncodableShape {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -185,7 +185,7 @@ extension MigrationHub {
         }
     }
 
-    public struct CreateProgressUpdateStreamResult: AWSShape {
+    public struct CreateProgressUpdateStreamResult: AWSDecodableShape {
 
 
         public init() {
@@ -193,7 +193,7 @@ extension MigrationHub {
 
     }
 
-    public struct CreatedArtifact: AWSShape {
+    public struct CreatedArtifact: AWSEncodableShape & AWSDecodableShape {
 
         /// A description that can be free-form text to record additional detail about the artifact for clarity or for later reference.
         public let description: String?
@@ -219,7 +219,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DeleteProgressUpdateStreamRequest: AWSShape {
+    public struct DeleteProgressUpdateStreamRequest: AWSEncodableShape {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -243,7 +243,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DeleteProgressUpdateStreamResult: AWSShape {
+    public struct DeleteProgressUpdateStreamResult: AWSDecodableShape {
 
 
         public init() {
@@ -251,7 +251,7 @@ extension MigrationHub {
 
     }
 
-    public struct DescribeApplicationStateRequest: AWSShape {
+    public struct DescribeApplicationStateRequest: AWSEncodableShape {
 
         /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
@@ -270,7 +270,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DescribeApplicationStateResult: AWSShape {
+    public struct DescribeApplicationStateResult: AWSDecodableShape {
 
         /// Status of the application - Not Started, In-Progress, Complete.
         public let applicationStatus: ApplicationStatus?
@@ -288,7 +288,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DescribeMigrationTaskRequest: AWSShape {
+    public struct DescribeMigrationTaskRequest: AWSEncodableShape {
 
         /// The identifier given to the MigrationTask. Do not store personal data in this field. 
         public let migrationTaskName: String
@@ -315,7 +315,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DescribeMigrationTaskResult: AWSShape {
+    public struct DescribeMigrationTaskResult: AWSDecodableShape {
 
         /// Object encapsulating information about the migration task.
         public let migrationTask: MigrationTask?
@@ -329,7 +329,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DisassociateCreatedArtifactRequest: AWSShape {
+    public struct DisassociateCreatedArtifactRequest: AWSEncodableShape {
 
         /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2 instance, RDS instance, etc.)
         public let createdArtifactName: String
@@ -367,7 +367,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DisassociateCreatedArtifactResult: AWSShape {
+    public struct DisassociateCreatedArtifactResult: AWSDecodableShape {
 
 
         public init() {
@@ -375,7 +375,7 @@ extension MigrationHub {
 
     }
 
-    public struct DisassociateDiscoveredResourceRequest: AWSShape {
+    public struct DisassociateDiscoveredResourceRequest: AWSEncodableShape {
 
         /// ConfigurationId of the Application Discovery Service resource to be disassociated.
         public let configurationId: String
@@ -411,7 +411,7 @@ extension MigrationHub {
         }
     }
 
-    public struct DisassociateDiscoveredResourceResult: AWSShape {
+    public struct DisassociateDiscoveredResourceResult: AWSDecodableShape {
 
 
         public init() {
@@ -419,7 +419,7 @@ extension MigrationHub {
 
     }
 
-    public struct DiscoveredResource: AWSShape {
+    public struct DiscoveredResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The configurationId in Application Discovery Service that uniquely identifies the on-premise resource.
         public let configurationId: String
@@ -443,7 +443,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ImportMigrationTaskRequest: AWSShape {
+    public struct ImportMigrationTaskRequest: AWSEncodableShape {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -474,7 +474,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ImportMigrationTaskResult: AWSShape {
+    public struct ImportMigrationTaskResult: AWSDecodableShape {
 
 
         public init() {
@@ -482,7 +482,7 @@ extension MigrationHub {
 
     }
 
-    public struct ListApplicationStatesRequest: AWSShape {
+    public struct ListApplicationStatesRequest: AWSEncodableShape {
 
         /// The configurationIds from the Application Discovery Service that uniquely identifies your applications.
         public let applicationIds: [String]?
@@ -515,7 +515,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListApplicationStatesResult: AWSShape {
+    public struct ListApplicationStatesResult: AWSDecodableShape {
 
         /// A list of Applications that exist in Application Discovery Service.
         public let applicationStateList: [ApplicationState]?
@@ -533,7 +533,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListCreatedArtifactsRequest: AWSShape {
+    public struct ListCreatedArtifactsRequest: AWSEncodableShape {
 
         /// Maximum number of results to be returned per page.
         public let maxResults: Int?
@@ -570,7 +570,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListCreatedArtifactsResult: AWSShape {
+    public struct ListCreatedArtifactsResult: AWSDecodableShape {
 
         /// List of created artifacts up to the maximum number of results specified in the request.
         public let createdArtifactList: [CreatedArtifact]?
@@ -588,7 +588,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListDiscoveredResourcesRequest: AWSShape {
+    public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
 
         /// The maximum number of results returned per page.
         public let maxResults: Int?
@@ -625,7 +625,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListDiscoveredResourcesResult: AWSShape {
+    public struct ListDiscoveredResourcesResult: AWSDecodableShape {
 
         /// Returned list of discovered resources associated with the given MigrationTask.
         public let discoveredResourceList: [DiscoveredResource]?
@@ -643,7 +643,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListMigrationTasksRequest: AWSShape {
+    public struct ListMigrationTasksRequest: AWSEncodableShape {
 
         /// Value to specify how many results are returned per page.
         public let maxResults: Int?
@@ -672,7 +672,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListMigrationTasksResult: AWSShape {
+    public struct ListMigrationTasksResult: AWSDecodableShape {
 
         /// Lists the migration task's summary which includes: MigrationTaskName, ProgressPercent, ProgressUpdateStream, Status, and the UpdateDateTime for each task.
         public let migrationTaskSummaryList: [MigrationTaskSummary]?
@@ -690,7 +690,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListProgressUpdateStreamsRequest: AWSShape {
+    public struct ListProgressUpdateStreamsRequest: AWSEncodableShape {
 
         /// Filter to limit the maximum number of results to list per page.
         public let maxResults: Int?
@@ -713,7 +713,7 @@ extension MigrationHub {
         }
     }
 
-    public struct ListProgressUpdateStreamsResult: AWSShape {
+    public struct ListProgressUpdateStreamsResult: AWSDecodableShape {
 
         /// If there are more streams created than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
         public let nextToken: String?
@@ -731,7 +731,7 @@ extension MigrationHub {
         }
     }
 
-    public struct MigrationTask: AWSShape {
+    public struct MigrationTask: AWSDecodableShape {
 
         /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String?
@@ -761,7 +761,7 @@ extension MigrationHub {
         }
     }
 
-    public struct MigrationTaskSummary: AWSShape {
+    public struct MigrationTaskSummary: AWSDecodableShape {
 
         /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String?
@@ -795,7 +795,7 @@ extension MigrationHub {
         }
     }
 
-    public struct NotifyApplicationStateRequest: AWSShape {
+    public struct NotifyApplicationStateRequest: AWSEncodableShape {
 
         /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
@@ -826,7 +826,7 @@ extension MigrationHub {
         }
     }
 
-    public struct NotifyApplicationStateResult: AWSShape {
+    public struct NotifyApplicationStateResult: AWSDecodableShape {
 
 
         public init() {
@@ -834,7 +834,7 @@ extension MigrationHub {
 
     }
 
-    public struct NotifyMigrationTaskStateRequest: AWSShape {
+    public struct NotifyMigrationTaskStateRequest: AWSEncodableShape {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -879,7 +879,7 @@ extension MigrationHub {
         }
     }
 
-    public struct NotifyMigrationTaskStateResult: AWSShape {
+    public struct NotifyMigrationTaskStateResult: AWSDecodableShape {
 
 
         public init() {
@@ -887,7 +887,7 @@ extension MigrationHub {
 
     }
 
-    public struct ProgressUpdateStreamSummary: AWSShape {
+    public struct ProgressUpdateStreamSummary: AWSDecodableShape {
 
         /// The name of the ProgressUpdateStream. Do not store personal data in this field. 
         public let progressUpdateStreamName: String?
@@ -901,7 +901,7 @@ extension MigrationHub {
         }
     }
 
-    public struct PutResourceAttributesRequest: AWSShape {
+    public struct PutResourceAttributesRequest: AWSEncodableShape {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
@@ -941,7 +941,7 @@ extension MigrationHub {
         }
     }
 
-    public struct PutResourceAttributesResult: AWSShape {
+    public struct PutResourceAttributesResult: AWSDecodableShape {
 
 
         public init() {
@@ -949,7 +949,7 @@ extension MigrationHub {
 
     }
 
-    public struct ResourceAttribute: AWSShape {
+    public struct ResourceAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// Type of resource.
         public let `type`: ResourceAttributeType
@@ -972,7 +972,7 @@ extension MigrationHub {
         }
     }
 
-    public struct Task: AWSShape {
+    public struct Task: AWSEncodableShape & AWSDecodableShape {
 
         /// Indication of the percentage completion of the task.
         public let progressPercent: Int?

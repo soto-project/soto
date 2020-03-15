@@ -22,7 +22,7 @@ extension PersonalizeRuntime {
 
     //MARK: Shapes
 
-    public struct GetPersonalizedRankingRequest: AWSShape {
+    public struct GetPersonalizedRankingRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking.
         public let campaignArn: String
@@ -62,7 +62,7 @@ extension PersonalizeRuntime {
         }
     }
 
-    public struct GetPersonalizedRankingResponse: AWSShape {
+    public struct GetPersonalizedRankingResponse: AWSDecodableShape {
 
         /// A list of items in order of most likely interest to the user. The maximum is 500.
         public let personalizedRanking: [PredictedItem]?
@@ -76,7 +76,7 @@ extension PersonalizeRuntime {
         }
     }
 
-    public struct GetRecommendationsRequest: AWSShape {
+    public struct GetRecommendationsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations.
         public let campaignArn: String
@@ -119,7 +119,7 @@ extension PersonalizeRuntime {
         }
     }
 
-    public struct GetRecommendationsResponse: AWSShape {
+    public struct GetRecommendationsResponse: AWSDecodableShape {
 
         /// A list of recommendations sorted in ascending order by prediction score. There can be a maximum of 500 items in the list.
         public let itemList: [PredictedItem]?
@@ -133,7 +133,7 @@ extension PersonalizeRuntime {
         }
     }
 
-    public struct PredictedItem: AWSShape {
+    public struct PredictedItem: AWSDecodableShape {
 
         /// The recommended item ID.
         public let itemId: String?

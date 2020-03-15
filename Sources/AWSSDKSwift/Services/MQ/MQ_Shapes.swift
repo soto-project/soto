@@ -73,7 +73,7 @@ extension MQ {
 
     //MARK: Shapes
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
 
         /// Id for the availability zone.
         public let name: String?
@@ -87,7 +87,7 @@ extension MQ {
         }
     }
 
-    public struct BrokerEngineType: AWSShape {
+    public struct BrokerEngineType: AWSDecodableShape {
 
         /// The type of broker engine.
         public let engineType: EngineType?
@@ -105,7 +105,7 @@ extension MQ {
         }
     }
 
-    public struct BrokerInstance: AWSShape {
+    public struct BrokerInstance: AWSDecodableShape {
 
         /// The URL of the broker's ActiveMQ Web Console.
         public let consoleURL: String?
@@ -127,7 +127,7 @@ extension MQ {
         }
     }
 
-    public struct BrokerInstanceOption: AWSShape {
+    public struct BrokerInstanceOption: AWSDecodableShape {
 
         /// The list of available az.
         public let availabilityZones: [AvailabilityZone]?
@@ -161,7 +161,7 @@ extension MQ {
         }
     }
 
-    public struct BrokerSummary: AWSShape {
+    public struct BrokerSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the broker.
         public let brokerArn: String?
@@ -199,7 +199,7 @@ extension MQ {
         }
     }
 
-    public struct Configuration: AWSShape {
+    public struct Configuration: AWSDecodableShape {
 
         /// Required. The ARN of the configuration.
         public let arn: String?
@@ -245,7 +245,7 @@ extension MQ {
         }
     }
 
-    public struct ConfigurationId: AWSShape {
+    public struct ConfigurationId: AWSEncodableShape & AWSDecodableShape {
 
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         public let id: String?
@@ -263,7 +263,7 @@ extension MQ {
         }
     }
 
-    public struct ConfigurationRevision: AWSShape {
+    public struct ConfigurationRevision: AWSDecodableShape {
 
         /// Required. The date and time of the configuration revision.
         public let created: TimeStamp?
@@ -285,7 +285,7 @@ extension MQ {
         }
     }
 
-    public struct Configurations: AWSShape {
+    public struct Configurations: AWSDecodableShape {
 
         /// The current configuration of the broker.
         public let current: ConfigurationId?
@@ -307,7 +307,7 @@ extension MQ {
         }
     }
 
-    public struct CreateBrokerRequest: AWSShape {
+    public struct CreateBrokerRequest: AWSEncodableShape {
 
         public let autoMinorVersionUpgrade: Bool?
         public let brokerName: String?
@@ -368,7 +368,7 @@ extension MQ {
         }
     }
 
-    public struct CreateBrokerResponse: AWSShape {
+    public struct CreateBrokerResponse: AWSDecodableShape {
 
         public let brokerArn: String?
         public let brokerId: String?
@@ -384,7 +384,7 @@ extension MQ {
         }
     }
 
-    public struct CreateConfigurationRequest: AWSShape {
+    public struct CreateConfigurationRequest: AWSEncodableShape {
 
         public let engineType: EngineType?
         public let engineVersion: String?
@@ -406,7 +406,7 @@ extension MQ {
         }
     }
 
-    public struct CreateConfigurationResponse: AWSShape {
+    public struct CreateConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let created: TimeStamp?
@@ -431,7 +431,7 @@ extension MQ {
         }
     }
 
-    public struct CreateTagsRequest: AWSShape {
+    public struct CreateTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -450,7 +450,7 @@ extension MQ {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
             AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
@@ -479,7 +479,7 @@ extension MQ {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -487,7 +487,7 @@ extension MQ {
 
     }
 
-    public struct DeleteBrokerRequest: AWSShape {
+    public struct DeleteBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
@@ -503,7 +503,7 @@ extension MQ {
         }
     }
 
-    public struct DeleteBrokerResponse: AWSShape {
+    public struct DeleteBrokerResponse: AWSDecodableShape {
 
         public let brokerId: String?
 
@@ -516,7 +516,7 @@ extension MQ {
         }
     }
 
-    public struct DeleteTagsRequest: AWSShape {
+    public struct DeleteTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -536,7 +536,7 @@ extension MQ {
         }
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
             AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
@@ -556,7 +556,7 @@ extension MQ {
         }
     }
 
-    public struct DeleteUserResponse: AWSShape {
+    public struct DeleteUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -564,7 +564,7 @@ extension MQ {
 
     }
 
-    public struct DescribeBrokerEngineTypesRequest: AWSShape {
+    public struct DescribeBrokerEngineTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -593,7 +593,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeBrokerEngineTypesResponse: AWSShape {
+    public struct DescribeBrokerEngineTypesResponse: AWSDecodableShape {
 
         public let brokerEngineTypes: [BrokerEngineType]?
         public let maxResults: Int?
@@ -612,7 +612,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeBrokerInstanceOptionsRequest: AWSShape {
+    public struct DescribeBrokerInstanceOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "engineType", location: .querystring(locationName: "engineType")), 
             AWSMemberEncoding(label: "hostInstanceType", location: .querystring(locationName: "hostInstanceType")), 
@@ -649,7 +649,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeBrokerInstanceOptionsResponse: AWSShape {
+    public struct DescribeBrokerInstanceOptionsResponse: AWSDecodableShape {
 
         public let brokerInstanceOptions: [BrokerInstanceOption]?
         public let maxResults: Int?
@@ -668,7 +668,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeBrokerRequest: AWSShape {
+    public struct DescribeBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
@@ -684,7 +684,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeBrokerResponse: AWSShape {
+    public struct DescribeBrokerResponse: AWSDecodableShape {
 
         public let autoMinorVersionUpgrade: Bool?
         public let brokerArn: String?
@@ -766,7 +766,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeConfigurationRequest: AWSShape {
+    public struct DescribeConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id"))
         ]
@@ -782,7 +782,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeConfigurationResponse: AWSShape {
+    public struct DescribeConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let created: TimeStamp?
@@ -819,7 +819,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeConfigurationRevisionRequest: AWSShape {
+    public struct DescribeConfigurationRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id")), 
             AWSMemberEncoding(label: "configurationRevision", location: .uri(locationName: "configuration-revision"))
@@ -839,7 +839,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeConfigurationRevisionResponse: AWSShape {
+    public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
 
         public let configurationId: String?
         public let created: TimeStamp?
@@ -861,7 +861,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeUserRequest: AWSShape {
+    public struct DescribeUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
             AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
@@ -881,7 +881,7 @@ extension MQ {
         }
     }
 
-    public struct DescribeUserResponse: AWSShape {
+    public struct DescribeUserResponse: AWSDecodableShape {
 
         public let brokerId: String?
         public let consoleAccess: Bool?
@@ -906,7 +906,7 @@ extension MQ {
         }
     }
 
-    public struct EncryptionOptions: AWSShape {
+    public struct EncryptionOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
         public let kmsKeyId: String?
@@ -924,7 +924,7 @@ extension MQ {
         }
     }
 
-    public struct EngineVersion: AWSShape {
+    public struct EngineVersion: AWSDecodableShape {
 
         /// Id for the version.
         public let name: String?
@@ -938,7 +938,7 @@ extension MQ {
         }
     }
 
-    public struct ListBrokersRequest: AWSShape {
+    public struct ListBrokersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -963,7 +963,7 @@ extension MQ {
         }
     }
 
-    public struct ListBrokersResponse: AWSShape {
+    public struct ListBrokersResponse: AWSDecodableShape {
 
         public let brokerSummaries: [BrokerSummary]?
         public let nextToken: String?
@@ -979,7 +979,7 @@ extension MQ {
         }
     }
 
-    public struct ListConfigurationRevisionsRequest: AWSShape {
+    public struct ListConfigurationRevisionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1008,7 +1008,7 @@ extension MQ {
         }
     }
 
-    public struct ListConfigurationRevisionsResponse: AWSShape {
+    public struct ListConfigurationRevisionsResponse: AWSDecodableShape {
 
         public let configurationId: String?
         public let maxResults: Int?
@@ -1030,7 +1030,7 @@ extension MQ {
         }
     }
 
-    public struct ListConfigurationsRequest: AWSShape {
+    public struct ListConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1055,7 +1055,7 @@ extension MQ {
         }
     }
 
-    public struct ListConfigurationsResponse: AWSShape {
+    public struct ListConfigurationsResponse: AWSDecodableShape {
 
         public let configurations: [Configuration]?
         public let maxResults: Int?
@@ -1074,7 +1074,7 @@ extension MQ {
         }
     }
 
-    public struct ListTagsRequest: AWSShape {
+    public struct ListTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -1090,7 +1090,7 @@ extension MQ {
         }
     }
 
-    public struct ListTagsResponse: AWSShape {
+    public struct ListTagsResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -1103,7 +1103,7 @@ extension MQ {
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1132,7 +1132,7 @@ extension MQ {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListUsersResponse: AWSDecodableShape {
 
         public let brokerId: String?
         public let maxResults: Int?
@@ -1154,7 +1154,7 @@ extension MQ {
         }
     }
 
-    public struct Logs: AWSShape {
+    public struct Logs: AWSEncodableShape & AWSDecodableShape {
 
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1172,7 +1172,7 @@ extension MQ {
         }
     }
 
-    public struct LogsSummary: AWSShape {
+    public struct LogsSummary: AWSDecodableShape {
 
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1202,7 +1202,7 @@ extension MQ {
         }
     }
 
-    public struct PendingLogs: AWSShape {
+    public struct PendingLogs: AWSDecodableShape {
 
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1220,7 +1220,7 @@ extension MQ {
         }
     }
 
-    public struct RebootBrokerRequest: AWSShape {
+    public struct RebootBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
@@ -1236,7 +1236,7 @@ extension MQ {
         }
     }
 
-    public struct RebootBrokerResponse: AWSShape {
+    public struct RebootBrokerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1244,7 +1244,7 @@ extension MQ {
 
     }
 
-    public struct SanitizationWarning: AWSShape {
+    public struct SanitizationWarning: AWSDecodableShape {
 
         /// The name of the XML attribute that has been sanitized.
         public let attributeName: String?
@@ -1266,7 +1266,7 @@ extension MQ {
         }
     }
 
-    public struct UpdateBrokerRequest: AWSShape {
+    public struct UpdateBrokerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id"))
         ]
@@ -1300,7 +1300,7 @@ extension MQ {
         }
     }
 
-    public struct UpdateBrokerResponse: AWSShape {
+    public struct UpdateBrokerResponse: AWSDecodableShape {
 
         public let autoMinorVersionUpgrade: Bool?
         public let brokerId: String?
@@ -1331,7 +1331,7 @@ extension MQ {
         }
     }
 
-    public struct UpdateConfigurationRequest: AWSShape {
+    public struct UpdateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationId", location: .uri(locationName: "configuration-id"))
         ]
@@ -1353,7 +1353,7 @@ extension MQ {
         }
     }
 
-    public struct UpdateConfigurationResponse: AWSShape {
+    public struct UpdateConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let created: TimeStamp?
@@ -1381,7 +1381,7 @@ extension MQ {
         }
     }
 
-    public struct UpdateUserRequest: AWSShape {
+    public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "brokerId", location: .uri(locationName: "broker-id")), 
             AWSMemberEncoding(label: "username", location: .uri(locationName: "username"))
@@ -1410,7 +1410,7 @@ extension MQ {
         }
     }
 
-    public struct UpdateUserResponse: AWSShape {
+    public struct UpdateUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1418,7 +1418,7 @@ extension MQ {
 
     }
 
-    public struct User: AWSShape {
+    public struct User: AWSEncodableShape {
 
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
@@ -1444,7 +1444,7 @@ extension MQ {
         }
     }
 
-    public struct UserPendingChanges: AWSShape {
+    public struct UserPendingChanges: AWSDecodableShape {
 
         /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
         public let consoleAccess: Bool?
@@ -1466,7 +1466,7 @@ extension MQ {
         }
     }
 
-    public struct UserSummary: AWSShape {
+    public struct UserSummary: AWSDecodableShape {
 
         /// The type of change pending for the ActiveMQ user.
         public let pendingChange: ChangeType?
@@ -1484,7 +1484,7 @@ extension MQ {
         }
     }
 
-    public struct WeeklyStartTime: AWSShape {
+    public struct WeeklyStartTime: AWSEncodableShape & AWSDecodableShape {
 
         /// Required. The day of the week.
         public let dayOfWeek: DayOfWeek?

@@ -139,7 +139,7 @@ extension Inspector {
 
     //MARK: Shapes
 
-    public struct AddAttributesToFindingsRequest: AWSShape {
+    public struct AddAttributesToFindingsRequest: AWSEncodableShape {
 
         /// The array of attributes that you want to assign to specified findings.
         public let attributes: [Attribute]
@@ -171,7 +171,7 @@ extension Inspector {
         }
     }
 
-    public struct AddAttributesToFindingsResponse: AWSShape {
+    public struct AddAttributesToFindingsResponse: AWSDecodableShape {
 
         /// Attribute details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -185,7 +185,7 @@ extension Inspector {
         }
     }
 
-    public struct AgentFilter: AWSShape {
+    public struct AgentFilter: AWSEncodableShape {
 
         /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
         public let agentHealthCodes: [AgentHealthCode]
@@ -210,7 +210,7 @@ extension Inspector {
         }
     }
 
-    public struct AgentPreview: AWSShape {
+    public struct AgentPreview: AWSDecodableShape {
 
         /// The health status of the Amazon Inspector Agent.
         public let agentHealth: AgentHealth?
@@ -252,7 +252,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentRun: AWSShape {
+    public struct AssessmentRun: AWSDecodableShape {
 
         /// The ARN of the assessment run.
         public let arn: String
@@ -322,7 +322,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentRunAgent: AWSShape {
+    public struct AssessmentRunAgent: AWSDecodableShape {
 
         /// The current health state of the agent.
         public let agentHealth: AgentHealth
@@ -360,7 +360,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentRunFilter: AWSShape {
+    public struct AssessmentRunFilter: AWSEncodableShape {
 
         /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the completedAt property of the AssessmentRun data type.
         public let completionTimeRange: TimestampRange?
@@ -412,7 +412,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentRunNotification: AWSShape {
+    public struct AssessmentRunNotification: AWSDecodableShape {
 
         /// The date of the notification.
         public let date: TimeStamp
@@ -446,7 +446,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentRunStateChange: AWSShape {
+    public struct AssessmentRunStateChange: AWSDecodableShape {
 
         /// The assessment run state.
         public let state: AssessmentRunState
@@ -464,7 +464,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentTarget: AWSShape {
+    public struct AssessmentTarget: AWSDecodableShape {
 
         /// The ARN that specifies the Amazon Inspector assessment target.
         public let arn: String
@@ -494,7 +494,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentTargetFilter: AWSShape {
+    public struct AssessmentTargetFilter: AWSEncodableShape {
 
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
         public let assessmentTargetNamePattern: String?
@@ -513,7 +513,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentTemplate: AWSShape {
+    public struct AssessmentTemplate: AWSDecodableShape {
 
         /// The ARN of the assessment template.
         public let arn: String
@@ -559,7 +559,7 @@ extension Inspector {
         }
     }
 
-    public struct AssessmentTemplateFilter: AWSShape {
+    public struct AssessmentTemplateFilter: AWSEncodableShape {
 
         /// For a record to match a filter, the value specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentTemplate data type.
         public let durationRange: DurationRange?
@@ -593,7 +593,7 @@ extension Inspector {
         }
     }
 
-    public struct AssetAttributes: AWSShape {
+    public struct AssetAttributes: AWSDecodableShape {
 
         /// The ID of the agent that is installed on the EC2 instance where the finding is generated.
         public let agentId: String?
@@ -635,7 +635,7 @@ extension Inspector {
         }
     }
 
-    public struct Attribute: AWSShape {
+    public struct Attribute: AWSEncodableShape & AWSDecodableShape {
 
         /// The attribute key.
         public let key: String
@@ -660,7 +660,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateAssessmentTargetRequest: AWSShape {
+    public struct CreateAssessmentTargetRequest: AWSEncodableShape {
 
         /// The user-defined name that identifies the assessment target that you want to create. The name must be unique within the AWS account.
         public let assessmentTargetName: String
@@ -685,7 +685,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateAssessmentTargetResponse: AWSShape {
+    public struct CreateAssessmentTargetResponse: AWSDecodableShape {
 
         /// The ARN that specifies the assessment target that is created.
         public let assessmentTargetArn: String
@@ -699,7 +699,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateAssessmentTemplateRequest: AWSShape {
+    public struct CreateAssessmentTemplateRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment target for which you want to create the assessment template.
         public let assessmentTargetArn: String
@@ -749,7 +749,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateAssessmentTemplateResponse: AWSShape {
+    public struct CreateAssessmentTemplateResponse: AWSDecodableShape {
 
         /// The ARN that specifies the assessment template that is created.
         public let assessmentTemplateArn: String
@@ -763,7 +763,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateExclusionsPreviewRequest: AWSShape {
+    public struct CreateExclusionsPreviewRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment template for which you want to create an exclusions preview.
         public let assessmentTemplateArn: String
@@ -782,7 +782,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateExclusionsPreviewResponse: AWSShape {
+    public struct CreateExclusionsPreviewResponse: AWSDecodableShape {
 
         /// Specifies the unique identifier of the requested exclusions preview. You can use the unique identifier to retrieve the exclusions preview when running the GetExclusionsPreview API.
         public let previewToken: String
@@ -796,7 +796,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateResourceGroupRequest: AWSShape {
+    public struct CreateResourceGroupRequest: AWSEncodableShape {
 
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
         public let resourceGroupTags: [ResourceGroupTag]
@@ -818,7 +818,7 @@ extension Inspector {
         }
     }
 
-    public struct CreateResourceGroupResponse: AWSShape {
+    public struct CreateResourceGroupResponse: AWSDecodableShape {
 
         /// The ARN that specifies the resource group that is created.
         public let resourceGroupArn: String
@@ -832,7 +832,7 @@ extension Inspector {
         }
     }
 
-    public struct DeleteAssessmentRunRequest: AWSShape {
+    public struct DeleteAssessmentRunRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment run that you want to delete.
         public let assessmentRunArn: String
@@ -851,7 +851,7 @@ extension Inspector {
         }
     }
 
-    public struct DeleteAssessmentTargetRequest: AWSShape {
+    public struct DeleteAssessmentTargetRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment target that you want to delete.
         public let assessmentTargetArn: String
@@ -870,7 +870,7 @@ extension Inspector {
         }
     }
 
-    public struct DeleteAssessmentTemplateRequest: AWSShape {
+    public struct DeleteAssessmentTemplateRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment template that you want to delete.
         public let assessmentTemplateArn: String
@@ -889,7 +889,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentRunsRequest: AWSShape {
+    public struct DescribeAssessmentRunsRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment run that you want to describe.
         public let assessmentRunArns: [String]
@@ -912,7 +912,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentRunsResponse: AWSShape {
+    public struct DescribeAssessmentRunsResponse: AWSDecodableShape {
 
         /// Information about the assessment run.
         public let assessmentRuns: [AssessmentRun]
@@ -930,7 +930,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentTargetsRequest: AWSShape {
+    public struct DescribeAssessmentTargetsRequest: AWSEncodableShape {
 
         /// The ARNs that specifies the assessment targets that you want to describe.
         public let assessmentTargetArns: [String]
@@ -953,7 +953,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentTargetsResponse: AWSShape {
+    public struct DescribeAssessmentTargetsResponse: AWSDecodableShape {
 
         /// Information about the assessment targets.
         public let assessmentTargets: [AssessmentTarget]
@@ -971,7 +971,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentTemplatesRequest: AWSShape {
+    public struct DescribeAssessmentTemplatesRequest: AWSEncodableShape {
 
         public let assessmentTemplateArns: [String]
 
@@ -993,7 +993,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeAssessmentTemplatesResponse: AWSShape {
+    public struct DescribeAssessmentTemplatesResponse: AWSDecodableShape {
 
         /// Information about the assessment templates.
         public let assessmentTemplates: [AssessmentTemplate]
@@ -1011,7 +1011,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
+    public struct DescribeCrossAccountAccessRoleResponse: AWSDecodableShape {
 
         /// The date when the cross-account access role was registered.
         public let registeredAt: TimeStamp
@@ -1033,7 +1033,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeExclusionsRequest: AWSShape {
+    public struct DescribeExclusionsRequest: AWSEncodableShape {
 
         /// The list of ARNs that specify the exclusions that you want to describe.
         public let exclusionArns: [String]
@@ -1060,7 +1060,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeExclusionsResponse: AWSShape {
+    public struct DescribeExclusionsResponse: AWSDecodableShape {
 
         /// Information about the exclusions.
         public let exclusions: [String: Exclusion]
@@ -1078,7 +1078,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeFindingsRequest: AWSShape {
+    public struct DescribeFindingsRequest: AWSEncodableShape {
 
         /// The ARN that specifies the finding that you want to describe.
         public let findingArns: [String]
@@ -1105,7 +1105,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeFindingsResponse: AWSShape {
+    public struct DescribeFindingsResponse: AWSDecodableShape {
 
         /// Finding details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -1123,7 +1123,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeResourceGroupsRequest: AWSShape {
+    public struct DescribeResourceGroupsRequest: AWSEncodableShape {
 
         /// The ARN that specifies the resource group that you want to describe.
         public let resourceGroupArns: [String]
@@ -1146,7 +1146,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeResourceGroupsResponse: AWSShape {
+    public struct DescribeResourceGroupsResponse: AWSDecodableShape {
 
         /// Resource group details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -1164,7 +1164,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeRulesPackagesRequest: AWSShape {
+    public struct DescribeRulesPackagesRequest: AWSEncodableShape {
 
         /// The locale that you want to translate a rules package description into.
         public let locale: Locale?
@@ -1191,7 +1191,7 @@ extension Inspector {
         }
     }
 
-    public struct DescribeRulesPackagesResponse: AWSShape {
+    public struct DescribeRulesPackagesResponse: AWSDecodableShape {
 
         /// Rules package details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -1209,7 +1209,7 @@ extension Inspector {
         }
     }
 
-    public struct DurationRange: AWSShape {
+    public struct DurationRange: AWSEncodableShape {
 
         /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
         public let maxSeconds: Int?
@@ -1234,7 +1234,7 @@ extension Inspector {
         }
     }
 
-    public struct EventSubscription: AWSShape {
+    public struct EventSubscription: AWSDecodableShape {
 
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
         public let event: InspectorEvent
@@ -1252,7 +1252,7 @@ extension Inspector {
         }
     }
 
-    public struct Exclusion: AWSShape {
+    public struct Exclusion: AWSDecodableShape {
 
         /// The ARN that specifies the exclusion.
         public let arn: String
@@ -1286,7 +1286,7 @@ extension Inspector {
         }
     }
 
-    public struct ExclusionPreview: AWSShape {
+    public struct ExclusionPreview: AWSDecodableShape {
 
         /// The system-defined attributes for the exclusion preview.
         public let attributes: [Attribute]?
@@ -1316,7 +1316,7 @@ extension Inspector {
         }
     }
 
-    public struct FailedItemDetails: AWSShape {
+    public struct FailedItemDetails: AWSDecodableShape {
 
         /// The status code of a failed item.
         public let failureCode: FailedItemErrorCode
@@ -1334,7 +1334,7 @@ extension Inspector {
         }
     }
 
-    public struct Finding: AWSShape {
+    public struct Finding: AWSDecodableShape {
 
         /// The ARN that specifies the finding.
         public let arn: String
@@ -1416,7 +1416,7 @@ extension Inspector {
         }
     }
 
-    public struct FindingFilter: AWSShape {
+    public struct FindingFilter: AWSEncodableShape {
 
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the agentId property of the Finding data type.
         public let agentIds: [String]?
@@ -1496,7 +1496,7 @@ extension Inspector {
         }
     }
 
-    public struct GetAssessmentReportRequest: AWSShape {
+    public struct GetAssessmentReportRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment run for which you want to generate a report.
         public let assessmentRunArn: String
@@ -1523,7 +1523,7 @@ extension Inspector {
         }
     }
 
-    public struct GetAssessmentReportResponse: AWSShape {
+    public struct GetAssessmentReportResponse: AWSDecodableShape {
 
         /// Specifies the status of the request to generate an assessment report. 
         public let status: ReportStatus
@@ -1541,7 +1541,7 @@ extension Inspector {
         }
     }
 
-    public struct GetExclusionsPreviewRequest: AWSShape {
+    public struct GetExclusionsPreviewRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment template for which the exclusions preview was requested.
         public let assessmentTemplateArn: String
@@ -1579,7 +1579,7 @@ extension Inspector {
         }
     }
 
-    public struct GetExclusionsPreviewResponse: AWSShape {
+    public struct GetExclusionsPreviewResponse: AWSDecodableShape {
 
         /// Information about the exclusions included in the preview.
         public let exclusionPreviews: [ExclusionPreview]?
@@ -1601,7 +1601,7 @@ extension Inspector {
         }
     }
 
-    public struct GetTelemetryMetadataRequest: AWSShape {
+    public struct GetTelemetryMetadataRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
         public let assessmentRunArn: String
@@ -1620,7 +1620,7 @@ extension Inspector {
         }
     }
 
-    public struct GetTelemetryMetadataResponse: AWSShape {
+    public struct GetTelemetryMetadataResponse: AWSDecodableShape {
 
         /// Telemetry details.
         public let telemetryMetadata: [TelemetryMetadata]
@@ -1634,7 +1634,7 @@ extension Inspector {
         }
     }
 
-    public struct InspectorServiceAttributes: AWSShape {
+    public struct InspectorServiceAttributes: AWSDecodableShape {
 
         /// The ARN of the assessment run during which the finding is generated.
         public let assessmentRunArn: String?
@@ -1656,7 +1656,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentRunAgentsRequest: AWSShape {
+    public struct ListAssessmentRunAgentsRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment run whose agents you want to list.
         public let assessmentRunArn: String
@@ -1690,7 +1690,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentRunAgentsResponse: AWSShape {
+    public struct ListAssessmentRunAgentsResponse: AWSDecodableShape {
 
         /// A list of ARNs that specifies the agents returned by the action.
         public let assessmentRunAgents: [AssessmentRunAgent]
@@ -1708,7 +1708,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentRunsRequest: AWSShape {
+    public struct ListAssessmentRunsRequest: AWSEncodableShape {
 
         /// The ARNs that specify the assessment templates whose assessment runs you want to list.
         public let assessmentTemplateArns: [String]?
@@ -1746,7 +1746,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentRunsResponse: AWSShape {
+    public struct ListAssessmentRunsResponse: AWSDecodableShape {
 
         /// A list of ARNs that specifies the assessment runs that are returned by the action.
         public let assessmentRunArns: [String]
@@ -1764,7 +1764,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentTargetsRequest: AWSShape {
+    public struct ListAssessmentTargetsRequest: AWSEncodableShape {
 
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
         public let filter: AssessmentTargetFilter?
@@ -1792,7 +1792,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentTargetsResponse: AWSShape {
+    public struct ListAssessmentTargetsResponse: AWSDecodableShape {
 
         /// A list of ARNs that specifies the assessment targets that are returned by the action.
         public let assessmentTargetArns: [String]
@@ -1810,7 +1810,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentTemplatesRequest: AWSShape {
+    public struct ListAssessmentTemplatesRequest: AWSEncodableShape {
 
         /// A list of ARNs that specifies the assessment targets whose assessment templates you want to list.
         public let assessmentTargetArns: [String]?
@@ -1848,7 +1848,7 @@ extension Inspector {
         }
     }
 
-    public struct ListAssessmentTemplatesResponse: AWSShape {
+    public struct ListAssessmentTemplatesResponse: AWSDecodableShape {
 
         /// A list of ARNs that specifies the assessment templates returned by the action.
         public let assessmentTemplateArns: [String]
@@ -1866,7 +1866,7 @@ extension Inspector {
         }
     }
 
-    public struct ListEventSubscriptionsRequest: AWSShape {
+    public struct ListEventSubscriptionsRequest: AWSEncodableShape {
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int?
@@ -1895,7 +1895,7 @@ extension Inspector {
         }
     }
 
-    public struct ListEventSubscriptionsResponse: AWSShape {
+    public struct ListEventSubscriptionsResponse: AWSDecodableShape {
 
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -1913,7 +1913,7 @@ extension Inspector {
         }
     }
 
-    public struct ListExclusionsRequest: AWSShape {
+    public struct ListExclusionsRequest: AWSEncodableShape {
 
         /// The ARN of the assessment run that generated the exclusions that you want to list.
         public let assessmentRunArn: String
@@ -1942,7 +1942,7 @@ extension Inspector {
         }
     }
 
-    public struct ListExclusionsResponse: AWSShape {
+    public struct ListExclusionsResponse: AWSDecodableShape {
 
         /// A list of exclusions' ARNs returned by the action.
         public let exclusionArns: [String]
@@ -1960,7 +1960,7 @@ extension Inspector {
         }
     }
 
-    public struct ListFindingsRequest: AWSShape {
+    public struct ListFindingsRequest: AWSEncodableShape {
 
         /// The ARNs of the assessment runs that generate the findings that you want to list.
         public let assessmentRunArns: [String]?
@@ -1998,7 +1998,7 @@ extension Inspector {
         }
     }
 
-    public struct ListFindingsResponse: AWSShape {
+    public struct ListFindingsResponse: AWSDecodableShape {
 
         /// A list of ARNs that specifies the findings returned by the action.
         public let findingArns: [String]
@@ -2016,7 +2016,7 @@ extension Inspector {
         }
     }
 
-    public struct ListRulesPackagesRequest: AWSShape {
+    public struct ListRulesPackagesRequest: AWSEncodableShape {
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int?
@@ -2039,7 +2039,7 @@ extension Inspector {
         }
     }
 
-    public struct ListRulesPackagesResponse: AWSShape {
+    public struct ListRulesPackagesResponse: AWSDecodableShape {
 
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -2057,7 +2057,7 @@ extension Inspector {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The ARN that specifies the assessment template whose tags you want to list.
         public let resourceArn: String
@@ -2076,7 +2076,7 @@ extension Inspector {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// A collection of key and value pairs.
         public let tags: [Tag]
@@ -2090,7 +2090,7 @@ extension Inspector {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
 
         /// The IP addresses associated with the network interface.
         public let ipv6Addresses: [String]?
@@ -2140,7 +2140,7 @@ extension Inspector {
         }
     }
 
-    public struct PreviewAgentsRequest: AWSShape {
+    public struct PreviewAgentsRequest: AWSEncodableShape {
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int?
@@ -2169,7 +2169,7 @@ extension Inspector {
         }
     }
 
-    public struct PreviewAgentsResponse: AWSShape {
+    public struct PreviewAgentsResponse: AWSDecodableShape {
 
         /// The resulting list of agents.
         public let agentPreviews: [AgentPreview]
@@ -2187,7 +2187,7 @@ extension Inspector {
         }
     }
 
-    public struct PrivateIp: AWSShape {
+    public struct PrivateIp: AWSDecodableShape {
 
         /// The DNS name of the private IP address.
         public let privateDnsName: String?
@@ -2205,7 +2205,7 @@ extension Inspector {
         }
     }
 
-    public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
+    public struct RegisterCrossAccountAccessRoleRequest: AWSEncodableShape {
 
         /// The ARN of the IAM role that grants Amazon Inspector access to AWS Services needed to perform security assessments. 
         public let roleArn: String
@@ -2224,7 +2224,7 @@ extension Inspector {
         }
     }
 
-    public struct RemoveAttributesFromFindingsRequest: AWSShape {
+    public struct RemoveAttributesFromFindingsRequest: AWSEncodableShape {
 
         /// The array of attribute keys that you want to remove from specified findings.
         public let attributeKeys: [String]
@@ -2257,7 +2257,7 @@ extension Inspector {
         }
     }
 
-    public struct RemoveAttributesFromFindingsResponse: AWSShape {
+    public struct RemoveAttributesFromFindingsResponse: AWSDecodableShape {
 
         /// Attributes details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -2271,7 +2271,7 @@ extension Inspector {
         }
     }
 
-    public struct ResourceGroup: AWSShape {
+    public struct ResourceGroup: AWSDecodableShape {
 
         /// The ARN of the resource group.
         public let arn: String
@@ -2293,7 +2293,7 @@ extension Inspector {
         }
     }
 
-    public struct ResourceGroupTag: AWSShape {
+    public struct ResourceGroupTag: AWSEncodableShape & AWSDecodableShape {
 
         /// A tag key.
         public let key: String
@@ -2318,7 +2318,7 @@ extension Inspector {
         }
     }
 
-    public struct RulesPackage: AWSShape {
+    public struct RulesPackage: AWSDecodableShape {
 
         /// The ARN of the rules package.
         public let arn: String
@@ -2348,7 +2348,7 @@ extension Inspector {
         }
     }
 
-    public struct Scope: AWSShape {
+    public struct Scope: AWSDecodableShape {
 
         /// The type of the scope.
         public let key: ScopeType?
@@ -2366,7 +2366,7 @@ extension Inspector {
         }
     }
 
-    public struct SecurityGroup: AWSShape {
+    public struct SecurityGroup: AWSDecodableShape {
 
         /// The ID of the security group.
         public let groupId: String?
@@ -2384,7 +2384,7 @@ extension Inspector {
         }
     }
 
-    public struct SetTagsForResourceRequest: AWSShape {
+    public struct SetTagsForResourceRequest: AWSEncodableShape {
 
         /// The ARN of the assessment template that you want to set tags to.
         public let resourceArn: String
@@ -2412,7 +2412,7 @@ extension Inspector {
         }
     }
 
-    public struct StartAssessmentRunRequest: AWSShape {
+    public struct StartAssessmentRunRequest: AWSEncodableShape {
 
         /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run.
         public let assessmentRunName: String?
@@ -2437,7 +2437,7 @@ extension Inspector {
         }
     }
 
-    public struct StartAssessmentRunResponse: AWSShape {
+    public struct StartAssessmentRunResponse: AWSDecodableShape {
 
         /// The ARN of the assessment run that has been started.
         public let assessmentRunArn: String
@@ -2451,7 +2451,7 @@ extension Inspector {
         }
     }
 
-    public struct StopAssessmentRunRequest: AWSShape {
+    public struct StopAssessmentRunRequest: AWSEncodableShape {
 
         /// The ARN of the assessment run that you want to stop.
         public let assessmentRunArn: String
@@ -2474,7 +2474,7 @@ extension Inspector {
         }
     }
 
-    public struct SubscribeToEventRequest: AWSShape {
+    public struct SubscribeToEventRequest: AWSEncodableShape {
 
         /// The event for which you want to receive SNS notifications.
         public let event: InspectorEvent
@@ -2503,7 +2503,7 @@ extension Inspector {
         }
     }
 
-    public struct Subscription: AWSShape {
+    public struct Subscription: AWSDecodableShape {
 
         /// The list of existing event subscriptions.
         public let eventSubscriptions: [EventSubscription]
@@ -2525,7 +2525,7 @@ extension Inspector {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A tag key.
         public let key: String
@@ -2550,7 +2550,7 @@ extension Inspector {
         }
     }
 
-    public struct TelemetryMetadata: AWSShape {
+    public struct TelemetryMetadata: AWSDecodableShape {
 
         /// The count of messages that the agent sends to the Amazon Inspector service.
         public let count: Int64
@@ -2572,7 +2572,7 @@ extension Inspector {
         }
     }
 
-    public struct TimestampRange: AWSShape {
+    public struct TimestampRange: AWSEncodableShape {
 
         /// The minimum value of the timestamp range.
         public let beginDate: TimeStamp?
@@ -2590,7 +2590,7 @@ extension Inspector {
         }
     }
 
-    public struct UnsubscribeFromEventRequest: AWSShape {
+    public struct UnsubscribeFromEventRequest: AWSEncodableShape {
 
         /// The event for which you want to stop receiving SNS notifications.
         public let event: InspectorEvent
@@ -2619,7 +2619,7 @@ extension Inspector {
         }
     }
 
-    public struct UpdateAssessmentTargetRequest: AWSShape {
+    public struct UpdateAssessmentTargetRequest: AWSEncodableShape {
 
         /// The ARN of the assessment target that you want to update.
         public let assessmentTargetArn: String

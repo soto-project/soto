@@ -22,7 +22,7 @@ extension SageMakerRuntime {
 
     //MARK: Shapes
 
-    public struct InvokeEndpointInput: AWSShape {
+    public struct InvokeEndpointInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -81,7 +81,7 @@ extension SageMakerRuntime {
         }
     }
 
-    public struct InvokeEndpointOutput: AWSShape {
+    public struct InvokeEndpointOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [

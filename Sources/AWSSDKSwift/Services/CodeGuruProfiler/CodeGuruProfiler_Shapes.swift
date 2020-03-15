@@ -35,7 +35,7 @@ extension CodeGuruProfiler {
 
     //MARK: Shapes
 
-    public struct AgentConfiguration: AWSShape {
+    public struct AgentConfiguration: AWSDecodableShape {
 
         public let periodInSeconds: Int
         public let shouldProfile: Bool
@@ -51,7 +51,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct AgentOrchestrationConfig: AWSShape {
+    public struct AgentOrchestrationConfig: AWSEncodableShape & AWSDecodableShape {
 
         public let profilingEnabled: Bool
 
@@ -64,7 +64,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct AggregatedProfileTime: AWSShape {
+    public struct AggregatedProfileTime: AWSDecodableShape {
 
         /// The time period.
         public let period: AggregationPeriod?
@@ -82,7 +82,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ConfigureAgentRequest: AWSShape {
+    public struct ConfigureAgentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
@@ -110,7 +110,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ConfigureAgentResponse: AWSShape {
+    public struct ConfigureAgentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "configuration"
 
@@ -125,7 +125,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct CreateProfilingGroupRequest: AWSShape {
+    public struct CreateProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
@@ -159,7 +159,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct CreateProfilingGroupResponse: AWSShape {
+    public struct CreateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "profilingGroup"
 
@@ -175,7 +175,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct DeleteProfilingGroupRequest: AWSShape {
+    public struct DeleteProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
@@ -198,7 +198,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct DeleteProfilingGroupResponse: AWSShape {
+    public struct DeleteProfilingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -206,7 +206,7 @@ extension CodeGuruProfiler {
 
     }
 
-    public struct DescribeProfilingGroupRequest: AWSShape {
+    public struct DescribeProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
@@ -229,7 +229,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct DescribeProfilingGroupResponse: AWSShape {
+    public struct DescribeProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "profilingGroup"
 
@@ -245,7 +245,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct GetProfileRequest: AWSShape {
+    public struct GetProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
@@ -297,7 +297,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct GetProfileResponse: AWSShape {
+    public struct GetProfileResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "profile"
         public static var _encoding = [
@@ -326,7 +326,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ListProfileTimesRequest: AWSShape {
+    public struct ListProfileTimesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -384,7 +384,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ListProfileTimesResponse: AWSShape {
+    public struct ListProfileTimesResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListProfileTimes request. When the results of a ListProfileTimes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -402,7 +402,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ListProfilingGroupsRequest: AWSShape {
+    public struct ListProfilingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "includeDescription", location: .querystring(locationName: "includeDescription")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -437,7 +437,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ListProfilingGroupsResponse: AWSShape {
+    public struct ListProfilingGroupsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListProfilingGroups request. When the results of a ListProfilingGroups request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -459,7 +459,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct PostAgentProfileRequest: AWSShape {
+    public struct PostAgentProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "agentProfile"
         public static var _encoding = [
@@ -498,7 +498,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct PostAgentProfileResponse: AWSShape {
+    public struct PostAgentProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -506,7 +506,7 @@ extension CodeGuruProfiler {
 
     }
 
-    public struct ProfileTime: AWSShape {
+    public struct ProfileTime: AWSDecodableShape {
 
         /// The start time of the profile.
         public let start: TimeStamp?
@@ -520,7 +520,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ProfilingGroupDescription: AWSShape {
+    public struct ProfilingGroupDescription: AWSDecodableShape {
 
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
         /// The Amazon Resource Name (ARN) identifying the profiling group.
@@ -553,7 +553,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ProfilingStatus: AWSShape {
+    public struct ProfilingStatus: AWSDecodableShape {
 
         /// The time, in milliseconds since the epoch, when the latest agent was orchestrated.
         public let latestAgentOrchestratedAt: TimeStamp?
@@ -575,7 +575,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct UpdateProfilingGroupRequest: AWSShape {
+    public struct UpdateProfilingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
@@ -601,7 +601,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct UpdateProfilingGroupResponse: AWSShape {
+    public struct UpdateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "profilingGroup"
 

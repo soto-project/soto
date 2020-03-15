@@ -2085,7 +2085,7 @@ extension MediaConvert {
 
     //MARK: Shapes
 
-    public struct AacSettings: AWSShape {
+    public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and  FollowInputAudioType. Choose NORMAL when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
         public let audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix?
@@ -2138,7 +2138,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Ac3Settings: AWSShape {
+    public struct Ac3Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
         public let bitrate: Int?
@@ -2189,7 +2189,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AccelerationSettings: AWSShape {
+    public struct AccelerationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the conditions when the service will run your job with accelerated transcoding.
         public let mode: AccelerationMode
@@ -2203,7 +2203,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AiffSettings: AWSShape {
+    public struct AiffSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
@@ -2234,7 +2234,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AncillarySourceSettings: AWSShape {
+    public struct AncillarySourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: AncillaryConvert608To708?
@@ -2261,7 +2261,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AssociateCertificateRequest: AWSShape {
+    public struct AssociateCertificateRequest: AWSEncodableShape {
 
         /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
         public let arn: String
@@ -2275,7 +2275,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AssociateCertificateResponse: AWSShape {
+    public struct AssociateCertificateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2283,7 +2283,7 @@ extension MediaConvert {
 
     }
 
-    public struct AudioCodecSettings: AWSShape {
+    public struct AudioCodecSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode (rateControlMode) to "VBR" or "CBR".  In VBR mode, you control the audio quality with the setting VBR quality (vbrQuality). In CBR mode, you use the setting Bitrate (bitrate). Defaults and valid values depend on the rate control mode.
         public let aacSettings: AacSettings?
@@ -2340,7 +2340,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AudioDescription: AWSShape {
+    public struct AudioDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public let audioNormalizationSettings: AudioNormalizationSettings?
@@ -2400,7 +2400,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AudioNormalizationSettings: AWSShape {
+    public struct AudioNormalizationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content, suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak measurement. ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including configurations such as 7.1.
         public let algorithm: AudioNormalizationAlgorithm?
@@ -2439,7 +2439,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AudioSelector: AWSShape {
+    public struct AudioSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
@@ -2509,7 +2509,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AudioSelectorGroup: AWSShape {
+    public struct AudioSelectorGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of an Audio Selector within the same input to include in the group.  Audio selector names are standardized, based on their order within the input (e.g., "Audio Selector 1"). The audio selector name parameter can be repeated to add any number of audio selectors to the group.
         public let audioSelectorNames: [String]?
@@ -2529,7 +2529,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Av1QvbrSettings: AWSShape {
+    public struct Av1QvbrSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within av1Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
@@ -2552,7 +2552,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Av1Settings: AWSShape {
+    public struct Av1Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: Av1AdaptiveQuantization?
@@ -2624,7 +2624,7 @@ extension MediaConvert {
         }
     }
 
-    public struct AvailBlanking: AWSShape {
+    public struct AvailBlanking: AWSEncodableShape & AWSDecodableShape {
 
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let availBlankingImage: String?
@@ -2643,7 +2643,7 @@ extension MediaConvert {
         }
     }
 
-    public struct BurninDestinationSettings: AWSShape {
+    public struct BurninDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let alignment: BurninSubtitleAlignment?
@@ -2748,7 +2748,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CancelJobRequest: AWSShape {
+    public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -2765,7 +2765,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CancelJobResponse: AWSShape {
+    public struct CancelJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2773,7 +2773,7 @@ extension MediaConvert {
 
     }
 
-    public struct CaptionDescription: AWSShape {
+    public struct CaptionDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public let captionSelectorName: String?
@@ -2809,7 +2809,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CaptionDescriptionPreset: AWSShape {
+    public struct CaptionDescriptionPreset: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
@@ -2840,7 +2840,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CaptionDestinationSettings: AWSShape {
+    public struct CaptionDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Burn-In Destination Settings.
         public let burninDestinationSettings: BurninDestinationSettings?
@@ -2889,7 +2889,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CaptionSelector: AWSShape {
+    public struct CaptionSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public let customLanguageCode: String?
@@ -2918,7 +2918,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CaptionSourceSettings: AWSShape {
+    public struct CaptionSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Settings for ancillary captions source.
         public let ancillarySourceSettings: AncillarySourceSettings?
@@ -2965,7 +2965,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ChannelMapping: AWSShape {
+    public struct ChannelMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// List of output channels
         public let outputChannels: [OutputChannelMapping]?
@@ -2985,7 +2985,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CmafAdditionalManifest: AWSShape {
+    public struct CmafAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
         public let manifestNameModifier: String?
@@ -3010,7 +3010,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CmafEncryptionSettings: AWSShape {
+    public struct CmafEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
@@ -3052,7 +3052,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CmafGroupSettings: AWSShape {
+    public struct CmafGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// By default, the service creates one top-level .m3u8 HLS manifest and one top -level .mpd DASH manifest for each CMAF output group in your job. These default manifests reference every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here. For each additional manifest that you specify, the service creates one HLS manifest and one DASH manifest.
         public let additionalManifests: [CmafAdditionalManifest]?
@@ -3153,7 +3153,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CmfcSettings: AWSShape {
+    public struct CmfcSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: CmfcScte35Esam?
@@ -3171,7 +3171,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ColorCorrector: AWSShape {
+    public struct ColorCorrector: AWSEncodableShape & AWSDecodableShape {
 
         /// Brightness level.
         public let brightness: Int?
@@ -3217,7 +3217,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ContainerSettings: AWSShape {
+    public struct ContainerSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Settings for MP4 segments in CMAF
         public let cmfcSettings: CmfcSettings?
@@ -3265,7 +3265,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreateJobRequest: AWSShape {
+    public struct CreateJobRequest: AWSEncodableShape {
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
@@ -3329,7 +3329,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreateJobResponse: AWSShape {
+    public struct CreateJobResponse: AWSDecodableShape {
 
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let job: Job?
@@ -3343,7 +3343,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreateJobTemplateRequest: AWSShape {
+    public struct CreateJobTemplateRequest: AWSEncodableShape {
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
@@ -3395,7 +3395,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreateJobTemplateResponse: AWSShape {
+    public struct CreateJobTemplateResponse: AWSDecodableShape {
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
@@ -3409,7 +3409,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreatePresetRequest: AWSShape {
+    public struct CreatePresetRequest: AWSEncodableShape {
 
         /// Optional. A category for the preset you are creating.
         public let category: String?
@@ -3443,7 +3443,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreatePresetResponse: AWSShape {
+    public struct CreatePresetResponse: AWSDecodableShape {
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
@@ -3457,7 +3457,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreateQueueRequest: AWSShape {
+    public struct CreateQueueRequest: AWSEncodableShape {
 
         /// Optional. A description of the queue that you are creating.
         public let description: String?
@@ -3491,7 +3491,7 @@ extension MediaConvert {
         }
     }
 
-    public struct CreateQueueResponse: AWSShape {
+    public struct CreateQueueResponse: AWSDecodableShape {
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
@@ -3505,7 +3505,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DashAdditionalManifest: AWSShape {
+    public struct DashAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your DASH group is film-name.mpd. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.mpd.
         public let manifestNameModifier: String?
@@ -3530,7 +3530,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DashIsoEncryptionSettings: AWSShape {
+    public struct DashIsoEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED_SEI) only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1 (CENC_V1). If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
@@ -3552,7 +3552,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DashIsoGroupSettings: AWSShape {
+    public struct DashIsoGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [DashAdditionalManifest]?
@@ -3625,7 +3625,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Deinterlacer: AWSShape {
+    public struct Deinterlacer: AWSEncodableShape & AWSDecodableShape {
 
         /// Only applies when you set Deinterlacer (DeinterlaceMode) to Deinterlace (DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive interpolate (INTERPOLATE) produces sharper pictures, while blend (BLEND) produces smoother motion. Use (INTERPOLATE_TICKER) OR (BLEND_TICKER) if your source file includes a ticker, such as a scrolling headline at the bottom of the frame.
         public let algorithm: DeinterlaceAlgorithm?
@@ -3647,7 +3647,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DeleteJobTemplateRequest: AWSShape {
+    public struct DeleteJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -3664,7 +3664,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DeleteJobTemplateResponse: AWSShape {
+    public struct DeleteJobTemplateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3672,7 +3672,7 @@ extension MediaConvert {
 
     }
 
-    public struct DeletePresetRequest: AWSShape {
+    public struct DeletePresetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -3689,7 +3689,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DeletePresetResponse: AWSShape {
+    public struct DeletePresetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3697,7 +3697,7 @@ extension MediaConvert {
 
     }
 
-    public struct DeleteQueueRequest: AWSShape {
+    public struct DeleteQueueRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -3714,7 +3714,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DeleteQueueResponse: AWSShape {
+    public struct DeleteQueueResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3722,7 +3722,7 @@ extension MediaConvert {
 
     }
 
-    public struct DescribeEndpointsRequest: AWSShape {
+    public struct DescribeEndpointsRequest: AWSEncodableShape {
 
         /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
         public let maxResults: Int?
@@ -3744,7 +3744,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DescribeEndpointsResponse: AWSShape {
+    public struct DescribeEndpointsResponse: AWSDecodableShape {
 
         /// List of endpoints
         public let endpoints: [Endpoint]?
@@ -3762,7 +3762,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DestinationSettings: AWSShape {
+    public struct DestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Settings associated with S3 destination
         public let s3Settings: S3DestinationSettings?
@@ -3780,7 +3780,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DisassociateCertificateRequest: AWSShape {
+    public struct DisassociateCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
@@ -3797,7 +3797,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DisassociateCertificateResponse: AWSShape {
+    public struct DisassociateCertificateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3805,7 +3805,7 @@ extension MediaConvert {
 
     }
 
-    public struct DolbyVision: AWSShape {
+    public struct DolbyVision: AWSEncodableShape & AWSDecodableShape {
 
         /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
         public let l6Metadata: DolbyVisionLevel6Metadata?
@@ -3831,7 +3831,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DolbyVisionLevel6Metadata: AWSShape {
+    public struct DolbyVisionLevel6Metadata: AWSEncodableShape & AWSDecodableShape {
 
         /// Maximum Content Light Level. Static HDR metadata that corresponds to the brightest pixel in the entire stream. Measured in nits.
         public let maxCll: Int?
@@ -3856,7 +3856,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DvbNitSettings: AWSShape {
+    public struct DvbNitSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The numeric value placed in the Network Information Table (NIT).
         public let networkId: Int?
@@ -3887,7 +3887,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DvbSdtSettings: AWSShape {
+    public struct DvbSdtSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects method of inserting SDT information into output stream.  "Follow input SDT" copies SDT information from input stream to  output stream. "Follow input SDT if present" copies SDT information from  input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. Enter "SDT  Manually" means user will enter the SDT information. "No SDT" means output  stream will not contain SDT information.
         public let outputSdt: OutputSdt?
@@ -3922,7 +3922,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DvbSubDestinationSettings: AWSShape {
+    public struct DvbSubDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let alignment: DvbSubtitleAlignment?
@@ -4031,7 +4031,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DvbSubSourceSettings: AWSShape {
+    public struct DvbSubSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
@@ -4050,7 +4050,7 @@ extension MediaConvert {
         }
     }
 
-    public struct DvbTdtSettings: AWSShape {
+    public struct DvbTdtSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let tdtInterval: Int?
@@ -4069,7 +4069,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Eac3AtmosSettings: AWSShape {
+    public struct Eac3AtmosSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the average bitrate in bits per second.
         /// Valid values: 384k, 448k, 640k, 768k
@@ -4152,7 +4152,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Eac3Settings: AWSShape {
+    public struct Eac3Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
@@ -4255,7 +4255,7 @@ extension MediaConvert {
         }
     }
 
-    public struct EmbeddedDestinationSettings: AWSShape {
+    public struct EmbeddedDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, choose CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination608ChannelNumber: Int?
@@ -4280,7 +4280,7 @@ extension MediaConvert {
         }
     }
 
-    public struct EmbeddedSourceSettings: AWSShape {
+    public struct EmbeddedSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: EmbeddedConvert608To708?
@@ -4313,7 +4313,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
 
         /// URL of endpoint
         public let url: String?
@@ -4327,7 +4327,7 @@ extension MediaConvert {
         }
     }
 
-    public struct EsamManifestConfirmConditionNotification: AWSShape {
+    public struct EsamManifestConfirmConditionNotification: AWSEncodableShape & AWSDecodableShape {
 
         /// Provide your ESAM ManifestConfirmConditionNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the Manifest Conditioning instructions in the message that you supply.
         public let mccXml: String?
@@ -4345,7 +4345,7 @@ extension MediaConvert {
         }
     }
 
-    public struct EsamSettings: AWSShape {
+    public struct EsamSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies an ESAM ManifestConfirmConditionNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning instructions that you provide in the setting MCC XML (mccXml).
         public let manifestConfirmConditionNotification: EsamManifestConfirmConditionNotification?
@@ -4374,7 +4374,7 @@ extension MediaConvert {
         }
     }
 
-    public struct EsamSignalProcessingNotification: AWSShape {
+    public struct EsamSignalProcessingNotification: AWSEncodableShape & AWSDecodableShape {
 
         /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
         public let sccXml: String?
@@ -4392,7 +4392,7 @@ extension MediaConvert {
         }
     }
 
-    public struct F4vSettings: AWSShape {
+    public struct F4vSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
         public let moovPlacement: F4vMoovPlacement?
@@ -4406,7 +4406,7 @@ extension MediaConvert {
         }
     }
 
-    public struct FileGroupSettings: AWSShape {
+    public struct FileGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
@@ -4429,7 +4429,7 @@ extension MediaConvert {
         }
     }
 
-    public struct FileSourceSettings: AWSShape {
+    public struct FileSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
@@ -4458,7 +4458,7 @@ extension MediaConvert {
         }
     }
 
-    public struct FrameCaptureSettings: AWSShape {
+    public struct FrameCaptureSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Frame capture will encode the first frame of the output stream, then one frame every framerateDenominator/framerateNumerator seconds. For example, settings of framerateNumerator = 1 and framerateDenominator = 3 (a rate of 1/3 frame per second) will capture the first frame, then 1 frame every 3s. Files will be named as filename.n.jpg where n is the 0-based sequence number of each Capture.
         public let framerateDenominator: Int?
@@ -4495,7 +4495,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetJobRequest: AWSShape {
+    public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -4512,7 +4512,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetJobResponse: AWSShape {
+    public struct GetJobResponse: AWSDecodableShape {
 
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let job: Job?
@@ -4526,7 +4526,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetJobTemplateRequest: AWSShape {
+    public struct GetJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -4543,7 +4543,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetJobTemplateResponse: AWSShape {
+    public struct GetJobTemplateResponse: AWSDecodableShape {
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
@@ -4557,7 +4557,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetPresetRequest: AWSShape {
+    public struct GetPresetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -4574,7 +4574,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetPresetResponse: AWSShape {
+    public struct GetPresetResponse: AWSDecodableShape {
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
@@ -4588,7 +4588,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetQueueRequest: AWSShape {
+    public struct GetQueueRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -4605,7 +4605,7 @@ extension MediaConvert {
         }
     }
 
-    public struct GetQueueResponse: AWSShape {
+    public struct GetQueueResponse: AWSDecodableShape {
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
@@ -4619,7 +4619,7 @@ extension MediaConvert {
         }
     }
 
-    public struct H264QvbrSettings: AWSShape {
+    public struct H264QvbrSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
@@ -4648,7 +4648,7 @@ extension MediaConvert {
         }
     }
 
-    public struct H264Settings: AWSShape {
+    public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H264AdaptiveQuantization?
@@ -4848,7 +4848,7 @@ extension MediaConvert {
         }
     }
 
-    public struct H265QvbrSettings: AWSShape {
+    public struct H265QvbrSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
@@ -4877,7 +4877,7 @@ extension MediaConvert {
         }
     }
 
-    public struct H265Settings: AWSShape {
+    public struct H265Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H265AdaptiveQuantization?
@@ -5073,7 +5073,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Hdr10Metadata: AWSShape {
+    public struct Hdr10Metadata: AWSEncodableShape & AWSDecodableShape {
 
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
         public let bluePrimaryX: Int?
@@ -5158,7 +5158,7 @@ extension MediaConvert {
         }
     }
 
-    public struct HlsAdditionalManifest: AWSShape {
+    public struct HlsAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
         public let manifestNameModifier: String?
@@ -5183,7 +5183,7 @@ extension MediaConvert {
         }
     }
 
-    public struct HlsCaptionLanguageMapping: AWSShape {
+    public struct HlsCaptionLanguageMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// Caption channel.
         public let captionChannel: Int?
@@ -5217,7 +5217,7 @@ extension MediaConvert {
         }
     }
 
-    public struct HlsEncryptionSettings: AWSShape {
+    public struct HlsEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
@@ -5263,7 +5263,7 @@ extension MediaConvert {
         }
     }
 
-    public struct HlsGroupSettings: AWSShape {
+    public struct HlsGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// By default, the service creates one top-level .m3u8 HLS manifest for each HLS output group in your job. This default manifest references every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [HlsAdditionalManifest]?
@@ -5397,7 +5397,7 @@ extension MediaConvert {
         }
     }
 
-    public struct HlsSettings: AWSShape {
+    public struct HlsSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
@@ -5431,7 +5431,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Id3Insertion: AWSShape {
+    public struct Id3Insertion: AWSEncodableShape & AWSDecodableShape {
 
         /// Use ID3 tag (Id3) to provide a tag value in base64-encode format.
         public let id3: String?
@@ -5454,7 +5454,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ImageInserter: AWSShape {
+    public struct ImageInserter: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the images that you want to overlay on your video. The images must be PNG or TGA files.
         public let insertableImages: [InsertableImage]?
@@ -5474,7 +5474,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ImscDestinationSettings: AWSShape {
+    public struct ImscDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public let stylePassthrough: ImscStylePassthrough?
@@ -5488,7 +5488,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Input: AWSShape {
+    public struct Input: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
@@ -5605,7 +5605,7 @@ extension MediaConvert {
         }
     }
 
-    public struct InputClipping: AWSShape {
+    public struct InputClipping: AWSEncodableShape & AWSDecodableShape {
 
         /// Set End timecode (EndTimecode) to the end of the portion of the input you are clipping. The frame corresponding to the End timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for timecode source under input settings (InputTimecodeSource). For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to end six minutes into the video, use 01:06:00:00.
         public let endTimecode: String?
@@ -5628,7 +5628,7 @@ extension MediaConvert {
         }
     }
 
-    public struct InputDecryptionSettings: AWSShape {
+    public struct InputDecryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the encryption mode that you used to encrypt your input files.
         public let decryptionMode: DecryptionMode?
@@ -5666,7 +5666,7 @@ extension MediaConvert {
         }
     }
 
-    public struct InputTemplate: AWSShape {
+    public struct InputTemplate: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
@@ -5766,7 +5766,7 @@ extension MediaConvert {
         }
     }
 
-    public struct InsertableImage: AWSShape {
+    public struct InsertableImage: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the time, in milliseconds, for the image to remain on the output video. This duration includes fade-in time but not fade-out time.
         public let duration: Int?
@@ -5844,7 +5844,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Job: AWSShape {
+    public struct Job: AWSDecodableShape {
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
@@ -5946,7 +5946,7 @@ extension MediaConvert {
         }
     }
 
-    public struct JobMessages: AWSShape {
+    public struct JobMessages: AWSDecodableShape {
 
         /// List of messages that are informational only and don't indicate a problem with your job.
         public let info: [String]?
@@ -5964,7 +5964,7 @@ extension MediaConvert {
         }
     }
 
-    public struct JobSettings: AWSShape {
+    public struct JobSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
         public let adAvailOffset: Int?
@@ -6027,7 +6027,7 @@ extension MediaConvert {
         }
     }
 
-    public struct JobTemplate: AWSShape {
+    public struct JobTemplate: AWSDecodableShape {
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
@@ -6085,7 +6085,7 @@ extension MediaConvert {
         }
     }
 
-    public struct JobTemplateSettings: AWSShape {
+    public struct JobTemplateSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
         public let adAvailOffset: Int?
@@ -6148,7 +6148,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListJobTemplatesRequest: AWSShape {
+    public struct ListJobTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
             AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
@@ -6190,7 +6190,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListJobTemplatesResponse: AWSShape {
+    public struct ListJobTemplatesResponse: AWSDecodableShape {
 
         /// List of Job templates.
         public let jobTemplates: [JobTemplate]?
@@ -6208,7 +6208,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -6250,7 +6250,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListJobsResponse: AWSShape {
+    public struct ListJobsResponse: AWSDecodableShape {
 
         /// List of jobs
         public let jobs: [Job]?
@@ -6268,7 +6268,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListPresetsRequest: AWSShape {
+    public struct ListPresetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
             AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
@@ -6310,7 +6310,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListPresetsResponse: AWSShape {
+    public struct ListPresetsResponse: AWSDecodableShape {
 
         /// Use this string to request the next batch of presets.
         public let nextToken: String?
@@ -6328,7 +6328,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListQueuesRequest: AWSShape {
+    public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -6365,7 +6365,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListQueuesResponse: AWSShape {
+    public struct ListQueuesResponse: AWSDecodableShape {
 
         /// Use this string to request the next batch of queues.
         public let nextToken: String?
@@ -6383,7 +6383,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
@@ -6400,7 +6400,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert resource.
         public let resourceTags: ResourceTags?
@@ -6414,7 +6414,7 @@ extension MediaConvert {
         }
     }
 
-    public struct M2tsScte35Esam: AWSShape {
+    public struct M2tsScte35Esam: AWSEncodableShape & AWSDecodableShape {
 
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream generated by ESAM.
         public let scte35EsamPid: Int?
@@ -6433,7 +6433,7 @@ extension MediaConvert {
         }
     }
 
-    public struct M2tsSettings: AWSShape {
+    public struct M2tsSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
         public let audioBufferModel: M2tsAudioBufferModel?
@@ -6632,7 +6632,7 @@ extension MediaConvert {
         }
     }
 
-    public struct M3u8Settings: AWSShape {
+    public struct M3u8Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
@@ -6735,7 +6735,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MotionImageInserter: AWSShape {
+    public struct MotionImageInserter: AWSEncodableShape & AWSDecodableShape {
 
         /// If your motion graphic asset is a .mov file, keep this setting unspecified. If your motion graphic asset is a series of .png files, specify the frame rate of the overlay in frames per second, as a fraction. For example, specify 24 fps as 24/1. Make sure that the number of images in your series matches the frame rate and your intended overlay duration. For example, if you want a 30-second overlay at 30 fps, you should have 900 .png images. This overlay frame rate doesn't need to match the frame rate of the underlying video.
         public let framerate: MotionImageInsertionFramerate?
@@ -6780,7 +6780,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MotionImageInsertionFramerate: AWSShape {
+    public struct MotionImageInsertionFramerate: AWSEncodableShape & AWSDecodableShape {
 
         /// The bottom of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 1.
         public let framerateDenominator: Int?
@@ -6805,7 +6805,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MotionImageInsertionOffset: AWSShape {
+    public struct MotionImageInsertionOffset: AWSEncodableShape & AWSDecodableShape {
 
         /// Set the distance, in pixels, between the overlay and the left edge of the video frame.
         public let imageX: Int?
@@ -6830,7 +6830,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MovSettings: AWSShape {
+    public struct MovSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When enabled, include 'clap' atom if appropriate for the video output settings.
         public let clapAtom: MovClapAtom?
@@ -6860,7 +6860,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Mp2Settings: AWSShape {
+    public struct Mp2Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
@@ -6891,7 +6891,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Mp3Settings: AWSShape {
+    public struct Mp3Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
@@ -6932,7 +6932,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Mp4Settings: AWSShape {
+    public struct Mp4Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         public let cslgAtom: Mp4CslgAtom?
@@ -6967,7 +6967,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MpdSettings: AWSShape {
+    public struct MpdSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
@@ -6989,7 +6989,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Mpeg2Settings: AWSShape {
+    public struct Mpeg2Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: Mpeg2AdaptiveQuantization?
@@ -7152,7 +7152,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MsSmoothAdditionalManifest: AWSShape {
+    public struct MsSmoothAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your Microsoft Smooth group is film-name.ismv. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.ismv.
         public let manifestNameModifier: String?
@@ -7177,7 +7177,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MsSmoothEncryptionSettings: AWSShape {
+    public struct MsSmoothEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
@@ -7195,7 +7195,7 @@ extension MediaConvert {
         }
     }
 
-    public struct MsSmoothGroupSettings: AWSShape {
+    public struct MsSmoothGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// By default, the service creates one .ism Microsoft Smooth Streaming manifest for each Microsoft Smooth Streaming output group in your job. This default manifest references every output in the output group. To create additional manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [MsSmoothAdditionalManifest]?
@@ -7244,7 +7244,7 @@ extension MediaConvert {
         }
     }
 
-    public struct NielsenConfiguration: AWSShape {
+    public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
         public let breakoutCode: Int?
@@ -7267,7 +7267,7 @@ extension MediaConvert {
         }
     }
 
-    public struct NoiseReducer: AWSShape {
+    public struct NoiseReducer: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
         public let filter: NoiseReducerFilter?
@@ -7299,7 +7299,7 @@ extension MediaConvert {
         }
     }
 
-    public struct NoiseReducerFilterSettings: AWSShape {
+    public struct NoiseReducerFilterSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Relative strength of noise reducing filter. Higher values produce stronger filtering.
         public let strength: Int?
@@ -7318,7 +7318,7 @@ extension MediaConvert {
         }
     }
 
-    public struct NoiseReducerSpatialFilterSettings: AWSShape {
+    public struct NoiseReducerSpatialFilterSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify strength of post noise reduction sharpening filter, with 0 disabling the filter and 3 enabling it at maximum strength.
         public let postFilterSharpenStrength: Int?
@@ -7349,7 +7349,7 @@ extension MediaConvert {
         }
     }
 
-    public struct NoiseReducerTemporalFilterSettings: AWSShape {
+    public struct NoiseReducerTemporalFilterSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
         public let aggressiveMode: Int?
@@ -7380,7 +7380,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Output: AWSShape {
+    public struct Output: AWSEncodableShape & AWSDecodableShape {
 
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
@@ -7435,7 +7435,7 @@ extension MediaConvert {
         }
     }
 
-    public struct OutputChannelMapping: AWSShape {
+    public struct OutputChannelMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// List of input channels
         public let inputChannels: [Int]?
@@ -7456,7 +7456,7 @@ extension MediaConvert {
         }
     }
 
-    public struct OutputDetail: AWSShape {
+    public struct OutputDetail: AWSDecodableShape {
 
         /// Duration in milliseconds
         public let durationInMs: Int?
@@ -7474,7 +7474,7 @@ extension MediaConvert {
         }
     }
 
-    public struct OutputGroup: AWSShape {
+    public struct OutputGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Custom Group Name (CustomName) to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
         public let customName: String?
@@ -7507,7 +7507,7 @@ extension MediaConvert {
         }
     }
 
-    public struct OutputGroupDetail: AWSShape {
+    public struct OutputGroupDetail: AWSDecodableShape {
 
         /// Details about the output
         public let outputDetails: [OutputDetail]?
@@ -7521,7 +7521,7 @@ extension MediaConvert {
         }
     }
 
-    public struct OutputGroupSettings: AWSShape {
+    public struct OutputGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a single video, audio, or caption output.
         public let cmafGroupSettings: CmafGroupSettings?
@@ -7563,7 +7563,7 @@ extension MediaConvert {
         }
     }
 
-    public struct OutputSettings: AWSShape {
+    public struct OutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Settings for HLS output groups
         public let hlsSettings: HlsSettings?
@@ -7577,7 +7577,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Preset: AWSShape {
+    public struct Preset: AWSDecodableShape {
 
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -7619,7 +7619,7 @@ extension MediaConvert {
         }
     }
 
-    public struct PresetSettings: AWSShape {
+    public struct PresetSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
@@ -7656,7 +7656,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ProresSettings: AWSShape {
+    public struct ProresSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec to use for this output.
         public let codecProfile: ProresCodecProfile?
@@ -7723,7 +7723,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Queue: AWSShape {
+    public struct Queue: AWSDecodableShape {
 
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -7777,7 +7777,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Rectangle: AWSShape {
+    public struct Rectangle: AWSEncodableShape & AWSDecodableShape {
 
         /// Height of rectangle in pixels. Specify only even numbers.
         public let height: Int?
@@ -7814,7 +7814,7 @@ extension MediaConvert {
         }
     }
 
-    public struct RemixSettings: AWSShape {
+    public struct RemixSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Channel mapping (ChannelMapping) contains the group of fields that hold the remixing value for each channel. Units are in dB. Acceptable values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification).
         public let channelMapping: ChannelMapping?
@@ -7844,7 +7844,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ReservationPlan: AWSShape {
+    public struct ReservationPlan: AWSDecodableShape {
 
         /// The length of the term of your reserved queue pricing plan commitment.
         public let commitment: Commitment?
@@ -7878,7 +7878,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ReservationPlanSettings: AWSShape {
+    public struct ReservationPlanSettings: AWSEncodableShape {
 
         /// The length of the term of your reserved queue pricing plan commitment.
         public let commitment: Commitment
@@ -7900,7 +7900,7 @@ extension MediaConvert {
         }
     }
 
-    public struct ResourceTags: AWSShape {
+    public struct ResourceTags: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -7918,7 +7918,7 @@ extension MediaConvert {
         }
     }
 
-    public struct S3DestinationAccessControl: AWSShape {
+    public struct S3DestinationAccessControl: AWSEncodableShape & AWSDecodableShape {
 
         /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
         public let cannedAcl: S3ObjectCannedAcl?
@@ -7932,7 +7932,7 @@ extension MediaConvert {
         }
     }
 
-    public struct S3DestinationSettings: AWSShape {
+    public struct S3DestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional. Have MediaConvert automatically apply Amazon S3 access control for the outputs in this output group. When you don't use this setting, S3 automatically applies the default access control list PRIVATE.
         public let accessControl: S3DestinationAccessControl?
@@ -7954,7 +7954,7 @@ extension MediaConvert {
         }
     }
 
-    public struct S3EncryptionSettings: AWSShape {
+    public struct S3EncryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3 (SERVER_SIDE_ENCRYPTION_S3). If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
         public let encryptionType: S3ServerSideEncryptionType?
@@ -7976,7 +7976,7 @@ extension MediaConvert {
         }
     }
 
-    public struct SccDestinationSettings: AWSShape {
+    public struct SccDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Set Framerate (SccDestinationFramerate) to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe (FRAMERATE_29_97_DROPFRAME) only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe (FRAMERATE_29_97_NON_DROPFRAME).
         public let framerate: SccDestinationFramerate?
@@ -7990,7 +7990,7 @@ extension MediaConvert {
         }
     }
 
-    public struct SpekeKeyProvider: AWSShape {
+    public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public let certificateArn: String?
@@ -8025,7 +8025,7 @@ extension MediaConvert {
         }
     }
 
-    public struct SpekeKeyProviderCmaf: AWSShape {
+    public struct SpekeKeyProviderCmaf: AWSEncodableShape & AWSDecodableShape {
 
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public let certificateArn: String?
@@ -8071,7 +8071,7 @@ extension MediaConvert {
         }
     }
 
-    public struct StaticKeyProvider: AWSShape {
+    public struct StaticKeyProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// Relates to DRM implementation. Sets the value of the KEYFORMAT attribute. Must be 'identity' or a reverse DNS string. May be omitted to indicate an implicit value of 'identity'.
         public let keyFormat: String?
@@ -8103,7 +8103,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
         public let arn: String
@@ -8121,7 +8121,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8129,7 +8129,7 @@ extension MediaConvert {
 
     }
 
-    public struct TeletextDestinationSettings: AWSShape {
+    public struct TeletextDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
         public let pageNumber: String?
@@ -8153,7 +8153,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TeletextSourceSettings: AWSShape {
+    public struct TeletextSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Page Number (PageNumber) to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
         public let pageNumber: String?
@@ -8173,7 +8173,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TimecodeBurnin: AWSShape {
+    public struct TimecodeBurnin: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Font Size (FontSize) to set the font size of any burned-in timecode. Valid values are 10, 16, 32, 48.
         public let fontSize: Int?
@@ -8201,7 +8201,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TimecodeConfig: AWSShape {
+    public struct TimecodeConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// If you use an editing platform that relies on an anchor timecode, use Anchor Timecode (Anchor) to specify a timecode that will match the input video frame to the output video frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame rate conversion. System behavior for Anchor Timecode varies depending on your setting for Source (TimecodeSource). * If Source (TimecodeSource) is set to Specified Start (SPECIFIEDSTART), the first input frame is the specified value in Start Timecode (Start). Anchor Timecode (Anchor) and Start Timecode (Start) are used calculate output timecode. * If Source (TimecodeSource) is set to Start at 0 (ZEROBASED)  the  first frame is 00:00:00:00. * If Source (TimecodeSource) is set to Embedded (EMBEDDED), the  first frame is the timecode value on the first input frame of the input.
         public let anchor: String?
@@ -8233,7 +8233,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TimedMetadataInsertion: AWSShape {
+    public struct TimedMetadataInsertion: AWSEncodableShape & AWSDecodableShape {
 
         /// Id3Insertions contains the array of Id3Insertion instances.
         public let id3Insertions: [Id3Insertion]?
@@ -8253,7 +8253,7 @@ extension MediaConvert {
         }
     }
 
-    public struct Timing: AWSShape {
+    public struct Timing: AWSDecodableShape {
 
         /// The time, in Unix epoch format, that the transcoding job finished
         public let finishTime: TimeStamp?
@@ -8275,7 +8275,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TrackSourceSettings: AWSShape {
+    public struct TrackSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
         public let trackNumber: Int?
@@ -8294,7 +8294,7 @@ extension MediaConvert {
         }
     }
 
-    public struct TtmlDestinationSettings: AWSShape {
+    public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
@@ -8308,7 +8308,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
@@ -8329,7 +8329,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8337,7 +8337,7 @@ extension MediaConvert {
 
     }
 
-    public struct UpdateJobTemplateRequest: AWSShape {
+    public struct UpdateJobTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -8388,7 +8388,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UpdateJobTemplateResponse: AWSShape {
+    public struct UpdateJobTemplateResponse: AWSDecodableShape {
 
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
@@ -8402,7 +8402,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UpdatePresetRequest: AWSShape {
+    public struct UpdatePresetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -8435,7 +8435,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UpdatePresetResponse: AWSShape {
+    public struct UpdatePresetResponse: AWSDecodableShape {
 
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
@@ -8449,7 +8449,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UpdateQueueRequest: AWSShape {
+    public struct UpdateQueueRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -8478,7 +8478,7 @@ extension MediaConvert {
         }
     }
 
-    public struct UpdateQueueResponse: AWSShape {
+    public struct UpdateQueueResponse: AWSDecodableShape {
 
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
@@ -8492,7 +8492,7 @@ extension MediaConvert {
         }
     }
 
-    public struct VideoCodecSettings: AWSShape {
+    public struct VideoCodecSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
         public let av1Settings: Av1Settings?
@@ -8539,7 +8539,7 @@ extension MediaConvert {
         }
     }
 
-    public struct VideoDescription: AWSShape {
+    public struct VideoDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling (AfdSignaling) to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
         public let afdSignaling: AfdSignaling?
@@ -8624,7 +8624,7 @@ extension MediaConvert {
         }
     }
 
-    public struct VideoDetail: AWSShape {
+    public struct VideoDetail: AWSDecodableShape {
 
         /// Height in pixels for the output
         public let heightInPx: Int?
@@ -8642,7 +8642,7 @@ extension MediaConvert {
         }
     }
 
-    public struct VideoPreprocessor: AWSShape {
+    public struct VideoPreprocessor: AWSEncodableShape & AWSDecodableShape {
 
         /// Enable the Color corrector (ColorCorrector) feature if necessary. Enable or disable this feature for each output individually. This setting is disabled by default.
         public let colorCorrector: ColorCorrector?
@@ -8684,7 +8684,7 @@ extension MediaConvert {
         }
     }
 
-    public struct VideoSelector: AWSShape {
+    public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
         public let alphaBehavior: AlphaBehavior?
@@ -8730,7 +8730,7 @@ extension MediaConvert {
         }
     }
 
-    public struct WavSettings: AWSShape {
+    public struct WavSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?

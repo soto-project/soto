@@ -54,7 +54,7 @@ extension IoTEvents {
 
     //MARK: Shapes
 
-    public struct Action: AWSShape {
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
 
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
@@ -116,7 +116,7 @@ extension IoTEvents {
         }
     }
 
-    public struct Attribute: AWSShape {
+    public struct Attribute: AWSEncodableShape & AWSDecodableShape {
 
         /// An expression that specifies an attribute-value pair in a JSON structure. Use this to specify an attribute from the JSON payload that is made available by the input. Inputs are derived from messages sent to AWS IoT Events (BatchPutMessage). Each such message contains a JSON payload. The attribute (and its paired value) specified here are available for use in the condition expressions used by detectors.  Syntax: &lt;field-name&gt;.&lt;field-name&gt;... 
         public let jsonPath: String
@@ -136,7 +136,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ClearTimerAction: AWSShape {
+    public struct ClearTimerAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the timer to clear.
         public let timerName: String
@@ -155,7 +155,7 @@ extension IoTEvents {
         }
     }
 
-    public struct CreateDetectorModelRequest: AWSShape {
+    public struct CreateDetectorModelRequest: AWSEncodableShape {
 
         /// Information that defines how the detectors operate.
         public let detectorModelDefinition: DetectorModelDefinition
@@ -209,7 +209,7 @@ extension IoTEvents {
         }
     }
 
-    public struct CreateDetectorModelResponse: AWSShape {
+    public struct CreateDetectorModelResponse: AWSDecodableShape {
 
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
@@ -223,7 +223,7 @@ extension IoTEvents {
         }
     }
 
-    public struct CreateInputRequest: AWSShape {
+    public struct CreateInputRequest: AWSEncodableShape {
 
         /// The definition of the input.
         public let inputDefinition: InputDefinition
@@ -260,7 +260,7 @@ extension IoTEvents {
         }
     }
 
-    public struct CreateInputResponse: AWSShape {
+    public struct CreateInputResponse: AWSDecodableShape {
 
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?
@@ -274,7 +274,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DeleteDetectorModelRequest: AWSShape {
+    public struct DeleteDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
         ]
@@ -297,7 +297,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DeleteDetectorModelResponse: AWSShape {
+    public struct DeleteDetectorModelResponse: AWSDecodableShape {
 
 
         public init() {
@@ -305,7 +305,7 @@ extension IoTEvents {
 
     }
 
-    public struct DeleteInputRequest: AWSShape {
+    public struct DeleteInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
         ]
@@ -328,7 +328,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DeleteInputResponse: AWSShape {
+    public struct DeleteInputResponse: AWSDecodableShape {
 
 
         public init() {
@@ -336,7 +336,7 @@ extension IoTEvents {
 
     }
 
-    public struct DescribeDetectorModelRequest: AWSShape {
+    public struct DescribeDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
             AWSMemberEncoding(label: "detectorModelVersion", location: .querystring(locationName: "version"))
@@ -366,7 +366,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DescribeDetectorModelResponse: AWSShape {
+    public struct DescribeDetectorModelResponse: AWSDecodableShape {
 
         /// Information about the detector model.
         public let detectorModel: DetectorModel?
@@ -380,7 +380,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DescribeInputRequest: AWSShape {
+    public struct DescribeInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
         ]
@@ -403,7 +403,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DescribeInputResponse: AWSShape {
+    public struct DescribeInputResponse: AWSDecodableShape {
 
         /// Information about the input.
         public let input: Input?
@@ -417,7 +417,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DescribeLoggingOptionsRequest: AWSShape {
+    public struct DescribeLoggingOptionsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -425,7 +425,7 @@ extension IoTEvents {
 
     }
 
-    public struct DescribeLoggingOptionsResponse: AWSShape {
+    public struct DescribeLoggingOptionsResponse: AWSDecodableShape {
 
         /// The current settings of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions?
@@ -439,7 +439,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DetectorDebugOption: AWSShape {
+    public struct DetectorDebugOption: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the detector model.
         public let detectorModelName: String
@@ -466,7 +466,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DetectorModel: AWSShape {
+    public struct DetectorModel: AWSDecodableShape {
 
         /// Information about how the detector is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
@@ -484,7 +484,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DetectorModelConfiguration: AWSShape {
+    public struct DetectorModelConfiguration: AWSDecodableShape {
 
         /// The time the detector model was created.
         public let creationTime: TimeStamp?
@@ -534,7 +534,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DetectorModelDefinition: AWSShape {
+    public struct DetectorModelDefinition: AWSEncodableShape & AWSDecodableShape {
 
         /// The state that is entered at the creation of each detector (instance).
         public let initialStateName: String
@@ -561,7 +561,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DetectorModelSummary: AWSShape {
+    public struct DetectorModelSummary: AWSDecodableShape {
 
         /// The time the detector model was created.
         public let creationTime: TimeStamp?
@@ -583,7 +583,7 @@ extension IoTEvents {
         }
     }
 
-    public struct DetectorModelVersionSummary: AWSShape {
+    public struct DetectorModelVersionSummary: AWSDecodableShape {
 
         /// The time the detector model version was created.
         public let creationTime: TimeStamp?
@@ -625,7 +625,7 @@ extension IoTEvents {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSEncodableShape & AWSDecodableShape {
 
         /// The actions to be performed.
         public let actions: [Action]?
@@ -655,7 +655,7 @@ extension IoTEvents {
         }
     }
 
-    public struct FirehoseAction: AWSShape {
+    public struct FirehoseAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the Kinesis Data Firehose delivery stream where the data is written.
         public let deliveryStreamName: String
@@ -677,7 +677,7 @@ extension IoTEvents {
         }
     }
 
-    public struct Input: AWSShape {
+    public struct Input: AWSDecodableShape {
 
         /// Information about the configuration of an input.
         public let inputConfiguration: InputConfiguration?
@@ -695,7 +695,7 @@ extension IoTEvents {
         }
     }
 
-    public struct InputConfiguration: AWSShape {
+    public struct InputConfiguration: AWSDecodableShape {
 
         /// The time the input was created.
         public let creationTime: TimeStamp
@@ -729,7 +729,7 @@ extension IoTEvents {
         }
     }
 
-    public struct InputDefinition: AWSShape {
+    public struct InputDefinition: AWSEncodableShape & AWSDecodableShape {
 
         /// The attributes from the JSON payload that are made available by the input. Inputs are derived from messages sent to the AWS IoT Events system using BatchPutMessage. Each such message contains a JSON payload, and those attributes (and their paired values) specified here are available for use in the condition expressions used by detectors that monitor this input. 
         public let attributes: [Attribute]
@@ -751,7 +751,7 @@ extension IoTEvents {
         }
     }
 
-    public struct InputSummary: AWSShape {
+    public struct InputSummary: AWSDecodableShape {
 
         /// The time the input was created.
         public let creationTime: TimeStamp?
@@ -785,7 +785,7 @@ extension IoTEvents {
         }
     }
 
-    public struct IotEventsAction: AWSShape {
+    public struct IotEventsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the AWS IoT Events input where the data is sent.
         public let inputName: String
@@ -805,7 +805,7 @@ extension IoTEvents {
         }
     }
 
-    public struct IotTopicPublishAction: AWSShape {
+    public struct IotTopicPublishAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The MQTT topic of the message. You can use a string expression that includes variables ($variable.&lt;variable-name&gt;) and input values ($input.&lt;input-name&gt;.&lt;path-to-datum&gt;) as the topic string.
         public let mqttTopic: String
@@ -824,7 +824,7 @@ extension IoTEvents {
         }
     }
 
-    public struct LambdaAction: AWSShape {
+    public struct LambdaAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the Lambda function that is executed.
         public let functionArn: String
@@ -843,7 +843,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListDetectorModelVersionsRequest: AWSShape {
+    public struct ListDetectorModelVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -878,7 +878,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListDetectorModelVersionsResponse: AWSShape {
+    public struct ListDetectorModelVersionsResponse: AWSDecodableShape {
 
         /// Summary information about the detector model versions.
         public let detectorModelVersionSummaries: [DetectorModelVersionSummary]?
@@ -896,7 +896,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListDetectorModelsRequest: AWSShape {
+    public struct ListDetectorModelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -923,7 +923,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListDetectorModelsResponse: AWSShape {
+    public struct ListDetectorModelsResponse: AWSDecodableShape {
 
         /// Summary information about the detector models.
         public let detectorModelSummaries: [DetectorModelSummary]?
@@ -941,7 +941,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListInputsRequest: AWSShape {
+    public struct ListInputsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -968,7 +968,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListInputsResponse: AWSShape {
+    public struct ListInputsResponse: AWSDecodableShape {
 
         /// Summary information about the inputs.
         public let inputSummaries: [InputSummary]?
@@ -986,7 +986,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
@@ -1008,7 +1008,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
@@ -1022,7 +1022,7 @@ extension IoTEvents {
         }
     }
 
-    public struct LoggingOptions: AWSShape {
+    public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Information that identifies those detector models and their detectors (instances) for which the logging level is given.
         public let detectorDebugOptions: [DetectorDebugOption]?
@@ -1057,7 +1057,7 @@ extension IoTEvents {
         }
     }
 
-    public struct OnEnterLifecycle: AWSShape {
+    public struct OnEnterLifecycle: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the actions that are performed when the state is entered and the condition is TRUE.
         public let events: [Event]?
@@ -1077,7 +1077,7 @@ extension IoTEvents {
         }
     }
 
-    public struct OnExitLifecycle: AWSShape {
+    public struct OnExitLifecycle: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the actions that are performed when the state is exited and the condition is TRUE.
         public let events: [Event]?
@@ -1097,7 +1097,7 @@ extension IoTEvents {
         }
     }
 
-    public struct OnInputLifecycle: AWSShape {
+    public struct OnInputLifecycle: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the actions performed when the condition evaluates to TRUE.
         public let events: [Event]?
@@ -1124,7 +1124,7 @@ extension IoTEvents {
         }
     }
 
-    public struct PutLoggingOptionsRequest: AWSShape {
+    public struct PutLoggingOptionsRequest: AWSEncodableShape {
 
         /// The new values of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions
@@ -1142,7 +1142,7 @@ extension IoTEvents {
         }
     }
 
-    public struct ResetTimerAction: AWSShape {
+    public struct ResetTimerAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the timer to reset.
         public let timerName: String
@@ -1161,7 +1161,7 @@ extension IoTEvents {
         }
     }
 
-    public struct SNSTopicPublishAction: AWSShape {
+    public struct SNSTopicPublishAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the Amazon SNS target where the message is sent.
         public let targetArn: String
@@ -1180,7 +1180,7 @@ extension IoTEvents {
         }
     }
 
-    public struct SetTimerAction: AWSShape {
+    public struct SetTimerAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The duration of the timer, in seconds. You can use a string expression that includes numbers, variables ($variable.&lt;variable-name&gt;), and input values ($input.&lt;input-name&gt;.&lt;path-to-datum&gt;) as the duration. The range of the duration is 1-31622400 seconds. To ensure accuracy, the minimum duration is 60 seconds. The evaluated result of the duration is rounded down to the nearest whole number. 
         public let durationExpression: String?
@@ -1205,7 +1205,7 @@ extension IoTEvents {
         }
     }
 
-    public struct SetVariableAction: AWSShape {
+    public struct SetVariableAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The new value of the variable.
         public let value: String
@@ -1231,7 +1231,7 @@ extension IoTEvents {
         }
     }
 
-    public struct SqsAction: AWSShape {
+    public struct SqsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The URL of the SQS queue where the data is written.
         public let queueUrl: String
@@ -1249,7 +1249,7 @@ extension IoTEvents {
         }
     }
 
-    public struct State: AWSShape {
+    public struct State: AWSEncodableShape & AWSDecodableShape {
 
         /// When entering this state, perform these actions if the condition is TRUE.
         public let onEnter: OnEnterLifecycle?
@@ -1283,7 +1283,7 @@ extension IoTEvents {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag's key.
         public let key: String
@@ -1308,7 +1308,7 @@ extension IoTEvents {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
@@ -1337,7 +1337,7 @@ extension IoTEvents {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1345,7 +1345,7 @@ extension IoTEvents {
 
     }
 
-    public struct TransitionEvent: AWSShape {
+    public struct TransitionEvent: AWSEncodableShape & AWSDecodableShape {
 
         /// The actions to be performed.
         public let actions: [Action]?
@@ -1381,7 +1381,7 @@ extension IoTEvents {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1412,7 +1412,7 @@ extension IoTEvents {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1420,7 +1420,7 @@ extension IoTEvents {
 
     }
 
-    public struct UpdateDetectorModelRequest: AWSShape {
+    public struct UpdateDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
         ]
@@ -1463,7 +1463,7 @@ extension IoTEvents {
         }
     }
 
-    public struct UpdateDetectorModelResponse: AWSShape {
+    public struct UpdateDetectorModelResponse: AWSDecodableShape {
 
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
@@ -1477,7 +1477,7 @@ extension IoTEvents {
         }
     }
 
-    public struct UpdateInputRequest: AWSShape {
+    public struct UpdateInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputName", location: .uri(locationName: "inputName"))
         ]
@@ -1510,7 +1510,7 @@ extension IoTEvents {
         }
     }
 
-    public struct UpdateInputResponse: AWSShape {
+    public struct UpdateInputResponse: AWSDecodableShape {
 
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?

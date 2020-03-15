@@ -1,5 +1,5 @@
 {# Template for a AWSShape #}
-    public {{struct.object}} {{struct.name}}: AWSShape {
+    public {{struct.object}} {{struct.name}}: {{struct.shapeProtocol}} {
 {%if struct.payload %}
         /// The key for the payload
         public static let payloadPath: String? = "{{struct.payload}}"

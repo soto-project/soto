@@ -233,7 +233,7 @@ extension AlexaForBusiness {
 
     //MARK: Shapes
 
-    public struct AddressBook: AWSShape {
+    public struct AddressBook: AWSDecodableShape {
 
         /// The ARN of the address book.
         public let addressBookArn: String?
@@ -255,7 +255,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AddressBookData: AWSShape {
+    public struct AddressBookData: AWSDecodableShape {
 
         /// The ARN of the address book.
         public let addressBookArn: String?
@@ -277,7 +277,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ApproveSkillRequest: AWSShape {
+    public struct ApproveSkillRequest: AWSEncodableShape {
 
         /// The unique identifier of the skill.
         public let skillId: String
@@ -295,7 +295,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ApproveSkillResponse: AWSShape {
+    public struct ApproveSkillResponse: AWSDecodableShape {
 
 
         public init() {
@@ -303,7 +303,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct AssociateContactWithAddressBookRequest: AWSShape {
+    public struct AssociateContactWithAddressBookRequest: AWSEncodableShape {
 
         /// The ARN of the address book with which to associate the contact.
         public let addressBookArn: String
@@ -326,7 +326,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AssociateContactWithAddressBookResponse: AWSShape {
+    public struct AssociateContactWithAddressBookResponse: AWSDecodableShape {
 
 
         public init() {
@@ -334,7 +334,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct AssociateDeviceWithNetworkProfileRequest: AWSShape {
+    public struct AssociateDeviceWithNetworkProfileRequest: AWSEncodableShape {
 
         /// The device ARN.
         public let deviceArn: String
@@ -357,7 +357,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AssociateDeviceWithNetworkProfileResponse: AWSShape {
+    public struct AssociateDeviceWithNetworkProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -365,7 +365,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct AssociateDeviceWithRoomRequest: AWSShape {
+    public struct AssociateDeviceWithRoomRequest: AWSEncodableShape {
 
         /// The ARN of the device to associate to a room. Required.
         public let deviceArn: String?
@@ -388,7 +388,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AssociateDeviceWithRoomResponse: AWSShape {
+    public struct AssociateDeviceWithRoomResponse: AWSDecodableShape {
 
 
         public init() {
@@ -396,7 +396,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct AssociateSkillGroupWithRoomRequest: AWSShape {
+    public struct AssociateSkillGroupWithRoomRequest: AWSEncodableShape {
 
         /// The ARN of the room with which to associate the skill group. Required.
         public let roomArn: String?
@@ -419,7 +419,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AssociateSkillGroupWithRoomResponse: AWSShape {
+    public struct AssociateSkillGroupWithRoomResponse: AWSDecodableShape {
 
 
         public init() {
@@ -427,7 +427,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct AssociateSkillWithSkillGroupRequest: AWSShape {
+    public struct AssociateSkillWithSkillGroupRequest: AWSEncodableShape {
 
         /// The ARN of the skill group to associate the skill to. Required.
         public let skillGroupArn: String?
@@ -450,7 +450,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AssociateSkillWithSkillGroupResponse: AWSShape {
+    public struct AssociateSkillWithSkillGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -458,7 +458,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct AssociateSkillWithUsersRequest: AWSShape {
+    public struct AssociateSkillWithUsersRequest: AWSEncodableShape {
 
         /// The private skill ID you want to make available to enrolled users.
         public let skillId: String
@@ -476,7 +476,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct AssociateSkillWithUsersResponse: AWSShape {
+    public struct AssociateSkillWithUsersResponse: AWSDecodableShape {
 
 
         public init() {
@@ -484,7 +484,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct Audio: AWSShape {
+    public struct Audio: AWSEncodableShape {
 
         /// The locale of the audio message. Currently, en-US is supported.
         public let locale: Locale
@@ -508,7 +508,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct BusinessReport: AWSShape {
+    public struct BusinessReport: AWSDecodableShape {
 
         /// The time of report delivery.
         public let deliveryTime: TimeStamp?
@@ -538,7 +538,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct BusinessReportContentRange: AWSShape {
+    public struct BusinessReportContentRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The interval of the content range.
         public let interval: BusinessReportInterval?
@@ -552,7 +552,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct BusinessReportRecurrence: AWSShape {
+    public struct BusinessReportRecurrence: AWSEncodableShape & AWSDecodableShape {
 
         /// The start date.
         public let startDate: String?
@@ -570,7 +570,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct BusinessReportS3Location: AWSShape {
+    public struct BusinessReportS3Location: AWSDecodableShape {
 
         /// The S3 bucket name of the output reports.
         public let bucketName: String?
@@ -588,7 +588,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct BusinessReportSchedule: AWSShape {
+    public struct BusinessReportSchedule: AWSDecodableShape {
 
         /// The content range of the reports.
         public let contentRange: BusinessReportContentRange?
@@ -630,7 +630,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Category: AWSShape {
+    public struct Category: AWSDecodableShape {
 
         /// The ID of the skill store category.
         public let categoryId: Int64?
@@ -648,7 +648,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ConferencePreference: AWSShape {
+    public struct ConferencePreference: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the default conference provider.
         public let defaultConferenceProviderArn: String?
@@ -666,7 +666,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ConferenceProvider: AWSShape {
+    public struct ConferenceProvider: AWSDecodableShape {
 
         /// The ARN of the newly created conference provider.
         public let arn: String?
@@ -700,7 +700,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Contact: AWSShape {
+    public struct Contact: AWSDecodableShape {
 
         /// The ARN of the contact.
         public let contactArn: String?
@@ -738,7 +738,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ContactData: AWSShape {
+    public struct ContactData: AWSDecodableShape {
 
         /// The ARN of the contact.
         public let contactArn: String?
@@ -776,7 +776,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Content: AWSShape {
+    public struct Content: AWSEncodableShape {
 
         /// The list of audio messages.
         public let audioList: [Audio]?
@@ -813,7 +813,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateAddressBookRequest: AWSShape {
+    public struct CreateAddressBookRequest: AWSEncodableShape {
 
         /// A unique, user-specified identifier for the request that ensures idempotency.
         public let clientRequestToken: String?
@@ -847,7 +847,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateAddressBookResponse: AWSShape {
+    public struct CreateAddressBookResponse: AWSDecodableShape {
 
         /// The ARN of the newly created address book.
         public let addressBookArn: String?
@@ -861,7 +861,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateBusinessReportScheduleRequest: AWSShape {
+    public struct CreateBusinessReportScheduleRequest: AWSEncodableShape {
 
         /// The client request token.
         public let clientRequestToken: String?
@@ -913,7 +913,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateBusinessReportScheduleResponse: AWSShape {
+    public struct CreateBusinessReportScheduleResponse: AWSDecodableShape {
 
         /// The ARN of the business report schedule.
         public let scheduleArn: String?
@@ -927,7 +927,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateConferenceProviderRequest: AWSShape {
+    public struct CreateConferenceProviderRequest: AWSEncodableShape {
 
         /// The request token of the client.
         public let clientRequestToken: String?
@@ -972,7 +972,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateConferenceProviderResponse: AWSShape {
+    public struct CreateConferenceProviderResponse: AWSDecodableShape {
 
         /// The ARN of the newly-created conference provider.
         public let conferenceProviderArn: String?
@@ -986,7 +986,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateContactRequest: AWSShape {
+    public struct CreateContactRequest: AWSEncodableShape {
 
         /// A unique, user-specified identifier for this request that ensures idempotency.
         public let clientRequestToken: String?
@@ -1052,7 +1052,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateContactResponse: AWSShape {
+    public struct CreateContactResponse: AWSDecodableShape {
 
         /// The ARN of the newly created address book.
         public let contactArn: String?
@@ -1066,7 +1066,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateEndOfMeetingReminder: AWSShape {
+    public struct CreateEndOfMeetingReminder: AWSEncodableShape {
 
         /// Whether an end of meeting reminder is enabled or not.
         public let enabled: Bool
@@ -1093,7 +1093,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateGatewayGroupRequest: AWSShape {
+    public struct CreateGatewayGroupRequest: AWSEncodableShape {
 
         ///  A unique, user-specified identifier for the request that ensures idempotency.
         public let clientRequestToken: String
@@ -1126,7 +1126,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateGatewayGroupResponse: AWSShape {
+    public struct CreateGatewayGroupResponse: AWSDecodableShape {
 
         /// The ARN of the created gateway group.
         public let gatewayGroupArn: String?
@@ -1140,7 +1140,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateInstantBooking: AWSShape {
+    public struct CreateInstantBooking: AWSEncodableShape {
 
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         public let durationInMinutes: Int
@@ -1158,7 +1158,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateMeetingRoomConfiguration: AWSShape {
+    public struct CreateMeetingRoomConfiguration: AWSEncodableShape {
 
         public let endOfMeetingReminder: CreateEndOfMeetingReminder?
         /// Settings to automatically book a room for a configured duration if it's free when joining a meeting with Alexa.
@@ -1187,7 +1187,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateNetworkProfileRequest: AWSShape {
+    public struct CreateNetworkProfileRequest: AWSEncodableShape {
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
         public let certificateAuthorityArn: String?
@@ -1263,7 +1263,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateNetworkProfileResponse: AWSShape {
+    public struct CreateNetworkProfileResponse: AWSDecodableShape {
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String?
@@ -1277,7 +1277,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateProfileRequest: AWSShape {
+    public struct CreateProfileRequest: AWSEncodableShape {
 
         /// The valid address for the room.
         public let address: String
@@ -1351,7 +1351,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateProfileResponse: AWSShape {
+    public struct CreateProfileResponse: AWSDecodableShape {
 
         /// The ARN of the newly created room profile in the response.
         public let profileArn: String?
@@ -1365,7 +1365,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateRequireCheckIn: AWSShape {
+    public struct CreateRequireCheckIn: AWSEncodableShape {
 
         /// Whether require check in is enabled or not.
         public let enabled: Bool
@@ -1383,7 +1383,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateRoomRequest: AWSShape {
+    public struct CreateRoomRequest: AWSEncodableShape {
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
         public let clientRequestToken: String?
@@ -1435,7 +1435,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateRoomResponse: AWSShape {
+    public struct CreateRoomResponse: AWSDecodableShape {
 
         /// The ARN of the newly created room in the response.
         public let roomArn: String?
@@ -1449,7 +1449,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateSkillGroupRequest: AWSShape {
+    public struct CreateSkillGroupRequest: AWSEncodableShape {
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
         public let clientRequestToken: String?
@@ -1483,7 +1483,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateSkillGroupResponse: AWSShape {
+    public struct CreateSkillGroupResponse: AWSDecodableShape {
 
         /// The ARN of the newly created skill group in the response.
         public let skillGroupArn: String?
@@ -1497,7 +1497,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
 
         /// A unique, user-specified identifier for this request that ensures idempotency. 
         public let clientRequestToken: String?
@@ -1552,7 +1552,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
         /// The ARN of the newly created user in the response.
         public let userArn: String?
@@ -1566,7 +1566,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteAddressBookRequest: AWSShape {
+    public struct DeleteAddressBookRequest: AWSEncodableShape {
 
         /// The ARN of the address book to delete.
         public let addressBookArn: String
@@ -1584,7 +1584,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteAddressBookResponse: AWSShape {
+    public struct DeleteAddressBookResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1592,7 +1592,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteBusinessReportScheduleRequest: AWSShape {
+    public struct DeleteBusinessReportScheduleRequest: AWSEncodableShape {
 
         /// The ARN of the business report schedule.
         public let scheduleArn: String
@@ -1610,7 +1610,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteBusinessReportScheduleResponse: AWSShape {
+    public struct DeleteBusinessReportScheduleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1618,7 +1618,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteConferenceProviderRequest: AWSShape {
+    public struct DeleteConferenceProviderRequest: AWSEncodableShape {
 
         /// The ARN of the conference provider.
         public let conferenceProviderArn: String
@@ -1636,7 +1636,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteConferenceProviderResponse: AWSShape {
+    public struct DeleteConferenceProviderResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1644,7 +1644,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteContactRequest: AWSShape {
+    public struct DeleteContactRequest: AWSEncodableShape {
 
         /// The ARN of the contact to delete.
         public let contactArn: String
@@ -1662,7 +1662,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteContactResponse: AWSShape {
+    public struct DeleteContactResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1670,7 +1670,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteDeviceRequest: AWSShape {
+    public struct DeleteDeviceRequest: AWSEncodableShape {
 
         /// The ARN of the device for which to request details.
         public let deviceArn: String
@@ -1688,7 +1688,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteDeviceResponse: AWSShape {
+    public struct DeleteDeviceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1696,7 +1696,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteDeviceUsageDataRequest: AWSShape {
+    public struct DeleteDeviceUsageDataRequest: AWSEncodableShape {
 
         /// The ARN of the device.
         public let deviceArn: String
@@ -1718,7 +1718,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteDeviceUsageDataResponse: AWSShape {
+    public struct DeleteDeviceUsageDataResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1726,7 +1726,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteGatewayGroupRequest: AWSShape {
+    public struct DeleteGatewayGroupRequest: AWSEncodableShape {
 
         /// The ARN of the gateway group to delete.
         public let gatewayGroupArn: String
@@ -1744,7 +1744,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteGatewayGroupResponse: AWSShape {
+    public struct DeleteGatewayGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1752,7 +1752,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteNetworkProfileRequest: AWSShape {
+    public struct DeleteNetworkProfileRequest: AWSEncodableShape {
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String
@@ -1770,7 +1770,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteNetworkProfileResponse: AWSShape {
+    public struct DeleteNetworkProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1778,7 +1778,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteProfileRequest: AWSShape {
+    public struct DeleteProfileRequest: AWSEncodableShape {
 
         /// The ARN of the room profile to delete. Required.
         public let profileArn: String?
@@ -1796,7 +1796,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteProfileResponse: AWSShape {
+    public struct DeleteProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1804,7 +1804,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteRoomRequest: AWSShape {
+    public struct DeleteRoomRequest: AWSEncodableShape {
 
         /// The ARN of the room to delete. Required.
         public let roomArn: String?
@@ -1822,7 +1822,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteRoomResponse: AWSShape {
+    public struct DeleteRoomResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1830,7 +1830,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteRoomSkillParameterRequest: AWSShape {
+    public struct DeleteRoomSkillParameterRequest: AWSEncodableShape {
 
         /// The room skill parameter key for which to remove details.
         public let parameterKey: String
@@ -1859,7 +1859,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteRoomSkillParameterResponse: AWSShape {
+    public struct DeleteRoomSkillParameterResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1867,7 +1867,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteSkillAuthorizationRequest: AWSShape {
+    public struct DeleteSkillAuthorizationRequest: AWSEncodableShape {
 
         /// The room that the skill is authorized for.
         public let roomArn: String?
@@ -1890,7 +1890,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteSkillAuthorizationResponse: AWSShape {
+    public struct DeleteSkillAuthorizationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1898,7 +1898,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteSkillGroupRequest: AWSShape {
+    public struct DeleteSkillGroupRequest: AWSEncodableShape {
 
         /// The ARN of the skill group to delete. Required.
         public let skillGroupArn: String?
@@ -1916,7 +1916,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteSkillGroupResponse: AWSShape {
+    public struct DeleteSkillGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1924,7 +1924,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
 
         /// The ARN of the user's enrollment in the organization. Required.
         public let enrollmentId: String
@@ -1948,7 +1948,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeleteUserResponse: AWSShape {
+    public struct DeleteUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1956,7 +1956,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DeveloperInfo: AWSShape {
+    public struct DeveloperInfo: AWSDecodableShape {
 
         /// The name of the developer.
         public let developerName: String?
@@ -1982,7 +1982,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Device: AWSShape {
+    public struct Device: AWSDecodableShape {
 
         /// The ARN of a device.
         public let deviceArn: String?
@@ -2032,7 +2032,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeviceData: AWSShape {
+    public struct DeviceData: AWSDecodableShape {
 
         /// The time (in epoch) when the device data was created.
         public let createdTime: TimeStamp?
@@ -2094,7 +2094,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeviceEvent: AWSShape {
+    public struct DeviceEvent: AWSDecodableShape {
 
         /// The time (in epoch) when the event occurred. 
         public let timestamp: TimeStamp?
@@ -2116,7 +2116,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeviceNetworkProfileInfo: AWSShape {
+    public struct DeviceNetworkProfileInfo: AWSDecodableShape {
 
         /// The ARN of the certificate associated with a device.
         public let certificateArn: String?
@@ -2138,7 +2138,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeviceStatusDetail: AWSShape {
+    public struct DeviceStatusDetail: AWSDecodableShape {
 
         /// The device status detail code.
         public let code: DeviceStatusDetailCode?
@@ -2156,7 +2156,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DeviceStatusInfo: AWSShape {
+    public struct DeviceStatusInfo: AWSDecodableShape {
 
         /// The latest available information about the connection status of a device. 
         public let connectionStatus: ConnectionStatus?
@@ -2178,7 +2178,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DisassociateContactFromAddressBookRequest: AWSShape {
+    public struct DisassociateContactFromAddressBookRequest: AWSEncodableShape {
 
         /// The ARN of the address from which to disassociate the contact.
         public let addressBookArn: String
@@ -2201,7 +2201,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DisassociateContactFromAddressBookResponse: AWSShape {
+    public struct DisassociateContactFromAddressBookResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2209,7 +2209,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DisassociateDeviceFromRoomRequest: AWSShape {
+    public struct DisassociateDeviceFromRoomRequest: AWSEncodableShape {
 
         /// The ARN of the device to disassociate from a room. Required.
         public let deviceArn: String?
@@ -2227,7 +2227,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DisassociateDeviceFromRoomResponse: AWSShape {
+    public struct DisassociateDeviceFromRoomResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2235,7 +2235,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DisassociateSkillFromSkillGroupRequest: AWSShape {
+    public struct DisassociateSkillFromSkillGroupRequest: AWSEncodableShape {
 
         /// The unique identifier of a skill. Required.
         public let skillGroupArn: String?
@@ -2258,7 +2258,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DisassociateSkillFromSkillGroupResponse: AWSShape {
+    public struct DisassociateSkillFromSkillGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2266,7 +2266,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DisassociateSkillFromUsersRequest: AWSShape {
+    public struct DisassociateSkillFromUsersRequest: AWSEncodableShape {
 
         ///  The private skill ID you want to make unavailable for enrolled users.
         public let skillId: String
@@ -2284,7 +2284,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DisassociateSkillFromUsersResponse: AWSShape {
+    public struct DisassociateSkillFromUsersResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2292,7 +2292,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct DisassociateSkillGroupFromRoomRequest: AWSShape {
+    public struct DisassociateSkillGroupFromRoomRequest: AWSEncodableShape {
 
         /// The ARN of the room from which the skill group is to be disassociated. Required.
         public let roomArn: String?
@@ -2315,7 +2315,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct DisassociateSkillGroupFromRoomResponse: AWSShape {
+    public struct DisassociateSkillGroupFromRoomResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2323,7 +2323,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct EndOfMeetingReminder: AWSShape {
+    public struct EndOfMeetingReminder: AWSDecodableShape {
 
         /// Whether an end of meeting reminder is enabled or not.
         public let enabled: Bool?
@@ -2345,7 +2345,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// The key of a filter.
         public let key: String
@@ -2373,7 +2373,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ForgetSmartHomeAppliancesRequest: AWSShape {
+    public struct ForgetSmartHomeAppliancesRequest: AWSEncodableShape {
 
         /// The room that the appliances are associated with.
         public let roomArn: String
@@ -2391,7 +2391,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ForgetSmartHomeAppliancesResponse: AWSShape {
+    public struct ForgetSmartHomeAppliancesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2399,7 +2399,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct Gateway: AWSShape {
+    public struct Gateway: AWSDecodableShape {
 
         /// The ARN of the gateway.
         public let arn: String?
@@ -2429,7 +2429,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GatewayGroup: AWSShape {
+    public struct GatewayGroup: AWSDecodableShape {
 
         /// The ARN of the gateway group.
         public let arn: String?
@@ -2451,7 +2451,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GatewayGroupSummary: AWSShape {
+    public struct GatewayGroupSummary: AWSDecodableShape {
 
         /// The ARN of the gateway group.
         public let arn: String?
@@ -2473,7 +2473,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GatewaySummary: AWSShape {
+    public struct GatewaySummary: AWSDecodableShape {
 
         /// The ARN of the gateway.
         public let arn: String?
@@ -2503,7 +2503,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetAddressBookRequest: AWSShape {
+    public struct GetAddressBookRequest: AWSEncodableShape {
 
         /// The ARN of the address book for which to request details.
         public let addressBookArn: String
@@ -2521,7 +2521,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetAddressBookResponse: AWSShape {
+    public struct GetAddressBookResponse: AWSDecodableShape {
 
         /// The details of the requested address book.
         public let addressBook: AddressBook?
@@ -2535,7 +2535,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetConferencePreferenceRequest: AWSShape {
+    public struct GetConferencePreferenceRequest: AWSEncodableShape {
 
 
         public init() {
@@ -2543,7 +2543,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct GetConferencePreferenceResponse: AWSShape {
+    public struct GetConferencePreferenceResponse: AWSDecodableShape {
 
         /// The conference preference.
         public let preference: ConferencePreference?
@@ -2557,7 +2557,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetConferenceProviderRequest: AWSShape {
+    public struct GetConferenceProviderRequest: AWSEncodableShape {
 
         /// The ARN of the newly created conference provider.
         public let conferenceProviderArn: String
@@ -2575,7 +2575,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetConferenceProviderResponse: AWSShape {
+    public struct GetConferenceProviderResponse: AWSDecodableShape {
 
         /// The conference provider.
         public let conferenceProvider: ConferenceProvider?
@@ -2589,7 +2589,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetContactRequest: AWSShape {
+    public struct GetContactRequest: AWSEncodableShape {
 
         /// The ARN of the contact for which to request details.
         public let contactArn: String
@@ -2607,7 +2607,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetContactResponse: AWSShape {
+    public struct GetContactResponse: AWSDecodableShape {
 
         /// The details of the requested contact.
         public let contact: Contact?
@@ -2621,7 +2621,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetDeviceRequest: AWSShape {
+    public struct GetDeviceRequest: AWSEncodableShape {
 
         /// The ARN of the device for which to request details. Required.
         public let deviceArn: String?
@@ -2639,7 +2639,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetDeviceResponse: AWSShape {
+    public struct GetDeviceResponse: AWSDecodableShape {
 
         /// The details of the device requested. Required.
         public let device: Device?
@@ -2653,7 +2653,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetGatewayGroupRequest: AWSShape {
+    public struct GetGatewayGroupRequest: AWSEncodableShape {
 
         /// The ARN of the gateway group to get.
         public let gatewayGroupArn: String
@@ -2671,7 +2671,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetGatewayGroupResponse: AWSShape {
+    public struct GetGatewayGroupResponse: AWSDecodableShape {
 
         public let gatewayGroup: GatewayGroup?
 
@@ -2684,7 +2684,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetGatewayRequest: AWSShape {
+    public struct GetGatewayRequest: AWSEncodableShape {
 
         /// The ARN of the gateway to get.
         public let gatewayArn: String
@@ -2702,7 +2702,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetGatewayResponse: AWSShape {
+    public struct GetGatewayResponse: AWSDecodableShape {
 
         /// The details of the gateway.
         public let gateway: Gateway?
@@ -2716,7 +2716,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetInvitationConfigurationRequest: AWSShape {
+    public struct GetInvitationConfigurationRequest: AWSEncodableShape {
 
 
         public init() {
@@ -2724,7 +2724,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct GetInvitationConfigurationResponse: AWSShape {
+    public struct GetInvitationConfigurationResponse: AWSDecodableShape {
 
         /// The email ID of the organization or individual contact that the enrolled user can use. 
         public let contactEmail: String?
@@ -2746,7 +2746,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetNetworkProfileRequest: AWSShape {
+    public struct GetNetworkProfileRequest: AWSEncodableShape {
 
         /// The ARN of the network profile associated with a device.
         public let networkProfileArn: String
@@ -2764,7 +2764,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetNetworkProfileResponse: AWSShape {
+    public struct GetNetworkProfileResponse: AWSDecodableShape {
 
         /// The network profile associated with a device.
         public let networkProfile: NetworkProfile?
@@ -2778,7 +2778,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetProfileRequest: AWSShape {
+    public struct GetProfileRequest: AWSEncodableShape {
 
         /// The ARN of the room profile for which to request details. Required.
         public let profileArn: String?
@@ -2796,7 +2796,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetProfileResponse: AWSShape {
+    public struct GetProfileResponse: AWSDecodableShape {
 
         /// The details of the room profile requested. Required.
         public let profile: Profile?
@@ -2810,7 +2810,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetRoomRequest: AWSShape {
+    public struct GetRoomRequest: AWSEncodableShape {
 
         /// The ARN of the room for which to request details. Required.
         public let roomArn: String?
@@ -2828,7 +2828,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetRoomResponse: AWSShape {
+    public struct GetRoomResponse: AWSDecodableShape {
 
         /// The details of the room requested.
         public let room: Room?
@@ -2842,7 +2842,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetRoomSkillParameterRequest: AWSShape {
+    public struct GetRoomSkillParameterRequest: AWSEncodableShape {
 
         /// The room skill parameter key for which to get details. Required.
         public let parameterKey: String
@@ -2871,7 +2871,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetRoomSkillParameterResponse: AWSShape {
+    public struct GetRoomSkillParameterResponse: AWSDecodableShape {
 
         /// The details of the room skill parameter requested. Required.
         public let roomSkillParameter: RoomSkillParameter?
@@ -2885,7 +2885,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetSkillGroupRequest: AWSShape {
+    public struct GetSkillGroupRequest: AWSEncodableShape {
 
         /// The ARN of the skill group for which to get details. Required.
         public let skillGroupArn: String?
@@ -2903,7 +2903,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct GetSkillGroupResponse: AWSShape {
+    public struct GetSkillGroupResponse: AWSDecodableShape {
 
         /// The details of the skill group requested. Required.
         public let skillGroup: SkillGroup?
@@ -2917,7 +2917,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct IPDialIn: AWSShape {
+    public struct IPDialIn: AWSEncodableShape & AWSDecodableShape {
 
         /// The protocol, including SIP, SIPS, and H323.
         public let commsProtocol: CommsProtocol
@@ -2940,7 +2940,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct InstantBooking: AWSShape {
+    public struct InstantBooking: AWSDecodableShape {
 
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa. 
         public let durationInMinutes: Int?
@@ -2958,7 +2958,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListBusinessReportSchedulesRequest: AWSShape {
+    public struct ListBusinessReportSchedulesRequest: AWSEncodableShape {
 
         /// The maximum number of schedules listed in the call.
         public let maxResults: Int?
@@ -2983,7 +2983,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListBusinessReportSchedulesResponse: AWSShape {
+    public struct ListBusinessReportSchedulesResponse: AWSDecodableShape {
 
         /// The schedule of the reports.
         public let businessReportSchedules: [BusinessReportSchedule]?
@@ -3001,7 +3001,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListConferenceProvidersRequest: AWSShape {
+    public struct ListConferenceProvidersRequest: AWSEncodableShape {
 
         /// The maximum number of conference providers to be returned, per paginated calls.
         public let maxResults: Int?
@@ -3026,7 +3026,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListConferenceProvidersResponse: AWSShape {
+    public struct ListConferenceProvidersResponse: AWSDecodableShape {
 
         /// The conference providers.
         public let conferenceProviders: [ConferenceProvider]?
@@ -3044,7 +3044,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListDeviceEventsRequest: AWSShape {
+    public struct ListDeviceEventsRequest: AWSEncodableShape {
 
         /// The ARN of a device.
         public let deviceArn: String
@@ -3078,7 +3078,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListDeviceEventsResponse: AWSShape {
+    public struct ListDeviceEventsResponse: AWSDecodableShape {
 
         /// The device events requested for the device ARN.
         public let deviceEvents: [DeviceEvent]?
@@ -3096,7 +3096,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListGatewayGroupsRequest: AWSShape {
+    public struct ListGatewayGroupsRequest: AWSEncodableShape {
 
         /// The maximum number of gateway group summaries to return. The default is 50.
         public let maxResults: Int?
@@ -3121,7 +3121,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListGatewayGroupsResponse: AWSShape {
+    public struct ListGatewayGroupsResponse: AWSDecodableShape {
 
         /// The gateway groups in the list.
         public let gatewayGroups: [GatewayGroupSummary]?
@@ -3139,7 +3139,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListGatewaysRequest: AWSShape {
+    public struct ListGatewaysRequest: AWSEncodableShape {
 
         /// The gateway group ARN for which to list gateways.
         public let gatewayGroupArn: String?
@@ -3169,7 +3169,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListGatewaysResponse: AWSShape {
+    public struct ListGatewaysResponse: AWSDecodableShape {
 
         /// The gateways in the list.
         public let gateways: [GatewaySummary]?
@@ -3187,7 +3187,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSkillsRequest: AWSShape {
+    public struct ListSkillsRequest: AWSEncodableShape {
 
         /// Whether the skill is enabled under the user's account.
         public let enablementType: EnablementTypeFilter?
@@ -3225,7 +3225,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSkillsResponse: AWSShape {
+    public struct ListSkillsResponse: AWSDecodableShape {
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -3243,7 +3243,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSkillsStoreCategoriesRequest: AWSShape {
+    public struct ListSkillsStoreCategoriesRequest: AWSEncodableShape {
 
         /// The maximum number of categories returned, per paginated calls.
         public let maxResults: Int?
@@ -3268,7 +3268,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSkillsStoreCategoriesResponse: AWSShape {
+    public struct ListSkillsStoreCategoriesResponse: AWSDecodableShape {
 
         /// The list of categories.
         public let categoryList: [Category]?
@@ -3286,7 +3286,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSkillsStoreSkillsByCategoryRequest: AWSShape {
+    public struct ListSkillsStoreSkillsByCategoryRequest: AWSEncodableShape {
 
         /// The category ID for which the skills are being retrieved from the skill store.
         public let categoryId: Int64
@@ -3316,7 +3316,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSkillsStoreSkillsByCategoryResponse: AWSShape {
+    public struct ListSkillsStoreSkillsByCategoryResponse: AWSDecodableShape {
 
         /// The tokens used for pagination.
         public let nextToken: String?
@@ -3334,7 +3334,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSmartHomeAppliancesRequest: AWSShape {
+    public struct ListSmartHomeAppliancesRequest: AWSEncodableShape {
 
         /// The maximum number of appliances to be returned, per paginated calls.
         public let maxResults: Int?
@@ -3364,7 +3364,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListSmartHomeAppliancesResponse: AWSShape {
+    public struct ListSmartHomeAppliancesResponse: AWSDecodableShape {
 
         /// The tokens used for pagination.
         public let nextToken: String?
@@ -3382,7 +3382,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListTagsRequest: AWSShape {
+    public struct ListTagsRequest: AWSEncodableShape {
 
         /// The ARN of the specified resource for which to list tags.
         public let arn: String
@@ -3412,7 +3412,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ListTagsResponse: AWSShape {
+    public struct ListTagsResponse: AWSDecodableShape {
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -3430,7 +3430,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct MeetingRoomConfiguration: AWSShape {
+    public struct MeetingRoomConfiguration: AWSDecodableShape {
 
         /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
         public let endOfMeetingReminder: EndOfMeetingReminder?
@@ -3456,7 +3456,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct MeetingSetting: AWSShape {
+    public struct MeetingSetting: AWSEncodableShape & AWSDecodableShape {
 
         /// The values that indicate whether the pin is always required.
         public let requirePin: RequirePin
@@ -3470,7 +3470,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct NetworkProfile: AWSShape {
+    public struct NetworkProfile: AWSDecodableShape {
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
         public let certificateAuthorityArn: String?
@@ -3520,7 +3520,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct NetworkProfileData: AWSShape {
+    public struct NetworkProfileData: AWSDecodableShape {
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
         public let certificateAuthorityArn: String?
@@ -3558,7 +3558,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PSTNDialIn: AWSShape {
+    public struct PSTNDialIn: AWSEncodableShape & AWSDecodableShape {
 
         /// The zip code.
         public let countryCode: String
@@ -3593,7 +3593,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PhoneNumber: AWSShape {
+    public struct PhoneNumber: AWSEncodableShape & AWSDecodableShape {
 
         /// The raw value of the phone number.
         public let number: String
@@ -3617,7 +3617,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Profile: AWSShape {
+    public struct Profile: AWSDecodableShape {
 
         /// The address of a room profile.
         public let address: String?
@@ -3683,7 +3683,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ProfileData: AWSShape {
+    public struct ProfileData: AWSDecodableShape {
 
         /// The address of a room profile.
         public let address: String?
@@ -3729,7 +3729,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PutConferencePreferenceRequest: AWSShape {
+    public struct PutConferencePreferenceRequest: AWSEncodableShape {
 
         /// The conference preference of a specific conference provider.
         public let conferencePreference: ConferencePreference
@@ -3747,7 +3747,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PutConferencePreferenceResponse: AWSShape {
+    public struct PutConferencePreferenceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3755,7 +3755,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct PutInvitationConfigurationRequest: AWSShape {
+    public struct PutInvitationConfigurationRequest: AWSEncodableShape {
 
         /// The email ID of the organization or individual contact that the enrolled user can use. 
         public let contactEmail: String?
@@ -3791,7 +3791,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PutInvitationConfigurationResponse: AWSShape {
+    public struct PutInvitationConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3799,7 +3799,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct PutRoomSkillParameterRequest: AWSShape {
+    public struct PutRoomSkillParameterRequest: AWSEncodableShape {
 
         /// The ARN of the room associated with the room skill parameter. Required.
         public let roomArn: String?
@@ -3827,7 +3827,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PutRoomSkillParameterResponse: AWSShape {
+    public struct PutRoomSkillParameterResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3835,7 +3835,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct PutSkillAuthorizationRequest: AWSShape {
+    public struct PutSkillAuthorizationRequest: AWSEncodableShape {
 
         /// The authorization result specific to OAUTH code grant output. "Code” must be populated in the AuthorizationResult map to establish the authorization.
         public let authorizationResult: [String: String]
@@ -3866,7 +3866,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct PutSkillAuthorizationResponse: AWSShape {
+    public struct PutSkillAuthorizationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3874,7 +3874,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct RegisterAVSDeviceRequest: AWSShape {
+    public struct RegisterAVSDeviceRequest: AWSEncodableShape {
 
         /// The device type ID for your AVS device generated by Amazon when the OEM creates a new product on Amazon's Developer Console.
         public let amazonId: String
@@ -3913,7 +3913,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RegisterAVSDeviceResponse: AWSShape {
+    public struct RegisterAVSDeviceResponse: AWSDecodableShape {
 
         /// The ARN of the device.
         public let deviceArn: String?
@@ -3927,7 +3927,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RejectSkillRequest: AWSShape {
+    public struct RejectSkillRequest: AWSEncodableShape {
 
         /// The unique identifier of the skill.
         public let skillId: String
@@ -3945,7 +3945,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RejectSkillResponse: AWSShape {
+    public struct RejectSkillResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3953,7 +3953,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct RequireCheckIn: AWSShape {
+    public struct RequireCheckIn: AWSDecodableShape {
 
         /// Whether require check in is enabled or not.
         public let enabled: Bool?
@@ -3971,7 +3971,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ResolveRoomRequest: AWSShape {
+    public struct ResolveRoomRequest: AWSEncodableShape {
 
         /// The ARN of the skill that was requested. Required.
         public let skillId: String
@@ -3994,7 +3994,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct ResolveRoomResponse: AWSShape {
+    public struct ResolveRoomResponse: AWSDecodableShape {
 
         /// The ARN of the room from which the skill request was invoked.
         public let roomArn: String?
@@ -4016,7 +4016,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RevokeInvitationRequest: AWSShape {
+    public struct RevokeInvitationRequest: AWSEncodableShape {
 
         /// The ARN of the enrollment invitation to revoke. Required.
         public let enrollmentId: String?
@@ -4040,7 +4040,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RevokeInvitationResponse: AWSShape {
+    public struct RevokeInvitationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4048,7 +4048,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct Room: AWSShape {
+    public struct Room: AWSDecodableShape {
 
         /// The description of a room.
         public let description: String?
@@ -4078,7 +4078,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RoomData: AWSShape {
+    public struct RoomData: AWSDecodableShape {
 
         /// The description of a room.
         public let description: String?
@@ -4112,7 +4112,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct RoomSkillParameter: AWSShape {
+    public struct RoomSkillParameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The parameter key of a room skill parameter. ParameterKey is an enumerated type that only takes “DEFAULT” or “SCOPE” as valid values.
         public let parameterKey: String
@@ -4137,7 +4137,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchAddressBooksRequest: AWSShape {
+    public struct SearchAddressBooksRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
         public let filters: [Filter]?
@@ -4178,7 +4178,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchAddressBooksResponse: AWSShape {
+    public struct SearchAddressBooksResponse: AWSDecodableShape {
 
         /// The address books that meet the specified set of filter criteria, in sort order.
         public let addressBooks: [AddressBookData]?
@@ -4200,7 +4200,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchContactsRequest: AWSShape {
+    public struct SearchContactsRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
         public let filters: [Filter]?
@@ -4241,7 +4241,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchContactsResponse: AWSShape {
+    public struct SearchContactsResponse: AWSDecodableShape {
 
         /// The contacts that meet the specified set of filter criteria, in sort order.
         public let contacts: [ContactData]?
@@ -4263,7 +4263,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchDevicesRequest: AWSShape {
+    public struct SearchDevicesRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         public let filters: [Filter]?
@@ -4304,7 +4304,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchDevicesResponse: AWSShape {
+    public struct SearchDevicesResponse: AWSDecodableShape {
 
         /// The devices that meet the specified set of filter criteria, in sort order.
         public let devices: [DeviceData]?
@@ -4326,7 +4326,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchNetworkProfilesRequest: AWSShape {
+    public struct SearchNetworkProfilesRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of network profiles. Valid filters are NetworkProfileName, Ssid, and SecurityType.
         public let filters: [Filter]?
@@ -4367,7 +4367,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchNetworkProfilesResponse: AWSShape {
+    public struct SearchNetworkProfilesResponse: AWSDecodableShape {
 
         /// The network profiles that meet the specified set of filter criteria, in sort order. It is a list of NetworkProfileData objects. 
         public let networkProfiles: [NetworkProfileData]?
@@ -4389,7 +4389,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchProfilesRequest: AWSShape {
+    public struct SearchProfilesRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required. 
         public let filters: [Filter]?
@@ -4430,7 +4430,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchProfilesResponse: AWSShape {
+    public struct SearchProfilesResponse: AWSDecodableShape {
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -4452,7 +4452,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchRoomsRequest: AWSShape {
+    public struct SearchRoomsRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
         public let filters: [Filter]?
@@ -4493,7 +4493,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchRoomsResponse: AWSShape {
+    public struct SearchRoomsResponse: AWSDecodableShape {
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -4515,7 +4515,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchSkillGroupsRequest: AWSShape {
+    public struct SearchSkillGroupsRequest: AWSEncodableShape {
 
         /// The filters to use to list a specified set of skill groups. The supported filter key is SkillGroupName. 
         public let filters: [Filter]?
@@ -4556,7 +4556,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchSkillGroupsResponse: AWSShape {
+    public struct SearchSkillGroupsResponse: AWSDecodableShape {
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -4578,7 +4578,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchUsersRequest: AWSShape {
+    public struct SearchUsersRequest: AWSEncodableShape {
 
         /// The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
         public let filters: [Filter]?
@@ -4619,7 +4619,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SearchUsersResponse: AWSShape {
+    public struct SearchUsersResponse: AWSDecodableShape {
 
         /// The token returned to indicate that there is more data available.
         public let nextToken: String?
@@ -4641,7 +4641,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SendAnnouncementRequest: AWSShape {
+    public struct SendAnnouncementRequest: AWSEncodableShape {
 
         /// The unique, user-specified identifier for the request that ensures idempotency.
         public let clientRequestToken: String
@@ -4680,7 +4680,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SendAnnouncementResponse: AWSShape {
+    public struct SendAnnouncementResponse: AWSDecodableShape {
 
         /// The identifier of the announcement.
         public let announcementArn: String?
@@ -4694,7 +4694,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SendInvitationRequest: AWSShape {
+    public struct SendInvitationRequest: AWSEncodableShape {
 
         /// The ARN of the user to whom to send an invitation. Required.
         public let userArn: String?
@@ -4712,7 +4712,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SendInvitationResponse: AWSShape {
+    public struct SendInvitationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4720,7 +4720,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct SipAddress: AWSShape {
+    public struct SipAddress: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of the SIP address.
         public let `type`: SipType
@@ -4744,7 +4744,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillDetails: AWSShape {
+    public struct SkillDetails: AWSDecodableShape {
 
         /// The details about what the skill supports organized as bullet points.
         public let bulletPoints: [String]?
@@ -4794,7 +4794,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillGroup: AWSShape {
+    public struct SkillGroup: AWSDecodableShape {
 
         /// The description of a skill group.
         public let description: String?
@@ -4816,7 +4816,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillGroupData: AWSShape {
+    public struct SkillGroupData: AWSDecodableShape {
 
         /// The description of a skill group.
         public let description: String?
@@ -4838,7 +4838,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillSummary: AWSShape {
+    public struct SkillSummary: AWSDecodableShape {
 
         /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
         public let enablementType: EnablementType?
@@ -4868,7 +4868,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SkillsStoreSkill: AWSShape {
+    public struct SkillsStoreSkill: AWSDecodableShape {
 
         /// The URL where the skill icon resides.
         public let iconUrl: String?
@@ -4906,7 +4906,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct SmartHomeAppliance: AWSShape {
+    public struct SmartHomeAppliance: AWSDecodableShape {
 
         /// The description of the smart home appliance.
         public let description: String?
@@ -4928,7 +4928,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Sort: AWSShape {
+    public struct Sort: AWSEncodableShape {
 
         /// The sort key of a sort object.
         public let key: String
@@ -4951,7 +4951,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct Ssml: AWSShape {
+    public struct Ssml: AWSEncodableShape {
 
         /// The locale of the SSML message. Currently, en-US is supported.
         public let locale: Locale
@@ -4975,7 +4975,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct StartDeviceSyncRequest: AWSShape {
+    public struct StartDeviceSyncRequest: AWSEncodableShape {
 
         /// The ARN of the device to sync. Required.
         public let deviceArn: String?
@@ -5002,7 +5002,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct StartDeviceSyncResponse: AWSShape {
+    public struct StartDeviceSyncResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5010,7 +5010,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct StartSmartHomeApplianceDiscoveryRequest: AWSShape {
+    public struct StartSmartHomeApplianceDiscoveryRequest: AWSEncodableShape {
 
         /// The room where smart home appliance discovery was initiated.
         public let roomArn: String
@@ -5028,7 +5028,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct StartSmartHomeApplianceDiscoveryResponse: AWSShape {
+    public struct StartSmartHomeApplianceDiscoveryResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5036,7 +5036,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of a tag. Tag keys are case-sensitive. 
         public let key: String
@@ -5063,7 +5063,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the resource to which to add metadata tags. Required. 
         public let arn: String
@@ -5088,7 +5088,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5096,7 +5096,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct Text: AWSShape {
+    public struct Text: AWSEncodableShape {
 
         /// The locale of the text message. Currently, en-US is supported.
         public let locale: Locale
@@ -5120,7 +5120,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the resource from which to remove metadata tags. Required. 
         public let arn: String
@@ -5147,7 +5147,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5155,7 +5155,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateAddressBookRequest: AWSShape {
+    public struct UpdateAddressBookRequest: AWSEncodableShape {
 
         /// The ARN of the room to update.
         public let addressBookArn: String
@@ -5187,7 +5187,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateAddressBookResponse: AWSShape {
+    public struct UpdateAddressBookResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5195,7 +5195,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateBusinessReportScheduleRequest: AWSShape {
+    public struct UpdateBusinessReportScheduleRequest: AWSEncodableShape {
 
         /// The format of the generated report (individual CSV files or zipped files of individual files).
         public let format: BusinessReportFormat?
@@ -5241,7 +5241,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateBusinessReportScheduleResponse: AWSShape {
+    public struct UpdateBusinessReportScheduleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5249,7 +5249,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateConferenceProviderRequest: AWSShape {
+    public struct UpdateConferenceProviderRequest: AWSEncodableShape {
 
         /// The ARN of the conference provider.
         public let conferenceProviderArn: String
@@ -5285,7 +5285,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateConferenceProviderResponse: AWSShape {
+    public struct UpdateConferenceProviderResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5293,7 +5293,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateContactRequest: AWSShape {
+    public struct UpdateContactRequest: AWSEncodableShape {
 
         /// The ARN of the contact to update.
         public let contactArn: String
@@ -5357,7 +5357,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateContactResponse: AWSShape {
+    public struct UpdateContactResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5365,7 +5365,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateDeviceRequest: AWSShape {
+    public struct UpdateDeviceRequest: AWSEncodableShape {
 
         /// The ARN of the device to update. Required.
         public let deviceArn: String?
@@ -5390,7 +5390,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateDeviceResponse: AWSShape {
+    public struct UpdateDeviceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5398,7 +5398,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateEndOfMeetingReminder: AWSShape {
+    public struct UpdateEndOfMeetingReminder: AWSEncodableShape {
 
         /// Whether an end of meeting reminder is enabled or not.
         public let enabled: Bool?
@@ -5425,7 +5425,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateGatewayGroupRequest: AWSShape {
+    public struct UpdateGatewayGroupRequest: AWSEncodableShape {
 
         /// The updated description of the gateway group.
         public let description: String?
@@ -5456,7 +5456,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateGatewayGroupResponse: AWSShape {
+    public struct UpdateGatewayGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5464,7 +5464,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateGatewayRequest: AWSShape {
+    public struct UpdateGatewayRequest: AWSEncodableShape {
 
         /// The updated description of the gateway.
         public let description: String?
@@ -5502,7 +5502,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateGatewayResponse: AWSShape {
+    public struct UpdateGatewayResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5510,7 +5510,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateInstantBooking: AWSShape {
+    public struct UpdateInstantBooking: AWSEncodableShape {
 
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         public let durationInMinutes: Int?
@@ -5528,7 +5528,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateMeetingRoomConfiguration: AWSShape {
+    public struct UpdateMeetingRoomConfiguration: AWSEncodableShape {
 
         /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
         public let endOfMeetingReminder: UpdateEndOfMeetingReminder?
@@ -5558,7 +5558,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateNetworkProfileRequest: AWSShape {
+    public struct UpdateNetworkProfileRequest: AWSEncodableShape {
 
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
         public let certificateAuthorityArn: String?
@@ -5618,7 +5618,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateNetworkProfileResponse: AWSShape {
+    public struct UpdateNetworkProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5626,7 +5626,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateProfileRequest: AWSShape {
+    public struct UpdateProfileRequest: AWSEncodableShape {
 
         /// The updated address for the room profile.
         public let address: String?
@@ -5702,7 +5702,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateProfileResponse: AWSShape {
+    public struct UpdateProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5710,7 +5710,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateRequireCheckIn: AWSShape {
+    public struct UpdateRequireCheckIn: AWSEncodableShape {
 
         /// Whether require check in is enabled or not.
         public let enabled: Bool?
@@ -5728,7 +5728,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateRoomRequest: AWSShape {
+    public struct UpdateRoomRequest: AWSEncodableShape {
 
         /// The updated description for the room.
         public let description: String?
@@ -5771,7 +5771,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateRoomResponse: AWSShape {
+    public struct UpdateRoomResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5779,7 +5779,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UpdateSkillGroupRequest: AWSShape {
+    public struct UpdateSkillGroupRequest: AWSEncodableShape {
 
         /// The updated description for the skill group.
         public let description: String?
@@ -5811,7 +5811,7 @@ extension AlexaForBusiness {
         }
     }
 
-    public struct UpdateSkillGroupResponse: AWSShape {
+    public struct UpdateSkillGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5819,7 +5819,7 @@ extension AlexaForBusiness {
 
     }
 
-    public struct UserData: AWSShape {
+    public struct UserData: AWSDecodableShape {
 
         /// The email of a user.
         public let email: String?

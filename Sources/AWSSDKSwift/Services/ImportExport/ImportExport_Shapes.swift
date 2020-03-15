@@ -28,7 +28,7 @@ extension ImportExport {
 
     //MARK: Shapes
 
-    public struct Artifact: AWSShape {
+    public struct Artifact: AWSDecodableShape {
 
         public let description: String?
         public let url: String?
@@ -44,7 +44,7 @@ extension ImportExport {
         }
     }
 
-    public struct CancelJobInput: AWSShape {
+    public struct CancelJobInput: AWSEncodableShape {
 
         public let aPIVersion: String?
         public let jobId: String
@@ -60,7 +60,7 @@ extension ImportExport {
         }
     }
 
-    public struct CancelJobOutput: AWSShape {
+    public struct CancelJobOutput: AWSDecodableShape {
 
         public let success: Bool?
 
@@ -73,7 +73,7 @@ extension ImportExport {
         }
     }
 
-    public struct CreateJobInput: AWSShape {
+    public struct CreateJobInput: AWSEncodableShape {
 
         public let aPIVersion: String?
         public let jobType: JobType
@@ -98,7 +98,7 @@ extension ImportExport {
         }
     }
 
-    public struct CreateJobOutput: AWSShape {
+    public struct CreateJobOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
@@ -129,7 +129,7 @@ extension ImportExport {
         }
     }
 
-    public struct GetShippingLabelInput: AWSShape {
+    public struct GetShippingLabelInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobIds", encoding: .list(member:"member"))
         ]
@@ -178,7 +178,7 @@ extension ImportExport {
         }
     }
 
-    public struct GetShippingLabelOutput: AWSShape {
+    public struct GetShippingLabelOutput: AWSDecodableShape {
 
         public let shippingLabelURL: String?
         public let warning: String?
@@ -194,7 +194,7 @@ extension ImportExport {
         }
     }
 
-    public struct GetStatusInput: AWSShape {
+    public struct GetStatusInput: AWSEncodableShape {
 
         public let aPIVersion: String?
         public let jobId: String
@@ -210,7 +210,7 @@ extension ImportExport {
         }
     }
 
-    public struct GetStatusOutput: AWSShape {
+    public struct GetStatusOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
@@ -271,7 +271,7 @@ extension ImportExport {
         }
     }
 
-    public struct Job: AWSShape {
+    public struct Job: AWSDecodableShape {
 
         public let creationDate: TimeStamp?
         public let isCanceled: Bool?
@@ -293,7 +293,7 @@ extension ImportExport {
         }
     }
 
-    public struct ListJobsInput: AWSShape {
+    public struct ListJobsInput: AWSEncodableShape {
 
         public let aPIVersion: String?
         public let marker: String?
@@ -312,7 +312,7 @@ extension ImportExport {
         }
     }
 
-    public struct ListJobsOutput: AWSShape {
+    public struct ListJobsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
         ]
@@ -331,7 +331,7 @@ extension ImportExport {
         }
     }
 
-    public struct UpdateJobInput: AWSShape {
+    public struct UpdateJobInput: AWSEncodableShape {
 
         public let aPIVersion: String?
         public let jobId: String
@@ -356,7 +356,7 @@ extension ImportExport {
         }
     }
 
-    public struct UpdateJobOutput: AWSShape {
+    public struct UpdateJobOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]

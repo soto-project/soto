@@ -218,7 +218,7 @@ extension AppStream {
 
     //MARK: Shapes
 
-    public struct AccessEndpoint: AWSShape {
+    public struct AccessEndpoint: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of interface endpoint.
         public let endpointType: AccessEndpointType
@@ -240,7 +240,7 @@ extension AppStream {
         }
     }
 
-    public struct Application: AWSShape {
+    public struct Application: AWSDecodableShape {
 
         /// The application name to display.
         public let displayName: String?
@@ -278,7 +278,7 @@ extension AppStream {
         }
     }
 
-    public struct ApplicationSettings: AWSShape {
+    public struct ApplicationSettings: AWSEncodableShape {
 
         /// Enables or disables persistent application settings for users during their streaming sessions. 
         public let enabled: Bool
@@ -300,7 +300,7 @@ extension AppStream {
         }
     }
 
-    public struct ApplicationSettingsResponse: AWSShape {
+    public struct ApplicationSettingsResponse: AWSDecodableShape {
 
         /// Specifies whether persistent application settings are enabled for users during their streaming sessions.
         public let enabled: Bool?
@@ -322,7 +322,7 @@ extension AppStream {
         }
     }
 
-    public struct AssociateFleetRequest: AWSShape {
+    public struct AssociateFleetRequest: AWSEncodableShape {
 
         /// The name of the fleet. 
         public let fleetName: String
@@ -345,7 +345,7 @@ extension AppStream {
         }
     }
 
-    public struct AssociateFleetResult: AWSShape {
+    public struct AssociateFleetResult: AWSDecodableShape {
 
 
         public init() {
@@ -353,7 +353,7 @@ extension AppStream {
 
     }
 
-    public struct BatchAssociateUserStackRequest: AWSShape {
+    public struct BatchAssociateUserStackRequest: AWSEncodableShape {
 
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]
@@ -375,7 +375,7 @@ extension AppStream {
         }
     }
 
-    public struct BatchAssociateUserStackResult: AWSShape {
+    public struct BatchAssociateUserStackResult: AWSDecodableShape {
 
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
@@ -389,7 +389,7 @@ extension AppStream {
         }
     }
 
-    public struct BatchDisassociateUserStackRequest: AWSShape {
+    public struct BatchDisassociateUserStackRequest: AWSEncodableShape {
 
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]
@@ -411,7 +411,7 @@ extension AppStream {
         }
     }
 
-    public struct BatchDisassociateUserStackResult: AWSShape {
+    public struct BatchDisassociateUserStackResult: AWSDecodableShape {
 
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
@@ -425,7 +425,7 @@ extension AppStream {
         }
     }
 
-    public struct ComputeCapacity: AWSShape {
+    public struct ComputeCapacity: AWSEncodableShape {
 
         /// The desired number of streaming instances.
         public let desiredInstances: Int
@@ -439,7 +439,7 @@ extension AppStream {
         }
     }
 
-    public struct ComputeCapacityStatus: AWSShape {
+    public struct ComputeCapacityStatus: AWSDecodableShape {
 
         /// The number of currently available instances that can be used to stream sessions.
         public let available: Int?
@@ -465,7 +465,7 @@ extension AppStream {
         }
     }
 
-    public struct CopyImageRequest: AWSShape {
+    public struct CopyImageRequest: AWSEncodableShape {
 
         /// The description that the image will have when it is copied to the destination.
         public let destinationImageDescription: String?
@@ -499,7 +499,7 @@ extension AppStream {
         }
     }
 
-    public struct CopyImageResponse: AWSShape {
+    public struct CopyImageResponse: AWSDecodableShape {
 
         /// The name of the destination image.
         public let destinationImageName: String?
@@ -513,7 +513,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateDirectoryConfigRequest: AWSShape {
+    public struct CreateDirectoryConfigRequest: AWSEncodableShape {
 
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String
@@ -542,7 +542,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateDirectoryConfigResult: AWSShape {
+    public struct CreateDirectoryConfigResult: AWSDecodableShape {
 
         /// Information about the directory configuration.
         public let directoryConfig: DirectoryConfig?
@@ -556,7 +556,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateFleetRequest: AWSShape {
+    public struct CreateFleetRequest: AWSEncodableShape {
 
         /// The desired capacity for the fleet.
         public let computeCapacity: ComputeCapacity
@@ -650,7 +650,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateFleetResult: AWSShape {
+    public struct CreateFleetResult: AWSDecodableShape {
 
         /// Information about the fleet.
         public let fleet: Fleet?
@@ -664,7 +664,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateImageBuilderRequest: AWSShape {
+    public struct CreateImageBuilderRequest: AWSEncodableShape {
 
         /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -753,7 +753,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateImageBuilderResult: AWSShape {
+    public struct CreateImageBuilderResult: AWSDecodableShape {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -767,7 +767,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateImageBuilderStreamingURLRequest: AWSShape {
+    public struct CreateImageBuilderStreamingURLRequest: AWSEncodableShape {
 
         /// The name of the image builder.
         public let name: String
@@ -789,7 +789,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateImageBuilderStreamingURLResult: AWSShape {
+    public struct CreateImageBuilderStreamingURLResult: AWSDecodableShape {
 
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
         public let expires: TimeStamp?
@@ -807,7 +807,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateStackRequest: AWSShape {
+    public struct CreateStackRequest: AWSEncodableShape {
 
         /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -893,7 +893,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateStackResult: AWSShape {
+    public struct CreateStackResult: AWSDecodableShape {
 
         /// Information about the stack.
         public let stack: Stack?
@@ -907,7 +907,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateStreamingURLRequest: AWSShape {
+    public struct CreateStreamingURLRequest: AWSEncodableShape {
 
         /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant.
         public let applicationId: String?
@@ -951,7 +951,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateStreamingURLResult: AWSShape {
+    public struct CreateStreamingURLResult: AWSDecodableShape {
 
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
         public let expires: TimeStamp?
@@ -969,7 +969,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateUsageReportSubscriptionRequest: AWSShape {
+    public struct CreateUsageReportSubscriptionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -977,7 +977,7 @@ extension AppStream {
 
     }
 
-    public struct CreateUsageReportSubscriptionResult: AWSShape {
+    public struct CreateUsageReportSubscriptionResult: AWSDecodableShape {
 
         /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
         public let s3BucketName: String?
@@ -995,7 +995,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
 
         /// The authentication type for the user. You must specify USERPOOL. 
         public let authenticationType: AuthenticationType
@@ -1035,7 +1035,7 @@ extension AppStream {
         }
     }
 
-    public struct CreateUserResult: AWSShape {
+    public struct CreateUserResult: AWSDecodableShape {
 
 
         public init() {
@@ -1043,7 +1043,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteDirectoryConfigRequest: AWSShape {
+    public struct DeleteDirectoryConfigRequest: AWSEncodableShape {
 
         /// The name of the directory configuration.
         public let directoryName: String
@@ -1057,7 +1057,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteDirectoryConfigResult: AWSShape {
+    public struct DeleteDirectoryConfigResult: AWSDecodableShape {
 
 
         public init() {
@@ -1065,7 +1065,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteFleetRequest: AWSShape {
+    public struct DeleteFleetRequest: AWSEncodableShape {
 
         /// The name of the fleet.
         public let name: String
@@ -1083,7 +1083,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteFleetResult: AWSShape {
+    public struct DeleteFleetResult: AWSDecodableShape {
 
 
         public init() {
@@ -1091,7 +1091,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteImageBuilderRequest: AWSShape {
+    public struct DeleteImageBuilderRequest: AWSEncodableShape {
 
         /// The name of the image builder.
         public let name: String
@@ -1109,7 +1109,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteImageBuilderResult: AWSShape {
+    public struct DeleteImageBuilderResult: AWSDecodableShape {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -1123,7 +1123,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteImagePermissionsRequest: AWSShape {
+    public struct DeleteImagePermissionsRequest: AWSEncodableShape {
 
         /// The name of the private image.
         public let name: String
@@ -1146,7 +1146,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteImagePermissionsResult: AWSShape {
+    public struct DeleteImagePermissionsResult: AWSDecodableShape {
 
 
         public init() {
@@ -1154,7 +1154,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteImageRequest: AWSShape {
+    public struct DeleteImageRequest: AWSEncodableShape {
 
         /// The name of the image.
         public let name: String
@@ -1172,7 +1172,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteImageResult: AWSShape {
+    public struct DeleteImageResult: AWSDecodableShape {
 
         /// Information about the image.
         public let image: Image?
@@ -1186,7 +1186,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteStackRequest: AWSShape {
+    public struct DeleteStackRequest: AWSEncodableShape {
 
         /// The name of the stack.
         public let name: String
@@ -1204,7 +1204,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteStackResult: AWSShape {
+    public struct DeleteStackResult: AWSDecodableShape {
 
 
         public init() {
@@ -1212,7 +1212,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteUsageReportSubscriptionRequest: AWSShape {
+    public struct DeleteUsageReportSubscriptionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1220,7 +1220,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteUsageReportSubscriptionResult: AWSShape {
+    public struct DeleteUsageReportSubscriptionResult: AWSDecodableShape {
 
 
         public init() {
@@ -1228,7 +1228,7 @@ extension AppStream {
 
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
 
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -1252,7 +1252,7 @@ extension AppStream {
         }
     }
 
-    public struct DeleteUserResult: AWSShape {
+    public struct DeleteUserResult: AWSDecodableShape {
 
 
         public init() {
@@ -1260,7 +1260,7 @@ extension AppStream {
 
     }
 
-    public struct DescribeDirectoryConfigsRequest: AWSShape {
+    public struct DescribeDirectoryConfigsRequest: AWSEncodableShape {
 
         /// The directory names.
         public let directoryNames: [String]?
@@ -1286,7 +1286,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeDirectoryConfigsResult: AWSShape {
+    public struct DescribeDirectoryConfigsResult: AWSDecodableShape {
 
         /// Information about the directory configurations. Note that although the response syntax in this topic includes the account password, this password is not returned in the actual response. 
         public let directoryConfigs: [DirectoryConfig]?
@@ -1304,7 +1304,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeFleetsRequest: AWSShape {
+    public struct DescribeFleetsRequest: AWSEncodableShape {
 
         /// The names of the fleets to describe.
         public let names: [String]?
@@ -1329,7 +1329,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeFleetsResult: AWSShape {
+    public struct DescribeFleetsResult: AWSDecodableShape {
 
         /// Information about the fleets.
         public let fleets: [Fleet]?
@@ -1347,7 +1347,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImageBuildersRequest: AWSShape {
+    public struct DescribeImageBuildersRequest: AWSEncodableShape {
 
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -1376,7 +1376,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImageBuildersResult: AWSShape {
+    public struct DescribeImageBuildersResult: AWSDecodableShape {
 
         /// Information about the image builders.
         public let imageBuilders: [ImageBuilder]?
@@ -1394,7 +1394,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImagePermissionsRequest: AWSShape {
+    public struct DescribeImagePermissionsRequest: AWSEncodableShape {
 
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -1432,7 +1432,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImagePermissionsResult: AWSShape {
+    public struct DescribeImagePermissionsResult: AWSDecodableShape {
 
         /// The name of the private image.
         public let name: String?
@@ -1454,7 +1454,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImagesRequest: AWSShape {
+    public struct DescribeImagesRequest: AWSEncodableShape {
 
         /// The ARNs of the public, private, and shared images to describe.
         public let arns: [String]?
@@ -1496,7 +1496,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeImagesResult: AWSShape {
+    public struct DescribeImagesResult: AWSDecodableShape {
 
         /// Information about the images.
         public let images: [Image]?
@@ -1514,7 +1514,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeSessionsRequest: AWSShape {
+    public struct DescribeSessionsRequest: AWSEncodableShape {
 
         /// The authentication method. Specify API for a user authenticated using a streaming URL or SAML for a SAML federated user. The default is to authenticate users using a streaming URL.
         public let authenticationType: AuthenticationType?
@@ -1556,7 +1556,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeSessionsResult: AWSShape {
+    public struct DescribeSessionsResult: AWSDecodableShape {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1574,7 +1574,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeStacksRequest: AWSShape {
+    public struct DescribeStacksRequest: AWSEncodableShape {
 
         /// The names of the stacks to describe.
         public let names: [String]?
@@ -1599,7 +1599,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeStacksResult: AWSShape {
+    public struct DescribeStacksResult: AWSDecodableShape {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1617,7 +1617,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeUsageReportSubscriptionsRequest: AWSShape {
+    public struct DescribeUsageReportSubscriptionsRequest: AWSEncodableShape {
 
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -1639,7 +1639,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeUsageReportSubscriptionsResult: AWSShape {
+    public struct DescribeUsageReportSubscriptionsResult: AWSDecodableShape {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1657,7 +1657,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeUserStackAssociationsRequest: AWSShape {
+    public struct DescribeUserStackAssociationsRequest: AWSEncodableShape {
 
         /// The authentication type for the user who is associated with the stack. You must specify USERPOOL.
         public let authenticationType: AuthenticationType?
@@ -1697,7 +1697,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeUserStackAssociationsResult: AWSShape {
+    public struct DescribeUserStackAssociationsResult: AWSDecodableShape {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1715,7 +1715,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeUsersRequest: AWSShape {
+    public struct DescribeUsersRequest: AWSEncodableShape {
 
         /// The authentication type for the users in the user pool to describe. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -1741,7 +1741,7 @@ extension AppStream {
         }
     }
 
-    public struct DescribeUsersResult: AWSShape {
+    public struct DescribeUsersResult: AWSDecodableShape {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1759,7 +1759,7 @@ extension AppStream {
         }
     }
 
-    public struct DirectoryConfig: AWSShape {
+    public struct DirectoryConfig: AWSDecodableShape {
 
         /// The time the directory configuration was created.
         public let createdTime: TimeStamp?
@@ -1785,7 +1785,7 @@ extension AppStream {
         }
     }
 
-    public struct DisableUserRequest: AWSShape {
+    public struct DisableUserRequest: AWSEncodableShape {
 
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -1809,7 +1809,7 @@ extension AppStream {
         }
     }
 
-    public struct DisableUserResult: AWSShape {
+    public struct DisableUserResult: AWSDecodableShape {
 
 
         public init() {
@@ -1817,7 +1817,7 @@ extension AppStream {
 
     }
 
-    public struct DisassociateFleetRequest: AWSShape {
+    public struct DisassociateFleetRequest: AWSEncodableShape {
 
         /// The name of the fleet.
         public let fleetName: String
@@ -1840,7 +1840,7 @@ extension AppStream {
         }
     }
 
-    public struct DisassociateFleetResult: AWSShape {
+    public struct DisassociateFleetResult: AWSDecodableShape {
 
 
         public init() {
@@ -1848,7 +1848,7 @@ extension AppStream {
 
     }
 
-    public struct DomainJoinInfo: AWSShape {
+    public struct DomainJoinInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The fully qualified name of the directory (for example, corp.example.com).
         public let directoryName: String?
@@ -1870,7 +1870,7 @@ extension AppStream {
         }
     }
 
-    public struct EnableUserRequest: AWSShape {
+    public struct EnableUserRequest: AWSEncodableShape {
 
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType
@@ -1894,7 +1894,7 @@ extension AppStream {
         }
     }
 
-    public struct EnableUserResult: AWSShape {
+    public struct EnableUserResult: AWSDecodableShape {
 
 
         public init() {
@@ -1902,7 +1902,7 @@ extension AppStream {
 
     }
 
-    public struct ExpireSessionRequest: AWSShape {
+    public struct ExpireSessionRequest: AWSEncodableShape {
 
         /// The identifier of the streaming session.
         public let sessionId: String
@@ -1920,7 +1920,7 @@ extension AppStream {
         }
     }
 
-    public struct ExpireSessionResult: AWSShape {
+    public struct ExpireSessionResult: AWSDecodableShape {
 
 
         public init() {
@@ -1928,7 +1928,7 @@ extension AppStream {
 
     }
 
-    public struct Fleet: AWSShape {
+    public struct Fleet: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the fleet.
         public let arn: String
@@ -2014,7 +2014,7 @@ extension AppStream {
         }
     }
 
-    public struct FleetError: AWSShape {
+    public struct FleetError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: FleetErrorCode?
@@ -2032,7 +2032,7 @@ extension AppStream {
         }
     }
 
-    public struct Image: AWSShape {
+    public struct Image: AWSDecodableShape {
 
         /// The applications associated with the image.
         public let applications: [Application]?
@@ -2106,7 +2106,7 @@ extension AppStream {
         }
     }
 
-    public struct ImageBuilder: AWSShape {
+    public struct ImageBuilder: AWSDecodableShape {
 
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -2187,7 +2187,7 @@ extension AppStream {
         }
     }
 
-    public struct ImageBuilderStateChangeReason: AWSShape {
+    public struct ImageBuilderStateChangeReason: AWSDecodableShape {
 
         /// The state change reason code.
         public let code: ImageBuilderStateChangeReasonCode?
@@ -2205,7 +2205,7 @@ extension AppStream {
         }
     }
 
-    public struct ImagePermissions: AWSShape {
+    public struct ImagePermissions: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether the image can be used for a fleet.
         public let allowFleet: Bool?
@@ -2223,7 +2223,7 @@ extension AppStream {
         }
     }
 
-    public struct ImageStateChangeReason: AWSShape {
+    public struct ImageStateChangeReason: AWSDecodableShape {
 
         /// The state change reason code.
         public let code: ImageStateChangeReasonCode?
@@ -2241,7 +2241,7 @@ extension AppStream {
         }
     }
 
-    public struct LastReportGenerationExecutionError: AWSShape {
+    public struct LastReportGenerationExecutionError: AWSDecodableShape {
 
         /// The error code for the error that is returned when a usage report can't be generated.
         public let errorCode: UsageReportExecutionErrorCode?
@@ -2259,7 +2259,7 @@ extension AppStream {
         }
     }
 
-    public struct ListAssociatedFleetsRequest: AWSShape {
+    public struct ListAssociatedFleetsRequest: AWSEncodableShape {
 
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -2282,7 +2282,7 @@ extension AppStream {
         }
     }
 
-    public struct ListAssociatedFleetsResult: AWSShape {
+    public struct ListAssociatedFleetsResult: AWSDecodableShape {
 
         /// The name of the fleet.
         public let names: [String]?
@@ -2300,7 +2300,7 @@ extension AppStream {
         }
     }
 
-    public struct ListAssociatedStacksRequest: AWSShape {
+    public struct ListAssociatedStacksRequest: AWSEncodableShape {
 
         /// The name of the fleet.
         public let fleetName: String
@@ -2323,7 +2323,7 @@ extension AppStream {
         }
     }
 
-    public struct ListAssociatedStacksResult: AWSShape {
+    public struct ListAssociatedStacksResult: AWSDecodableShape {
 
         /// The name of the stack.
         public let names: [String]?
@@ -2341,7 +2341,7 @@ extension AppStream {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2359,7 +2359,7 @@ extension AppStream {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The information about the tags.
         public let tags: [String: String]?
@@ -2373,7 +2373,7 @@ extension AppStream {
         }
     }
 
-    public struct NetworkAccessConfiguration: AWSShape {
+    public struct NetworkAccessConfiguration: AWSDecodableShape {
 
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
         public let eniId: String?
@@ -2391,7 +2391,7 @@ extension AppStream {
         }
     }
 
-    public struct ResourceError: AWSShape {
+    public struct ResourceError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: FleetErrorCode?
@@ -2413,7 +2413,7 @@ extension AppStream {
         }
     }
 
-    public struct ServiceAccountCredentials: AWSShape {
+    public struct ServiceAccountCredentials: AWSEncodableShape & AWSDecodableShape {
 
         /// The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified.
         public let accountName: String
@@ -2437,7 +2437,7 @@ extension AppStream {
         }
     }
 
-    public struct Session: AWSShape {
+    public struct Session: AWSDecodableShape {
 
         /// The authentication method. The user is authenticated using a streaming URL (API) or SAML 2.0 federation (SAML).
         public let authenticationType: AuthenticationType?
@@ -2487,7 +2487,7 @@ extension AppStream {
         }
     }
 
-    public struct SharedImagePermissions: AWSShape {
+    public struct SharedImagePermissions: AWSDecodableShape {
 
         /// Describes the permissions for a shared image.
         public let imagePermissions: ImagePermissions
@@ -2505,7 +2505,7 @@ extension AppStream {
         }
     }
 
-    public struct Stack: AWSShape {
+    public struct Stack: AWSDecodableShape {
 
         /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints. 
         public let accessEndpoints: [AccessEndpoint]?
@@ -2567,7 +2567,7 @@ extension AppStream {
         }
     }
 
-    public struct StackError: AWSShape {
+    public struct StackError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: StackErrorCode?
@@ -2585,7 +2585,7 @@ extension AppStream {
         }
     }
 
-    public struct StartFleetRequest: AWSShape {
+    public struct StartFleetRequest: AWSEncodableShape {
 
         /// The name of the fleet.
         public let name: String
@@ -2603,7 +2603,7 @@ extension AppStream {
         }
     }
 
-    public struct StartFleetResult: AWSShape {
+    public struct StartFleetResult: AWSDecodableShape {
 
 
         public init() {
@@ -2611,7 +2611,7 @@ extension AppStream {
 
     }
 
-    public struct StartImageBuilderRequest: AWSShape {
+    public struct StartImageBuilderRequest: AWSEncodableShape {
 
         /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST]. 
         public let appstreamAgentVersion: String?
@@ -2635,7 +2635,7 @@ extension AppStream {
         }
     }
 
-    public struct StartImageBuilderResult: AWSShape {
+    public struct StartImageBuilderResult: AWSDecodableShape {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -2649,7 +2649,7 @@ extension AppStream {
         }
     }
 
-    public struct StopFleetRequest: AWSShape {
+    public struct StopFleetRequest: AWSEncodableShape {
 
         /// The name of the fleet.
         public let name: String
@@ -2667,7 +2667,7 @@ extension AppStream {
         }
     }
 
-    public struct StopFleetResult: AWSShape {
+    public struct StopFleetResult: AWSDecodableShape {
 
 
         public init() {
@@ -2675,7 +2675,7 @@ extension AppStream {
 
     }
 
-    public struct StopImageBuilderRequest: AWSShape {
+    public struct StopImageBuilderRequest: AWSEncodableShape {
 
         /// The name of the image builder.
         public let name: String
@@ -2693,7 +2693,7 @@ extension AppStream {
         }
     }
 
-    public struct StopImageBuilderResult: AWSShape {
+    public struct StopImageBuilderResult: AWSDecodableShape {
 
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
@@ -2707,7 +2707,7 @@ extension AppStream {
         }
     }
 
-    public struct StorageConnector: AWSShape {
+    public struct StorageConnector: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of storage connector.
         public let connectorType: StorageConnectorType
@@ -2738,7 +2738,7 @@ extension AppStream {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2768,7 +2768,7 @@ extension AppStream {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2776,7 +2776,7 @@ extension AppStream {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2805,7 +2805,7 @@ extension AppStream {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2813,7 +2813,7 @@ extension AppStream {
 
     }
 
-    public struct UpdateDirectoryConfigRequest: AWSShape {
+    public struct UpdateDirectoryConfigRequest: AWSEncodableShape {
 
         /// The name of the Directory Config object.
         public let directoryName: String
@@ -2842,7 +2842,7 @@ extension AppStream {
         }
     }
 
-    public struct UpdateDirectoryConfigResult: AWSShape {
+    public struct UpdateDirectoryConfigResult: AWSDecodableShape {
 
         /// Information about the Directory Config object.
         public let directoryConfig: DirectoryConfig?
@@ -2856,7 +2856,7 @@ extension AppStream {
         }
     }
 
-    public struct UpdateFleetRequest: AWSShape {
+    public struct UpdateFleetRequest: AWSEncodableShape {
 
         /// The fleet attributes to delete.
         public let attributesToDelete: [FleetAttribute]?
@@ -2938,7 +2938,7 @@ extension AppStream {
         }
     }
 
-    public struct UpdateFleetResult: AWSShape {
+    public struct UpdateFleetResult: AWSDecodableShape {
 
         /// Information about the fleet.
         public let fleet: Fleet?
@@ -2952,7 +2952,7 @@ extension AppStream {
         }
     }
 
-    public struct UpdateImagePermissionsRequest: AWSShape {
+    public struct UpdateImagePermissionsRequest: AWSEncodableShape {
 
         /// The permissions for the image.
         public let imagePermissions: ImagePermissions
@@ -2979,7 +2979,7 @@ extension AppStream {
         }
     }
 
-    public struct UpdateImagePermissionsResult: AWSShape {
+    public struct UpdateImagePermissionsResult: AWSDecodableShape {
 
 
         public init() {
@@ -2987,7 +2987,7 @@ extension AppStream {
 
     }
 
-    public struct UpdateStackRequest: AWSShape {
+    public struct UpdateStackRequest: AWSEncodableShape {
 
         /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
@@ -3065,7 +3065,7 @@ extension AppStream {
         }
     }
 
-    public struct UpdateStackResult: AWSShape {
+    public struct UpdateStackResult: AWSDecodableShape {
 
         /// Information about the stack.
         public let stack: Stack?
@@ -3079,7 +3079,7 @@ extension AppStream {
         }
     }
 
-    public struct UsageReportSubscription: AWSShape {
+    public struct UsageReportSubscription: AWSDecodableShape {
 
         /// The time when the last usage report was generated.
         public let lastGeneratedReportDate: TimeStamp?
@@ -3105,7 +3105,7 @@ extension AppStream {
         }
     }
 
-    public struct User: AWSShape {
+    public struct User: AWSDecodableShape {
 
         /// The ARN of the user.
         public let arn: String?
@@ -3147,7 +3147,7 @@ extension AppStream {
         }
     }
 
-    public struct UserSetting: AWSShape {
+    public struct UserSetting: AWSEncodableShape & AWSDecodableShape {
 
         /// The action that is enabled or disabled.
         public let action: Action
@@ -3165,7 +3165,7 @@ extension AppStream {
         }
     }
 
-    public struct UserStackAssociation: AWSShape {
+    public struct UserStackAssociation: AWSEncodableShape & AWSDecodableShape {
 
         /// The authentication type for the user.
         public let authenticationType: AuthenticationType
@@ -3198,7 +3198,7 @@ extension AppStream {
         }
     }
 
-    public struct UserStackAssociationError: AWSShape {
+    public struct UserStackAssociationError: AWSDecodableShape {
 
         /// The error code for the error that is returned when a user can’t be associated with or disassociated from a stack.
         public let errorCode: UserStackAssociationErrorCode?
@@ -3220,7 +3220,7 @@ extension AppStream {
         }
     }
 
-    public struct VpcConfig: AWSShape {
+    public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifiers of the security groups for the fleet or image builder.
         public let securityGroupIds: [String]?

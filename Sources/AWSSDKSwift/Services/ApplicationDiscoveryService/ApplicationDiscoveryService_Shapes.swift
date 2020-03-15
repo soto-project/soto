@@ -104,7 +104,7 @@ extension ApplicationDiscoveryService {
 
     //MARK: Shapes
 
-    public struct AgentConfigurationStatus: AWSShape {
+    public struct AgentConfigurationStatus: AWSDecodableShape {
 
         /// The agent/connector ID.
         public let agentId: String?
@@ -126,7 +126,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct AgentInfo: AWSShape {
+    public struct AgentInfo: AWSDecodableShape {
 
         /// The agent or connector ID.
         public let agentId: String?
@@ -176,7 +176,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct AgentNetworkInfo: AWSShape {
+    public struct AgentNetworkInfo: AWSDecodableShape {
 
         /// The IP address for the host where the agent/connector resides.
         public let ipAddress: String?
@@ -194,7 +194,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
+    public struct AssociateConfigurationItemsToApplicationRequest: AWSEncodableShape {
 
         /// The configuration ID of an application with which items are to be associated.
         public let applicationConfigurationId: String
@@ -212,7 +212,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
+    public struct AssociateConfigurationItemsToApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -220,7 +220,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct BatchDeleteImportDataError: AWSShape {
+    public struct BatchDeleteImportDataError: AWSDecodableShape {
 
         /// The type of error that occurred for a specific import task.
         public let errorCode: BatchDeleteImportDataErrorCode?
@@ -242,7 +242,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct BatchDeleteImportDataRequest: AWSShape {
+    public struct BatchDeleteImportDataRequest: AWSEncodableShape {
 
         /// The IDs for the import tasks that you want to delete.
         public let importTaskIds: [String]
@@ -261,7 +261,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct BatchDeleteImportDataResponse: AWSShape {
+    public struct BatchDeleteImportDataResponse: AWSDecodableShape {
 
         /// Error messages returned for each import task that you deleted as a response for this command.
         public let errors: [BatchDeleteImportDataError]?
@@ -275,7 +275,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ConfigurationTag: AWSShape {
+    public struct ConfigurationTag: AWSDecodableShape {
 
         /// The configuration ID for the item to tag. You can specify a list of keys and values.
         public let configurationId: String?
@@ -305,7 +305,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ContinuousExportDescription: AWSShape {
+    public struct ContinuousExportDescription: AWSDecodableShape {
 
         /// The type of data collector used to gather this data (currently only offered for AGENT).
         public let dataSource: DataSource?
@@ -347,7 +347,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct CreateApplicationRequest: AWSShape {
+    public struct CreateApplicationRequest: AWSEncodableShape {
 
         /// Description of the application to be created.
         public let description: String?
@@ -365,7 +365,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct CreateApplicationResponse: AWSShape {
+    public struct CreateApplicationResponse: AWSDecodableShape {
 
         /// Configuration ID of an application to be created.
         public let configurationId: String?
@@ -379,7 +379,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct CreateTagsRequest: AWSShape {
+    public struct CreateTagsRequest: AWSEncodableShape {
 
         /// A list of configuration items that you want to tag.
         public let configurationIds: [String]
@@ -397,7 +397,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct CreateTagsResponse: AWSShape {
+    public struct CreateTagsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -405,7 +405,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct CustomerAgentInfo: AWSShape {
+    public struct CustomerAgentInfo: AWSDecodableShape {
 
         /// Number of active discovery agents.
         public let activeAgents: Int
@@ -443,7 +443,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct CustomerConnectorInfo: AWSShape {
+    public struct CustomerConnectorInfo: AWSDecodableShape {
 
         /// Number of active discovery connectors.
         public let activeConnectors: Int
@@ -481,7 +481,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DeleteApplicationsRequest: AWSShape {
+    public struct DeleteApplicationsRequest: AWSEncodableShape {
 
         /// Configuration ID of an application to be deleted.
         public let configurationIds: [String]
@@ -495,7 +495,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DeleteApplicationsResponse: AWSShape {
+    public struct DeleteApplicationsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -503,7 +503,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct DeleteTagsRequest: AWSShape {
+    public struct DeleteTagsRequest: AWSEncodableShape {
 
         /// A list of configuration items with tags that you want to delete.
         public let configurationIds: [String]
@@ -521,7 +521,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DeleteTagsResponse: AWSShape {
+    public struct DeleteTagsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -529,7 +529,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct DescribeAgentsRequest: AWSShape {
+    public struct DescribeAgentsRequest: AWSEncodableShape {
 
         /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
         public let agentIds: [String]?
@@ -555,7 +555,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeAgentsResponse: AWSShape {
+    public struct DescribeAgentsResponse: AWSDecodableShape {
 
         /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
         public let agentsInfo: [AgentInfo]?
@@ -573,7 +573,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeConfigurationsRequest: AWSShape {
+    public struct DescribeConfigurationsRequest: AWSEncodableShape {
 
         /// One or more configuration IDs.
         public let configurationIds: [String]
@@ -587,7 +587,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeConfigurationsResponse: AWSShape {
+    public struct DescribeConfigurationsResponse: AWSDecodableShape {
 
         /// A key in the response map. The value is an array of data.
         public let configurations: [[String: String]]?
@@ -601,7 +601,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeContinuousExportsRequest: AWSShape {
+    public struct DescribeContinuousExportsRequest: AWSEncodableShape {
 
         /// The unique IDs assigned to the exports.
         public let exportIds: [String]?
@@ -628,7 +628,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeContinuousExportsResponse: AWSShape {
+    public struct DescribeContinuousExportsResponse: AWSDecodableShape {
 
         /// A list of continuous export descriptions.
         public let descriptions: [ContinuousExportDescription]?
@@ -646,7 +646,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeExportConfigurationsRequest: AWSShape {
+    public struct DescribeExportConfigurationsRequest: AWSEncodableShape {
 
         /// A list of continuous export IDs to search for.
         public let exportIds: [String]?
@@ -668,7 +668,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeExportConfigurationsResponse: AWSShape {
+    public struct DescribeExportConfigurationsResponse: AWSDecodableShape {
 
         public let exportsInfo: [ExportInfo]?
         /// The token from the previous call to describe-export-tasks.
@@ -685,7 +685,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeExportTasksRequest: AWSShape {
+    public struct DescribeExportTasksRequest: AWSEncodableShape {
 
         /// One or more unique identifiers used to query the status of an export request.
         public let exportIds: [String]?
@@ -711,7 +711,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeExportTasksResponse: AWSShape {
+    public struct DescribeExportTasksResponse: AWSDecodableShape {
 
         /// Contains one or more sets of export request details. When the status of a request is SUCCEEDED, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
         public let exportsInfo: [ExportInfo]?
@@ -729,7 +729,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeImportTasksRequest: AWSShape {
+    public struct DescribeImportTasksRequest: AWSEncodableShape {
 
         /// An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters.
         public let filters: [ImportTaskFilter]?
@@ -759,7 +759,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeImportTasksResponse: AWSShape {
+    public struct DescribeImportTasksResponse: AWSDecodableShape {
 
         /// The token to request the next page of results.
         public let nextToken: String?
@@ -777,7 +777,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeTagsRequest: AWSShape {
+    public struct DescribeTagsRequest: AWSEncodableShape {
 
         /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
         public let filters: [TagFilter]?
@@ -799,7 +799,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DescribeTagsResponse: AWSShape {
+    public struct DescribeTagsResponse: AWSDecodableShape {
 
         /// The call returns a token. Use this token to get the next set of results.
         public let nextToken: String?
@@ -817,7 +817,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
+    public struct DisassociateConfigurationItemsFromApplicationRequest: AWSEncodableShape {
 
         /// Configuration ID of an application from which each item is disassociated.
         public let applicationConfigurationId: String
@@ -835,7 +835,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct DisassociateConfigurationItemsFromApplicationResponse: AWSShape {
+    public struct DisassociateConfigurationItemsFromApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -843,7 +843,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct ExportConfigurationsResponse: AWSShape {
+    public struct ExportConfigurationsResponse: AWSDecodableShape {
 
         /// A unique identifier that you can use to query the export status.
         public let exportId: String?
@@ -857,7 +857,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ExportFilter: AWSShape {
+    public struct ExportFilter: AWSEncodableShape {
 
         /// Supported condition: EQUALS 
         public let condition: String
@@ -879,7 +879,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ExportInfo: AWSShape {
+    public struct ExportInfo: AWSDecodableShape {
 
         /// A URL for an Amazon S3 bucket where you can review the exported data. The URL is displayed only if the export succeeded.
         public let configurationsDownloadUrl: String?
@@ -921,7 +921,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
         public let condition: String
@@ -943,7 +943,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct GetDiscoverySummaryRequest: AWSShape {
+    public struct GetDiscoverySummaryRequest: AWSEncodableShape {
 
 
         public init() {
@@ -951,7 +951,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct GetDiscoverySummaryResponse: AWSShape {
+    public struct GetDiscoverySummaryResponse: AWSDecodableShape {
 
         /// Details about discovered agents, including agent status and health.
         public let agentSummary: CustomerAgentInfo?
@@ -985,7 +985,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ImportTask: AWSShape {
+    public struct ImportTask: AWSDecodableShape {
 
         /// The total number of application records in the import file that failed to be imported.
         public let applicationImportFailure: Int?
@@ -1047,7 +1047,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ImportTaskFilter: AWSShape {
+    public struct ImportTaskFilter: AWSEncodableShape {
 
         /// The name, status, or import task ID for a specific import task.
         public let name: ImportTaskFilterName?
@@ -1074,7 +1074,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ListConfigurationsRequest: AWSShape {
+    public struct ListConfigurationsRequest: AWSEncodableShape {
 
         /// A valid configuration identified by Application Discovery Service. 
         public let configurationType: ConfigurationItemType
@@ -1104,7 +1104,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ListConfigurationsResponse: AWSShape {
+    public struct ListConfigurationsResponse: AWSDecodableShape {
 
         /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
         public let configurations: [[String: String]]?
@@ -1122,7 +1122,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ListServerNeighborsRequest: AWSShape {
+    public struct ListServerNeighborsRequest: AWSEncodableShape {
 
         /// Configuration ID of the server for which neighbors are being listed.
         public let configurationId: String
@@ -1152,7 +1152,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct ListServerNeighborsResponse: AWSShape {
+    public struct ListServerNeighborsResponse: AWSDecodableShape {
 
         /// Count of distinct servers that are one hop away from the given server.
         public let knownDependencyCount: Int64?
@@ -1174,7 +1174,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct NeighborConnectionDetail: AWSShape {
+    public struct NeighborConnectionDetail: AWSDecodableShape {
 
         /// The number of open network connections with the neighboring server.
         public let connectionsCount: Int64
@@ -1204,7 +1204,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct OrderByElement: AWSShape {
+    public struct OrderByElement: AWSEncodableShape {
 
         /// The field on which to order.
         public let fieldName: String
@@ -1222,7 +1222,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartContinuousExportRequest: AWSShape {
+    public struct StartContinuousExportRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1230,7 +1230,7 @@ extension ApplicationDiscoveryService {
 
     }
 
-    public struct StartContinuousExportResponse: AWSShape {
+    public struct StartContinuousExportResponse: AWSDecodableShape {
 
         /// The type of data collector used to gather this data (currently only offered for AGENT).
         public let dataSource: DataSource?
@@ -1260,7 +1260,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartDataCollectionByAgentIdsRequest: AWSShape {
+    public struct StartDataCollectionByAgentIdsRequest: AWSEncodableShape {
 
         /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public let agentIds: [String]
@@ -1274,7 +1274,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartDataCollectionByAgentIdsResponse: AWSShape {
+    public struct StartDataCollectionByAgentIdsResponse: AWSDecodableShape {
 
         /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
@@ -1288,7 +1288,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartExportTaskRequest: AWSShape {
+    public struct StartExportTaskRequest: AWSEncodableShape {
 
         /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
         public let endTime: TimeStamp?
@@ -1314,7 +1314,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartExportTaskResponse: AWSShape {
+    public struct StartExportTaskResponse: AWSDecodableShape {
 
         /// A unique identifier used to query the status of an export request.
         public let exportId: String?
@@ -1328,7 +1328,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartImportTaskRequest: AWSShape {
+    public struct StartImportTaskRequest: AWSEncodableShape {
 
         /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token.
         public let clientRequestToken: String?
@@ -1359,7 +1359,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StartImportTaskResponse: AWSShape {
+    public struct StartImportTaskResponse: AWSDecodableShape {
 
         /// An array of information related to the import task request including status information, times, IDs, the Amazon S3 Object URL for the import file, and more. 
         public let task: ImportTask?
@@ -1373,7 +1373,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StopContinuousExportRequest: AWSShape {
+    public struct StopContinuousExportRequest: AWSEncodableShape {
 
         /// The unique ID assigned to this export.
         public let exportId: String
@@ -1387,7 +1387,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StopContinuousExportResponse: AWSShape {
+    public struct StopContinuousExportResponse: AWSDecodableShape {
 
         /// Timestamp that represents when this continuous export started collecting data.
         public let startTime: TimeStamp?
@@ -1405,7 +1405,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StopDataCollectionByAgentIdsRequest: AWSShape {
+    public struct StopDataCollectionByAgentIdsRequest: AWSEncodableShape {
 
         /// The IDs of the agents or connectors from which to stop collecting data.
         public let agentIds: [String]
@@ -1419,7 +1419,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct StopDataCollectionByAgentIdsResponse: AWSShape {
+    public struct StopDataCollectionByAgentIdsResponse: AWSDecodableShape {
 
         /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
@@ -1433,7 +1433,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape {
 
         /// The type of tag on which to filter.
         public let key: String
@@ -1451,7 +1451,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct TagFilter: AWSShape {
+    public struct TagFilter: AWSEncodableShape {
 
         /// A name of the tag filter.
         public let name: String
@@ -1469,7 +1469,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct UpdateApplicationRequest: AWSShape {
+    public struct UpdateApplicationRequest: AWSEncodableShape {
 
         /// Configuration ID of the application to be updated.
         public let configurationId: String
@@ -1491,7 +1491,7 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct UpdateApplicationResponse: AWSShape {
+    public struct UpdateApplicationResponse: AWSDecodableShape {
 
 
         public init() {

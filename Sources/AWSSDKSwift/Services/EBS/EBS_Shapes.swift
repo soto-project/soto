@@ -27,7 +27,7 @@ extension EBS {
 
     //MARK: Shapes
 
-    public struct Block: AWSShape {
+    public struct Block: AWSDecodableShape {
 
         /// The block index.
         public let blockIndex: Int?
@@ -45,7 +45,7 @@ extension EBS {
         }
     }
 
-    public struct ChangedBlock: AWSShape {
+    public struct ChangedBlock: AWSDecodableShape {
 
         /// The block index.
         public let blockIndex: Int?
@@ -67,7 +67,7 @@ extension EBS {
         }
     }
 
-    public struct GetSnapshotBlockRequest: AWSShape {
+    public struct GetSnapshotBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")), 
             AWSMemberEncoding(label: "blockToken", location: .querystring(locationName: "blockToken")), 
@@ -102,7 +102,7 @@ extension EBS {
         }
     }
 
-    public struct GetSnapshotBlockResponse: AWSShape {
+    public struct GetSnapshotBlockResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "blockData"
         public static var _encoding = [
@@ -136,7 +136,7 @@ extension EBS {
         }
     }
 
-    public struct ListChangedBlocksRequest: AWSShape {
+    public struct ListChangedBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "firstSnapshotId", location: .querystring(locationName: "firstSnapshotId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -186,7 +186,7 @@ extension EBS {
         }
     }
 
-    public struct ListChangedBlocksResponse: AWSShape {
+    public struct ListChangedBlocksResponse: AWSDecodableShape {
 
         /// The size of the block.
         public let blockSize: Int?
@@ -216,7 +216,7 @@ extension EBS {
         }
     }
 
-    public struct ListSnapshotBlocksRequest: AWSShape {
+    public struct ListSnapshotBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")), 
@@ -258,7 +258,7 @@ extension EBS {
         }
     }
 
-    public struct ListSnapshotBlocksResponse: AWSShape {
+    public struct ListSnapshotBlocksResponse: AWSDecodableShape {
 
         /// An array of objects containing information about the blocks.
         public let blocks: [Block]?

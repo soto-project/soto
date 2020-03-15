@@ -22,7 +22,7 @@ extension STS {
 
     //MARK: Shapes
 
-    public struct AssumeRoleRequest: AWSShape {
+    public struct AssumeRoleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member")), 
@@ -113,7 +113,7 @@ extension STS {
         }
     }
 
-    public struct AssumeRoleResponse: AWSShape {
+    public struct AssumeRoleResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole. 
         public let assumedRoleUser: AssumedRoleUser?
@@ -135,7 +135,7 @@ extension STS {
         }
     }
 
-    public struct AssumeRoleWithSAMLRequest: AWSShape {
+    public struct AssumeRoleWithSAMLRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member"))
         ]
@@ -191,7 +191,7 @@ extension STS {
         }
     }
 
-    public struct AssumeRoleWithSAMLResponse: AWSShape {
+    public struct AssumeRoleWithSAMLResponse: AWSDecodableShape {
 
         /// The identifiers for the temporary security credentials that the operation returns.
         public let assumedRoleUser: AssumedRoleUser?
@@ -233,7 +233,7 @@ extension STS {
         }
     }
 
-    public struct AssumeRoleWithWebIdentityRequest: AWSShape {
+    public struct AssumeRoleWithWebIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member"))
         ]
@@ -295,7 +295,7 @@ extension STS {
         }
     }
 
-    public struct AssumeRoleWithWebIdentityResponse: AWSShape {
+    public struct AssumeRoleWithWebIdentityResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole. 
         public let assumedRoleUser: AssumedRoleUser?
@@ -329,7 +329,7 @@ extension STS {
         }
     }
 
-    public struct AssumedRoleUser: AWSShape {
+    public struct AssumedRoleUser: AWSDecodableShape {
 
         /// The ARN of the temporary security credentials that are returned from the AssumeRole action. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
@@ -347,7 +347,7 @@ extension STS {
         }
     }
 
-    public struct Credentials: AWSShape {
+    public struct Credentials: AWSDecodableShape {
 
         /// The access key ID that identifies the temporary security credentials.
         public let accessKeyId: String
@@ -373,7 +373,7 @@ extension STS {
         }
     }
 
-    public struct DecodeAuthorizationMessageRequest: AWSShape {
+    public struct DecodeAuthorizationMessageRequest: AWSEncodableShape {
 
         /// The encoded message that was returned with the response.
         public let encodedMessage: String
@@ -392,7 +392,7 @@ extension STS {
         }
     }
 
-    public struct DecodeAuthorizationMessageResponse: AWSShape {
+    public struct DecodeAuthorizationMessageResponse: AWSDecodableShape {
 
         /// An XML document that contains the decoded message.
         public let decodedMessage: String?
@@ -406,7 +406,7 @@ extension STS {
         }
     }
 
-    public struct FederatedUser: AWSShape {
+    public struct FederatedUser: AWSDecodableShape {
 
         /// The ARN that specifies the federated user that is associated with the credentials. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide. 
         public let arn: String
@@ -424,7 +424,7 @@ extension STS {
         }
     }
 
-    public struct GetAccessKeyInfoRequest: AWSShape {
+    public struct GetAccessKeyInfoRequest: AWSEncodableShape {
 
         /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
         public let accessKeyId: String
@@ -444,7 +444,7 @@ extension STS {
         }
     }
 
-    public struct GetAccessKeyInfoResponse: AWSShape {
+    public struct GetAccessKeyInfoResponse: AWSDecodableShape {
 
         /// The number used to identify the AWS account.
         public let account: String?
@@ -458,7 +458,7 @@ extension STS {
         }
     }
 
-    public struct GetCallerIdentityRequest: AWSShape {
+    public struct GetCallerIdentityRequest: AWSEncodableShape {
 
 
         public init() {
@@ -466,7 +466,7 @@ extension STS {
 
     }
 
-    public struct GetCallerIdentityResponse: AWSShape {
+    public struct GetCallerIdentityResponse: AWSDecodableShape {
 
         /// The AWS account ID number of the account that owns or contains the calling entity.
         public let account: String?
@@ -488,7 +488,7 @@ extension STS {
         }
     }
 
-    public struct GetFederationTokenRequest: AWSShape {
+    public struct GetFederationTokenRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyArns", location: .body(locationName: "PolicyArns"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
@@ -540,7 +540,7 @@ extension STS {
         }
     }
 
-    public struct GetFederationTokenResponse: AWSShape {
+    public struct GetFederationTokenResponse: AWSDecodableShape {
 
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size. 
         public let credentials: Credentials?
@@ -562,7 +562,7 @@ extension STS {
         }
     }
 
-    public struct GetSessionTokenRequest: AWSShape {
+    public struct GetSessionTokenRequest: AWSEncodableShape {
 
         /// The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for AWS account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for AWS account owners defaults to one hour.
         public let durationSeconds: Int?
@@ -595,7 +595,7 @@ extension STS {
         }
     }
 
-    public struct GetSessionTokenResponse: AWSShape {
+    public struct GetSessionTokenResponse: AWSDecodableShape {
 
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size. 
         public let credentials: Credentials?
@@ -609,7 +609,7 @@ extension STS {
         }
     }
 
-    public struct PolicyDescriptorType: AWSShape {
+    public struct PolicyDescriptorType: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let arn: String?
@@ -629,7 +629,7 @@ extension STS {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape {
 
         /// The key for a session tag. You can pass up to 50 session tags. The plain text session tag keys can’t exceed 128 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide.
         public let key: String

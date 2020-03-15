@@ -86,7 +86,7 @@ extension ECR {
 
     //MARK: Shapes
 
-    public struct Attribute: AWSShape {
+    public struct Attribute: AWSDecodableShape {
 
         /// The attribute key.
         public let key: String
@@ -104,7 +104,7 @@ extension ECR {
         }
     }
 
-    public struct AuthorizationData: AWSShape {
+    public struct AuthorizationData: AWSDecodableShape {
 
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
@@ -126,7 +126,7 @@ extension ECR {
         }
     }
 
-    public struct BatchCheckLayerAvailabilityRequest: AWSShape {
+    public struct BatchCheckLayerAvailabilityRequest: AWSEncodableShape {
 
         /// The digests of the image layers to check.
         public let layerDigests: [String]
@@ -161,7 +161,7 @@ extension ECR {
         }
     }
 
-    public struct BatchCheckLayerAvailabilityResponse: AWSShape {
+    public struct BatchCheckLayerAvailabilityResponse: AWSDecodableShape {
 
         /// Any failures associated with the call.
         public let failures: [LayerFailure]?
@@ -179,7 +179,7 @@ extension ECR {
         }
     }
 
-    public struct BatchDeleteImageRequest: AWSShape {
+    public struct BatchDeleteImageRequest: AWSEncodableShape {
 
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
         public let imageIds: [ImageIdentifier]
@@ -213,7 +213,7 @@ extension ECR {
         }
     }
 
-    public struct BatchDeleteImageResponse: AWSShape {
+    public struct BatchDeleteImageResponse: AWSDecodableShape {
 
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -231,7 +231,7 @@ extension ECR {
         }
     }
 
-    public struct BatchGetImageRequest: AWSShape {
+    public struct BatchGetImageRequest: AWSEncodableShape {
 
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
         public let acceptedMediaTypes: [String]?
@@ -271,7 +271,7 @@ extension ECR {
         }
     }
 
-    public struct BatchGetImageResponse: AWSShape {
+    public struct BatchGetImageResponse: AWSDecodableShape {
 
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -289,7 +289,7 @@ extension ECR {
         }
     }
 
-    public struct CompleteLayerUploadRequest: AWSShape {
+    public struct CompleteLayerUploadRequest: AWSEncodableShape {
 
         /// The sha256 digest of the image layer.
         public let layerDigests: [String]
@@ -328,7 +328,7 @@ extension ECR {
         }
     }
 
-    public struct CompleteLayerUploadResponse: AWSShape {
+    public struct CompleteLayerUploadResponse: AWSDecodableShape {
 
         /// The sha256 digest of the image layer.
         public let layerDigest: String?
@@ -354,7 +354,7 @@ extension ECR {
         }
     }
 
-    public struct CreateRepositoryRequest: AWSShape {
+    public struct CreateRepositoryRequest: AWSEncodableShape {
 
         /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -386,7 +386,7 @@ extension ECR {
         }
     }
 
-    public struct CreateRepositoryResponse: AWSShape {
+    public struct CreateRepositoryResponse: AWSDecodableShape {
 
         /// The repository that was created.
         public let repository: Repository?
@@ -400,7 +400,7 @@ extension ECR {
         }
     }
 
-    public struct DeleteLifecyclePolicyRequest: AWSShape {
+    public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
 
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -425,7 +425,7 @@ extension ECR {
         }
     }
 
-    public struct DeleteLifecyclePolicyResponse: AWSShape {
+    public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
 
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
@@ -451,7 +451,7 @@ extension ECR {
         }
     }
 
-    public struct DeleteRepositoryPolicyRequest: AWSShape {
+    public struct DeleteRepositoryPolicyRequest: AWSEncodableShape {
 
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -476,7 +476,7 @@ extension ECR {
         }
     }
 
-    public struct DeleteRepositoryPolicyResponse: AWSShape {
+    public struct DeleteRepositoryPolicyResponse: AWSDecodableShape {
 
         /// The JSON repository policy that was deleted from the repository.
         public let policyText: String?
@@ -498,7 +498,7 @@ extension ECR {
         }
     }
 
-    public struct DeleteRepositoryRequest: AWSShape {
+    public struct DeleteRepositoryRequest: AWSEncodableShape {
 
         ///  If a repository contains images, forces the deletion.
         public let force: Bool?
@@ -527,7 +527,7 @@ extension ECR {
         }
     }
 
-    public struct DeleteRepositoryResponse: AWSShape {
+    public struct DeleteRepositoryResponse: AWSDecodableShape {
 
         /// The repository that was deleted.
         public let repository: Repository?
@@ -541,7 +541,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeImageScanFindingsRequest: AWSShape {
+    public struct DescribeImageScanFindingsRequest: AWSEncodableShape {
 
         public let imageId: ImageIdentifier
         /// The maximum number of image scan results returned by DescribeImageScanFindings in paginated output. When this parameter is used, DescribeImageScanFindings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImageScanFindings request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeImageScanFindings returns up to 100 results and a nextToken value, if applicable.
@@ -580,7 +580,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeImageScanFindingsResponse: AWSShape {
+    public struct DescribeImageScanFindingsResponse: AWSDecodableShape {
 
         public let imageId: ImageIdentifier?
         /// The information contained in the image scan findings.
@@ -613,7 +613,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeImagesFilter: AWSShape {
+    public struct DescribeImagesFilter: AWSEncodableShape {
 
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -627,7 +627,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeImagesRequest: AWSShape {
+    public struct DescribeImagesRequest: AWSEncodableShape {
 
         /// The filter key and value with which to filter your DescribeImages results.
         public let filter: DescribeImagesFilter?
@@ -675,7 +675,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeImagesResponse: AWSShape {
+    public struct DescribeImagesResponse: AWSDecodableShape {
 
         /// A list of ImageDetail objects that contain data about the image.
         public let imageDetails: [ImageDetail]?
@@ -693,7 +693,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeRepositoriesRequest: AWSShape {
+    public struct DescribeRepositoriesRequest: AWSEncodableShape {
 
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
         public let maxResults: Int?
@@ -732,7 +732,7 @@ extension ECR {
         }
     }
 
-    public struct DescribeRepositoriesResponse: AWSShape {
+    public struct DescribeRepositoriesResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -750,7 +750,7 @@ extension ECR {
         }
     }
 
-    public struct GetAuthorizationTokenRequest: AWSShape {
+    public struct GetAuthorizationTokenRequest: AWSEncodableShape {
 
         /// A list of AWS account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
@@ -772,7 +772,7 @@ extension ECR {
         }
     }
 
-    public struct GetAuthorizationTokenResponse: AWSShape {
+    public struct GetAuthorizationTokenResponse: AWSDecodableShape {
 
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
         public let authorizationData: [AuthorizationData]?
@@ -786,7 +786,7 @@ extension ECR {
         }
     }
 
-    public struct GetDownloadUrlForLayerRequest: AWSShape {
+    public struct GetDownloadUrlForLayerRequest: AWSEncodableShape {
 
         /// The digest of the image layer to download.
         public let layerDigest: String
@@ -816,7 +816,7 @@ extension ECR {
         }
     }
 
-    public struct GetDownloadUrlForLayerResponse: AWSShape {
+    public struct GetDownloadUrlForLayerResponse: AWSDecodableShape {
 
         /// The pre-signed Amazon S3 download URL for the requested layer.
         public let downloadUrl: String?
@@ -834,7 +834,7 @@ extension ECR {
         }
     }
 
-    public struct GetLifecyclePolicyPreviewRequest: AWSShape {
+    public struct GetLifecyclePolicyPreviewRequest: AWSEncodableShape {
 
         /// An optional parameter that filters results based on image tag status and all tags, if tagged.
         public let filter: LifecyclePolicyPreviewFilter?
@@ -882,7 +882,7 @@ extension ECR {
         }
     }
 
-    public struct GetLifecyclePolicyPreviewResponse: AWSShape {
+    public struct GetLifecyclePolicyPreviewResponse: AWSDecodableShape {
 
         /// The JSON lifecycle policy text.
         public let lifecyclePolicyText: String?
@@ -920,7 +920,7 @@ extension ECR {
         }
     }
 
-    public struct GetLifecyclePolicyRequest: AWSShape {
+    public struct GetLifecyclePolicyRequest: AWSEncodableShape {
 
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -945,7 +945,7 @@ extension ECR {
         }
     }
 
-    public struct GetLifecyclePolicyResponse: AWSShape {
+    public struct GetLifecyclePolicyResponse: AWSDecodableShape {
 
         /// The time stamp of the last time that the lifecycle policy was run.
         public let lastEvaluatedAt: TimeStamp?
@@ -971,7 +971,7 @@ extension ECR {
         }
     }
 
-    public struct GetRepositoryPolicyRequest: AWSShape {
+    public struct GetRepositoryPolicyRequest: AWSEncodableShape {
 
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -996,7 +996,7 @@ extension ECR {
         }
     }
 
-    public struct GetRepositoryPolicyResponse: AWSShape {
+    public struct GetRepositoryPolicyResponse: AWSDecodableShape {
 
         /// The JSON repository policy text associated with the repository.
         public let policyText: String?
@@ -1018,7 +1018,7 @@ extension ECR {
         }
     }
 
-    public struct Image: AWSShape {
+    public struct Image: AWSDecodableShape {
 
         /// An object containing the image tag and image digest associated with an image.
         public let imageId: ImageIdentifier?
@@ -1044,7 +1044,7 @@ extension ECR {
         }
     }
 
-    public struct ImageDetail: AWSShape {
+    public struct ImageDetail: AWSDecodableShape {
 
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
@@ -1086,7 +1086,7 @@ extension ECR {
         }
     }
 
-    public struct ImageFailure: AWSShape {
+    public struct ImageFailure: AWSDecodableShape {
 
         /// The code associated with the failure.
         public let failureCode: ImageFailureCode?
@@ -1108,7 +1108,7 @@ extension ECR {
         }
     }
 
-    public struct ImageIdentifier: AWSShape {
+    public struct ImageIdentifier: AWSEncodableShape & AWSDecodableShape {
 
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
@@ -1131,7 +1131,7 @@ extension ECR {
         }
     }
 
-    public struct ImageScanFinding: AWSShape {
+    public struct ImageScanFinding: AWSDecodableShape {
 
         /// A collection of attributes of the host from which the finding is generated.
         public let attributes: [Attribute]?
@@ -1161,7 +1161,7 @@ extension ECR {
         }
     }
 
-    public struct ImageScanFindings: AWSShape {
+    public struct ImageScanFindings: AWSDecodableShape {
 
         /// The findings from the image scan.
         public let findings: [ImageScanFinding]?
@@ -1187,7 +1187,7 @@ extension ECR {
         }
     }
 
-    public struct ImageScanFindingsSummary: AWSShape {
+    public struct ImageScanFindingsSummary: AWSDecodableShape {
 
         /// The image vulnerability counts, sorted by severity.
         public let findingSeverityCounts: [FindingSeverity: Int]?
@@ -1209,7 +1209,7 @@ extension ECR {
         }
     }
 
-    public struct ImageScanStatus: AWSShape {
+    public struct ImageScanStatus: AWSDecodableShape {
 
         /// The description of the image scan status.
         public let description: String?
@@ -1227,7 +1227,7 @@ extension ECR {
         }
     }
 
-    public struct ImageScanningConfiguration: AWSShape {
+    public struct ImageScanningConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the StartImageScan API.
         public let scanOnPush: Bool?
@@ -1241,7 +1241,7 @@ extension ECR {
         }
     }
 
-    public struct InitiateLayerUploadRequest: AWSShape {
+    public struct InitiateLayerUploadRequest: AWSEncodableShape {
 
         /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1266,7 +1266,7 @@ extension ECR {
         }
     }
 
-    public struct InitiateLayerUploadResponse: AWSShape {
+    public struct InitiateLayerUploadResponse: AWSDecodableShape {
 
         /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
         public let partSize: Int64?
@@ -1284,7 +1284,7 @@ extension ECR {
         }
     }
 
-    public struct Layer: AWSShape {
+    public struct Layer: AWSDecodableShape {
 
         /// The availability status of the image layer.
         public let layerAvailability: LayerAvailability?
@@ -1310,7 +1310,7 @@ extension ECR {
         }
     }
 
-    public struct LayerFailure: AWSShape {
+    public struct LayerFailure: AWSDecodableShape {
 
         /// The failure code associated with the failure.
         public let failureCode: LayerFailureCode?
@@ -1332,7 +1332,7 @@ extension ECR {
         }
     }
 
-    public struct LifecyclePolicyPreviewFilter: AWSShape {
+    public struct LifecyclePolicyPreviewFilter: AWSEncodableShape {
 
         /// The tag status of the image.
         public let tagStatus: TagStatus?
@@ -1346,7 +1346,7 @@ extension ECR {
         }
     }
 
-    public struct LifecyclePolicyPreviewResult: AWSShape {
+    public struct LifecyclePolicyPreviewResult: AWSDecodableShape {
 
         /// The type of action to be taken.
         public let action: LifecyclePolicyRuleAction?
@@ -1376,7 +1376,7 @@ extension ECR {
         }
     }
 
-    public struct LifecyclePolicyPreviewSummary: AWSShape {
+    public struct LifecyclePolicyPreviewSummary: AWSDecodableShape {
 
         /// The number of expiring images.
         public let expiringImageTotalCount: Int?
@@ -1390,7 +1390,7 @@ extension ECR {
         }
     }
 
-    public struct LifecyclePolicyRuleAction: AWSShape {
+    public struct LifecyclePolicyRuleAction: AWSDecodableShape {
 
         /// The type of action to be taken.
         public let `type`: ImageActionType?
@@ -1404,7 +1404,7 @@ extension ECR {
         }
     }
 
-    public struct ListImagesFilter: AWSShape {
+    public struct ListImagesFilter: AWSEncodableShape {
 
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -1418,7 +1418,7 @@ extension ECR {
         }
     }
 
-    public struct ListImagesRequest: AWSShape {
+    public struct ListImagesRequest: AWSEncodableShape {
 
         /// The filter key and value with which to filter your ListImages results.
         public let filter: ListImagesFilter?
@@ -1457,7 +1457,7 @@ extension ECR {
         }
     }
 
-    public struct ListImagesResponse: AWSShape {
+    public struct ListImagesResponse: AWSDecodableShape {
 
         /// The list of image IDs for the requested repository.
         public let imageIds: [ImageIdentifier]?
@@ -1475,7 +1475,7 @@ extension ECR {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -1489,7 +1489,7 @@ extension ECR {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags for the resource.
         public let tags: [Tag]?
@@ -1503,7 +1503,7 @@ extension ECR {
         }
     }
 
-    public struct PutImageRequest: AWSShape {
+    public struct PutImageRequest: AWSEncodableShape {
 
         /// The image manifest corresponding to the image to be uploaded.
         public let imageManifest: String
@@ -1540,7 +1540,7 @@ extension ECR {
         }
     }
 
-    public struct PutImageResponse: AWSShape {
+    public struct PutImageResponse: AWSDecodableShape {
 
         /// Details of the image uploaded.
         public let image: Image?
@@ -1554,7 +1554,7 @@ extension ECR {
         }
     }
 
-    public struct PutImageScanningConfigurationRequest: AWSShape {
+    public struct PutImageScanningConfigurationRequest: AWSEncodableShape {
 
         /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration
@@ -1583,7 +1583,7 @@ extension ECR {
         }
     }
 
-    public struct PutImageScanningConfigurationResponse: AWSShape {
+    public struct PutImageScanningConfigurationResponse: AWSDecodableShape {
 
         /// The image scanning configuration setting for the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -1605,7 +1605,7 @@ extension ECR {
         }
     }
 
-    public struct PutImageTagMutabilityRequest: AWSShape {
+    public struct PutImageTagMutabilityRequest: AWSEncodableShape {
 
         /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability
@@ -1634,7 +1634,7 @@ extension ECR {
         }
     }
 
-    public struct PutImageTagMutabilityResponse: AWSShape {
+    public struct PutImageTagMutabilityResponse: AWSDecodableShape {
 
         /// The image tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
@@ -1656,7 +1656,7 @@ extension ECR {
         }
     }
 
-    public struct PutLifecyclePolicyRequest: AWSShape {
+    public struct PutLifecyclePolicyRequest: AWSEncodableShape {
 
         /// The JSON repository policy text to apply to the repository.
         public let lifecyclePolicyText: String
@@ -1687,7 +1687,7 @@ extension ECR {
         }
     }
 
-    public struct PutLifecyclePolicyResponse: AWSShape {
+    public struct PutLifecyclePolicyResponse: AWSDecodableShape {
 
         /// The JSON repository policy text.
         public let lifecyclePolicyText: String?
@@ -1709,7 +1709,7 @@ extension ECR {
         }
     }
 
-    public struct Repository: AWSShape {
+    public struct Repository: AWSDecodableShape {
 
         /// The date and time, in JavaScript date format, when the repository was created.
         public let createdAt: TimeStamp?
@@ -1746,7 +1746,7 @@ extension ECR {
         }
     }
 
-    public struct SetRepositoryPolicyRequest: AWSShape {
+    public struct SetRepositoryPolicyRequest: AWSEncodableShape {
 
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
@@ -1781,7 +1781,7 @@ extension ECR {
         }
     }
 
-    public struct SetRepositoryPolicyResponse: AWSShape {
+    public struct SetRepositoryPolicyResponse: AWSDecodableShape {
 
         /// The JSON repository policy text applied to the repository.
         public let policyText: String?
@@ -1803,7 +1803,7 @@ extension ECR {
         }
     }
 
-    public struct StartImageScanRequest: AWSShape {
+    public struct StartImageScanRequest: AWSEncodableShape {
 
         public let imageId: ImageIdentifier
         /// The AWS account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
@@ -1832,7 +1832,7 @@ extension ECR {
         }
     }
 
-    public struct StartImageScanResponse: AWSShape {
+    public struct StartImageScanResponse: AWSDecodableShape {
 
         public let imageId: ImageIdentifier?
         /// The current state of the scan.
@@ -1857,7 +1857,7 @@ extension ECR {
         }
     }
 
-    public struct StartLifecyclePolicyPreviewRequest: AWSShape {
+    public struct StartLifecyclePolicyPreviewRequest: AWSEncodableShape {
 
         /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
         public let lifecyclePolicyText: String?
@@ -1888,7 +1888,7 @@ extension ECR {
         }
     }
 
-    public struct StartLifecyclePolicyPreviewResponse: AWSShape {
+    public struct StartLifecyclePolicyPreviewResponse: AWSDecodableShape {
 
         /// The JSON repository policy text.
         public let lifecyclePolicyText: String?
@@ -1914,7 +1914,7 @@ extension ECR {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -1932,7 +1932,7 @@ extension ECR {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the the resource to which to add tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -1950,7 +1950,7 @@ extension ECR {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1958,7 +1958,7 @@ extension ECR {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -1976,7 +1976,7 @@ extension ECR {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1984,7 +1984,7 @@ extension ECR {
 
     }
 
-    public struct UploadLayerPartRequest: AWSShape {
+    public struct UploadLayerPartRequest: AWSEncodableShape {
 
         /// The base64-encoded layer part payload.
         public let layerPartBlob: Data
@@ -2030,7 +2030,7 @@ extension ECR {
         }
     }
 
-    public struct UploadLayerPartResponse: AWSShape {
+    public struct UploadLayerPartResponse: AWSDecodableShape {
 
         /// The integer value of the last byte received in the request.
         public let lastByteReceived: Int64?

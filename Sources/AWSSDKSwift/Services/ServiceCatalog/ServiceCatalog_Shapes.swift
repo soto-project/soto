@@ -249,7 +249,7 @@ extension ServiceCatalog {
 
     //MARK: Shapes
 
-    public struct AcceptPortfolioShareInput: AWSShape {
+    public struct AcceptPortfolioShareInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -278,7 +278,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AcceptPortfolioShareOutput: AWSShape {
+    public struct AcceptPortfolioShareOutput: AWSDecodableShape {
 
 
         public init() {
@@ -286,7 +286,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct AccessLevelFilter: AWSShape {
+    public struct AccessLevelFilter: AWSEncodableShape {
 
         /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.  
         public let key: AccessLevelFilterKey?
@@ -304,7 +304,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AssociateBudgetWithResourceInput: AWSShape {
+    public struct AssociateBudgetWithResourceInput: AWSEncodableShape {
 
         /// The name of the budget you want to associate.
         public let budgetName: String
@@ -330,7 +330,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AssociateBudgetWithResourceOutput: AWSShape {
+    public struct AssociateBudgetWithResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -338,7 +338,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct AssociatePrincipalWithPortfolioInput: AWSShape {
+    public struct AssociatePrincipalWithPortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -373,7 +373,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
+    public struct AssociatePrincipalWithPortfolioOutput: AWSDecodableShape {
 
 
         public init() {
@@ -381,7 +381,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct AssociateProductWithPortfolioInput: AWSShape {
+    public struct AssociateProductWithPortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -420,7 +420,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AssociateProductWithPortfolioOutput: AWSShape {
+    public struct AssociateProductWithPortfolioOutput: AWSDecodableShape {
 
 
         public init() {
@@ -428,7 +428,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct AssociateServiceActionWithProvisioningArtifactInput: AWSShape {
+    public struct AssociateServiceActionWithProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -467,7 +467,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
+    public struct AssociateServiceActionWithProvisioningArtifactOutput: AWSDecodableShape {
 
 
         public init() {
@@ -475,7 +475,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct AssociateTagOptionWithResourceInput: AWSShape {
+    public struct AssociateTagOptionWithResourceInput: AWSEncodableShape {
 
         /// The resource identifier.
         public let resourceId: String
@@ -498,7 +498,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct AssociateTagOptionWithResourceOutput: AWSShape {
+    public struct AssociateTagOptionWithResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -506,7 +506,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSShape {
+    public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -533,7 +533,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: AWSShape {
+    public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: AWSDecodableShape {
 
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
@@ -547,7 +547,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
+    public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -574,7 +574,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
+    public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: AWSDecodableShape {
 
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
@@ -588,7 +588,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct BudgetDetail: AWSShape {
+    public struct BudgetDetail: AWSDecodableShape {
 
         /// Name of the associated budget.
         public let budgetName: String?
@@ -602,7 +602,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CloudWatchDashboard: AWSShape {
+    public struct CloudWatchDashboard: AWSDecodableShape {
 
         /// The name of the CloudWatch dashboard.
         public let name: String?
@@ -616,7 +616,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ConstraintDetail: AWSShape {
+    public struct ConstraintDetail: AWSDecodableShape {
 
         /// The identifier of the constraint.
         public let constraintId: String?
@@ -650,7 +650,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ConstraintSummary: AWSShape {
+    public struct ConstraintSummary: AWSDecodableShape {
 
         /// The description of the constraint.
         public let description: String?
@@ -668,7 +668,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CopyProductInput: AWSShape {
+    public struct CopyProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -720,7 +720,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CopyProductOutput: AWSShape {
+    public struct CopyProductOutput: AWSDecodableShape {
 
         /// The token to use to track the progress of the operation.
         public let copyProductToken: String?
@@ -734,7 +734,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateConstraintInput: AWSShape {
+    public struct CreateConstraintInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -788,7 +788,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateConstraintOutput: AWSShape {
+    public struct CreateConstraintOutput: AWSDecodableShape {
 
         /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
@@ -810,7 +810,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreatePortfolioInput: AWSShape {
+    public struct CreatePortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -860,7 +860,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreatePortfolioOutput: AWSShape {
+    public struct CreatePortfolioOutput: AWSDecodableShape {
 
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
@@ -878,7 +878,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreatePortfolioShareInput: AWSShape {
+    public struct CreatePortfolioShareInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -913,7 +913,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreatePortfolioShareOutput: AWSShape {
+    public struct CreatePortfolioShareOutput: AWSDecodableShape {
 
         /// The portfolio share unique identifier. This will only be returned if portfolio is shared to an organization node.
         public let portfolioShareToken: String?
@@ -927,7 +927,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateProductInput: AWSShape {
+    public struct CreateProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1003,7 +1003,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateProductOutput: AWSShape {
+    public struct CreateProductOutput: AWSDecodableShape {
 
         /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
@@ -1025,7 +1025,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateProvisionedProductPlanInput: AWSShape {
+    public struct CreateProvisionedProductPlanInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1111,7 +1111,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateProvisionedProductPlanOutput: AWSShape {
+    public struct CreateProvisionedProductPlanOutput: AWSDecodableShape {
 
         /// The plan identifier.
         public let planId: String?
@@ -1141,7 +1141,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateProvisioningArtifactInput: AWSShape {
+    public struct CreateProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1177,7 +1177,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateProvisioningArtifactOutput: AWSShape {
+    public struct CreateProvisioningArtifactOutput: AWSDecodableShape {
 
         /// The URL of the CloudFormation template in Amazon S3, in JSON format.
         public let info: [String: String]?
@@ -1199,7 +1199,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateServiceActionInput: AWSShape {
+    public struct CreateServiceActionInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1248,7 +1248,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateServiceActionOutput: AWSShape {
+    public struct CreateServiceActionOutput: AWSDecodableShape {
 
         /// An object containing information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
@@ -1262,7 +1262,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateTagOptionInput: AWSShape {
+    public struct CreateTagOptionInput: AWSEncodableShape {
 
         /// The TagOption key.
         public let key: String
@@ -1289,7 +1289,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct CreateTagOptionOutput: AWSShape {
+    public struct CreateTagOptionOutput: AWSDecodableShape {
 
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
@@ -1303,7 +1303,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteConstraintInput: AWSShape {
+    public struct DeleteConstraintInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1328,7 +1328,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteConstraintOutput: AWSShape {
+    public struct DeleteConstraintOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1336,7 +1336,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DeletePortfolioInput: AWSShape {
+    public struct DeletePortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1361,7 +1361,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeletePortfolioOutput: AWSShape {
+    public struct DeletePortfolioOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1369,7 +1369,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DeletePortfolioShareInput: AWSShape {
+    public struct DeletePortfolioShareInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1404,7 +1404,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeletePortfolioShareOutput: AWSShape {
+    public struct DeletePortfolioShareOutput: AWSDecodableShape {
 
         /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
         public let portfolioShareToken: String?
@@ -1418,7 +1418,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteProductInput: AWSShape {
+    public struct DeleteProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1443,7 +1443,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteProductOutput: AWSShape {
+    public struct DeleteProductOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1451,7 +1451,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DeleteProvisionedProductPlanInput: AWSShape {
+    public struct DeleteProvisionedProductPlanInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1480,7 +1480,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteProvisionedProductPlanOutput: AWSShape {
+    public struct DeleteProvisionedProductPlanOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1488,7 +1488,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DeleteProvisioningArtifactInput: AWSShape {
+    public struct DeleteProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1520,7 +1520,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteProvisioningArtifactOutput: AWSShape {
+    public struct DeleteProvisioningArtifactOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1528,7 +1528,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DeleteServiceActionInput: AWSShape {
+    public struct DeleteServiceActionInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1553,7 +1553,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteServiceActionOutput: AWSShape {
+    public struct DeleteServiceActionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1561,7 +1561,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DeleteTagOptionInput: AWSShape {
+    public struct DeleteTagOptionInput: AWSEncodableShape {
 
         /// The TagOption identifier.
         public let id: String
@@ -1580,7 +1580,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DeleteTagOptionOutput: AWSShape {
+    public struct DeleteTagOptionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1588,7 +1588,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DescribeConstraintInput: AWSShape {
+    public struct DescribeConstraintInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1613,7 +1613,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeConstraintOutput: AWSShape {
+    public struct DescribeConstraintOutput: AWSDecodableShape {
 
         /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
@@ -1635,7 +1635,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeCopyProductStatusInput: AWSShape {
+    public struct DescribeCopyProductStatusInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1660,7 +1660,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeCopyProductStatusOutput: AWSShape {
+    public struct DescribeCopyProductStatusOutput: AWSDecodableShape {
 
         /// The status of the copy product operation.
         public let copyProductStatus: CopyProductStatus?
@@ -1682,7 +1682,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribePortfolioInput: AWSShape {
+    public struct DescribePortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1707,7 +1707,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribePortfolioOutput: AWSShape {
+    public struct DescribePortfolioOutput: AWSDecodableShape {
 
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
@@ -1733,7 +1733,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribePortfolioShareStatusInput: AWSShape {
+    public struct DescribePortfolioShareStatusInput: AWSEncodableShape {
 
         /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
         public let portfolioShareToken: String
@@ -1753,7 +1753,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribePortfolioShareStatusOutput: AWSShape {
+    public struct DescribePortfolioShareStatusOutput: AWSDecodableShape {
 
         /// Organization node identifier. It can be either account id, organizational unit id or organization id.
         public let organizationNodeValue: String?
@@ -1783,7 +1783,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProductAsAdminInput: AWSShape {
+    public struct DescribeProductAsAdminInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1808,7 +1808,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProductAsAdminOutput: AWSShape {
+    public struct DescribeProductAsAdminOutput: AWSDecodableShape {
 
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
@@ -1838,7 +1838,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProductInput: AWSShape {
+    public struct DescribeProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1863,7 +1863,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProductOutput: AWSShape {
+    public struct DescribeProductOutput: AWSDecodableShape {
 
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
@@ -1885,7 +1885,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProductViewInput: AWSShape {
+    public struct DescribeProductViewInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1910,7 +1910,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProductViewOutput: AWSShape {
+    public struct DescribeProductViewOutput: AWSDecodableShape {
 
         /// Summary information about the product.
         public let productViewSummary: ProductViewSummary?
@@ -1928,7 +1928,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisionedProductInput: AWSShape {
+    public struct DescribeProvisionedProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -1953,7 +1953,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisionedProductOutput: AWSShape {
+    public struct DescribeProvisionedProductOutput: AWSDecodableShape {
 
         /// Any CloudWatch dashboards that were created when provisioning the product.
         public let cloudWatchDashboards: [CloudWatchDashboard]?
@@ -1971,7 +1971,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisionedProductPlanInput: AWSShape {
+    public struct DescribeProvisionedProductPlanInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2008,7 +2008,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisionedProductPlanOutput: AWSShape {
+    public struct DescribeProvisionedProductPlanOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -2030,7 +2030,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisioningArtifactInput: AWSShape {
+    public struct DescribeProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2066,7 +2066,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisioningArtifactOutput: AWSShape {
+    public struct DescribeProvisioningArtifactOutput: AWSDecodableShape {
 
         /// The URL of the CloudFormation template in Amazon S3.
         public let info: [String: String]?
@@ -2088,7 +2088,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisioningParametersInput: AWSShape {
+    public struct DescribeProvisioningParametersInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2127,7 +2127,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeProvisioningParametersOutput: AWSShape {
+    public struct DescribeProvisioningParametersOutput: AWSDecodableShape {
 
         /// Information about the constraints used to provision the product.
         public let constraintSummaries: [ConstraintSummary]?
@@ -2157,7 +2157,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeRecordInput: AWSShape {
+    public struct DescribeRecordInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2194,7 +2194,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeRecordOutput: AWSShape {
+    public struct DescribeRecordOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -2216,7 +2216,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeServiceActionExecutionParametersInput: AWSShape {
+    public struct DescribeServiceActionExecutionParametersInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2248,7 +2248,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeServiceActionExecutionParametersOutput: AWSShape {
+    public struct DescribeServiceActionExecutionParametersOutput: AWSDecodableShape {
 
         /// The parameters of the self-service action.
         public let serviceActionParameters: [ExecutionParameter]?
@@ -2262,7 +2262,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeServiceActionInput: AWSShape {
+    public struct DescribeServiceActionInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2287,7 +2287,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeServiceActionOutput: AWSShape {
+    public struct DescribeServiceActionOutput: AWSDecodableShape {
 
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
@@ -2301,7 +2301,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeTagOptionInput: AWSShape {
+    public struct DescribeTagOptionInput: AWSEncodableShape {
 
         /// The TagOption identifier.
         public let id: String
@@ -2320,7 +2320,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DescribeTagOptionOutput: AWSShape {
+    public struct DescribeTagOptionOutput: AWSDecodableShape {
 
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
@@ -2334,7 +2334,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisableAWSOrganizationsAccessInput: AWSShape {
+    public struct DisableAWSOrganizationsAccessInput: AWSEncodableShape {
 
 
         public init() {
@@ -2342,7 +2342,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DisableAWSOrganizationsAccessOutput: AWSShape {
+    public struct DisableAWSOrganizationsAccessOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2350,7 +2350,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DisassociateBudgetFromResourceInput: AWSShape {
+    public struct DisassociateBudgetFromResourceInput: AWSEncodableShape {
 
         /// The name of the budget you want to disassociate.
         public let budgetName: String
@@ -2376,7 +2376,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisassociateBudgetFromResourceOutput: AWSShape {
+    public struct DisassociateBudgetFromResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2384,7 +2384,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
+    public struct DisassociatePrincipalFromPortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2415,7 +2415,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
+    public struct DisassociatePrincipalFromPortfolioOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2423,7 +2423,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DisassociateProductFromPortfolioInput: AWSShape {
+    public struct DisassociateProductFromPortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2455,7 +2455,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisassociateProductFromPortfolioOutput: AWSShape {
+    public struct DisassociateProductFromPortfolioOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2463,7 +2463,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSShape {
+    public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2502,7 +2502,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisassociateServiceActionFromProvisioningArtifactOutput: AWSShape {
+    public struct DisassociateServiceActionFromProvisioningArtifactOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2510,7 +2510,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct DisassociateTagOptionFromResourceInput: AWSShape {
+    public struct DisassociateTagOptionFromResourceInput: AWSEncodableShape {
 
         /// The resource identifier.
         public let resourceId: String
@@ -2533,7 +2533,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisassociateTagOptionFromResourceOutput: AWSShape {
+    public struct DisassociateTagOptionFromResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2541,7 +2541,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct EnableAWSOrganizationsAccessInput: AWSShape {
+    public struct EnableAWSOrganizationsAccessInput: AWSEncodableShape {
 
 
         public init() {
@@ -2549,7 +2549,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct EnableAWSOrganizationsAccessOutput: AWSShape {
+    public struct EnableAWSOrganizationsAccessOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2557,7 +2557,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct ExecuteProvisionedProductPlanInput: AWSShape {
+    public struct ExecuteProvisionedProductPlanInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2589,7 +2589,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ExecuteProvisionedProductPlanOutput: AWSShape {
+    public struct ExecuteProvisionedProductPlanOutput: AWSDecodableShape {
 
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
@@ -2603,7 +2603,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ExecuteProvisionedProductServiceActionInput: AWSShape {
+    public struct ExecuteProvisionedProductServiceActionInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2652,7 +2652,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ExecuteProvisionedProductServiceActionOutput: AWSShape {
+    public struct ExecuteProvisionedProductServiceActionOutput: AWSDecodableShape {
 
         /// An object containing detailed information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
@@ -2666,7 +2666,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ExecutionParameter: AWSShape {
+    public struct ExecutionParameter: AWSDecodableShape {
 
         /// The default values for the execution parameter.
         public let defaultValues: [String]?
@@ -2688,7 +2688,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct FailedServiceActionAssociation: AWSShape {
+    public struct FailedServiceActionAssociation: AWSDecodableShape {
 
         /// The error code. Valid values are listed below.
         public let errorCode: ServiceActionAssociationErrorCode?
@@ -2718,7 +2718,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct GetAWSOrganizationsAccessStatusInput: AWSShape {
+    public struct GetAWSOrganizationsAccessStatusInput: AWSEncodableShape {
 
 
         public init() {
@@ -2726,7 +2726,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct GetAWSOrganizationsAccessStatusOutput: AWSShape {
+    public struct GetAWSOrganizationsAccessStatusOutput: AWSDecodableShape {
 
         /// The status of the portfolio share feature.
         public let accessStatus: AccessStatus?
@@ -2740,7 +2740,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct LaunchPathSummary: AWSShape {
+    public struct LaunchPathSummary: AWSDecodableShape {
 
         /// The constraints on the portfolio-product relationship.
         public let constraintSummaries: [ConstraintSummary]?
@@ -2766,7 +2766,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListAcceptedPortfolioSharesInput: AWSShape {
+    public struct ListAcceptedPortfolioSharesInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2800,7 +2800,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListAcceptedPortfolioSharesOutput: AWSShape {
+    public struct ListAcceptedPortfolioSharesOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -2818,7 +2818,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListBudgetsForResourceInput: AWSShape {
+    public struct ListBudgetsForResourceInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2855,7 +2855,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListBudgetsForResourceOutput: AWSShape {
+    public struct ListBudgetsForResourceOutput: AWSDecodableShape {
 
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
@@ -2873,7 +2873,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListConstraintsForPortfolioInput: AWSShape {
+    public struct ListConstraintsForPortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2917,7 +2917,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListConstraintsForPortfolioOutput: AWSShape {
+    public struct ListConstraintsForPortfolioOutput: AWSDecodableShape {
 
         /// Information about the constraints.
         public let constraintDetails: [ConstraintDetail]?
@@ -2935,7 +2935,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListLaunchPathsInput: AWSShape {
+    public struct ListLaunchPathsInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -2972,7 +2972,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListLaunchPathsOutput: AWSShape {
+    public struct ListLaunchPathsOutput: AWSDecodableShape {
 
         /// Information about the launch path.
         public let launchPathSummaries: [LaunchPathSummary]?
@@ -2990,7 +2990,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListOrganizationPortfolioAccessInput: AWSShape {
+    public struct ListOrganizationPortfolioAccessInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3031,7 +3031,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListOrganizationPortfolioAccessOutput: AWSShape {
+    public struct ListOrganizationPortfolioAccessOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3049,7 +3049,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPortfolioAccessInput: AWSShape {
+    public struct ListPortfolioAccessInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3093,7 +3093,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPortfolioAccessOutput: AWSShape {
+    public struct ListPortfolioAccessOutput: AWSDecodableShape {
 
         /// Information about the AWS accounts with access to the portfolio.
         public let accountIds: [String]?
@@ -3111,7 +3111,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPortfoliosForProductInput: AWSShape {
+    public struct ListPortfoliosForProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3148,7 +3148,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPortfoliosForProductOutput: AWSShape {
+    public struct ListPortfoliosForProductOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3166,7 +3166,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPortfoliosInput: AWSShape {
+    public struct ListPortfoliosInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3196,7 +3196,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPortfoliosOutput: AWSShape {
+    public struct ListPortfoliosOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3214,7 +3214,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPrincipalsForPortfolioInput: AWSShape {
+    public struct ListPrincipalsForPortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3251,7 +3251,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListPrincipalsForPortfolioOutput: AWSShape {
+    public struct ListPrincipalsForPortfolioOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3269,7 +3269,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListProvisionedProductPlansInput: AWSShape {
+    public struct ListProvisionedProductPlansInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3310,7 +3310,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListProvisionedProductPlansOutput: AWSShape {
+    public struct ListProvisionedProductPlansOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3328,7 +3328,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListProvisioningArtifactsForServiceActionInput: AWSShape {
+    public struct ListProvisioningArtifactsForServiceActionInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3365,7 +3365,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListProvisioningArtifactsForServiceActionOutput: AWSShape {
+    public struct ListProvisioningArtifactsForServiceActionOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3383,7 +3383,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListProvisioningArtifactsInput: AWSShape {
+    public struct ListProvisioningArtifactsInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3408,7 +3408,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListProvisioningArtifactsOutput: AWSShape {
+    public struct ListProvisioningArtifactsOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3426,7 +3426,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListRecordHistoryInput: AWSShape {
+    public struct ListRecordHistoryInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3464,7 +3464,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListRecordHistoryOutput: AWSShape {
+    public struct ListRecordHistoryOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3482,7 +3482,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListRecordHistorySearchFilter: AWSShape {
+    public struct ListRecordHistorySearchFilter: AWSEncodableShape {
 
         /// The filter key.    product - Filter results based on the specified product identifier.    provisionedproduct - Filter results based on the provisioned product identifier.  
         public let key: String?
@@ -3500,7 +3500,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListResourcesForTagOptionInput: AWSShape {
+    public struct ListResourcesForTagOptionInput: AWSEncodableShape {
 
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3535,7 +3535,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListResourcesForTagOptionOutput: AWSShape {
+    public struct ListResourcesForTagOptionOutput: AWSDecodableShape {
 
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
@@ -3553,7 +3553,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListServiceActionsForProvisioningArtifactInput: AWSShape {
+    public struct ListServiceActionsForProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3597,7 +3597,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListServiceActionsForProvisioningArtifactOutput: AWSShape {
+    public struct ListServiceActionsForProvisioningArtifactOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3615,7 +3615,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListServiceActionsInput: AWSShape {
+    public struct ListServiceActionsInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3645,7 +3645,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListServiceActionsOutput: AWSShape {
+    public struct ListServiceActionsOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3663,7 +3663,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListStackInstancesForProvisionedProductInput: AWSShape {
+    public struct ListStackInstancesForProvisionedProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -3700,7 +3700,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListStackInstancesForProvisionedProductOutput: AWSShape {
+    public struct ListStackInstancesForProvisionedProductOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -3718,7 +3718,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListTagOptionsFilters: AWSShape {
+    public struct ListTagOptionsFilters: AWSEncodableShape {
 
         /// The active state.
         public let active: Bool?
@@ -3749,7 +3749,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListTagOptionsInput: AWSShape {
+    public struct ListTagOptionsInput: AWSEncodableShape {
 
         /// The search filters. If no search filters are specified, the output includes all TagOptions.
         public let filters: ListTagOptionsFilters?
@@ -3779,7 +3779,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ListTagOptionsOutput: AWSShape {
+    public struct ListTagOptionsOutput: AWSDecodableShape {
 
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
@@ -3797,7 +3797,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct OrganizationNode: AWSShape {
+    public struct OrganizationNode: AWSEncodableShape & AWSDecodableShape {
 
         /// The organization node type.
         public let `type`: OrganizationNodeType?
@@ -3819,7 +3819,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ParameterConstraints: AWSShape {
+    public struct ParameterConstraints: AWSDecodableShape {
 
         /// The values that the administrator has allowed for the parameter.
         public let allowedValues: [String]?
@@ -3833,7 +3833,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct PortfolioDetail: AWSShape {
+    public struct PortfolioDetail: AWSDecodableShape {
 
         /// The ARN assigned to the portfolio.
         public let arn: String?
@@ -3867,7 +3867,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct Principal: AWSShape {
+    public struct Principal: AWSDecodableShape {
 
         /// The ARN of the principal (IAM user, role, or group).
         public let principalARN: String?
@@ -3885,7 +3885,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProductViewAggregationValue: AWSShape {
+    public struct ProductViewAggregationValue: AWSDecodableShape {
 
         /// An approximate count of the products that match the value.
         public let approximateCount: Int?
@@ -3903,7 +3903,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProductViewDetail: AWSShape {
+    public struct ProductViewDetail: AWSDecodableShape {
 
         /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
@@ -3929,7 +3929,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProductViewSummary: AWSShape {
+    public struct ProductViewSummary: AWSDecodableShape {
 
         /// The distributor of the product. Contact the product administrator for the significance of this value.
         public let distributor: String?
@@ -3983,7 +3983,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisionProductInput: AWSShape {
+    public struct ProvisionProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -4066,7 +4066,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisionProductOutput: AWSShape {
+    public struct ProvisionProductOutput: AWSDecodableShape {
 
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
@@ -4080,7 +4080,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisionedProductAttribute: AWSShape {
+    public struct ProvisionedProductAttribute: AWSDecodableShape {
 
         /// The ARN of the provisioned product.
         public let arn: String?
@@ -4150,7 +4150,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisionedProductDetail: AWSShape {
+    public struct ProvisionedProductDetail: AWSDecodableShape {
 
         /// The ARN of the provisioned product.
         public let arn: String?
@@ -4204,7 +4204,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisionedProductPlanDetails: AWSShape {
+    public struct ProvisionedProductPlanDetails: AWSDecodableShape {
 
         /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
@@ -4274,7 +4274,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisionedProductPlanSummary: AWSShape {
+    public struct ProvisionedProductPlanSummary: AWSDecodableShape {
 
         /// The plan identifier.
         public let planId: String?
@@ -4308,7 +4308,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifact: AWSShape {
+    public struct ProvisioningArtifact: AWSDecodableShape {
 
         /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
@@ -4338,7 +4338,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifactDetail: AWSShape {
+    public struct ProvisioningArtifactDetail: AWSDecodableShape {
 
         /// Indicates whether the product version is active.
         public let active: Bool?
@@ -4376,7 +4376,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifactParameter: AWSShape {
+    public struct ProvisioningArtifactParameter: AWSDecodableShape {
 
         /// The default value.
         public let defaultValue: String?
@@ -4410,7 +4410,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifactPreferences: AWSShape {
+    public struct ProvisioningArtifactPreferences: AWSDecodableShape {
 
         /// One or more AWS accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
         public let stackSetAccounts: [String]?
@@ -4428,7 +4428,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifactProperties: AWSShape {
+    public struct ProvisioningArtifactProperties: AWSEncodableShape {
 
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public let description: String?
@@ -4458,7 +4458,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifactSummary: AWSShape {
+    public struct ProvisioningArtifactSummary: AWSDecodableShape {
 
         /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
@@ -4488,7 +4488,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningArtifactView: AWSShape {
+    public struct ProvisioningArtifactView: AWSDecodableShape {
 
         /// Summary information about a product view.
         public let productViewSummary: ProductViewSummary?
@@ -4506,7 +4506,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningParameter: AWSShape {
+    public struct ProvisioningParameter: AWSEncodableShape {
 
         /// The parameter key.
         public let key: String?
@@ -4530,7 +4530,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ProvisioningPreferences: AWSShape {
+    public struct ProvisioningPreferences: AWSEncodableShape {
 
         /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
@@ -4576,7 +4576,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RecordDetail: AWSShape {
+    public struct RecordDetail: AWSDecodableShape {
 
         /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
@@ -4638,7 +4638,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RecordError: AWSShape {
+    public struct RecordError: AWSDecodableShape {
 
         /// The numeric value of the error.
         public let code: String?
@@ -4656,7 +4656,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RecordOutput: AWSShape {
+    public struct RecordOutput: AWSDecodableShape {
 
         /// The description of the output.
         public let description: String?
@@ -4678,7 +4678,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RecordTag: AWSShape {
+    public struct RecordTag: AWSDecodableShape {
 
         /// The key for this tag.
         public let key: String?
@@ -4696,7 +4696,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RejectPortfolioShareInput: AWSShape {
+    public struct RejectPortfolioShareInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -4725,7 +4725,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RejectPortfolioShareOutput: AWSShape {
+    public struct RejectPortfolioShareOutput: AWSDecodableShape {
 
 
         public init() {
@@ -4733,7 +4733,7 @@ extension ServiceCatalog {
 
     }
 
-    public struct ResourceChange: AWSShape {
+    public struct ResourceChange: AWSDecodableShape {
 
         /// The change action.
         public let action: ChangeAction?
@@ -4771,7 +4771,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ResourceChangeDetail: AWSShape {
+    public struct ResourceChangeDetail: AWSDecodableShape {
 
         /// The ID of the entity that caused the change.
         public let causingEntity: String?
@@ -4793,7 +4793,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ResourceDetail: AWSShape {
+    public struct ResourceDetail: AWSDecodableShape {
 
         /// The ARN of the resource.
         public let arn: String?
@@ -4823,7 +4823,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ResourceTargetDefinition: AWSShape {
+    public struct ResourceTargetDefinition: AWSDecodableShape {
 
         /// The attribute to be changed.
         public let attribute: ResourceAttribute?
@@ -4845,7 +4845,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ScanProvisionedProductsInput: AWSShape {
+    public struct ScanProvisionedProductsInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -4879,7 +4879,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ScanProvisionedProductsOutput: AWSShape {
+    public struct ScanProvisionedProductsOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -4897,7 +4897,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct SearchProductsAsAdminInput: AWSShape {
+    public struct SearchProductsAsAdminInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -4950,7 +4950,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct SearchProductsAsAdminOutput: AWSShape {
+    public struct SearchProductsAsAdminOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -4968,7 +4968,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct SearchProductsInput: AWSShape {
+    public struct SearchProductsInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5010,7 +5010,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct SearchProductsOutput: AWSShape {
+    public struct SearchProductsOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -5032,7 +5032,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct SearchProvisionedProductsInput: AWSShape {
+    public struct SearchProvisionedProductsInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5078,7 +5078,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct SearchProvisionedProductsOutput: AWSShape {
+    public struct SearchProvisionedProductsOutput: AWSDecodableShape {
 
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
@@ -5100,7 +5100,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ServiceActionAssociation: AWSShape {
+    public struct ServiceActionAssociation: AWSEncodableShape {
 
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         public let productId: String
@@ -5134,7 +5134,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ServiceActionDetail: AWSShape {
+    public struct ServiceActionDetail: AWSDecodableShape {
 
         /// A map that defines the self-service action.
         public let definition: [ServiceActionDefinitionKey: String]?
@@ -5152,7 +5152,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ServiceActionSummary: AWSShape {
+    public struct ServiceActionSummary: AWSDecodableShape {
 
         /// The self-service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType?
@@ -5178,7 +5178,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ShareDetails: AWSShape {
+    public struct ShareDetails: AWSDecodableShape {
 
         /// List of errors.
         public let shareErrors: [ShareError]?
@@ -5196,7 +5196,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct ShareError: AWSShape {
+    public struct ShareError: AWSDecodableShape {
 
         /// List of accounts impacted by the error.
         public let accounts: [String]?
@@ -5218,7 +5218,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct StackInstance: AWSShape {
+    public struct StackInstance: AWSDecodableShape {
 
         /// The name of the AWS account that the stack instance is associated with.
         public let account: String?
@@ -5240,7 +5240,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag key.
         public let key: String
@@ -5267,7 +5267,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct TagOptionDetail: AWSShape {
+    public struct TagOptionDetail: AWSDecodableShape {
 
         /// The TagOption active state.
         public let active: Bool?
@@ -5293,7 +5293,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct TagOptionSummary: AWSShape {
+    public struct TagOptionSummary: AWSDecodableShape {
 
         /// The TagOption key.
         public let key: String?
@@ -5311,7 +5311,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct TerminateProvisionedProductInput: AWSShape {
+    public struct TerminateProvisionedProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5354,7 +5354,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct TerminateProvisionedProductOutput: AWSShape {
+    public struct TerminateProvisionedProductOutput: AWSDecodableShape {
 
         /// Information about the result of this request.
         public let recordDetail: RecordDetail?
@@ -5368,7 +5368,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateConstraintInput: AWSShape {
+    public struct UpdateConstraintInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5402,7 +5402,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateConstraintOutput: AWSShape {
+    public struct UpdateConstraintOutput: AWSDecodableShape {
 
         /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
@@ -5424,7 +5424,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdatePortfolioInput: AWSShape {
+    public struct UpdatePortfolioInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5483,7 +5483,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdatePortfolioOutput: AWSShape {
+    public struct UpdatePortfolioOutput: AWSDecodableShape {
 
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
@@ -5501,7 +5501,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProductInput: AWSShape {
+    public struct UpdateProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5578,7 +5578,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProductOutput: AWSShape {
+    public struct UpdateProductOutput: AWSDecodableShape {
 
         /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
@@ -5596,7 +5596,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisionedProductInput: AWSShape {
+    public struct UpdateProvisionedProductInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5676,7 +5676,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisionedProductOutput: AWSShape {
+    public struct UpdateProvisionedProductOutput: AWSDecodableShape {
 
         /// Information about the result of the request.
         public let recordDetail: RecordDetail?
@@ -5690,7 +5690,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisionedProductPropertiesInput: AWSShape {
+    public struct UpdateProvisionedProductPropertiesInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5730,7 +5730,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisionedProductPropertiesOutput: AWSShape {
+    public struct UpdateProvisionedProductPropertiesOutput: AWSDecodableShape {
 
         /// The provisioned product identifier.
         public let provisionedProductId: String?
@@ -5756,7 +5756,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisioningArtifactInput: AWSShape {
+    public struct UpdateProvisioningArtifactInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5804,7 +5804,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisioningArtifactOutput: AWSShape {
+    public struct UpdateProvisioningArtifactOutput: AWSDecodableShape {
 
         /// The URL of the CloudFormation template in Amazon S3.
         public let info: [String: String]?
@@ -5826,7 +5826,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisioningParameter: AWSShape {
+    public struct UpdateProvisioningParameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The parameter key.
         public let key: String?
@@ -5854,7 +5854,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateProvisioningPreferences: AWSShape {
+    public struct UpdateProvisioningPreferences: AWSEncodableShape {
 
         /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
@@ -5904,7 +5904,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateServiceActionInput: AWSShape {
+    public struct UpdateServiceActionInput: AWSEncodableShape {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
@@ -5949,7 +5949,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateServiceActionOutput: AWSShape {
+    public struct UpdateServiceActionOutput: AWSDecodableShape {
 
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
@@ -5963,7 +5963,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateTagOptionInput: AWSShape {
+    public struct UpdateTagOptionInput: AWSEncodableShape {
 
         /// The updated active state.
         public let active: Bool?
@@ -5993,7 +5993,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UpdateTagOptionOutput: AWSShape {
+    public struct UpdateTagOptionOutput: AWSDecodableShape {
 
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
@@ -6007,7 +6007,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct UsageInstruction: AWSShape {
+    public struct UsageInstruction: AWSDecodableShape {
 
         /// The usage instruction type for the value.
         public let `type`: String?

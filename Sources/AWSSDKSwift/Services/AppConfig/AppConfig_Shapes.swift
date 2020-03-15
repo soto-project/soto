@@ -76,7 +76,7 @@ extension AppConfig {
 
     //MARK: Shapes
 
-    public struct Application: AWSShape {
+    public struct Application: AWSDecodableShape {
 
         /// The description of the application.
         public let description: String?
@@ -98,7 +98,7 @@ extension AppConfig {
         }
     }
 
-    public struct Applications: AWSShape {
+    public struct Applications: AWSDecodableShape {
 
         /// The elements from this collection.
         public let items: [Application]?
@@ -116,7 +116,7 @@ extension AppConfig {
         }
     }
 
-    public struct Configuration: AWSShape {
+    public struct Configuration: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "content"
         public static var _encoding = [
@@ -145,7 +145,7 @@ extension AppConfig {
         }
     }
 
-    public struct ConfigurationProfile: AWSShape {
+    public struct ConfigurationProfile: AWSDecodableShape {
 
         /// The application ID.
         public let applicationId: String?
@@ -183,7 +183,7 @@ extension AppConfig {
         }
     }
 
-    public struct ConfigurationProfileSummary: AWSShape {
+    public struct ConfigurationProfileSummary: AWSDecodableShape {
 
         /// The application ID.
         public let applicationId: String?
@@ -213,7 +213,7 @@ extension AppConfig {
         }
     }
 
-    public struct ConfigurationProfiles: AWSShape {
+    public struct ConfigurationProfiles: AWSDecodableShape {
 
         /// The elements from this collection.
         public let items: [ConfigurationProfileSummary]?
@@ -231,7 +231,7 @@ extension AppConfig {
         }
     }
 
-    public struct CreateApplicationRequest: AWSShape {
+    public struct CreateApplicationRequest: AWSEncodableShape {
 
         /// A description of the application.
         public let description: String?
@@ -265,7 +265,7 @@ extension AppConfig {
         }
     }
 
-    public struct CreateConfigurationProfileRequest: AWSShape {
+    public struct CreateConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
         ]
@@ -329,7 +329,7 @@ extension AppConfig {
         }
     }
 
-    public struct CreateDeploymentStrategyRequest: AWSShape {
+    public struct CreateDeploymentStrategyRequest: AWSEncodableShape {
 
         /// Total amount of time for a deployment to last.
         public let deploymentDurationInMinutes: Int
@@ -389,7 +389,7 @@ extension AppConfig {
         }
     }
 
-    public struct CreateEnvironmentRequest: AWSShape {
+    public struct CreateEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
         ]
@@ -440,7 +440,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeleteApplicationRequest: AWSShape {
+    public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
         ]
@@ -461,7 +461,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeleteConfigurationProfileRequest: AWSShape {
+    public struct DeleteConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
@@ -488,7 +488,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeleteDeploymentStrategyRequest: AWSShape {
+    public struct DeleteDeploymentStrategyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
         ]
@@ -509,7 +509,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeleteEnvironmentRequest: AWSShape {
+    public struct DeleteEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
@@ -536,7 +536,7 @@ extension AppConfig {
         }
     }
 
-    public struct Deployment: AWSShape {
+    public struct Deployment: AWSDecodableShape {
 
         /// The ID of the application that was deployed.
         public let applicationId: String?
@@ -618,7 +618,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeploymentEvent: AWSShape {
+    public struct DeploymentEvent: AWSDecodableShape {
 
         /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
         public let description: String?
@@ -644,7 +644,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeploymentStrategies: AWSShape {
+    public struct DeploymentStrategies: AWSDecodableShape {
 
         /// The elements from this collection.
         public let items: [DeploymentStrategy]?
@@ -662,7 +662,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeploymentStrategy: AWSShape {
+    public struct DeploymentStrategy: AWSDecodableShape {
 
         /// Total amount of time the deployment lasted.
         public let deploymentDurationInMinutes: Int?
@@ -704,7 +704,7 @@ extension AppConfig {
         }
     }
 
-    public struct DeploymentSummary: AWSShape {
+    public struct DeploymentSummary: AWSDecodableShape {
 
         /// Time the deployment completed.
         public let completedAt: TimeStamp?
@@ -758,7 +758,7 @@ extension AppConfig {
         }
     }
 
-    public struct Deployments: AWSShape {
+    public struct Deployments: AWSDecodableShape {
 
         /// The elements from this collection.
         public let items: [DeploymentSummary]?
@@ -776,7 +776,7 @@ extension AppConfig {
         }
     }
 
-    public struct Environment: AWSShape {
+    public struct Environment: AWSDecodableShape {
 
         /// The application ID.
         public let applicationId: String?
@@ -810,7 +810,7 @@ extension AppConfig {
         }
     }
 
-    public struct Environments: AWSShape {
+    public struct Environments: AWSDecodableShape {
 
         /// The elements from this collection.
         public let items: [Environment]?
@@ -828,7 +828,7 @@ extension AppConfig {
         }
     }
 
-    public struct GetApplicationRequest: AWSShape {
+    public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
         ]
@@ -849,7 +849,7 @@ extension AppConfig {
         }
     }
 
-    public struct GetConfigurationProfileRequest: AWSShape {
+    public struct GetConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
@@ -876,7 +876,7 @@ extension AppConfig {
         }
     }
 
-    public struct GetConfigurationRequest: AWSShape {
+    public struct GetConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "application", location: .uri(locationName: "Application")), 
             AWSMemberEncoding(label: "clientConfigurationVersion", location: .querystring(locationName: "client_configuration_version")), 
@@ -926,7 +926,7 @@ extension AppConfig {
         }
     }
 
-    public struct GetDeploymentRequest: AWSShape {
+    public struct GetDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "deploymentNumber", location: .uri(locationName: "DeploymentNumber")), 
@@ -958,7 +958,7 @@ extension AppConfig {
         }
     }
 
-    public struct GetDeploymentStrategyRequest: AWSShape {
+    public struct GetDeploymentStrategyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
         ]
@@ -979,7 +979,7 @@ extension AppConfig {
         }
     }
 
-    public struct GetEnvironmentRequest: AWSShape {
+    public struct GetEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
@@ -1006,7 +1006,7 @@ extension AppConfig {
         }
     }
 
-    public struct ListApplicationsRequest: AWSShape {
+    public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
@@ -1035,7 +1035,7 @@ extension AppConfig {
         }
     }
 
-    public struct ListConfigurationProfilesRequest: AWSShape {
+    public struct ListConfigurationProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
@@ -1070,7 +1070,7 @@ extension AppConfig {
         }
     }
 
-    public struct ListDeploymentStrategiesRequest: AWSShape {
+    public struct ListDeploymentStrategiesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
@@ -1099,7 +1099,7 @@ extension AppConfig {
         }
     }
 
-    public struct ListDeploymentsRequest: AWSShape {
+    public struct ListDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId")), 
@@ -1140,7 +1140,7 @@ extension AppConfig {
         }
     }
 
-    public struct ListEnvironmentsRequest: AWSShape {
+    public struct ListEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
@@ -1175,7 +1175,7 @@ extension AppConfig {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
@@ -1198,7 +1198,7 @@ extension AppConfig {
         }
     }
 
-    public struct Monitor: AWSShape {
+    public struct Monitor: AWSEncodableShape & AWSDecodableShape {
 
         /// ARN of the Amazon CloudWatch alarm.
         public let alarmArn: String?
@@ -1225,7 +1225,7 @@ extension AppConfig {
         }
     }
 
-    public struct ResourceTags: AWSShape {
+    public struct ResourceTags: AWSDecodableShape {
 
         /// Metadata to assign to AppConfig resources. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
@@ -1239,7 +1239,7 @@ extension AppConfig {
         }
     }
 
-    public struct StartDeploymentRequest: AWSShape {
+    public struct StartDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
@@ -1297,7 +1297,7 @@ extension AppConfig {
         }
     }
 
-    public struct StopDeploymentRequest: AWSShape {
+    public struct StopDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "deploymentNumber", location: .uri(locationName: "DeploymentNumber")), 
@@ -1329,7 +1329,7 @@ extension AppConfig {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
         ]
@@ -1361,7 +1361,7 @@ extension AppConfig {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1395,7 +1395,7 @@ extension AppConfig {
         }
     }
 
-    public struct UpdateApplicationRequest: AWSShape {
+    public struct UpdateApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId"))
         ]
@@ -1428,7 +1428,7 @@ extension AppConfig {
         }
     }
 
-    public struct UpdateConfigurationProfileRequest: AWSShape {
+    public struct UpdateConfigurationProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId"))
@@ -1483,7 +1483,7 @@ extension AppConfig {
         }
     }
 
-    public struct UpdateDeploymentStrategyRequest: AWSShape {
+    public struct UpdateDeploymentStrategyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deploymentStrategyId", location: .uri(locationName: "DeploymentStrategyId"))
         ]
@@ -1532,7 +1532,7 @@ extension AppConfig {
         }
     }
 
-    public struct UpdateEnvironmentRequest: AWSShape {
+    public struct UpdateEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "environmentId", location: .uri(locationName: "EnvironmentId"))
@@ -1580,7 +1580,7 @@ extension AppConfig {
         }
     }
 
-    public struct ValidateConfigurationRequest: AWSShape {
+    public struct ValidateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "ApplicationId")), 
             AWSMemberEncoding(label: "configurationProfileId", location: .uri(locationName: "ConfigurationProfileId")), 
@@ -1614,7 +1614,7 @@ extension AppConfig {
         }
     }
 
-    public struct Validator: AWSShape {
+    public struct Validator: AWSEncodableShape & AWSDecodableShape {
 
         /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS Lambda function.
         public let content: String

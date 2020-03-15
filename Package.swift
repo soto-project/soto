@@ -228,7 +228,7 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("awsshape-encoder-ext"))
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("awsshape-decoable-encodable"))
     ],
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),

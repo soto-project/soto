@@ -133,7 +133,7 @@ extension Comprehend {
 
     //MARK: Shapes
 
-    public struct BatchDetectDominantLanguageItemResult: AWSShape {
+    public struct BatchDetectDominantLanguageItemResult: AWSDecodableShape {
 
         /// The zero-based index of the document in the input list.
         public let index: Int?
@@ -151,7 +151,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectDominantLanguageRequest: AWSShape {
+    public struct BatchDetectDominantLanguageRequest: AWSEncodableShape {
 
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters and must contain fewer than 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -171,7 +171,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectDominantLanguageResponse: AWSShape {
+    public struct BatchDetectDominantLanguageResponse: AWSDecodableShape {
 
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
@@ -189,7 +189,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectEntitiesItemResult: AWSShape {
+    public struct BatchDetectEntitiesItemResult: AWSDecodableShape {
 
         /// One or more Entity objects, one for each entity detected in the document.
         public let entities: [Entity]?
@@ -207,7 +207,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectEntitiesRequest: AWSShape {
+    public struct BatchDetectEntitiesRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
@@ -231,7 +231,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectEntitiesResponse: AWSShape {
+    public struct BatchDetectEntitiesResponse: AWSDecodableShape {
 
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
@@ -249,7 +249,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectKeyPhrasesItemResult: AWSShape {
+    public struct BatchDetectKeyPhrasesItemResult: AWSDecodableShape {
 
         /// The zero-based index of the document in the input list.
         public let index: Int?
@@ -267,7 +267,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectKeyPhrasesRequest: AWSShape {
+    public struct BatchDetectKeyPhrasesRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
@@ -291,7 +291,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectKeyPhrasesResponse: AWSShape {
+    public struct BatchDetectKeyPhrasesResponse: AWSDecodableShape {
 
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
@@ -309,7 +309,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSentimentItemResult: AWSShape {
+    public struct BatchDetectSentimentItemResult: AWSDecodableShape {
 
         /// The zero-based index of the document in the input list.
         public let index: Int?
@@ -331,7 +331,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSentimentRequest: AWSShape {
+    public struct BatchDetectSentimentRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
@@ -355,7 +355,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSentimentResponse: AWSShape {
+    public struct BatchDetectSentimentResponse: AWSDecodableShape {
 
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
@@ -373,7 +373,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSyntaxItemResult: AWSShape {
+    public struct BatchDetectSyntaxItemResult: AWSDecodableShape {
 
         /// The zero-based index of the document in the input list.
         public let index: Int?
@@ -391,7 +391,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSyntaxRequest: AWSShape {
+    public struct BatchDetectSyntaxRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: SyntaxLanguageCode
@@ -415,7 +415,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSyntaxResponse: AWSShape {
+    public struct BatchDetectSyntaxResponse: AWSDecodableShape {
 
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
@@ -433,7 +433,7 @@ extension Comprehend {
         }
     }
 
-    public struct BatchItemError: AWSShape {
+    public struct BatchItemError: AWSDecodableShape {
 
         /// The numeric error code of the error.
         public let errorCode: String?
@@ -455,7 +455,7 @@ extension Comprehend {
         }
     }
 
-    public struct ClassifierEvaluationMetrics: AWSShape {
+    public struct ClassifierEvaluationMetrics: AWSDecodableShape {
 
         /// The fraction of the labels that were correct recognized. It is computed by dividing the number of labels in the test documents that were correctly recognized by the total number of labels in the test documents.
         public let accuracy: Double?
@@ -497,7 +497,7 @@ extension Comprehend {
         }
     }
 
-    public struct ClassifierMetadata: AWSShape {
+    public struct ClassifierMetadata: AWSDecodableShape {
 
         ///  Describes the result metrics for the test data associated with an documentation classifier.
         public let evaluationMetrics: ClassifierEvaluationMetrics?
@@ -523,7 +523,7 @@ extension Comprehend {
         }
     }
 
-    public struct ClassifyDocumentRequest: AWSShape {
+    public struct ClassifyDocumentRequest: AWSEncodableShape {
 
         /// The Amazon Resource Number (ARN) of the endpoint.
         public let endpointArn: String
@@ -547,7 +547,7 @@ extension Comprehend {
         }
     }
 
-    public struct ClassifyDocumentResponse: AWSShape {
+    public struct ClassifyDocumentResponse: AWSDecodableShape {
 
         /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. 
         public let classes: [DocumentClass]?
@@ -565,7 +565,7 @@ extension Comprehend {
         }
     }
 
-    public struct CreateDocumentClassifierRequest: AWSShape {
+    public struct CreateDocumentClassifierRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -633,7 +633,7 @@ extension Comprehend {
         }
     }
 
-    public struct CreateDocumentClassifierResponse: AWSShape {
+    public struct CreateDocumentClassifierResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public let documentClassifierArn: String?
@@ -647,7 +647,7 @@ extension Comprehend {
         }
     }
 
-    public struct CreateEndpointRequest: AWSShape {
+    public struct CreateEndpointRequest: AWSEncodableShape {
 
         /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException. 
         public let clientRequestToken: String?
@@ -691,7 +691,7 @@ extension Comprehend {
         }
     }
 
-    public struct CreateEndpointResponse: AWSShape {
+    public struct CreateEndpointResponse: AWSDecodableShape {
 
         /// The Amazon Resource Number (ARN) of the endpoint being created.
         public let endpointArn: String?
@@ -705,7 +705,7 @@ extension Comprehend {
         }
     }
 
-    public struct CreateEntityRecognizerRequest: AWSShape {
+    public struct CreateEntityRecognizerRequest: AWSEncodableShape {
 
         ///  A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -764,7 +764,7 @@ extension Comprehend {
         }
     }
 
-    public struct CreateEntityRecognizerResponse: AWSShape {
+    public struct CreateEntityRecognizerResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String?
@@ -778,7 +778,7 @@ extension Comprehend {
         }
     }
 
-    public struct DeleteDocumentClassifierRequest: AWSShape {
+    public struct DeleteDocumentClassifierRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the document classifier. 
         public let documentClassifierArn: String
@@ -797,7 +797,7 @@ extension Comprehend {
         }
     }
 
-    public struct DeleteDocumentClassifierResponse: AWSShape {
+    public struct DeleteDocumentClassifierResponse: AWSDecodableShape {
 
 
         public init() {
@@ -805,7 +805,7 @@ extension Comprehend {
 
     }
 
-    public struct DeleteEndpointRequest: AWSShape {
+    public struct DeleteEndpointRequest: AWSEncodableShape {
 
         /// The Amazon Resource Number (ARN) of the endpoint being deleted.
         public let endpointArn: String
@@ -824,7 +824,7 @@ extension Comprehend {
         }
     }
 
-    public struct DeleteEndpointResponse: AWSShape {
+    public struct DeleteEndpointResponse: AWSDecodableShape {
 
 
         public init() {
@@ -832,7 +832,7 @@ extension Comprehend {
 
     }
 
-    public struct DeleteEntityRecognizerRequest: AWSShape {
+    public struct DeleteEntityRecognizerRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String
@@ -851,7 +851,7 @@ extension Comprehend {
         }
     }
 
-    public struct DeleteEntityRecognizerResponse: AWSShape {
+    public struct DeleteEntityRecognizerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -859,7 +859,7 @@ extension Comprehend {
 
     }
 
-    public struct DescribeDocumentClassificationJobRequest: AWSShape {
+    public struct DescribeDocumentClassificationJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
@@ -879,7 +879,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeDocumentClassificationJobResponse: AWSShape {
+    public struct DescribeDocumentClassificationJobResponse: AWSDecodableShape {
 
         /// An object that describes the properties associated with the document classification job.
         public let documentClassificationJobProperties: DocumentClassificationJobProperties?
@@ -893,7 +893,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeDocumentClassifierRequest: AWSShape {
+    public struct DescribeDocumentClassifierRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the document classifier. The operation returns this identifier in its response.
         public let documentClassifierArn: String
@@ -912,7 +912,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeDocumentClassifierResponse: AWSShape {
+    public struct DescribeDocumentClassifierResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with a document classifier.
         public let documentClassifierProperties: DocumentClassifierProperties?
@@ -926,7 +926,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeDominantLanguageDetectionJobRequest: AWSShape {
+    public struct DescribeDominantLanguageDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
@@ -946,7 +946,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeDominantLanguageDetectionJobResponse: AWSShape {
+    public struct DescribeDominantLanguageDetectionJobResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with a dominant language detection job.
         public let dominantLanguageDetectionJobProperties: DominantLanguageDetectionJobProperties?
@@ -960,7 +960,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeEndpointRequest: AWSShape {
+    public struct DescribeEndpointRequest: AWSEncodableShape {
 
         /// The Amazon Resource Number (ARN) of the endpoint being described.
         public let endpointArn: String
@@ -979,7 +979,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeEndpointResponse: AWSShape {
+    public struct DescribeEndpointResponse: AWSDecodableShape {
 
         /// Describes information associated with the specific endpoint.
         public let endpointProperties: EndpointProperties?
@@ -993,7 +993,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeEntitiesDetectionJobRequest: AWSShape {
+    public struct DescribeEntitiesDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
@@ -1013,7 +1013,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeEntitiesDetectionJobResponse: AWSShape {
+    public struct DescribeEntitiesDetectionJobResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with an entities detection job.
         public let entitiesDetectionJobProperties: EntitiesDetectionJobProperties?
@@ -1027,7 +1027,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeEntityRecognizerRequest: AWSShape {
+    public struct DescribeEntityRecognizerRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String
@@ -1046,7 +1046,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeEntityRecognizerResponse: AWSShape {
+    public struct DescribeEntityRecognizerResponse: AWSDecodableShape {
 
         /// Describes information associated with an entity recognizer.
         public let entityRecognizerProperties: EntityRecognizerProperties?
@@ -1060,7 +1060,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeKeyPhrasesDetectionJobRequest: AWSShape {
+    public struct DescribeKeyPhrasesDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
@@ -1080,7 +1080,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeKeyPhrasesDetectionJobResponse: AWSShape {
+    public struct DescribeKeyPhrasesDetectionJobResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with a key phrases detection job. 
         public let keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties?
@@ -1094,7 +1094,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeSentimentDetectionJobRequest: AWSShape {
+    public struct DescribeSentimentDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
@@ -1114,7 +1114,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeSentimentDetectionJobResponse: AWSShape {
+    public struct DescribeSentimentDetectionJobResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with a sentiment detection job.
         public let sentimentDetectionJobProperties: SentimentDetectionJobProperties?
@@ -1128,7 +1128,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeTopicsDetectionJobRequest: AWSShape {
+    public struct DescribeTopicsDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier assigned by the user to the detection job.
         public let jobId: String
@@ -1148,7 +1148,7 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeTopicsDetectionJobResponse: AWSShape {
+    public struct DescribeTopicsDetectionJobResponse: AWSDecodableShape {
 
         /// The list of properties for the requested job.
         public let topicsDetectionJobProperties: TopicsDetectionJobProperties?
@@ -1162,7 +1162,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectDominantLanguageRequest: AWSShape {
+    public struct DetectDominantLanguageRequest: AWSEncodableShape {
 
         /// A UTF-8 text string. Each string should contain at least 20 characters and must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1180,7 +1180,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectDominantLanguageResponse: AWSShape {
+    public struct DetectDominantLanguageResponse: AWSDecodableShape {
 
         /// The languages that Amazon Comprehend detected in the input text. For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
         public let languages: [DominantLanguage]?
@@ -1194,7 +1194,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectEntitiesRequest: AWSShape {
+    public struct DetectEntitiesRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
@@ -1216,7 +1216,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectEntitiesResponse: AWSShape {
+    public struct DetectEntitiesResponse: AWSDecodableShape {
 
         /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection. For a list of entity types, see how-entities. 
         public let entities: [Entity]?
@@ -1230,7 +1230,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectKeyPhrasesRequest: AWSShape {
+    public struct DetectKeyPhrasesRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
@@ -1252,7 +1252,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectKeyPhrasesResponse: AWSShape {
+    public struct DetectKeyPhrasesResponse: AWSDecodableShape {
 
         /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection. 
         public let keyPhrases: [KeyPhrase]?
@@ -1266,7 +1266,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectSentimentRequest: AWSShape {
+    public struct DetectSentimentRequest: AWSEncodableShape {
 
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
@@ -1288,7 +1288,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectSentimentResponse: AWSShape {
+    public struct DetectSentimentResponse: AWSDecodableShape {
 
         /// The inferred sentiment that Amazon Comprehend has the highest level of confidence in.
         public let sentiment: SentimentType?
@@ -1306,7 +1306,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectSyntaxRequest: AWSShape {
+    public struct DetectSyntaxRequest: AWSEncodableShape {
 
         /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
         public let languageCode: SyntaxLanguageCode
@@ -1328,7 +1328,7 @@ extension Comprehend {
         }
     }
 
-    public struct DetectSyntaxResponse: AWSShape {
+    public struct DetectSyntaxResponse: AWSDecodableShape {
 
         /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see how-syntax.
         public let syntaxTokens: [SyntaxToken]?
@@ -1342,7 +1342,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClass: AWSShape {
+    public struct DocumentClass: AWSDecodableShape {
 
         /// The name of the class.
         public let name: String?
@@ -1360,7 +1360,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClassificationJobFilter: AWSShape {
+    public struct DocumentClassificationJobFilter: AWSEncodableShape {
 
         /// Filters on the name of the job.
         public let jobName: String?
@@ -1392,7 +1392,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClassificationJobProperties: AWSShape {
+    public struct DocumentClassificationJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1450,7 +1450,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClassifierFilter: AWSShape {
+    public struct DocumentClassifierFilter: AWSEncodableShape {
 
         /// Filters the list of classifiers based on status. 
         public let status: ModelStatus?
@@ -1472,7 +1472,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClassifierInputDataConfig: AWSShape {
+    public struct DocumentClassifierInputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public let labelDelimiter: String?
@@ -1498,7 +1498,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClassifierOutputDataConfig: AWSShape {
+    public struct DocumentClassifierOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
         public let kmsKeyId: String?
@@ -1522,7 +1522,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentClassifierProperties: AWSShape {
+    public struct DocumentClassifierProperties: AWSDecodableShape {
 
         /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
         public let classifierMetadata: ClassifierMetadata?
@@ -1592,7 +1592,7 @@ extension Comprehend {
         }
     }
 
-    public struct DocumentLabel: AWSShape {
+    public struct DocumentLabel: AWSDecodableShape {
 
         /// The name of the label.
         public let name: String?
@@ -1610,7 +1610,7 @@ extension Comprehend {
         }
     }
 
-    public struct DominantLanguage: AWSShape {
+    public struct DominantLanguage: AWSDecodableShape {
 
         /// The RFC 5646 language code for the dominant language. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
         public let languageCode: String?
@@ -1628,7 +1628,7 @@ extension Comprehend {
         }
     }
 
-    public struct DominantLanguageDetectionJobFilter: AWSShape {
+    public struct DominantLanguageDetectionJobFilter: AWSEncodableShape {
 
         /// Filters on the name of the job.
         public let jobName: String?
@@ -1660,7 +1660,7 @@ extension Comprehend {
         }
     }
 
-    public struct DominantLanguageDetectionJobProperties: AWSShape {
+    public struct DominantLanguageDetectionJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1714,7 +1714,7 @@ extension Comprehend {
         }
     }
 
-    public struct EndpointFilter: AWSShape {
+    public struct EndpointFilter: AWSEncodableShape {
 
         /// Specifies a date after which the returned endpoint or endpoints were created.
         public let creationTimeAfter: TimeStamp?
@@ -1745,7 +1745,7 @@ extension Comprehend {
         }
     }
 
-    public struct EndpointProperties: AWSShape {
+    public struct EndpointProperties: AWSDecodableShape {
 
         /// The creation date and time of the endpoint.
         public let creationTime: TimeStamp?
@@ -1787,7 +1787,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntitiesDetectionJobFilter: AWSShape {
+    public struct EntitiesDetectionJobFilter: AWSEncodableShape {
 
         /// Filters on the name of the job.
         public let jobName: String?
@@ -1819,7 +1819,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntitiesDetectionJobProperties: AWSShape {
+    public struct EntitiesDetectionJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -1881,7 +1881,7 @@ extension Comprehend {
         }
     }
 
-    public struct Entity: AWSShape {
+    public struct Entity: AWSDecodableShape {
 
         /// A character offset in the input text that shows where the entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
         public let beginOffset: Int?
@@ -1911,7 +1911,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerAnnotations: AWSShape {
+    public struct EntityRecognizerAnnotations: AWSEncodableShape & AWSDecodableShape {
 
         ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
@@ -1930,7 +1930,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerDocuments: AWSShape {
+    public struct EntityRecognizerDocuments: AWSEncodableShape & AWSDecodableShape {
 
         ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
@@ -1949,7 +1949,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerEntityList: AWSShape {
+    public struct EntityRecognizerEntityList: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
@@ -1968,7 +1968,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerEvaluationMetrics: AWSShape {
+    public struct EntityRecognizerEvaluationMetrics: AWSDecodableShape {
 
         /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
         public let f1Score: Double?
@@ -1990,7 +1990,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerFilter: AWSShape {
+    public struct EntityRecognizerFilter: AWSEncodableShape {
 
         /// The status of an entity recognizer.
         public let status: ModelStatus?
@@ -2012,7 +2012,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerInputDataConfig: AWSShape {
+    public struct EntityRecognizerInputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// S3 location of the annotations file for an entity recognizer.
         public let annotations: EntityRecognizerAnnotations?
@@ -2047,7 +2047,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerMetadata: AWSShape {
+    public struct EntityRecognizerMetadata: AWSDecodableShape {
 
         /// Entity types from the metadata of an entity recognizer.
         public let entityTypes: [EntityRecognizerMetadataEntityTypesListItem]?
@@ -2073,7 +2073,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerMetadataEntityTypesListItem: AWSShape {
+    public struct EntityRecognizerMetadataEntityTypesListItem: AWSDecodableShape {
 
         /// Detailed information about the accuracy of the entity recognizer for a specific item on the list of entity types. 
         public let evaluationMetrics: EntityTypesEvaluationMetrics?
@@ -2095,7 +2095,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityRecognizerProperties: AWSShape {
+    public struct EntityRecognizerProperties: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -2157,7 +2157,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityTypesEvaluationMetrics: AWSShape {
+    public struct EntityTypesEvaluationMetrics: AWSDecodableShape {
 
         /// A measure of how accurate the recognizer results are for for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
         public let f1Score: Double?
@@ -2179,7 +2179,7 @@ extension Comprehend {
         }
     }
 
-    public struct EntityTypesListItem: AWSShape {
+    public struct EntityTypesListItem: AWSEncodableShape & AWSDecodableShape {
 
         /// Entity type of an item on an entity type list.
         public let `type`: String
@@ -2198,7 +2198,7 @@ extension Comprehend {
         }
     }
 
-    public struct InputDataConfig: AWSShape {
+    public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.  
         public let inputFormat: InputFormat?
@@ -2221,7 +2221,7 @@ extension Comprehend {
         }
     }
 
-    public struct KeyPhrase: AWSShape {
+    public struct KeyPhrase: AWSDecodableShape {
 
         /// A character offset in the input text that shows where the key phrase begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
         public let beginOffset: Int?
@@ -2247,7 +2247,7 @@ extension Comprehend {
         }
     }
 
-    public struct KeyPhrasesDetectionJobFilter: AWSShape {
+    public struct KeyPhrasesDetectionJobFilter: AWSEncodableShape {
 
         /// Filters on the name of the job.
         public let jobName: String?
@@ -2279,7 +2279,7 @@ extension Comprehend {
         }
     }
 
-    public struct KeyPhrasesDetectionJobProperties: AWSShape {
+    public struct KeyPhrasesDetectionJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -2337,7 +2337,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListDocumentClassificationJobsRequest: AWSShape {
+    public struct ListDocumentClassificationJobsRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. You can filter jobs on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DocumentClassificationJobFilter?
@@ -2366,7 +2366,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListDocumentClassificationJobsResponse: AWSShape {
+    public struct ListDocumentClassificationJobsResponse: AWSDecodableShape {
 
         /// A list containing the properties of each job returned.
         public let documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]?
@@ -2384,7 +2384,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListDocumentClassifiersRequest: AWSShape {
+    public struct ListDocumentClassifiersRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DocumentClassifierFilter?
@@ -2412,7 +2412,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListDocumentClassifiersResponse: AWSShape {
+    public struct ListDocumentClassifiersResponse: AWSDecodableShape {
 
         /// A list containing the properties of each job returned.
         public let documentClassifierPropertiesList: [DocumentClassifierProperties]?
@@ -2430,7 +2430,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListDominantLanguageDetectionJobsRequest: AWSShape {
+    public struct ListDominantLanguageDetectionJobsRequest: AWSEncodableShape {
 
         /// Filters that jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DominantLanguageDetectionJobFilter?
@@ -2459,7 +2459,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListDominantLanguageDetectionJobsResponse: AWSShape {
+    public struct ListDominantLanguageDetectionJobsResponse: AWSDecodableShape {
 
         /// A list containing the properties of each job that is returned.
         public let dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]?
@@ -2477,7 +2477,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListEndpointsRequest: AWSShape {
+    public struct ListEndpointsRequest: AWSEncodableShape {
 
         /// Filters the endpoints that are returned. You can filter endpoints on their name, model, status, or the date and time that they were created. You can only set one filter at a time. 
         public let filter: EndpointFilter?
@@ -2506,7 +2506,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListEndpointsResponse: AWSShape {
+    public struct ListEndpointsResponse: AWSDecodableShape {
 
         /// Displays a list of endpoint properties being retrieved by the service in response to the request.
         public let endpointPropertiesList: [EndpointProperties]?
@@ -2524,7 +2524,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListEntitiesDetectionJobsRequest: AWSShape {
+    public struct ListEntitiesDetectionJobsRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: EntitiesDetectionJobFilter?
@@ -2553,7 +2553,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListEntitiesDetectionJobsResponse: AWSShape {
+    public struct ListEntitiesDetectionJobsResponse: AWSDecodableShape {
 
         /// A list containing the properties of each job that is returned.
         public let entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]?
@@ -2571,7 +2571,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListEntityRecognizersRequest: AWSShape {
+    public struct ListEntityRecognizersRequest: AWSEncodableShape {
 
         /// Filters the list of entities returned. You can filter on Status, SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
         public let filter: EntityRecognizerFilter?
@@ -2599,7 +2599,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListEntityRecognizersResponse: AWSShape {
+    public struct ListEntityRecognizersResponse: AWSDecodableShape {
 
         /// The list of properties of an entity recognizer.
         public let entityRecognizerPropertiesList: [EntityRecognizerProperties]?
@@ -2617,7 +2617,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListKeyPhrasesDetectionJobsRequest: AWSShape {
+    public struct ListKeyPhrasesDetectionJobsRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: KeyPhrasesDetectionJobFilter?
@@ -2646,7 +2646,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListKeyPhrasesDetectionJobsResponse: AWSShape {
+    public struct ListKeyPhrasesDetectionJobsResponse: AWSDecodableShape {
 
         /// A list containing the properties of each job that is returned.
         public let keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]?
@@ -2664,7 +2664,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListSentimentDetectionJobsRequest: AWSShape {
+    public struct ListSentimentDetectionJobsRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: SentimentDetectionJobFilter?
@@ -2693,7 +2693,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListSentimentDetectionJobsResponse: AWSShape {
+    public struct ListSentimentDetectionJobsResponse: AWSDecodableShape {
 
         /// Identifies the next page of results to return.
         public let nextToken: String?
@@ -2711,7 +2711,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying. 
         public let resourceArn: String
@@ -2730,7 +2730,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
         public let resourceArn: String?
@@ -2748,7 +2748,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListTopicsDetectionJobsRequest: AWSShape {
+    public struct ListTopicsDetectionJobsRequest: AWSEncodableShape {
 
         /// Filters the jobs that are returned. Jobs can be filtered on their name, status, or the date and time that they were submitted. You can set only one filter at a time.
         public let filter: TopicsDetectionJobFilter?
@@ -2777,7 +2777,7 @@ extension Comprehend {
         }
     }
 
-    public struct ListTopicsDetectionJobsResponse: AWSShape {
+    public struct ListTopicsDetectionJobsResponse: AWSDecodableShape {
 
         /// Identifies the next page of results to return.
         public let nextToken: String?
@@ -2795,7 +2795,7 @@ extension Comprehend {
         }
     }
 
-    public struct OutputDataConfig: AWSShape {
+    public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
         public let kmsKeyId: String?
@@ -2819,7 +2819,7 @@ extension Comprehend {
         }
     }
 
-    public struct PartOfSpeechTag: AWSShape {
+    public struct PartOfSpeechTag: AWSDecodableShape {
 
         /// The confidence that Amazon Comprehend has that the part of speech was correctly identified.
         public let score: Float?
@@ -2837,7 +2837,7 @@ extension Comprehend {
         }
     }
 
-    public struct SentimentDetectionJobFilter: AWSShape {
+    public struct SentimentDetectionJobFilter: AWSEncodableShape {
 
         /// Filters on the name of the job.
         public let jobName: String?
@@ -2869,7 +2869,7 @@ extension Comprehend {
         }
     }
 
-    public struct SentimentDetectionJobProperties: AWSShape {
+    public struct SentimentDetectionJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
@@ -2927,7 +2927,7 @@ extension Comprehend {
         }
     }
 
-    public struct SentimentScore: AWSShape {
+    public struct SentimentScore: AWSDecodableShape {
 
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
         public let mixed: Float?
@@ -2953,7 +2953,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartDocumentClassificationJobRequest: AWSShape {
+    public struct StartDocumentClassificationJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3013,7 +3013,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartDocumentClassificationJobResponse: AWSShape {
+    public struct StartDocumentClassificationJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of the job, use this identifier with the operation.
         public let jobId: String?
@@ -3031,7 +3031,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartDominantLanguageDetectionJobRequest: AWSShape {
+    public struct StartDominantLanguageDetectionJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3085,7 +3085,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartDominantLanguageDetectionJobResponse: AWSShape {
+    public struct StartDominantLanguageDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
@@ -3103,7 +3103,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartEntitiesDetectionJobRequest: AWSShape {
+    public struct StartEntitiesDetectionJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3167,7 +3167,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartEntitiesDetectionJobResponse: AWSShape {
+    public struct StartEntitiesDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
         public let jobId: String?
@@ -3185,7 +3185,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartKeyPhrasesDetectionJobRequest: AWSShape {
+    public struct StartKeyPhrasesDetectionJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3243,7 +3243,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartKeyPhrasesDetectionJobResponse: AWSShape {
+    public struct StartKeyPhrasesDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
@@ -3261,7 +3261,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartSentimentDetectionJobRequest: AWSShape {
+    public struct StartSentimentDetectionJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3319,7 +3319,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartSentimentDetectionJobResponse: AWSShape {
+    public struct StartSentimentDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
@@ -3337,7 +3337,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartTopicsDetectionJobRequest: AWSShape {
+    public struct StartTopicsDetectionJobRequest: AWSEncodableShape {
 
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3397,7 +3397,7 @@ extension Comprehend {
         }
     }
 
-    public struct StartTopicsDetectionJobResponse: AWSShape {
+    public struct StartTopicsDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
         public let jobId: String?
@@ -3415,7 +3415,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopDominantLanguageDetectionJobRequest: AWSShape {
+    public struct StopDominantLanguageDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier of the dominant language detection job to stop.
         public let jobId: String
@@ -3435,7 +3435,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopDominantLanguageDetectionJobResponse: AWSShape {
+    public struct StopDominantLanguageDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier of the dominant language detection job to stop.
         public let jobId: String?
@@ -3453,7 +3453,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopEntitiesDetectionJobRequest: AWSShape {
+    public struct StopEntitiesDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier of the entities detection job to stop.
         public let jobId: String
@@ -3473,7 +3473,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopEntitiesDetectionJobResponse: AWSShape {
+    public struct StopEntitiesDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier of the entities detection job to stop.
         public let jobId: String?
@@ -3491,7 +3491,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopKeyPhrasesDetectionJobRequest: AWSShape {
+    public struct StopKeyPhrasesDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier of the key phrases detection job to stop.
         public let jobId: String
@@ -3511,7 +3511,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopKeyPhrasesDetectionJobResponse: AWSShape {
+    public struct StopKeyPhrasesDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier of the key phrases detection job to stop.
         public let jobId: String?
@@ -3529,7 +3529,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopSentimentDetectionJobRequest: AWSShape {
+    public struct StopSentimentDetectionJobRequest: AWSEncodableShape {
 
         /// The identifier of the sentiment detection job to stop.
         public let jobId: String
@@ -3549,7 +3549,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopSentimentDetectionJobResponse: AWSShape {
+    public struct StopSentimentDetectionJobResponse: AWSDecodableShape {
 
         /// The identifier of the sentiment detection job to stop.
         public let jobId: String?
@@ -3567,7 +3567,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopTrainingDocumentClassifierRequest: AWSShape {
+    public struct StopTrainingDocumentClassifierRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained.
         public let documentClassifierArn: String
@@ -3586,7 +3586,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopTrainingDocumentClassifierResponse: AWSShape {
+    public struct StopTrainingDocumentClassifierResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3594,7 +3594,7 @@ extension Comprehend {
 
     }
 
-    public struct StopTrainingEntityRecognizerRequest: AWSShape {
+    public struct StopTrainingEntityRecognizerRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer currently being trained.
         public let entityRecognizerArn: String
@@ -3613,7 +3613,7 @@ extension Comprehend {
         }
     }
 
-    public struct StopTrainingEntityRecognizerResponse: AWSShape {
+    public struct StopTrainingEntityRecognizerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3621,7 +3621,7 @@ extension Comprehend {
 
     }
 
-    public struct SyntaxToken: AWSShape {
+    public struct SyntaxToken: AWSDecodableShape {
 
         /// The zero-based offset from the beginning of the source text to the first character in the word.
         public let beginOffset: Int?
@@ -3651,7 +3651,7 @@ extension Comprehend {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The initial part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the key portion of the pair, with multiple possible values such as “sales,” “legal,” and “administration.” 
         public let key: String
@@ -3676,7 +3676,7 @@ extension Comprehend {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to which you want to associate the tags. 
         public let resourceArn: String
@@ -3702,7 +3702,7 @@ extension Comprehend {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3710,7 +3710,7 @@ extension Comprehend {
 
     }
 
-    public struct TopicsDetectionJobFilter: AWSShape {
+    public struct TopicsDetectionJobFilter: AWSEncodableShape {
 
         public let jobName: String?
         /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
@@ -3741,7 +3741,7 @@ extension Comprehend {
         }
     }
 
-    public struct TopicsDetectionJobProperties: AWSShape {
+    public struct TopicsDetectionJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your job data. 
         public let dataAccessRoleArn: String?
@@ -3799,7 +3799,7 @@ extension Comprehend {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         ///  The Amazon Resource Name (ARN) of the given Amazon Comprehend resource from which you want to remove the tags. 
         public let resourceArn: String
@@ -3826,7 +3826,7 @@ extension Comprehend {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3834,7 +3834,7 @@ extension Comprehend {
 
     }
 
-    public struct UpdateEndpointRequest: AWSShape {
+    public struct UpdateEndpointRequest: AWSEncodableShape {
 
         ///  The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
         public let desiredInferenceUnits: Int
@@ -3858,7 +3858,7 @@ extension Comprehend {
         }
     }
 
-    public struct UpdateEndpointResponse: AWSShape {
+    public struct UpdateEndpointResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3866,7 +3866,7 @@ extension Comprehend {
 
     }
 
-    public struct VpcConfig: AWSShape {
+    public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that you’ll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC. 
         public let securityGroupIds: [String]

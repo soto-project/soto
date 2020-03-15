@@ -116,7 +116,7 @@ extension ApiGatewayV2 {
 
     //MARK: Shapes
 
-    public struct AccessLogSettings: AWSShape {
+    public struct AccessLogSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the CloudWatch Logs log group to receive access logs.
         public let destinationArn: String?
@@ -134,7 +134,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Api: AWSShape {
+    public struct Api: AWSDecodableShape {
 
         /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com. The stage name is typically appended to this URI to form a complete path to a deployed API stage.
         public let apiEndpoint: String?
@@ -200,7 +200,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct ApiMapping: AWSShape {
+    public struct ApiMapping: AWSDecodableShape {
 
         /// The API identifier.
         public let apiId: String
@@ -226,7 +226,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Authorizer: AWSShape {
+    public struct Authorizer: AWSDecodableShape {
 
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. Supported only for REQUEST authorizers.
         public let authorizerCredentialsArn: String?
@@ -273,7 +273,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Cors: AWSShape {
+    public struct Cors: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether credentials are included in the CORS request. Supported only for HTTP APIs.
         public let allowCredentials: Bool?
@@ -312,7 +312,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateApiMappingRequest: AWSShape {
+    public struct CreateApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
@@ -337,7 +337,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateApiMappingResponse: AWSShape {
+    public struct CreateApiMappingResponse: AWSDecodableShape {
 
         public let apiId: String?
         public let apiMappingId: String?
@@ -359,7 +359,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateApiRequest: AWSShape {
+    public struct CreateApiRequest: AWSEncodableShape {
 
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
@@ -409,7 +409,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateApiResponse: AWSShape {
+    public struct CreateApiResponse: AWSDecodableShape {
 
         public let apiEndpoint: String?
         public let apiId: String?
@@ -461,7 +461,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateAuthorizerRequest: AWSShape {
+    public struct CreateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -506,7 +506,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateAuthorizerResponse: AWSShape {
+    public struct CreateAuthorizerResponse: AWSDecodableShape {
 
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
@@ -543,7 +543,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateDeploymentRequest: AWSShape {
+    public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -565,7 +565,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateDeploymentResponse: AWSShape {
+    public struct CreateDeploymentResponse: AWSDecodableShape {
 
         public let autoDeployed: Bool?
         public let createdDate: TimeStamp?
@@ -593,7 +593,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateDomainNameRequest: AWSShape {
+    public struct CreateDomainNameRequest: AWSEncodableShape {
 
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -612,7 +612,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateDomainNameResponse: AWSShape {
+    public struct CreateDomainNameResponse: AWSDecodableShape {
 
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
@@ -634,7 +634,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateIntegrationRequest: AWSShape {
+    public struct CreateIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -700,7 +700,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateIntegrationResponseRequest: AWSShape {
+    public struct CreateIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
@@ -735,7 +735,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateIntegrationResponseResponse: AWSShape {
+    public struct CreateIntegrationResponseResponse: AWSDecodableShape {
 
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
@@ -763,7 +763,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateIntegrationResult: AWSShape {
+    public struct CreateIntegrationResult: AWSDecodableShape {
 
         public let apiGatewayManaged: Bool?
         public let connectionId: String?
@@ -827,7 +827,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateModelRequest: AWSShape {
+    public struct CreateModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -855,7 +855,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateModelResponse: AWSShape {
+    public struct CreateModelResponse: AWSDecodableShape {
 
         public let contentType: String?
         public let description: String?
@@ -880,7 +880,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateRouteRequest: AWSShape {
+    public struct CreateRouteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -929,7 +929,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateRouteResponseRequest: AWSShape {
+    public struct CreateRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
@@ -961,7 +961,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateRouteResponseResponse: AWSShape {
+    public struct CreateRouteResponseResponse: AWSDecodableShape {
 
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
@@ -986,7 +986,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateRouteResult: AWSShape {
+    public struct CreateRouteResult: AWSDecodableShape {
 
         public let apiGatewayManaged: Bool?
         public let apiKeyRequired: Bool?
@@ -1035,7 +1035,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateStageRequest: AWSShape {
+    public struct CreateStageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1081,7 +1081,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateStageResponse: AWSShape {
+    public struct CreateStageResponse: AWSDecodableShape {
 
         public let accessLogSettings: AccessLogSettings?
         public let apiGatewayManaged: Bool?
@@ -1133,7 +1133,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateVpcLinkRequest: AWSShape {
+    public struct CreateVpcLinkRequest: AWSEncodableShape {
 
         public let name: String
         public let securityGroupIds: [String]?
@@ -1155,7 +1155,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct CreateVpcLinkResponse: AWSShape {
+    public struct CreateVpcLinkResponse: AWSDecodableShape {
 
         public let createdDate: TimeStamp?
         public let name: String?
@@ -1192,7 +1192,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteAccessLogSettingsRequest: AWSShape {
+    public struct DeleteAccessLogSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
@@ -1212,7 +1212,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteApiMappingRequest: AWSShape {
+    public struct DeleteApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
@@ -1232,7 +1232,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteApiRequest: AWSShape {
+    public struct DeleteApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1248,7 +1248,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteAuthorizerRequest: AWSShape {
+    public struct DeleteAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizerId"))
@@ -1268,7 +1268,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteCorsConfigurationRequest: AWSShape {
+    public struct DeleteCorsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1284,7 +1284,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteDeploymentRequest: AWSShape {
+    public struct DeleteDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
@@ -1304,7 +1304,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteDomainNameRequest: AWSShape {
+    public struct DeleteDomainNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
@@ -1320,7 +1320,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteIntegrationRequest: AWSShape {
+    public struct DeleteIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
@@ -1340,7 +1340,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteIntegrationResponseRequest: AWSShape {
+    public struct DeleteIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
@@ -1364,7 +1364,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteModelRequest: AWSShape {
+    public struct DeleteModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
@@ -1384,7 +1384,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteRouteRequest: AWSShape {
+    public struct DeleteRouteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
@@ -1404,7 +1404,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteRouteRequestParameterRequest: AWSShape {
+    public struct DeleteRouteRequestParameterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "requestParameterKey", location: .uri(locationName: "requestParameterKey")), 
@@ -1428,7 +1428,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteRouteResponseRequest: AWSShape {
+    public struct DeleteRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")), 
@@ -1452,7 +1452,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteRouteSettingsRequest: AWSShape {
+    public struct DeleteRouteSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeKey", location: .uri(locationName: "routeKey")), 
@@ -1476,7 +1476,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteStageRequest: AWSShape {
+    public struct DeleteStageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
@@ -1496,7 +1496,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteVpcLinkRequest: AWSShape {
+    public struct DeleteVpcLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "vpcLinkId"))
         ]
@@ -1512,7 +1512,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DeleteVpcLinkResponse: AWSShape {
+    public struct DeleteVpcLinkResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1520,7 +1520,7 @@ extension ApiGatewayV2 {
 
     }
 
-    public struct Deployment: AWSShape {
+    public struct Deployment: AWSDecodableShape {
 
         /// Specifies whether a deployment was automatically released.
         public let autoDeployed: Bool?
@@ -1554,7 +1554,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DomainName: AWSShape {
+    public struct DomainName: AWSDecodableShape {
 
         /// The API mapping selection expression.
         public let apiMappingSelectionExpression: String?
@@ -1580,7 +1580,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct DomainNameConfiguration: AWSShape {
+    public struct DomainNameConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A domain name for the API.
         public let apiGatewayDomainName: String?
@@ -1626,7 +1626,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApiMappingRequest: AWSShape {
+    public struct GetApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
@@ -1646,7 +1646,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApiMappingResponse: AWSShape {
+    public struct GetApiMappingResponse: AWSDecodableShape {
 
         public let apiId: String?
         public let apiMappingId: String?
@@ -1668,7 +1668,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApiMappingsRequest: AWSShape {
+    public struct GetApiMappingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1692,7 +1692,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApiMappingsResponse: AWSShape {
+    public struct GetApiMappingsResponse: AWSDecodableShape {
 
         public let items: [ApiMapping]?
         public let nextToken: String?
@@ -1708,7 +1708,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApiRequest: AWSShape {
+    public struct GetApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1724,7 +1724,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApiResponse: AWSShape {
+    public struct GetApiResponse: AWSDecodableShape {
 
         public let apiEndpoint: String?
         public let apiId: String?
@@ -1776,7 +1776,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApisRequest: AWSShape {
+    public struct GetApisRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1796,7 +1796,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetApisResponse: AWSShape {
+    public struct GetApisResponse: AWSDecodableShape {
 
         public let items: [Api]?
         public let nextToken: String?
@@ -1812,7 +1812,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetAuthorizerRequest: AWSShape {
+    public struct GetAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizerId"))
@@ -1832,7 +1832,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetAuthorizerResponse: AWSShape {
+    public struct GetAuthorizerResponse: AWSDecodableShape {
 
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
@@ -1869,7 +1869,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetAuthorizersRequest: AWSShape {
+    public struct GetAuthorizersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1893,7 +1893,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetAuthorizersResponse: AWSShape {
+    public struct GetAuthorizersResponse: AWSDecodableShape {
 
         public let items: [Authorizer]?
         public let nextToken: String?
@@ -1909,7 +1909,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDeploymentRequest: AWSShape {
+    public struct GetDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
@@ -1929,7 +1929,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDeploymentResponse: AWSShape {
+    public struct GetDeploymentResponse: AWSDecodableShape {
 
         public let autoDeployed: Bool?
         public let createdDate: TimeStamp?
@@ -1957,7 +1957,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDeploymentsRequest: AWSShape {
+    public struct GetDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1981,7 +1981,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDeploymentsResponse: AWSShape {
+    public struct GetDeploymentsResponse: AWSDecodableShape {
 
         public let items: [Deployment]?
         public let nextToken: String?
@@ -1997,7 +1997,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDomainNameRequest: AWSShape {
+    public struct GetDomainNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
@@ -2013,7 +2013,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDomainNameResponse: AWSShape {
+    public struct GetDomainNameResponse: AWSDecodableShape {
 
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
@@ -2035,7 +2035,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDomainNamesRequest: AWSShape {
+    public struct GetDomainNamesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -2055,7 +2055,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetDomainNamesResponse: AWSShape {
+    public struct GetDomainNamesResponse: AWSDecodableShape {
 
         public let items: [DomainName]?
         public let nextToken: String?
@@ -2071,7 +2071,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationRequest: AWSShape {
+    public struct GetIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
@@ -2091,7 +2091,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationResponseRequest: AWSShape {
+    public struct GetIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
@@ -2115,7 +2115,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationResponseResponse: AWSShape {
+    public struct GetIntegrationResponseResponse: AWSDecodableShape {
 
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
@@ -2143,7 +2143,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationResponsesRequest: AWSShape {
+    public struct GetIntegrationResponsesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
@@ -2171,7 +2171,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationResponsesResponse: AWSShape {
+    public struct GetIntegrationResponsesResponse: AWSDecodableShape {
 
         public let items: [IntegrationResponse]?
         public let nextToken: String?
@@ -2187,7 +2187,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationResult: AWSShape {
+    public struct GetIntegrationResult: AWSDecodableShape {
 
         public let apiGatewayManaged: Bool?
         public let connectionId: String?
@@ -2251,7 +2251,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationsRequest: AWSShape {
+    public struct GetIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2275,7 +2275,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetIntegrationsResponse: AWSShape {
+    public struct GetIntegrationsResponse: AWSDecodableShape {
 
         public let items: [Integration]?
         public let nextToken: String?
@@ -2291,7 +2291,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetModelRequest: AWSShape {
+    public struct GetModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
@@ -2311,7 +2311,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetModelResponse: AWSShape {
+    public struct GetModelResponse: AWSDecodableShape {
 
         public let contentType: String?
         public let description: String?
@@ -2336,7 +2336,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetModelTemplateRequest: AWSShape {
+    public struct GetModelTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
@@ -2356,7 +2356,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetModelTemplateResponse: AWSShape {
+    public struct GetModelTemplateResponse: AWSDecodableShape {
 
         public let value: String?
 
@@ -2369,7 +2369,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetModelsRequest: AWSShape {
+    public struct GetModelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2393,7 +2393,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetModelsResponse: AWSShape {
+    public struct GetModelsResponse: AWSDecodableShape {
 
         public let items: [Model]?
         public let nextToken: String?
@@ -2409,7 +2409,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRouteRequest: AWSShape {
+    public struct GetRouteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
@@ -2429,7 +2429,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRouteResponseRequest: AWSShape {
+    public struct GetRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")), 
@@ -2453,7 +2453,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRouteResponseResponse: AWSShape {
+    public struct GetRouteResponseResponse: AWSDecodableShape {
 
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
@@ -2478,7 +2478,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRouteResponsesRequest: AWSShape {
+    public struct GetRouteResponsesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2506,7 +2506,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRouteResponsesResponse: AWSShape {
+    public struct GetRouteResponsesResponse: AWSDecodableShape {
 
         public let items: [RouteResponse]?
         public let nextToken: String?
@@ -2522,7 +2522,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRouteResult: AWSShape {
+    public struct GetRouteResult: AWSDecodableShape {
 
         public let apiGatewayManaged: Bool?
         public let apiKeyRequired: Bool?
@@ -2571,7 +2571,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRoutesRequest: AWSShape {
+    public struct GetRoutesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2595,7 +2595,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetRoutesResponse: AWSShape {
+    public struct GetRoutesResponse: AWSDecodableShape {
 
         public let items: [Route]?
         public let nextToken: String?
@@ -2611,7 +2611,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetStageRequest: AWSShape {
+    public struct GetStageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
@@ -2631,7 +2631,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetStageResponse: AWSShape {
+    public struct GetStageResponse: AWSDecodableShape {
 
         public let accessLogSettings: AccessLogSettings?
         public let apiGatewayManaged: Bool?
@@ -2683,7 +2683,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetStagesRequest: AWSShape {
+    public struct GetStagesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2707,7 +2707,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetStagesResponse: AWSShape {
+    public struct GetStagesResponse: AWSDecodableShape {
 
         public let items: [Stage]?
         public let nextToken: String?
@@ -2723,7 +2723,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetTagsRequest: AWSShape {
+    public struct GetTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -2739,7 +2739,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetTagsResponse: AWSShape {
+    public struct GetTagsResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -2752,7 +2752,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetVpcLinkRequest: AWSShape {
+    public struct GetVpcLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "vpcLinkId"))
         ]
@@ -2768,7 +2768,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetVpcLinkResponse: AWSShape {
+    public struct GetVpcLinkResponse: AWSDecodableShape {
 
         public let createdDate: TimeStamp?
         public let name: String?
@@ -2805,7 +2805,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetVpcLinksRequest: AWSShape {
+    public struct GetVpcLinksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -2825,7 +2825,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct GetVpcLinksResponse: AWSShape {
+    public struct GetVpcLinksResponse: AWSDecodableShape {
 
         public let items: [VpcLink]?
         public let nextToken: String?
@@ -2841,7 +2841,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct ImportApiRequest: AWSShape {
+    public struct ImportApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failOnWarnings"))
@@ -2864,7 +2864,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct ImportApiResponse: AWSShape {
+    public struct ImportApiResponse: AWSDecodableShape {
 
         public let apiEndpoint: String?
         public let apiId: String?
@@ -2916,7 +2916,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Integration: AWSShape {
+    public struct Integration: AWSDecodableShape {
 
         /// Specifies whether an integration is managed by API Gateway. If you created an API using using quick create, the resulting integration is managed by API Gateway. You can update a managed integration, but you can't delete it.
         public let apiGatewayManaged: Bool?
@@ -3003,7 +3003,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct IntegrationResponse: AWSShape {
+    public struct IntegrationResponse: AWSDecodableShape {
 
         /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification.
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -3037,7 +3037,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct JWTConfiguration: AWSShape {
+    public struct JWTConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of the intended recipients of the JWT. A valid JWT must provide an aud that matches at least one entry in this list. See RFC 7519. Supported only for HTTP APIs.
         public let audience: [String]?
@@ -3056,7 +3056,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Model: AWSShape {
+    public struct Model: AWSDecodableShape {
 
         /// The content-type for the model, for example, "application/json".
         public let contentType: String?
@@ -3086,7 +3086,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct ParameterConstraints: AWSShape {
+    public struct ParameterConstraints: AWSEncodableShape & AWSDecodableShape {
 
         /// Whether or not the parameter is required.
         public let required: Bool?
@@ -3100,7 +3100,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct ReimportApiRequest: AWSShape {
+    public struct ReimportApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")), 
@@ -3127,7 +3127,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct ReimportApiResponse: AWSShape {
+    public struct ReimportApiResponse: AWSDecodableShape {
 
         public let apiEndpoint: String?
         public let apiId: String?
@@ -3179,7 +3179,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Route: AWSShape {
+    public struct Route: AWSDecodableShape {
 
         /// Specifies whether a route is managed by API Gateway. If you created an API using quick create, the $default route is managed by API Gateway. You can't modify the $default route key.
         public let apiGatewayManaged: Bool?
@@ -3241,7 +3241,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct RouteResponse: AWSShape {
+    public struct RouteResponse: AWSDecodableShape {
 
         /// Represents the model selection expression of a route response. Supported only for WebSocket APIs.
         public let modelSelectionExpression: String?
@@ -3271,7 +3271,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct RouteSettings: AWSShape {
+    public struct RouteSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs.
         public let dataTraceEnabled: Bool?
@@ -3301,7 +3301,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct Stage: AWSShape {
+    public struct Stage: AWSDecodableShape {
 
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
@@ -3367,7 +3367,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -3386,7 +3386,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3394,7 +3394,7 @@ extension ApiGatewayV2 {
 
     }
 
-    public struct TlsConfig: AWSShape {
+    public struct TlsConfig: AWSDecodableShape {
 
         /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
         public let serverNameToVerify: String?
@@ -3408,7 +3408,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct TlsConfigInput: AWSShape {
+    public struct TlsConfigInput: AWSEncodableShape {
 
         /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
         public let serverNameToVerify: String?
@@ -3422,7 +3422,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -3442,7 +3442,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateApiMappingRequest: AWSShape {
+    public struct UpdateApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
@@ -3471,7 +3471,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateApiMappingResponse: AWSShape {
+    public struct UpdateApiMappingResponse: AWSDecodableShape {
 
         public let apiId: String?
         public let apiMappingId: String?
@@ -3493,7 +3493,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateApiRequest: AWSShape {
+    public struct UpdateApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -3543,7 +3543,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateApiResponse: AWSShape {
+    public struct UpdateApiResponse: AWSDecodableShape {
 
         public let apiEndpoint: String?
         public let apiId: String?
@@ -3595,7 +3595,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateAuthorizerRequest: AWSShape {
+    public struct UpdateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizerId"))
@@ -3644,7 +3644,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateAuthorizerResponse: AWSShape {
+    public struct UpdateAuthorizerResponse: AWSDecodableShape {
 
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
@@ -3681,7 +3681,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateDeploymentRequest: AWSShape {
+    public struct UpdateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
@@ -3704,7 +3704,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateDeploymentResponse: AWSShape {
+    public struct UpdateDeploymentResponse: AWSDecodableShape {
 
         public let autoDeployed: Bool?
         public let createdDate: TimeStamp?
@@ -3732,7 +3732,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateDomainNameRequest: AWSShape {
+    public struct UpdateDomainNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
@@ -3751,7 +3751,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateDomainNameResponse: AWSShape {
+    public struct UpdateDomainNameResponse: AWSDecodableShape {
 
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
@@ -3773,7 +3773,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateIntegrationRequest: AWSShape {
+    public struct UpdateIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
@@ -3843,7 +3843,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateIntegrationResponseRequest: AWSShape {
+    public struct UpdateIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
@@ -3882,7 +3882,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateIntegrationResponseResponse: AWSShape {
+    public struct UpdateIntegrationResponseResponse: AWSDecodableShape {
 
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
@@ -3910,7 +3910,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateIntegrationResult: AWSShape {
+    public struct UpdateIntegrationResult: AWSDecodableShape {
 
         public let apiGatewayManaged: Bool?
         public let connectionId: String?
@@ -3974,7 +3974,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateModelRequest: AWSShape {
+    public struct UpdateModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
@@ -4006,7 +4006,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateModelResponse: AWSShape {
+    public struct UpdateModelResponse: AWSDecodableShape {
 
         public let contentType: String?
         public let description: String?
@@ -4031,7 +4031,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateRouteRequest: AWSShape {
+    public struct UpdateRouteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
@@ -4084,7 +4084,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateRouteResponseRequest: AWSShape {
+    public struct UpdateRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")), 
@@ -4120,7 +4120,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateRouteResponseResponse: AWSShape {
+    public struct UpdateRouteResponseResponse: AWSDecodableShape {
 
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
@@ -4145,7 +4145,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateRouteResult: AWSShape {
+    public struct UpdateRouteResult: AWSDecodableShape {
 
         public let apiGatewayManaged: Bool?
         public let apiKeyRequired: Bool?
@@ -4194,7 +4194,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateStageRequest: AWSShape {
+    public struct UpdateStageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
@@ -4238,7 +4238,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateStageResponse: AWSShape {
+    public struct UpdateStageResponse: AWSDecodableShape {
 
         public let accessLogSettings: AccessLogSettings?
         public let apiGatewayManaged: Bool?
@@ -4290,7 +4290,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateVpcLinkRequest: AWSShape {
+    public struct UpdateVpcLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vpcLinkId", location: .uri(locationName: "vpcLinkId"))
         ]
@@ -4309,7 +4309,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct UpdateVpcLinkResponse: AWSShape {
+    public struct UpdateVpcLinkResponse: AWSDecodableShape {
 
         public let createdDate: TimeStamp?
         public let name: String?
@@ -4346,7 +4346,7 @@ extension ApiGatewayV2 {
         }
     }
 
-    public struct VpcLink: AWSShape {
+    public struct VpcLink: AWSDecodableShape {
 
         /// The timestamp when the VPC link was created.
         public let createdDate: TimeStamp?

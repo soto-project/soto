@@ -59,7 +59,7 @@ extension DynamoDBStreams {
 
     //MARK: Shapes
 
-    public class AttributeValue: AWSShape {
+    public class AttributeValue: AWSDecodableShape {
 
         /// A Binary data type.
         public let b: Data?
@@ -109,7 +109,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct DescribeStreamInput: AWSShape {
+    public struct DescribeStreamInput: AWSEncodableShape {
 
         /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation. 
         public let exclusiveStartShardId: String?
@@ -139,7 +139,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct DescribeStreamOutput: AWSShape {
+    public struct DescribeStreamOutput: AWSDecodableShape {
 
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
         public let streamDescription: StreamDescription?
@@ -153,7 +153,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct GetRecordsInput: AWSShape {
+    public struct GetRecordsInput: AWSEncodableShape {
 
         /// The maximum number of records to return from the shard. The upper limit is 1000.
         public let limit: Int?
@@ -177,7 +177,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct GetRecordsOutput: AWSShape {
+    public struct GetRecordsOutput: AWSDecodableShape {
 
         /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
@@ -195,7 +195,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct GetShardIteratorInput: AWSShape {
+    public struct GetShardIteratorInput: AWSEncodableShape {
 
         /// The sequence number of a stream record in the shard from which to start reading.
         public let sequenceNumber: String?
@@ -230,7 +230,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct GetShardIteratorOutput: AWSShape {
+    public struct GetShardIteratorOutput: AWSDecodableShape {
 
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
         public let shardIterator: String?
@@ -244,7 +244,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct Identity: AWSShape {
+    public struct Identity: AWSDecodableShape {
 
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
         public let principalId: String?
@@ -262,7 +262,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct KeySchemaElement: AWSShape {
+    public struct KeySchemaElement: AWSDecodableShape {
 
         /// The name of a key attribute.
         public let attributeName: String
@@ -280,7 +280,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct ListStreamsInput: AWSShape {
+    public struct ListStreamsInput: AWSEncodableShape {
 
         /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
         public let exclusiveStartStreamArn: String?
@@ -311,7 +311,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct ListStreamsOutput: AWSShape {
+    public struct ListStreamsOutput: AWSDecodableShape {
 
         /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
         public let lastEvaluatedStreamArn: String?
@@ -329,7 +329,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct Record: AWSShape {
+    public struct Record: AWSDecodableShape {
 
         /// The region in which the GetRecords request was received.
         public let awsRegion: String?
@@ -367,7 +367,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct SequenceNumberRange: AWSShape {
+    public struct SequenceNumberRange: AWSDecodableShape {
 
         /// The last sequence number.
         public let endingSequenceNumber: String?
@@ -385,7 +385,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct Shard: AWSShape {
+    public struct Shard: AWSDecodableShape {
 
         /// The shard ID of the current shard's parent.
         public let parentShardId: String?
@@ -407,7 +407,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct Stream: AWSShape {
+    public struct Stream: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
@@ -429,7 +429,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct StreamDescription: AWSShape {
+    public struct StreamDescription: AWSDecodableShape {
 
         /// The date and time when the request to create this stream was issued.
         public let creationRequestDateTime: TimeStamp?
@@ -475,7 +475,7 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct StreamRecord: AWSShape {
+    public struct StreamRecord: AWSDecodableShape {
 
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
         public let approximateCreationDateTime: TimeStamp?

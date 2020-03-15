@@ -36,7 +36,7 @@ extension CodeGuruReviewer {
 
     //MARK: Shapes
 
-    public struct AssociateRepositoryRequest: AWSShape {
+    public struct AssociateRepositoryRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you want to add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically only need to interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
         public let clientRequestToken: String?
@@ -61,7 +61,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct AssociateRepositoryResponse: AWSShape {
+    public struct AssociateRepositoryResponse: AWSDecodableShape {
 
         /// Information about the repository association.
         public let repositoryAssociation: RepositoryAssociation?
@@ -75,7 +75,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct CodeCommitRepository: AWSShape {
+    public struct CodeCommitRepository: AWSEncodableShape {
 
         /// The name of the AWS CodeCommit repository.
         public let name: String
@@ -94,7 +94,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct DescribeRepositoryAssociationRequest: AWSShape {
+    public struct DescribeRepositoryAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
@@ -117,7 +117,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct DescribeRepositoryAssociationResponse: AWSShape {
+    public struct DescribeRepositoryAssociationResponse: AWSDecodableShape {
 
         /// Information about the repository association.
         public let repositoryAssociation: RepositoryAssociation?
@@ -131,7 +131,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct DisassociateRepositoryRequest: AWSShape {
+    public struct DisassociateRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
@@ -154,7 +154,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct DisassociateRepositoryResponse: AWSShape {
+    public struct DisassociateRepositoryResponse: AWSDecodableShape {
 
         /// Information about the disassociated repository.
         public let repositoryAssociation: RepositoryAssociation?
@@ -168,7 +168,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct ListRepositoryAssociationsRequest: AWSShape {
+    public struct ListRepositoryAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "names", location: .querystring(locationName: "Name")), 
@@ -233,7 +233,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct ListRepositoryAssociationsResponse: AWSShape {
+    public struct ListRepositoryAssociationsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListRecommendations request. When the results of a ListRecommendations request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
@@ -251,7 +251,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct Repository: AWSShape {
+    public struct Repository: AWSEncodableShape {
 
         /// Information about an AWS CodeCommit repository.
         public let codeCommit: CodeCommitRepository?
@@ -269,7 +269,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct RepositoryAssociation: AWSShape {
+    public struct RepositoryAssociation: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) identifying the repository association.
         public let associationArn: String?
@@ -315,7 +315,7 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct RepositoryAssociationSummary: AWSShape {
+    public struct RepositoryAssociationSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) identifying the repository association.
         public let associationArn: String?

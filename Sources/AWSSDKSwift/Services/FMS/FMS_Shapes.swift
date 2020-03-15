@@ -73,7 +73,7 @@ extension FMS {
 
     //MARK: Shapes
 
-    public struct AssociateAdminAccountRequest: AWSShape {
+    public struct AssociateAdminAccountRequest: AWSEncodableShape {
 
         /// The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. For more information about AWS Organizations and master accounts, see Managing the AWS Accounts in Your Organization. 
         public let adminAccount: String
@@ -93,7 +93,7 @@ extension FMS {
         }
     }
 
-    public struct ComplianceViolator: AWSShape {
+    public struct ComplianceViolator: AWSDecodableShape {
 
         /// The resource ID.
         public let resourceId: String?
@@ -115,7 +115,7 @@ extension FMS {
         }
     }
 
-    public struct DeleteNotificationChannelRequest: AWSShape {
+    public struct DeleteNotificationChannelRequest: AWSEncodableShape {
 
 
         public init() {
@@ -123,7 +123,7 @@ extension FMS {
 
     }
 
-    public struct DeletePolicyRequest: AWSShape {
+    public struct DeletePolicyRequest: AWSEncodableShape {
 
         /// If True, the request performs cleanup according to the policy type.  For AWS WAF and Shield Advanced policies, the cleanup does the following:   Deletes rule groups created by AWS Firewall Manager   Removes web ACLs from in-scope resources   Deletes web ACLs that contain no rules or rule groups   For security group policies, the cleanup does the following for each security group in the policy:   Disassociates the security group from in-scope resources    Deletes the security group if it was created through Firewall Manager and if it's no longer associated with any resources through another policy   After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope. 
         public let deleteAllPolicyResources: Bool?
@@ -147,7 +147,7 @@ extension FMS {
         }
     }
 
-    public struct DisassociateAdminAccountRequest: AWSShape {
+    public struct DisassociateAdminAccountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -155,7 +155,7 @@ extension FMS {
 
     }
 
-    public struct EvaluationResult: AWSShape {
+    public struct EvaluationResult: AWSDecodableShape {
 
         /// Describes an AWS account's compliance with the AWS Firewall Manager policy.
         public let complianceStatus: PolicyComplianceStatusType?
@@ -177,7 +177,7 @@ extension FMS {
         }
     }
 
-    public struct GetAdminAccountRequest: AWSShape {
+    public struct GetAdminAccountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -185,7 +185,7 @@ extension FMS {
 
     }
 
-    public struct GetAdminAccountResponse: AWSShape {
+    public struct GetAdminAccountResponse: AWSDecodableShape {
 
         /// The AWS account that is set as the AWS Firewall Manager administrator.
         public let adminAccount: String?
@@ -203,7 +203,7 @@ extension FMS {
         }
     }
 
-    public struct GetComplianceDetailRequest: AWSShape {
+    public struct GetComplianceDetailRequest: AWSEncodableShape {
 
         /// The AWS account that owns the resources that you want to get the details for.
         public let memberAccount: String
@@ -230,7 +230,7 @@ extension FMS {
         }
     }
 
-    public struct GetComplianceDetailResponse: AWSShape {
+    public struct GetComplianceDetailResponse: AWSDecodableShape {
 
         /// Information about the resources and the policy that you specified in the GetComplianceDetail request.
         public let policyComplianceDetail: PolicyComplianceDetail?
@@ -244,7 +244,7 @@ extension FMS {
         }
     }
 
-    public struct GetNotificationChannelRequest: AWSShape {
+    public struct GetNotificationChannelRequest: AWSEncodableShape {
 
 
         public init() {
@@ -252,7 +252,7 @@ extension FMS {
 
     }
 
-    public struct GetNotificationChannelResponse: AWSShape {
+    public struct GetNotificationChannelResponse: AWSDecodableShape {
 
         /// The IAM role that is used by AWS Firewall Manager to record activity to SNS.
         public let snsRoleName: String?
@@ -270,7 +270,7 @@ extension FMS {
         }
     }
 
-    public struct GetPolicyRequest: AWSShape {
+    public struct GetPolicyRequest: AWSEncodableShape {
 
         /// The ID of the AWS Firewall Manager policy that you want the details for.
         public let policyId: String
@@ -290,7 +290,7 @@ extension FMS {
         }
     }
 
-    public struct GetPolicyResponse: AWSShape {
+    public struct GetPolicyResponse: AWSDecodableShape {
 
         /// Information about the specified AWS Firewall Manager policy.
         public let policy: Policy?
@@ -308,7 +308,7 @@ extension FMS {
         }
     }
 
-    public struct GetProtectionStatusRequest: AWSShape {
+    public struct GetProtectionStatusRequest: AWSEncodableShape {
 
         /// The end of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
         public let endTime: TimeStamp?
@@ -356,7 +356,7 @@ extension FMS {
         }
     }
 
-    public struct GetProtectionStatusResponse: AWSShape {
+    public struct GetProtectionStatusResponse: AWSDecodableShape {
 
         /// The ID of the AWS Firewall administrator account for this policy.
         public let adminAccountId: String?
@@ -382,7 +382,7 @@ extension FMS {
         }
     }
 
-    public struct ListComplianceStatusRequest: AWSShape {
+    public struct ListComplianceStatusRequest: AWSEncodableShape {
 
         /// Specifies the number of PolicyComplianceStatus objects that you want AWS Firewall Manager to return for this request. If you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicyComplianceStatus objects.
         public let maxResults: Int?
@@ -415,7 +415,7 @@ extension FMS {
         }
     }
 
-    public struct ListComplianceStatusResponse: AWSShape {
+    public struct ListComplianceStatusResponse: AWSDecodableShape {
 
         /// If you have more PolicyComplianceStatus objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more PolicyComplianceStatus objects, submit another ListComplianceStatus request, and specify the NextToken value from the response in the NextToken value in the next request.
         public let nextToken: String?
@@ -433,7 +433,7 @@ extension FMS {
         }
     }
 
-    public struct ListMemberAccountsRequest: AWSShape {
+    public struct ListMemberAccountsRequest: AWSEncodableShape {
 
         /// Specifies the number of member account IDs that you want AWS Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
         public let maxResults: Int?
@@ -459,7 +459,7 @@ extension FMS {
         }
     }
 
-    public struct ListMemberAccountsResponse: AWSShape {
+    public struct ListMemberAccountsResponse: AWSDecodableShape {
 
         /// An array of account IDs.
         public let memberAccounts: [String]?
@@ -477,7 +477,7 @@ extension FMS {
         }
     }
 
-    public struct ListPoliciesRequest: AWSShape {
+    public struct ListPoliciesRequest: AWSEncodableShape {
 
         /// Specifies the number of PolicySummary objects that you want AWS Firewall Manager to return for this request. If you have more PolicySummary objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicySummary objects.
         public let maxResults: Int?
@@ -503,7 +503,7 @@ extension FMS {
         }
     }
 
-    public struct ListPoliciesResponse: AWSShape {
+    public struct ListPoliciesResponse: AWSDecodableShape {
 
         /// If you have more PolicySummary objects than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more PolicySummary objects, submit another ListPolicies request, and specify the NextToken value from the response in the NextToken value in the next request.
         public let nextToken: String?
@@ -521,7 +521,7 @@ extension FMS {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN..
         public let resourceArn: String
@@ -541,7 +541,7 @@ extension FMS {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags associated with the resource.
         public let tagList: [Tag]?
@@ -555,7 +555,7 @@ extension FMS {
         }
     }
 
-    public struct Policy: AWSShape {
+    public struct Policy: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the AWS account IDs to exclude from the policy. The IncludeMap values are evaluated first, with all the appropriate account IDs added to the policy. Then the accounts listed in ExcludeMap are removed, resulting in the final list of accounts to add to the policy. The key to the map is ACCOUNT. For example, a valid ExcludeMap would be {“ACCOUNT” : [“accountID1”, “accountID2”]}.
         public let excludeMap: [CustomerPolicyScopeIdType: [String]]?
@@ -635,7 +635,7 @@ extension FMS {
         }
     }
 
-    public struct PolicyComplianceDetail: AWSShape {
+    public struct PolicyComplianceDetail: AWSDecodableShape {
 
         /// Indicates if over 100 resources are noncompliant with the AWS Firewall Manager policy.
         public let evaluationLimitExceeded: Bool?
@@ -673,7 +673,7 @@ extension FMS {
         }
     }
 
-    public struct PolicyComplianceStatus: AWSShape {
+    public struct PolicyComplianceStatus: AWSDecodableShape {
 
         /// An array of EvaluationResult objects.
         public let evaluationResults: [EvaluationResult]?
@@ -711,7 +711,7 @@ extension FMS {
         }
     }
 
-    public struct PolicySummary: AWSShape {
+    public struct PolicySummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the specified policy.
         public let policyArn: String?
@@ -745,7 +745,7 @@ extension FMS {
         }
     }
 
-    public struct PutNotificationChannelRequest: AWSShape {
+    public struct PutNotificationChannelRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record AWS Firewall Manager activity. 
         public let snsRoleName: String
@@ -772,7 +772,7 @@ extension FMS {
         }
     }
 
-    public struct PutPolicyRequest: AWSShape {
+    public struct PutPolicyRequest: AWSEncodableShape {
 
         /// The details of the AWS Firewall Manager policy to be created.
         public let policy: Policy
@@ -799,7 +799,7 @@ extension FMS {
         }
     }
 
-    public struct PutPolicyResponse: AWSShape {
+    public struct PutPolicyResponse: AWSDecodableShape {
 
         /// The details of the AWS Firewall Manager policy that was created.
         public let policy: Policy?
@@ -817,7 +817,7 @@ extension FMS {
         }
     }
 
-    public struct ResourceTag: AWSShape {
+    public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
 
         /// The resource tag key.
         public let key: String
@@ -843,7 +843,7 @@ extension FMS {
         }
     }
 
-    public struct SecurityServicePolicyData: AWSShape {
+    public struct SecurityServicePolicyData: AWSEncodableShape & AWSDecodableShape {
 
         /// Details about the service that are specific to the service type, in JSON format. For service type SHIELD_ADVANCED, this is an empty string.   Example: WAFV2   "SecurityServicePolicyData": "{ \"type\": \"WAFV2\", \"postProcessRuleGroups\": [ { \"managedRuleGroupIdentifier\": { \"managedRuleGroupName\": \"AWSManagedRulesAdminProtectionRuleSet\", \"vendor\": \"AWS\" } \"ruleGroupARN\": \"rule group arn", \"overrideAction\": { \"type\": \"COUNT|\" }, \"excludedRules\": [ { \"name\" : \"EntityName\" } ], \"type\": \"ManagedRuleGroup|RuleGroup\" } ], \"preProcessRuleGroups\": [ { \"managedRuleGroupIdentifier\": { \"managedRuleGroupName\": \"AWSManagedRulesAdminProtectionRuleSet\", \"vendor\": \"AWS\" } \"ruleGroupARN\": \"rule group arn\", \"overrideAction\": { \"type\": \"COUNT\" }, \"excludedRules\": [ { \"name\" : \"EntityName\" } ], \"type\": \"ManagedRuleGroup|RuleGroup\" } ], \"defaultAction\": { \"type\": \"BLOCK\" }}"     Example: WAF   "ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}    Example: SECURITY_GROUPS_COMMON   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_COMMON","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}    Example: SECURITY_GROUPS_CONTENT_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_CONTENT_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd \"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}  The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.   Example: SECURITY_GROUPS_USAGE_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_USAGE_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"},"RemediationEnabled":false,"Resou rceType":"AWS::EC2::SecurityGroup"}   
         public let managedServiceData: String?
@@ -867,7 +867,7 @@ extension FMS {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
@@ -894,7 +894,7 @@ extension FMS {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
         public let resourceArn: String
@@ -923,7 +923,7 @@ extension FMS {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -931,7 +931,7 @@ extension FMS {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
         public let resourceArn: String
@@ -962,7 +962,7 @@ extension FMS {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {

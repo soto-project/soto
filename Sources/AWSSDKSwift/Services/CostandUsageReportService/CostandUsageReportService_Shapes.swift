@@ -74,7 +74,7 @@ extension CostandUsageReportService {
 
     //MARK: Shapes
 
-    public struct DeleteReportDefinitionRequest: AWSShape {
+    public struct DeleteReportDefinitionRequest: AWSEncodableShape {
 
         public let reportName: String?
 
@@ -92,7 +92,7 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct DeleteReportDefinitionResponse: AWSShape {
+    public struct DeleteReportDefinitionResponse: AWSDecodableShape {
 
         public let responseMessage: String?
 
@@ -105,7 +105,7 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct DescribeReportDefinitionsRequest: AWSShape {
+    public struct DescribeReportDefinitionsRequest: AWSEncodableShape {
 
         public let maxResults: Int?
         public let nextToken: String?
@@ -126,7 +126,7 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct DescribeReportDefinitionsResponse: AWSShape {
+    public struct DescribeReportDefinitionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         /// A list of AWS Cost and Usage reports owned by the account.
@@ -143,7 +143,7 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct ModifyReportDefinitionRequest: AWSShape {
+    public struct ModifyReportDefinitionRequest: AWSEncodableShape {
 
         public let reportDefinition: ReportDefinition
         public let reportName: String
@@ -165,7 +165,7 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct ModifyReportDefinitionResponse: AWSShape {
+    public struct ModifyReportDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -173,7 +173,7 @@ extension CostandUsageReportService {
 
     }
 
-    public struct PutReportDefinitionRequest: AWSShape {
+    public struct PutReportDefinitionRequest: AWSEncodableShape {
 
         /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. 
         public let reportDefinition: ReportDefinition
@@ -191,7 +191,7 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct PutReportDefinitionResponse: AWSShape {
+    public struct PutReportDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -199,7 +199,7 @@ extension CostandUsageReportService {
 
     }
 
-    public struct ReportDefinition: AWSShape {
+    public struct ReportDefinition: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of manifests that you want Amazon Web Services to create for this report.
         public let additionalArtifacts: [AdditionalArtifact]?

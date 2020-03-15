@@ -93,7 +93,7 @@ extension ManagedBlockchain {
 
     //MARK: Shapes
 
-    public struct ApprovalThresholdPolicy: AWSShape {
+    public struct ApprovalThresholdPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions are not carried out.
         public let proposalDurationInHours: Int?
@@ -122,7 +122,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateMemberInput: AWSShape {
+    public struct CreateMemberInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
@@ -161,7 +161,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateMemberOutput: AWSShape {
+    public struct CreateMemberOutput: AWSDecodableShape {
 
         /// The unique identifier of the member.
         public let memberId: String?
@@ -175,7 +175,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateNetworkInput: AWSShape {
+    public struct CreateNetworkInput: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
         public let clientRequestToken: String
@@ -230,7 +230,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateNetworkOutput: AWSShape {
+    public struct CreateNetworkOutput: AWSDecodableShape {
 
         /// The unique identifier for the first member within the network.
         public let memberId: String?
@@ -248,7 +248,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateNodeInput: AWSShape {
+    public struct CreateNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
@@ -287,7 +287,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateNodeOutput: AWSShape {
+    public struct CreateNodeOutput: AWSDecodableShape {
 
         /// The unique identifier of the node.
         public let nodeId: String?
@@ -301,7 +301,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateProposalInput: AWSShape {
+    public struct CreateProposalInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
@@ -345,7 +345,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct CreateProposalOutput: AWSShape {
+    public struct CreateProposalOutput: AWSDecodableShape {
 
         /// The unique identifier of the proposal.
         public let proposalId: String?
@@ -359,7 +359,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct DeleteMemberInput: AWSShape {
+    public struct DeleteMemberInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
@@ -388,7 +388,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct DeleteMemberOutput: AWSShape {
+    public struct DeleteMemberOutput: AWSDecodableShape {
 
 
         public init() {
@@ -396,7 +396,7 @@ extension ManagedBlockchain {
 
     }
 
-    public struct DeleteNodeInput: AWSShape {
+    public struct DeleteNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
@@ -432,7 +432,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct DeleteNodeOutput: AWSShape {
+    public struct DeleteNodeOutput: AWSDecodableShape {
 
 
         public init() {
@@ -440,7 +440,7 @@ extension ManagedBlockchain {
 
     }
 
-    public struct GetMemberInput: AWSShape {
+    public struct GetMemberInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
@@ -469,7 +469,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetMemberOutput: AWSShape {
+    public struct GetMemberOutput: AWSDecodableShape {
 
         /// The properties of a member.
         public let member: Member?
@@ -483,7 +483,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetNetworkInput: AWSShape {
+    public struct GetNetworkInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
@@ -505,7 +505,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetNetworkOutput: AWSShape {
+    public struct GetNetworkOutput: AWSDecodableShape {
 
         /// An object containing network configuration parameters.
         public let network: Network?
@@ -519,7 +519,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetNodeInput: AWSShape {
+    public struct GetNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
@@ -555,7 +555,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetNodeOutput: AWSShape {
+    public struct GetNodeOutput: AWSDecodableShape {
 
         /// Properties of the node configuration.
         public let node: Node?
@@ -569,7 +569,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetProposalInput: AWSShape {
+    public struct GetProposalInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
             AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "proposalId"))
@@ -598,7 +598,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct GetProposalOutput: AWSShape {
+    public struct GetProposalOutput: AWSDecodableShape {
 
         /// Information about a proposal.
         public let proposal: Proposal?
@@ -612,7 +612,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct Invitation: AWSShape {
+    public struct Invitation: AWSDecodableShape {
 
         /// The date and time that the invitation was created.
         public let creationDate: TimeStamp?
@@ -641,7 +641,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct InviteAction: AWSShape {
+    public struct InviteAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The AWS account ID to invite.
         public let principal: String
@@ -655,7 +655,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListInvitationsInput: AWSShape {
+    public struct ListInvitationsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -683,7 +683,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListInvitationsOutput: AWSShape {
+    public struct ListInvitationsOutput: AWSDecodableShape {
 
         /// The invitations for the network.
         public let invitations: [Invitation]?
@@ -701,7 +701,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListMembersInput: AWSShape {
+    public struct ListMembersInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "isOwned", location: .querystring(locationName: "isOwned")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -751,7 +751,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListMembersOutput: AWSShape {
+    public struct ListMembersOutput: AWSDecodableShape {
 
         /// An array of MemberSummary objects. Each object contains details about a network member.
         public let members: [MemberSummary]?
@@ -769,7 +769,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListNetworksInput: AWSShape {
+    public struct ListNetworksInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "framework", location: .querystring(locationName: "framework")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -812,7 +812,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListNetworksOutput: AWSShape {
+    public struct ListNetworksOutput: AWSDecodableShape {
 
         /// An array of NetworkSummary objects that contain configuration properties for each network.
         public let networks: [NetworkSummary]?
@@ -830,7 +830,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListNodesInput: AWSShape {
+    public struct ListNodesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
@@ -877,7 +877,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListNodesOutput: AWSShape {
+    public struct ListNodesOutput: AWSDecodableShape {
 
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
@@ -895,7 +895,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListProposalVotesInput: AWSShape {
+    public struct ListProposalVotesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
@@ -937,7 +937,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListProposalVotesOutput: AWSShape {
+    public struct ListProposalVotesOutput: AWSDecodableShape {
 
         ///  The pagination token that indicates the next set of results to retrieve. 
         public let nextToken: String?
@@ -955,7 +955,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListProposalsInput: AWSShape {
+    public struct ListProposalsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
@@ -990,7 +990,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ListProposalsOutput: AWSShape {
+    public struct ListProposalsOutput: AWSDecodableShape {
 
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
@@ -1008,7 +1008,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct LogConfiguration: AWSShape {
+    public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether logging is enabled.
         public let enabled: Bool?
@@ -1022,7 +1022,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct LogConfigurations: AWSShape {
+    public struct LogConfigurations: AWSEncodableShape & AWSDecodableShape {
 
         /// Parameters for publishing logs to Amazon CloudWatch Logs.
         public let cloudwatch: LogConfiguration?
@@ -1036,7 +1036,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct Member: AWSShape {
+    public struct Member: AWSDecodableShape {
 
         /// The date and time that the member was created.
         public let creationDate: TimeStamp?
@@ -1078,7 +1078,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberConfiguration: AWSShape {
+    public struct MemberConfiguration: AWSEncodableShape {
 
         /// An optional description of the member.
         public let description: String?
@@ -1111,7 +1111,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberFabricAttributes: AWSShape {
+    public struct MemberFabricAttributes: AWSDecodableShape {
 
         /// The user name for the initial administrator user for the member.
         public let adminUsername: String?
@@ -1129,7 +1129,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberFabricConfiguration: AWSShape {
+    public struct MemberFabricConfiguration: AWSEncodableShape {
 
         /// The password for the member's initial administrative user. The AdminPassword must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quote(‘), double quote(“), forward slash(/), backward slash(\), @, or a space.
         public let adminPassword: String
@@ -1156,7 +1156,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberFabricLogPublishingConfiguration: AWSShape {
+    public struct MemberFabricLogPublishingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA.
         public let caLogs: LogConfigurations?
@@ -1170,7 +1170,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberFrameworkAttributes: AWSShape {
+    public struct MemberFrameworkAttributes: AWSDecodableShape {
 
         /// Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricAttributes?
@@ -1184,7 +1184,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberFrameworkConfiguration: AWSShape {
+    public struct MemberFrameworkConfiguration: AWSEncodableShape {
 
         /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricConfiguration?
@@ -1202,7 +1202,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberLogPublishingConfiguration: AWSShape {
+    public struct MemberLogPublishingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.
         public let fabric: MemberFabricLogPublishingConfiguration?
@@ -1216,7 +1216,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct MemberSummary: AWSShape {
+    public struct MemberSummary: AWSDecodableShape {
 
         /// The date and time that the member was created.
         public let creationDate: TimeStamp?
@@ -1250,7 +1250,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct Network: AWSShape {
+    public struct Network: AWSDecodableShape {
 
         /// The date and time that the network was created.
         public let creationDate: TimeStamp?
@@ -1300,7 +1300,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NetworkFabricAttributes: AWSShape {
+    public struct NetworkFabricAttributes: AWSDecodableShape {
 
         /// The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition?
@@ -1318,7 +1318,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NetworkFabricConfiguration: AWSShape {
+    public struct NetworkFabricConfiguration: AWSEncodableShape {
 
         /// The edition of Amazon Managed Blockchain that the network uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition
@@ -1332,7 +1332,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NetworkFrameworkAttributes: AWSShape {
+    public struct NetworkFrameworkAttributes: AWSDecodableShape {
 
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
@@ -1346,7 +1346,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NetworkFrameworkConfiguration: AWSShape {
+    public struct NetworkFrameworkConfiguration: AWSEncodableShape {
 
         ///  Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric. 
         public let fabric: NetworkFabricConfiguration?
@@ -1360,7 +1360,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NetworkSummary: AWSShape {
+    public struct NetworkSummary: AWSDecodableShape {
 
         /// The date and time that the network was created.
         public let creationDate: TimeStamp?
@@ -1398,7 +1398,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct Node: AWSShape {
+    public struct Node: AWSDecodableShape {
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
@@ -1443,7 +1443,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NodeConfiguration: AWSShape {
+    public struct NodeConfiguration: AWSEncodableShape {
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String
@@ -1464,7 +1464,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NodeFabricAttributes: AWSShape {
+    public struct NodeFabricAttributes: AWSDecodableShape {
 
         /// The endpoint that identifies the peer node for all services except peer channel-based event services.
         public let peerEndpoint: String?
@@ -1482,7 +1482,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NodeFabricLogPublishingConfiguration: AWSShape {
+    public struct NodeFabricLogPublishingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode.
         public let chaincodeLogs: LogConfigurations?
@@ -1500,7 +1500,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NodeFrameworkAttributes: AWSShape {
+    public struct NodeFrameworkAttributes: AWSDecodableShape {
 
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
@@ -1514,7 +1514,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NodeLogPublishingConfiguration: AWSShape {
+    public struct NodeLogPublishingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework.
         public let fabric: NodeFabricLogPublishingConfiguration?
@@ -1528,7 +1528,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct NodeSummary: AWSShape {
+    public struct NodeSummary: AWSDecodableShape {
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
@@ -1558,7 +1558,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct Proposal: AWSShape {
+    public struct Proposal: AWSDecodableShape {
 
         /// The actions to perform on the network if the proposal is APPROVED.
         public let actions: ProposalActions?
@@ -1616,7 +1616,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ProposalActions: AWSShape {
+    public struct ProposalActions: AWSEncodableShape & AWSDecodableShape {
 
         ///  The actions to perform for an APPROVED proposal to invite an AWS account to create a member and join the network. 
         public let invitations: [InviteAction]?
@@ -1640,7 +1640,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct ProposalSummary: AWSShape {
+    public struct ProposalSummary: AWSDecodableShape {
 
         ///  The date and time that the proposal was created. 
         public let creationDate: TimeStamp?
@@ -1678,7 +1678,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct RejectInvitationInput: AWSShape {
+    public struct RejectInvitationInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "invitationId", location: .uri(locationName: "invitationId"))
         ]
@@ -1700,7 +1700,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct RejectInvitationOutput: AWSShape {
+    public struct RejectInvitationOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1708,7 +1708,7 @@ extension ManagedBlockchain {
 
     }
 
-    public struct RemoveAction: AWSShape {
+    public struct RemoveAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The unique identifier of the member to remove.
         public let memberId: String
@@ -1727,7 +1727,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct UpdateMemberInput: AWSShape {
+    public struct UpdateMemberInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
@@ -1760,7 +1760,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct UpdateMemberOutput: AWSShape {
+    public struct UpdateMemberOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1768,7 +1768,7 @@ extension ManagedBlockchain {
 
     }
 
-    public struct UpdateNodeInput: AWSShape {
+    public struct UpdateNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
@@ -1808,7 +1808,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct UpdateNodeOutput: AWSShape {
+    public struct UpdateNodeOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1816,7 +1816,7 @@ extension ManagedBlockchain {
 
     }
 
-    public struct VoteOnProposalInput: AWSShape {
+    public struct VoteOnProposalInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")), 
             AWSMemberEncoding(label: "proposalId", location: .uri(locationName: "proposalId"))
@@ -1855,7 +1855,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct VoteOnProposalOutput: AWSShape {
+    public struct VoteOnProposalOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1863,7 +1863,7 @@ extension ManagedBlockchain {
 
     }
 
-    public struct VoteSummary: AWSShape {
+    public struct VoteSummary: AWSDecodableShape {
 
         ///  The unique identifier of the member that cast the vote. 
         public let memberId: String?
@@ -1885,7 +1885,7 @@ extension ManagedBlockchain {
         }
     }
 
-    public struct VotingPolicy: AWSShape {
+    public struct VotingPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// Defines the rules for the network for voting on proposals, such as the percentage of YES votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.
         public let approvalThresholdPolicy: ApprovalThresholdPolicy?

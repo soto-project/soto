@@ -61,7 +61,7 @@ extension Kafka {
 
     //MARK: Shapes
 
-    public struct BrokerEBSVolumeInfo: AWSShape {
+    public struct BrokerEBSVolumeInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the broker to update.
         public let kafkaBrokerNodeId: String
@@ -80,7 +80,7 @@ extension Kafka {
         }
     }
 
-    public struct BrokerLogs: AWSShape {
+    public struct BrokerLogs: AWSEncodableShape & AWSDecodableShape {
 
         /// Details of the CloudWatch Logs destination for broker logs.
         public let cloudWatchLogs: CloudWatchLogs?
@@ -102,7 +102,7 @@ extension Kafka {
         }
     }
 
-    public struct BrokerNodeGroupInfo: AWSShape {
+    public struct BrokerNodeGroupInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The distribution of broker nodes across Availability Zones.
         public let brokerAZDistribution: BrokerAZDistribution?
@@ -138,7 +138,7 @@ extension Kafka {
         }
     }
 
-    public struct BrokerNodeInfo: AWSShape {
+    public struct BrokerNodeInfo: AWSDecodableShape {
 
         /// The attached elastic network interface of the broker.
         public let attachedENIId: String?
@@ -172,7 +172,7 @@ extension Kafka {
         }
     }
 
-    public struct BrokerSoftwareInfo: AWSShape {
+    public struct BrokerSoftwareInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the configuration used for the cluster. This field isn't visible in this preview release.
         public let configurationArn: String?
@@ -194,7 +194,7 @@ extension Kafka {
         }
     }
 
-    public struct ClientAuthentication: AWSShape {
+    public struct ClientAuthentication: AWSEncodableShape & AWSDecodableShape {
 
         /// Details for ClientAuthentication using TLS.
         public let tls: Tls?
@@ -208,7 +208,7 @@ extension Kafka {
         }
     }
 
-    public struct CloudWatchLogs: AWSShape {
+    public struct CloudWatchLogs: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether broker logs get sent to the specified CloudWatch Logs destination.
         public let enabled: Bool
@@ -226,7 +226,7 @@ extension Kafka {
         }
     }
 
-    public struct ClusterInfo: AWSShape {
+    public struct ClusterInfo: AWSDecodableShape {
 
         /// Arn of active cluster operation.
         public let activeOperationArn: String?
@@ -301,7 +301,7 @@ extension Kafka {
         }
     }
 
-    public struct ClusterOperationInfo: AWSShape {
+    public struct ClusterOperationInfo: AWSDecodableShape {
 
         /// The ID of the API request that triggered this operation.
         public let clientRequestId: String?
@@ -351,7 +351,7 @@ extension Kafka {
         }
     }
 
-    public struct Configuration: AWSShape {
+    public struct Configuration: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String
@@ -384,7 +384,7 @@ extension Kafka {
         }
     }
 
-    public struct ConfigurationInfo: AWSShape {
+    public struct ConfigurationInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// ARN of the configuration to use.
         public let arn: String
@@ -402,7 +402,7 @@ extension Kafka {
         }
     }
 
-    public struct ConfigurationRevision: AWSShape {
+    public struct ConfigurationRevision: AWSDecodableShape {
 
         /// The time when the configuration revision was created.
         public let creationTime: TimeStamp
@@ -424,7 +424,7 @@ extension Kafka {
         }
     }
 
-    public struct CreateClusterRequest: AWSShape {
+    public struct CreateClusterRequest: AWSEncodableShape {
 
         /// Information about the broker nodes in the cluster.
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo
@@ -442,7 +442,8 @@ extension Kafka {
         public let kafkaVersion: String
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        ///             The number of broker nodes in the cluster.
+        ///          
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
@@ -488,7 +489,7 @@ extension Kafka {
         }
     }
 
-    public struct CreateClusterResponse: AWSShape {
+    public struct CreateClusterResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
@@ -510,7 +511,7 @@ extension Kafka {
         }
     }
 
-    public struct CreateConfigurationRequest: AWSShape {
+    public struct CreateConfigurationRequest: AWSEncodableShape {
 
         /// The description of the configuration.
         public let description: String?
@@ -535,7 +536,7 @@ extension Kafka {
         }
     }
 
-    public struct CreateConfigurationResponse: AWSShape {
+    public struct CreateConfigurationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
@@ -561,7 +562,7 @@ extension Kafka {
         }
     }
 
-    public struct DeleteClusterRequest: AWSShape {
+    public struct DeleteClusterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")), 
             AWSMemberEncoding(label: "currentVersion", location: .querystring(locationName: "currentVersion"))
@@ -581,7 +582,7 @@ extension Kafka {
         }
     }
 
-    public struct DeleteClusterResponse: AWSShape {
+    public struct DeleteClusterResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
@@ -599,7 +600,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeClusterOperationRequest: AWSShape {
+    public struct DescribeClusterOperationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterOperationArn", location: .uri(locationName: "clusterOperationArn"))
         ]
@@ -615,7 +616,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeClusterOperationResponse: AWSShape {
+    public struct DescribeClusterOperationResponse: AWSDecodableShape {
 
         /// Cluster operation information
         public let clusterOperationInfo: ClusterOperationInfo?
@@ -629,7 +630,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeClusterRequest: AWSShape {
+    public struct DescribeClusterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
@@ -645,7 +646,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeClusterResponse: AWSShape {
+    public struct DescribeClusterResponse: AWSDecodableShape {
 
         /// The cluster information.
         public let clusterInfo: ClusterInfo?
@@ -659,7 +660,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeConfigurationRequest: AWSShape {
+    public struct DescribeConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
@@ -675,7 +676,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeConfigurationResponse: AWSShape {
+    public struct DescribeConfigurationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
@@ -709,7 +710,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeConfigurationRevisionRequest: AWSShape {
+    public struct DescribeConfigurationRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")), 
             AWSMemberEncoding(label: "revision", location: .uri(locationName: "revision"))
@@ -729,7 +730,7 @@ extension Kafka {
         }
     }
 
-    public struct DescribeConfigurationRevisionResponse: AWSShape {
+    public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String?
@@ -758,7 +759,7 @@ extension Kafka {
         }
     }
 
-    public struct EBSStorageInfo: AWSShape {
+    public struct EBSStorageInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The size in GiB of the EBS volume for the data drive on each broker node.
         public let volumeSize: Int?
@@ -777,7 +778,7 @@ extension Kafka {
         }
     }
 
-    public struct EncryptionAtRest: AWSShape {
+    public struct EncryptionAtRest: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it.
         public let dataVolumeKMSKeyId: String
@@ -791,7 +792,7 @@ extension Kafka {
         }
     }
 
-    public struct EncryptionInTransit: AWSShape {
+    public struct EncryptionInTransit: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates the encryption setting for data in transit between clients and brokers. You must set it to one of the following values. TLS means that client-broker communication is enabled with TLS only. TLS_PLAINTEXT means that client-broker communication is enabled for both TLS-encrypted, as well as plaintext data. PLAINTEXT means that client-broker communication is enabled in plaintext only. The default value is TLS.
         public let clientBroker: ClientBroker?
@@ -809,7 +810,7 @@ extension Kafka {
         }
     }
 
-    public struct EncryptionInfo: AWSShape {
+    public struct EncryptionInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The data-volume encryption details.
         public let encryptionAtRest: EncryptionAtRest?
@@ -827,7 +828,7 @@ extension Kafka {
         }
     }
 
-    public struct ErrorInfo: AWSShape {
+    public struct ErrorInfo: AWSDecodableShape {
 
         /// A number describing the error programmatically.
         public let errorCode: String?
@@ -845,7 +846,7 @@ extension Kafka {
         }
     }
 
-    public struct Firehose: AWSShape {
+    public struct Firehose: AWSEncodableShape & AWSDecodableShape {
 
         /// The Kinesis Data Firehose delivery stream that is the destination for broker logs.
         public let deliveryStream: String?
@@ -863,7 +864,7 @@ extension Kafka {
         }
     }
 
-    public struct GetBootstrapBrokersRequest: AWSShape {
+    public struct GetBootstrapBrokersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
@@ -879,7 +880,7 @@ extension Kafka {
         }
     }
 
-    public struct GetBootstrapBrokersResponse: AWSShape {
+    public struct GetBootstrapBrokersResponse: AWSDecodableShape {
 
         /// A string containing one or more hostname:port pairs.
         public let bootstrapBrokerString: String?
@@ -899,7 +900,7 @@ extension Kafka {
         }
     }
 
-    public struct JmxExporter: AWSShape {
+    public struct JmxExporter: AWSDecodableShape {
 
         /// Indicates whether you want to enable or disable the JMX Exporter.
         public let enabledInBroker: Bool
@@ -913,7 +914,7 @@ extension Kafka {
         }
     }
 
-    public struct JmxExporterInfo: AWSShape {
+    public struct JmxExporterInfo: AWSEncodableShape {
 
         /// JMX Exporter being enabled in broker.
         public let enabledInBroker: Bool
@@ -927,7 +928,7 @@ extension Kafka {
         }
     }
 
-    public struct KafkaVersion: AWSShape {
+    public struct KafkaVersion: AWSDecodableShape {
 
         /// The status of the Apache Kafka version.
         public let status: KafkaVersionStatus?
@@ -945,7 +946,7 @@ extension Kafka {
         }
     }
 
-    public struct ListClusterOperationsRequest: AWSShape {
+    public struct ListClusterOperationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -974,7 +975,7 @@ extension Kafka {
         }
     }
 
-    public struct ListClusterOperationsResponse: AWSShape {
+    public struct ListClusterOperationsResponse: AWSDecodableShape {
 
         /// An array of cluster operation information objects.
         public let clusterOperationInfoList: [ClusterOperationInfo]?
@@ -992,7 +993,7 @@ extension Kafka {
         }
     }
 
-    public struct ListClustersRequest: AWSShape {
+    public struct ListClustersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterNameFilter", location: .querystring(locationName: "clusterNameFilter")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1021,7 +1022,7 @@ extension Kafka {
         }
     }
 
-    public struct ListClustersResponse: AWSShape {
+    public struct ListClustersResponse: AWSDecodableShape {
 
         /// Information on each of the MSK clusters in the response.
         public let clusterInfoList: [ClusterInfo]?
@@ -1039,7 +1040,7 @@ extension Kafka {
         }
     }
 
-    public struct ListConfigurationRevisionsRequest: AWSShape {
+    public struct ListConfigurationRevisionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1068,7 +1069,7 @@ extension Kafka {
         }
     }
 
-    public struct ListConfigurationRevisionsResponse: AWSShape {
+    public struct ListConfigurationRevisionsResponse: AWSDecodableShape {
 
         /// Paginated results marker.
         public let nextToken: String?
@@ -1086,7 +1087,7 @@ extension Kafka {
         }
     }
 
-    public struct ListConfigurationsRequest: AWSShape {
+    public struct ListConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1111,7 +1112,7 @@ extension Kafka {
         }
     }
 
-    public struct ListConfigurationsResponse: AWSShape {
+    public struct ListConfigurationsResponse: AWSDecodableShape {
 
         /// An array of MSK configurations.
         public let configurations: [Configuration]?
@@ -1129,7 +1130,7 @@ extension Kafka {
         }
     }
 
-    public struct ListKafkaVersionsRequest: AWSShape {
+    public struct ListKafkaVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1154,7 +1155,7 @@ extension Kafka {
         }
     }
 
-    public struct ListKafkaVersionsResponse: AWSShape {
+    public struct ListKafkaVersionsResponse: AWSDecodableShape {
 
         /// An array of Kafka version objects.
         public let kafkaVersions: [KafkaVersion]?
@@ -1172,7 +1173,7 @@ extension Kafka {
         }
     }
 
-    public struct ListNodesRequest: AWSShape {
+    public struct ListNodesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1201,7 +1202,7 @@ extension Kafka {
         }
     }
 
-    public struct ListNodesResponse: AWSShape {
+    public struct ListNodesResponse: AWSDecodableShape {
 
         /// The paginated results marker. When the result of a ListNodes operation is truncated, the call returns NextToken in the response. To get another batch of nodes, provide this token in your next request.
         public let nextToken: String?
@@ -1219,7 +1220,7 @@ extension Kafka {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1235,7 +1236,7 @@ extension Kafka {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
@@ -1249,7 +1250,7 @@ extension Kafka {
         }
     }
 
-    public struct LoggingInfo: AWSShape {
+    public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// You can configure your MSK cluster to send broker logs to different destination types. This configuration specifies the details of these destinations.
         public let brokerLogs: BrokerLogs
@@ -1263,7 +1264,7 @@ extension Kafka {
         }
     }
 
-    public struct MutableClusterInfo: AWSShape {
+    public struct MutableClusterInfo: AWSDecodableShape {
 
         /// Specifies the size of the EBS volume and the ID of the associated broker.
         public let brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]?
@@ -1298,7 +1299,7 @@ extension Kafka {
         }
     }
 
-    public struct NodeExporter: AWSShape {
+    public struct NodeExporter: AWSDecodableShape {
 
         /// Indicates whether you want to enable or disable the Node Exporter.
         public let enabledInBroker: Bool
@@ -1312,7 +1313,7 @@ extension Kafka {
         }
     }
 
-    public struct NodeExporterInfo: AWSShape {
+    public struct NodeExporterInfo: AWSEncodableShape {
 
         /// Node Exporter being enabled in broker.
         public let enabledInBroker: Bool
@@ -1326,7 +1327,7 @@ extension Kafka {
         }
     }
 
-    public struct NodeInfo: AWSShape {
+    public struct NodeInfo: AWSDecodableShape {
 
         /// The start time.
         public let addedToClusterTime: String?
@@ -1360,7 +1361,7 @@ extension Kafka {
         }
     }
 
-    public struct OpenMonitoring: AWSShape {
+    public struct OpenMonitoring: AWSDecodableShape {
 
         /// Prometheus settings.
         public let prometheus: Prometheus
@@ -1374,7 +1375,7 @@ extension Kafka {
         }
     }
 
-    public struct OpenMonitoringInfo: AWSShape {
+    public struct OpenMonitoringInfo: AWSEncodableShape {
 
         /// Prometheus settings.
         public let prometheus: PrometheusInfo
@@ -1388,7 +1389,7 @@ extension Kafka {
         }
     }
 
-    public struct Prometheus: AWSShape {
+    public struct Prometheus: AWSDecodableShape {
 
         /// Indicates whether you want to enable or disable the JMX Exporter.
         public let jmxExporter: JmxExporter?
@@ -1406,7 +1407,7 @@ extension Kafka {
         }
     }
 
-    public struct PrometheusInfo: AWSShape {
+    public struct PrometheusInfo: AWSEncodableShape {
 
         /// JMX Exporter settings.
         public let jmxExporter: JmxExporterInfo?
@@ -1424,7 +1425,7 @@ extension Kafka {
         }
     }
 
-    public struct S3: AWSShape {
+    public struct S3: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the S3 bucket that is the destination for broker logs.
         public let bucket: String?
@@ -1446,7 +1447,7 @@ extension Kafka {
         }
     }
 
-    public struct StorageInfo: AWSShape {
+    public struct StorageInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// EBS volume information.
         public let ebsStorageInfo: EBSStorageInfo?
@@ -1464,7 +1465,7 @@ extension Kafka {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1484,7 +1485,7 @@ extension Kafka {
         }
     }
 
-    public struct Tls: AWSShape {
+    public struct Tls: AWSEncodableShape & AWSDecodableShape {
 
         /// List of ACM Certificate Authority ARNs.
         public let certificateAuthorityArnList: [String]?
@@ -1498,7 +1499,7 @@ extension Kafka {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1518,7 +1519,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateBrokerCountRequest: AWSShape {
+    public struct UpdateBrokerCountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
@@ -1547,7 +1548,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateBrokerCountResponse: AWSShape {
+    public struct UpdateBrokerCountResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
@@ -1565,7 +1566,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateBrokerStorageRequest: AWSShape {
+    public struct UpdateBrokerStorageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
@@ -1589,7 +1590,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateBrokerStorageResponse: AWSShape {
+    public struct UpdateBrokerStorageResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
@@ -1607,7 +1608,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateClusterConfigurationRequest: AWSShape {
+    public struct UpdateClusterConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
@@ -1631,7 +1632,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateClusterConfigurationResponse: AWSShape {
+    public struct UpdateClusterConfigurationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
@@ -1649,7 +1650,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateMonitoringRequest: AWSShape {
+    public struct UpdateMonitoringRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
         ]
@@ -1681,7 +1682,7 @@ extension Kafka {
         }
     }
 
-    public struct UpdateMonitoringResponse: AWSShape {
+    public struct UpdateMonitoringResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
@@ -1699,7 +1700,7 @@ extension Kafka {
         }
     }
 
-    public struct ZookeeperNodeInfo: AWSShape {
+    public struct ZookeeperNodeInfo: AWSDecodableShape {
 
         /// The attached elastic network interface of the broker.
         public let attachedENIId: String?

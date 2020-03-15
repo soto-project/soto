@@ -71,7 +71,7 @@ extension Textract {
 
     //MARK: Shapes
 
-    public struct AnalyzeDocumentRequest: AWSShape {
+    public struct AnalyzeDocumentRequest: AWSEncodableShape {
 
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
         public let document: Document
@@ -98,7 +98,7 @@ extension Textract {
         }
     }
 
-    public struct AnalyzeDocumentResponse: AWSShape {
+    public struct AnalyzeDocumentResponse: AWSDecodableShape {
 
         /// The version of the model used to analyze the document.
         public let analyzeDocumentModelVersion: String?
@@ -124,7 +124,7 @@ extension Textract {
         }
     }
 
-    public struct Block: AWSShape {
+    public struct Block: AWSDecodableShape {
 
         /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.  
         public let blockType: BlockType?
@@ -186,7 +186,7 @@ extension Textract {
         }
     }
 
-    public struct BoundingBox: AWSShape {
+    public struct BoundingBox: AWSDecodableShape {
 
         /// The height of the bounding box as a ratio of the overall document page height.
         public let height: Float?
@@ -212,7 +212,7 @@ extension Textract {
         }
     }
 
-    public struct DetectDocumentTextRequest: AWSShape {
+    public struct DetectDocumentTextRequest: AWSEncodableShape {
 
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
         public let document: Document
@@ -230,7 +230,7 @@ extension Textract {
         }
     }
 
-    public struct DetectDocumentTextResponse: AWSShape {
+    public struct DetectDocumentTextResponse: AWSDecodableShape {
 
         /// An array of Block objects that contain the text that's detected in the document.
         public let blocks: [Block]?
@@ -251,7 +251,7 @@ extension Textract {
         }
     }
 
-    public struct Document: AWSShape {
+    public struct Document: AWSEncodableShape {
 
         /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. 
         public let bytes: Data?
@@ -275,7 +275,7 @@ extension Textract {
         }
     }
 
-    public struct DocumentLocation: AWSShape {
+    public struct DocumentLocation: AWSEncodableShape {
 
         /// The Amazon S3 bucket that contains the input document.
         public let s3Object: S3Object?
@@ -293,7 +293,7 @@ extension Textract {
         }
     }
 
-    public struct DocumentMetadata: AWSShape {
+    public struct DocumentMetadata: AWSDecodableShape {
 
         /// The number of pages that are detected in the document.
         public let pages: Int?
@@ -307,7 +307,7 @@ extension Textract {
         }
     }
 
-    public struct Geometry: AWSShape {
+    public struct Geometry: AWSDecodableShape {
 
         /// An axis-aligned coarse representation of the location of the recognized item on the document page.
         public let boundingBox: BoundingBox?
@@ -325,7 +325,7 @@ extension Textract {
         }
     }
 
-    public struct GetDocumentAnalysisRequest: AWSShape {
+    public struct GetDocumentAnalysisRequest: AWSEncodableShape {
 
         /// A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String
@@ -357,7 +357,7 @@ extension Textract {
         }
     }
 
-    public struct GetDocumentAnalysisResponse: AWSShape {
+    public struct GetDocumentAnalysisResponse: AWSDecodableShape {
 
         public let analyzeDocumentModelVersion: String?
         /// The results of the text-analysis operation.
@@ -394,7 +394,7 @@ extension Textract {
         }
     }
 
-    public struct GetDocumentTextDetectionRequest: AWSShape {
+    public struct GetDocumentTextDetectionRequest: AWSEncodableShape {
 
         /// A unique identifier for the text detection job. The JobId is returned from StartDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String
@@ -426,7 +426,7 @@ extension Textract {
         }
     }
 
-    public struct GetDocumentTextDetectionResponse: AWSShape {
+    public struct GetDocumentTextDetectionResponse: AWSDecodableShape {
 
         /// The results of the text-detection operation.
         public let blocks: [Block]?
@@ -463,7 +463,7 @@ extension Textract {
         }
     }
 
-    public struct HumanLoopActivationOutput: AWSShape {
+    public struct HumanLoopActivationOutput: AWSDecodableShape {
 
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public let humanLoopActivationConditionsEvaluationResults: String?
@@ -485,7 +485,7 @@ extension Textract {
         }
     }
 
-    public struct HumanLoopConfig: AWSShape {
+    public struct HumanLoopConfig: AWSEncodableShape {
 
         /// Sets attributes of the input data.
         public let dataAttributes: HumanLoopDataAttributes?
@@ -515,7 +515,7 @@ extension Textract {
         }
     }
 
-    public struct HumanLoopDataAttributes: AWSShape {
+    public struct HumanLoopDataAttributes: AWSEncodableShape {
 
         /// Sets whether the input image is free of personally identifiable information or adult content.
         public let contentClassifiers: [ContentClassifier]?
@@ -533,7 +533,7 @@ extension Textract {
         }
     }
 
-    public struct NotificationChannel: AWSShape {
+    public struct NotificationChannel: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic. 
         public let roleArn: String
@@ -560,7 +560,7 @@ extension Textract {
         }
     }
 
-    public struct Point: AWSShape {
+    public struct Point: AWSDecodableShape {
 
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
@@ -578,7 +578,7 @@ extension Textract {
         }
     }
 
-    public struct Relationship: AWSShape {
+    public struct Relationship: AWSDecodableShape {
 
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public let ids: [String]?
@@ -596,7 +596,7 @@ extension Textract {
         }
     }
 
-    public struct S3Object: AWSShape {
+    public struct S3Object: AWSEncodableShape {
 
         /// The name of the S3 bucket.
         public let bucket: String?
@@ -630,7 +630,7 @@ extension Textract {
         }
     }
 
-    public struct StartDocumentAnalysisRequest: AWSShape {
+    public struct StartDocumentAnalysisRequest: AWSEncodableShape {
 
         /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
@@ -671,7 +671,7 @@ extension Textract {
         }
     }
 
-    public struct StartDocumentAnalysisResponse: AWSShape {
+    public struct StartDocumentAnalysisResponse: AWSDecodableShape {
 
         /// The identifier for the document text detection job. Use JobId to identify the job in a subsequent call to GetDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String?
@@ -685,7 +685,7 @@ extension Textract {
         }
     }
 
-    public struct StartDocumentTextDetectionRequest: AWSShape {
+    public struct StartDocumentTextDetectionRequest: AWSEncodableShape {
 
         /// The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
@@ -722,7 +722,7 @@ extension Textract {
         }
     }
 
-    public struct StartDocumentTextDetectionResponse: AWSShape {
+    public struct StartDocumentTextDetectionResponse: AWSDecodableShape {
 
         /// The identifier of the text detection job for the document. Use JobId to identify the job in a subsequent call to GetDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String?
@@ -736,7 +736,7 @@ extension Textract {
         }
     }
 
-    public struct Warning: AWSShape {
+    public struct Warning: AWSDecodableShape {
 
         /// The error code for the warning.
         public let errorCode: String?

@@ -22,7 +22,7 @@ extension WorkMailMessageFlow {
 
     //MARK: Shapes
 
-    public struct GetRawMessageContentRequest: AWSShape {
+    public struct GetRawMessageContentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
@@ -45,7 +45,7 @@ extension WorkMailMessageFlow {
         }
     }
 
-    public struct GetRawMessageContentResponse: AWSShape {
+    public struct GetRawMessageContentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "messageContent"
         public static var _encoding = [

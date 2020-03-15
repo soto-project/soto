@@ -76,7 +76,7 @@ extension RAM {
 
     //MARK: Shapes
 
-    public struct AcceptResourceShareInvitationRequest: AWSShape {
+    public struct AcceptResourceShareInvitationRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -94,7 +94,7 @@ extension RAM {
         }
     }
 
-    public struct AcceptResourceShareInvitationResponse: AWSShape {
+    public struct AcceptResourceShareInvitationResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -112,7 +112,7 @@ extension RAM {
         }
     }
 
-    public struct AssociateResourceSharePermissionRequest: AWSShape {
+    public struct AssociateResourceSharePermissionRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -138,7 +138,7 @@ extension RAM {
         }
     }
 
-    public struct AssociateResourceSharePermissionResponse: AWSShape {
+    public struct AssociateResourceSharePermissionResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -156,7 +156,7 @@ extension RAM {
         }
     }
 
-    public struct AssociateResourceShareRequest: AWSShape {
+    public struct AssociateResourceShareRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -182,7 +182,7 @@ extension RAM {
         }
     }
 
-    public struct AssociateResourceShareResponse: AWSShape {
+    public struct AssociateResourceShareResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -200,7 +200,7 @@ extension RAM {
         }
     }
 
-    public struct CreateResourceShareRequest: AWSShape {
+    public struct CreateResourceShareRequest: AWSEncodableShape {
 
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
@@ -238,7 +238,7 @@ extension RAM {
         }
     }
 
-    public struct CreateResourceShareResponse: AWSShape {
+    public struct CreateResourceShareResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -256,7 +256,7 @@ extension RAM {
         }
     }
 
-    public struct DeleteResourceShareRequest: AWSShape {
+    public struct DeleteResourceShareRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
             AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
@@ -278,7 +278,7 @@ extension RAM {
         }
     }
 
-    public struct DeleteResourceShareResponse: AWSShape {
+    public struct DeleteResourceShareResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -296,7 +296,7 @@ extension RAM {
         }
     }
 
-    public struct DisassociateResourceSharePermissionRequest: AWSShape {
+    public struct DisassociateResourceSharePermissionRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -318,7 +318,7 @@ extension RAM {
         }
     }
 
-    public struct DisassociateResourceSharePermissionResponse: AWSShape {
+    public struct DisassociateResourceSharePermissionResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -336,7 +336,7 @@ extension RAM {
         }
     }
 
-    public struct DisassociateResourceShareRequest: AWSShape {
+    public struct DisassociateResourceShareRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -362,7 +362,7 @@ extension RAM {
         }
     }
 
-    public struct DisassociateResourceShareResponse: AWSShape {
+    public struct DisassociateResourceShareResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -380,7 +380,7 @@ extension RAM {
         }
     }
 
-    public struct EnableSharingWithAwsOrganizationRequest: AWSShape {
+    public struct EnableSharingWithAwsOrganizationRequest: AWSEncodableShape {
 
 
         public init() {
@@ -388,7 +388,7 @@ extension RAM {
 
     }
 
-    public struct EnableSharingWithAwsOrganizationResponse: AWSShape {
+    public struct EnableSharingWithAwsOrganizationResponse: AWSDecodableShape {
 
         /// Indicates whether the request succeeded.
         public let returnValue: Bool?
@@ -402,7 +402,7 @@ extension RAM {
         }
     }
 
-    public struct GetPermissionRequest: AWSShape {
+    public struct GetPermissionRequest: AWSEncodableShape {
 
         /// The ARN of the permission.
         public let permissionArn: String
@@ -420,7 +420,7 @@ extension RAM {
         }
     }
 
-    public struct GetPermissionResponse: AWSShape {
+    public struct GetPermissionResponse: AWSDecodableShape {
 
         /// Information about the permission.
         public let permission: ResourceSharePermissionDetail?
@@ -434,7 +434,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourcePoliciesRequest: AWSShape {
+    public struct GetResourcePoliciesRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -465,7 +465,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourcePoliciesResponse: AWSShape {
+    public struct GetResourcePoliciesResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -483,7 +483,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourceShareAssociationsRequest: AWSShape {
+    public struct GetResourceShareAssociationsRequest: AWSEncodableShape {
 
         /// The association status.
         public let associationStatus: ResourceShareAssociationStatus?
@@ -526,7 +526,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourceShareAssociationsResponse: AWSShape {
+    public struct GetResourceShareAssociationsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -544,7 +544,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourceShareInvitationsRequest: AWSShape {
+    public struct GetResourceShareInvitationsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -575,7 +575,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourceShareInvitationsResponse: AWSShape {
+    public struct GetResourceShareInvitationsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -593,7 +593,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourceSharesRequest: AWSShape {
+    public struct GetResourceSharesRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -636,7 +636,7 @@ extension RAM {
         }
     }
 
-    public struct GetResourceSharesResponse: AWSShape {
+    public struct GetResourceSharesResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -654,7 +654,7 @@ extension RAM {
         }
     }
 
-    public struct ListPendingInvitationResourcesRequest: AWSShape {
+    public struct ListPendingInvitationResourcesRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -681,7 +681,7 @@ extension RAM {
         }
     }
 
-    public struct ListPendingInvitationResourcesResponse: AWSShape {
+    public struct ListPendingInvitationResourcesResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -699,7 +699,7 @@ extension RAM {
         }
     }
 
-    public struct ListPermissionsRequest: AWSShape {
+    public struct ListPermissionsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -726,7 +726,7 @@ extension RAM {
         }
     }
 
-    public struct ListPermissionsResponse: AWSShape {
+    public struct ListPermissionsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -744,7 +744,7 @@ extension RAM {
         }
     }
 
-    public struct ListPrincipalsRequest: AWSShape {
+    public struct ListPrincipalsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -787,7 +787,7 @@ extension RAM {
         }
     }
 
-    public struct ListPrincipalsResponse: AWSShape {
+    public struct ListPrincipalsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -805,7 +805,7 @@ extension RAM {
         }
     }
 
-    public struct ListResourceSharePermissionsRequest: AWSShape {
+    public struct ListResourceSharePermissionsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -832,7 +832,7 @@ extension RAM {
         }
     }
 
-    public struct ListResourceSharePermissionsResponse: AWSShape {
+    public struct ListResourceSharePermissionsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -850,7 +850,7 @@ extension RAM {
         }
     }
 
-    public struct ListResourcesRequest: AWSShape {
+    public struct ListResourcesRequest: AWSEncodableShape {
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -893,7 +893,7 @@ extension RAM {
         }
     }
 
-    public struct ListResourcesResponse: AWSShape {
+    public struct ListResourcesResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -911,7 +911,7 @@ extension RAM {
         }
     }
 
-    public struct Principal: AWSShape {
+    public struct Principal: AWSDecodableShape {
 
         /// The time when the principal was associated with the resource share.
         public let creationTime: TimeStamp?
@@ -941,7 +941,7 @@ extension RAM {
         }
     }
 
-    public struct PromoteResourceShareCreatedFromPolicyRequest: AWSShape {
+    public struct PromoteResourceShareCreatedFromPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
@@ -958,7 +958,7 @@ extension RAM {
         }
     }
 
-    public struct PromoteResourceShareCreatedFromPolicyResponse: AWSShape {
+    public struct PromoteResourceShareCreatedFromPolicyResponse: AWSDecodableShape {
 
         /// Indicates whether the request succeeded.
         public let returnValue: Bool?
@@ -972,7 +972,7 @@ extension RAM {
         }
     }
 
-    public struct RejectResourceShareInvitationRequest: AWSShape {
+    public struct RejectResourceShareInvitationRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -990,7 +990,7 @@ extension RAM {
         }
     }
 
-    public struct RejectResourceShareInvitationResponse: AWSShape {
+    public struct RejectResourceShareInvitationResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -1008,7 +1008,7 @@ extension RAM {
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -1050,7 +1050,7 @@ extension RAM {
         }
     }
 
-    public struct ResourceShare: AWSShape {
+    public struct ResourceShare: AWSDecodableShape {
 
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
@@ -1100,7 +1100,7 @@ extension RAM {
         }
     }
 
-    public struct ResourceShareAssociation: AWSShape {
+    public struct ResourceShareAssociation: AWSDecodableShape {
 
         /// The associated entity. For resource associations, this is the ARN of the resource. For principal associations, this is the ID of an AWS account or the ARN of an OU or organization from AWS Organizations.
         public let associatedEntity: String?
@@ -1146,7 +1146,7 @@ extension RAM {
         }
     }
 
-    public struct ResourceShareInvitation: AWSShape {
+    public struct ResourceShareInvitation: AWSDecodableShape {
 
         /// The date and time when the invitation was sent.
         public let invitationTimestamp: TimeStamp?
@@ -1184,7 +1184,7 @@ extension RAM {
         }
     }
 
-    public struct ResourceSharePermissionDetail: AWSShape {
+    public struct ResourceSharePermissionDetail: AWSDecodableShape {
 
         /// The ARN of the permission.
         public let arn: String?
@@ -1226,7 +1226,7 @@ extension RAM {
         }
     }
 
-    public struct ResourceSharePermissionSummary: AWSShape {
+    public struct ResourceSharePermissionSummary: AWSDecodableShape {
 
         /// The ARN of the permission.
         public let arn: String?
@@ -1268,7 +1268,7 @@ extension RAM {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String?
@@ -1286,7 +1286,7 @@ extension RAM {
         }
     }
 
-    public struct TagFilter: AWSShape {
+    public struct TagFilter: AWSEncodableShape {
 
         /// The tag key.
         public let tagKey: String?
@@ -1304,7 +1304,7 @@ extension RAM {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -1322,7 +1322,7 @@ extension RAM {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1330,7 +1330,7 @@ extension RAM {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -1348,7 +1348,7 @@ extension RAM {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1356,7 +1356,7 @@ extension RAM {
 
     }
 
-    public struct UpdateResourceShareRequest: AWSShape {
+    public struct UpdateResourceShareRequest: AWSEncodableShape {
 
         /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
@@ -1382,7 +1382,7 @@ extension RAM {
         }
     }
 
-    public struct UpdateResourceShareResponse: AWSShape {
+    public struct UpdateResourceShareResponse: AWSDecodableShape {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?

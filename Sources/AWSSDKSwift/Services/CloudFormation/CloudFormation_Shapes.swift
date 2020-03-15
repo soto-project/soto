@@ -328,7 +328,7 @@ extension CloudFormation {
 
     //MARK: Shapes
 
-    public struct AccountGateResult: AWSShape {
+    public struct AccountGateResult: AWSDecodableShape {
 
         /// The status of the account gate function.    SUCCEEDED: The account gate function has determined that the account and region passes any requirements for a stack set operation to occur. AWS CloudFormation proceeds with the stack operation in that account and region.     FAILED: The account gate function has determined that the account and region does not meet the requirements for a stack set operation to occur. AWS CloudFormation cancels the stack set operation in that account and region, and sets the stack set operation result status for that account and region to FAILED.     SKIPPED: AWS CloudFormation has skipped calling the account gate function for this account and region, for one of the following reasons:   An account gate function has not been specified for the account and region. AWS CloudFormation proceeds with the stack set operation in this account and region.   The AWSCloudFormationStackSetExecutionRole of the stack set adminstration account lacks permissions to invoke the function. AWS CloudFormation proceeds with the stack set operation in this account and region.   Either no action is necessary, or no action is possible, on the stack. AWS CloudFormation skips the stack set operation in this account and region.    
         public let status: AccountGateStatus?
@@ -346,7 +346,7 @@ extension CloudFormation {
         }
     }
 
-    public struct AccountLimit: AWSShape {
+    public struct AccountLimit: AWSDecodableShape {
 
         /// The name of the account limit. Values: ConcurrentResourcesLimit | StackLimit | StackOutputsLimit 
         public let name: String?
@@ -364,7 +364,7 @@ extension CloudFormation {
         }
     }
 
-    public struct AutoDeployment: AWSShape {
+    public struct AutoDeployment: AWSEncodableShape & AWSDecodableShape {
 
         /// If set to true, StackSets automatically deploys additional stack instances to AWS Organizations accounts that are added to a target organization or organizational unit (OU) in the specified Regions. If an account is removed from a target organization or OU, StackSets deletes stack instances from the account in the specified Regions.
         public let enabled: Bool?
@@ -382,7 +382,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CancelUpdateStackInput: AWSShape {
+    public struct CancelUpdateStackInput: AWSEncodableShape {
 
         /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
@@ -406,7 +406,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Change: AWSShape {
+    public struct Change: AWSDecodableShape {
 
         /// A ResourceChange structure that describes the resource and action that AWS CloudFormation will perform.
         public let resourceChange: ResourceChange?
@@ -424,7 +424,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ChangeSetSummary: AWSShape {
+    public struct ChangeSetSummary: AWSDecodableShape {
 
         /// The ID of the change set.
         public let changeSetId: String?
@@ -470,7 +470,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ContinueUpdateRollbackInput: AWSShape {
+    public struct ContinueUpdateRollbackInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourcesToSkip", location: .body(locationName: "ResourcesToSkip"), encoding: .list(member:"member"))
         ]
@@ -512,7 +512,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ContinueUpdateRollbackOutput: AWSShape {
+    public struct ContinueUpdateRollbackOutput: AWSDecodableShape {
 
 
         public init() {
@@ -520,7 +520,7 @@ extension CloudFormation {
 
     }
 
-    public struct CreateChangeSetInput: AWSShape {
+    public struct CreateChangeSetInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "notificationARNs", location: .body(locationName: "NotificationARNs"), encoding: .list(member:"member")), 
@@ -633,7 +633,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateChangeSetOutput: AWSShape {
+    public struct CreateChangeSetOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the change set.
         public let id: String?
@@ -651,7 +651,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackInput: AWSShape {
+    public struct CreateStackInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "notificationARNs", location: .body(locationName: "NotificationARNs"), encoding: .list(member:"member")), 
@@ -762,7 +762,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackInstancesInput: AWSShape {
+    public struct CreateStackInstancesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accounts", location: .body(locationName: "Accounts"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "parameterOverrides", location: .body(locationName: "ParameterOverrides"), encoding: .list(member:"member")), 
@@ -819,7 +819,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackInstancesOutput: AWSShape {
+    public struct CreateStackInstancesOutput: AWSDecodableShape {
 
         /// The unique identifier for this stack set operation.
         public let operationId: String?
@@ -833,7 +833,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackOutput: AWSShape {
+    public struct CreateStackOutput: AWSDecodableShape {
 
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -847,7 +847,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackSetInput: AWSShape {
+    public struct CreateStackSetInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"member")), 
@@ -930,7 +930,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackSetOutput: AWSShape {
+    public struct CreateStackSetOutput: AWSDecodableShape {
 
         /// The ID of the stack set that you're creating.
         public let stackSetId: String?
@@ -944,7 +944,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteChangeSetInput: AWSShape {
+    public struct DeleteChangeSetInput: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of the change set that you want to delete.
         public let changeSetName: String
@@ -970,7 +970,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteChangeSetOutput: AWSShape {
+    public struct DeleteChangeSetOutput: AWSDecodableShape {
 
 
         public init() {
@@ -978,7 +978,7 @@ extension CloudFormation {
 
     }
 
-    public struct DeleteStackInput: AWSShape {
+    public struct DeleteStackInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "retainResources", location: .body(locationName: "RetainResources"), encoding: .list(member:"member"))
         ]
@@ -1015,7 +1015,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackInstancesInput: AWSShape {
+    public struct DeleteStackInstancesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accounts", location: .body(locationName: "Accounts"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "regions", location: .body(locationName: "Regions"), encoding: .list(member:"member"))
@@ -1071,7 +1071,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackInstancesOutput: AWSShape {
+    public struct DeleteStackInstancesOutput: AWSDecodableShape {
 
         /// The unique identifier for this stack set operation.
         public let operationId: String?
@@ -1085,7 +1085,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackSetInput: AWSShape {
+    public struct DeleteStackSetInput: AWSEncodableShape {
 
         /// The name or unique ID of the stack set that you're deleting. You can obtain this value by running ListStackSets.
         public let stackSetName: String
@@ -1099,7 +1099,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackSetOutput: AWSShape {
+    public struct DeleteStackSetOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1107,7 +1107,7 @@ extension CloudFormation {
 
     }
 
-    public struct DeploymentTargets: AWSShape {
+    public struct DeploymentTargets: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accounts", location: .body(locationName: "Accounts"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "organizationalUnitIds", location: .body(locationName: "OrganizationalUnitIds"), encoding: .list(member:"member"))
@@ -1138,7 +1138,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeregisterTypeInput: AWSShape {
+    public struct DeregisterTypeInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -1175,7 +1175,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeregisterTypeOutput: AWSShape {
+    public struct DeregisterTypeOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1183,7 +1183,7 @@ extension CloudFormation {
 
     }
 
-    public struct DescribeAccountLimitsInput: AWSShape {
+    public struct DescribeAccountLimitsInput: AWSEncodableShape {
 
         /// A string that identifies the next page of limits that you want to retrieve.
         public let nextToken: String?
@@ -1202,7 +1202,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeAccountLimitsOutput: AWSShape {
+    public struct DescribeAccountLimitsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountLimits", location: .body(locationName: "AccountLimits"), encoding: .list(member:"member"))
         ]
@@ -1223,7 +1223,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeChangeSetInput: AWSShape {
+    public struct DescribeChangeSetInput: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
         public let changeSetName: String
@@ -1255,7 +1255,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeChangeSetOutput: AWSShape {
+    public struct DescribeChangeSetOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "changes", location: .body(locationName: "Changes"), encoding: .list(member:"member")), 
@@ -1336,7 +1336,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackDriftDetectionStatusInput: AWSShape {
+    public struct DescribeStackDriftDetectionStatusInput: AWSEncodableShape {
 
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
         public let stackDriftDetectionId: String
@@ -1355,7 +1355,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackDriftDetectionStatusOutput: AWSShape {
+    public struct DescribeStackDriftDetectionStatusOutput: AWSDecodableShape {
 
         /// The status of the stack drift detection operation.    DETECTION_COMPLETE: The stack drift detection operation has successfully completed for all resources in the stack that support drift detection. (Resources that do not currently support stack detection remain unchecked.) If you specified logical resource IDs for AWS CloudFormation to use as a filter for the stack drift detection operation, only the resources with those logical IDs are checked for drift.    DETECTION_FAILED: The stack drift detection operation has failed for at least one resource in the stack. Results will be available for resources on which AWS CloudFormation successfully completed drift detection.    DETECTION_IN_PROGRESS: The stack drift detection operation is currently in progress.  
         public let detectionStatus: StackDriftDetectionStatus
@@ -1393,7 +1393,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackEventsInput: AWSShape {
+    public struct DescribeStackEventsInput: AWSEncodableShape {
 
         /// A string that identifies the next page of events that you want to retrieve.
         public let nextToken: String?
@@ -1416,7 +1416,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackEventsOutput: AWSShape {
+    public struct DescribeStackEventsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackEvents", location: .body(locationName: "StackEvents"), encoding: .list(member:"member"))
         ]
@@ -1437,7 +1437,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackInstanceInput: AWSShape {
+    public struct DescribeStackInstanceInput: AWSEncodableShape {
 
         /// The ID of an AWS account that's associated with this stack instance.
         public let stackInstanceAccount: String
@@ -1464,7 +1464,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackInstanceOutput: AWSShape {
+    public struct DescribeStackInstanceOutput: AWSDecodableShape {
 
         /// The stack instance that matches the specified request parameters.
         public let stackInstance: StackInstance?
@@ -1478,7 +1478,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceDriftsInput: AWSShape {
+    public struct DescribeStackResourceDriftsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackResourceDriftStatusFilters", location: .body(locationName: "StackResourceDriftStatusFilters"), encoding: .list(member:"member"))
         ]
@@ -1518,7 +1518,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceDriftsOutput: AWSShape {
+    public struct DescribeStackResourceDriftsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackResourceDrifts", location: .body(locationName: "StackResourceDrifts"), encoding: .list(member:"member"))
         ]
@@ -1539,7 +1539,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceInput: AWSShape {
+    public struct DescribeStackResourceInput: AWSEncodableShape {
 
         /// The logical name of the resource as specified in the template. Default: There is no default value.
         public let logicalResourceId: String
@@ -1557,7 +1557,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceOutput: AWSShape {
+    public struct DescribeStackResourceOutput: AWSDecodableShape {
 
         /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
         public let stackResourceDetail: StackResourceDetail?
@@ -1571,7 +1571,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourcesInput: AWSShape {
+    public struct DescribeStackResourcesInput: AWSEncodableShape {
 
         /// The logical name of the resource as specified in the template. Default: There is no default value.
         public let logicalResourceId: String?
@@ -1593,7 +1593,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourcesOutput: AWSShape {
+    public struct DescribeStackResourcesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackResources", location: .body(locationName: "StackResources"), encoding: .list(member:"member"))
         ]
@@ -1610,7 +1610,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetInput: AWSShape {
+    public struct DescribeStackSetInput: AWSEncodableShape {
 
         /// The name or unique ID of the stack set whose description you want.
         public let stackSetName: String
@@ -1624,7 +1624,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetOperationInput: AWSShape {
+    public struct DescribeStackSetOperationInput: AWSEncodableShape {
 
         /// The unique ID of the stack set operation. 
         public let operationId: String
@@ -1648,7 +1648,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetOperationOutput: AWSShape {
+    public struct DescribeStackSetOperationOutput: AWSDecodableShape {
 
         /// The specified stack set operation.
         public let stackSetOperation: StackSetOperation?
@@ -1662,7 +1662,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetOutput: AWSShape {
+    public struct DescribeStackSetOutput: AWSDecodableShape {
 
         /// The specified stack set.
         public let stackSet: StackSet?
@@ -1676,7 +1676,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStacksInput: AWSShape {
+    public struct DescribeStacksInput: AWSEncodableShape {
 
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
@@ -1699,7 +1699,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStacksOutput: AWSShape {
+    public struct DescribeStacksOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stacks", location: .body(locationName: "Stacks"), encoding: .list(member:"member"))
         ]
@@ -1720,7 +1720,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeInput: AWSShape {
+    public struct DescribeTypeInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -1757,7 +1757,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeOutput: AWSShape {
+    public struct DescribeTypeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the type.
         public let arn: String?
@@ -1827,7 +1827,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeRegistrationInput: AWSShape {
+    public struct DescribeTypeRegistrationInput: AWSEncodableShape {
 
         /// The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using  RegisterType .
         public let registrationToken: String
@@ -1847,7 +1847,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeRegistrationOutput: AWSShape {
+    public struct DescribeTypeRegistrationOutput: AWSDecodableShape {
 
         /// The description of the type registration request.
         public let description: String?
@@ -1873,7 +1873,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackDriftInput: AWSShape {
+    public struct DetectStackDriftInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "logicalResourceIds", location: .body(locationName: "LogicalResourceIds"), encoding: .list(member:"member"))
         ]
@@ -1901,7 +1901,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackDriftOutput: AWSShape {
+    public struct DetectStackDriftOutput: AWSDecodableShape {
 
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
         public let stackDriftDetectionId: String
@@ -1915,7 +1915,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackResourceDriftInput: AWSShape {
+    public struct DetectStackResourceDriftInput: AWSEncodableShape {
 
         /// The logical name of the resource for which to return drift information.
         public let logicalResourceId: String
@@ -1938,7 +1938,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackResourceDriftOutput: AWSShape {
+    public struct DetectStackResourceDriftOutput: AWSDecodableShape {
 
         /// Information about whether the resource's actual configuration has drifted from its expected template configuration, including actual and expected property values and any differences detected.
         public let stackResourceDrift: StackResourceDrift
@@ -1952,7 +1952,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackSetDriftInput: AWSShape {
+    public struct DetectStackSetDriftInput: AWSEncodableShape {
 
         ///  The ID of the stack set operation. 
         public let operationId: String?
@@ -1981,7 +1981,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackSetDriftOutput: AWSShape {
+    public struct DetectStackSetDriftOutput: AWSDecodableShape {
 
         /// The ID of the drift detection stack set operation.  you can use this operation id with  DescribeStackSetOperation  to monitor the progress of the drift detection operation. 
         public let operationId: String?
@@ -1995,7 +1995,7 @@ extension CloudFormation {
         }
     }
 
-    public struct EstimateTemplateCostInput: AWSShape {
+    public struct EstimateTemplateCostInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"member"))
         ]
@@ -2026,7 +2026,7 @@ extension CloudFormation {
         }
     }
 
-    public struct EstimateTemplateCostOutput: AWSShape {
+    public struct EstimateTemplateCostOutput: AWSDecodableShape {
 
         /// An AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
         public let url: String?
@@ -2040,7 +2040,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ExecuteChangeSetInput: AWSShape {
+    public struct ExecuteChangeSetInput: AWSEncodableShape {
 
         /// The name or ARN of the change set that you want use to update the specified stack.
         public let changeSetName: String
@@ -2073,7 +2073,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ExecuteChangeSetOutput: AWSShape {
+    public struct ExecuteChangeSetOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2081,7 +2081,7 @@ extension CloudFormation {
 
     }
 
-    public struct Export: AWSShape {
+    public struct Export: AWSDecodableShape {
 
         /// The stack that contains the exported output name and value.
         public let exportingStackId: String?
@@ -2103,7 +2103,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetStackPolicyInput: AWSShape {
+    public struct GetStackPolicyInput: AWSEncodableShape {
 
         /// The name or unique stack ID that is associated with the stack whose policy you want to get.
         public let stackName: String
@@ -2117,7 +2117,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetStackPolicyOutput: AWSShape {
+    public struct GetStackPolicyOutput: AWSDecodableShape {
 
         /// Structure containing the stack policy body. (For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide.)
         public let stackPolicyBody: String?
@@ -2131,7 +2131,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateInput: AWSShape {
+    public struct GetTemplateInput: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of a change set for which AWS CloudFormation returns the associated template. If you specify a name, you must also specify the StackName.
         public let changeSetName: String?
@@ -2159,7 +2159,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateOutput: AWSShape {
+    public struct GetTemplateOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stagesAvailable", location: .body(locationName: "StagesAvailable"), encoding: .list(member:"member"))
         ]
@@ -2180,7 +2180,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateSummaryInput: AWSShape {
+    public struct GetTemplateSummaryInput: AWSEncodableShape {
 
         /// The name or the stack ID that is associated with the stack, which are not always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let stackName: String?
@@ -2215,7 +2215,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateSummaryOutput: AWSShape {
+    public struct GetTemplateSummaryOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "declaredTransforms", location: .body(locationName: "DeclaredTransforms"), encoding: .list(member:"member")), 
@@ -2268,7 +2268,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListChangeSetsInput: AWSShape {
+    public struct ListChangeSetsInput: AWSEncodableShape {
 
         /// A string (provided by the ListChangeSets response output) that identifies the next page of change sets that you want to retrieve.
         public let nextToken: String?
@@ -2293,7 +2293,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListChangeSetsOutput: AWSShape {
+    public struct ListChangeSetsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "summaries", location: .body(locationName: "Summaries"), encoding: .list(member:"member"))
         ]
@@ -2314,7 +2314,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListExportsInput: AWSShape {
+    public struct ListExportsInput: AWSEncodableShape {
 
         /// A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
         public let nextToken: String?
@@ -2333,7 +2333,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListExportsOutput: AWSShape {
+    public struct ListExportsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "exports", location: .body(locationName: "Exports"), encoding: .list(member:"member"))
         ]
@@ -2354,7 +2354,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListImportsInput: AWSShape {
+    public struct ListImportsInput: AWSEncodableShape {
 
         /// The name of the exported output value. AWS CloudFormation returns the stack names that are importing this value. 
         public let exportName: String
@@ -2377,7 +2377,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListImportsOutput: AWSShape {
+    public struct ListImportsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imports", location: .body(locationName: "Imports"), encoding: .list(member:"member"))
         ]
@@ -2398,7 +2398,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackInstancesInput: AWSShape {
+    public struct ListStackInstancesInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2437,7 +2437,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackInstancesOutput: AWSShape {
+    public struct ListStackInstancesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "summaries", location: .body(locationName: "Summaries"), encoding: .list(member:"member"))
         ]
@@ -2458,7 +2458,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackResourcesInput: AWSShape {
+    public struct ListStackResourcesInput: AWSEncodableShape {
 
         /// A string that identifies the next page of stack resources that you want to retrieve.
         public let nextToken: String?
@@ -2481,7 +2481,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackResourcesOutput: AWSShape {
+    public struct ListStackResourcesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackResourceSummaries", location: .body(locationName: "StackResourceSummaries"), encoding: .list(member:"member"))
         ]
@@ -2502,7 +2502,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationResultsInput: AWSShape {
+    public struct ListStackSetOperationResultsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2538,7 +2538,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationResultsOutput: AWSShape {
+    public struct ListStackSetOperationResultsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "summaries", location: .body(locationName: "Summaries"), encoding: .list(member:"member"))
         ]
@@ -2559,7 +2559,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationsInput: AWSShape {
+    public struct ListStackSetOperationsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2588,7 +2588,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationsOutput: AWSShape {
+    public struct ListStackSetOperationsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "summaries", location: .body(locationName: "Summaries"), encoding: .list(member:"member"))
         ]
@@ -2609,7 +2609,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetsInput: AWSShape {
+    public struct ListStackSetsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2638,7 +2638,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetsOutput: AWSShape {
+    public struct ListStackSetsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "summaries", location: .body(locationName: "Summaries"), encoding: .list(member:"member"))
         ]
@@ -2659,7 +2659,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStacksInput: AWSShape {
+    public struct ListStacksInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackStatusFilter", location: .body(locationName: "StackStatusFilter"), encoding: .list(member:"member"))
         ]
@@ -2685,7 +2685,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStacksOutput: AWSShape {
+    public struct ListStacksOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stackSummaries", location: .body(locationName: "StackSummaries"), encoding: .list(member:"member"))
         ]
@@ -2706,7 +2706,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeRegistrationsInput: AWSShape {
+    public struct ListTypeRegistrationsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2752,7 +2752,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeRegistrationsOutput: AWSShape {
+    public struct ListTypeRegistrationsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "registrationTokenList", location: .body(locationName: "RegistrationTokenList"), encoding: .list(member:"member"))
         ]
@@ -2773,7 +2773,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeVersionsInput: AWSShape {
+    public struct ListTypeVersionsInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -2819,7 +2819,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeVersionsOutput: AWSShape {
+    public struct ListTypeVersionsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "typeVersionSummaries", location: .body(locationName: "TypeVersionSummaries"), encoding: .list(member:"member"))
         ]
@@ -2840,7 +2840,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypesInput: AWSShape {
+    public struct ListTypesInput: AWSEncodableShape {
 
         /// The deprecation status of the types that you want to get summary information about. Valid values include:    LIVE: The type is registered for use in CloudFormation operations.    DEPRECATED: The type has been deregistered and can no longer be used in CloudFormation operations.   
         public let deprecatedStatus: DeprecatedStatus?
@@ -2877,7 +2877,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypesOutput: AWSShape {
+    public struct ListTypesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "typeSummaries", location: .body(locationName: "TypeSummaries"), encoding: .list(member:"member"))
         ]
@@ -2898,7 +2898,7 @@ extension CloudFormation {
         }
     }
 
-    public struct LoggingConfig: AWSShape {
+    public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon CloudWatch log group to which CloudFormation sends error logging information when invoking the type's handlers.
         public let logGroupName: String
@@ -2925,7 +2925,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Output: AWSShape {
+    public struct Output: AWSDecodableShape {
 
         /// User defined description associated with the output.
         public let description: String?
@@ -2951,7 +2951,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template.
         public let parameterKey: String?
@@ -2977,7 +2977,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ParameterConstraints: AWSShape {
+    public struct ParameterConstraints: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "allowedValues", location: .body(locationName: "AllowedValues"), encoding: .list(member:"member"))
         ]
@@ -2994,7 +2994,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ParameterDeclaration: AWSShape {
+    public struct ParameterDeclaration: AWSDecodableShape {
 
         /// The default value of the parameter.
         public let defaultValue: String?
@@ -3028,7 +3028,7 @@ extension CloudFormation {
         }
     }
 
-    public struct PhysicalResourceIdContextKeyValuePair: AWSShape {
+    public struct PhysicalResourceIdContextKeyValuePair: AWSDecodableShape {
 
         /// The resource context key.
         public let key: String
@@ -3046,7 +3046,7 @@ extension CloudFormation {
         }
     }
 
-    public struct PropertyDifference: AWSShape {
+    public struct PropertyDifference: AWSDecodableShape {
 
         /// The actual property value of the resource property.
         public let actualValue: String
@@ -3072,7 +3072,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RecordHandlerProgressInput: AWSShape {
+    public struct RecordHandlerProgressInput: AWSEncodableShape {
 
         /// Reserved for use by the CloudFormation CLI.
         public let bearerToken: String
@@ -3121,7 +3121,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RecordHandlerProgressOutput: AWSShape {
+    public struct RecordHandlerProgressOutput: AWSDecodableShape {
 
 
         public init() {
@@ -3129,7 +3129,7 @@ extension CloudFormation {
 
     }
 
-    public struct RegisterTypeInput: AWSShape {
+    public struct RegisterTypeInput: AWSEncodableShape {
 
         /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of a type from the same registeration request, even if the request is submitted multiple times. 
         public let clientRequestToken: String?
@@ -3178,7 +3178,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RegisterTypeOutput: AWSShape {
+    public struct RegisterTypeOutput: AWSDecodableShape {
 
         /// The identifier for this registration request. Use this registration token when calling  DescribeTypeRegistration , which returns information about the status and IDs of the type registration. 
         public let registrationToken: String?
@@ -3192,7 +3192,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceChange: AWSShape {
+    public struct ResourceChange: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "details", location: .body(locationName: "Details"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "scope", location: .body(locationName: "Scope"), encoding: .list(member:"member"))
@@ -3234,7 +3234,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceChangeDetail: AWSShape {
+    public struct ResourceChangeDetail: AWSDecodableShape {
 
         /// The identity of the entity that triggered this change. This entity is a member of the group that is specified by the ChangeSource field. For example, if you modified the value of the KeyPairName parameter, the CausingEntity is the name of the parameter (KeyPairName). If the ChangeSource value is DirectModification, no value is given for CausingEntity.
         public let causingEntity: String?
@@ -3260,7 +3260,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceIdentifierSummary: AWSShape {
+    public struct ResourceIdentifierSummary: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "logicalResourceIds", location: .body(locationName: "LogicalResourceIds"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "resourceIdentifiers", location: .body(locationName: "ResourceIdentifiers"), encoding: .list(member:"member"))
@@ -3286,7 +3286,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceTargetDefinition: AWSShape {
+    public struct ResourceTargetDefinition: AWSDecodableShape {
 
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public let attribute: ResourceAttribute?
@@ -3308,7 +3308,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceToImport: AWSShape {
+    public struct ResourceToImport: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceIdentifier", location: .body(locationName: "ResourceIdentifier"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -3344,7 +3344,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RollbackConfiguration: AWSShape {
+    public struct RollbackConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rollbackTriggers", location: .body(locationName: "RollbackTriggers"), encoding: .list(member:"member"))
         ]
@@ -3371,7 +3371,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RollbackTrigger: AWSShape {
+    public struct RollbackTrigger: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back. 
         public let arn: String
@@ -3389,7 +3389,7 @@ extension CloudFormation {
         }
     }
 
-    public struct SetStackPolicyInput: AWSShape {
+    public struct SetStackPolicyInput: AWSEncodableShape {
 
         /// The name or unique stack ID that you want to associate a policy with.
         public let stackName: String
@@ -3418,7 +3418,7 @@ extension CloudFormation {
         }
     }
 
-    public struct SetTypeDefaultVersionInput: AWSShape {
+    public struct SetTypeDefaultVersionInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -3455,7 +3455,7 @@ extension CloudFormation {
         }
     }
 
-    public struct SetTypeDefaultVersionOutput: AWSShape {
+    public struct SetTypeDefaultVersionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -3463,7 +3463,7 @@ extension CloudFormation {
 
     }
 
-    public struct SignalResourceInput: AWSShape {
+    public struct SignalResourceInput: AWSEncodableShape {
 
         /// The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
         public let logicalResourceId: String
@@ -3496,7 +3496,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Stack: AWSShape {
+    public struct Stack: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "notificationARNs", location: .body(locationName: "NotificationARNs"), encoding: .list(member:"member")), 
@@ -3601,7 +3601,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackDriftInformation: AWSShape {
+    public struct StackDriftInformation: AWSDecodableShape {
 
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: TimeStamp?
@@ -3619,7 +3619,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackDriftInformationSummary: AWSShape {
+    public struct StackDriftInformationSummary: AWSDecodableShape {
 
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: TimeStamp?
@@ -3637,7 +3637,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackEvent: AWSShape {
+    public struct StackEvent: AWSDecodableShape {
 
         /// The token passed to the operation that generated this event. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
@@ -3691,7 +3691,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackInstance: AWSShape {
+    public struct StackInstance: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameterOverrides", location: .body(locationName: "ParameterOverrides"), encoding: .list(member:"member"))
         ]
@@ -3744,7 +3744,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackInstanceSummary: AWSShape {
+    public struct StackInstanceSummary: AWSDecodableShape {
 
         /// [Self-managed permissions] The name of the AWS account that the stack instance is associated with.
         public let account: String?
@@ -3790,7 +3790,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResource: AWSShape {
+    public struct StackResource: AWSDecodableShape {
 
         /// User defined description associated with the resource.
         public let description: String?
@@ -3840,7 +3840,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDetail: AWSShape {
+    public struct StackResourceDetail: AWSDecodableShape {
 
         /// User defined description associated with the resource.
         public let description: String?
@@ -3894,7 +3894,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDrift: AWSShape {
+    public struct StackResourceDrift: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "physicalResourceIdContext", location: .body(locationName: "PhysicalResourceIdContext"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "propertyDifferences", location: .body(locationName: "PropertyDifferences"), encoding: .list(member:"member"))
@@ -3948,7 +3948,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDriftInformation: AWSShape {
+    public struct StackResourceDriftInformation: AWSDecodableShape {
 
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: TimeStamp?
@@ -3966,7 +3966,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDriftInformationSummary: AWSShape {
+    public struct StackResourceDriftInformationSummary: AWSDecodableShape {
 
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: TimeStamp?
@@ -3984,7 +3984,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceSummary: AWSShape {
+    public struct StackResourceSummary: AWSDecodableShape {
 
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
         public let driftInformation: StackResourceDriftInformationSummary?
@@ -4022,7 +4022,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSet: AWSShape {
+    public struct StackSet: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "organizationalUnitIds", location: .body(locationName: "OrganizationalUnitIds"), encoding: .list(member:"member")), 
@@ -4098,7 +4098,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetDriftDetectionDetails: AWSShape {
+    public struct StackSetDriftDetectionDetails: AWSDecodableShape {
 
         /// The status of the stack set drift detection operation.    COMPLETED: The drift detection operation completed without failing on any stack instances.    FAILED: The drift detection operation exceeded the specified failure tolerance.     PARTIAL_SUCCESS: The drift detection operation completed without exceeding the failure tolerance for the operation.    IN_PROGRESS: The drift detection operation is currently being performed.    STOPPED: The user has cancelled the drift detection operation.  
         public let driftDetectionStatus: StackSetDriftDetectionStatus?
@@ -4140,7 +4140,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperation: AWSShape {
+    public struct StackSetOperation: AWSDecodableShape {
 
         /// The type of stack set operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack set instances that are associated with the specified stack set. Update operations affect both the stack set itself, as well as all associated stack set instances.
         public let action: StackSetOperationAction?
@@ -4198,7 +4198,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperationPreferences: AWSShape {
+    public struct StackSetOperationPreferences: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "regionOrder", location: .body(locationName: "RegionOrder"), encoding: .list(member:"member"))
         ]
@@ -4243,7 +4243,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperationResultSummary: AWSShape {
+    public struct StackSetOperationResultSummary: AWSDecodableShape {
 
         /// [Self-managed permissions] The name of the AWS account for this operation result.
         public let account: String?
@@ -4277,7 +4277,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperationSummary: AWSShape {
+    public struct StackSetOperationSummary: AWSDecodableShape {
 
         /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself as well as all associated stack set instances.
         public let action: StackSetOperationAction?
@@ -4307,7 +4307,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetSummary: AWSShape {
+    public struct StackSetSummary: AWSDecodableShape {
 
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to AWS Organizations accounts that are added to a target organizational unit (OU).
         public let autoDeployment: AutoDeployment?
@@ -4349,7 +4349,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSummary: AWSShape {
+    public struct StackSummary: AWSDecodableShape {
 
         /// The time the stack was created.
         public let creationTime: TimeStamp
@@ -4403,7 +4403,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StopStackSetOperationInput: AWSShape {
+    public struct StopStackSetOperationInput: AWSEncodableShape {
 
         /// The ID of the stack operation. 
         public let operationId: String
@@ -4427,7 +4427,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StopStackSetOperationOutput: AWSShape {
+    public struct StopStackSetOperationOutput: AWSDecodableShape {
 
 
         public init() {
@@ -4435,7 +4435,7 @@ extension CloudFormation {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
         public let key: String
@@ -4460,7 +4460,7 @@ extension CloudFormation {
         }
     }
 
-    public struct TemplateParameter: AWSShape {
+    public struct TemplateParameter: AWSDecodableShape {
 
         /// The default value associated with the parameter.
         public let defaultValue: String?
@@ -4486,7 +4486,7 @@ extension CloudFormation {
         }
     }
 
-    public struct TypeSummary: AWSShape {
+    public struct TypeSummary: AWSDecodableShape {
 
         /// The ID of the default version of the type. The default version is used when the type version is not specified. To set the default version of a type, use  SetTypeDefaultVersion . 
         public let defaultVersionId: String?
@@ -4520,7 +4520,7 @@ extension CloudFormation {
         }
     }
 
-    public struct TypeVersionSummary: AWSShape {
+    public struct TypeVersionSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the type version.
         public let arn: String?
@@ -4554,7 +4554,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackInput: AWSShape {
+    public struct UpdateStackInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "notificationARNs", location: .body(locationName: "NotificationARNs"), encoding: .list(member:"member")), 
@@ -4664,7 +4664,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackInstancesInput: AWSShape {
+    public struct UpdateStackInstancesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accounts", location: .body(locationName: "Accounts"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "parameterOverrides", location: .body(locationName: "ParameterOverrides"), encoding: .list(member:"member")), 
@@ -4722,7 +4722,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackInstancesOutput: AWSShape {
+    public struct UpdateStackInstancesOutput: AWSDecodableShape {
 
         /// The unique identifier for this stack set operation. 
         public let operationId: String?
@@ -4736,7 +4736,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackOutput: AWSShape {
+    public struct UpdateStackOutput: AWSDecodableShape {
 
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -4750,7 +4750,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackSetInput: AWSShape {
+    public struct UpdateStackSetInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accounts", location: .body(locationName: "Accounts"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
@@ -4863,7 +4863,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackSetOutput: AWSShape {
+    public struct UpdateStackSetOutput: AWSDecodableShape {
 
         /// The unique ID for this stack set operation.
         public let operationId: String?
@@ -4877,7 +4877,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateTerminationProtectionInput: AWSShape {
+    public struct UpdateTerminationProtectionInput: AWSEncodableShape {
 
         /// Whether to enable termination protection on the specified stack.
         public let enableTerminationProtection: Bool
@@ -4900,7 +4900,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateTerminationProtectionOutput: AWSShape {
+    public struct UpdateTerminationProtectionOutput: AWSDecodableShape {
 
         /// The unique ID of the stack.
         public let stackId: String?
@@ -4914,7 +4914,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ValidateTemplateInput: AWSShape {
+    public struct ValidateTemplateInput: AWSEncodableShape {
 
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateBody: String?
@@ -4938,7 +4938,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ValidateTemplateOutput: AWSShape {
+    public struct ValidateTemplateOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capabilities", location: .body(locationName: "Capabilities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "declaredTransforms", location: .body(locationName: "DeclaredTransforms"), encoding: .list(member:"member")), 

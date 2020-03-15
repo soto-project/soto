@@ -37,7 +37,7 @@ extension MarketplaceCatalog {
 
     //MARK: Shapes
 
-    public struct CancelChangeSetRequest: AWSShape {
+    public struct CancelChangeSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
             AWSMemberEncoding(label: "changeSetId", location: .querystring(locationName: "changeSetId"))
@@ -68,7 +68,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct CancelChangeSetResponse: AWSShape {
+    public struct CancelChangeSetResponse: AWSDecodableShape {
 
         /// The ARN associated with the change set referenced in this request.
         public let changeSetArn: String?
@@ -86,7 +86,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct Change: AWSShape {
+    public struct Change: AWSEncodableShape {
 
         /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope.
         public let changeType: String
@@ -118,7 +118,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ChangeSetSummaryListItem: AWSShape {
+    public struct ChangeSetSummaryListItem: AWSDecodableShape {
 
         /// The ARN associated with the unique identifier for the change set referenced in this request.
         public let changeSetArn: String?
@@ -156,7 +156,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ChangeSummary: AWSShape {
+    public struct ChangeSummary: AWSDecodableShape {
 
         /// The type of the change.
         public let changeType: String?
@@ -178,7 +178,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct DescribeChangeSetRequest: AWSShape {
+    public struct DescribeChangeSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
             AWSMemberEncoding(label: "changeSetId", location: .querystring(locationName: "changeSetId"))
@@ -209,7 +209,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct DescribeChangeSetResponse: AWSShape {
+    public struct DescribeChangeSetResponse: AWSDecodableShape {
 
         /// An array of ChangeSummary objects.
         public let changeSet: [ChangeSummary]?
@@ -251,7 +251,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct DescribeEntityRequest: AWSShape {
+    public struct DescribeEntityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "catalog", location: .querystring(locationName: "catalog")), 
             AWSMemberEncoding(label: "entityId", location: .querystring(locationName: "entityId"))
@@ -282,7 +282,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct DescribeEntityResponse: AWSShape {
+    public struct DescribeEntityResponse: AWSDecodableShape {
 
         /// This stringified JSON object includes the details of the entity.
         public let details: String?
@@ -312,7 +312,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct Entity: AWSShape {
+    public struct Entity: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier for the entity.
         public let identifier: String?
@@ -339,7 +339,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct EntitySummary: AWSShape {
+    public struct EntitySummary: AWSDecodableShape {
 
         /// The ARN associated with the unique identifier for the entity.
         public let entityArn: String?
@@ -373,7 +373,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ErrorDetail: AWSShape {
+    public struct ErrorDetail: AWSDecodableShape {
 
         /// The error code that identifies the type of error.
         public let errorCode: String?
@@ -391,7 +391,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// For ListEntities, the supported value for this is an EntityId. For ListChangeSets, the supported values are as follows:
         public let name: String?
@@ -417,7 +417,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ListChangeSetsRequest: AWSShape {
+    public struct ListChangeSetsRequest: AWSEncodableShape {
 
         /// The catalog related to the request. Fixed value: AWSMarketplace 
         public let catalog: String
@@ -464,7 +464,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ListChangeSetsResponse: AWSShape {
+    public struct ListChangeSetsResponse: AWSDecodableShape {
 
         ///  Array of ChangeSetSummaryListItem objects.
         public let changeSetSummaryList: [ChangeSetSummaryListItem]?
@@ -482,7 +482,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ListEntitiesRequest: AWSShape {
+    public struct ListEntitiesRequest: AWSEncodableShape {
 
         /// The catalog related to the request. Fixed value: AWSMarketplace 
         public let catalog: String
@@ -536,7 +536,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct ListEntitiesResponse: AWSShape {
+    public struct ListEntitiesResponse: AWSDecodableShape {
 
         ///  Array of EntitySummary object.
         public let entitySummaryList: [EntitySummary]?
@@ -554,7 +554,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct Sort: AWSShape {
+    public struct Sort: AWSEncodableShape {
 
         /// For ListEntities, supported attributes include LastModifiedDate (default), Visibility, EntityId, and Name. For ListChangeSets, supported attributes include StartTime and EndTime.
         public let sortBy: String?
@@ -578,7 +578,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct StartChangeSetRequest: AWSShape {
+    public struct StartChangeSetRequest: AWSEncodableShape {
 
         /// The catalog related to the request. Fixed value: AWSMarketplace 
         public let catalog: String
@@ -621,7 +621,7 @@ extension MarketplaceCatalog {
         }
     }
 
-    public struct StartChangeSetResponse: AWSShape {
+    public struct StartChangeSetResponse: AWSDecodableShape {
 
         /// The ARN associated to the unique identifier generated for the request.
         public let changeSetArn: String?

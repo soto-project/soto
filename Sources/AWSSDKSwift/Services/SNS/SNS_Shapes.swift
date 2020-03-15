@@ -22,7 +22,7 @@ extension SNS {
 
     //MARK: Shapes
 
-    public struct AddPermissionInput: AWSShape {
+    public struct AddPermissionInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionName", location: .body(locationName: "ActionName"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "aWSAccountId", location: .body(locationName: "AWSAccountId"), encoding: .list(member:"member"))
@@ -52,7 +52,7 @@ extension SNS {
         }
     }
 
-    public struct CheckIfPhoneNumberIsOptedOutInput: AWSShape {
+    public struct CheckIfPhoneNumberIsOptedOutInput: AWSEncodableShape {
 
         /// The phone number for which you want to check the opt out status.
         public let phoneNumber: String
@@ -66,7 +66,7 @@ extension SNS {
         }
     }
 
-    public struct CheckIfPhoneNumberIsOptedOutResponse: AWSShape {
+    public struct CheckIfPhoneNumberIsOptedOutResponse: AWSDecodableShape {
 
         /// Indicates whether the phone number is opted out:    true – The phone number is opted out, meaning you cannot publish SMS messages to it.    false – The phone number is opted in, meaning you can publish SMS messages to it.  
         public let isOptedOut: Bool?
@@ -80,7 +80,7 @@ extension SNS {
         }
     }
 
-    public struct ConfirmSubscriptionInput: AWSShape {
+    public struct ConfirmSubscriptionInput: AWSEncodableShape {
 
         /// Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication. 
         public let authenticateOnUnsubscribe: String?
@@ -102,7 +102,7 @@ extension SNS {
         }
     }
 
-    public struct ConfirmSubscriptionResponse: AWSShape {
+    public struct ConfirmSubscriptionResponse: AWSDecodableShape {
 
         /// The ARN of the created subscription.
         public let subscriptionArn: String?
@@ -116,7 +116,7 @@ extension SNS {
         }
     }
 
-    public struct CreateEndpointResponse: AWSShape {
+    public struct CreateEndpointResponse: AWSDecodableShape {
 
         /// EndpointArn returned from CreateEndpoint action.
         public let endpointArn: String?
@@ -130,7 +130,7 @@ extension SNS {
         }
     }
 
-    public struct CreatePlatformApplicationInput: AWSShape {
+    public struct CreatePlatformApplicationInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -155,7 +155,7 @@ extension SNS {
         }
     }
 
-    public struct CreatePlatformApplicationResponse: AWSShape {
+    public struct CreatePlatformApplicationResponse: AWSDecodableShape {
 
         /// PlatformApplicationArn is returned.
         public let platformApplicationArn: String?
@@ -169,7 +169,7 @@ extension SNS {
         }
     }
 
-    public struct CreatePlatformEndpointInput: AWSShape {
+    public struct CreatePlatformEndpointInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -198,7 +198,7 @@ extension SNS {
         }
     }
 
-    public struct CreateTopicInput: AWSShape {
+    public struct CreateTopicInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
@@ -230,7 +230,7 @@ extension SNS {
         }
     }
 
-    public struct CreateTopicResponse: AWSShape {
+    public struct CreateTopicResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) assigned to the created topic.
         public let topicArn: String?
@@ -244,7 +244,7 @@ extension SNS {
         }
     }
 
-    public struct DeleteEndpointInput: AWSShape {
+    public struct DeleteEndpointInput: AWSEncodableShape {
 
         /// EndpointArn of endpoint to delete.
         public let endpointArn: String
@@ -258,7 +258,7 @@ extension SNS {
         }
     }
 
-    public struct DeletePlatformApplicationInput: AWSShape {
+    public struct DeletePlatformApplicationInput: AWSEncodableShape {
 
         /// PlatformApplicationArn of platform application object to delete.
         public let platformApplicationArn: String
@@ -272,7 +272,7 @@ extension SNS {
         }
     }
 
-    public struct DeleteTopicInput: AWSShape {
+    public struct DeleteTopicInput: AWSEncodableShape {
 
         /// The ARN of the topic you want to delete.
         public let topicArn: String
@@ -286,7 +286,7 @@ extension SNS {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -307,7 +307,7 @@ extension SNS {
         }
     }
 
-    public struct GetEndpointAttributesInput: AWSShape {
+    public struct GetEndpointAttributesInput: AWSEncodableShape {
 
         /// EndpointArn for GetEndpointAttributes input.
         public let endpointArn: String
@@ -321,7 +321,7 @@ extension SNS {
         }
     }
 
-    public struct GetEndpointAttributesResponse: AWSShape {
+    public struct GetEndpointAttributesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -338,7 +338,7 @@ extension SNS {
         }
     }
 
-    public struct GetPlatformApplicationAttributesInput: AWSShape {
+    public struct GetPlatformApplicationAttributesInput: AWSEncodableShape {
 
         /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
         public let platformApplicationArn: String
@@ -352,7 +352,7 @@ extension SNS {
         }
     }
 
-    public struct GetPlatformApplicationAttributesResponse: AWSShape {
+    public struct GetPlatformApplicationAttributesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -369,7 +369,7 @@ extension SNS {
         }
     }
 
-    public struct GetSMSAttributesInput: AWSShape {
+    public struct GetSMSAttributesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", encoding: .list(member:"member"))
         ]
@@ -386,7 +386,7 @@ extension SNS {
         }
     }
 
-    public struct GetSMSAttributesResponse: AWSShape {
+    public struct GetSMSAttributesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -403,7 +403,7 @@ extension SNS {
         }
     }
 
-    public struct GetSubscriptionAttributesInput: AWSShape {
+    public struct GetSubscriptionAttributesInput: AWSEncodableShape {
 
         /// The ARN of the subscription whose properties you want to get.
         public let subscriptionArn: String
@@ -417,7 +417,7 @@ extension SNS {
         }
     }
 
-    public struct GetSubscriptionAttributesResponse: AWSShape {
+    public struct GetSubscriptionAttributesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -434,7 +434,7 @@ extension SNS {
         }
     }
 
-    public struct GetTopicAttributesInput: AWSShape {
+    public struct GetTopicAttributesInput: AWSEncodableShape {
 
         /// The ARN of the topic whose properties you want to get.
         public let topicArn: String
@@ -448,7 +448,7 @@ extension SNS {
         }
     }
 
-    public struct GetTopicAttributesResponse: AWSShape {
+    public struct GetTopicAttributesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -465,7 +465,7 @@ extension SNS {
         }
     }
 
-    public struct ListEndpointsByPlatformApplicationInput: AWSShape {
+    public struct ListEndpointsByPlatformApplicationInput: AWSEncodableShape {
 
         /// NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
@@ -483,7 +483,7 @@ extension SNS {
         }
     }
 
-    public struct ListEndpointsByPlatformApplicationResponse: AWSShape {
+    public struct ListEndpointsByPlatformApplicationResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endpoints", location: .body(locationName: "Endpoints"), encoding: .list(member:"member"))
         ]
@@ -504,7 +504,7 @@ extension SNS {
         }
     }
 
-    public struct ListPhoneNumbersOptedOutInput: AWSShape {
+    public struct ListPhoneNumbersOptedOutInput: AWSEncodableShape {
 
         /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
         public let nextToken: String?
@@ -518,7 +518,7 @@ extension SNS {
         }
     }
 
-    public struct ListPhoneNumbersOptedOutResponse: AWSShape {
+    public struct ListPhoneNumbersOptedOutResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "phoneNumbers", encoding: .list(member:"member"))
         ]
@@ -539,7 +539,7 @@ extension SNS {
         }
     }
 
-    public struct ListPlatformApplicationsInput: AWSShape {
+    public struct ListPlatformApplicationsInput: AWSEncodableShape {
 
         /// NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
@@ -553,7 +553,7 @@ extension SNS {
         }
     }
 
-    public struct ListPlatformApplicationsResponse: AWSShape {
+    public struct ListPlatformApplicationsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "platformApplications", location: .body(locationName: "PlatformApplications"), encoding: .list(member:"member"))
         ]
@@ -574,7 +574,7 @@ extension SNS {
         }
     }
 
-    public struct ListSubscriptionsByTopicInput: AWSShape {
+    public struct ListSubscriptionsByTopicInput: AWSEncodableShape {
 
         /// Token returned by the previous ListSubscriptionsByTopic request.
         public let nextToken: String?
@@ -592,7 +592,7 @@ extension SNS {
         }
     }
 
-    public struct ListSubscriptionsByTopicResponse: AWSShape {
+    public struct ListSubscriptionsByTopicResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subscriptions", location: .body(locationName: "Subscriptions"), encoding: .list(member:"member"))
         ]
@@ -613,7 +613,7 @@ extension SNS {
         }
     }
 
-    public struct ListSubscriptionsInput: AWSShape {
+    public struct ListSubscriptionsInput: AWSEncodableShape {
 
         /// Token returned by the previous ListSubscriptions request.
         public let nextToken: String?
@@ -627,7 +627,7 @@ extension SNS {
         }
     }
 
-    public struct ListSubscriptionsResponse: AWSShape {
+    public struct ListSubscriptionsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subscriptions", location: .body(locationName: "Subscriptions"), encoding: .list(member:"member"))
         ]
@@ -648,7 +648,7 @@ extension SNS {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The ARN of the topic for which to list tags.
         public let resourceArn: String
@@ -667,7 +667,7 @@ extension SNS {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -684,7 +684,7 @@ extension SNS {
         }
     }
 
-    public struct ListTopicsInput: AWSShape {
+    public struct ListTopicsInput: AWSEncodableShape {
 
         /// Token returned by the previous ListTopics request.
         public let nextToken: String?
@@ -698,7 +698,7 @@ extension SNS {
         }
     }
 
-    public struct ListTopicsResponse: AWSShape {
+    public struct ListTopicsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "topics", location: .body(locationName: "Topics"), encoding: .list(member:"member"))
         ]
@@ -719,7 +719,7 @@ extension SNS {
         }
     }
 
-    public struct MessageAttributeValue: AWSShape {
+    public struct MessageAttributeValue: AWSEncodableShape {
 
         /// Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images.
         public let binaryValue: Data?
@@ -741,7 +741,7 @@ extension SNS {
         }
     }
 
-    public struct OptInPhoneNumberInput: AWSShape {
+    public struct OptInPhoneNumberInput: AWSEncodableShape {
 
         /// The phone number to opt in.
         public let phoneNumber: String
@@ -755,7 +755,7 @@ extension SNS {
         }
     }
 
-    public struct OptInPhoneNumberResponse: AWSShape {
+    public struct OptInPhoneNumberResponse: AWSDecodableShape {
 
 
         public init() {
@@ -763,7 +763,7 @@ extension SNS {
 
     }
 
-    public struct PlatformApplication: AWSShape {
+    public struct PlatformApplication: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -784,7 +784,7 @@ extension SNS {
         }
     }
 
-    public struct PublishInput: AWSShape {
+    public struct PublishInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messageAttributes", location: .body(locationName: "MessageAttributes"), encoding: .map(entry:"entry", key: "Name", value: "Value"))
         ]
@@ -825,7 +825,7 @@ extension SNS {
         }
     }
 
-    public struct PublishResponse: AWSShape {
+    public struct PublishResponse: AWSDecodableShape {
 
         /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
         public let messageId: String?
@@ -839,7 +839,7 @@ extension SNS {
         }
     }
 
-    public struct RemovePermissionInput: AWSShape {
+    public struct RemovePermissionInput: AWSEncodableShape {
 
         /// The unique label of the statement you want to remove.
         public let label: String
@@ -857,7 +857,7 @@ extension SNS {
         }
     }
 
-    public struct SetEndpointAttributesInput: AWSShape {
+    public struct SetEndpointAttributesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -878,7 +878,7 @@ extension SNS {
         }
     }
 
-    public struct SetPlatformApplicationAttributesInput: AWSShape {
+    public struct SetPlatformApplicationAttributesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -899,7 +899,7 @@ extension SNS {
         }
     }
 
-    public struct SetSMSAttributesInput: AWSShape {
+    public struct SetSMSAttributesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -916,7 +916,7 @@ extension SNS {
         }
     }
 
-    public struct SetSMSAttributesResponse: AWSShape {
+    public struct SetSMSAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -924,7 +924,7 @@ extension SNS {
 
     }
 
-    public struct SetSubscriptionAttributesInput: AWSShape {
+    public struct SetSubscriptionAttributesInput: AWSEncodableShape {
 
         /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.  
         public let attributeName: String
@@ -946,7 +946,7 @@ extension SNS {
         }
     }
 
-    public struct SetTopicAttributesInput: AWSShape {
+    public struct SetTopicAttributesInput: AWSEncodableShape {
 
         /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   
         public let attributeName: String
@@ -968,7 +968,7 @@ extension SNS {
         }
     }
 
-    public struct SubscribeInput: AWSShape {
+    public struct SubscribeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -1001,7 +1001,7 @@ extension SNS {
         }
     }
 
-    public struct SubscribeResponse: AWSShape {
+    public struct SubscribeResponse: AWSDecodableShape {
 
         /// The ARN of the subscription if it is confirmed, or the string "pending confirmation" if the subscription requires confirmation. However, if the API request parameter ReturnSubscriptionArn is true, then the value is always the subscription ARN, even if the subscription requires confirmation.
         public let subscriptionArn: String?
@@ -1015,7 +1015,7 @@ extension SNS {
         }
     }
 
-    public struct Subscription: AWSShape {
+    public struct Subscription: AWSDecodableShape {
 
         /// The subscription's endpoint (format depends on the protocol).
         public let endpoint: String?
@@ -1045,7 +1045,7 @@ extension SNS {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The required key portion of the tag.
         public let key: String
@@ -1070,7 +1070,7 @@ extension SNS {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -1099,7 +1099,7 @@ extension SNS {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1107,7 +1107,7 @@ extension SNS {
 
     }
 
-    public struct Topic: AWSShape {
+    public struct Topic: AWSDecodableShape {
 
         /// The topic's ARN.
         public let topicArn: String?
@@ -1121,7 +1121,7 @@ extension SNS {
         }
     }
 
-    public struct UnsubscribeInput: AWSShape {
+    public struct UnsubscribeInput: AWSEncodableShape {
 
         /// The ARN of the subscription to be deleted.
         public let subscriptionArn: String
@@ -1135,7 +1135,7 @@ extension SNS {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
@@ -1165,7 +1165,7 @@ extension SNS {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {

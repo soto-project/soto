@@ -36,7 +36,7 @@ extension CloudSearchDomain {
 
     //MARK: Shapes
 
-    public struct Bucket: AWSShape {
+    public struct Bucket: AWSDecodableShape {
 
         /// The number of hits that contain the facet value in the specified facet field.
         public let count: Int64?
@@ -54,7 +54,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct BucketInfo: AWSShape {
+    public struct BucketInfo: AWSDecodableShape {
 
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
@@ -68,7 +68,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct DocumentServiceWarning: AWSShape {
+    public struct DocumentServiceWarning: AWSDecodableShape {
 
         /// The description for a warning returned by the document service.
         public let message: String?
@@ -82,7 +82,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct FieldStats: AWSShape {
+    public struct FieldStats: AWSDecodableShape {
 
         /// The number of documents that contain a value in the specified field in the result set.
         public let count: Int64?
@@ -124,7 +124,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct Hit: AWSShape {
+    public struct Hit: AWSDecodableShape {
 
         /// The expressions returned from a document that matches the search request.
         public let exprs: [String: String]?
@@ -150,7 +150,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct Hits: AWSShape {
+    public struct Hits: AWSDecodableShape {
 
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
         public let cursor: String?
@@ -176,7 +176,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SearchRequest: AWSShape {
+    public struct SearchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")), 
             AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")), 
@@ -258,7 +258,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SearchResponse: AWSShape {
+    public struct SearchResponse: AWSDecodableShape {
 
         /// The requested facet information.
         public let facets: [String: BucketInfo]?
@@ -284,7 +284,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SearchStatus: AWSShape {
+    public struct SearchStatus: AWSDecodableShape {
 
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -302,7 +302,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SuggestModel: AWSShape {
+    public struct SuggestModel: AWSDecodableShape {
 
         /// The number of documents that were found to match the query string.
         public let found: Int64?
@@ -324,7 +324,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SuggestRequest: AWSShape {
+    public struct SuggestRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
             AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
@@ -351,7 +351,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SuggestResponse: AWSShape {
+    public struct SuggestResponse: AWSDecodableShape {
 
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
@@ -369,7 +369,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SuggestStatus: AWSShape {
+    public struct SuggestStatus: AWSDecodableShape {
 
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -387,7 +387,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct SuggestionMatch: AWSShape {
+    public struct SuggestionMatch: AWSDecodableShape {
 
         /// The document ID of the suggested document.
         public let id: String?
@@ -409,7 +409,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct UploadDocumentsRequest: AWSShape {
+    public struct UploadDocumentsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "documents"
         public static var _encoding = [
@@ -433,7 +433,7 @@ extension CloudSearchDomain {
         }
     }
 
-    public struct UploadDocumentsResponse: AWSShape {
+    public struct UploadDocumentsResponse: AWSDecodableShape {
 
         /// The number of documents that were added to the search domain.
         public let adds: Int64?

@@ -22,7 +22,7 @@ extension IoTDataPlane {
 
     //MARK: Shapes
 
-    public struct DeleteThingShadowRequest: AWSShape {
+    public struct DeleteThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
@@ -45,7 +45,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct DeleteThingShadowResponse: AWSShape {
+    public struct DeleteThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [
@@ -64,7 +64,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct GetThingShadowRequest: AWSShape {
+    public struct GetThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
@@ -87,7 +87,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct GetThingShadowResponse: AWSShape {
+    public struct GetThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [
@@ -106,7 +106,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct PublishRequest: AWSShape {
+    public struct PublishRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [
@@ -140,7 +140,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct UpdateThingShadowRequest: AWSShape {
+    public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [
@@ -170,7 +170,7 @@ extension IoTDataPlane {
         }
     }
 
-    public struct UpdateThingShadowResponse: AWSShape {
+    public struct UpdateThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [

@@ -22,7 +22,7 @@ extension IoT1ClickDevicesService {
 
     //MARK: Shapes
 
-    public struct Attributes: AWSShape {
+    public struct Attributes: AWSDecodableShape {
 
 
         public init() {
@@ -30,7 +30,7 @@ extension IoT1ClickDevicesService {
 
     }
 
-    public struct ClaimDevicesByClaimCodeRequest: AWSShape {
+    public struct ClaimDevicesByClaimCodeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "claimCode", location: .uri(locationName: "claimCode"))
         ]
@@ -46,7 +46,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ClaimDevicesByClaimCodeResponse: AWSShape {
+    public struct ClaimDevicesByClaimCodeResponse: AWSDecodableShape {
 
         /// The claim code provided by the device manufacturer.
         public let claimCode: String?
@@ -65,7 +65,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DescribeDeviceRequest: AWSShape {
+    public struct DescribeDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -81,7 +81,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DescribeDeviceResponse: AWSShape {
+    public struct DescribeDeviceResponse: AWSDecodableShape {
 
         /// Device details.
         public let deviceDescription: DeviceDescription?
@@ -95,7 +95,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct Device: AWSShape {
+    public struct Device: AWSDecodableShape {
 
         /// The user specified attributes associated with the device for an event.
         public let attributes: Attributes?
@@ -117,7 +117,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceDescription: AWSShape {
+    public struct DeviceDescription: AWSDecodableShape {
 
         /// The ARN of the device.
         public let arn: String?
@@ -156,7 +156,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceEvent: AWSShape {
+    public struct DeviceEvent: AWSDecodableShape {
 
         /// An object representing the device associated with the event.
         public let device: Device?
@@ -174,7 +174,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct DeviceMethod: AWSShape {
+    public struct DeviceMethod: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of the device, such as "button".
         public let deviceType: String?
@@ -192,7 +192,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct FinalizeDeviceClaimRequest: AWSShape {
+    public struct FinalizeDeviceClaimRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -211,7 +211,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct FinalizeDeviceClaimResponse: AWSShape {
+    public struct FinalizeDeviceClaimResponse: AWSDecodableShape {
 
         public let state: String?
 
@@ -224,7 +224,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct GetDeviceMethodsRequest: AWSShape {
+    public struct GetDeviceMethodsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -240,7 +240,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct GetDeviceMethodsResponse: AWSShape {
+    public struct GetDeviceMethodsResponse: AWSDecodableShape {
 
         /// List of available device APIs.
         public let deviceMethods: [DeviceMethod]?
@@ -254,7 +254,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct InitiateDeviceClaimRequest: AWSShape {
+    public struct InitiateDeviceClaimRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -270,7 +270,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct InitiateDeviceClaimResponse: AWSShape {
+    public struct InitiateDeviceClaimResponse: AWSDecodableShape {
 
         public let state: String?
 
@@ -283,7 +283,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct InvokeDeviceMethodRequest: AWSShape {
+    public struct InvokeDeviceMethodRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -307,7 +307,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct InvokeDeviceMethodResponse: AWSShape {
+    public struct InvokeDeviceMethodResponse: AWSDecodableShape {
 
         /// A JSON encoded string containing the device method response.
         public let deviceMethodResponse: String?
@@ -321,7 +321,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListDeviceEventsRequest: AWSShape {
+    public struct ListDeviceEventsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
             AWSMemberEncoding(label: "fromTimeStamp", location: .querystring(locationName: "fromTimeStamp")), 
@@ -358,7 +358,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListDeviceEventsResponse: AWSShape {
+    public struct ListDeviceEventsResponse: AWSDecodableShape {
 
         public let events: [DeviceEvent]?
         public let nextToken: String?
@@ -374,7 +374,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListDevicesRequest: AWSShape {
+    public struct ListDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceType", location: .querystring(locationName: "deviceType")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -403,7 +403,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListDevicesResponse: AWSShape {
+    public struct ListDevicesResponse: AWSDecodableShape {
 
         /// A list of devices.
         public let devices: [DeviceDescription]?
@@ -421,7 +421,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -437,7 +437,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -450,7 +450,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -469,7 +469,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct UnclaimDeviceRequest: AWSShape {
+    public struct UnclaimDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -485,7 +485,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct UnclaimDeviceResponse: AWSShape {
+    public struct UnclaimDeviceResponse: AWSDecodableShape {
 
         public let state: String?
 
@@ -498,7 +498,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -518,7 +518,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct UpdateDeviceStateRequest: AWSShape {
+    public struct UpdateDeviceStateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId"))
         ]
@@ -539,7 +539,7 @@ extension IoT1ClickDevicesService {
         }
     }
 
-    public struct UpdateDeviceStateResponse: AWSShape {
+    public struct UpdateDeviceStateResponse: AWSDecodableShape {
 
 
         public init() {

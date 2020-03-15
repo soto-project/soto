@@ -1449,7 +1449,7 @@ extension MediaLive {
 
     //MARK: Shapes
 
-    public struct AacSettings: AWSShape {
+    public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Average bitrate in bits/second. Valid values depend on rate control mode and profile.
         public let bitrate: Double?
@@ -1496,7 +1496,7 @@ extension MediaLive {
         }
     }
 
-    public struct Ac3Settings: AWSShape {
+    public struct Ac3Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
         public let bitrate: Double?
@@ -1539,7 +1539,7 @@ extension MediaLive {
         }
     }
 
-    public struct ArchiveContainerSettings: AWSShape {
+    public struct ArchiveContainerSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let m2tsSettings: M2tsSettings?
 
@@ -1556,7 +1556,7 @@ extension MediaLive {
         }
     }
 
-    public struct ArchiveGroupSettings: AWSShape {
+    public struct ArchiveGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// A directory and base filename where archive files should be written.
         public let destination: OutputLocationRef
@@ -1578,7 +1578,7 @@ extension MediaLive {
         }
     }
 
-    public struct ArchiveOutputSettings: AWSShape {
+    public struct ArchiveOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Settings specific to the container type of the file.
         public let containerSettings: ArchiveContainerSettings
@@ -1604,7 +1604,7 @@ extension MediaLive {
         }
     }
 
-    public struct AribDestinationSettings: AWSShape {
+    public struct AribDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -1612,7 +1612,7 @@ extension MediaLive {
 
     }
 
-    public struct AribSourceSettings: AWSShape {
+    public struct AribSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -1620,7 +1620,7 @@ extension MediaLive {
 
     }
 
-    public struct AudioChannelMapping: AWSShape {
+    public struct AudioChannelMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// Indices and gain values for each input channel that should be remixed into this output channel.
         public let inputChannelLevels: [InputChannelLevel]
@@ -1646,7 +1646,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioCodecSettings: AWSShape {
+    public struct AudioCodecSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let aacSettings: AacSettings?
         public let ac3Settings: Ac3Settings?
@@ -1676,7 +1676,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioDescription: AWSShape {
+    public struct AudioDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// Advanced audio normalization settings.
         public let audioNormalizationSettings: AudioNormalizationSettings?
@@ -1736,7 +1736,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioLanguageSelection: AWSShape {
+    public struct AudioLanguageSelection: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects a specific three-letter language code from within an audio source.
         public let languageCode: String
@@ -1754,7 +1754,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioNormalizationSettings: AWSShape {
+    public struct AudioNormalizationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.
         public let algorithm: AudioNormalizationAlgorithm?
@@ -1776,7 +1776,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioOnlyHlsSettings: AWSShape {
+    public struct AudioOnlyHlsSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
@@ -1811,7 +1811,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioPidSelection: AWSShape {
+    public struct AudioPidSelection: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects a specific PID from within a source.
         public let pid: Int
@@ -1830,7 +1830,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioSelector: AWSShape {
+    public struct AudioSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of this AudioSelector. AudioDescriptions will use this name to uniquely identify this Selector.  Selector names should be unique per input.
         public let name: String
@@ -1853,7 +1853,7 @@ extension MediaLive {
         }
     }
 
-    public struct AudioSelectorSettings: AWSShape {
+    public struct AudioSelectorSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let audioLanguageSelection: AudioLanguageSelection?
         public let audioPidSelection: AudioPidSelection?
@@ -1873,7 +1873,7 @@ extension MediaLive {
         }
     }
 
-    public struct AutomaticInputFailoverSettings: AWSShape {
+    public struct AutomaticInputFailoverSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Input preference when deciding which input to make active when a previously failed input has recovered.
         public let inputPreference: InputPreference?
@@ -1891,7 +1891,7 @@ extension MediaLive {
         }
     }
 
-    public struct AvailBlanking: AWSShape {
+    public struct AvailBlanking: AWSEncodableShape & AWSDecodableShape {
 
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let availBlankingImage: InputLocation?
@@ -1909,7 +1909,7 @@ extension MediaLive {
         }
     }
 
-    public struct AvailConfiguration: AWSShape {
+    public struct AvailConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Ad avail settings.
         public let availSettings: AvailSettings?
@@ -1927,7 +1927,7 @@ extension MediaLive {
         }
     }
 
-    public struct AvailSettings: AWSShape {
+    public struct AvailSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let scte35SpliceInsert: Scte35SpliceInsert?
         public let scte35TimeSignalApos: Scte35TimeSignalApos?
@@ -1948,7 +1948,7 @@ extension MediaLive {
         }
     }
 
-    public struct BatchScheduleActionCreateRequest: AWSShape {
+    public struct BatchScheduleActionCreateRequest: AWSEncodableShape {
 
         /// A list of schedule actions to create.
         public let scheduleActions: [ScheduleAction]
@@ -1968,7 +1968,7 @@ extension MediaLive {
         }
     }
 
-    public struct BatchScheduleActionCreateResult: AWSShape {
+    public struct BatchScheduleActionCreateResult: AWSDecodableShape {
 
         /// List of actions that have been created in the schedule.
         public let scheduleActions: [ScheduleAction]
@@ -1982,7 +1982,7 @@ extension MediaLive {
         }
     }
 
-    public struct BatchScheduleActionDeleteRequest: AWSShape {
+    public struct BatchScheduleActionDeleteRequest: AWSEncodableShape {
 
         /// A list of schedule actions to delete.
         public let actionNames: [String]
@@ -1996,7 +1996,7 @@ extension MediaLive {
         }
     }
 
-    public struct BatchScheduleActionDeleteResult: AWSShape {
+    public struct BatchScheduleActionDeleteResult: AWSDecodableShape {
 
         /// List of actions that have been deleted from the schedule.
         public let scheduleActions: [ScheduleAction]
@@ -2010,7 +2010,7 @@ extension MediaLive {
         }
     }
 
-    public struct BatchUpdateScheduleRequest: AWSShape {
+    public struct BatchUpdateScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -2038,7 +2038,7 @@ extension MediaLive {
         }
     }
 
-    public struct BatchUpdateScheduleResponse: AWSShape {
+    public struct BatchUpdateScheduleResponse: AWSDecodableShape {
 
         public let creates: BatchScheduleActionCreateResult?
         public let deletes: BatchScheduleActionDeleteResult?
@@ -2054,7 +2054,7 @@ extension MediaLive {
         }
     }
 
-    public struct BlackoutSlate: AWSShape {
+    public struct BlackoutSlate: AWSEncodableShape & AWSDecodableShape {
 
         /// Blackout slate image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let blackoutSlateImage: InputLocation?
@@ -2089,7 +2089,7 @@ extension MediaLive {
         }
     }
 
-    public struct BurnInDestinationSettings: AWSShape {
+    public struct BurnInDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  All burn-in and DVB-Sub font settings must match.
         public let alignment: BurnInAlignment?
@@ -2182,7 +2182,7 @@ extension MediaLive {
         }
     }
 
-    public struct CaptionDescription: AWSShape {
+    public struct CaptionDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
         public let captionSelectorName: String
@@ -2216,7 +2216,7 @@ extension MediaLive {
         }
     }
 
-    public struct CaptionDestinationSettings: AWSShape {
+    public struct CaptionDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let aribDestinationSettings: AribDestinationSettings?
         public let burnInDestinationSettings: BurnInDestinationSettings?
@@ -2267,7 +2267,7 @@ extension MediaLive {
         }
     }
 
-    public struct CaptionLanguageMapping: AWSShape {
+    public struct CaptionLanguageMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The closed caption channel being described by this CaptionLanguageMapping.  Each channel mapping must have a unique channel number (maximum of 4)
         public let captionChannel: Int
@@ -2297,7 +2297,7 @@ extension MediaLive {
         }
     }
 
-    public struct CaptionSelector: AWSShape {
+    public struct CaptionSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// When specified this field indicates the three letter language code of the caption track to extract from the source.
         public let languageCode: String?
@@ -2324,7 +2324,7 @@ extension MediaLive {
         }
     }
 
-    public struct CaptionSelectorSettings: AWSShape {
+    public struct CaptionSelectorSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let aribSourceSettings: AribSourceSettings?
         public let dvbSubSourceSettings: DvbSubSourceSettings?
@@ -2359,7 +2359,7 @@ extension MediaLive {
         }
     }
 
-    public struct Channel: AWSShape {
+    public struct Channel: AWSDecodableShape {
 
         /// The unique arn of the channel.
         public let arn: String?
@@ -2428,7 +2428,7 @@ extension MediaLive {
         }
     }
 
-    public struct ChannelEgressEndpoint: AWSShape {
+    public struct ChannelEgressEndpoint: AWSDecodableShape {
 
         /// Public IP of where a channel's output comes from
         public let sourceIp: String?
@@ -2442,7 +2442,7 @@ extension MediaLive {
         }
     }
 
-    public struct ChannelSummary: AWSShape {
+    public struct ChannelSummary: AWSDecodableShape {
 
         /// The unique arn of the channel.
         public let arn: String?
@@ -2504,7 +2504,7 @@ extension MediaLive {
         }
     }
 
-    public struct ColorSpacePassthroughSettings: AWSShape {
+    public struct ColorSpacePassthroughSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -2512,7 +2512,7 @@ extension MediaLive {
 
     }
 
-    public struct CreateChannelRequest: AWSShape {
+    public struct CreateChannelRequest: AWSEncodableShape {
 
         public let channelClass: ChannelClass?
         public let destinations: [OutputDestination]?
@@ -2562,7 +2562,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateChannelResponse: AWSShape {
+    public struct CreateChannelResponse: AWSDecodableShape {
 
         public let channel: Channel?
 
@@ -2575,7 +2575,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateInputRequest: AWSShape {
+    public struct CreateInputRequest: AWSEncodableShape {
 
         public let destinations: [InputDestinationRequest]?
         public let inputSecurityGroups: [String]?
@@ -2615,7 +2615,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateInputResponse: AWSShape {
+    public struct CreateInputResponse: AWSDecodableShape {
 
         public let input: Input?
 
@@ -2628,7 +2628,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateInputSecurityGroupRequest: AWSShape {
+    public struct CreateInputSecurityGroupRequest: AWSEncodableShape {
 
         public let tags: [String: String]?
         public let whitelistRules: [InputWhitelistRuleCidr]?
@@ -2644,7 +2644,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateInputSecurityGroupResponse: AWSShape {
+    public struct CreateInputSecurityGroupResponse: AWSDecodableShape {
 
         public let securityGroup: InputSecurityGroup?
 
@@ -2657,7 +2657,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateMultiplexProgramRequest: AWSShape {
+    public struct CreateMultiplexProgramRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId"))
         ]
@@ -2686,7 +2686,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateMultiplexProgramResponse: AWSShape {
+    public struct CreateMultiplexProgramResponse: AWSDecodableShape {
 
         public let multiplexProgram: MultiplexProgram?
 
@@ -2699,7 +2699,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateMultiplexRequest: AWSShape {
+    public struct CreateMultiplexRequest: AWSEncodableShape {
 
         public let availabilityZones: [String]
         public let multiplexSettings: MultiplexSettings
@@ -2728,7 +2728,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateMultiplexResponse: AWSShape {
+    public struct CreateMultiplexResponse: AWSDecodableShape {
 
         public let multiplex: Multiplex?
 
@@ -2741,7 +2741,7 @@ extension MediaLive {
         }
     }
 
-    public struct CreateTagsRequest: AWSShape {
+    public struct CreateTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -2760,7 +2760,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteChannelRequest: AWSShape {
+    public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -2776,7 +2776,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteChannelResponse: AWSShape {
+    public struct DeleteChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -2831,7 +2831,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteInputRequest: AWSShape {
+    public struct DeleteInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
         ]
@@ -2847,7 +2847,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteInputResponse: AWSShape {
+    public struct DeleteInputResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2855,7 +2855,7 @@ extension MediaLive {
 
     }
 
-    public struct DeleteInputSecurityGroupRequest: AWSShape {
+    public struct DeleteInputSecurityGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
@@ -2871,7 +2871,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteInputSecurityGroupResponse: AWSShape {
+    public struct DeleteInputSecurityGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2879,7 +2879,7 @@ extension MediaLive {
 
     }
 
-    public struct DeleteMultiplexProgramRequest: AWSShape {
+    public struct DeleteMultiplexProgramRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId")), 
             AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
@@ -2899,7 +2899,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteMultiplexProgramResponse: AWSShape {
+    public struct DeleteMultiplexProgramResponse: AWSDecodableShape {
 
         public let channelId: String?
         public let multiplexProgramSettings: MultiplexProgramSettings?
@@ -2921,7 +2921,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteMultiplexRequest: AWSShape {
+    public struct DeleteMultiplexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId"))
         ]
@@ -2937,7 +2937,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteMultiplexResponse: AWSShape {
+    public struct DeleteMultiplexResponse: AWSDecodableShape {
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -2977,7 +2977,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteReservationRequest: AWSShape {
+    public struct DeleteReservationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "reservationId", location: .uri(locationName: "reservationId"))
         ]
@@ -2993,7 +2993,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteReservationResponse: AWSShape {
+    public struct DeleteReservationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let count: Int?
@@ -3057,7 +3057,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteScheduleRequest: AWSShape {
+    public struct DeleteScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -3073,7 +3073,7 @@ extension MediaLive {
         }
     }
 
-    public struct DeleteScheduleResponse: AWSShape {
+    public struct DeleteScheduleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3081,7 +3081,7 @@ extension MediaLive {
 
     }
 
-    public struct DeleteTagsRequest: AWSShape {
+    public struct DeleteTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -3101,7 +3101,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeChannelRequest: AWSShape {
+    public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -3117,7 +3117,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeChannelResponse: AWSShape {
+    public struct DescribeChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -3172,7 +3172,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeInputRequest: AWSShape {
+    public struct DescribeInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
         ]
@@ -3188,7 +3188,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeInputResponse: AWSShape {
+    public struct DescribeInputResponse: AWSDecodableShape {
 
         public let arn: String?
         public let attachedChannels: [String]?
@@ -3240,7 +3240,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeInputSecurityGroupRequest: AWSShape {
+    public struct DescribeInputSecurityGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
@@ -3256,7 +3256,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeInputSecurityGroupResponse: AWSShape {
+    public struct DescribeInputSecurityGroupResponse: AWSDecodableShape {
 
         public let arn: String?
         public let id: String?
@@ -3284,7 +3284,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeMultiplexProgramRequest: AWSShape {
+    public struct DescribeMultiplexProgramRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId")), 
             AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
@@ -3304,7 +3304,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeMultiplexProgramResponse: AWSShape {
+    public struct DescribeMultiplexProgramResponse: AWSDecodableShape {
 
         public let channelId: String?
         public let multiplexProgramSettings: MultiplexProgramSettings?
@@ -3326,7 +3326,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeMultiplexRequest: AWSShape {
+    public struct DescribeMultiplexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId"))
         ]
@@ -3342,7 +3342,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeMultiplexResponse: AWSShape {
+    public struct DescribeMultiplexResponse: AWSDecodableShape {
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -3382,7 +3382,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeOfferingRequest: AWSShape {
+    public struct DescribeOfferingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "offeringId", location: .uri(locationName: "offeringId"))
         ]
@@ -3398,7 +3398,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeOfferingResponse: AWSShape {
+    public struct DescribeOfferingResponse: AWSDecodableShape {
 
         public let arn: String?
         public let currencyCode: String?
@@ -3441,7 +3441,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeReservationRequest: AWSShape {
+    public struct DescribeReservationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "reservationId", location: .uri(locationName: "reservationId"))
         ]
@@ -3457,7 +3457,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeReservationResponse: AWSShape {
+    public struct DescribeReservationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let count: Int?
@@ -3521,7 +3521,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeScheduleRequest: AWSShape {
+    public struct DescribeScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -3550,7 +3550,7 @@ extension MediaLive {
         }
     }
 
-    public struct DescribeScheduleResponse: AWSShape {
+    public struct DescribeScheduleResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let scheduleActions: [ScheduleAction]?
@@ -3566,7 +3566,7 @@ extension MediaLive {
         }
     }
 
-    public struct DvbNitSettings: AWSShape {
+    public struct DvbNitSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The numeric value placed in the Network Information Table (NIT).
         public let networkId: Int
@@ -3597,7 +3597,7 @@ extension MediaLive {
         }
     }
 
-    public struct DvbSdtSettings: AWSShape {
+    public struct DvbSdtSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
         public let outputSdt: DvbSdtOutputSdt?
@@ -3632,7 +3632,7 @@ extension MediaLive {
         }
     }
 
-    public struct DvbSubDestinationSettings: AWSShape {
+    public struct DvbSubDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles.  This option is not valid for source captions that are STL or 608/embedded.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let alignment: DvbSubDestinationAlignment?
@@ -3725,7 +3725,7 @@ extension MediaLive {
         }
     }
 
-    public struct DvbSubSourceSettings: AWSShape {
+    public struct DvbSubSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
@@ -3743,7 +3743,7 @@ extension MediaLive {
         }
     }
 
-    public struct DvbTdtSettings: AWSShape {
+    public struct DvbTdtSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let repInterval: Int?
@@ -3762,7 +3762,7 @@ extension MediaLive {
         }
     }
 
-    public struct Eac3Settings: AWSShape {
+    public struct Eac3Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// When set to attenuate3Db, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
@@ -3857,7 +3857,7 @@ extension MediaLive {
         }
     }
 
-    public struct EmbeddedDestinationSettings: AWSShape {
+    public struct EmbeddedDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -3865,7 +3865,7 @@ extension MediaLive {
 
     }
 
-    public struct EmbeddedPlusScte20DestinationSettings: AWSShape {
+    public struct EmbeddedPlusScte20DestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -3873,7 +3873,7 @@ extension MediaLive {
 
     }
 
-    public struct EmbeddedSourceSettings: AWSShape {
+    public struct EmbeddedSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: EmbeddedConvert608To708?
@@ -3906,7 +3906,7 @@ extension MediaLive {
         }
     }
 
-    public struct EncoderSettings: AWSShape {
+    public struct EncoderSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let audioDescriptions: [AudioDescription]
         /// Settings for ad avail blanking.
@@ -3972,7 +3972,7 @@ extension MediaLive {
         }
     }
 
-    public struct FecOutputSettings: AWSShape {
+    public struct FecOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Parameter D from SMPTE 2022-1. The height of the FEC protection matrix.  The number of transport stream packets per column error correction packet. Must be between 4 and 20, inclusive.
         public let columnDepth: Int?
@@ -4001,7 +4001,7 @@ extension MediaLive {
         }
     }
 
-    public struct FixedModeScheduleActionStartSettings: AWSShape {
+    public struct FixedModeScheduleActionStartSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Start time for the action to start in the channel. (Not the time for the action to be added to the schedule: actions are always added to the schedule immediately.) UTC format: yyyy-mm-ddThh:mm:ss.nnnZ. All the letters are digits (for example, mm might be 01) except for the two constants "T" for time and "Z" for "UTC format".
         public let time: String
@@ -4015,7 +4015,7 @@ extension MediaLive {
         }
     }
 
-    public struct Fmp4HlsSettings: AWSShape {
+    public struct Fmp4HlsSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
@@ -4029,7 +4029,7 @@ extension MediaLive {
         }
     }
 
-    public struct FollowModeScheduleActionStartSettings: AWSShape {
+    public struct FollowModeScheduleActionStartSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Identifies whether this action starts relative to the start or relative to the end of the reference action.
         public let followPoint: FollowPoint
@@ -4047,7 +4047,7 @@ extension MediaLive {
         }
     }
 
-    public struct FrameCaptureGroupSettings: AWSShape {
+    public struct FrameCaptureGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling_) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling_). The final file names consist of the prefix from the destination field (for example, "curling_") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curlingLow.00001.jpg
         public let destination: OutputLocationRef
@@ -4061,7 +4061,7 @@ extension MediaLive {
         }
     }
 
-    public struct FrameCaptureOutputSettings: AWSShape {
+    public struct FrameCaptureOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public let nameModifier: String?
@@ -4075,7 +4075,7 @@ extension MediaLive {
         }
     }
 
-    public struct FrameCaptureSettings: AWSShape {
+    public struct FrameCaptureSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
         public let captureInterval: Int
@@ -4098,7 +4098,7 @@ extension MediaLive {
         }
     }
 
-    public struct GlobalConfiguration: AWSShape {
+    public struct GlobalConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Value to set the initial audio gain for the Live Event.
         public let initialAudioGain: Int?
@@ -4140,7 +4140,7 @@ extension MediaLive {
         }
     }
 
-    public struct H264ColorSpaceSettings: AWSShape {
+    public struct H264ColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
         public let rec601Settings: Rec601Settings?
@@ -4159,7 +4159,7 @@ extension MediaLive {
         }
     }
 
-    public struct H264Settings: AWSShape {
+    public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H264AdaptiveQuantization?
@@ -4371,7 +4371,7 @@ extension MediaLive {
         }
     }
 
-    public struct H265ColorSpaceSettings: AWSShape {
+    public struct H265ColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
         public let hdr10Settings: Hdr10Settings?
@@ -4397,7 +4397,7 @@ extension MediaLive {
         }
     }
 
-    public struct H265Settings: AWSShape {
+    public struct H265Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H265AdaptiveQuantization?
@@ -4553,7 +4553,7 @@ extension MediaLive {
         }
     }
 
-    public struct Hdr10Settings: AWSShape {
+    public struct Hdr10Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Maximum Content Light Level
         /// An integer metadata value defining the maximum light level, in nits,
@@ -4582,7 +4582,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsAkamaiSettings: AWSShape {
+    public struct HlsAkamaiSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -4629,7 +4629,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsBasicPutSettings: AWSShape {
+    public struct HlsBasicPutSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -4664,7 +4664,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsCdnSettings: AWSShape {
+    public struct HlsCdnSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let hlsAkamaiSettings: HlsAkamaiSettings?
         public let hlsBasicPutSettings: HlsBasicPutSettings?
@@ -4693,7 +4693,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsGroupSettings: AWSShape {
+    public struct HlsGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Choose one or more ad marker types to pass SCTE35 signals through to this group of Apple HLS outputs.
         public let adMarkers: [HlsAdMarkers]?
@@ -4893,7 +4893,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsId3SegmentTaggingScheduleActionSettings: AWSShape {
+    public struct HlsId3SegmentTaggingScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
         public let tag: String
@@ -4907,7 +4907,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsInputSettings: AWSShape {
+    public struct HlsInputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
         public let bandwidth: Int?
@@ -4940,7 +4940,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsMediaStoreSettings: AWSShape {
+    public struct HlsMediaStoreSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -4979,7 +4979,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsOutputSettings: AWSShape {
+    public struct HlsOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Only applicable when this output is referencing an H.265 video description.
         /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
@@ -5011,7 +5011,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsSettings: AWSShape {
+    public struct HlsSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let audioOnlyHlsSettings: AudioOnlyHlsSettings?
         public let fmp4HlsSettings: Fmp4HlsSettings?
@@ -5034,7 +5034,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsTimedMetadataScheduleActionSettings: AWSShape {
+    public struct HlsTimedMetadataScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         public let id3: String
@@ -5048,7 +5048,7 @@ extension MediaLive {
         }
     }
 
-    public struct HlsWebdavSettings: AWSShape {
+    public struct HlsWebdavSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public let connectionRetryInterval: Int?
@@ -5087,7 +5087,7 @@ extension MediaLive {
         }
     }
 
-    public struct ImmediateModeScheduleActionStartSettings: AWSShape {
+    public struct ImmediateModeScheduleActionStartSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -5095,7 +5095,7 @@ extension MediaLive {
 
     }
 
-    public struct Input: AWSShape {
+    public struct Input: AWSDecodableShape {
 
         /// The Unique ARN of the input (generated, immutable).
         public let arn: String?
@@ -5161,7 +5161,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputAttachment: AWSShape {
+    public struct InputAttachment: AWSEncodableShape & AWSDecodableShape {
 
         /// User-specified settings for defining what the conditions are for declaring the input unhealthy and failing over to a different input.
         public let automaticInputFailoverSettings: AutomaticInputFailoverSettings?
@@ -5191,7 +5191,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputChannelLevel: AWSShape {
+    public struct InputChannelLevel: AWSEncodableShape & AWSDecodableShape {
 
         /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
         public let gain: Int
@@ -5216,7 +5216,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputClippingSettings: AWSShape {
+    public struct InputClippingSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The source of the timecodes in the source being clipped.
         public let inputTimecodeSource: InputTimecodeSource
@@ -5238,7 +5238,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputDestination: AWSShape {
+    public struct InputDestination: AWSDecodableShape {
 
         /// The system-generated static IP address of endpoint.
         /// It remains fixed for the lifetime of the input.
@@ -5265,7 +5265,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputDestinationRequest: AWSShape {
+    public struct InputDestinationRequest: AWSEncodableShape {
 
         /// A unique name for the location the RTMP stream is being pushed
         /// to.
@@ -5280,7 +5280,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputDestinationVpc: AWSShape {
+    public struct InputDestinationVpc: AWSDecodableShape {
 
         /// The availability zone of the Input destination.
         public let availabilityZone: String?
@@ -5298,7 +5298,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputLocation: AWSShape {
+    public struct InputLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
@@ -5320,7 +5320,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputLossBehavior: AWSShape {
+    public struct InputLossBehavior: AWSEncodableShape & AWSDecodableShape {
 
         /// On input loss, the number of milliseconds to substitute black into the output before switching to the frame specified by inputLossImageType.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
         public let blackFrameMsec: Int?
@@ -5359,7 +5359,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputSecurityGroup: AWSShape {
+    public struct InputSecurityGroup: AWSDecodableShape {
 
         /// Unique ARN of Input Security Group
         public let arn: String?
@@ -5393,7 +5393,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputSettings: AWSShape {
+    public struct InputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Used to select the audio stream to decode for inputs that have multiple available.
         public let audioSelectors: [AudioSelector]?
@@ -5455,7 +5455,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputSource: AWSShape {
+    public struct InputSource: AWSDecodableShape {
 
         /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
@@ -5478,7 +5478,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputSourceRequest: AWSShape {
+    public struct InputSourceRequest: AWSEncodableShape {
 
         /// The key used to extract the password from EC2 Parameter store.
         public let passwordParam: String?
@@ -5501,7 +5501,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputSpecification: AWSShape {
+    public struct InputSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// Input codec
         public let codec: InputCodec?
@@ -5523,7 +5523,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputSwitchScheduleActionSettings: AWSShape {
+    public struct InputSwitchScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the input attachment (not the name of the input!) to switch to. The name is specified in the channel configuration.
         public let inputAttachmentNameReference: String
@@ -5545,7 +5545,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputVpcRequest: AWSShape {
+    public struct InputVpcRequest: AWSEncodableShape {
 
         /// A list of up to 5 EC2 VPC security group IDs to attach to the Input VPC network interfaces.
         /// Requires subnetIds. If none are specified then the VPC default security group will be used.
@@ -5565,7 +5565,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputWhitelistRule: AWSShape {
+    public struct InputWhitelistRule: AWSDecodableShape {
 
         /// The IPv4 CIDR that's whitelisted.
         public let cidr: String?
@@ -5579,7 +5579,7 @@ extension MediaLive {
         }
     }
 
-    public struct InputWhitelistRuleCidr: AWSShape {
+    public struct InputWhitelistRuleCidr: AWSEncodableShape {
 
         /// The IPv4 CIDR to whitelist.
         public let cidr: String?
@@ -5593,7 +5593,7 @@ extension MediaLive {
         }
     }
 
-    public struct KeyProviderSettings: AWSShape {
+    public struct KeyProviderSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let staticKeySettings: StaticKeySettings?
 
@@ -5610,7 +5610,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListChannelsRequest: AWSShape {
+    public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -5635,7 +5635,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListChannelsResponse: AWSShape {
+    public struct ListChannelsResponse: AWSDecodableShape {
 
         public let channels: [ChannelSummary]?
         public let nextToken: String?
@@ -5651,7 +5651,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListInputSecurityGroupsRequest: AWSShape {
+    public struct ListInputSecurityGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -5676,7 +5676,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListInputSecurityGroupsResponse: AWSShape {
+    public struct ListInputSecurityGroupsResponse: AWSDecodableShape {
 
         public let inputSecurityGroups: [InputSecurityGroup]?
         public let nextToken: String?
@@ -5692,7 +5692,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListInputsRequest: AWSShape {
+    public struct ListInputsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -5717,7 +5717,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListInputsResponse: AWSShape {
+    public struct ListInputsResponse: AWSDecodableShape {
 
         public let inputs: [Input]?
         public let nextToken: String?
@@ -5733,7 +5733,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListMultiplexProgramsRequest: AWSShape {
+    public struct ListMultiplexProgramsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId")), 
@@ -5762,7 +5762,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListMultiplexProgramsResponse: AWSShape {
+    public struct ListMultiplexProgramsResponse: AWSDecodableShape {
 
         public let multiplexPrograms: [MultiplexProgramSummary]?
         public let nextToken: String?
@@ -5778,7 +5778,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListMultiplexesRequest: AWSShape {
+    public struct ListMultiplexesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -5803,7 +5803,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListMultiplexesResponse: AWSShape {
+    public struct ListMultiplexesResponse: AWSDecodableShape {
 
         public let multiplexes: [MultiplexSummary]?
         public let nextToken: String?
@@ -5819,7 +5819,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListOfferingsRequest: AWSShape {
+    public struct ListOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelClass", location: .querystring(locationName: "channelClass")), 
             AWSMemberEncoding(label: "channelConfiguration", location: .querystring(locationName: "channelConfiguration")), 
@@ -5884,7 +5884,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListOfferingsResponse: AWSShape {
+    public struct ListOfferingsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let offerings: [Offering]?
@@ -5900,7 +5900,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListReservationsRequest: AWSShape {
+    public struct ListReservationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelClass", location: .querystring(locationName: "channelClass")), 
             AWSMemberEncoding(label: "codec", location: .querystring(locationName: "codec")), 
@@ -5957,7 +5957,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListReservationsResponse: AWSShape {
+    public struct ListReservationsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let reservations: [Reservation]?
@@ -5973,7 +5973,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -5989,7 +5989,7 @@ extension MediaLive {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -6002,7 +6002,7 @@ extension MediaLive {
         }
     }
 
-    public struct M2tsSettings: AWSShape {
+    public struct M2tsSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
         public let absentInputAudioBehavior: M2tsAbsentInputAudioBehavior?
@@ -6222,7 +6222,7 @@ extension MediaLive {
         }
     }
 
-    public struct M3u8Settings: AWSShape {
+    public struct M3u8Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
@@ -6314,7 +6314,7 @@ extension MediaLive {
         }
     }
 
-    public struct MediaConnectFlow: AWSShape {
+    public struct MediaConnectFlow: AWSDecodableShape {
 
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public let flowArn: String?
@@ -6328,7 +6328,7 @@ extension MediaLive {
         }
     }
 
-    public struct MediaConnectFlowRequest: AWSShape {
+    public struct MediaConnectFlowRequest: AWSEncodableShape {
 
         /// The ARN of the MediaConnect Flow that you want to use as a source.
         public let flowArn: String?
@@ -6342,7 +6342,7 @@ extension MediaLive {
         }
     }
 
-    public struct MediaPackageGroupSettings: AWSShape {
+    public struct MediaPackageGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// MediaPackage channel destination.
         public let destination: OutputLocationRef
@@ -6356,7 +6356,7 @@ extension MediaLive {
         }
     }
 
-    public struct MediaPackageOutputDestinationSettings: AWSShape {
+    public struct MediaPackageOutputDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public let channelId: String?
@@ -6374,7 +6374,7 @@ extension MediaLive {
         }
     }
 
-    public struct MediaPackageOutputSettings: AWSShape {
+    public struct MediaPackageOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -6382,7 +6382,7 @@ extension MediaLive {
 
     }
 
-    public struct Mp2Settings: AWSShape {
+    public struct Mp2Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Average bitrate in bits/second.
         public let bitrate: Double?
@@ -6404,7 +6404,7 @@ extension MediaLive {
         }
     }
 
-    public struct MsSmoothGroupSettings: AWSShape {
+    public struct MsSmoothGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The value of the "Acquisition Point Identity" element used in each message placed in the sparse track.  Only enabled if sparseTrackType is not "none".
         public let acquisitionPointId: String?
@@ -6507,7 +6507,7 @@ extension MediaLive {
         }
     }
 
-    public struct MsSmoothOutputSettings: AWSShape {
+    public struct MsSmoothOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Only applicable when this output is referencing an H.265 video description.
         /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
@@ -6526,7 +6526,7 @@ extension MediaLive {
         }
     }
 
-    public struct Multiplex: AWSShape {
+    public struct Multiplex: AWSDecodableShape {
 
         /// The unique arn of the multiplex.
         public let arn: String?
@@ -6576,7 +6576,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexGroupSettings: AWSShape {
+    public struct MultiplexGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -6584,7 +6584,7 @@ extension MediaLive {
 
     }
 
-    public struct MultiplexMediaConnectOutputDestinationSettings: AWSShape {
+    public struct MultiplexMediaConnectOutputDestinationSettings: AWSDecodableShape {
 
         /// The MediaConnect entitlement ARN available as a Flow source.
         public let entitlementArn: String?
@@ -6598,7 +6598,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexOutputDestination: AWSShape {
+    public struct MultiplexOutputDestination: AWSDecodableShape {
 
         /// Multiplex MediaConnect output destination settings.
         public let mediaConnectSettings: MultiplexMediaConnectOutputDestinationSettings?
@@ -6612,7 +6612,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexOutputSettings: AWSShape {
+    public struct MultiplexOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Destination is a Multiplex.
         public let destination: OutputLocationRef
@@ -6626,7 +6626,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgram: AWSShape {
+    public struct MultiplexProgram: AWSDecodableShape {
 
         /// The MediaLive channel associated with the program.
         public let channelId: String?
@@ -6652,7 +6652,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgramChannelDestinationSettings: AWSShape {
+    public struct MultiplexProgramChannelDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the Multiplex that the encoder is providing output to. You do not need to specify the individual inputs to the Multiplex; MediaLive will handle the connection of the two MediaLive pipelines to the two Multiplex instances.
         /// The Multiplex must be in the same region as the Channel.
@@ -6676,7 +6676,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgramPacketIdentifiersMap: AWSShape {
+    public struct MultiplexProgramPacketIdentifiersMap: AWSDecodableShape {
 
         public let audioPids: [Int]?
         public let dvbSubPids: [Int]?
@@ -6725,7 +6725,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgramServiceDescriptor: AWSShape {
+    public struct MultiplexProgramServiceDescriptor: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of the provider.
         public let providerName: String
@@ -6748,7 +6748,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgramSettings: AWSShape {
+    public struct MultiplexProgramSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates which pipeline is preferred by the multiplex for program ingest.
         public let preferredChannelPipeline: PreferredChannelPipeline?
@@ -6781,7 +6781,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgramSummary: AWSShape {
+    public struct MultiplexProgramSummary: AWSDecodableShape {
 
         /// The MediaLive Channel associated with the program.
         public let channelId: String?
@@ -6799,7 +6799,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexSettings: AWSShape {
+    public struct MultiplexSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Maximum video buffer delay in milliseconds.
         public let maximumVideoBufferDelayMilliseconds: Int?
@@ -6836,7 +6836,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexSettingsSummary: AWSShape {
+    public struct MultiplexSettingsSummary: AWSDecodableShape {
 
         /// Transport stream bit rate.
         public let transportStreamBitrate: Int?
@@ -6850,7 +6850,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexStatmuxVideoSettings: AWSShape {
+    public struct MultiplexStatmuxVideoSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Maximum statmux bitrate.
         public let maximumBitrate: Int?
@@ -6875,7 +6875,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexSummary: AWSShape {
+    public struct MultiplexSummary: AWSDecodableShape {
 
         /// The unique arn of the multiplex.
         public let arn: String?
@@ -6921,7 +6921,7 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexVideoSettings: AWSShape {
+    public struct MultiplexVideoSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The constant bitrate configuration for the video encode.
         /// When this field is defined, StatmuxSettings must be undefined.
@@ -6947,7 +6947,7 @@ extension MediaLive {
         }
     }
 
-    public struct NetworkInputSettings: AWSShape {
+    public struct NetworkInputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies HLS input settings when the uri is for a HLS manifest.
         public let hlsInputSettings: HlsInputSettings?
@@ -6969,7 +6969,7 @@ extension MediaLive {
         }
     }
 
-    public struct NielsenConfiguration: AWSShape {
+    public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Enter the Distributor ID assigned to your organization by Nielsen.
         public let distributorId: String?
@@ -6987,7 +6987,7 @@ extension MediaLive {
         }
     }
 
-    public struct Offering: AWSShape {
+    public struct Offering: AWSDecodableShape {
 
         /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
         public let arn: String?
@@ -7041,7 +7041,7 @@ extension MediaLive {
         }
     }
 
-    public struct Output: AWSShape {
+    public struct Output: AWSEncodableShape & AWSDecodableShape {
 
         /// The names of the AudioDescriptions used as audio sources for this output.
         public let audioDescriptionNames: [String]?
@@ -7077,7 +7077,7 @@ extension MediaLive {
         }
     }
 
-    public struct OutputDestination: AWSShape {
+    public struct OutputDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// User-specified id. This is used in an output group or an output.
         public let id: String?
@@ -7110,7 +7110,7 @@ extension MediaLive {
         }
     }
 
-    public struct OutputDestinationSettings: AWSShape {
+    public struct OutputDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// key used to extract the password from EC2 Parameter store
         public let passwordParam: String?
@@ -7136,7 +7136,7 @@ extension MediaLive {
         }
     }
 
-    public struct OutputGroup: AWSShape {
+    public struct OutputGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed.
         public let name: String?
@@ -7165,7 +7165,7 @@ extension MediaLive {
         }
     }
 
-    public struct OutputGroupSettings: AWSShape {
+    public struct OutputGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let archiveGroupSettings: ArchiveGroupSettings?
         public let frameCaptureGroupSettings: FrameCaptureGroupSettings?
@@ -7207,7 +7207,7 @@ extension MediaLive {
         }
     }
 
-    public struct OutputLocationRef: AWSShape {
+    public struct OutputLocationRef: AWSEncodableShape & AWSDecodableShape {
 
         public let destinationRefId: String?
 
@@ -7220,7 +7220,7 @@ extension MediaLive {
         }
     }
 
-    public struct OutputSettings: AWSShape {
+    public struct OutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let archiveOutputSettings: ArchiveOutputSettings?
         public let frameCaptureOutputSettings: FrameCaptureOutputSettings?
@@ -7261,7 +7261,7 @@ extension MediaLive {
         }
     }
 
-    public struct PassThroughSettings: AWSShape {
+    public struct PassThroughSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7269,7 +7269,7 @@ extension MediaLive {
 
     }
 
-    public struct PauseStateScheduleActionSettings: AWSShape {
+    public struct PauseStateScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let pipelines: [PipelinePauseStateSettings]?
 
@@ -7282,7 +7282,7 @@ extension MediaLive {
         }
     }
 
-    public struct PipelineDetail: AWSShape {
+    public struct PipelineDetail: AWSDecodableShape {
 
         /// The name of the active input attachment currently being ingested by this pipeline.
         public let activeInputAttachmentName: String?
@@ -7304,7 +7304,7 @@ extension MediaLive {
         }
     }
 
-    public struct PipelinePauseStateSettings: AWSShape {
+    public struct PipelinePauseStateSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Pipeline ID to pause ("PIPELINE_0" or "PIPELINE_1").
         public let pipelineId: PipelineId
@@ -7318,7 +7318,7 @@ extension MediaLive {
         }
     }
 
-    public struct PurchaseOfferingRequest: AWSShape {
+    public struct PurchaseOfferingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "offeringId", location: .uri(locationName: "offeringId"))
         ]
@@ -7353,7 +7353,7 @@ extension MediaLive {
         }
     }
 
-    public struct PurchaseOfferingResponse: AWSShape {
+    public struct PurchaseOfferingResponse: AWSDecodableShape {
 
         public let reservation: Reservation?
 
@@ -7366,7 +7366,7 @@ extension MediaLive {
         }
     }
 
-    public struct Rec601Settings: AWSShape {
+    public struct Rec601Settings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7374,7 +7374,7 @@ extension MediaLive {
 
     }
 
-    public struct Rec709Settings: AWSShape {
+    public struct Rec709Settings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7382,7 +7382,7 @@ extension MediaLive {
 
     }
 
-    public struct RemixSettings: AWSShape {
+    public struct RemixSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Mapping of input channels to output channels, with appropriate gain adjustments.
         public let channelMappings: [AudioChannelMapping]
@@ -7415,7 +7415,7 @@ extension MediaLive {
         }
     }
 
-    public struct Reservation: AWSShape {
+    public struct Reservation: AWSDecodableShape {
 
         /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
         public let arn: String?
@@ -7497,7 +7497,7 @@ extension MediaLive {
         }
     }
 
-    public struct ReservationResourceSpecification: AWSShape {
+    public struct ReservationResourceSpecification: AWSDecodableShape {
 
         /// Channel class, e.g. 'STANDARD'
         public let channelClass: ChannelClass?
@@ -7539,7 +7539,7 @@ extension MediaLive {
         }
     }
 
-    public struct RtmpCaptionInfoDestinationSettings: AWSShape {
+    public struct RtmpCaptionInfoDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7547,7 +7547,7 @@ extension MediaLive {
 
     }
 
-    public struct RtmpGroupSettings: AWSShape {
+    public struct RtmpGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Authentication scheme to use when connecting with CDN
         public let authenticationScheme: AuthenticationScheme?
@@ -7588,7 +7588,7 @@ extension MediaLive {
         }
     }
 
-    public struct RtmpOutputSettings: AWSShape {
+    public struct RtmpOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If set to verifyAuthenticity, verify the tls certificate chain to a trusted Certificate Authority (CA).  This will cause rtmps outputs with self-signed certificates to fail.
         public let certificateMode: RtmpOutputCertificateMode?
@@ -7619,7 +7619,7 @@ extension MediaLive {
         }
     }
 
-    public struct ScheduleAction: AWSShape {
+    public struct ScheduleAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the action, must be unique within the schedule. This name provides the main reference to an action once it is added to the schedule. A name is unique if it is no longer in the schedule. The schedule is automatically cleaned up to remove actions with a start time of more than 1 hour ago (approximately) so at that point a name can be reused.
         public let actionName: String
@@ -7645,7 +7645,7 @@ extension MediaLive {
         }
     }
 
-    public struct ScheduleActionSettings: AWSShape {
+    public struct ScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Action to insert HLS ID3 segment tagging
         public let hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings?
@@ -7699,7 +7699,7 @@ extension MediaLive {
         }
     }
 
-    public struct ScheduleActionStartSettings: AWSShape {
+    public struct ScheduleActionStartSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Option for specifying the start time for an action.
         public let fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings?
@@ -7721,7 +7721,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte20PlusEmbeddedDestinationSettings: AWSShape {
+    public struct Scte20PlusEmbeddedDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7729,7 +7729,7 @@ extension MediaLive {
 
     }
 
-    public struct Scte20SourceSettings: AWSShape {
+    public struct Scte20SourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: Scte20Convert608To708?
@@ -7752,7 +7752,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte27DestinationSettings: AWSShape {
+    public struct Scte27DestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7760,7 +7760,7 @@ extension MediaLive {
 
     }
 
-    public struct Scte27SourceSettings: AWSShape {
+    public struct Scte27SourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The pid field is used in conjunction with the caption selector languageCode field as follows:
         ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
@@ -7782,7 +7782,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35DeliveryRestrictions: AWSShape {
+    public struct Scte35DeliveryRestrictions: AWSEncodableShape & AWSDecodableShape {
 
         /// Corresponds to SCTE-35 archive_allowed_flag.
         public let archiveAllowedFlag: Scte35ArchiveAllowedFlag
@@ -7808,7 +7808,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35Descriptor: AWSShape {
+    public struct Scte35Descriptor: AWSEncodableShape & AWSDecodableShape {
 
         /// SCTE-35 Descriptor Settings.
         public let scte35DescriptorSettings: Scte35DescriptorSettings
@@ -7826,7 +7826,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35DescriptorSettings: AWSShape {
+    public struct Scte35DescriptorSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// SCTE-35 Segmentation Descriptor.
         public let segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor
@@ -7844,7 +7844,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35ReturnToNetworkScheduleActionSettings: AWSShape {
+    public struct Scte35ReturnToNetworkScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
         public let spliceEventId: Int64
@@ -7863,7 +7863,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35SegmentationDescriptor: AWSShape {
+    public struct Scte35SegmentationDescriptor: AWSEncodableShape & AWSDecodableShape {
 
         /// Holds the four SCTE-35 delivery restriction parameters.
         public let deliveryRestrictions: Scte35DeliveryRestrictions?
@@ -7936,7 +7936,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35SpliceInsert: AWSShape {
+    public struct Scte35SpliceInsert: AWSEncodableShape & AWSDecodableShape {
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public let adAvailOffset: Int?
@@ -7963,7 +7963,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35SpliceInsertScheduleActionSettings: AWSShape {
+    public struct Scte35SpliceInsertScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional, the duration for the splice_insert, in 90 KHz ticks. To convert seconds to ticks, multiple the seconds by 90,000. If you enter a duration, there is an expectation that the downstream system can read the duration and cue in at that time. If you do not enter a duration, the splice_insert will continue indefinitely and there is an expectation that you will enter a return_to_network to end the splice_insert at the appropriate time.
         public let duration: Int64?
@@ -7988,7 +7988,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35TimeSignalApos: AWSShape {
+    public struct Scte35TimeSignalApos: AWSEncodableShape & AWSDecodableShape {
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public let adAvailOffset: Int?
@@ -8015,7 +8015,7 @@ extension MediaLive {
         }
     }
 
-    public struct Scte35TimeSignalScheduleActionSettings: AWSShape {
+    public struct Scte35TimeSignalScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The list of SCTE-35 descriptors accompanying the SCTE-35 time_signal.
         public let scte35Descriptors: [Scte35Descriptor]
@@ -8035,7 +8035,7 @@ extension MediaLive {
         }
     }
 
-    public struct SmpteTtDestinationSettings: AWSShape {
+    public struct SmpteTtDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -8043,7 +8043,7 @@ extension MediaLive {
 
     }
 
-    public struct StandardHlsSettings: AWSShape {
+    public struct StandardHlsSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
@@ -8064,7 +8064,7 @@ extension MediaLive {
         }
     }
 
-    public struct StartChannelRequest: AWSShape {
+    public struct StartChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -8080,7 +8080,7 @@ extension MediaLive {
         }
     }
 
-    public struct StartChannelResponse: AWSShape {
+    public struct StartChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -8135,7 +8135,7 @@ extension MediaLive {
         }
     }
 
-    public struct StartMultiplexRequest: AWSShape {
+    public struct StartMultiplexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId"))
         ]
@@ -8151,7 +8151,7 @@ extension MediaLive {
         }
     }
 
-    public struct StartMultiplexResponse: AWSShape {
+    public struct StartMultiplexResponse: AWSDecodableShape {
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -8191,7 +8191,7 @@ extension MediaLive {
         }
     }
 
-    public struct StartTimecode: AWSShape {
+    public struct StartTimecode: AWSEncodableShape & AWSDecodableShape {
 
         /// The timecode for the frame where you want to start the clip. Optional; if not specified, the clip starts at first frame in the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
         public let timecode: String?
@@ -8205,7 +8205,7 @@ extension MediaLive {
         }
     }
 
-    public struct StaticImageActivateScheduleActionSettings: AWSShape {
+    public struct StaticImageActivateScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
         public let duration: Int?
@@ -8269,7 +8269,7 @@ extension MediaLive {
         }
     }
 
-    public struct StaticImageDeactivateScheduleActionSettings: AWSShape {
+    public struct StaticImageDeactivateScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
         public let fadeOut: Int?
@@ -8293,7 +8293,7 @@ extension MediaLive {
         }
     }
 
-    public struct StaticKeySettings: AWSShape {
+    public struct StaticKeySettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The URL of the license server used for protecting content.
         public let keyProviderServer: InputLocation?
@@ -8316,7 +8316,7 @@ extension MediaLive {
         }
     }
 
-    public struct StopChannelRequest: AWSShape {
+    public struct StopChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -8332,7 +8332,7 @@ extension MediaLive {
         }
     }
 
-    public struct StopChannelResponse: AWSShape {
+    public struct StopChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let channelClass: ChannelClass?
@@ -8387,7 +8387,7 @@ extension MediaLive {
         }
     }
 
-    public struct StopMultiplexRequest: AWSShape {
+    public struct StopMultiplexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId"))
         ]
@@ -8403,7 +8403,7 @@ extension MediaLive {
         }
     }
 
-    public struct StopMultiplexResponse: AWSShape {
+    public struct StopMultiplexResponse: AWSDecodableShape {
 
         public let arn: String?
         public let availabilityZones: [String]?
@@ -8443,7 +8443,7 @@ extension MediaLive {
         }
     }
 
-    public struct StopTimecode: AWSShape {
+    public struct StopTimecode: AWSEncodableShape & AWSDecodableShape {
 
         /// If you specify a StopTimecode in an input (in order to clip the file), you can specify if you want the clip to exclude (the default) or include the frame specified by the timecode.
         public let lastFrameClippingBehavior: LastFrameClippingBehavior?
@@ -8461,7 +8461,7 @@ extension MediaLive {
         }
     }
 
-    public struct TeletextDestinationSettings: AWSShape {
+    public struct TeletextDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -8469,7 +8469,7 @@ extension MediaLive {
 
     }
 
-    public struct TeletextSourceSettings: AWSShape {
+    public struct TeletextSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public let pageNumber: String?
@@ -8483,7 +8483,7 @@ extension MediaLive {
         }
     }
 
-    public struct TimecodeConfig: AWSShape {
+    public struct TimecodeConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Identifies the source for the timecode that will be associated with the events outputs.
         /// -Embedded (embedded): Initialize the output timecode with timecode from the the source.  If no embedded timecode is detected in the source, the system falls back to using "Start at 0" (zerobased).
@@ -8509,7 +8509,7 @@ extension MediaLive {
         }
     }
 
-    public struct TtmlDestinationSettings: AWSShape {
+    public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
         public let styleControl: TtmlDestinationStyleControl?
@@ -8523,7 +8523,7 @@ extension MediaLive {
         }
     }
 
-    public struct UdpContainerSettings: AWSShape {
+    public struct UdpContainerSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let m2tsSettings: M2tsSettings?
 
@@ -8540,7 +8540,7 @@ extension MediaLive {
         }
     }
 
-    public struct UdpGroupSettings: AWSShape {
+    public struct UdpGroupSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted.  When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement).  Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
         public let inputLossAction: InputLossActionForUdpOut?
@@ -8566,7 +8566,7 @@ extension MediaLive {
         }
     }
 
-    public struct UdpOutputSettings: AWSShape {
+    public struct UdpOutputSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
         public let bufferMsec: Int?
@@ -8598,7 +8598,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateChannelClassRequest: AWSShape {
+    public struct UpdateChannelClassRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -8626,7 +8626,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateChannelClassResponse: AWSShape {
+    public struct UpdateChannelClassResponse: AWSDecodableShape {
 
         public let channel: Channel?
 
@@ -8639,7 +8639,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateChannelRequest: AWSShape {
+    public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId"))
         ]
@@ -8686,7 +8686,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateChannelResponse: AWSShape {
+    public struct UpdateChannelResponse: AWSDecodableShape {
 
         public let channel: Channel?
 
@@ -8699,7 +8699,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateInputRequest: AWSShape {
+    public struct UpdateInputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
         ]
@@ -8733,7 +8733,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateInputResponse: AWSShape {
+    public struct UpdateInputResponse: AWSDecodableShape {
 
         public let input: Input?
 
@@ -8746,7 +8746,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateInputSecurityGroupRequest: AWSShape {
+    public struct UpdateInputSecurityGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inputSecurityGroupId", location: .uri(locationName: "inputSecurityGroupId"))
         ]
@@ -8768,7 +8768,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateInputSecurityGroupResponse: AWSShape {
+    public struct UpdateInputSecurityGroupResponse: AWSDecodableShape {
 
         public let securityGroup: InputSecurityGroup?
 
@@ -8781,7 +8781,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateMultiplexProgramRequest: AWSShape {
+    public struct UpdateMultiplexProgramRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId")), 
             AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
@@ -8808,7 +8808,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateMultiplexProgramResponse: AWSShape {
+    public struct UpdateMultiplexProgramResponse: AWSDecodableShape {
 
         public let multiplexProgram: MultiplexProgram?
 
@@ -8821,7 +8821,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateMultiplexRequest: AWSShape {
+    public struct UpdateMultiplexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "multiplexId", location: .uri(locationName: "multiplexId"))
         ]
@@ -8847,7 +8847,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateMultiplexResponse: AWSShape {
+    public struct UpdateMultiplexResponse: AWSDecodableShape {
 
         public let multiplex: Multiplex?
 
@@ -8860,7 +8860,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateReservationRequest: AWSShape {
+    public struct UpdateReservationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "reservationId", location: .uri(locationName: "reservationId"))
         ]
@@ -8879,7 +8879,7 @@ extension MediaLive {
         }
     }
 
-    public struct UpdateReservationResponse: AWSShape {
+    public struct UpdateReservationResponse: AWSDecodableShape {
 
         public let reservation: Reservation?
 
@@ -8892,7 +8892,7 @@ extension MediaLive {
         }
     }
 
-    public struct VideoCodecSettings: AWSShape {
+    public struct VideoCodecSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let frameCaptureSettings: FrameCaptureSettings?
         public let h264Settings: H264Settings?
@@ -8917,7 +8917,7 @@ extension MediaLive {
         }
     }
 
-    public struct VideoDescription: AWSShape {
+    public struct VideoDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// Video codec settings.
         public let codecSettings: VideoCodecSettings?
@@ -8961,7 +8961,7 @@ extension MediaLive {
         }
     }
 
-    public struct VideoSelector: AWSShape {
+    public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
         public let colorSpace: VideoSelectorColorSpace?
@@ -8987,7 +8987,7 @@ extension MediaLive {
         }
     }
 
-    public struct VideoSelectorPid: AWSShape {
+    public struct VideoSelectorPid: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects a specific PID from within a video source.
         public let pid: Int?
@@ -9006,7 +9006,7 @@ extension MediaLive {
         }
     }
 
-    public struct VideoSelectorProgramId: AWSShape {
+    public struct VideoSelectorProgramId: AWSEncodableShape & AWSDecodableShape {
 
         /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
         public let programId: Int?
@@ -9025,7 +9025,7 @@ extension MediaLive {
         }
     }
 
-    public struct VideoSelectorSettings: AWSShape {
+    public struct VideoSelectorSettings: AWSEncodableShape & AWSDecodableShape {
 
         public let videoSelectorPid: VideoSelectorPid?
         public let videoSelectorProgramId: VideoSelectorProgramId?
@@ -9046,7 +9046,7 @@ extension MediaLive {
         }
     }
 
-    public struct WebvttDestinationSettings: AWSShape {
+    public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {

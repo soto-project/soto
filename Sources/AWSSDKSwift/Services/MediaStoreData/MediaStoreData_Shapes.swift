@@ -39,7 +39,7 @@ extension MediaStoreData {
 
     //MARK: Shapes
 
-    public struct DeleteObjectRequest: AWSShape {
+    public struct DeleteObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "path", location: .uri(locationName: "Path"))
         ]
@@ -62,7 +62,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct DeleteObjectResponse: AWSShape {
+    public struct DeleteObjectResponse: AWSDecodableShape {
 
 
         public init() {
@@ -70,7 +70,7 @@ extension MediaStoreData {
 
     }
 
-    public struct DescribeObjectRequest: AWSShape {
+    public struct DescribeObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "path", location: .uri(locationName: "Path"))
         ]
@@ -93,7 +93,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct DescribeObjectResponse: AWSShape {
+    public struct DescribeObjectResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
             AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
@@ -130,7 +130,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct GetObjectRequest: AWSShape {
+    public struct GetObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
             AWSMemberEncoding(label: "range", location: .header(locationName: "Range"))
@@ -159,7 +159,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct GetObjectResponse: AWSShape {
+    public struct GetObjectResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -212,7 +212,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct Item: AWSShape {
+    public struct Item: AWSDecodableShape {
 
         /// The length of the item in bytes.
         public let contentLength: Int64?
@@ -246,7 +246,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct ListItemsRequest: AWSShape {
+    public struct ListItemsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -281,7 +281,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct ListItemsResponse: AWSShape {
+    public struct ListItemsResponse: AWSDecodableShape {
 
         /// The metadata entries for the folders and objects at the requested path.
         public let items: [Item]?
@@ -299,7 +299,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct PutObjectRequest: AWSShape {
+    public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -350,7 +350,7 @@ extension MediaStoreData {
         }
     }
 
-    public struct PutObjectResponse: AWSShape {
+    public struct PutObjectResponse: AWSDecodableShape {
 
         /// The SHA256 digest of the object that is persisted.
         public let contentSHA256: String?

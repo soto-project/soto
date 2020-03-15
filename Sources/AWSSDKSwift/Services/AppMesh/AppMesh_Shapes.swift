@@ -117,7 +117,7 @@ extension AppMesh {
 
     //MARK: Shapes
 
-    public struct AccessLog: AWSShape {
+    public struct AccessLog: AWSEncodableShape & AWSDecodableShape {
 
         /// The file object to send virtual node access logs to.
         public let file: FileAccessLog?
@@ -135,7 +135,7 @@ extension AppMesh {
         }
     }
 
-    public struct AwsCloudMapInstanceAttribute: AWSShape {
+    public struct AwsCloudMapInstanceAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
         ///          instance that contains the specified key and value is returned.
@@ -164,7 +164,7 @@ extension AppMesh {
         }
     }
 
-    public struct AwsCloudMapServiceDiscovery: AWSShape {
+    public struct AwsCloudMapServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
 
         /// A string map that contains attributes with values that you can use to filter instances
         ///          by any custom attribute that you specified when you registered the instance. Only instances
@@ -200,7 +200,7 @@ extension AppMesh {
         }
     }
 
-    public struct Backend: AWSShape {
+    public struct Backend: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies a virtual service to use as a backend for a virtual node. 
         public let virtualService: VirtualServiceBackend?
@@ -218,7 +218,7 @@ extension AppMesh {
         }
     }
 
-    public struct BackendDefaults: AWSShape {
+    public struct BackendDefaults: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents a client policy.
         public let clientPolicy: ClientPolicy?
@@ -236,7 +236,7 @@ extension AppMesh {
         }
     }
 
-    public struct ClientPolicy: AWSShape {
+    public struct ClientPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
         public let tls: ClientPolicyTls?
@@ -254,7 +254,7 @@ extension AppMesh {
         }
     }
 
-    public struct ClientPolicyTls: AWSShape {
+    public struct ClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
 
         /// Whether the policy is enforced. The default is True, if a value isn't specified.
         public let enforce: Bool?
@@ -284,7 +284,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateMeshInput: AWSShape {
+    public struct CreateMeshInput: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
@@ -324,7 +324,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateMeshOutput: AWSShape {
+    public struct CreateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
 
@@ -340,7 +340,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateRouteInput: AWSShape {
+    public struct CreateRouteInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -407,7 +407,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateRouteOutput: AWSShape {
+    public struct CreateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "route"
 
@@ -423,7 +423,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualNodeInput: AWSShape {
+    public struct CreateVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
@@ -482,7 +482,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualNodeOutput: AWSShape {
+    public struct CreateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
 
@@ -498,7 +498,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualRouterInput: AWSShape {
+    public struct CreateVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
@@ -557,7 +557,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualRouterOutput: AWSShape {
+    public struct CreateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
 
@@ -573,7 +573,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualServiceInput: AWSShape {
+    public struct CreateVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
@@ -630,7 +630,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualServiceOutput: AWSShape {
+    public struct CreateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualService"
 
@@ -646,7 +646,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteMeshInput: AWSShape {
+    public struct DeleteMeshInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
@@ -668,7 +668,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteMeshOutput: AWSShape {
+    public struct DeleteMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
 
@@ -684,7 +684,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteRouteInput: AWSShape {
+    public struct DeleteRouteInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -728,7 +728,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteRouteOutput: AWSShape {
+    public struct DeleteRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "route"
 
@@ -744,7 +744,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteVirtualNodeInput: AWSShape {
+    public struct DeleteVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -781,7 +781,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteVirtualNodeOutput: AWSShape {
+    public struct DeleteVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
 
@@ -797,7 +797,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteVirtualRouterInput: AWSShape {
+    public struct DeleteVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -834,7 +834,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteVirtualRouterOutput: AWSShape {
+    public struct DeleteVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
 
@@ -850,7 +850,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteVirtualServiceInput: AWSShape {
+    public struct DeleteVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -885,7 +885,7 @@ extension AppMesh {
         }
     }
 
-    public struct DeleteVirtualServiceOutput: AWSShape {
+    public struct DeleteVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualService"
 
@@ -901,7 +901,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeMeshInput: AWSShape {
+    public struct DescribeMeshInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
@@ -931,7 +931,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeMeshOutput: AWSShape {
+    public struct DescribeMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
 
@@ -947,7 +947,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeRouteInput: AWSShape {
+    public struct DescribeRouteInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -991,7 +991,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeRouteOutput: AWSShape {
+    public struct DescribeRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "route"
 
@@ -1007,7 +1007,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeVirtualNodeInput: AWSShape {
+    public struct DescribeVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -1044,7 +1044,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeVirtualNodeOutput: AWSShape {
+    public struct DescribeVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
 
@@ -1060,7 +1060,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeVirtualRouterInput: AWSShape {
+    public struct DescribeVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -1097,7 +1097,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeVirtualRouterOutput: AWSShape {
+    public struct DescribeVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
 
@@ -1113,7 +1113,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeVirtualServiceInput: AWSShape {
+    public struct DescribeVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -1148,7 +1148,7 @@ extension AppMesh {
         }
     }
 
-    public struct DescribeVirtualServiceOutput: AWSShape {
+    public struct DescribeVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualService"
 
@@ -1164,7 +1164,7 @@ extension AppMesh {
         }
     }
 
-    public struct DnsServiceDiscovery: AWSShape {
+    public struct DnsServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the DNS service discovery hostname for the virtual node. 
         public let hostname: String
@@ -1178,7 +1178,7 @@ extension AppMesh {
         }
     }
 
-    public struct Duration: AWSShape {
+    public struct Duration: AWSEncodableShape & AWSDecodableShape {
 
         /// A unit of time.
         public let unit: DurationUnit?
@@ -1200,7 +1200,7 @@ extension AppMesh {
         }
     }
 
-    public struct EgressFilter: AWSShape {
+    public struct EgressFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The egress filter type. By default, the type is DROP_ALL, which allows
         ///          egress only from virtual nodes to other defined resources in the service mesh (and any
@@ -1218,7 +1218,7 @@ extension AppMesh {
         }
     }
 
-    public struct FileAccessLog: AWSShape {
+    public struct FileAccessLog: AWSEncodableShape & AWSDecodableShape {
 
         /// The file path to write access logs to. You can use /dev/stdout to send
         ///          access logs to standard out and configure your Envoy container to use a log driver, such as
@@ -1245,7 +1245,7 @@ extension AppMesh {
         }
     }
 
-    public struct GrpcRetryPolicy: AWSShape {
+    public struct GrpcRetryPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify at least one of the valid values.
         public let grpcRetryEvents: [GrpcRetryPolicyEvent]?
@@ -1311,7 +1311,7 @@ extension AppMesh {
         }
     }
 
-    public struct GrpcRoute: AWSShape {
+    public struct GrpcRoute: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the action to take if a match is determined.
         public let action: GrpcRouteAction
@@ -1339,7 +1339,7 @@ extension AppMesh {
         }
     }
 
-    public struct GrpcRouteAction: AWSShape {
+    public struct GrpcRouteAction: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
@@ -1361,7 +1361,7 @@ extension AppMesh {
         }
     }
 
-    public struct GrpcRouteMatch: AWSShape {
+    public struct GrpcRouteMatch: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the data to match from the request.
         public let metadata: [GrpcRouteMetadata]?
@@ -1393,7 +1393,7 @@ extension AppMesh {
         }
     }
 
-    public struct GrpcRouteMetadata: AWSShape {
+    public struct GrpcRouteMetadata: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify True to match anything except the match criteria. The default value is False.
         public let invert: Bool?
@@ -1421,7 +1421,7 @@ extension AppMesh {
         }
     }
 
-    public struct GrpcRouteMetadataMatchMethod: AWSShape {
+    public struct GrpcRouteMetadataMatchMethod: AWSEncodableShape & AWSDecodableShape {
 
         /// The value sent by the client must match the specified value exactly.
         public let exact: String?
@@ -1462,7 +1462,7 @@ extension AppMesh {
         }
     }
 
-    public struct HeaderMatchMethod: AWSShape {
+    public struct HeaderMatchMethod: AWSEncodableShape & AWSDecodableShape {
 
         /// The value sent by the client must match the specified value exactly.
         public let exact: String?
@@ -1503,7 +1503,7 @@ extension AppMesh {
         }
     }
 
-    public struct HealthCheckPolicy: AWSShape {
+    public struct HealthCheckPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of consecutive successful health checks that must occur before declaring
         ///          listener healthy.
@@ -1559,7 +1559,7 @@ extension AppMesh {
         }
     }
 
-    public struct HttpRetryPolicy: AWSShape {
+    public struct HttpRetryPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify at least one of the following values.
         ///          
@@ -1619,7 +1619,7 @@ extension AppMesh {
         }
     }
 
-    public struct HttpRoute: AWSShape {
+    public struct HttpRoute: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the action to take if a match is determined.
         public let action: HttpRouteAction
@@ -1647,7 +1647,7 @@ extension AppMesh {
         }
     }
 
-    public struct HttpRouteAction: AWSShape {
+    public struct HttpRouteAction: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
@@ -1669,7 +1669,7 @@ extension AppMesh {
         }
     }
 
-    public struct HttpRouteHeader: AWSShape {
+    public struct HttpRouteHeader: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify True to match anything except the match criteria. The default value is False.
         public let invert: Bool?
@@ -1697,7 +1697,7 @@ extension AppMesh {
         }
     }
 
-    public struct HttpRouteMatch: AWSShape {
+    public struct HttpRouteMatch: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the client request headers to match on.
         public let headers: [HttpRouteHeader]?
@@ -1736,7 +1736,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListMeshesInput: AWSShape {
+    public struct ListMeshesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1777,7 +1777,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListMeshesOutput: AWSShape {
+    public struct ListMeshesOutput: AWSDecodableShape {
 
         /// The list of existing service meshes.
         public let meshes: [MeshRef]
@@ -1798,7 +1798,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListRoutesInput: AWSShape {
+    public struct ListRoutesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
@@ -1857,7 +1857,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListRoutesOutput: AWSShape {
+    public struct ListRoutesOutput: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListRoutes request.
         ///          When the results of a ListRoutes request exceed limit, you can
@@ -1878,7 +1878,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -1920,7 +1920,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListTagsForResource
         ///          request. When the results of a ListTagsForResource request exceed
@@ -1941,7 +1941,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListVirtualNodesInput: AWSShape {
+    public struct ListVirtualNodesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
@@ -1993,7 +1993,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListVirtualNodesOutput: AWSShape {
+    public struct ListVirtualNodesOutput: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListVirtualNodes
         ///          request. When the results of a ListVirtualNodes request exceed
@@ -2014,7 +2014,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListVirtualRoutersInput: AWSShape {
+    public struct ListVirtualRoutersInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
@@ -2066,7 +2066,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListVirtualRoutersOutput: AWSShape {
+    public struct ListVirtualRoutersOutput: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListVirtualRouters
         ///          request. When the results of a ListVirtualRouters request exceed
@@ -2087,7 +2087,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListVirtualServicesInput: AWSShape {
+    public struct ListVirtualServicesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
@@ -2139,7 +2139,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListVirtualServicesOutput: AWSShape {
+    public struct ListVirtualServicesOutput: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListVirtualServices
         ///          request. When the results of a ListVirtualServices request exceed
@@ -2160,7 +2160,7 @@ extension AppMesh {
         }
     }
 
-    public struct Listener: AWSShape {
+    public struct Listener: AWSEncodableShape & AWSDecodableShape {
 
         /// The health check information for the listener.
         public let healthCheck: HealthCheckPolicy?
@@ -2188,7 +2188,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListenerTls: AWSShape {
+    public struct ListenerTls: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents a listener's TLS certificate.
         public let certificate: ListenerTlsCertificate
@@ -2224,7 +2224,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListenerTlsAcmCertificate: AWSShape {
+    public struct ListenerTlsAcmCertificate: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
         public let certificateArn: String
@@ -2238,7 +2238,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListenerTlsCertificate: AWSShape {
+    public struct ListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents an AWS Certicate Manager (ACM) certificate.
         public let acm: ListenerTlsAcmCertificate?
@@ -2260,7 +2260,7 @@ extension AppMesh {
         }
     }
 
-    public struct ListenerTlsFileCertificate: AWSShape {
+    public struct ListenerTlsFileCertificate: AWSEncodableShape & AWSDecodableShape {
 
         /// The certificate chain for the certificate.
         public let certificateChain: String
@@ -2285,7 +2285,7 @@ extension AppMesh {
         }
     }
 
-    public struct Logging: AWSShape {
+    public struct Logging: AWSEncodableShape & AWSDecodableShape {
 
         /// The access log configuration for a virtual node.
         public let accessLog: AccessLog?
@@ -2303,7 +2303,7 @@ extension AppMesh {
         }
     }
 
-    public struct MatchRange: AWSShape {
+    public struct MatchRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The end of the range.
         public let end: Int64
@@ -2321,7 +2321,7 @@ extension AppMesh {
         }
     }
 
-    public struct MeshData: AWSShape {
+    public struct MeshData: AWSDecodableShape {
 
         /// The name of the service mesh.
         public let meshName: String
@@ -2347,7 +2347,7 @@ extension AppMesh {
         }
     }
 
-    public struct MeshRef: AWSShape {
+    public struct MeshRef: AWSDecodableShape {
 
         /// The full Amazon Resource Name (ARN) of the service mesh.
         public let arn: String
@@ -2375,7 +2375,7 @@ extension AppMesh {
         }
     }
 
-    public struct MeshSpec: AWSShape {
+    public struct MeshSpec: AWSEncodableShape & AWSDecodableShape {
 
         /// The egress filter rules for the service mesh.
         public let egressFilter: EgressFilter?
@@ -2389,7 +2389,7 @@ extension AppMesh {
         }
     }
 
-    public struct MeshStatus: AWSShape {
+    public struct MeshStatus: AWSDecodableShape {
 
         /// The current mesh status.
         public let status: MeshStatusCode?
@@ -2403,7 +2403,7 @@ extension AppMesh {
         }
     }
 
-    public struct PortMapping: AWSShape {
+    public struct PortMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The port used for the port mapping.
         public let port: Int
@@ -2426,7 +2426,7 @@ extension AppMesh {
         }
     }
 
-    public struct ResourceMetadata: AWSShape {
+    public struct ResourceMetadata: AWSDecodableShape {
 
         /// The full Amazon Resource Name (ARN) for the resource.
         public let arn: String
@@ -2467,7 +2467,7 @@ extension AppMesh {
         }
     }
 
-    public struct RouteData: AWSShape {
+    public struct RouteData: AWSDecodableShape {
 
         /// The name of the service mesh that the route resides in.
         public let meshName: String
@@ -2501,7 +2501,7 @@ extension AppMesh {
         }
     }
 
-    public struct RouteRef: AWSShape {
+    public struct RouteRef: AWSDecodableShape {
 
         /// The full Amazon Resource Name (ARN) for the route.
         public let arn: String
@@ -2537,7 +2537,7 @@ extension AppMesh {
         }
     }
 
-    public struct RouteSpec: AWSShape {
+    public struct RouteSpec: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the specification of a gRPC route.
         public let grpcRoute: GrpcRoute?
@@ -2577,7 +2577,7 @@ extension AppMesh {
         }
     }
 
-    public struct RouteStatus: AWSShape {
+    public struct RouteStatus: AWSDecodableShape {
 
         /// The current status for the route.
         public let status: RouteStatusCode
@@ -2591,7 +2591,7 @@ extension AppMesh {
         }
     }
 
-    public struct ServiceDiscovery: AWSShape {
+    public struct ServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies any AWS Cloud Map information for the virtual node.
         public let awsCloudMap: AwsCloudMapServiceDiscovery?
@@ -2613,7 +2613,7 @@ extension AppMesh {
         }
     }
 
-    public struct TagRef: AWSShape {
+    public struct TagRef: AWSEncodableShape & AWSDecodableShape {
 
         /// One part of a key-value pair that make up a tag. A key is a general label
         ///          that acts like a category for more specific tag values.
@@ -2640,7 +2640,7 @@ extension AppMesh {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
@@ -2671,7 +2671,7 @@ extension AppMesh {
         }
     }
 
-    public struct TagResourceOutput: AWSShape {
+    public struct TagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2679,7 +2679,7 @@ extension AppMesh {
 
     }
 
-    public struct TcpRoute: AWSShape {
+    public struct TcpRoute: AWSEncodableShape & AWSDecodableShape {
 
         /// The action to take if a match is determined.
         public let action: TcpRouteAction
@@ -2697,7 +2697,7 @@ extension AppMesh {
         }
     }
 
-    public struct TcpRouteAction: AWSShape {
+    public struct TcpRouteAction: AWSEncodableShape & AWSDecodableShape {
 
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
@@ -2719,7 +2719,7 @@ extension AppMesh {
         }
     }
 
-    public struct TlsValidationContext: AWSShape {
+    public struct TlsValidationContext: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents a TLS validation context trust.
         public let trust: TlsValidationContextTrust
@@ -2737,7 +2737,7 @@ extension AppMesh {
         }
     }
 
-    public struct TlsValidationContextAcmTrust: AWSShape {
+    public struct TlsValidationContextAcmTrust: AWSEncodableShape & AWSDecodableShape {
 
         /// One or more ACM Amazon Resource Name (ARN)s.
         public let certificateAuthorityArns: [String]
@@ -2756,7 +2756,7 @@ extension AppMesh {
         }
     }
 
-    public struct TlsValidationContextFileTrust: AWSShape {
+    public struct TlsValidationContextFileTrust: AWSEncodableShape & AWSDecodableShape {
 
         /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let certificateChain: String
@@ -2775,7 +2775,7 @@ extension AppMesh {
         }
     }
 
-    public struct TlsValidationContextTrust: AWSShape {
+    public struct TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
         public let acm: TlsValidationContextAcmTrust?
@@ -2798,7 +2798,7 @@ extension AppMesh {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
@@ -2828,7 +2828,7 @@ extension AppMesh {
         }
     }
 
-    public struct UntagResourceOutput: AWSShape {
+    public struct UntagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2836,7 +2836,7 @@ extension AppMesh {
 
     }
 
-    public struct UpdateMeshInput: AWSShape {
+    public struct UpdateMeshInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
@@ -2867,7 +2867,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateMeshOutput: AWSShape {
+    public struct UpdateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "mesh"
 
@@ -2882,7 +2882,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateRouteInput: AWSShape {
+    public struct UpdateRouteInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -2936,7 +2936,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateRouteOutput: AWSShape {
+    public struct UpdateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "route"
 
@@ -2952,7 +2952,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualNodeInput: AWSShape {
+    public struct UpdateVirtualNodeInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -2999,7 +2999,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualNodeOutput: AWSShape {
+    public struct UpdateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualNode"
 
@@ -3015,7 +3015,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualRouterInput: AWSShape {
+    public struct UpdateVirtualRouterInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -3062,7 +3062,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualRouterOutput: AWSShape {
+    public struct UpdateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualRouter"
 
@@ -3078,7 +3078,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualServiceInput: AWSShape {
+    public struct UpdateVirtualServiceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName")), 
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner")), 
@@ -3124,7 +3124,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualServiceOutput: AWSShape {
+    public struct UpdateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "virtualService"
 
@@ -3140,7 +3140,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualNodeData: AWSShape {
+    public struct VirtualNodeData: AWSDecodableShape {
 
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
@@ -3170,7 +3170,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualNodeRef: AWSShape {
+    public struct VirtualNodeRef: AWSDecodableShape {
 
         /// The full Amazon Resource Name (ARN) for the virtual node.
         public let arn: String
@@ -3202,7 +3202,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualNodeServiceProvider: AWSShape {
+    public struct VirtualNodeServiceProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the virtual node that is acting as a service provider.
         public let virtualNodeName: String
@@ -3221,7 +3221,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualNodeSpec: AWSShape {
+    public struct VirtualNodeSpec: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents the defaults for backends.
         public let backendDefaults: BackendDefaults?
@@ -3268,7 +3268,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualNodeStatus: AWSShape {
+    public struct VirtualNodeStatus: AWSDecodableShape {
 
         /// The current status of the virtual node.
         public let status: VirtualNodeStatusCode
@@ -3282,7 +3282,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterData: AWSShape {
+    public struct VirtualRouterData: AWSDecodableShape {
 
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
@@ -3312,7 +3312,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterListener: AWSShape {
+    public struct VirtualRouterListener: AWSEncodableShape & AWSDecodableShape {
 
         public let portMapping: PortMapping
 
@@ -3329,7 +3329,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterRef: AWSShape {
+    public struct VirtualRouterRef: AWSDecodableShape {
 
         /// The full Amazon Resource Name (ARN) for the virtual router.
         public let arn: String
@@ -3361,7 +3361,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterServiceProvider: AWSShape {
+    public struct VirtualRouterServiceProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the virtual router that is acting as a service provider.
         public let virtualRouterName: String
@@ -3380,7 +3380,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterSpec: AWSShape {
+    public struct VirtualRouterSpec: AWSEncodableShape & AWSDecodableShape {
 
         /// The listeners that the virtual router is expected to receive inbound traffic from.
         ///          You can specify one listener.
@@ -3403,7 +3403,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualRouterStatus: AWSShape {
+    public struct VirtualRouterStatus: AWSDecodableShape {
 
         /// The current status of the virtual router.
         public let status: VirtualRouterStatusCode
@@ -3417,7 +3417,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualServiceBackend: AWSShape {
+    public struct VirtualServiceBackend: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to an object that represents the client policy for a backend.
         public let clientPolicy: ClientPolicy?
@@ -3439,7 +3439,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualServiceData: AWSShape {
+    public struct VirtualServiceData: AWSDecodableShape {
 
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
@@ -3468,7 +3468,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualServiceProvider: AWSShape {
+    public struct VirtualServiceProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// The virtual node associated with a virtual service.
         public let virtualNode: VirtualNodeServiceProvider?
@@ -3491,7 +3491,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualServiceRef: AWSShape {
+    public struct VirtualServiceRef: AWSDecodableShape {
 
         /// The full Amazon Resource Name (ARN) for the virtual service.
         public let arn: String
@@ -3523,7 +3523,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualServiceSpec: AWSShape {
+    public struct VirtualServiceSpec: AWSEncodableShape & AWSDecodableShape {
 
         /// The App Mesh object that is acting as the provider for a virtual service. You can specify
         ///          a single virtual node or virtual router.
@@ -3542,7 +3542,7 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualServiceStatus: AWSShape {
+    public struct VirtualServiceStatus: AWSDecodableShape {
 
         /// The current status of the virtual service.
         public let status: VirtualServiceStatusCode
@@ -3556,7 +3556,7 @@ extension AppMesh {
         }
     }
 
-    public struct WeightedTarget: AWSShape {
+    public struct WeightedTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The virtual node to associate with the weighted target.
         public let virtualNode: String

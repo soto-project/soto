@@ -128,7 +128,7 @@ extension AutoScalingPlans {
 
     //MARK: Shapes
 
-    public struct ApplicationSource: AWSShape {
+    public struct ApplicationSource: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
         public let cloudFormationStackARN: String?
@@ -153,7 +153,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct CreateScalingPlanRequest: AWSShape {
+    public struct CreateScalingPlanRequest: AWSEncodableShape {
 
         /// A CloudFormation stack or set of tags. You can create one scaling plan per application source.
         public let applicationSource: ApplicationSource
@@ -185,7 +185,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct CreateScalingPlanResponse: AWSShape {
+    public struct CreateScalingPlanResponse: AWSDecodableShape {
 
         /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
         public let scalingPlanVersion: Int64
@@ -199,7 +199,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct CustomizedLoadMetricSpecification: AWSShape {
+    public struct CustomizedLoadMetricSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized load metric specification.
         public let dimensions: [MetricDimension]?
@@ -229,7 +229,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct CustomizedScalingMetricSpecification: AWSShape {
+    public struct CustomizedScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized scaling metric specification.
         public let dimensions: [MetricDimension]?
@@ -259,7 +259,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct Datapoint: AWSShape {
+    public struct Datapoint: AWSDecodableShape {
 
         /// The time stamp for the data point in UTC format.
         public let timestamp: TimeStamp?
@@ -277,7 +277,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct DeleteScalingPlanRequest: AWSShape {
+    public struct DeleteScalingPlanRequest: AWSEncodableShape {
 
         /// The name of the scaling plan.
         public let scalingPlanName: String
@@ -301,7 +301,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct DeleteScalingPlanResponse: AWSShape {
+    public struct DeleteScalingPlanResponse: AWSDecodableShape {
 
 
         public init() {
@@ -309,7 +309,7 @@ extension AutoScalingPlans {
 
     }
 
-    public struct DescribeScalingPlanResourcesRequest: AWSShape {
+    public struct DescribeScalingPlanResourcesRequest: AWSEncodableShape {
 
         /// The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
         public let maxResults: Int?
@@ -341,7 +341,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct DescribeScalingPlanResourcesResponse: AWSShape {
+    public struct DescribeScalingPlanResourcesResponse: AWSDecodableShape {
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -359,7 +359,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct DescribeScalingPlansRequest: AWSShape {
+    public struct DescribeScalingPlansRequest: AWSEncodableShape {
 
         /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.
         public let applicationSources: [ApplicationSource]?
@@ -400,7 +400,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct DescribeScalingPlansResponse: AWSShape {
+    public struct DescribeScalingPlansResponse: AWSDecodableShape {
 
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -418,7 +418,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct GetScalingPlanResourceForecastDataRequest: AWSShape {
+    public struct GetScalingPlanResourceForecastDataRequest: AWSEncodableShape {
 
         /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
         public let endTime: TimeStamp
@@ -467,7 +467,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct GetScalingPlanResourceForecastDataResponse: AWSShape {
+    public struct GetScalingPlanResourceForecastDataResponse: AWSDecodableShape {
 
         /// The data points to return.
         public let datapoints: [Datapoint]
@@ -481,7 +481,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct MetricDimension: AWSShape {
+    public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the dimension.
         public let name: String
@@ -499,7 +499,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct PredefinedLoadMetricSpecification: AWSShape {
+    public struct PredefinedLoadMetricSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The metric type.
         public let predefinedLoadMetricType: LoadMetricType
@@ -522,7 +522,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct PredefinedScalingMetricSpecification: AWSShape {
+    public struct PredefinedScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
         public let predefinedScalingMetricType: ScalingMetricType
@@ -545,7 +545,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct ScalingInstruction: AWSShape {
+    public struct ScalingInstruction: AWSEncodableShape & AWSDecodableShape {
 
         /// The customized load metric to use for predictive scaling. This parameter or a PredefinedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise. 
         public let customizedLoadMetricSpecification: CustomizedLoadMetricSpecification?
@@ -622,7 +622,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct ScalingPlan: AWSShape {
+    public struct ScalingPlan: AWSDecodableShape {
 
         /// The application source.
         public let applicationSource: ApplicationSource
@@ -664,7 +664,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct ScalingPlanResource: AWSShape {
+    public struct ScalingPlanResource: AWSDecodableShape {
 
         /// The ID of the resource. This string consists of the resource type and unique identifier.   Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
         public let resourceId: String
@@ -706,7 +706,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct ScalingPolicy: AWSShape {
+    public struct ScalingPolicy: AWSDecodableShape {
 
         /// The name of the scaling policy.
         public let policyName: String
@@ -728,7 +728,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct TagFilter: AWSShape {
+    public struct TagFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag key.
         public let key: String?
@@ -757,7 +757,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct TargetTrackingConfiguration: AWSShape {
+    public struct TargetTrackingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A customized metric. You can specify either a predefined metric or a customized metric. 
         public let customizedScalingMetricSpecification: CustomizedScalingMetricSpecification?
@@ -799,7 +799,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct UpdateScalingPlanRequest: AWSShape {
+    public struct UpdateScalingPlanRequest: AWSEncodableShape {
 
         /// A CloudFormation stack or set of tags.
         public let applicationSource: ApplicationSource?
@@ -835,7 +835,7 @@ extension AutoScalingPlans {
         }
     }
 
-    public struct UpdateScalingPlanResponse: AWSShape {
+    public struct UpdateScalingPlanResponse: AWSDecodableShape {
 
 
         public init() {

@@ -145,7 +145,7 @@ extension SMS {
 
     //MARK: Shapes
 
-    public struct AppSummary: AWSShape {
+    public struct AppSummary: AWSDecodableShape {
 
         /// Unique ID of the application.
         public let appId: String?
@@ -219,7 +219,7 @@ extension SMS {
         }
     }
 
-    public struct Connector: AWSShape {
+    public struct Connector: AWSDecodableShape {
 
         /// The time the connector was associated.
         public let associatedOn: TimeStamp?
@@ -269,7 +269,7 @@ extension SMS {
         }
     }
 
-    public struct CreateAppRequest: AWSShape {
+    public struct CreateAppRequest: AWSEncodableShape {
 
         /// A unique, case-sensitive identifier you provide to ensure idempotency of application creation.
         public let clientToken: String?
@@ -303,7 +303,7 @@ extension SMS {
         }
     }
 
-    public struct CreateAppResponse: AWSShape {
+    public struct CreateAppResponse: AWSDecodableShape {
 
         /// Summary description of the application.
         public let appSummary: AppSummary?
@@ -325,7 +325,7 @@ extension SMS {
         }
     }
 
-    public struct CreateReplicationJobRequest: AWSShape {
+    public struct CreateReplicationJobRequest: AWSEncodableShape {
 
         /// The description of the replication job.
         public let description: String?
@@ -374,7 +374,7 @@ extension SMS {
         }
     }
 
-    public struct CreateReplicationJobResponse: AWSShape {
+    public struct CreateReplicationJobResponse: AWSDecodableShape {
 
         /// The unique identifier of the replication job.
         public let replicationJobId: String?
@@ -388,7 +388,7 @@ extension SMS {
         }
     }
 
-    public struct DeleteAppLaunchConfigurationRequest: AWSShape {
+    public struct DeleteAppLaunchConfigurationRequest: AWSEncodableShape {
 
         /// ID of the application associated with the launch configuration.
         public let appId: String?
@@ -402,7 +402,7 @@ extension SMS {
         }
     }
 
-    public struct DeleteAppLaunchConfigurationResponse: AWSShape {
+    public struct DeleteAppLaunchConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -410,7 +410,7 @@ extension SMS {
 
     }
 
-    public struct DeleteAppReplicationConfigurationRequest: AWSShape {
+    public struct DeleteAppReplicationConfigurationRequest: AWSEncodableShape {
 
         /// ID of the application associated with the replication configuration.
         public let appId: String?
@@ -424,7 +424,7 @@ extension SMS {
         }
     }
 
-    public struct DeleteAppReplicationConfigurationResponse: AWSShape {
+    public struct DeleteAppReplicationConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -432,7 +432,7 @@ extension SMS {
 
     }
 
-    public struct DeleteAppRequest: AWSShape {
+    public struct DeleteAppRequest: AWSEncodableShape {
 
         /// ID of the application to delete.
         public let appId: String?
@@ -454,7 +454,7 @@ extension SMS {
         }
     }
 
-    public struct DeleteAppResponse: AWSShape {
+    public struct DeleteAppResponse: AWSDecodableShape {
 
 
         public init() {
@@ -462,7 +462,7 @@ extension SMS {
 
     }
 
-    public struct DeleteReplicationJobRequest: AWSShape {
+    public struct DeleteReplicationJobRequest: AWSEncodableShape {
 
         /// The identifier of the replication job.
         public let replicationJobId: String
@@ -476,7 +476,7 @@ extension SMS {
         }
     }
 
-    public struct DeleteReplicationJobResponse: AWSShape {
+    public struct DeleteReplicationJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -484,7 +484,7 @@ extension SMS {
 
     }
 
-    public struct DeleteServerCatalogRequest: AWSShape {
+    public struct DeleteServerCatalogRequest: AWSEncodableShape {
 
 
         public init() {
@@ -492,7 +492,7 @@ extension SMS {
 
     }
 
-    public struct DeleteServerCatalogResponse: AWSShape {
+    public struct DeleteServerCatalogResponse: AWSDecodableShape {
 
 
         public init() {
@@ -500,7 +500,7 @@ extension SMS {
 
     }
 
-    public struct DisassociateConnectorRequest: AWSShape {
+    public struct DisassociateConnectorRequest: AWSEncodableShape {
 
         /// The identifier of the connector.
         public let connectorId: String
@@ -514,7 +514,7 @@ extension SMS {
         }
     }
 
-    public struct DisassociateConnectorResponse: AWSShape {
+    public struct DisassociateConnectorResponse: AWSDecodableShape {
 
 
         public init() {
@@ -522,7 +522,7 @@ extension SMS {
 
     }
 
-    public struct GenerateChangeSetRequest: AWSShape {
+    public struct GenerateChangeSetRequest: AWSEncodableShape {
 
         /// ID of the application associated with the change set.
         public let appId: String?
@@ -540,7 +540,7 @@ extension SMS {
         }
     }
 
-    public struct GenerateChangeSetResponse: AWSShape {
+    public struct GenerateChangeSetResponse: AWSDecodableShape {
 
         /// Location of the Amazon S3 object.
         public let s3Location: S3Location?
@@ -554,7 +554,7 @@ extension SMS {
         }
     }
 
-    public struct GenerateTemplateRequest: AWSShape {
+    public struct GenerateTemplateRequest: AWSEncodableShape {
 
         /// ID of the application associated with the Amazon CloudFormation template.
         public let appId: String?
@@ -572,7 +572,7 @@ extension SMS {
         }
     }
 
-    public struct GenerateTemplateResponse: AWSShape {
+    public struct GenerateTemplateResponse: AWSDecodableShape {
 
         /// Location of the Amazon S3 object.
         public let s3Location: S3Location?
@@ -586,7 +586,7 @@ extension SMS {
         }
     }
 
-    public struct GetAppLaunchConfigurationRequest: AWSShape {
+    public struct GetAppLaunchConfigurationRequest: AWSEncodableShape {
 
         /// ID of the application launch configuration.
         public let appId: String?
@@ -600,7 +600,7 @@ extension SMS {
         }
     }
 
-    public struct GetAppLaunchConfigurationResponse: AWSShape {
+    public struct GetAppLaunchConfigurationResponse: AWSDecodableShape {
 
         /// ID of the application associated with the launch configuration.
         public let appId: String?
@@ -622,7 +622,7 @@ extension SMS {
         }
     }
 
-    public struct GetAppReplicationConfigurationRequest: AWSShape {
+    public struct GetAppReplicationConfigurationRequest: AWSEncodableShape {
 
         /// ID of the application associated with the replication configuration.
         public let appId: String?
@@ -636,7 +636,7 @@ extension SMS {
         }
     }
 
-    public struct GetAppReplicationConfigurationResponse: AWSShape {
+    public struct GetAppReplicationConfigurationResponse: AWSDecodableShape {
 
         /// Replication configurations associated with server groups in this application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
@@ -650,7 +650,7 @@ extension SMS {
         }
     }
 
-    public struct GetAppRequest: AWSShape {
+    public struct GetAppRequest: AWSEncodableShape {
 
         /// ID of the application whose information is being retrieved.
         public let appId: String?
@@ -664,7 +664,7 @@ extension SMS {
         }
     }
 
-    public struct GetAppResponse: AWSShape {
+    public struct GetAppResponse: AWSDecodableShape {
 
         /// Information about the application.
         public let appSummary: AppSummary?
@@ -686,7 +686,7 @@ extension SMS {
         }
     }
 
-    public struct GetConnectorsRequest: AWSShape {
+    public struct GetConnectorsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -704,7 +704,7 @@ extension SMS {
         }
     }
 
-    public struct GetConnectorsResponse: AWSShape {
+    public struct GetConnectorsResponse: AWSDecodableShape {
 
         /// Information about the registered connectors.
         public let connectorList: [Connector]?
@@ -722,7 +722,7 @@ extension SMS {
         }
     }
 
-    public struct GetReplicationJobsRequest: AWSShape {
+    public struct GetReplicationJobsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -744,7 +744,7 @@ extension SMS {
         }
     }
 
-    public struct GetReplicationJobsResponse: AWSShape {
+    public struct GetReplicationJobsResponse: AWSDecodableShape {
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -762,7 +762,7 @@ extension SMS {
         }
     }
 
-    public struct GetReplicationRunsRequest: AWSShape {
+    public struct GetReplicationRunsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -784,7 +784,7 @@ extension SMS {
         }
     }
 
-    public struct GetReplicationRunsResponse: AWSShape {
+    public struct GetReplicationRunsResponse: AWSDecodableShape {
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -806,7 +806,7 @@ extension SMS {
         }
     }
 
-    public struct GetServersRequest: AWSShape {
+    public struct GetServersRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -828,7 +828,7 @@ extension SMS {
         }
     }
 
-    public struct GetServersResponse: AWSShape {
+    public struct GetServersResponse: AWSDecodableShape {
 
         /// The time when the server was last modified.
         public let lastModifiedOn: TimeStamp?
@@ -854,7 +854,7 @@ extension SMS {
         }
     }
 
-    public struct ImportServerCatalogRequest: AWSShape {
+    public struct ImportServerCatalogRequest: AWSEncodableShape {
 
 
         public init() {
@@ -862,7 +862,7 @@ extension SMS {
 
     }
 
-    public struct ImportServerCatalogResponse: AWSShape {
+    public struct ImportServerCatalogResponse: AWSDecodableShape {
 
 
         public init() {
@@ -870,7 +870,7 @@ extension SMS {
 
     }
 
-    public struct LaunchAppRequest: AWSShape {
+    public struct LaunchAppRequest: AWSEncodableShape {
 
         /// ID of the application to launch.
         public let appId: String?
@@ -884,7 +884,7 @@ extension SMS {
         }
     }
 
-    public struct LaunchAppResponse: AWSShape {
+    public struct LaunchAppResponse: AWSDecodableShape {
 
 
         public init() {
@@ -892,7 +892,7 @@ extension SMS {
 
     }
 
-    public struct LaunchDetails: AWSShape {
+    public struct LaunchDetails: AWSDecodableShape {
 
         /// Latest time this application was launched successfully.
         public let latestLaunchTime: TimeStamp?
@@ -914,7 +914,7 @@ extension SMS {
         }
     }
 
-    public struct ListAppsRequest: AWSShape {
+    public struct ListAppsRequest: AWSEncodableShape {
 
         public let appIds: [String]?
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value. 
@@ -935,7 +935,7 @@ extension SMS {
         }
     }
 
-    public struct ListAppsResponse: AWSShape {
+    public struct ListAppsResponse: AWSDecodableShape {
 
         /// A list of application summaries.
         public let apps: [AppSummary]?
@@ -953,7 +953,7 @@ extension SMS {
         }
     }
 
-    public struct PutAppLaunchConfigurationRequest: AWSShape {
+    public struct PutAppLaunchConfigurationRequest: AWSEncodableShape {
 
         /// ID of the application associated with the launch configuration.
         public let appId: String?
@@ -975,7 +975,7 @@ extension SMS {
         }
     }
 
-    public struct PutAppLaunchConfigurationResponse: AWSShape {
+    public struct PutAppLaunchConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -983,7 +983,7 @@ extension SMS {
 
     }
 
-    public struct PutAppReplicationConfigurationRequest: AWSShape {
+    public struct PutAppReplicationConfigurationRequest: AWSEncodableShape {
 
         /// ID of the application tassociated with the replication configuration.
         public let appId: String?
@@ -1001,7 +1001,7 @@ extension SMS {
         }
     }
 
-    public struct PutAppReplicationConfigurationResponse: AWSShape {
+    public struct PutAppReplicationConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1009,7 +1009,7 @@ extension SMS {
 
     }
 
-    public struct ReplicationJob: AWSShape {
+    public struct ReplicationJob: AWSDecodableShape {
 
         /// The description of the replication job.
         public let description: String?
@@ -1090,7 +1090,7 @@ extension SMS {
         }
     }
 
-    public struct ReplicationRun: AWSShape {
+    public struct ReplicationRun: AWSDecodableShape {
 
         /// The identifier of the Amazon Machine Image (AMI) from the replication run.
         public let amiId: String?
@@ -1144,7 +1144,7 @@ extension SMS {
         }
     }
 
-    public struct ReplicationRunStageDetails: AWSShape {
+    public struct ReplicationRunStageDetails: AWSDecodableShape {
 
         /// String describing the current stage of a replication run.
         public let stage: String?
@@ -1162,7 +1162,7 @@ extension SMS {
         }
     }
 
-    public struct S3Location: AWSShape {
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
 
         /// Amazon S3 bucket name.
         public let bucket: String?
@@ -1180,7 +1180,7 @@ extension SMS {
         }
     }
 
-    public struct Server: AWSShape {
+    public struct Server: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier of the replication job.
         public let replicationJobId: String?
@@ -1210,7 +1210,7 @@ extension SMS {
         }
     }
 
-    public struct ServerGroup: AWSShape {
+    public struct ServerGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of a server group.
         public let name: String?
@@ -1232,7 +1232,7 @@ extension SMS {
         }
     }
 
-    public struct ServerGroupLaunchConfiguration: AWSShape {
+    public struct ServerGroupLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Launch order of servers in the server group.
         public let launchOrder: Int?
@@ -1254,7 +1254,7 @@ extension SMS {
         }
     }
 
-    public struct ServerGroupReplicationConfiguration: AWSShape {
+    public struct ServerGroupReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Identifier of the server group this replication configuration is associated with.
         public let serverGroupId: String?
@@ -1272,7 +1272,7 @@ extension SMS {
         }
     }
 
-    public struct ServerLaunchConfiguration: AWSShape {
+    public struct ServerLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, a publicly accessible IP address is created when launching the server.
         public let associatePublicIpAddress: Bool?
@@ -1318,7 +1318,7 @@ extension SMS {
         }
     }
 
-    public struct ServerReplicationConfiguration: AWSShape {
+    public struct ServerReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Identifier of the server this replication configuration is associated with.
         public let server: Server?
@@ -1336,7 +1336,7 @@ extension SMS {
         }
     }
 
-    public struct ServerReplicationParameters: AWSShape {
+    public struct ServerReplicationParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
         public let encrypted: Bool?
@@ -1373,7 +1373,7 @@ extension SMS {
         }
     }
 
-    public struct StartAppReplicationRequest: AWSShape {
+    public struct StartAppReplicationRequest: AWSEncodableShape {
 
         /// ID of the application to replicate.
         public let appId: String?
@@ -1387,7 +1387,7 @@ extension SMS {
         }
     }
 
-    public struct StartAppReplicationResponse: AWSShape {
+    public struct StartAppReplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1395,7 +1395,7 @@ extension SMS {
 
     }
 
-    public struct StartOnDemandReplicationRunRequest: AWSShape {
+    public struct StartOnDemandReplicationRunRequest: AWSEncodableShape {
 
         /// The description of the replication run.
         public let description: String?
@@ -1413,7 +1413,7 @@ extension SMS {
         }
     }
 
-    public struct StartOnDemandReplicationRunResponse: AWSShape {
+    public struct StartOnDemandReplicationRunResponse: AWSDecodableShape {
 
         /// The identifier of the replication run.
         public let replicationRunId: String?
@@ -1427,7 +1427,7 @@ extension SMS {
         }
     }
 
-    public struct StopAppReplicationRequest: AWSShape {
+    public struct StopAppReplicationRequest: AWSEncodableShape {
 
         /// ID of the application to stop replicating.
         public let appId: String?
@@ -1441,7 +1441,7 @@ extension SMS {
         }
     }
 
-    public struct StopAppReplicationResponse: AWSShape {
+    public struct StopAppReplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1449,7 +1449,7 @@ extension SMS {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Tag key.
         public let key: String?
@@ -1467,7 +1467,7 @@ extension SMS {
         }
     }
 
-    public struct TerminateAppRequest: AWSShape {
+    public struct TerminateAppRequest: AWSEncodableShape {
 
         /// ID of the application to terminate.
         public let appId: String?
@@ -1481,7 +1481,7 @@ extension SMS {
         }
     }
 
-    public struct TerminateAppResponse: AWSShape {
+    public struct TerminateAppResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1489,7 +1489,7 @@ extension SMS {
 
     }
 
-    public struct UpdateAppRequest: AWSShape {
+    public struct UpdateAppRequest: AWSEncodableShape {
 
         /// ID of the application to update.
         public let appId: String?
@@ -1523,7 +1523,7 @@ extension SMS {
         }
     }
 
-    public struct UpdateAppResponse: AWSShape {
+    public struct UpdateAppResponse: AWSDecodableShape {
 
         /// Summary description of the application.
         public let appSummary: AppSummary?
@@ -1545,7 +1545,7 @@ extension SMS {
         }
     }
 
-    public struct UpdateReplicationJobRequest: AWSShape {
+    public struct UpdateReplicationJobRequest: AWSEncodableShape {
 
         /// The description of the replication job.
         public let description: String?
@@ -1591,7 +1591,7 @@ extension SMS {
         }
     }
 
-    public struct UpdateReplicationJobResponse: AWSShape {
+    public struct UpdateReplicationJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1599,7 +1599,7 @@ extension SMS {
 
     }
 
-    public struct UserData: AWSShape {
+    public struct UserData: AWSEncodableShape & AWSDecodableShape {
 
         /// Amazon S3 location of the user-data script.
         public let s3Location: S3Location?
@@ -1613,7 +1613,7 @@ extension SMS {
         }
     }
 
-    public struct VmServer: AWSShape {
+    public struct VmServer: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the VM manager.
         public let vmManagerName: String?
@@ -1643,7 +1643,7 @@ extension SMS {
         }
     }
 
-    public struct VmServerAddress: AWSShape {
+    public struct VmServerAddress: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier of the VM.
         public let vmId: String?

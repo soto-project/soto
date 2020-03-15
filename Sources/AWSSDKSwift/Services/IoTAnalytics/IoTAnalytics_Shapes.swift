@@ -75,7 +75,7 @@ extension IoTAnalytics {
 
     //MARK: Shapes
 
-    public struct AddAttributesActivity: AWSShape {
+    public struct AddAttributesActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of 1-50 "AttributeNameMapping" objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use "RemoveAttributeActivity". 
         public let attributes: [String: String]
@@ -110,7 +110,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct BatchPutMessageErrorEntry: AWSShape {
+    public struct BatchPutMessageErrorEntry: AWSDecodableShape {
 
         /// The code associated with the error.
         public let errorCode: String?
@@ -132,7 +132,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct BatchPutMessageRequest: AWSShape {
+    public struct BatchPutMessageRequest: AWSEncodableShape {
 
         /// The name of the channel where the messages are sent.
         public let channelName: String
@@ -159,7 +159,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct BatchPutMessageResponse: AWSShape {
+    public struct BatchPutMessageResponse: AWSDecodableShape {
 
         /// A list of any errors encountered when sending the messages to the channel.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
@@ -173,7 +173,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CancelPipelineReprocessingRequest: AWSShape {
+    public struct CancelPipelineReprocessingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName")), 
             AWSMemberEncoding(label: "reprocessingId", location: .uri(locationName: "reprocessingId"))
@@ -201,7 +201,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CancelPipelineReprocessingResponse: AWSShape {
+    public struct CancelPipelineReprocessingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -209,7 +209,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct Channel: AWSShape {
+    public struct Channel: AWSDecodableShape {
 
         /// The ARN of the channel.
         public let arn: String?
@@ -247,7 +247,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ChannelActivity: AWSShape {
+    public struct ChannelActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the channel from which the messages are processed.
         public let channelName: String
@@ -279,7 +279,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ChannelStatistics: AWSShape {
+    public struct ChannelStatistics: AWSDecodableShape {
 
         /// The estimated size of the channel.
         public let size: EstimatedResourceSize?
@@ -293,7 +293,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ChannelStorage: AWSShape {
+    public struct ChannelStorage: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the channel.
         public let customerManagedS3: CustomerManagedChannelS3Storage?
@@ -315,7 +315,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ChannelStorageSummary: AWSShape {
+    public struct ChannelStorageSummary: AWSDecodableShape {
 
         /// Used to store channel data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedChannelS3StorageSummary?
@@ -333,7 +333,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ChannelSummary: AWSShape {
+    public struct ChannelSummary: AWSDecodableShape {
 
         /// The name of the channel.
         public let channelName: String?
@@ -363,7 +363,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ContainerDatasetAction: AWSShape {
+    public struct ContainerDatasetAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the role which gives permission to the system to access needed resources in order to run the "containerAction". This includes, at minimum, permission to retrieve the data set contents which are the input to the containerized application.
         public let executionRoleArn: String
@@ -401,7 +401,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateChannelRequest: AWSShape {
+    public struct CreateChannelRequest: AWSEncodableShape {
 
         /// The name of the channel.
         public let channelName: String
@@ -440,7 +440,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateChannelResponse: AWSShape {
+    public struct CreateChannelResponse: AWSDecodableShape {
 
         /// The ARN of the channel.
         public let channelArn: String?
@@ -462,7 +462,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateDatasetContentRequest: AWSShape {
+    public struct CreateDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
@@ -485,7 +485,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateDatasetContentResponse: AWSShape {
+    public struct CreateDatasetContentResponse: AWSDecodableShape {
 
         /// The version ID of the data set contents which are being created.
         public let versionId: String?
@@ -499,7 +499,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateDatasetRequest: AWSShape {
+    public struct CreateDatasetRequest: AWSEncodableShape {
 
         /// A list of actions that create the data set contents.
         public let actions: [DatasetAction]
@@ -565,7 +565,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateDatasetResponse: AWSShape {
+    public struct CreateDatasetResponse: AWSDecodableShape {
 
         /// The ARN of the data set.
         public let datasetArn: String?
@@ -587,7 +587,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateDatastoreRequest: AWSShape {
+    public struct CreateDatastoreRequest: AWSEncodableShape {
 
         /// The name of the data store.
         public let datastoreName: String
@@ -626,7 +626,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreateDatastoreResponse: AWSShape {
+    public struct CreateDatastoreResponse: AWSDecodableShape {
 
         /// The ARN of the data store.
         public let datastoreArn: String?
@@ -648,7 +648,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreatePipelineRequest: AWSShape {
+    public struct CreatePipelineRequest: AWSEncodableShape {
 
         /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ] 
         public let pipelineActivities: [PipelineActivity]
@@ -686,7 +686,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CreatePipelineResponse: AWSShape {
+    public struct CreatePipelineResponse: AWSDecodableShape {
 
         /// The ARN of the pipeline.
         public let pipelineArn: String?
@@ -704,7 +704,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CustomerManagedChannelS3Storage: AWSShape {
+    public struct CustomerManagedChannelS3Storage: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket in which channel data is stored.
         public let bucket: String
@@ -737,7 +737,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CustomerManagedChannelS3StorageSummary: AWSShape {
+    public struct CustomerManagedChannelS3StorageSummary: AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket in which channel data is stored.
         public let bucket: String?
@@ -759,7 +759,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CustomerManagedDatastoreS3Storage: AWSShape {
+    public struct CustomerManagedDatastoreS3Storage: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket in which data store data is stored.
         public let bucket: String
@@ -792,7 +792,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct CustomerManagedDatastoreS3StorageSummary: AWSShape {
+    public struct CustomerManagedDatastoreS3StorageSummary: AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket in which data store data is stored.
         public let bucket: String?
@@ -814,7 +814,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Dataset: AWSShape {
+    public struct Dataset: AWSDecodableShape {
 
         /// The "DatasetAction" objects that automatically create the data set contents.
         public let actions: [DatasetAction]?
@@ -864,7 +864,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetAction: AWSShape {
+    public struct DatasetAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the data set action by which data set contents are automatically created.
         public let actionName: String?
@@ -894,7 +894,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetActionSummary: AWSShape {
+    public struct DatasetActionSummary: AWSDecodableShape {
 
         /// The name of the action which automatically creates the data set's contents.
         public let actionName: String?
@@ -912,7 +912,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetContentDeliveryDestination: AWSShape {
+    public struct DatasetContentDeliveryDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// Configuration information for delivery of data set contents to AWS IoT Events.
         public let iotEventsDestinationConfiguration: IotEventsDestinationConfiguration?
@@ -935,7 +935,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetContentDeliveryRule: AWSShape {
+    public struct DatasetContentDeliveryRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The destination to which data set contents are delivered.
         public let destination: DatasetContentDeliveryDestination
@@ -957,7 +957,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetContentStatus: AWSShape {
+    public struct DatasetContentStatus: AWSDecodableShape {
 
         /// The reason the data set contents are in this state.
         public let reason: String?
@@ -975,7 +975,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetContentSummary: AWSShape {
+    public struct DatasetContentSummary: AWSDecodableShape {
 
         /// The time the dataset content status was updated to SUCCEEDED or FAILED.
         public let completionTime: TimeStamp?
@@ -1005,7 +1005,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetContentVersionValue: AWSShape {
+    public struct DatasetContentVersionValue: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the data set whose latest contents are used as input to the notebook or application.
         public let datasetName: String
@@ -1025,7 +1025,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetEntry: AWSShape {
+    public struct DatasetEntry: AWSDecodableShape {
 
         /// The pre-signed URI of the data set item.
         public let dataURI: String?
@@ -1043,7 +1043,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetSummary: AWSShape {
+    public struct DatasetSummary: AWSDecodableShape {
 
         /// A list of "DataActionSummary" objects.
         public let actions: [DatasetActionSummary]?
@@ -1077,7 +1077,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatasetTrigger: AWSShape {
+    public struct DatasetTrigger: AWSEncodableShape & AWSDecodableShape {
 
         /// The data set whose content creation triggers the creation of this data set's contents.
         public let dataset: TriggeringDataset?
@@ -1099,7 +1099,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Datastore: AWSShape {
+    public struct Datastore: AWSDecodableShape {
 
         /// The ARN of the data store.
         public let arn: String?
@@ -1137,7 +1137,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatastoreActivity: AWSShape {
+    public struct DatastoreActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the data store where processed messages are stored.
         public let datastoreName: String
@@ -1163,7 +1163,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatastoreStatistics: AWSShape {
+    public struct DatastoreStatistics: AWSDecodableShape {
 
         /// The estimated size of the data store.
         public let size: EstimatedResourceSize?
@@ -1177,7 +1177,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatastoreStorage: AWSShape {
+    public struct DatastoreStorage: AWSEncodableShape & AWSDecodableShape {
 
         /// Use this to store data store data in an S3 bucket that you manage. When customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
         public let customerManagedS3: CustomerManagedDatastoreS3Storage?
@@ -1199,7 +1199,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatastoreStorageSummary: AWSShape {
+    public struct DatastoreStorageSummary: AWSDecodableShape {
 
         /// Used to store data store data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedDatastoreS3StorageSummary?
@@ -1217,7 +1217,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DatastoreSummary: AWSShape {
+    public struct DatastoreSummary: AWSDecodableShape {
 
         /// When the data store was created.
         public let creationTime: TimeStamp?
@@ -1247,7 +1247,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeleteChannelRequest: AWSShape {
+    public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
         ]
@@ -1270,7 +1270,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeleteDatasetContentRequest: AWSShape {
+    public struct DeleteDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -1300,7 +1300,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeleteDatasetRequest: AWSShape {
+    public struct DeleteDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
@@ -1323,7 +1323,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeleteDatastoreRequest: AWSShape {
+    public struct DeleteDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName"))
         ]
@@ -1346,7 +1346,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeletePipelineRequest: AWSShape {
+    public struct DeletePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
@@ -1369,7 +1369,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeltaTime: AWSShape {
+    public struct DeltaTime: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of seconds of estimated "in flight" lag time of message data. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of your message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
         public let offsetSeconds: Int
@@ -1387,7 +1387,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeChannelRequest: AWSShape {
+    public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
             AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
@@ -1415,7 +1415,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeChannelResponse: AWSShape {
+    public struct DescribeChannelResponse: AWSDecodableShape {
 
         /// An object that contains information about the channel.
         public let channel: Channel?
@@ -1433,7 +1433,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeDatasetRequest: AWSShape {
+    public struct DescribeDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
@@ -1456,7 +1456,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeDatasetResponse: AWSShape {
+    public struct DescribeDatasetResponse: AWSDecodableShape {
 
         /// An object that contains information about the data set.
         public let dataset: Dataset?
@@ -1470,7 +1470,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeDatastoreRequest: AWSShape {
+    public struct DescribeDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName")), 
             AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
@@ -1498,7 +1498,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeDatastoreResponse: AWSShape {
+    public struct DescribeDatastoreResponse: AWSDecodableShape {
 
         /// Information about the data store.
         public let datastore: Datastore?
@@ -1516,7 +1516,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribeLoggingOptionsRequest: AWSShape {
+    public struct DescribeLoggingOptionsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1524,7 +1524,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct DescribeLoggingOptionsResponse: AWSShape {
+    public struct DescribeLoggingOptionsResponse: AWSDecodableShape {
 
         /// The current settings of the AWS IoT Analytics logging options.
         public let loggingOptions: LoggingOptions?
@@ -1538,7 +1538,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribePipelineRequest: AWSShape {
+    public struct DescribePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
@@ -1561,7 +1561,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DescribePipelineResponse: AWSShape {
+    public struct DescribePipelineResponse: AWSDecodableShape {
 
         /// A "Pipeline" object that contains information about the pipeline.
         public let pipeline: Pipeline?
@@ -1575,7 +1575,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeviceRegistryEnrichActivity: AWSShape {
+    public struct DeviceRegistryEnrichActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the attribute that is added to the message.
         public let attribute: String
@@ -1618,7 +1618,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct DeviceShadowEnrichActivity: AWSShape {
+    public struct DeviceShadowEnrichActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the attribute that is added to the message.
         public let attribute: String
@@ -1661,7 +1661,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct EstimatedResourceSize: AWSShape {
+    public struct EstimatedResourceSize: AWSDecodableShape {
 
         /// The time when the estimate of the size of the resource was made.
         public let estimatedOn: TimeStamp?
@@ -1679,7 +1679,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct FilterActivity: AWSShape {
+    public struct FilterActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// An expression that looks like a SQL WHERE clause that must return a Boolean value.
         public let filter: String
@@ -1710,7 +1710,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct GetDatasetContentRequest: AWSShape {
+    public struct GetDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
@@ -1740,7 +1740,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct GetDatasetContentResponse: AWSShape {
+    public struct GetDatasetContentResponse: AWSDecodableShape {
 
         /// A list of "DatasetEntry" objects.
         public let entries: [DatasetEntry]?
@@ -1762,7 +1762,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct GlueConfiguration: AWSShape {
+    public struct GlueConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the database in your AWS Glue Data Catalog in which the table is located. (An AWS Glue Data Catalog database contains Glue Data tables.)
         public let databaseName: String
@@ -1789,7 +1789,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct IotEventsDestinationConfiguration: AWSShape {
+    public struct IotEventsDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the AWS IoT Events input to which data set contents are delivered.
         public let inputName: String
@@ -1815,7 +1815,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct LambdaActivity: AWSShape {
+    public struct LambdaActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of messages passed to the Lambda function for processing. The AWS Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
         public let batchSize: Int
@@ -1853,7 +1853,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListChannelsRequest: AWSShape {
+    public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1880,7 +1880,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListChannelsResponse: AWSShape {
+    public struct ListChannelsResponse: AWSDecodableShape {
 
         /// A list of "ChannelSummary" objects.
         public let channelSummaries: [ChannelSummary]?
@@ -1898,7 +1898,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListDatasetContentsRequest: AWSShape {
+    public struct ListDatasetContentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1943,7 +1943,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListDatasetContentsResponse: AWSShape {
+    public struct ListDatasetContentsResponse: AWSDecodableShape {
 
         /// Summary information about data set contents that have been created.
         public let datasetContentSummaries: [DatasetContentSummary]?
@@ -1961,7 +1961,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListDatasetsRequest: AWSShape {
+    public struct ListDatasetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1988,7 +1988,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListDatasetsResponse: AWSShape {
+    public struct ListDatasetsResponse: AWSDecodableShape {
 
         /// A list of "DatasetSummary" objects.
         public let datasetSummaries: [DatasetSummary]?
@@ -2006,7 +2006,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListDatastoresRequest: AWSShape {
+    public struct ListDatastoresRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -2033,7 +2033,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListDatastoresResponse: AWSShape {
+    public struct ListDatastoresResponse: AWSDecodableShape {
 
         /// A list of "DatastoreSummary" objects.
         public let datastoreSummaries: [DatastoreSummary]?
@@ -2051,7 +2051,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListPipelinesRequest: AWSShape {
+    public struct ListPipelinesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -2078,7 +2078,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListPipelinesResponse: AWSShape {
+    public struct ListPipelinesResponse: AWSDecodableShape {
 
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -2096,7 +2096,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
@@ -2118,7 +2118,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags (metadata) which you have assigned to the resource.
         public let tags: [Tag]?
@@ -2132,7 +2132,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct LoggingOptions: AWSShape {
+    public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, logging is enabled for AWS IoT Analytics.
         public let enabled: Bool
@@ -2159,7 +2159,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct MathActivity: AWSShape {
+    public struct MathActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the attribute that contains the result of the math operation.
         public let attribute: String
@@ -2196,7 +2196,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Message: AWSShape {
+    public struct Message: AWSEncodableShape {
 
         /// The ID you wish to assign to the message. Each "messageId" must be unique within each batch sent.
         public let messageId: String
@@ -2219,7 +2219,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct OutputFileUriValue: AWSShape {
+    public struct OutputFileUriValue: AWSEncodableShape & AWSDecodableShape {
 
         /// The URI of the location where data set contents are stored, usually the URI of a file in an S3 bucket.
         public let fileName: String
@@ -2237,7 +2237,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Pipeline: AWSShape {
+    public struct Pipeline: AWSDecodableShape {
 
         /// The activities that perform transformations on the messages.
         public let activities: [PipelineActivity]?
@@ -2271,7 +2271,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct PipelineActivity: AWSShape {
+    public struct PipelineActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// Adds other attributes based on existing attributes in the message.
         public let addAttributes: AddAttributesActivity?
@@ -2334,7 +2334,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct PipelineSummary: AWSShape {
+    public struct PipelineSummary: AWSDecodableShape {
 
         /// When the pipeline was created.
         public let creationTime: TimeStamp?
@@ -2360,7 +2360,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct PutLoggingOptionsRequest: AWSShape {
+    public struct PutLoggingOptionsRequest: AWSEncodableShape {
 
         /// The new values of the AWS IoT Analytics logging options.
         public let loggingOptions: LoggingOptions
@@ -2378,7 +2378,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct QueryFilter: AWSShape {
+    public struct QueryFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// Used to limit data to that which has arrived since the last execution of the action.
         public let deltaTime: DeltaTime?
@@ -2392,7 +2392,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct RemoveAttributesActivity: AWSShape {
+    public struct RemoveAttributesActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of 1-50 attributes to remove from the message.
         public let attributes: [String]
@@ -2427,7 +2427,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ReprocessingSummary: AWSShape {
+    public struct ReprocessingSummary: AWSDecodableShape {
 
         /// The time the pipeline reprocessing was created.
         public let creationTime: TimeStamp?
@@ -2449,7 +2449,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ResourceConfiguration: AWSShape {
+    public struct ResourceConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of the compute resource used to execute the "containerAction". Possible values are: ACU_1 (vCPU=4, memory=16GiB) or ACU_2 (vCPU=8, memory=32GiB).
         public let computeType: ComputeType
@@ -2472,7 +2472,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct RetentionPeriod: AWSShape {
+    public struct RetentionPeriod: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of days that message data is kept. The "unlimited" parameter must be false.
         public let numberOfDays: Int?
@@ -2494,7 +2494,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct RunPipelineActivityRequest: AWSShape {
+    public struct RunPipelineActivityRequest: AWSEncodableShape {
 
         /// The sample message payloads on which the pipeline activity is run.
         public let payloads: [Data]
@@ -2518,7 +2518,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct RunPipelineActivityResponse: AWSShape {
+    public struct RunPipelineActivityResponse: AWSDecodableShape {
 
         /// In case the pipeline activity fails, the log message that is generated.
         public let logResult: String?
@@ -2536,7 +2536,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct S3DestinationConfiguration: AWSShape {
+    public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket to which data set contents are delivered.
         public let bucket: String
@@ -2574,7 +2574,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct SampleChannelDataRequest: AWSShape {
+    public struct SampleChannelDataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
@@ -2614,7 +2614,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct SampleChannelDataResponse: AWSShape {
+    public struct SampleChannelDataResponse: AWSDecodableShape {
 
         /// The list of message samples. Each sample message is returned as a base64-encoded string.
         public let payloads: [Data]?
@@ -2628,7 +2628,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Schedule: AWSShape {
+    public struct Schedule: AWSEncodableShape & AWSDecodableShape {
 
         /// The expression that defines when to trigger an update. For more information, see  Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
         public let expression: String?
@@ -2642,7 +2642,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct SelectAttributesActivity: AWSShape {
+    public struct SelectAttributesActivity: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of the attributes to select from the message.
         public let attributes: [String]
@@ -2677,7 +2677,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct ServiceManagedChannelS3Storage: AWSShape {
+    public struct ServiceManagedChannelS3Storage: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -2685,7 +2685,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct ServiceManagedChannelS3StorageSummary: AWSShape {
+    public struct ServiceManagedChannelS3StorageSummary: AWSDecodableShape {
 
 
         public init() {
@@ -2693,7 +2693,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct ServiceManagedDatastoreS3Storage: AWSShape {
+    public struct ServiceManagedDatastoreS3Storage: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -2701,7 +2701,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct ServiceManagedDatastoreS3StorageSummary: AWSShape {
+    public struct ServiceManagedDatastoreS3StorageSummary: AWSDecodableShape {
 
 
         public init() {
@@ -2709,7 +2709,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct SqlQueryDatasetAction: AWSShape {
+    public struct SqlQueryDatasetAction: AWSEncodableShape & AWSDecodableShape {
 
         /// Pre-filters applied to message data.
         public let filters: [QueryFilter]?
@@ -2732,7 +2732,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct StartPipelineReprocessingRequest: AWSShape {
+    public struct StartPipelineReprocessingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
@@ -2763,7 +2763,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct StartPipelineReprocessingResponse: AWSShape {
+    public struct StartPipelineReprocessingResponse: AWSDecodableShape {
 
         /// The ID of the pipeline reprocessing activity that was started.
         public let reprocessingId: String?
@@ -2777,7 +2777,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag's key.
         public let key: String
@@ -2802,7 +2802,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
@@ -2833,7 +2833,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2841,7 +2841,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct TriggeringDataset: AWSShape {
+    public struct TriggeringDataset: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the data set whose content generation triggers the new data set content generation.
         public let name: String
@@ -2861,7 +2861,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -2894,7 +2894,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2902,7 +2902,7 @@ extension IoTAnalytics {
 
     }
 
-    public struct UpdateChannelRequest: AWSShape {
+    public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
         ]
@@ -2935,7 +2935,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct UpdateDatasetRequest: AWSShape {
+    public struct UpdateDatasetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
@@ -2995,7 +2995,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct UpdateDatastoreRequest: AWSShape {
+    public struct UpdateDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName"))
         ]
@@ -3028,7 +3028,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct UpdatePipelineRequest: AWSShape {
+    public struct UpdatePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
@@ -3060,7 +3060,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct Variable: AWSShape {
+    public struct Variable: AWSEncodableShape & AWSDecodableShape {
 
         /// The value of the variable as a structure that specifies a data set content version.
         public let datasetContentVersionValue: DatasetContentVersionValue?
@@ -3099,7 +3099,7 @@ extension IoTAnalytics {
         }
     }
 
-    public struct VersioningConfiguration: AWSShape {
+    public struct VersioningConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// How many versions of data set contents will be kept. The "unlimited" parameter must be false.
         public let maxVersions: Int?

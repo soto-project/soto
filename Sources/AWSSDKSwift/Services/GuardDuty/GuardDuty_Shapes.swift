@@ -113,7 +113,7 @@ extension GuardDuty {
 
     //MARK: Shapes
 
-    public struct AcceptInvitationRequest: AWSShape {
+    public struct AcceptInvitationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -143,7 +143,7 @@ extension GuardDuty {
         }
     }
 
-    public struct AcceptInvitationResponse: AWSShape {
+    public struct AcceptInvitationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -151,7 +151,7 @@ extension GuardDuty {
 
     }
 
-    public struct AccessKeyDetails: AWSShape {
+    public struct AccessKeyDetails: AWSDecodableShape {
 
         /// Access key ID of the user.
         public let accessKeyId: String?
@@ -177,7 +177,7 @@ extension GuardDuty {
         }
     }
 
-    public struct AccountDetail: AWSShape {
+    public struct AccountDetail: AWSEncodableShape {
 
         /// Member account ID.
         public let accountId: String
@@ -202,7 +202,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Action: AWSShape {
+    public struct Action: AWSDecodableShape {
 
         /// GuardDuty Finding activity type.
         public let actionType: String?
@@ -232,7 +232,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ArchiveFindingsRequest: AWSShape {
+    public struct ArchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -264,7 +264,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ArchiveFindingsResponse: AWSShape {
+    public struct ArchiveFindingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -272,7 +272,7 @@ extension GuardDuty {
 
     }
 
-    public struct AwsApiCallAction: AWSShape {
+    public struct AwsApiCallAction: AWSDecodableShape {
 
         /// AWS API name.
         public let api: String?
@@ -302,7 +302,7 @@ extension GuardDuty {
         }
     }
 
-    public struct City: AWSShape {
+    public struct City: AWSDecodableShape {
 
         /// City name of the remote IP address.
         public let cityName: String?
@@ -316,7 +316,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Condition: AWSShape {
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
 
         /// Represents an equal condition to be applied to a single field when querying for findings.
         public let equals: [String]?
@@ -350,7 +350,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Country: AWSShape {
+    public struct Country: AWSDecodableShape {
 
         /// Country code of the remote IP address.
         public let countryCode: String?
@@ -368,7 +368,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateDetectorRequest: AWSShape {
+    public struct CreateDetectorRequest: AWSEncodableShape {
 
         /// The idempotency token for the create request.
         public let clientToken: String?
@@ -405,7 +405,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateDetectorResponse: AWSShape {
+    public struct CreateDetectorResponse: AWSDecodableShape {
 
         /// The unique ID of the created detector.
         public let detectorId: String?
@@ -419,7 +419,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateFilterRequest: AWSShape {
+    public struct CreateFilterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -483,7 +483,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateFilterResponse: AWSShape {
+    public struct CreateFilterResponse: AWSDecodableShape {
 
         /// The name of the successfully created filter.
         public let name: String
@@ -497,7 +497,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateIPSetRequest: AWSShape {
+    public struct CreateIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -555,7 +555,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateIPSetResponse: AWSShape {
+    public struct CreateIPSetResponse: AWSDecodableShape {
 
         /// The ID of the IPSet resource.
         public let ipSetId: String
@@ -569,7 +569,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateMembersRequest: AWSShape {
+    public struct CreateMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -600,7 +600,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateMembersResponse: AWSShape {
+    public struct CreateMembersResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -614,7 +614,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreatePublishingDestinationRequest: AWSShape {
+    public struct CreatePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -650,7 +650,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreatePublishingDestinationResponse: AWSShape {
+    public struct CreatePublishingDestinationResponse: AWSDecodableShape {
 
         /// The ID of the publishing destination created.
         public let destinationId: String
@@ -664,7 +664,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateSampleFindingsRequest: AWSShape {
+    public struct CreateSampleFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -696,7 +696,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateSampleFindingsResponse: AWSShape {
+    public struct CreateSampleFindingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -704,7 +704,7 @@ extension GuardDuty {
 
     }
 
-    public struct CreateThreatIntelSetRequest: AWSShape {
+    public struct CreateThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -762,7 +762,7 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateThreatIntelSetResponse: AWSShape {
+    public struct CreateThreatIntelSetResponse: AWSDecodableShape {
 
         /// The ID of the ThreatIntelSet resource.
         public let threatIntelSetId: String
@@ -776,7 +776,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeclineInvitationsRequest: AWSShape {
+    public struct DeclineInvitationsRequest: AWSEncodableShape {
 
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]
@@ -799,7 +799,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeclineInvitationsResponse: AWSShape {
+    public struct DeclineInvitationsResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -813,7 +813,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteDetectorRequest: AWSShape {
+    public struct DeleteDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -835,7 +835,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteDetectorResponse: AWSShape {
+    public struct DeleteDetectorResponse: AWSDecodableShape {
 
 
         public init() {
@@ -843,7 +843,7 @@ extension GuardDuty {
 
     }
 
-    public struct DeleteFilterRequest: AWSShape {
+    public struct DeleteFilterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
@@ -870,7 +870,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteFilterResponse: AWSShape {
+    public struct DeleteFilterResponse: AWSDecodableShape {
 
 
         public init() {
@@ -878,7 +878,7 @@ extension GuardDuty {
 
     }
 
-    public struct DeleteIPSetRequest: AWSShape {
+    public struct DeleteIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
@@ -905,7 +905,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteIPSetResponse: AWSShape {
+    public struct DeleteIPSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -913,7 +913,7 @@ extension GuardDuty {
 
     }
 
-    public struct DeleteInvitationsRequest: AWSShape {
+    public struct DeleteInvitationsRequest: AWSEncodableShape {
 
         /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from.
         public let accountIds: [String]
@@ -936,7 +936,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteInvitationsResponse: AWSShape {
+    public struct DeleteInvitationsResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -950,7 +950,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteMembersRequest: AWSShape {
+    public struct DeleteMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -982,7 +982,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteMembersResponse: AWSShape {
+    public struct DeleteMembersResponse: AWSDecodableShape {
 
         /// The accounts that could not be processed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -996,7 +996,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeletePublishingDestinationRequest: AWSShape {
+    public struct DeletePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")), 
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -1023,7 +1023,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeletePublishingDestinationResponse: AWSShape {
+    public struct DeletePublishingDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1031,7 +1031,7 @@ extension GuardDuty {
 
     }
 
-    public struct DeleteThreatIntelSetRequest: AWSShape {
+    public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
@@ -1058,7 +1058,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DeleteThreatIntelSetResponse: AWSShape {
+    public struct DeleteThreatIntelSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1066,7 +1066,7 @@ extension GuardDuty {
 
     }
 
-    public struct DescribePublishingDestinationRequest: AWSShape {
+    public struct DescribePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")), 
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -1093,7 +1093,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DescribePublishingDestinationResponse: AWSShape {
+    public struct DescribePublishingDestinationResponse: AWSDecodableShape {
 
         /// The ID of the publishing destination.
         public let destinationId: String
@@ -1123,7 +1123,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Destination: AWSShape {
+    public struct Destination: AWSDecodableShape {
 
         /// The unique ID of the publishing destination.
         public let destinationId: String
@@ -1145,7 +1145,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DestinationProperties: AWSShape {
+    public struct DestinationProperties: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the resource to publish to.
         public let destinationArn: String?
@@ -1163,7 +1163,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DisassociateFromMasterAccountRequest: AWSShape {
+    public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1185,7 +1185,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DisassociateFromMasterAccountResponse: AWSShape {
+    public struct DisassociateFromMasterAccountResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1193,7 +1193,7 @@ extension GuardDuty {
 
     }
 
-    public struct DisassociateMembersRequest: AWSShape {
+    public struct DisassociateMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1225,7 +1225,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DisassociateMembersResponse: AWSShape {
+    public struct DisassociateMembersResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -1239,7 +1239,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DnsRequestAction: AWSShape {
+    public struct DnsRequestAction: AWSDecodableShape {
 
         /// Domain information for the API request.
         public let domain: String?
@@ -1253,7 +1253,7 @@ extension GuardDuty {
         }
     }
 
-    public struct DomainDetails: AWSShape {
+    public struct DomainDetails: AWSDecodableShape {
 
         /// Domain information for the AWS API call.
         public let domain: String?
@@ -1267,7 +1267,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Evidence: AWSShape {
+    public struct Evidence: AWSDecodableShape {
 
         /// A list of threat intelligence details related to the evidence.
         public let threatIntelligenceDetails: [ThreatIntelligenceDetail]?
@@ -1281,7 +1281,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Finding: AWSShape {
+    public struct Finding: AWSDecodableShape {
 
         /// The ID of the account in which the finding was generated.
         public let accountId: String
@@ -1349,7 +1349,7 @@ extension GuardDuty {
         }
     }
 
-    public struct FindingCriteria: AWSShape {
+    public struct FindingCriteria: AWSEncodableShape & AWSDecodableShape {
 
         /// Represents a map of finding properties that match specified conditions and values when querying findings.
         public let criterion: [String: Condition]?
@@ -1363,7 +1363,7 @@ extension GuardDuty {
         }
     }
 
-    public struct FindingStatistics: AWSShape {
+    public struct FindingStatistics: AWSDecodableShape {
 
         /// Represents a map of severity to count statistic for a set of findings
         public let countBySeverity: [String: Int]?
@@ -1377,7 +1377,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GeoLocation: AWSShape {
+    public struct GeoLocation: AWSDecodableShape {
 
         /// Latitude information of remote IP address.
         public let lat: Double?
@@ -1395,7 +1395,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetDetectorRequest: AWSShape {
+    public struct GetDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1417,7 +1417,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetDetectorResponse: AWSShape {
+    public struct GetDetectorResponse: AWSDecodableShape {
 
         /// Detector creation timestamp.
         public let createdAt: String?
@@ -1451,7 +1451,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFilterRequest: AWSShape {
+    public struct GetFilterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
@@ -1478,7 +1478,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFilterResponse: AWSShape {
+    public struct GetFilterResponse: AWSDecodableShape {
 
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction
@@ -1512,7 +1512,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFindingsRequest: AWSShape {
+    public struct GetFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1548,7 +1548,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFindingsResponse: AWSShape {
+    public struct GetFindingsResponse: AWSDecodableShape {
 
         /// A list of findings.
         public let findings: [Finding]
@@ -1562,7 +1562,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFindingsStatisticsRequest: AWSShape {
+    public struct GetFindingsStatisticsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1594,7 +1594,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFindingsStatisticsResponse: AWSShape {
+    public struct GetFindingsStatisticsResponse: AWSDecodableShape {
 
         /// Finding statistics object.
         public let findingStatistics: FindingStatistics
@@ -1608,7 +1608,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetIPSetRequest: AWSShape {
+    public struct GetIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
@@ -1635,7 +1635,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetIPSetResponse: AWSShape {
+    public struct GetIPSetResponse: AWSDecodableShape {
 
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
@@ -1665,7 +1665,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetInvitationsCountRequest: AWSShape {
+    public struct GetInvitationsCountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1673,7 +1673,7 @@ extension GuardDuty {
 
     }
 
-    public struct GetInvitationsCountResponse: AWSShape {
+    public struct GetInvitationsCountResponse: AWSDecodableShape {
 
         /// The number of received invitations.
         public let invitationsCount: Int?
@@ -1687,7 +1687,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetMasterAccountRequest: AWSShape {
+    public struct GetMasterAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1709,7 +1709,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetMasterAccountResponse: AWSShape {
+    public struct GetMasterAccountResponse: AWSDecodableShape {
 
         /// Master account details.
         public let master: Master
@@ -1723,7 +1723,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetMembersRequest: AWSShape {
+    public struct GetMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1755,7 +1755,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetMembersResponse: AWSShape {
+    public struct GetMembersResponse: AWSDecodableShape {
 
         /// A list of members.
         public let members: [Member]
@@ -1773,7 +1773,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetThreatIntelSetRequest: AWSShape {
+    public struct GetThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
@@ -1800,7 +1800,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetThreatIntelSetResponse: AWSShape {
+    public struct GetThreatIntelSetResponse: AWSDecodableShape {
 
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat
@@ -1830,7 +1830,7 @@ extension GuardDuty {
         }
     }
 
-    public struct IamInstanceProfile: AWSShape {
+    public struct IamInstanceProfile: AWSDecodableShape {
 
         /// AWS EC2 instance profile ARN.
         public let arn: String?
@@ -1848,7 +1848,7 @@ extension GuardDuty {
         }
     }
 
-    public struct InstanceDetails: AWSShape {
+    public struct InstanceDetails: AWSDecodableShape {
 
         /// The availability zone of the EC2 instance.
         public let availabilityZone: String?
@@ -1910,7 +1910,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Invitation: AWSShape {
+    public struct Invitation: AWSDecodableShape {
 
         /// The ID of the account from which the invitations was sent.
         public let accountId: String?
@@ -1936,7 +1936,7 @@ extension GuardDuty {
         }
     }
 
-    public struct InviteMembersRequest: AWSShape {
+    public struct InviteMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -1976,7 +1976,7 @@ extension GuardDuty {
         }
     }
 
-    public struct InviteMembersResponse: AWSShape {
+    public struct InviteMembersResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -1990,7 +1990,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListDetectorsRequest: AWSShape {
+    public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -2017,7 +2017,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListDetectorsResponse: AWSShape {
+    public struct ListDetectorsResponse: AWSDecodableShape {
 
         /// A list of detector Ids.
         public let detectorIds: [String]
@@ -2035,7 +2035,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListFiltersRequest: AWSShape {
+    public struct ListFiltersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2069,7 +2069,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListFiltersResponse: AWSShape {
+    public struct ListFiltersResponse: AWSDecodableShape {
 
         /// A list of filter names
         public let filterNames: [String]
@@ -2087,7 +2087,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListFindingsRequest: AWSShape {
+    public struct ListFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -2127,7 +2127,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListFindingsResponse: AWSShape {
+    public struct ListFindingsResponse: AWSDecodableShape {
 
         /// The IDs of the findings you are listing.
         public let findingIds: [String]
@@ -2145,7 +2145,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListIPSetsRequest: AWSShape {
+    public struct ListIPSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2179,7 +2179,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListIPSetsResponse: AWSShape {
+    public struct ListIPSetsResponse: AWSDecodableShape {
 
         /// The IDs of the IPSet resources.
         public let ipSetIds: [String]
@@ -2197,7 +2197,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListInvitationsRequest: AWSShape {
+    public struct ListInvitationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -2224,7 +2224,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListInvitationsResponse: AWSShape {
+    public struct ListInvitationsResponse: AWSDecodableShape {
 
         /// A list of invitation descriptions.
         public let invitations: [Invitation]?
@@ -2242,7 +2242,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListMembersRequest: AWSShape {
+    public struct ListMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2281,7 +2281,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListMembersResponse: AWSShape {
+    public struct ListMembersResponse: AWSDecodableShape {
 
         /// A list of members.
         public let members: [Member]?
@@ -2299,7 +2299,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListPublishingDestinationsRequest: AWSShape {
+    public struct ListPublishingDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2333,7 +2333,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListPublishingDestinationsResponse: AWSShape {
+    public struct ListPublishingDestinationsResponse: AWSDecodableShape {
 
         /// A Destinations obect that includes information about each publishing destination returned.
         public let destinations: [Destination]
@@ -2351,7 +2351,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2372,7 +2372,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags associated with the resource.
         public let tags: [String: String]?
@@ -2386,7 +2386,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListThreatIntelSetsRequest: AWSShape {
+    public struct ListThreatIntelSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -2420,7 +2420,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ListThreatIntelSetsResponse: AWSShape {
+    public struct ListThreatIntelSetsResponse: AWSDecodableShape {
 
         /// Pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
@@ -2438,7 +2438,7 @@ extension GuardDuty {
         }
     }
 
-    public struct LocalIpDetails: AWSShape {
+    public struct LocalIpDetails: AWSDecodableShape {
 
         /// IPV4 remote address of the connection.
         public let ipAddressV4: String?
@@ -2452,7 +2452,7 @@ extension GuardDuty {
         }
     }
 
-    public struct LocalPortDetails: AWSShape {
+    public struct LocalPortDetails: AWSDecodableShape {
 
         /// Port number of the local connection.
         public let port: Int?
@@ -2470,7 +2470,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Master: AWSShape {
+    public struct Master: AWSDecodableShape {
 
         /// The ID of the account used as the Master account.
         public let accountId: String?
@@ -2496,7 +2496,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Member: AWSShape {
+    public struct Member: AWSDecodableShape {
 
         /// Member account ID.
         public let accountId: String
@@ -2534,7 +2534,7 @@ extension GuardDuty {
         }
     }
 
-    public struct NetworkConnectionAction: AWSShape {
+    public struct NetworkConnectionAction: AWSDecodableShape {
 
         /// Network connection blocked information.
         public let blocked: Bool?
@@ -2572,7 +2572,7 @@ extension GuardDuty {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
 
         /// A list of EC2 instance IPv6 address information.
         public let ipv6Addresses: [String]?
@@ -2622,7 +2622,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Organization: AWSShape {
+    public struct Organization: AWSDecodableShape {
 
         /// Autonomous system number of the internet provider of the remote IP address.
         public let asn: String?
@@ -2648,7 +2648,7 @@ extension GuardDuty {
         }
     }
 
-    public struct PortProbeAction: AWSShape {
+    public struct PortProbeAction: AWSDecodableShape {
 
         /// Port probe blocked information.
         public let blocked: Bool?
@@ -2666,7 +2666,7 @@ extension GuardDuty {
         }
     }
 
-    public struct PortProbeDetail: AWSShape {
+    public struct PortProbeDetail: AWSDecodableShape {
 
         /// Local IP information of the connection.
         public let localIpDetails: LocalIpDetails?
@@ -2688,7 +2688,7 @@ extension GuardDuty {
         }
     }
 
-    public struct PrivateIpAddressDetails: AWSShape {
+    public struct PrivateIpAddressDetails: AWSDecodableShape {
 
         /// Private DNS name of the EC2 instance.
         public let privateDnsName: String?
@@ -2706,7 +2706,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ProductCode: AWSShape {
+    public struct ProductCode: AWSDecodableShape {
 
         /// Product code information.
         public let code: String?
@@ -2724,7 +2724,7 @@ extension GuardDuty {
         }
     }
 
-    public struct RemoteIpDetails: AWSShape {
+    public struct RemoteIpDetails: AWSDecodableShape {
 
         /// City information of the remote IP address.
         public let city: City?
@@ -2754,7 +2754,7 @@ extension GuardDuty {
         }
     }
 
-    public struct RemotePortDetails: AWSShape {
+    public struct RemotePortDetails: AWSDecodableShape {
 
         /// Port number of the remote connection.
         public let port: Int?
@@ -2772,7 +2772,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSDecodableShape {
 
         /// The IAM access key details (IAM user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public let accessKeyDetails: AccessKeyDetails?
@@ -2794,7 +2794,7 @@ extension GuardDuty {
         }
     }
 
-    public struct SecurityGroup: AWSShape {
+    public struct SecurityGroup: AWSDecodableShape {
 
         /// EC2 instance's security group ID.
         public let groupId: String?
@@ -2812,7 +2812,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Service: AWSShape {
+    public struct Service: AWSDecodableShape {
 
         /// Information about the activity described in a finding.
         public let action: Action?
@@ -2862,7 +2862,7 @@ extension GuardDuty {
         }
     }
 
-    public struct SortCriteria: AWSShape {
+    public struct SortCriteria: AWSEncodableShape {
 
         /// Represents the finding attribute (for example, accountId) by which to sort findings.
         public let attributeName: String?
@@ -2880,7 +2880,7 @@ extension GuardDuty {
         }
     }
 
-    public struct StartMonitoringMembersRequest: AWSShape {
+    public struct StartMonitoringMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -2912,7 +2912,7 @@ extension GuardDuty {
         }
     }
 
-    public struct StartMonitoringMembersResponse: AWSShape {
+    public struct StartMonitoringMembersResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -2926,7 +2926,7 @@ extension GuardDuty {
         }
     }
 
-    public struct StopMonitoringMembersRequest: AWSShape {
+    public struct StopMonitoringMembersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -2958,7 +2958,7 @@ extension GuardDuty {
         }
     }
 
-    public struct StopMonitoringMembersResponse: AWSShape {
+    public struct StopMonitoringMembersResponse: AWSDecodableShape {
 
         /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]
@@ -2972,7 +2972,7 @@ extension GuardDuty {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSDecodableShape {
 
         /// EC2 instance tag key.
         public let key: String?
@@ -2990,7 +2990,7 @@ extension GuardDuty {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -3021,7 +3021,7 @@ extension GuardDuty {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3029,7 +3029,7 @@ extension GuardDuty {
 
     }
 
-    public struct ThreatIntelligenceDetail: AWSShape {
+    public struct ThreatIntelligenceDetail: AWSDecodableShape {
 
         /// The name of the threat intelligence list that triggered the finding.
         public let threatListName: String?
@@ -3047,7 +3047,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UnarchiveFindingsRequest: AWSShape {
+    public struct UnarchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -3079,7 +3079,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UnarchiveFindingsResponse: AWSShape {
+    public struct UnarchiveFindingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3087,7 +3087,7 @@ extension GuardDuty {
 
     }
 
-    public struct UnprocessedAccount: AWSShape {
+    public struct UnprocessedAccount: AWSDecodableShape {
 
         /// AWS Account ID.
         public let accountId: String
@@ -3105,7 +3105,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -3138,7 +3138,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3146,7 +3146,7 @@ extension GuardDuty {
 
     }
 
-    public struct UpdateDetectorRequest: AWSShape {
+    public struct UpdateDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -3176,7 +3176,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateDetectorResponse: AWSShape {
+    public struct UpdateDetectorResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3184,7 +3184,7 @@ extension GuardDuty {
 
     }
 
-    public struct UpdateFilterRequest: AWSShape {
+    public struct UpdateFilterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "filterName", location: .uri(locationName: "filterName"))
@@ -3231,7 +3231,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateFilterResponse: AWSShape {
+    public struct UpdateFilterResponse: AWSDecodableShape {
 
         /// The name of the filter.
         public let name: String
@@ -3245,7 +3245,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateFindingsFeedbackRequest: AWSShape {
+    public struct UpdateFindingsFeedbackRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
@@ -3285,7 +3285,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateFindingsFeedbackResponse: AWSShape {
+    public struct UpdateFindingsFeedbackResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3293,7 +3293,7 @@ extension GuardDuty {
 
     }
 
-    public struct UpdateIPSetRequest: AWSShape {
+    public struct UpdateIPSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "ipSetId", location: .uri(locationName: "ipSetId"))
@@ -3336,7 +3336,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateIPSetResponse: AWSShape {
+    public struct UpdateIPSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3344,7 +3344,7 @@ extension GuardDuty {
 
     }
 
-    public struct UpdatePublishingDestinationRequest: AWSShape {
+    public struct UpdatePublishingDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "destinationId", location: .uri(locationName: "destinationId")), 
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
@@ -3375,7 +3375,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdatePublishingDestinationResponse: AWSShape {
+    public struct UpdatePublishingDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3383,7 +3383,7 @@ extension GuardDuty {
 
     }
 
-    public struct UpdateThreatIntelSetRequest: AWSShape {
+    public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId")), 
             AWSMemberEncoding(label: "threatIntelSetId", location: .uri(locationName: "threatIntelSetId"))
@@ -3426,7 +3426,7 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateThreatIntelSetResponse: AWSShape {
+    public struct UpdateThreatIntelSetResponse: AWSDecodableShape {
 
 
         public init() {

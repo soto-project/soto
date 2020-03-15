@@ -134,7 +134,7 @@ extension EKS {
 
     //MARK: Shapes
 
-    public struct AutoScalingGroup: AWSShape {
+    public struct AutoScalingGroup: AWSDecodableShape {
 
         /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
         public let name: String?
@@ -148,7 +148,7 @@ extension EKS {
         }
     }
 
-    public struct Certificate: AWSShape {
+    public struct Certificate: AWSDecodableShape {
 
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public let data: String?
@@ -162,7 +162,7 @@ extension EKS {
         }
     }
 
-    public struct Cluster: AWSShape {
+    public struct Cluster: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the cluster.
         public let arn: String?
@@ -232,7 +232,7 @@ extension EKS {
         }
     }
 
-    public struct CreateClusterRequest: AWSShape {
+    public struct CreateClusterRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
@@ -286,7 +286,7 @@ extension EKS {
         }
     }
 
-    public struct CreateClusterResponse: AWSShape {
+    public struct CreateClusterResponse: AWSDecodableShape {
 
         /// The full description of your new cluster.
         public let cluster: Cluster?
@@ -300,7 +300,7 @@ extension EKS {
         }
     }
 
-    public struct CreateFargateProfileRequest: AWSShape {
+    public struct CreateFargateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
@@ -349,7 +349,7 @@ extension EKS {
         }
     }
 
-    public struct CreateFargateProfileResponse: AWSShape {
+    public struct CreateFargateProfileResponse: AWSDecodableShape {
 
         /// The full description of your new Fargate profile.
         public let fargateProfile: FargateProfile?
@@ -363,7 +363,7 @@ extension EKS {
         }
     }
 
-    public struct CreateNodegroupRequest: AWSShape {
+    public struct CreateNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
@@ -447,7 +447,7 @@ extension EKS {
         }
     }
 
-    public struct CreateNodegroupResponse: AWSShape {
+    public struct CreateNodegroupResponse: AWSDecodableShape {
 
         /// The full description of your new node group.
         public let nodegroup: Nodegroup?
@@ -461,7 +461,7 @@ extension EKS {
         }
     }
 
-    public struct DeleteClusterRequest: AWSShape {
+    public struct DeleteClusterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -478,7 +478,7 @@ extension EKS {
         }
     }
 
-    public struct DeleteClusterResponse: AWSShape {
+    public struct DeleteClusterResponse: AWSDecodableShape {
 
         /// The full description of the cluster to delete.
         public let cluster: Cluster?
@@ -492,7 +492,7 @@ extension EKS {
         }
     }
 
-    public struct DeleteFargateProfileRequest: AWSShape {
+    public struct DeleteFargateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
@@ -514,7 +514,7 @@ extension EKS {
         }
     }
 
-    public struct DeleteFargateProfileResponse: AWSShape {
+    public struct DeleteFargateProfileResponse: AWSDecodableShape {
 
         /// The deleted Fargate profile.
         public let fargateProfile: FargateProfile?
@@ -528,7 +528,7 @@ extension EKS {
         }
     }
 
-    public struct DeleteNodegroupRequest: AWSShape {
+    public struct DeleteNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
@@ -550,7 +550,7 @@ extension EKS {
         }
     }
 
-    public struct DeleteNodegroupResponse: AWSShape {
+    public struct DeleteNodegroupResponse: AWSDecodableShape {
 
         /// The full description of your deleted node group.
         public let nodegroup: Nodegroup?
@@ -564,7 +564,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeClusterRequest: AWSShape {
+    public struct DescribeClusterRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -581,7 +581,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeClusterResponse: AWSShape {
+    public struct DescribeClusterResponse: AWSDecodableShape {
 
         /// The full description of your specified cluster.
         public let cluster: Cluster?
@@ -595,7 +595,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeFargateProfileRequest: AWSShape {
+    public struct DescribeFargateProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "fargateProfileName", location: .uri(locationName: "fargateProfileName"))
@@ -617,7 +617,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeFargateProfileResponse: AWSShape {
+    public struct DescribeFargateProfileResponse: AWSDecodableShape {
 
         /// The full description of your Fargate profile.
         public let fargateProfile: FargateProfile?
@@ -631,7 +631,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeNodegroupRequest: AWSShape {
+    public struct DescribeNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
@@ -653,7 +653,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeNodegroupResponse: AWSShape {
+    public struct DescribeNodegroupResponse: AWSDecodableShape {
 
         /// The full description of your node group.
         public let nodegroup: Nodegroup?
@@ -667,7 +667,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeUpdateRequest: AWSShape {
+    public struct DescribeUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName")), 
@@ -694,7 +694,7 @@ extension EKS {
         }
     }
 
-    public struct DescribeUpdateResponse: AWSShape {
+    public struct DescribeUpdateResponse: AWSDecodableShape {
 
         /// The full description of the specified update.
         public let update: Update?
@@ -708,7 +708,7 @@ extension EKS {
         }
     }
 
-    public struct EncryptionConfig: AWSShape {
+    public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// AWS Key Management Service (AWS KMS) customer master key (CMK). Either the ARN or the alias can be used.
         public let provider: Provider?
@@ -726,7 +726,7 @@ extension EKS {
         }
     }
 
-    public struct ErrorDetail: AWSShape {
+    public struct ErrorDetail: AWSDecodableShape {
 
         /// A brief description of the error.     SubnetNotFound: We couldn't find one of the subnets associated with the cluster.    SecurityGroupNotFound: We couldn't find one of the security groups associated with the cluster.    EniLimitReached: You have reached the elastic network interface limit for your account.    IpNotAvailable: A subnet associated with the cluster doesn't have any free IP addresses.    AccessDenied: You don't have permissions to perform the specified operation.    OperationNotPermitted: The service role associated with the cluster doesn't have the required access permissions for Amazon EKS.    VpcIdNotFound: We couldn't find the VPC associated with the cluster.  
         public let errorCode: ErrorCode?
@@ -748,7 +748,7 @@ extension EKS {
         }
     }
 
-    public struct FargateProfile: AWSShape {
+    public struct FargateProfile: AWSDecodableShape {
 
         /// The name of the Amazon EKS cluster that the Fargate profile belongs to.
         public let clusterName: String?
@@ -794,7 +794,7 @@ extension EKS {
         }
     }
 
-    public struct FargateProfileSelector: AWSShape {
+    public struct FargateProfileSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// The Kubernetes labels that the selector should match. A pod must contain all of the labels that are specified in the selector for it to be considered a match.
         public let labels: [String: String]?
@@ -812,7 +812,7 @@ extension EKS {
         }
     }
 
-    public struct Identity: AWSShape {
+    public struct Identity: AWSDecodableShape {
 
         /// The OpenID Connect identity provider information for the cluster.
         public let oidc: OIDC?
@@ -826,7 +826,7 @@ extension EKS {
         }
     }
 
-    public struct Issue: AWSShape {
+    public struct Issue: AWSDecodableShape {
 
         /// A brief description of the error.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.     InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    AccessDenied: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.  
         public let code: NodegroupIssueCode?
@@ -848,7 +848,7 @@ extension EKS {
         }
     }
 
-    public struct ListClustersRequest: AWSShape {
+    public struct ListClustersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -875,7 +875,7 @@ extension EKS {
         }
     }
 
-    public struct ListClustersResponse: AWSShape {
+    public struct ListClustersResponse: AWSDecodableShape {
 
         /// A list of all of the clusters for your account in the specified Region.
         public let clusters: [String]?
@@ -893,7 +893,7 @@ extension EKS {
         }
     }
 
-    public struct ListFargateProfilesRequest: AWSShape {
+    public struct ListFargateProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -925,7 +925,7 @@ extension EKS {
         }
     }
 
-    public struct ListFargateProfilesResponse: AWSShape {
+    public struct ListFargateProfilesResponse: AWSDecodableShape {
 
         /// A list of all of the Fargate profiles associated with the specified cluster.
         public let fargateProfileNames: [String]?
@@ -943,7 +943,7 @@ extension EKS {
         }
     }
 
-    public struct ListNodegroupsRequest: AWSShape {
+    public struct ListNodegroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -975,7 +975,7 @@ extension EKS {
         }
     }
 
-    public struct ListNodegroupsResponse: AWSShape {
+    public struct ListNodegroupsResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListNodegroups request. When the results of a ListNodegroups request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -993,7 +993,7 @@ extension EKS {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1010,7 +1010,7 @@ extension EKS {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags for the resource.
         public let tags: [String: String]?
@@ -1024,7 +1024,7 @@ extension EKS {
         }
     }
 
-    public struct ListUpdatesRequest: AWSShape {
+    public struct ListUpdatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
@@ -1061,7 +1061,7 @@ extension EKS {
         }
     }
 
-    public struct ListUpdatesResponse: AWSShape {
+    public struct ListUpdatesResponse: AWSDecodableShape {
 
         /// The nextToken value to include in a future ListUpdates request. When the results of a ListUpdates request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1079,7 +1079,7 @@ extension EKS {
         }
     }
 
-    public struct LogSetup: AWSShape {
+    public struct LogSetup: AWSEncodableShape & AWSDecodableShape {
 
         /// If a log type is enabled, that log type exports its control plane logs to CloudWatch Logs. If a log type isn't enabled, that log type doesn't export its control plane logs. Each individual log type can be enabled or disabled independently.
         public let enabled: Bool?
@@ -1097,7 +1097,7 @@ extension EKS {
         }
     }
 
-    public struct Logging: AWSShape {
+    public struct Logging: AWSEncodableShape & AWSDecodableShape {
 
         /// The cluster control plane logging configuration for your cluster.
         public let clusterLogging: [LogSetup]?
@@ -1111,7 +1111,7 @@ extension EKS {
         }
     }
 
-    public struct Nodegroup: AWSShape {
+    public struct Nodegroup: AWSDecodableShape {
 
         /// The AMI type associated with your node group. GPU instance types should use the AL2_x86_64_GPU AMI type, which uses the Amazon EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the AL2_x86_64 AMI type, which uses the Amazon EKS-optimized Linux AMI.
         public let amiType: AMITypes?
@@ -1197,7 +1197,7 @@ extension EKS {
         }
     }
 
-    public struct NodegroupHealth: AWSShape {
+    public struct NodegroupHealth: AWSDecodableShape {
 
         /// Any issues that are associated with the node group. 
         public let issues: [Issue]?
@@ -1211,7 +1211,7 @@ extension EKS {
         }
     }
 
-    public struct NodegroupResources: AWSShape {
+    public struct NodegroupResources: AWSDecodableShape {
 
         /// The Auto Scaling groups associated with the node group.
         public let autoScalingGroups: [AutoScalingGroup]?
@@ -1229,7 +1229,7 @@ extension EKS {
         }
     }
 
-    public struct NodegroupScalingConfig: AWSShape {
+    public struct NodegroupScalingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The current number of worker nodes that the managed node group should maintain.
         public let desiredSize: Int?
@@ -1257,7 +1257,7 @@ extension EKS {
         }
     }
 
-    public struct OIDC: AWSShape {
+    public struct OIDC: AWSDecodableShape {
 
         /// The issuer URL for the OpenID Connect identity provider.
         public let issuer: String?
@@ -1271,7 +1271,7 @@ extension EKS {
         }
     }
 
-    public struct Provider: AWSShape {
+    public struct Provider: AWSEncodableShape & AWSDecodableShape {
 
         /// Amazon Resource Name (ARN) or alias of the customer master key (CMK). The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK. For more information, see Allowing Users in Other Accounts to Use a CMK in the AWS Key Management Service Developer Guide.
         public let keyArn: String?
@@ -1285,7 +1285,7 @@ extension EKS {
         }
     }
 
-    public struct RemoteAccessConfig: AWSShape {
+    public struct RemoteAccessConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon EC2 SSH key that provides access for SSH communication with the worker nodes in the managed node group. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
         public let ec2SshKey: String?
@@ -1303,7 +1303,7 @@ extension EKS {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1332,7 +1332,7 @@ extension EKS {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1340,7 +1340,7 @@ extension EKS {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1371,7 +1371,7 @@ extension EKS {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1379,7 +1379,7 @@ extension EKS {
 
     }
 
-    public struct Update: AWSShape {
+    public struct Update: AWSDecodableShape {
 
         /// The Unix epoch timestamp in seconds for when the update was created.
         public let createdAt: TimeStamp?
@@ -1413,7 +1413,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateClusterConfigRequest: AWSShape {
+    public struct UpdateClusterConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -1441,7 +1441,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateClusterConfigResponse: AWSShape {
+    public struct UpdateClusterConfigResponse: AWSDecodableShape {
 
         public let update: Update?
 
@@ -1454,7 +1454,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateClusterVersionRequest: AWSShape {
+    public struct UpdateClusterVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -1479,7 +1479,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateClusterVersionResponse: AWSShape {
+    public struct UpdateClusterVersionResponse: AWSDecodableShape {
 
         /// The full description of the specified update
         public let update: Update?
@@ -1493,7 +1493,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateLabelsPayload: AWSShape {
+    public struct UpdateLabelsPayload: AWSEncodableShape {
 
         /// Kubernetes labels to be added or updated.
         public let addOrUpdateLabels: [String: String]?
@@ -1520,7 +1520,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateNodegroupConfigRequest: AWSShape {
+    public struct UpdateNodegroupConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
@@ -1559,7 +1559,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateNodegroupConfigResponse: AWSShape {
+    public struct UpdateNodegroupConfigResponse: AWSDecodableShape {
 
         public let update: Update?
 
@@ -1572,7 +1572,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateNodegroupVersionRequest: AWSShape {
+    public struct UpdateNodegroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "nodegroupName", location: .uri(locationName: "nodegroupName"))
@@ -1610,7 +1610,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateNodegroupVersionResponse: AWSShape {
+    public struct UpdateNodegroupVersionResponse: AWSDecodableShape {
 
         public let update: Update?
 
@@ -1623,7 +1623,7 @@ extension EKS {
         }
     }
 
-    public struct UpdateParam: AWSShape {
+    public struct UpdateParam: AWSDecodableShape {
 
         /// The keys associated with an update request.
         public let `type`: UpdateParamType?
@@ -1641,7 +1641,7 @@ extension EKS {
         }
     }
 
-    public struct VpcConfigRequest: AWSShape {
+    public struct VpcConfigRequest: AWSEncodableShape {
 
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the worker nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
@@ -1671,7 +1671,7 @@ extension EKS {
         }
     }
 
-    public struct VpcConfigResponse: AWSShape {
+    public struct VpcConfigResponse: AWSDecodableShape {
 
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public let clusterSecurityGroupId: String?

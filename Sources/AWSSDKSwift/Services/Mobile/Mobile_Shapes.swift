@@ -40,7 +40,7 @@ extension Mobile {
 
     //MARK: Shapes
 
-    public struct BundleDetails: AWSShape {
+    public struct BundleDetails: AWSDecodableShape {
 
         public let availablePlatforms: [Platform]?
         public let bundleId: String?
@@ -68,7 +68,7 @@ extension Mobile {
         }
     }
 
-    public struct CreateProjectRequest: AWSShape {
+    public struct CreateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
         public static var _encoding = [
@@ -102,7 +102,7 @@ extension Mobile {
         }
     }
 
-    public struct CreateProjectResult: AWSShape {
+    public struct CreateProjectResult: AWSDecodableShape {
 
         ///  Detailed information about the created AWS Mobile Hub project. 
         public let details: ProjectDetails?
@@ -116,7 +116,7 @@ extension Mobile {
         }
     }
 
-    public struct DeleteProjectRequest: AWSShape {
+    public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
@@ -133,7 +133,7 @@ extension Mobile {
         }
     }
 
-    public struct DeleteProjectResult: AWSShape {
+    public struct DeleteProjectResult: AWSDecodableShape {
 
         ///  Resources which were deleted. 
         public let deletedResources: [Resource]?
@@ -151,7 +151,7 @@ extension Mobile {
         }
     }
 
-    public struct DescribeBundleRequest: AWSShape {
+    public struct DescribeBundleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId"))
         ]
@@ -168,7 +168,7 @@ extension Mobile {
         }
     }
 
-    public struct DescribeBundleResult: AWSShape {
+    public struct DescribeBundleResult: AWSDecodableShape {
 
         ///  The details of the bundle. 
         public let details: BundleDetails?
@@ -182,7 +182,7 @@ extension Mobile {
         }
     }
 
-    public struct DescribeProjectRequest: AWSShape {
+    public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId")), 
             AWSMemberEncoding(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"))
@@ -204,7 +204,7 @@ extension Mobile {
         }
     }
 
-    public struct DescribeProjectResult: AWSShape {
+    public struct DescribeProjectResult: AWSDecodableShape {
 
         public let details: ProjectDetails?
 
@@ -217,7 +217,7 @@ extension Mobile {
         }
     }
 
-    public struct ExportBundleRequest: AWSShape {
+    public struct ExportBundleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId")), 
             AWSMemberEncoding(label: "platform", location: .querystring(locationName: "platform")), 
@@ -244,7 +244,7 @@ extension Mobile {
         }
     }
 
-    public struct ExportBundleResult: AWSShape {
+    public struct ExportBundleResult: AWSDecodableShape {
 
         ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
         public let downloadUrl: String?
@@ -258,7 +258,7 @@ extension Mobile {
         }
     }
 
-    public struct ExportProjectRequest: AWSShape {
+    public struct ExportProjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
@@ -275,7 +275,7 @@ extension Mobile {
         }
     }
 
-    public struct ExportProjectResult: AWSShape {
+    public struct ExportProjectResult: AWSDecodableShape {
 
         ///  URL which can be used to download the exported project configuation file(s). 
         public let downloadUrl: String?
@@ -297,7 +297,7 @@ extension Mobile {
         }
     }
 
-    public struct ListBundlesRequest: AWSShape {
+    public struct ListBundlesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -319,7 +319,7 @@ extension Mobile {
         }
     }
 
-    public struct ListBundlesResult: AWSShape {
+    public struct ListBundlesResult: AWSDecodableShape {
 
         ///  A list of bundles. 
         public let bundleList: [BundleDetails]?
@@ -337,7 +337,7 @@ extension Mobile {
         }
     }
 
-    public struct ListProjectsRequest: AWSShape {
+    public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -359,7 +359,7 @@ extension Mobile {
         }
     }
 
-    public struct ListProjectsResult: AWSShape {
+    public struct ListProjectsResult: AWSDecodableShape {
 
         public let nextToken: String?
         public let projects: [ProjectSummary]?
@@ -375,7 +375,7 @@ extension Mobile {
         }
     }
 
-    public struct ProjectDetails: AWSShape {
+    public struct ProjectDetails: AWSDecodableShape {
 
         ///  Website URL for this project in the AWS Mobile Hub console. 
         public let consoleUrl: String?
@@ -412,7 +412,7 @@ extension Mobile {
         }
     }
 
-    public struct ProjectSummary: AWSShape {
+    public struct ProjectSummary: AWSDecodableShape {
 
         ///  Name of the project. 
         public let name: String?
@@ -430,7 +430,7 @@ extension Mobile {
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSDecodableShape {
 
         public let arn: String?
         public let attributes: [String: String]?
@@ -455,7 +455,7 @@ extension Mobile {
         }
     }
 
-    public struct UpdateProjectRequest: AWSShape {
+    public struct UpdateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
         public static var _encoding = [
@@ -479,7 +479,7 @@ extension Mobile {
         }
     }
 
-    public struct UpdateProjectResult: AWSShape {
+    public struct UpdateProjectResult: AWSDecodableShape {
 
         ///  Detailed information about the updated AWS Mobile Hub project. 
         public let details: ProjectDetails?

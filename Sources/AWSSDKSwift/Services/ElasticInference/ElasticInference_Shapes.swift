@@ -22,7 +22,7 @@ extension ElasticInference {
 
     //MARK: Shapes
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -44,7 +44,7 @@ extension ElasticInference {
         }
     }
 
-    public struct ListTagsForResourceResult: AWSShape {
+    public struct ListTagsForResourceResult: AWSDecodableShape {
 
         /// The tags of the Elastic Inference Accelerator.
         public let tags: [String: String]?
@@ -58,7 +58,7 @@ extension ElasticInference {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -89,7 +89,7 @@ extension ElasticInference {
         }
     }
 
-    public struct TagResourceResult: AWSShape {
+    public struct TagResourceResult: AWSDecodableShape {
 
 
         public init() {
@@ -97,7 +97,7 @@ extension ElasticInference {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -130,7 +130,7 @@ extension ElasticInference {
         }
     }
 
-    public struct UntagResourceResult: AWSShape {
+    public struct UntagResourceResult: AWSDecodableShape {
 
 
         public init() {

@@ -108,7 +108,7 @@ extension SESV2 {
 
     //MARK: Shapes
 
-    public struct BlacklistEntry: AWSShape {
+    public struct BlacklistEntry: AWSDecodableShape {
 
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public let description: String?
@@ -130,7 +130,7 @@ extension SESV2 {
         }
     }
 
-    public struct Body: AWSShape {
+    public struct Body: AWSEncodableShape {
 
         /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. 
         public let html: Content?
@@ -148,7 +148,7 @@ extension SESV2 {
         }
     }
 
-    public struct CloudWatchDestination: AWSShape {
+    public struct CloudWatchDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
@@ -162,7 +162,7 @@ extension SESV2 {
         }
     }
 
-    public struct CloudWatchDimensionConfiguration: AWSShape {
+    public struct CloudWatchDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
         public let defaultDimensionValue: String
@@ -184,7 +184,7 @@ extension SESV2 {
         }
     }
 
-    public struct Content: AWSShape {
+    public struct Content: AWSEncodableShape {
 
         /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon SES uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
         public let charset: String?
@@ -202,7 +202,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -227,7 +227,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
+    public struct CreateConfigurationSetEventDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -235,7 +235,7 @@ extension SESV2 {
 
     }
 
-    public struct CreateConfigurationSetRequest: AWSShape {
+    public struct CreateConfigurationSetRequest: AWSEncodableShape {
 
         /// The name of the configuration set.
         public let configurationSetName: String
@@ -272,7 +272,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateConfigurationSetResponse: AWSShape {
+    public struct CreateConfigurationSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -280,7 +280,7 @@ extension SESV2 {
 
     }
 
-    public struct CreateDedicatedIpPoolRequest: AWSShape {
+    public struct CreateDedicatedIpPoolRequest: AWSEncodableShape {
 
         /// The name of the dedicated IP pool.
         public let poolName: String
@@ -298,7 +298,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateDedicatedIpPoolResponse: AWSShape {
+    public struct CreateDedicatedIpPoolResponse: AWSDecodableShape {
 
 
         public init() {
@@ -306,7 +306,7 @@ extension SESV2 {
 
     }
 
-    public struct CreateDeliverabilityTestReportRequest: AWSShape {
+    public struct CreateDeliverabilityTestReportRequest: AWSEncodableShape {
 
         /// The HTML body of the message that you sent when you performed the predictive inbox placement test.
         public let content: EmailContent
@@ -336,7 +336,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateDeliverabilityTestReportResponse: AWSShape {
+    public struct CreateDeliverabilityTestReportResponse: AWSDecodableShape {
 
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
         public let deliverabilityTestStatus: DeliverabilityTestStatus
@@ -354,7 +354,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateEmailIdentityRequest: AWSShape {
+    public struct CreateEmailIdentityRequest: AWSEncodableShape {
 
         /// If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
         public let dkimSigningAttributes: DkimSigningAttributes?
@@ -380,7 +380,7 @@ extension SESV2 {
         }
     }
 
-    public struct CreateEmailIdentityResponse: AWSShape {
+    public struct CreateEmailIdentityResponse: AWSDecodableShape {
 
         /// An object that contains information about the DKIM attributes for the identity.
         public let dkimAttributes: DkimAttributes?
@@ -402,7 +402,7 @@ extension SESV2 {
         }
     }
 
-    public struct DailyVolume: AWSShape {
+    public struct DailyVolume: AWSDecodableShape {
 
         /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
         public let domainIspPlacements: [DomainIspPlacement]?
@@ -424,7 +424,7 @@ extension SESV2 {
         }
     }
 
-    public struct DedicatedIp: AWSShape {
+    public struct DedicatedIp: AWSDecodableShape {
 
         /// An IPv4 address.
         public let ip: String
@@ -450,7 +450,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
+    public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
@@ -472,7 +472,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
+    public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -480,7 +480,7 @@ extension SESV2 {
 
     }
 
-    public struct DeleteConfigurationSetRequest: AWSShape {
+    public struct DeleteConfigurationSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -497,7 +497,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeleteConfigurationSetResponse: AWSShape {
+    public struct DeleteConfigurationSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -505,7 +505,7 @@ extension SESV2 {
 
     }
 
-    public struct DeleteDedicatedIpPoolRequest: AWSShape {
+    public struct DeleteDedicatedIpPoolRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "poolName", location: .uri(locationName: "PoolName"))
         ]
@@ -522,7 +522,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeleteDedicatedIpPoolResponse: AWSShape {
+    public struct DeleteDedicatedIpPoolResponse: AWSDecodableShape {
 
 
         public init() {
@@ -530,7 +530,7 @@ extension SESV2 {
 
     }
 
-    public struct DeleteEmailIdentityRequest: AWSShape {
+    public struct DeleteEmailIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
@@ -547,7 +547,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeleteEmailIdentityResponse: AWSShape {
+    public struct DeleteEmailIdentityResponse: AWSDecodableShape {
 
 
         public init() {
@@ -555,7 +555,7 @@ extension SESV2 {
 
     }
 
-    public struct DeleteSuppressedDestinationRequest: AWSShape {
+    public struct DeleteSuppressedDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
         ]
@@ -572,7 +572,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeleteSuppressedDestinationResponse: AWSShape {
+    public struct DeleteSuppressedDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -580,7 +580,7 @@ extension SESV2 {
 
     }
 
-    public struct DeliverabilityTestReport: AWSShape {
+    public struct DeliverabilityTestReport: AWSDecodableShape {
 
         /// The date and time when the predictive inbox placement test was created, in Unix time format.
         public let createDate: TimeStamp?
@@ -614,7 +614,7 @@ extension SESV2 {
         }
     }
 
-    public struct DeliveryOptions: AWSShape {
+    public struct DeliveryOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
@@ -632,7 +632,7 @@ extension SESV2 {
         }
     }
 
-    public struct Destination: AWSShape {
+    public struct Destination: AWSEncodableShape {
 
         /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
         public let bccAddresses: [String]?
@@ -654,7 +654,7 @@ extension SESV2 {
         }
     }
 
-    public struct DkimAttributes: AWSShape {
+    public struct DkimAttributes: AWSDecodableShape {
 
         /// A string that indicates how DKIM was configured for the identity. There are two possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).  
         public let signingAttributesOrigin: DkimSigningAttributesOrigin?
@@ -680,7 +680,7 @@ extension SESV2 {
         }
     }
 
-    public struct DkimSigningAttributes: AWSShape {
+    public struct DkimSigningAttributes: AWSEncodableShape {
 
         /// A private key that's used to generate a DKIM signature. The private key must use 1024-bit RSA encryption, and must be encoded using base64 encoding.
         public let domainSigningPrivateKey: String
@@ -707,7 +707,7 @@ extension SESV2 {
         }
     }
 
-    public struct DomainDeliverabilityCampaign: AWSShape {
+    public struct DomainDeliverabilityCampaign: AWSDecodableShape {
 
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
         public let campaignId: String?
@@ -773,7 +773,7 @@ extension SESV2 {
         }
     }
 
-    public struct DomainDeliverabilityTrackingOption: AWSShape {
+    public struct DomainDeliverabilityTrackingOption: AWSEncodableShape & AWSDecodableShape {
 
         /// A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.
         public let domain: String?
@@ -795,7 +795,7 @@ extension SESV2 {
         }
     }
 
-    public struct DomainIspPlacement: AWSShape {
+    public struct DomainIspPlacement: AWSDecodableShape {
 
         /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
         public let inboxPercentage: Double?
@@ -825,7 +825,7 @@ extension SESV2 {
         }
     }
 
-    public struct EmailContent: AWSShape {
+    public struct EmailContent: AWSEncodableShape {
 
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that the Amazon SES API v2 supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
         public let raw: RawMessage?
@@ -851,7 +851,7 @@ extension SESV2 {
         }
     }
 
-    public struct EventDestination: AWSShape {
+    public struct EventDestination: AWSDecodableShape {
 
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
@@ -889,7 +889,7 @@ extension SESV2 {
         }
     }
 
-    public struct EventDestinationDefinition: AWSShape {
+    public struct EventDestinationDefinition: AWSEncodableShape {
 
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
@@ -923,7 +923,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetAccountRequest: AWSShape {
+    public struct GetAccountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -931,7 +931,7 @@ extension SESV2 {
 
     }
 
-    public struct GetAccountResponse: AWSShape {
+    public struct GetAccountResponse: AWSDecodableShape {
 
         /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
         public let dedicatedIpAutoWarmupEnabled: Bool?
@@ -965,7 +965,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetBlacklistReportsRequest: AWSShape {
+    public struct GetBlacklistReportsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "blacklistItemNames", location: .querystring(locationName: "BlacklistItemNames"))
         ]
@@ -982,7 +982,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetBlacklistReportsResponse: AWSShape {
+    public struct GetBlacklistReportsResponse: AWSDecodableShape {
 
         /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
         public let blacklistReport: [String: [BlacklistEntry]]
@@ -996,7 +996,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
+    public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -1013,7 +1013,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
+    public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
 
         /// An array that includes all of the events destinations that have been configured for the configuration set.
         public let eventDestinations: [EventDestination]?
@@ -1027,7 +1027,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetConfigurationSetRequest: AWSShape {
+    public struct GetConfigurationSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -1044,7 +1044,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetConfigurationSetResponse: AWSShape {
+    public struct GetConfigurationSetResponse: AWSDecodableShape {
 
         /// The name of the configuration set.
         public let configurationSetName: String?
@@ -1082,7 +1082,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDedicatedIpRequest: AWSShape {
+    public struct GetDedicatedIpRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ip", location: .uri(locationName: "IP"))
         ]
@@ -1099,7 +1099,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDedicatedIpResponse: AWSShape {
+    public struct GetDedicatedIpResponse: AWSDecodableShape {
 
         /// An object that contains information about a dedicated IP address.
         public let dedicatedIp: DedicatedIp?
@@ -1113,7 +1113,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDedicatedIpsRequest: AWSShape {
+    public struct GetDedicatedIpsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")), 
@@ -1140,7 +1140,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDedicatedIpsResponse: AWSShape {
+    public struct GetDedicatedIpsResponse: AWSDecodableShape {
 
         /// A list of dedicated IP addresses that are associated with your AWS account.
         public let dedicatedIps: [DedicatedIp]?
@@ -1158,7 +1158,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDeliverabilityDashboardOptionsRequest: AWSShape {
+    public struct GetDeliverabilityDashboardOptionsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1166,7 +1166,7 @@ extension SESV2 {
 
     }
 
-    public struct GetDeliverabilityDashboardOptionsResponse: AWSShape {
+    public struct GetDeliverabilityDashboardOptionsResponse: AWSDecodableShape {
 
         /// The current status of your Deliverability dashboard subscription. If this value is PENDING_EXPIRATION, your subscription is scheduled to expire at the end of the current calendar month.
         public let accountStatus: DeliverabilityDashboardAccountStatus?
@@ -1196,7 +1196,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDeliverabilityTestReportRequest: AWSShape {
+    public struct GetDeliverabilityTestReportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "reportId", location: .uri(locationName: "ReportId"))
         ]
@@ -1213,7 +1213,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDeliverabilityTestReportResponse: AWSShape {
+    public struct GetDeliverabilityTestReportResponse: AWSDecodableShape {
 
         /// An object that contains the results of the predictive inbox placement test.
         public let deliverabilityTestReport: DeliverabilityTestReport
@@ -1243,7 +1243,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDomainDeliverabilityCampaignRequest: AWSShape {
+    public struct GetDomainDeliverabilityCampaignRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "CampaignId"))
         ]
@@ -1260,7 +1260,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDomainDeliverabilityCampaignResponse: AWSShape {
+    public struct GetDomainDeliverabilityCampaignResponse: AWSDecodableShape {
 
         /// An object that contains the deliverability data for the campaign.
         public let domainDeliverabilityCampaign: DomainDeliverabilityCampaign
@@ -1274,7 +1274,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDomainStatisticsReportRequest: AWSShape {
+    public struct GetDomainStatisticsReportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domain", location: .uri(locationName: "Domain")), 
             AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")), 
@@ -1301,7 +1301,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetDomainStatisticsReportResponse: AWSShape {
+    public struct GetDomainStatisticsReportResponse: AWSDecodableShape {
 
         /// An object that contains deliverability metrics for the domain that you specified. This object contains data for each day, starting on the StartDate and ending on the EndDate.
         public let dailyVolumes: [DailyVolume]
@@ -1319,7 +1319,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetEmailIdentityRequest: AWSShape {
+    public struct GetEmailIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
@@ -1336,7 +1336,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetEmailIdentityResponse: AWSShape {
+    public struct GetEmailIdentityResponse: AWSDecodableShape {
 
         /// An object that contains information about the DKIM attributes for the identity.
         public let dkimAttributes: DkimAttributes?
@@ -1370,7 +1370,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetSuppressedDestinationRequest: AWSShape {
+    public struct GetSuppressedDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
         ]
@@ -1387,7 +1387,7 @@ extension SESV2 {
         }
     }
 
-    public struct GetSuppressedDestinationResponse: AWSShape {
+    public struct GetSuppressedDestinationResponse: AWSDecodableShape {
 
         /// An object containing information about the suppressed email address.
         public let suppressedDestination: SuppressedDestination
@@ -1401,7 +1401,7 @@ extension SESV2 {
         }
     }
 
-    public struct IdentityInfo: AWSShape {
+    public struct IdentityInfo: AWSDecodableShape {
 
         /// The address or domain of the identity.
         public let identityName: String?
@@ -1423,7 +1423,7 @@ extension SESV2 {
         }
     }
 
-    public struct InboxPlacementTrackingOption: AWSShape {
+    public struct InboxPlacementTrackingOption: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether inbox placement data is being tracked for the domain.
         public let global: Bool?
@@ -1441,7 +1441,7 @@ extension SESV2 {
         }
     }
 
-    public struct IspPlacement: AWSShape {
+    public struct IspPlacement: AWSDecodableShape {
 
         /// The name of the email provider that the inbox placement data applies to.
         public let ispName: String?
@@ -1459,7 +1459,7 @@ extension SESV2 {
         }
     }
 
-    public struct KinesisFirehoseDestination: AWSShape {
+    public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that the Amazon SES API v2 sends email events to.
         public let deliveryStreamArn: String
@@ -1477,7 +1477,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListConfigurationSetsRequest: AWSShape {
+    public struct ListConfigurationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
@@ -1499,7 +1499,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListConfigurationSetsResponse: AWSShape {
+    public struct ListConfigurationSetsResponse: AWSDecodableShape {
 
         /// An array that contains all of the configuration sets in your Amazon SES account in the current AWS Region.
         public let configurationSets: [String]?
@@ -1517,7 +1517,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListDedicatedIpPoolsRequest: AWSShape {
+    public struct ListDedicatedIpPoolsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
@@ -1539,7 +1539,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListDedicatedIpPoolsResponse: AWSShape {
+    public struct ListDedicatedIpPoolsResponse: AWSDecodableShape {
 
         /// A list of all of the dedicated IP pools that are associated with your AWS account in the current Region.
         public let dedicatedIpPools: [String]?
@@ -1557,7 +1557,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListDeliverabilityTestReportsRequest: AWSShape {
+    public struct ListDeliverabilityTestReportsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
@@ -1579,7 +1579,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListDeliverabilityTestReportsResponse: AWSShape {
+    public struct ListDeliverabilityTestReportsResponse: AWSDecodableShape {
 
         /// An object that contains a lists of predictive inbox placement tests that you've performed.
         public let deliverabilityTestReports: [DeliverabilityTestReport]
@@ -1597,7 +1597,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListDomainDeliverabilityCampaignsRequest: AWSShape {
+    public struct ListDomainDeliverabilityCampaignsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -1634,7 +1634,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListDomainDeliverabilityCampaignsResponse: AWSShape {
+    public struct ListDomainDeliverabilityCampaignsResponse: AWSDecodableShape {
 
         /// An array of responses, one for each campaign that used the domain to send email during the specified time range.
         public let domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign]
@@ -1652,7 +1652,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListEmailIdentitiesRequest: AWSShape {
+    public struct ListEmailIdentitiesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
@@ -1674,7 +1674,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListEmailIdentitiesResponse: AWSShape {
+    public struct ListEmailIdentitiesResponse: AWSDecodableShape {
 
         /// An array that includes all of the email identities associated with your AWS account.
         public let emailIdentities: [IdentityInfo]?
@@ -1692,7 +1692,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListSuppressedDestinationsRequest: AWSShape {
+    public struct ListSuppressedDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -1729,7 +1729,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListSuppressedDestinationsResponse: AWSShape {
+    public struct ListSuppressedDestinationsResponse: AWSDecodableShape {
 
         /// A token that indicates that there are additional email addresses on the suppression list for your account. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
         public let nextToken: String?
@@ -1747,7 +1747,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "ResourceArn"))
         ]
@@ -1764,7 +1764,7 @@ extension SESV2 {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
         public let tags: [Tag]
@@ -1778,7 +1778,7 @@ extension SESV2 {
         }
     }
 
-    public struct MailFromAttributes: AWSShape {
+    public struct MailFromAttributes: AWSDecodableShape {
 
         /// The action that you want to take if the required MX record can't be found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure
@@ -1800,7 +1800,7 @@ extension SESV2 {
         }
     }
 
-    public struct Message: AWSShape {
+    public struct Message: AWSEncodableShape {
 
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         public let body: Body
@@ -1818,7 +1818,7 @@ extension SESV2 {
         }
     }
 
-    public struct MessageTag: AWSShape {
+    public struct MessageTag: AWSEncodableShape {
 
         /// The name of the message tag. The message tag name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
         public let name: String
@@ -1836,7 +1836,7 @@ extension SESV2 {
         }
     }
 
-    public struct OverallVolume: AWSShape {
+    public struct OverallVolume: AWSDecodableShape {
 
         /// An object that contains inbox and junk mail placement metrics for individual email providers.
         public let domainIspPlacements: [DomainIspPlacement]?
@@ -1858,7 +1858,7 @@ extension SESV2 {
         }
     }
 
-    public struct PinpointDestination: AWSShape {
+    public struct PinpointDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
         public let applicationArn: String?
@@ -1872,7 +1872,7 @@ extension SESV2 {
         }
     }
 
-    public struct PlacementStatistics: AWSShape {
+    public struct PlacementStatistics: AWSDecodableShape {
 
         /// The percentage of emails that were authenticated by using DomainKeys Identified Mail (DKIM) during the predictive inbox placement test.
         public let dkimPercentage: Double?
@@ -1902,7 +1902,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSShape {
+    public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
 
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
@@ -1916,7 +1916,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSShape {
+    public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1924,7 +1924,7 @@ extension SESV2 {
 
     }
 
-    public struct PutAccountSendingAttributesRequest: AWSShape {
+    public struct PutAccountSendingAttributesRequest: AWSEncodableShape {
 
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email. 
         public let sendingEnabled: Bool?
@@ -1938,7 +1938,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutAccountSendingAttributesResponse: AWSShape {
+    public struct PutAccountSendingAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1946,7 +1946,7 @@ extension SESV2 {
 
     }
 
-    public struct PutAccountSuppressionAttributesRequest: AWSShape {
+    public struct PutAccountSuppressionAttributesRequest: AWSEncodableShape {
 
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
         public let suppressedReasons: [SuppressionListReason]?
@@ -1960,7 +1960,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutAccountSuppressionAttributesResponse: AWSShape {
+    public struct PutAccountSuppressionAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1968,7 +1968,7 @@ extension SESV2 {
 
     }
 
-    public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
+    public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -1993,7 +1993,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutConfigurationSetDeliveryOptionsResponse: AWSShape {
+    public struct PutConfigurationSetDeliveryOptionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2001,7 +2001,7 @@ extension SESV2 {
 
     }
 
-    public struct PutConfigurationSetReputationOptionsRequest: AWSShape {
+    public struct PutConfigurationSetReputationOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -2022,7 +2022,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutConfigurationSetReputationOptionsResponse: AWSShape {
+    public struct PutConfigurationSetReputationOptionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2030,7 +2030,7 @@ extension SESV2 {
 
     }
 
-    public struct PutConfigurationSetSendingOptionsRequest: AWSShape {
+    public struct PutConfigurationSetSendingOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -2051,7 +2051,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutConfigurationSetSendingOptionsResponse: AWSShape {
+    public struct PutConfigurationSetSendingOptionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2059,7 +2059,7 @@ extension SESV2 {
 
     }
 
-    public struct PutConfigurationSetSuppressionOptionsRequest: AWSShape {
+    public struct PutConfigurationSetSuppressionOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -2080,7 +2080,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutConfigurationSetSuppressionOptionsResponse: AWSShape {
+    public struct PutConfigurationSetSuppressionOptionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2088,7 +2088,7 @@ extension SESV2 {
 
     }
 
-    public struct PutConfigurationSetTrackingOptionsRequest: AWSShape {
+    public struct PutConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -2109,7 +2109,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutConfigurationSetTrackingOptionsResponse: AWSShape {
+    public struct PutConfigurationSetTrackingOptionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2117,7 +2117,7 @@ extension SESV2 {
 
     }
 
-    public struct PutDedicatedIpInPoolRequest: AWSShape {
+    public struct PutDedicatedIpInPoolRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ip", location: .uri(locationName: "IP"))
         ]
@@ -2138,7 +2138,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutDedicatedIpInPoolResponse: AWSShape {
+    public struct PutDedicatedIpInPoolResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2146,7 +2146,7 @@ extension SESV2 {
 
     }
 
-    public struct PutDedicatedIpWarmupAttributesRequest: AWSShape {
+    public struct PutDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ip", location: .uri(locationName: "IP"))
         ]
@@ -2167,7 +2167,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutDedicatedIpWarmupAttributesResponse: AWSShape {
+    public struct PutDedicatedIpWarmupAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2175,7 +2175,7 @@ extension SESV2 {
 
     }
 
-    public struct PutDeliverabilityDashboardOptionRequest: AWSShape {
+    public struct PutDeliverabilityDashboardOptionRequest: AWSEncodableShape {
 
         /// Specifies whether to enable the Deliverability dashboard. To enable the dashboard, set this value to true.
         public let dashboardEnabled: Bool
@@ -2193,7 +2193,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutDeliverabilityDashboardOptionResponse: AWSShape {
+    public struct PutDeliverabilityDashboardOptionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2201,7 +2201,7 @@ extension SESV2 {
 
     }
 
-    public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
+    public struct PutEmailIdentityDkimAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
@@ -2222,7 +2222,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutEmailIdentityDkimAttributesResponse: AWSShape {
+    public struct PutEmailIdentityDkimAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2230,7 +2230,7 @@ extension SESV2 {
 
     }
 
-    public struct PutEmailIdentityDkimSigningAttributesRequest: AWSShape {
+    public struct PutEmailIdentityDkimSigningAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
@@ -2259,7 +2259,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutEmailIdentityDkimSigningAttributesResponse: AWSShape {
+    public struct PutEmailIdentityDkimSigningAttributesResponse: AWSDecodableShape {
 
         /// The DKIM authentication status of the identity. Amazon SES determines the authentication status by searching for specific records in the DNS configuration for your domain. If you used Easy DKIM to set up DKIM authentication, Amazon SES tries to find three unique CNAME records in the DNS configuration for your domain. If you provided a public key to perform DKIM authentication, Amazon SES tries to find a TXT record that uses the selector that you specified. The value of the TXT record must be a public key that's paired with the private key that you specified in the process of creating the identity. The status can be one of the following:    PENDING – The verification process was initiated, but Amazon SES hasn't yet detected the DKIM records in the DNS configuration for the domain.    SUCCESS – The verification process completed successfully.    FAILED – The verification process failed. This typically occurs when Amazon SES fails to find the DKIM records in the DNS configuration of the domain.    TEMPORARY_FAILURE – A temporary issue is preventing Amazon SES from determining the DKIM authentication status of the domain.    NOT_STARTED – The DKIM verification process hasn't been initiated for the domain.  
         public let dkimStatus: DkimStatus?
@@ -2277,7 +2277,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutEmailIdentityFeedbackAttributesRequest: AWSShape {
+    public struct PutEmailIdentityFeedbackAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
@@ -2298,7 +2298,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutEmailIdentityFeedbackAttributesResponse: AWSShape {
+    public struct PutEmailIdentityFeedbackAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2306,7 +2306,7 @@ extension SESV2 {
 
     }
 
-    public struct PutEmailIdentityMailFromAttributesRequest: AWSShape {
+    public struct PutEmailIdentityMailFromAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
         ]
@@ -2331,7 +2331,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutEmailIdentityMailFromAttributesResponse: AWSShape {
+    public struct PutEmailIdentityMailFromAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2339,7 +2339,7 @@ extension SESV2 {
 
     }
 
-    public struct PutSuppressedDestinationRequest: AWSShape {
+    public struct PutSuppressedDestinationRequest: AWSEncodableShape {
 
         /// The email address that should be added to the suppression list for your account.
         public let emailAddress: String
@@ -2357,7 +2357,7 @@ extension SESV2 {
         }
     }
 
-    public struct PutSuppressedDestinationResponse: AWSShape {
+    public struct PutSuppressedDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2365,7 +2365,7 @@ extension SESV2 {
 
     }
 
-    public struct RawMessage: AWSShape {
+    public struct RawMessage: AWSEncodableShape {
 
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that the Amazon SES supports.   The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
         public let data: Data
@@ -2379,7 +2379,7 @@ extension SESV2 {
         }
     }
 
-    public struct ReputationOptions: AWSShape {
+    public struct ReputationOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public let lastFreshStart: TimeStamp?
@@ -2397,7 +2397,7 @@ extension SESV2 {
         }
     }
 
-    public struct SendEmailRequest: AWSShape {
+    public struct SendEmailRequest: AWSEncodableShape {
 
         /// The name of the configuration set that you want to use when sending the email.
         public let configurationSetName: String?
@@ -2439,7 +2439,7 @@ extension SESV2 {
         }
     }
 
-    public struct SendEmailResponse: AWSShape {
+    public struct SendEmailResponse: AWSDecodableShape {
 
         /// A unique identifier for the message that is generated when the message is accepted.  It's possible for Amazon SES to accept a message without sending it. This can happen when the message that you're trying to send has an attachment contains a virus, or when you send a templated email that contains invalid personalization content, for example. 
         public let messageId: String?
@@ -2453,7 +2453,7 @@ extension SESV2 {
         }
     }
 
-    public struct SendQuota: AWSShape {
+    public struct SendQuota: AWSDecodableShape {
 
         /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
         public let max24HourSend: Double?
@@ -2475,7 +2475,7 @@ extension SESV2 {
         }
     }
 
-    public struct SendingOptions: AWSShape {
+    public struct SendingOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
@@ -2489,7 +2489,7 @@ extension SESV2 {
         }
     }
 
-    public struct SnsDestination: AWSShape {
+    public struct SnsDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
@@ -2503,7 +2503,7 @@ extension SESV2 {
         }
     }
 
-    public struct SuppressedDestination: AWSShape {
+    public struct SuppressedDestination: AWSDecodableShape {
 
         /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account.
         public let attributes: SuppressedDestinationAttributes?
@@ -2529,7 +2529,7 @@ extension SESV2 {
         }
     }
 
-    public struct SuppressedDestinationAttributes: AWSShape {
+    public struct SuppressedDestinationAttributes: AWSDecodableShape {
 
         /// A unique identifier that's generated when an email address is added to the suppression list for your account.
         public let feedbackId: String?
@@ -2547,7 +2547,7 @@ extension SESV2 {
         }
     }
 
-    public struct SuppressedDestinationSummary: AWSShape {
+    public struct SuppressedDestinationSummary: AWSDecodableShape {
 
         /// The email address that's on the suppression list for your account.
         public let emailAddress: String
@@ -2569,7 +2569,7 @@ extension SESV2 {
         }
     }
 
-    public struct SuppressionAttributes: AWSShape {
+    public struct SuppressionAttributes: AWSDecodableShape {
 
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
         public let suppressedReasons: [SuppressionListReason]?
@@ -2583,7 +2583,7 @@ extension SESV2 {
         }
     }
 
-    public struct SuppressionOptions: AWSShape {
+    public struct SuppressionOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
         public let suppressedReasons: [SuppressionListReason]?
@@ -2597,7 +2597,7 @@ extension SESV2 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         public let key: String
@@ -2615,7 +2615,7 @@ extension SESV2 {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
         public let resourceArn: String
@@ -2633,7 +2633,7 @@ extension SESV2 {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2641,7 +2641,7 @@ extension SESV2 {
 
     }
 
-    public struct Template: AWSShape {
+    public struct Template: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String?
@@ -2663,7 +2663,7 @@ extension SESV2 {
         }
     }
 
-    public struct TrackingOptions: AWSShape {
+    public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The domain that you want to use for tracking open and click events.
         public let customRedirectDomain: String
@@ -2677,7 +2677,7 @@ extension SESV2 {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "ResourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "TagKeys"))
@@ -2699,7 +2699,7 @@ extension SESV2 {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2707,7 +2707,7 @@ extension SESV2 {
 
     }
 
-    public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
@@ -2733,7 +2733,7 @@ extension SESV2 {
         }
     }
 
-    public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
+    public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2741,7 +2741,7 @@ extension SESV2 {
 
     }
 
-    public struct VolumeStatistics: AWSShape {
+    public struct VolumeStatistics: AWSDecodableShape {
 
         /// The total number of emails that arrived in recipients' inboxes.
         public let inboxRawCount: Int64?

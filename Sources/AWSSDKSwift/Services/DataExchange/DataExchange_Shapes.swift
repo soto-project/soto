@@ -74,7 +74,7 @@ extension DataExchange {
 
     //MARK: Shapes
 
-    public struct AssetDestinationEntry: AWSShape {
+    public struct AssetDestinationEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// The unique identifier for the asset.
         public let assetId: String
@@ -96,7 +96,7 @@ extension DataExchange {
         }
     }
 
-    public struct AssetDetails: AWSShape {
+    public struct AssetDetails: AWSDecodableShape {
 
         public let s3SnapshotAsset: S3SnapshotAsset?
 
@@ -109,7 +109,7 @@ extension DataExchange {
         }
     }
 
-    public struct AssetEntry: AWSShape {
+    public struct AssetEntry: AWSDecodableShape {
 
         /// The ARN for the asset.
         public let arn: String
@@ -159,7 +159,7 @@ extension DataExchange {
         }
     }
 
-    public struct AssetSourceEntry: AWSShape {
+    public struct AssetSourceEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// The S3 bucket that's part of the source of the asset.
         public let bucket: String
@@ -177,7 +177,7 @@ extension DataExchange {
         }
     }
 
-    public struct CancelJobRequest: AWSShape {
+    public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
         ]
@@ -193,7 +193,7 @@ extension DataExchange {
         }
     }
 
-    public struct CreateDataSetRequest: AWSShape {
+    public struct CreateDataSetRequest: AWSEncodableShape {
 
         /// The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
         public let assetType: AssetType
@@ -219,7 +219,7 @@ extension DataExchange {
         }
     }
 
-    public struct CreateDataSetResponse: AWSShape {
+    public struct CreateDataSetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let assetType: AssetType?
@@ -262,7 +262,7 @@ extension DataExchange {
         }
     }
 
-    public struct CreateJobRequest: AWSShape {
+    public struct CreateJobRequest: AWSEncodableShape {
 
         /// The details for the CreateJob request.
         public let details: RequestDetails
@@ -284,7 +284,7 @@ extension DataExchange {
         }
     }
 
-    public struct CreateJobResponse: AWSShape {
+    public struct CreateJobResponse: AWSDecodableShape {
 
         public let arn: String?
         public let createdAt: TimeStamp?
@@ -318,7 +318,7 @@ extension DataExchange {
         }
     }
 
-    public struct CreateRevisionRequest: AWSShape {
+    public struct CreateRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
@@ -347,7 +347,7 @@ extension DataExchange {
         }
     }
 
-    public struct CreateRevisionResponse: AWSShape {
+    public struct CreateRevisionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let comment: String?
@@ -384,7 +384,7 @@ extension DataExchange {
         }
     }
 
-    public struct DataSetEntry: AWSShape {
+    public struct DataSetEntry: AWSDecodableShape {
 
         /// The ARN for the data set.
         public let arn: String
@@ -434,7 +434,7 @@ extension DataExchange {
         }
     }
 
-    public struct DeleteAssetRequest: AWSShape {
+    public struct DeleteAssetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")), 
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
@@ -458,7 +458,7 @@ extension DataExchange {
         }
     }
 
-    public struct DeleteDataSetRequest: AWSShape {
+    public struct DeleteDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
@@ -474,7 +474,7 @@ extension DataExchange {
         }
     }
 
-    public struct DeleteRevisionRequest: AWSShape {
+    public struct DeleteRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
             AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
@@ -494,7 +494,7 @@ extension DataExchange {
         }
     }
 
-    public struct Details: AWSShape {
+    public struct Details: AWSDecodableShape {
 
         public let importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails?
         public let importAssetsFromS3JobErrorDetails: [AssetSourceEntry]?
@@ -510,7 +510,7 @@ extension DataExchange {
         }
     }
 
-    public struct ExportAssetToSignedUrlRequestDetails: AWSShape {
+    public struct ExportAssetToSignedUrlRequestDetails: AWSEncodableShape {
 
         /// The unique identifier for the asset that is exported to a signed URL.
         public let assetId: String
@@ -532,7 +532,7 @@ extension DataExchange {
         }
     }
 
-    public struct ExportAssetToSignedUrlResponseDetails: AWSShape {
+    public struct ExportAssetToSignedUrlResponseDetails: AWSDecodableShape {
 
         /// The unique identifier for the asset associated with this export job.
         public let assetId: String
@@ -562,7 +562,7 @@ extension DataExchange {
         }
     }
 
-    public struct ExportAssetsToS3RequestDetails: AWSShape {
+    public struct ExportAssetsToS3RequestDetails: AWSEncodableShape {
 
         /// The destination for the asset.
         public let assetDestinations: [AssetDestinationEntry]
@@ -584,7 +584,7 @@ extension DataExchange {
         }
     }
 
-    public struct ExportAssetsToS3ResponseDetails: AWSShape {
+    public struct ExportAssetsToS3ResponseDetails: AWSDecodableShape {
 
         /// The destination in Amazon S3 where the asset is exported.
         public let assetDestinations: [AssetDestinationEntry]
@@ -606,7 +606,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetAssetRequest: AWSShape {
+    public struct GetAssetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")), 
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
@@ -630,7 +630,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetAssetResponse: AWSShape {
+    public struct GetAssetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let assetDetails: AssetDetails?
@@ -670,7 +670,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetDataSetRequest: AWSShape {
+    public struct GetDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
@@ -686,7 +686,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetDataSetResponse: AWSShape {
+    public struct GetDataSetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let assetType: AssetType?
@@ -729,7 +729,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetJobRequest: AWSShape {
+    public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
         ]
@@ -745,7 +745,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetJobResponse: AWSShape {
+    public struct GetJobResponse: AWSDecodableShape {
 
         public let arn: String?
         public let createdAt: TimeStamp?
@@ -779,7 +779,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetRevisionRequest: AWSShape {
+    public struct GetRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
             AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
@@ -799,7 +799,7 @@ extension DataExchange {
         }
     }
 
-    public struct GetRevisionResponse: AWSShape {
+    public struct GetRevisionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let comment: String?
@@ -836,7 +836,7 @@ extension DataExchange {
         }
     }
 
-    public struct ImportAssetFromSignedUrlJobErrorDetails: AWSShape {
+    public struct ImportAssetFromSignedUrlJobErrorDetails: AWSDecodableShape {
 
         public let assetName: String
 
@@ -849,7 +849,7 @@ extension DataExchange {
         }
     }
 
-    public struct ImportAssetFromSignedUrlRequestDetails: AWSShape {
+    public struct ImportAssetFromSignedUrlRequestDetails: AWSEncodableShape {
 
         /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name.
         public let assetName: String
@@ -881,7 +881,7 @@ extension DataExchange {
         }
     }
 
-    public struct ImportAssetFromSignedUrlResponseDetails: AWSShape {
+    public struct ImportAssetFromSignedUrlResponseDetails: AWSDecodableShape {
 
         /// The name for the asset associated with this import response.
         public let assetName: String
@@ -915,7 +915,7 @@ extension DataExchange {
         }
     }
 
-    public struct ImportAssetsFromS3RequestDetails: AWSShape {
+    public struct ImportAssetsFromS3RequestDetails: AWSEncodableShape {
 
         /// Is a list of S3 bucket and object key pairs.
         public let assetSources: [AssetSourceEntry]
@@ -937,7 +937,7 @@ extension DataExchange {
         }
     }
 
-    public struct ImportAssetsFromS3ResponseDetails: AWSShape {
+    public struct ImportAssetsFromS3ResponseDetails: AWSDecodableShape {
 
         /// Is a list of Amazon S3 bucket and object key pairs.
         public let assetSources: [AssetSourceEntry]
@@ -959,7 +959,7 @@ extension DataExchange {
         }
     }
 
-    public struct JobEntry: AWSShape {
+    public struct JobEntry: AWSDecodableShape {
 
         /// The ARN for the job.
         public let arn: String
@@ -1001,7 +1001,7 @@ extension DataExchange {
         }
     }
 
-    public struct JobError: AWSShape {
+    public struct JobError: AWSDecodableShape {
 
         /// The code for the job error.
         public let code: Code
@@ -1038,7 +1038,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListDataSetRevisionsRequest: AWSShape {
+    public struct ListDataSetRevisionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1067,7 +1067,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListDataSetRevisionsResponse: AWSShape {
+    public struct ListDataSetRevisionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let revisions: [RevisionEntry]?
@@ -1083,7 +1083,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListDataSetsRequest: AWSShape {
+    public struct ListDataSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -1112,7 +1112,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListDataSetsResponse: AWSShape {
+    public struct ListDataSetsResponse: AWSDecodableShape {
 
         public let dataSets: [DataSetEntry]?
         public let nextToken: String?
@@ -1128,7 +1128,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .querystring(locationName: "dataSetId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1161,7 +1161,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListJobsResponse: AWSShape {
+    public struct ListJobsResponse: AWSDecodableShape {
 
         public let jobs: [JobEntry]?
         public let nextToken: String?
@@ -1177,7 +1177,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListRevisionAssetsRequest: AWSShape {
+    public struct ListRevisionAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1210,7 +1210,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListRevisionAssetsResponse: AWSShape {
+    public struct ListRevisionAssetsResponse: AWSDecodableShape {
 
         public let assets: [AssetEntry]?
         public let nextToken: String?
@@ -1226,7 +1226,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -1242,7 +1242,7 @@ extension DataExchange {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -1255,7 +1255,7 @@ extension DataExchange {
         }
     }
 
-    public struct OriginDetails: AWSShape {
+    public struct OriginDetails: AWSDecodableShape {
 
         public let productId: String
 
@@ -1268,7 +1268,7 @@ extension DataExchange {
         }
     }
 
-    public struct RequestDetails: AWSShape {
+    public struct RequestDetails: AWSEncodableShape {
 
         /// Details about the export to Amazon S3 request.
         public let exportAssetsToS3: ExportAssetsToS3RequestDetails?
@@ -1298,7 +1298,7 @@ extension DataExchange {
         }
     }
 
-    public struct ResponseDetails: AWSShape {
+    public struct ResponseDetails: AWSDecodableShape {
 
         /// Details for the export to Amazon S3 response.
         public let exportAssetsToS3: ExportAssetsToS3ResponseDetails?
@@ -1324,7 +1324,7 @@ extension DataExchange {
         }
     }
 
-    public struct RevisionEntry: AWSShape {
+    public struct RevisionEntry: AWSDecodableShape {
 
         /// The ARN for the revision.
         public let arn: String
@@ -1366,7 +1366,7 @@ extension DataExchange {
         }
     }
 
-    public struct S3SnapshotAsset: AWSShape {
+    public struct S3SnapshotAsset: AWSDecodableShape {
 
         /// The size of the S3 object that is the object.
         public let size: Double
@@ -1380,7 +1380,7 @@ extension DataExchange {
         }
     }
 
-    public struct StartJobRequest: AWSShape {
+    public struct StartJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
         ]
@@ -1396,7 +1396,7 @@ extension DataExchange {
         }
     }
 
-    public struct StartJobResponse: AWSShape {
+    public struct StartJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1404,7 +1404,7 @@ extension DataExchange {
 
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -1423,7 +1423,7 @@ extension DataExchange {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1443,7 +1443,7 @@ extension DataExchange {
         }
     }
 
-    public struct UpdateAssetRequest: AWSShape {
+    public struct UpdateAssetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "assetId", location: .uri(locationName: "AssetId")), 
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
@@ -1471,7 +1471,7 @@ extension DataExchange {
         }
     }
 
-    public struct UpdateAssetResponse: AWSShape {
+    public struct UpdateAssetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let assetDetails: AssetDetails?
@@ -1511,7 +1511,7 @@ extension DataExchange {
         }
     }
 
-    public struct UpdateDataSetRequest: AWSShape {
+    public struct UpdateDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId"))
         ]
@@ -1535,7 +1535,7 @@ extension DataExchange {
         }
     }
 
-    public struct UpdateDataSetResponse: AWSShape {
+    public struct UpdateDataSetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let assetType: AssetType?
@@ -1575,7 +1575,7 @@ extension DataExchange {
         }
     }
 
-    public struct UpdateRevisionRequest: AWSShape {
+    public struct UpdateRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")), 
             AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
@@ -1608,7 +1608,7 @@ extension DataExchange {
         }
     }
 
-    public struct UpdateRevisionResponse: AWSShape {
+    public struct UpdateRevisionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let comment: String?

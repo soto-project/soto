@@ -258,13 +258,14 @@ extension AWSService {
     }
 
     struct StructureContext {
-        let object : String
-        let name : String
-        let payload : String?
-        let namespace : String?
-        let members : [MemberContext]
-        let awsShapeMembers : [AWSShapeMemberContext]
-        let validation : [ValidationContext]
+        let object: String
+        let name: String
+        let shapeProtocol: String
+        let payload: String?
+        let namespace: String?
+        let members: [MemberContext]
+        let awsShapeMembers: [AWSShapeMemberContext]
+        let validation: [ValidationContext]
     }
 
     struct ResultContext {
@@ -494,6 +495,23 @@ extension AWSService {
         var awsShapeMemberContexts : [AWSShapeMemberContext] = []
         var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
+        var shapeProtocol: String
+        
+        if shape.usedInInput {
+            shapeProtocol = "AWSEncodableShape"
+            if shape.usedInOutput {
+                shapeProtocol += " & AWSDecodableShape"
+            }
+        } else if shape.usedInOutput {
+            shapeProtocol = "AWSDecodableShape"
+        } else {
+            preconditionFailure("AWSShape has to be used in either input or output")
+        }
+        
+        if type.payload != nil {
+            shapeProtocol += " & AWSShapeWithPayload"
+        }
+        
         for member in type.members {
             var memberContext = generateMemberContext(member, shape: shape)
 
@@ -522,6 +540,7 @@ extension AWSService {
         return StructureContext(
             object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
             name: shape.swiftTypeName,
+            shapeProtocol: shapeProtocol,
             payload: type.payload?.toSwiftLabelCase(),
             namespace: type.xmlNamespace,
             members: memberContexts,

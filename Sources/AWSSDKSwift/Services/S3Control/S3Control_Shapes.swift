@@ -152,7 +152,7 @@ extension S3Control {
 
     //MARK: Shapes
 
-    public struct AccessPoint: AWSShape {
+    public struct AccessPoint: AWSDecodableShape {
 
         /// The name of the bucket associated with this access point.
         public let bucket: String
@@ -178,7 +178,7 @@ extension S3Control {
         }
     }
 
-    public struct CreateAccessPointRequest: AWSShape {
+    public struct CreateAccessPointRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
@@ -221,7 +221,7 @@ extension S3Control {
         }
     }
 
-    public struct CreateJobRequest: AWSShape {
+    public struct CreateJobRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
@@ -293,7 +293,7 @@ extension S3Control {
         }
     }
 
-    public struct CreateJobResult: AWSShape {
+    public struct CreateJobResult: AWSDecodableShape {
 
         /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
         public let jobId: String?
@@ -307,7 +307,7 @@ extension S3Control {
         }
     }
 
-    public struct DeleteAccessPointPolicyRequest: AWSShape {
+    public struct DeleteAccessPointPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -335,7 +335,7 @@ extension S3Control {
         }
     }
 
-    public struct DeleteAccessPointRequest: AWSShape {
+    public struct DeleteAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -363,7 +363,7 @@ extension S3Control {
         }
     }
 
-    public struct DeleteJobTaggingRequest: AWSShape {
+    public struct DeleteJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
@@ -391,7 +391,7 @@ extension S3Control {
         }
     }
 
-    public struct DeleteJobTaggingResult: AWSShape {
+    public struct DeleteJobTaggingResult: AWSDecodableShape {
 
 
         public init() {
@@ -399,7 +399,7 @@ extension S3Control {
 
     }
 
-    public struct DeletePublicAccessBlockRequest: AWSShape {
+    public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id"))
         ]
@@ -420,7 +420,7 @@ extension S3Control {
         }
     }
 
-    public struct DescribeJobRequest: AWSShape {
+    public struct DescribeJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
@@ -447,7 +447,7 @@ extension S3Control {
         }
     }
 
-    public struct DescribeJobResult: AWSShape {
+    public struct DescribeJobResult: AWSDecodableShape {
 
         /// Contains the configuration parameters and status for the job specified in the Describe Job request.
         public let job: JobDescriptor?
@@ -461,7 +461,7 @@ extension S3Control {
         }
     }
 
-    public struct GetAccessPointPolicyRequest: AWSShape {
+    public struct GetAccessPointPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -489,7 +489,7 @@ extension S3Control {
         }
     }
 
-    public struct GetAccessPointPolicyResult: AWSShape {
+    public struct GetAccessPointPolicyResult: AWSDecodableShape {
 
         /// The access point policy associated with the specified access point.
         public let policy: String?
@@ -503,7 +503,7 @@ extension S3Control {
         }
     }
 
-    public struct GetAccessPointPolicyStatusRequest: AWSShape {
+    public struct GetAccessPointPolicyStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -531,7 +531,7 @@ extension S3Control {
         }
     }
 
-    public struct GetAccessPointPolicyStatusResult: AWSShape {
+    public struct GetAccessPointPolicyStatusResult: AWSDecodableShape {
 
         /// Indicates the current policy status of the specified access point.
         public let policyStatus: PolicyStatus?
@@ -545,7 +545,7 @@ extension S3Control {
         }
     }
 
-    public struct GetAccessPointRequest: AWSShape {
+    public struct GetAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -573,7 +573,7 @@ extension S3Control {
         }
     }
 
-    public struct GetAccessPointResult: AWSShape {
+    public struct GetAccessPointResult: AWSDecodableShape {
 
         /// The name of the bucket associated with the specified access point.
         public let bucket: String?
@@ -606,7 +606,7 @@ extension S3Control {
         }
     }
 
-    public struct GetJobTaggingRequest: AWSShape {
+    public struct GetJobTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
@@ -634,7 +634,7 @@ extension S3Control {
         }
     }
 
-    public struct GetJobTaggingResult: AWSShape {
+    public struct GetJobTaggingResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -651,7 +651,7 @@ extension S3Control {
         }
     }
 
-    public struct GetPublicAccessBlockOutput: AWSShape {
+    public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
         public static var _encoding = [
@@ -670,7 +670,7 @@ extension S3Control {
         }
     }
 
-    public struct GetPublicAccessBlockRequest: AWSShape {
+    public struct GetPublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id"))
         ]
@@ -691,7 +691,7 @@ extension S3Control {
         }
     }
 
-    public struct JobDescriptor: AWSShape {
+    public struct JobDescriptor: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failureReasons", location: .body(locationName: "FailureReasons"), encoding: .list(member:"member"))
         ]
@@ -771,7 +771,7 @@ extension S3Control {
         }
     }
 
-    public struct JobFailure: AWSShape {
+    public struct JobFailure: AWSDecodableShape {
 
         /// The failure code, if any, for the specified job.
         public let failureCode: String?
@@ -789,7 +789,7 @@ extension S3Control {
         }
     }
 
-    public struct JobListDescriptor: AWSShape {
+    public struct JobListDescriptor: AWSDecodableShape {
 
         /// A timestamp indicating when the specified job was created.
         public let creationTime: TimeStamp?
@@ -831,7 +831,7 @@ extension S3Control {
         }
     }
 
-    public struct JobManifest: AWSShape {
+    public struct JobManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// Contains the information required to locate the specified job's manifest.
         public let location: JobManifestLocation
@@ -853,7 +853,7 @@ extension S3Control {
         }
     }
 
-    public struct JobManifestLocation: AWSShape {
+    public struct JobManifestLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The ETag for the specified manifest object.
         public let eTag: String
@@ -884,7 +884,7 @@ extension S3Control {
         }
     }
 
-    public struct JobManifestSpec: AWSShape {
+    public struct JobManifestSpec: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fields", location: .body(locationName: "Fields"), encoding: .list(member:"member"))
         ]
@@ -905,7 +905,7 @@ extension S3Control {
         }
     }
 
-    public struct JobOperation: AWSShape {
+    public struct JobOperation: AWSEncodableShape & AWSDecodableShape {
 
         /// Directs the specified job to invoke an AWS Lambda function on each object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
@@ -943,7 +943,7 @@ extension S3Control {
         }
     }
 
-    public struct JobProgressSummary: AWSShape {
+    public struct JobProgressSummary: AWSDecodableShape {
 
         public let numberOfTasksFailed: Int64?
         public let numberOfTasksSucceeded: Int64?
@@ -962,7 +962,7 @@ extension S3Control {
         }
     }
 
-    public struct JobReport: AWSShape {
+    public struct JobReport: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.
         public let bucket: String?
@@ -999,7 +999,7 @@ extension S3Control {
         }
     }
 
-    public struct LambdaInvokeOperation: AWSShape {
+    public struct LambdaInvokeOperation: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the AWS Lambda function that the specified job will invoke for each object in the manifest.
         public let functionArn: String?
@@ -1018,7 +1018,7 @@ extension S3Control {
         }
     }
 
-    public struct ListAccessPointsRequest: AWSShape {
+    public struct ListAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "bucket", location: .querystring(locationName: "bucket")), 
@@ -1060,7 +1060,7 @@ extension S3Control {
         }
     }
 
-    public struct ListAccessPointsResult: AWSShape {
+    public struct ListAccessPointsResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessPointList", location: .body(locationName: "AccessPointList"), encoding: .list(member:"AccessPoint"))
         ]
@@ -1081,7 +1081,7 @@ extension S3Control {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "jobStatuses", location: .querystring(locationName: "jobStatuses"), encoding: .list(member:"member")), 
@@ -1120,7 +1120,7 @@ extension S3Control {
         }
     }
 
-    public struct ListJobsResult: AWSShape {
+    public struct ListJobsResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
         ]
@@ -1141,7 +1141,7 @@ extension S3Control {
         }
     }
 
-    public struct PolicyStatus: AWSShape {
+    public struct PolicyStatus: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "isPublic", location: .body(locationName: "IsPublic"))
         ]
@@ -1157,7 +1157,7 @@ extension S3Control {
         }
     }
 
-    public struct PublicAccessBlockConfiguration: AWSShape {
+    public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
@@ -1190,7 +1190,7 @@ extension S3Control {
         }
     }
 
-    public struct PutAccessPointPolicyRequest: AWSShape {
+    public struct PutAccessPointPolicyRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
@@ -1223,7 +1223,7 @@ extension S3Control {
         }
     }
 
-    public struct PutJobTaggingRequest: AWSShape {
+    public struct PutJobTaggingRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
@@ -1260,7 +1260,7 @@ extension S3Control {
         }
     }
 
-    public struct PutJobTaggingResult: AWSShape {
+    public struct PutJobTaggingResult: AWSDecodableShape {
 
 
         public init() {
@@ -1268,7 +1268,7 @@ extension S3Control {
 
     }
 
-    public struct PutPublicAccessBlockRequest: AWSShape {
+    public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
         public static var _encoding = [
@@ -1296,7 +1296,7 @@ extension S3Control {
         }
     }
 
-    public struct S3AccessControlList: AWSShape {
+    public struct S3AccessControlList: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "grants", location: .body(locationName: "Grants"), encoding: .list(member:"member"))
         ]
@@ -1322,7 +1322,7 @@ extension S3Control {
         }
     }
 
-    public struct S3AccessControlPolicy: AWSShape {
+    public struct S3AccessControlPolicy: AWSEncodableShape & AWSDecodableShape {
 
         public let accessControlList: S3AccessControlList?
         public let cannedAccessControlList: S3CannedAccessControlList?
@@ -1342,7 +1342,7 @@ extension S3Control {
         }
     }
 
-    public struct S3CopyObjectOperation: AWSShape {
+    public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlGrants", location: .body(locationName: "AccessControlGrants"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "newObjectTagging", location: .body(locationName: "NewObjectTagging"), encoding: .list(member:"member"))
@@ -1422,7 +1422,7 @@ extension S3Control {
         }
     }
 
-    public struct S3Grant: AWSShape {
+    public struct S3Grant: AWSEncodableShape & AWSDecodableShape {
 
         public let grantee: S3Grantee?
         public let permission: S3Permission?
@@ -1442,7 +1442,7 @@ extension S3Control {
         }
     }
 
-    public struct S3Grantee: AWSShape {
+    public struct S3Grantee: AWSEncodableShape & AWSDecodableShape {
 
         public let displayName: String?
         public let identifier: String?
@@ -1468,7 +1468,7 @@ extension S3Control {
         }
     }
 
-    public struct S3InitiateRestoreObjectOperation: AWSShape {
+    public struct S3InitiateRestoreObjectOperation: AWSEncodableShape & AWSDecodableShape {
 
         public let expirationInDays: Int?
         public let glacierJobTier: S3GlacierJobTier?
@@ -1488,7 +1488,7 @@ extension S3Control {
         }
     }
 
-    public struct S3ObjectMetadata: AWSShape {
+    public struct S3ObjectMetadata: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "userMetadata", location: .body(locationName: "UserMetadata"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -1555,7 +1555,7 @@ extension S3Control {
         }
     }
 
-    public struct S3ObjectOwner: AWSShape {
+    public struct S3ObjectOwner: AWSEncodableShape & AWSDecodableShape {
 
         public let displayName: String?
         public let id: String?
@@ -1578,7 +1578,7 @@ extension S3Control {
         }
     }
 
-    public struct S3SetObjectAclOperation: AWSShape {
+    public struct S3SetObjectAclOperation: AWSEncodableShape & AWSDecodableShape {
 
         public let accessControlPolicy: S3AccessControlPolicy?
 
@@ -1595,7 +1595,7 @@ extension S3Control {
         }
     }
 
-    public struct S3SetObjectTaggingOperation: AWSShape {
+    public struct S3SetObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"member"))
         ]
@@ -1617,7 +1617,7 @@ extension S3Control {
         }
     }
 
-    public struct S3Tag: AWSShape {
+    public struct S3Tag: AWSEncodableShape & AWSDecodableShape {
 
         public let key: String
         public let value: String
@@ -1639,7 +1639,7 @@ extension S3Control {
         }
     }
 
-    public struct UpdateJobPriorityRequest: AWSShape {
+    public struct UpdateJobPriorityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id")), 
@@ -1673,7 +1673,7 @@ extension S3Control {
         }
     }
 
-    public struct UpdateJobPriorityResult: AWSShape {
+    public struct UpdateJobPriorityResult: AWSDecodableShape {
 
         /// The ID for the job whose priority Amazon S3 updated.
         public let jobId: String
@@ -1691,7 +1691,7 @@ extension S3Control {
         }
     }
 
-    public struct UpdateJobStatusRequest: AWSShape {
+    public struct UpdateJobStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id")), 
@@ -1730,7 +1730,7 @@ extension S3Control {
         }
     }
 
-    public struct UpdateJobStatusResult: AWSShape {
+    public struct UpdateJobStatusResult: AWSDecodableShape {
 
         /// The ID for the job whose status was updated.
         public let jobId: String?
@@ -1752,7 +1752,7 @@ extension S3Control {
         }
     }
 
-    public struct VpcConfiguration: AWSShape {
+    public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// If this field is specified, this access point will only allow connections from the specified VPC ID.
         public let vpcId: String
