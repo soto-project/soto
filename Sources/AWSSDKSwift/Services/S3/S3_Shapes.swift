@@ -438,6 +438,7 @@ extension S3 {
     }
 
     public struct AccelerateConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies the transfer acceleration status of the bucket.
         public let status: BucketAccelerateStatus?
@@ -452,6 +453,7 @@ extension S3 {
     }
 
     public struct AccessControlPolicy: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant"))
         ]
@@ -514,6 +516,7 @@ extension S3 {
     }
 
     public struct AnalyticsConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
         public let filter: AnalyticsFilter?
@@ -625,6 +628,7 @@ extension S3 {
     }
 
     public struct BucketLifecycleConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
         ]
@@ -648,6 +652,7 @@ extension S3 {
     }
 
     public struct BucketLoggingStatus: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         public let loggingEnabled: LoggingEnabled?
 
@@ -661,6 +666,7 @@ extension S3 {
     }
 
     public struct CORSConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "cORSRules", location: .body(locationName: "CORSRule"), encoding: .flatList)
         ]
@@ -878,7 +884,6 @@ extension S3 {
     public struct CompleteMultipartUploadRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "multipartUpload"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -919,6 +924,7 @@ extension S3 {
     }
 
     public struct CompletedMultipartUpload: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "parts", location: .body(locationName: "Part"), encoding: .flatList)
         ]
@@ -1271,6 +1277,7 @@ extension S3 {
     }
 
     public struct CreateBucketConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies the Region where the bucket will be created. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1).
         public let locationConstraint: BucketLocationConstraint?
@@ -1304,7 +1311,6 @@ extension S3 {
     public struct CreateBucketRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "createBucketConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -1598,6 +1604,7 @@ extension S3 {
     }
 
     public struct Delete: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "objects", location: .body(locationName: "Object"), encoding: .flatList)
         ]
@@ -2018,7 +2025,6 @@ extension S3 {
     public struct DeleteObjectsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "delete"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
@@ -3876,6 +3882,7 @@ extension S3 {
     }
 
     public struct InventoryConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "optionalFields", location: .body(locationName: "OptionalFields"), encoding: .list(member:"Field"))
         ]
@@ -4067,6 +4074,7 @@ extension S3 {
     }
 
     public struct LifecycleConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
         ]
@@ -5024,6 +5032,7 @@ extension S3 {
     }
 
     public struct MetricsConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
         public let filter: MetricsFilter?
@@ -5139,6 +5148,7 @@ extension S3 {
     }
 
     public struct NotificationConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "lambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), encoding: .flatList), 
             AWSMemberEncoding(label: "queueConfigurations", location: .body(locationName: "QueueConfiguration"), encoding: .flatList), 
@@ -5166,6 +5176,7 @@ extension S3 {
     }
 
     public struct NotificationConfigurationDeprecated: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Container for specifying the AWS Lambda notification configuration.
         public let cloudFunctionConfiguration: CloudFunctionConfiguration?
@@ -5260,6 +5271,7 @@ extension S3 {
     }
 
     public struct ObjectLockConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Indicates whether this bucket has an Object Lock configuration enabled.
         public let objectLockEnabled: ObjectLockEnabled?
@@ -5278,6 +5290,7 @@ extension S3 {
     }
 
     public struct ObjectLockLegalHold: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Indicates whether the specified object has a Legal Hold in place.
         public let status: ObjectLockLegalHoldStatus?
@@ -5292,6 +5305,7 @@ extension S3 {
     }
 
     public struct ObjectLockRetention: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Indicates the Retention mode for the specified object.
         public let mode: ObjectLockRetentionMode?
@@ -5471,6 +5485,7 @@ extension S3 {
     }
 
     public struct PublicAccessBlockConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
             AWSMemberEncoding(label: "blockPublicPolicy", location: .body(locationName: "BlockPublicPolicy")), 
@@ -5505,7 +5520,6 @@ extension S3 {
     public struct PutBucketAccelerateConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "accelerateConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accelerateConfiguration", location: .body(locationName: "AccelerateConfiguration")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
@@ -5530,7 +5544,6 @@ extension S3 {
     public struct PutBucketAclRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "accessControlPolicy"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
@@ -5590,7 +5603,6 @@ extension S3 {
     public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "analyticsConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -5624,7 +5636,6 @@ extension S3 {
     public struct PutBucketCorsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "cORSConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5654,7 +5665,6 @@ extension S3 {
     public struct PutBucketEncryptionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "serverSideEncryptionConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5683,7 +5693,6 @@ extension S3 {
     public struct PutBucketInventoryConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "inventoryConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
@@ -5713,7 +5722,6 @@ extension S3 {
     public struct PutBucketLifecycleConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "lifecycleConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
@@ -5742,7 +5750,6 @@ extension S3 {
     public struct PutBucketLifecycleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "lifecycleConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5769,7 +5776,6 @@ extension S3 {
     public struct PutBucketLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "bucketLoggingStatus"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus")), 
@@ -5799,7 +5805,6 @@ extension S3 {
     public struct PutBucketMetricsConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "metricsConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
@@ -5833,7 +5838,6 @@ extension S3 {
     public struct PutBucketNotificationConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "notificationConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
@@ -5857,7 +5861,6 @@ extension S3 {
     public struct PutBucketNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "notificationConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5920,7 +5923,6 @@ extension S3 {
     public struct PutBucketReplicationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "replicationConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5957,7 +5959,6 @@ extension S3 {
     public struct PutBucketRequestPaymentRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "requestPaymentConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -5987,7 +5988,6 @@ extension S3 {
     public struct PutBucketTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "tagging"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6021,7 +6021,6 @@ extension S3 {
     public struct PutBucketVersioningRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "versioningConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6056,7 +6055,6 @@ extension S3 {
     public struct PutBucketWebsiteRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "websiteConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6106,7 +6104,6 @@ extension S3 {
     public struct PutObjectAclRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "accessControlPolicy"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
@@ -6200,7 +6197,6 @@ extension S3 {
     public struct PutObjectLegalHoldRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "legalHold"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6264,7 +6260,6 @@ extension S3 {
     public struct PutObjectLockConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "objectLockConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6542,7 +6537,6 @@ extension S3 {
     public struct PutObjectRetentionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "retention"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
@@ -6612,7 +6606,6 @@ extension S3 {
     public struct PutObjectTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "tagging"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6657,7 +6650,6 @@ extension S3 {
     public struct PutPublicAccessBlockRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
@@ -6785,6 +6777,7 @@ extension S3 {
     }
 
     public struct ReplicationConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
         ]
@@ -6941,6 +6934,7 @@ extension S3 {
     }
 
     public struct RequestPaymentConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies who pays for the download and request fees.
         public let payer: Payer
@@ -6992,7 +6986,6 @@ extension S3 {
     public struct RestoreObjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "restoreRequest"
-        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -7033,6 +7026,7 @@ extension S3 {
     }
 
     public struct RestoreRequest: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
         public let days: Int?
@@ -7347,6 +7341,7 @@ extension S3 {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
         ]
@@ -7460,6 +7455,7 @@ extension S3 {
     }
 
     public struct Tagging: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag"))
         ]
@@ -7836,6 +7832,7 @@ extension S3 {
     }
 
     public struct VersioningConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "mFADelete", location: .body(locationName: "MfaDelete"))
         ]
@@ -7857,6 +7854,7 @@ extension S3 {
     }
 
     public struct WebsiteConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "routingRules", location: .body(locationName: "RoutingRules"), encoding: .list(member:"RoutingRule"))
         ]

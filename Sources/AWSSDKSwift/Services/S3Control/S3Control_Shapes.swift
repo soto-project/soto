@@ -1052,6 +1052,7 @@ extension S3Control {
     }
 
     public struct PublicAccessBlockConfiguration: AWSShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
             AWSMemberEncoding(label: "blockPublicPolicy", location: .body(locationName: "BlockPublicPolicy")), 
@@ -1119,7 +1120,6 @@ extension S3Control {
     public struct PutPublicAccessBlockRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
-        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
