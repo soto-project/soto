@@ -5927,7 +5927,8 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5"))
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
+            AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
         ]
 
         /// The name of the bucket.

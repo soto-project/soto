@@ -1735,6 +1735,9 @@ extension Pinpoint {
     public struct CreateAppRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "createApplicationRequest"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "createApplicationRequest", location: .body(locationName: "CreateApplicationRequest"))
+        ]
 
         public let createApplicationRequest: CreateApplicationRequest
 
@@ -1787,7 +1790,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeCampaignRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
         ]
 
         public let applicationId: String
@@ -1826,6 +1830,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "emailTemplateRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -1865,7 +1870,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "exportJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "exportJobRequest", location: .body(locationName: "ExportJobRequest"))
         ]
 
         public let applicationId: String
@@ -1904,7 +1910,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "importJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "importJobRequest", location: .body(locationName: "ImportJobRequest"))
         ]
 
         public let applicationId: String
@@ -1943,7 +1950,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeJourneyRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
         ]
 
         public let applicationId: String
@@ -1982,6 +1990,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "pushNotificationTemplateRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -2021,7 +2030,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeSegmentRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
         ]
 
         public let applicationId: String
@@ -2060,6 +2070,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "sMSTemplateRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -2121,7 +2132,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "voiceTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
+            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
         ]
 
         public let templateName: String
@@ -6849,6 +6861,9 @@ extension Pinpoint {
     public struct PhoneNumberValidateRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "numberValidateRequest"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "numberValidateRequest", location: .body(locationName: "NumberValidateRequest"))
+        ]
 
         public let numberValidateRequest: NumberValidateRequest
 
@@ -7045,7 +7060,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeEventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "writeEventStream", location: .body(locationName: "WriteEventStream"))
         ]
 
         public let applicationId: String
@@ -7084,7 +7100,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "eventsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "eventsRequest", location: .body(locationName: "EventsRequest"))
         ]
 
         public let applicationId: String
@@ -7206,7 +7223,8 @@ extension Pinpoint {
         public static let payloadPath: String? = "updateAttributesRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type"))
+            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type")), 
+            AWSMemberEncoding(label: "updateAttributesRequest", location: .body(locationName: "UpdateAttributesRequest"))
         ]
 
         public let applicationId: String
@@ -7813,7 +7831,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "messageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "messageRequest", location: .body(locationName: "MessageRequest"))
         ]
 
         public let applicationId: String
@@ -7904,7 +7923,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "sendUsersMessageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "sendUsersMessageRequest", location: .body(locationName: "SendUsersMessageRequest"))
         ]
 
         public let applicationId: String
@@ -8067,7 +8087,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "tagsModel"
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
         ]
 
         public let resourceArn: String
@@ -8350,6 +8371,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aDMChannelRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "aDMChannelRequest", location: .body(locationName: "ADMChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8389,6 +8411,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSChannelRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body(locationName: "APNSChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8428,6 +8451,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSSandboxChannelRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body(locationName: "APNSSandboxChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8467,6 +8491,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipChannelRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body(locationName: "APNSVoipChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8506,6 +8531,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipSandboxChannelRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body(locationName: "APNSVoipSandboxChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8545,7 +8571,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeApplicationSettingsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "writeApplicationSettingsRequest", location: .body(locationName: "WriteApplicationSettingsRequest"))
         ]
 
         public let applicationId: String
@@ -8598,7 +8625,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "baiduChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "baiduChannelRequest", location: .body(locationName: "BaiduChannelRequest"))
         ]
 
         public let applicationId: String
@@ -8638,7 +8666,8 @@ extension Pinpoint {
         public static let payloadPath: String? = "writeCampaignRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id"))
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
+            AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
         ]
 
         public let applicationId: String
@@ -8680,7 +8709,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "emailChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "emailChannelRequest", location: .body(locationName: "EmailChannelRequest"))
         ]
 
         public let applicationId: String
@@ -8720,6 +8750,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "emailTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
@@ -8767,7 +8798,8 @@ extension Pinpoint {
         public static let payloadPath: String? = "endpointRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id"))
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id")), 
+            AWSMemberEncoding(label: "endpointRequest", location: .body(locationName: "EndpointRequest"))
         ]
 
         public let applicationId: String
@@ -8809,7 +8841,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "endpointBatchRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "endpointBatchRequest", location: .body(locationName: "EndpointBatchRequest"))
         ]
 
         public let applicationId: String
@@ -8848,7 +8881,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "gCMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "gCMChannelRequest", location: .body(locationName: "GCMChannelRequest"))
         ]
 
         public let applicationId: String
@@ -8888,7 +8922,8 @@ extension Pinpoint {
         public static let payloadPath: String? = "writeJourneyRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
+            AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
         ]
 
         public let applicationId: String
@@ -8931,7 +8966,8 @@ extension Pinpoint {
         public static let payloadPath: String? = "journeyStateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
+            AWSMemberEncoding(label: "journeyStateRequest", location: .body(locationName: "JourneyStateRequest"))
         ]
 
         public let applicationId: String
@@ -8974,6 +9010,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "pushNotificationTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
@@ -9021,7 +9058,8 @@ extension Pinpoint {
         public static let payloadPath: String? = "writeSegmentRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id"))
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
+            AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
         ]
 
         public let applicationId: String
@@ -9063,7 +9101,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "sMSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "sMSChannelRequest", location: .body(locationName: "SMSChannelRequest"))
         ]
 
         public let applicationId: String
@@ -9103,6 +9142,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "sMSTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
@@ -9149,6 +9189,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "templateActiveVersionRequest"
         public static var _encoding = [
+            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body(locationName: "TemplateActiveVersionRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "templateType", location: .uri(locationName: "template-type"))
         ]
@@ -9192,7 +9233,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "voiceChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "voiceChannelRequest", location: .body(locationName: "VoiceChannelRequest"))
         ]
 
         public let applicationId: String
@@ -9233,7 +9275,8 @@ extension Pinpoint {
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
+            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version")), 
+            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
         ]
 
         public let createNewVersion: Bool?

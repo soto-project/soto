@@ -389,9 +389,6 @@ extension AWSService {
         let encoding = member.shapeEncoding?.enumStyleDescription()
         var location = member.location
         
-        if shape.name == "CreateAppResponse" {
-            print(shape)
-        }
         // if member has collection encoding ie the codingkey will be needed, or name has been force to output then add a Location.body
         if (encoding != nil || forceOutput) && location == nil {
             location = .body(locationName: member.name)
@@ -481,7 +478,7 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name && shape.response) {
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
 
