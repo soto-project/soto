@@ -551,6 +551,9 @@ extension S3Control {
     public struct GetPublicAccessBlockOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
+        ]
 
         /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?

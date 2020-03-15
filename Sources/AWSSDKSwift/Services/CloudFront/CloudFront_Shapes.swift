@@ -517,6 +517,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body(locationName: "CloudFrontOriginAccessIdentity")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -568,6 +569,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
+            AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -619,6 +621,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
+            AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -667,6 +670,7 @@ extension CloudFront {
         public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryption", location: .body(locationName: "FieldLevelEncryption")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
@@ -714,6 +718,7 @@ extension CloudFront {
         public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body(locationName: "FieldLevelEncryptionProfile")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
@@ -765,6 +770,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "invalidation"
         public static var _encoding = [
+            AWSMemberEncoding(label: "invalidation", location: .body(locationName: "Invalidation")), 
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
@@ -808,7 +814,8 @@ extension CloudFront {
         public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
+            AWSMemberEncoding(label: "publicKey", location: .body(locationName: "PublicKey"))
         ]
 
         /// The current version of the public key. For example: E2QWRUHAPOMQZL.
@@ -855,7 +862,8 @@ extension CloudFront {
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
+            AWSMemberEncoding(label: "streamingDistribution", location: .body(locationName: "StreamingDistribution"))
         ]
 
         /// The current version of the streaming distribution created.
@@ -906,7 +914,8 @@ extension CloudFront {
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
+            AWSMemberEncoding(label: "streamingDistribution", location: .body(locationName: "StreamingDistribution"))
         ]
 
         /// The current version of the distribution created.
@@ -1859,6 +1868,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
@@ -1899,6 +1909,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body(locationName: "CloudFrontOriginAccessIdentity")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
@@ -1939,6 +1950,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "distributionConfig"
         public static var _encoding = [
+            AWSMemberEncoding(label: "distributionConfig", location: .body(locationName: "DistributionConfig")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
@@ -1979,6 +1991,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
+            AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
@@ -2019,7 +2032,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"))
         ]
 
         /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
@@ -2059,7 +2073,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"))
         ]
 
         /// The current version of the field-level encryption profile configuration result. For example: E2QWRUHAPOMQZL.
@@ -2099,7 +2114,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body(locationName: "FieldLevelEncryptionProfile"))
         ]
 
         /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
@@ -2139,7 +2155,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryption", location: .body(locationName: "FieldLevelEncryption"))
         ]
 
         /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
@@ -2183,6 +2200,9 @@ extension CloudFront {
     public struct GetInvalidationResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "invalidation"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "invalidation", location: .body(locationName: "Invalidation"))
+        ]
 
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
         public let invalidation: Invalidation?
@@ -2217,7 +2237,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "publicKeyConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "publicKeyConfig", location: .body(locationName: "PublicKeyConfig"))
         ]
 
         /// The current version of the public key configuration. For example: E2QWRUHAPOMQZL.
@@ -2257,7 +2278,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "publicKey", location: .body(locationName: "PublicKey"))
         ]
 
         /// The current version of the public key. For example: E2QWRUHAPOMQZL.
@@ -2297,7 +2319,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "streamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"))
         ]
 
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
@@ -2337,7 +2360,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "streamingDistribution", location: .body(locationName: "StreamingDistribution"))
         ]
 
         /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
@@ -2570,6 +2594,9 @@ extension CloudFront {
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentityList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityList", location: .body(locationName: "CloudFrontOriginAccessIdentityList"))
+        ]
 
         /// The CloudFrontOriginAccessIdentityList type. 
         public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
@@ -2613,6 +2640,9 @@ extension CloudFront {
     public struct ListDistributionsByWebACLIdResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "distributionList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionList", location: .body(locationName: "DistributionList"))
+        ]
 
         /// The DistributionList type. 
         public let distributionList: DistributionList?
@@ -2651,6 +2681,9 @@ extension CloudFront {
     public struct ListDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "distributionList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "distributionList", location: .body(locationName: "DistributionList"))
+        ]
 
         /// The DistributionList type. 
         public let distributionList: DistributionList?
@@ -2689,6 +2722,9 @@ extension CloudFront {
     public struct ListFieldLevelEncryptionConfigsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "fieldLevelEncryptionList", location: .body(locationName: "FieldLevelEncryptionList"))
+        ]
 
         /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
         public let fieldLevelEncryptionList: FieldLevelEncryptionList?
@@ -2727,6 +2763,9 @@ extension CloudFront {
     public struct ListFieldLevelEncryptionProfilesResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfileList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfileList", location: .body(locationName: "FieldLevelEncryptionProfileList"))
+        ]
 
         /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
         public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList?
@@ -2770,6 +2809,9 @@ extension CloudFront {
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "invalidationList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "invalidationList", location: .body(locationName: "InvalidationList"))
+        ]
 
         /// Information about invalidation batches. 
         public let invalidationList: InvalidationList?
@@ -2808,6 +2850,9 @@ extension CloudFront {
     public struct ListPublicKeysResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "publicKeyList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "publicKeyList", location: .body(locationName: "PublicKeyList"))
+        ]
 
         /// Returns a list of all public keys that have been added to CloudFront for this account.
         public let publicKeyList: PublicKeyList?
@@ -2846,6 +2891,9 @@ extension CloudFront {
     public struct ListStreamingDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "streamingDistributionList", location: .body(locationName: "StreamingDistributionList"))
+        ]
 
         /// The StreamingDistributionList type. 
         public let streamingDistributionList: StreamingDistributionList?
@@ -2883,6 +2931,9 @@ extension CloudFront {
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "tags"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"))
+        ]
 
         ///  A complex type that contains zero or more Tag elements.
         public let tags: Tags
@@ -3838,6 +3889,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
+            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body(locationName: "CloudFrontOriginAccessIdentity")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
@@ -3894,6 +3946,7 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
+            AWSMemberEncoding(label: "distribution", location: .body(locationName: "Distribution")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
         ]
 
@@ -3946,7 +3999,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryption", location: .body(locationName: "FieldLevelEncryption"))
         ]
 
         /// The value of the ETag header that you received when updating the configuration. For example: E2QWRUHAPOMQZL.
@@ -3998,7 +4052,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body(locationName: "FieldLevelEncryptionProfile"))
         ]
 
         /// The result of the field-level encryption profile request. 
@@ -4050,7 +4105,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "publicKey", location: .body(locationName: "PublicKey"))
         ]
 
         /// The current version of the update public key result. For example: E2QWRUHAPOMQZL.
@@ -4102,7 +4158,8 @@ extension CloudFront {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag"))
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "streamingDistribution", location: .body(locationName: "StreamingDistribution"))
         ]
 
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.

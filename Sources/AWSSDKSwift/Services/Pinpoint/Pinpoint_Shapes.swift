@@ -1750,6 +1750,9 @@ extension Pinpoint {
     public struct CreateAppResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
+        ]
 
         public let applicationResponse: ApplicationResponse
 
@@ -1804,6 +1807,9 @@ extension Pinpoint {
     public struct CreateCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+        ]
 
         public let campaignResponse: CampaignResponse
 
@@ -1840,6 +1846,9 @@ extension Pinpoint {
     public struct CreateEmailTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "createTemplateMessageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+        ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
@@ -1876,6 +1885,9 @@ extension Pinpoint {
     public struct CreateExportJobResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "exportJobResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportJobResponse", location: .body(locationName: "ExportJobResponse"))
+        ]
 
         public let exportJobResponse: ExportJobResponse
 
@@ -1912,6 +1924,9 @@ extension Pinpoint {
     public struct CreateImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "importJobResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "importJobResponse", location: .body(locationName: "ImportJobResponse"))
+        ]
 
         public let importJobResponse: ImportJobResponse
 
@@ -1948,6 +1963,9 @@ extension Pinpoint {
     public struct CreateJourneyResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+        ]
 
         public let journeyResponse: JourneyResponse
 
@@ -1984,6 +2002,9 @@ extension Pinpoint {
     public struct CreatePushTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "createTemplateMessageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+        ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
@@ -2020,6 +2041,9 @@ extension Pinpoint {
     public struct CreateSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+        ]
 
         public let segmentResponse: SegmentResponse
 
@@ -2056,6 +2080,9 @@ extension Pinpoint {
     public struct CreateSmsTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "createTemplateMessageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+        ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
@@ -2114,6 +2141,9 @@ extension Pinpoint {
     public struct CreateVoiceTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "createTemplateMessageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body(locationName: "CreateTemplateMessageBody"))
+        ]
 
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
@@ -2231,6 +2261,9 @@ extension Pinpoint {
     public struct DeleteAdmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aDMChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
+        ]
 
         public let aDMChannelResponse: ADMChannelResponse
 
@@ -2262,6 +2295,9 @@ extension Pinpoint {
     public struct DeleteApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
+        ]
 
         public let aPNSChannelResponse: APNSChannelResponse
 
@@ -2293,6 +2329,9 @@ extension Pinpoint {
     public struct DeleteApnsSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSSandboxChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
+        ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
@@ -2324,6 +2363,9 @@ extension Pinpoint {
     public struct DeleteApnsVoipChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
+        ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
 
@@ -2355,6 +2397,9 @@ extension Pinpoint {
     public struct DeleteApnsVoipSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipSandboxChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
+        ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
@@ -2386,6 +2431,9 @@ extension Pinpoint {
     public struct DeleteAppResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
+        ]
 
         public let applicationResponse: ApplicationResponse
 
@@ -2417,6 +2465,9 @@ extension Pinpoint {
     public struct DeleteBaiduChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "baiduChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
+        ]
 
         public let baiduChannelResponse: BaiduChannelResponse
 
@@ -2452,6 +2503,9 @@ extension Pinpoint {
     public struct DeleteCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+        ]
 
         public let campaignResponse: CampaignResponse
 
@@ -2483,6 +2537,9 @@ extension Pinpoint {
     public struct DeleteEmailChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "emailChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
+        ]
 
         public let emailChannelResponse: EmailChannelResponse
 
@@ -2518,6 +2575,9 @@ extension Pinpoint {
     public struct DeleteEmailTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -2553,6 +2613,9 @@ extension Pinpoint {
     public struct DeleteEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "endpointResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endpointResponse", location: .body(locationName: "EndpointResponse"))
+        ]
 
         public let endpointResponse: EndpointResponse
 
@@ -2584,6 +2647,9 @@ extension Pinpoint {
     public struct DeleteEventStreamResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "eventStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
+        ]
 
         public let eventStream: EventStream
 
@@ -2615,6 +2681,9 @@ extension Pinpoint {
     public struct DeleteGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "gCMChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
+        ]
 
         public let gCMChannelResponse: GCMChannelResponse
 
@@ -2650,6 +2719,9 @@ extension Pinpoint {
     public struct DeleteJourneyResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+        ]
 
         public let journeyResponse: JourneyResponse
 
@@ -2685,6 +2757,9 @@ extension Pinpoint {
     public struct DeletePushTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -2720,6 +2795,9 @@ extension Pinpoint {
     public struct DeleteSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+        ]
 
         public let segmentResponse: SegmentResponse
 
@@ -2751,6 +2829,9 @@ extension Pinpoint {
     public struct DeleteSmsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "sMSChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
+        ]
 
         public let sMSChannelResponse: SMSChannelResponse
 
@@ -2786,6 +2867,9 @@ extension Pinpoint {
     public struct DeleteSmsTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -2821,6 +2905,9 @@ extension Pinpoint {
     public struct DeleteUserEndpointsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "endpointsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endpointsResponse", location: .body(locationName: "EndpointsResponse"))
+        ]
 
         public let endpointsResponse: EndpointsResponse
 
@@ -2852,6 +2939,9 @@ extension Pinpoint {
     public struct DeleteVoiceChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "voiceChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
+        ]
 
         public let voiceChannelResponse: VoiceChannelResponse
 
@@ -2887,6 +2977,9 @@ extension Pinpoint {
     public struct DeleteVoiceTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -4114,6 +4207,9 @@ extension Pinpoint {
     public struct GetAdmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aDMChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
+        ]
 
         public let aDMChannelResponse: ADMChannelResponse
 
@@ -4145,6 +4241,9 @@ extension Pinpoint {
     public struct GetApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
+        ]
 
         public let aPNSChannelResponse: APNSChannelResponse
 
@@ -4176,6 +4275,9 @@ extension Pinpoint {
     public struct GetApnsSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSSandboxChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
+        ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
@@ -4207,6 +4309,9 @@ extension Pinpoint {
     public struct GetApnsVoipChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
+        ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
 
@@ -4238,6 +4343,9 @@ extension Pinpoint {
     public struct GetApnsVoipSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipSandboxChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
+        ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
@@ -4269,6 +4377,9 @@ extension Pinpoint {
     public struct GetAppResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationResponse", location: .body(locationName: "ApplicationResponse"))
+        ]
 
         public let applicationResponse: ApplicationResponse
 
@@ -4320,6 +4431,9 @@ extension Pinpoint {
     public struct GetApplicationDateRangeKpiResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationDateRangeKpiResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationDateRangeKpiResponse", location: .body(locationName: "ApplicationDateRangeKpiResponse"))
+        ]
 
         public let applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse
 
@@ -4351,6 +4465,9 @@ extension Pinpoint {
     public struct GetApplicationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationSettingsResource"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationSettingsResource", location: .body(locationName: "ApplicationSettingsResource"))
+        ]
 
         public let applicationSettingsResource: ApplicationSettingsResource
 
@@ -4386,6 +4503,9 @@ extension Pinpoint {
     public struct GetAppsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationsResponse", location: .body(locationName: "ApplicationsResponse"))
+        ]
 
         public let applicationsResponse: ApplicationsResponse
 
@@ -4417,6 +4537,9 @@ extension Pinpoint {
     public struct GetBaiduChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "baiduChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
+        ]
 
         public let baiduChannelResponse: BaiduChannelResponse
 
@@ -4460,6 +4583,9 @@ extension Pinpoint {
     public struct GetCampaignActivitiesResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "activitiesResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "activitiesResponse", location: .body(locationName: "ActivitiesResponse"))
+        ]
 
         public let activitiesResponse: ActivitiesResponse
 
@@ -4515,6 +4641,9 @@ extension Pinpoint {
     public struct GetCampaignDateRangeKpiResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignDateRangeKpiResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignDateRangeKpiResponse", location: .body(locationName: "CampaignDateRangeKpiResponse"))
+        ]
 
         public let campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse
 
@@ -4550,6 +4679,9 @@ extension Pinpoint {
     public struct GetCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+        ]
 
         public let campaignResponse: CampaignResponse
 
@@ -4589,6 +4721,9 @@ extension Pinpoint {
     public struct GetCampaignVersionResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+        ]
 
         public let campaignResponse: CampaignResponse
 
@@ -4632,6 +4767,9 @@ extension Pinpoint {
     public struct GetCampaignVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignsResponse", location: .body(locationName: "CampaignsResponse"))
+        ]
 
         public let campaignsResponse: CampaignsResponse
 
@@ -4671,6 +4809,9 @@ extension Pinpoint {
     public struct GetCampaignsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignsResponse", location: .body(locationName: "CampaignsResponse"))
+        ]
 
         public let campaignsResponse: CampaignsResponse
 
@@ -4702,6 +4843,9 @@ extension Pinpoint {
     public struct GetChannelsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "channelsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelsResponse", location: .body(locationName: "ChannelsResponse"))
+        ]
 
         public let channelsResponse: ChannelsResponse
 
@@ -4733,6 +4877,9 @@ extension Pinpoint {
     public struct GetEmailChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "emailChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
+        ]
 
         public let emailChannelResponse: EmailChannelResponse
 
@@ -4768,6 +4915,9 @@ extension Pinpoint {
     public struct GetEmailTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "emailTemplateResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "emailTemplateResponse", location: .body(locationName: "EmailTemplateResponse"))
+        ]
 
         public let emailTemplateResponse: EmailTemplateResponse
 
@@ -4803,6 +4953,9 @@ extension Pinpoint {
     public struct GetEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "endpointResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endpointResponse", location: .body(locationName: "EndpointResponse"))
+        ]
 
         public let endpointResponse: EndpointResponse
 
@@ -4834,6 +4987,9 @@ extension Pinpoint {
     public struct GetEventStreamResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "eventStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
+        ]
 
         public let eventStream: EventStream
 
@@ -4869,6 +5025,9 @@ extension Pinpoint {
     public struct GetExportJobResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "exportJobResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportJobResponse", location: .body(locationName: "ExportJobResponse"))
+        ]
 
         public let exportJobResponse: ExportJobResponse
 
@@ -4908,6 +5067,9 @@ extension Pinpoint {
     public struct GetExportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "exportJobsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportJobsResponse", location: .body(locationName: "ExportJobsResponse"))
+        ]
 
         public let exportJobsResponse: ExportJobsResponse
 
@@ -4939,6 +5101,9 @@ extension Pinpoint {
     public struct GetGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "gCMChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
+        ]
 
         public let gCMChannelResponse: GCMChannelResponse
 
@@ -4974,6 +5139,9 @@ extension Pinpoint {
     public struct GetImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "importJobResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "importJobResponse", location: .body(locationName: "ImportJobResponse"))
+        ]
 
         public let importJobResponse: ImportJobResponse
 
@@ -5013,6 +5181,9 @@ extension Pinpoint {
     public struct GetImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "importJobsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "importJobsResponse", location: .body(locationName: "ImportJobsResponse"))
+        ]
 
         public let importJobsResponse: ImportJobsResponse
 
@@ -5068,6 +5239,9 @@ extension Pinpoint {
     public struct GetJourneyDateRangeKpiResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyDateRangeKpiResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyDateRangeKpiResponse", location: .body(locationName: "JourneyDateRangeKpiResponse"))
+        ]
 
         public let journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse
 
@@ -5115,6 +5289,9 @@ extension Pinpoint {
     public struct GetJourneyExecutionActivityMetricsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyExecutionActivityMetricsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyExecutionActivityMetricsResponse", location: .body(locationName: "JourneyExecutionActivityMetricsResponse"))
+        ]
 
         public let journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse
 
@@ -5158,6 +5335,9 @@ extension Pinpoint {
     public struct GetJourneyExecutionMetricsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyExecutionMetricsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyExecutionMetricsResponse", location: .body(locationName: "JourneyExecutionMetricsResponse"))
+        ]
 
         public let journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse
 
@@ -5193,6 +5373,9 @@ extension Pinpoint {
     public struct GetJourneyResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+        ]
 
         public let journeyResponse: JourneyResponse
 
@@ -5228,6 +5411,9 @@ extension Pinpoint {
     public struct GetPushTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "pushNotificationTemplateResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "pushNotificationTemplateResponse", location: .body(locationName: "PushNotificationTemplateResponse"))
+        ]
 
         public let pushNotificationTemplateResponse: PushNotificationTemplateResponse
 
@@ -5271,6 +5457,9 @@ extension Pinpoint {
     public struct GetSegmentExportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "exportJobsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportJobsResponse", location: .body(locationName: "ExportJobsResponse"))
+        ]
 
         public let exportJobsResponse: ExportJobsResponse
 
@@ -5314,6 +5503,9 @@ extension Pinpoint {
     public struct GetSegmentImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "importJobsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "importJobsResponse", location: .body(locationName: "ImportJobsResponse"))
+        ]
 
         public let importJobsResponse: ImportJobsResponse
 
@@ -5349,6 +5541,9 @@ extension Pinpoint {
     public struct GetSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+        ]
 
         public let segmentResponse: SegmentResponse
 
@@ -5388,6 +5583,9 @@ extension Pinpoint {
     public struct GetSegmentVersionResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+        ]
 
         public let segmentResponse: SegmentResponse
 
@@ -5431,6 +5629,9 @@ extension Pinpoint {
     public struct GetSegmentVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentsResponse", location: .body(locationName: "SegmentsResponse"))
+        ]
 
         public let segmentsResponse: SegmentsResponse
 
@@ -5470,6 +5671,9 @@ extension Pinpoint {
     public struct GetSegmentsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentsResponse", location: .body(locationName: "SegmentsResponse"))
+        ]
 
         public let segmentsResponse: SegmentsResponse
 
@@ -5501,6 +5705,9 @@ extension Pinpoint {
     public struct GetSmsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "sMSChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
+        ]
 
         public let sMSChannelResponse: SMSChannelResponse
 
@@ -5536,6 +5743,9 @@ extension Pinpoint {
     public struct GetSmsTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "sMSTemplateResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sMSTemplateResponse", location: .body(locationName: "SMSTemplateResponse"))
+        ]
 
         public let sMSTemplateResponse: SMSTemplateResponse
 
@@ -5571,6 +5781,9 @@ extension Pinpoint {
     public struct GetUserEndpointsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "endpointsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endpointsResponse", location: .body(locationName: "EndpointsResponse"))
+        ]
 
         public let endpointsResponse: EndpointsResponse
 
@@ -5602,6 +5815,9 @@ extension Pinpoint {
     public struct GetVoiceChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "voiceChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
+        ]
 
         public let voiceChannelResponse: VoiceChannelResponse
 
@@ -5637,6 +5853,9 @@ extension Pinpoint {
     public struct GetVoiceTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "voiceTemplateResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceTemplateResponse", location: .body(locationName: "VoiceTemplateResponse"))
+        ]
 
         public let voiceTemplateResponse: VoiceTemplateResponse
 
@@ -6139,6 +6358,9 @@ extension Pinpoint {
     public struct ListJourneysResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeysResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeysResponse", location: .body(locationName: "JourneysResponse"))
+        ]
 
         public let journeysResponse: JourneysResponse
 
@@ -6170,6 +6392,9 @@ extension Pinpoint {
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "tagsModel"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
+        ]
 
         public let tagsModel: TagsModel
 
@@ -6213,6 +6438,9 @@ extension Pinpoint {
     public struct ListTemplateVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "templateVersionsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateVersionsResponse", location: .body(locationName: "TemplateVersionsResponse"))
+        ]
 
         public let templateVersionsResponse: TemplateVersionsResponse
 
@@ -6256,6 +6484,9 @@ extension Pinpoint {
     public struct ListTemplatesResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "templatesResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templatesResponse", location: .body(locationName: "TemplatesResponse"))
+        ]
 
         public let templatesResponse: TemplatesResponse
 
@@ -6633,6 +6864,9 @@ extension Pinpoint {
     public struct PhoneNumberValidateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "numberValidateResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "numberValidateResponse", location: .body(locationName: "NumberValidateResponse"))
+        ]
 
         public let numberValidateResponse: NumberValidateResponse
 
@@ -6831,6 +7065,9 @@ extension Pinpoint {
     public struct PutEventStreamResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "eventStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventStream", location: .body(locationName: "EventStream"))
+        ]
 
         public let eventStream: EventStream
 
@@ -6867,6 +7104,9 @@ extension Pinpoint {
     public struct PutEventsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "eventsResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventsResponse", location: .body(locationName: "EventsResponse"))
+        ]
 
         public let eventsResponse: EventsResponse
 
@@ -6989,6 +7229,9 @@ extension Pinpoint {
     public struct RemoveAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "attributesResource"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attributesResource", location: .body(locationName: "AttributesResource"))
+        ]
 
         public let attributesResource: AttributesResource
 
@@ -7590,6 +7833,9 @@ extension Pinpoint {
     public struct SendMessagesResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageResponse", location: .body(locationName: "MessageResponse"))
+        ]
 
         public let messageResponse: MessageResponse
 
@@ -7678,6 +7924,9 @@ extension Pinpoint {
     public struct SendUsersMessagesResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "sendUsersMessageResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sendUsersMessageResponse", location: .body(locationName: "SendUsersMessageResponse"))
+        ]
 
         public let sendUsersMessageResponse: SendUsersMessageResponse
 
@@ -8121,6 +8370,9 @@ extension Pinpoint {
     public struct UpdateAdmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aDMChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aDMChannelResponse", location: .body(locationName: "ADMChannelResponse"))
+        ]
 
         public let aDMChannelResponse: ADMChannelResponse
 
@@ -8157,6 +8409,9 @@ extension Pinpoint {
     public struct UpdateApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body(locationName: "APNSChannelResponse"))
+        ]
 
         public let aPNSChannelResponse: APNSChannelResponse
 
@@ -8193,6 +8448,9 @@ extension Pinpoint {
     public struct UpdateApnsSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSSandboxChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body(locationName: "APNSSandboxChannelResponse"))
+        ]
 
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
@@ -8229,6 +8487,9 @@ extension Pinpoint {
     public struct UpdateApnsVoipChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body(locationName: "APNSVoipChannelResponse"))
+        ]
 
         public let aPNSVoipChannelResponse: APNSVoipChannelResponse
 
@@ -8265,6 +8526,9 @@ extension Pinpoint {
     public struct UpdateApnsVoipSandboxChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipSandboxChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body(locationName: "APNSVoipSandboxChannelResponse"))
+        ]
 
         public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
@@ -8301,6 +8565,9 @@ extension Pinpoint {
     public struct UpdateApplicationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "applicationSettingsResource"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationSettingsResource", location: .body(locationName: "ApplicationSettingsResource"))
+        ]
 
         public let applicationSettingsResource: ApplicationSettingsResource
 
@@ -8351,6 +8618,9 @@ extension Pinpoint {
     public struct UpdateBaiduChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "baiduChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "baiduChannelResponse", location: .body(locationName: "BaiduChannelResponse"))
+        ]
 
         public let baiduChannelResponse: BaiduChannelResponse
 
@@ -8391,6 +8661,9 @@ extension Pinpoint {
     public struct UpdateCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "campaignResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "campaignResponse", location: .body(locationName: "CampaignResponse"))
+        ]
 
         public let campaignResponse: CampaignResponse
 
@@ -8427,6 +8700,9 @@ extension Pinpoint {
     public struct UpdateEmailChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "emailChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "emailChannelResponse", location: .body(locationName: "EmailChannelResponse"))
+        ]
 
         public let emailChannelResponse: EmailChannelResponse
 
@@ -8471,6 +8747,9 @@ extension Pinpoint {
     public struct UpdateEmailTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -8511,6 +8790,9 @@ extension Pinpoint {
     public struct UpdateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -8547,6 +8829,9 @@ extension Pinpoint {
     public struct UpdateEndpointsBatchResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -8583,6 +8868,9 @@ extension Pinpoint {
     public struct UpdateGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "gCMChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gCMChannelResponse", location: .body(locationName: "GCMChannelResponse"))
+        ]
 
         public let gCMChannelResponse: GCMChannelResponse
 
@@ -8623,6 +8911,9 @@ extension Pinpoint {
     public struct UpdateJourneyResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+        ]
 
         public let journeyResponse: JourneyResponse
 
@@ -8663,6 +8954,9 @@ extension Pinpoint {
     public struct UpdateJourneyStateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "journeyResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "journeyResponse", location: .body(locationName: "JourneyResponse"))
+        ]
 
         public let journeyResponse: JourneyResponse
 
@@ -8707,6 +9001,9 @@ extension Pinpoint {
     public struct UpdatePushTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -8747,6 +9044,9 @@ extension Pinpoint {
     public struct UpdateSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "segmentResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "segmentResponse", location: .body(locationName: "SegmentResponse"))
+        ]
 
         public let segmentResponse: SegmentResponse
 
@@ -8783,6 +9083,9 @@ extension Pinpoint {
     public struct UpdateSmsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "sMSChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sMSChannelResponse", location: .body(locationName: "SMSChannelResponse"))
+        ]
 
         public let sMSChannelResponse: SMSChannelResponse
 
@@ -8827,6 +9130,9 @@ extension Pinpoint {
     public struct UpdateSmsTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -8867,6 +9173,9 @@ extension Pinpoint {
     public struct UpdateTemplateActiveVersionResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 
@@ -8903,6 +9212,9 @@ extension Pinpoint {
     public struct UpdateVoiceChannelResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "voiceChannelResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceChannelResponse", location: .body(locationName: "VoiceChannelResponse"))
+        ]
 
         public let voiceChannelResponse: VoiceChannelResponse
 
@@ -8947,6 +9259,9 @@ extension Pinpoint {
     public struct UpdateVoiceTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "messageBody"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageBody", location: .body(locationName: "MessageBody"))
+        ]
 
         public let messageBody: MessageBody
 

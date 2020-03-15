@@ -981,6 +981,7 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "copyObjectResult"
         public static var _encoding = [
+            AWSMemberEncoding(label: "copyObjectResult", location: .body(locationName: "CopyObjectResult")), 
             AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")), 
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
@@ -2328,6 +2329,9 @@ extension S3 {
     public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "analyticsConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"))
+        ]
 
         /// The configuration and any analyses for the analytics filter.
         public let analyticsConfiguration: AnalyticsConfiguration?
@@ -2400,6 +2404,9 @@ extension S3 {
     public struct GetBucketEncryptionOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "serverSideEncryptionConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"))
+        ]
 
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
 
@@ -2432,6 +2439,9 @@ extension S3 {
     public struct GetBucketInventoryConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "inventoryConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inventoryConfiguration", location: .body(locationName: "InventoryConfiguration"))
+        ]
 
         /// Specifies the inventory configuration.
         public let inventoryConfiguration: InventoryConfiguration?
@@ -2599,6 +2609,9 @@ extension S3 {
     public struct GetBucketMetricsConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "metricsConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricsConfiguration", location: .body(locationName: "MetricsConfiguration"))
+        ]
 
         /// Specifies the metrics configuration.
         public let metricsConfiguration: MetricsConfiguration?
@@ -2654,6 +2667,9 @@ extension S3 {
     public struct GetBucketPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
+        ]
 
         /// The bucket policy as a JSON document.
         public let policy: String?
@@ -2687,6 +2703,9 @@ extension S3 {
     public struct GetBucketPolicyStatusOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "policyStatus"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "policyStatus", location: .body(locationName: "PolicyStatus"))
+        ]
 
         /// The policy status for the specified bucket.
         public let policyStatus: PolicyStatus?
@@ -2720,6 +2739,9 @@ extension S3 {
     public struct GetBucketReplicationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "replicationConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "replicationConfiguration", location: .body(locationName: "ReplicationConfiguration"))
+        ]
 
         public let replicationConfiguration: ReplicationConfiguration?
 
@@ -2961,6 +2983,9 @@ extension S3 {
     public struct GetObjectLegalHoldOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "legalHold"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "legalHold", location: .body(locationName: "LegalHold"))
+        ]
 
         /// The current Legal Hold status for the specified object.
         public let legalHold: ObjectLockLegalHold?
@@ -3012,6 +3037,9 @@ extension S3 {
     public struct GetObjectLockConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "objectLockConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "objectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration"))
+        ]
 
         /// The specified bucket's Object Lock configuration.
         public let objectLockConfiguration: ObjectLockConfiguration?
@@ -3323,6 +3351,9 @@ extension S3 {
     public struct GetObjectRetentionOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "retention"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "retention", location: .body(locationName: "Retention"))
+        ]
 
         /// The container element for an object's retention settings.
         public let retention: ObjectLockRetention?
@@ -3480,6 +3511,9 @@ extension S3 {
     public struct GetPublicAccessBlockOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
+        ]
 
         /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
@@ -7574,6 +7608,7 @@ extension S3 {
         /// The key for the payload
         public static let payloadPath: String? = "copyPartResult"
         public static var _encoding = [
+            AWSMemberEncoding(label: "copyPartResult", location: .body(locationName: "CopyPartResult")), 
             AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
             AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
