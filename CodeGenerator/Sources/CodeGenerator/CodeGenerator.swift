@@ -17,10 +17,10 @@ import SwiftyJSON
 
 /*
  CHANGES/ASSUMPTIONS from shape member cleanup
- 
+
  AWSShapeMember label is the name coming from the model file. The member variable lowercases the first letter
  Payload data blob has encoding: .blob. They need the AWSShapeMember label to identify them
- 
+
  */
 extension Location {
     func enumStyleDescription() -> String {
@@ -143,7 +143,7 @@ extension Shape {
             return "Any"
         }
     }
-    
+
     /// return swift type name that would compile when referenced outside of service class. You need to prefix all shapes defined in the service class with the service name
     public func swiftTypeNameWithServiceNamePrefix(_ serviceName: String) -> String {
         switch self.type {
@@ -309,7 +309,7 @@ extension AWSService {
             deprecated: operation.deprecatedMessage
         )
     }
-    
+
     func getMiddleware() -> String? {
         switch serviceName {
         case "APIGateway":
@@ -324,7 +324,7 @@ extension AWSService {
             return nil
         }
     }
-    
+
     /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -417,7 +417,7 @@ extension AWSService {
     func generateAWSShapeMemberContext(_ member: Member, shape: Shape, forceOutput: Bool) -> AWSShapeMemberContext? {
         let encoding = member.shapeEncoding?.enumStyleDescription()
         var location = member.location
-        
+
         // if member has collection encoding ie the codingkey will be needed, or name has been force to output then add a Location.body
         if (encoding != nil || forceOutput) && location == nil {
             location = .body(locationName: member.name)
@@ -507,7 +507,7 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name) {
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(member, shape: shape, forceOutput: type.payload == member.name && shape.response) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
 
@@ -545,10 +545,10 @@ extension AWSService {
             }
             return false
         })
-        
+
         return hasRecursiveOwnReference
     }
-    
+
     /// Generate the context for outputting all the AWSShape (enums and structures)
     func generateShapesContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -587,7 +587,7 @@ extension AWSService {
         context["name"] = serviceName
 
         var paginatorContexts: [PaginatorContext] = []
-        
+
         for paginator in paginators {
             // get related operation and its input and output shapes
             guard let operation = operations.first(where: {$0.name == paginator.methodName}),
@@ -604,10 +604,10 @@ extension AWSService {
                 let inputTokenMember = inputShapeStruct.members.first(where: {$0.name == paginator.inputTokens[0]}) else {
                     continue
             }
-            
+
             let paginatorProtocol = "AWSPaginateToken"
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(serviceName)
-            
+
             // process output tokens
             let outputTokens = paginator.outputTokens.map { (token)->String in
                 var split = token.split(separator: ".")
@@ -615,7 +615,7 @@ extension AWSService {
                     // if string contains [-1] replace with '.last'.
                     if let negativeIndexRange = split[i].range(of: "[-1]") {
                         split[i].removeSubrange(negativeIndexRange)
-                        
+
                         var replacement = "last"
                         // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
                         if split.count > i+1 {
@@ -630,7 +630,7 @@ extension AWSService {
                 }
                 return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
             }
-                        
+
             var initParams: [String: String] = [:]
             for member in inputShapeStruct.members {
                 initParams[member.name.toSwiftLabelCase()] = "self.\(member.name.toSwiftLabelCase())"
@@ -647,13 +647,13 @@ extension AWSService {
                 )
             )
         }
-        
+
         if paginatorContexts.count > 0 {
             context["paginators"] = paginatorContexts
         }
         return context
     }
-    
+
     func getCustomTemplates() -> [String] {
         return Glob.entries(pattern: "\(rootPath())/CodeGenerator/Templates/Custom/\(endpointPrefix)/*.stencil")
     }
