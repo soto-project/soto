@@ -103,7 +103,6 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case customerGatewayArn = "CustomerGatewayArn"
             case deviceId = "DeviceId"
-            case globalNetworkId = "globalNetworkId"
             case linkId = "LinkId"
         }
     }
@@ -142,7 +141,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case deviceId = "DeviceId"
-            case globalNetworkId = "globalNetworkId"
             case linkId = "LinkId"
         }
     }
@@ -217,7 +215,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
             case model = "Model"
             case serialNumber = "SerialNumber"
@@ -307,7 +304,6 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case provider = "Provider"
             case siteId = "SiteId"
             case tags = "Tags"
@@ -352,7 +348,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
             case tags = "Tags"
         }
@@ -418,10 +413,7 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDeviceResponse: AWSDecodableShape {
@@ -450,9 +442,7 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGlobalNetworkResponse: AWSDecodableShape {
@@ -485,10 +475,7 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLinkResponse: AWSDecodableShape {
@@ -521,10 +508,7 @@ extension NetworkManager {
             self.siteId = siteId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case siteId = "siteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSiteResponse: AWSDecodableShape {
@@ -557,10 +541,7 @@ extension NetworkManager {
             self.transitGatewayArn = transitGatewayArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case transitGatewayArn = "transitGatewayArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeregisterTransitGatewayResponse: AWSDecodableShape {
@@ -602,11 +583,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkIds = "globalNetworkIds"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeGlobalNetworksResponse: AWSDecodableShape {
@@ -705,10 +682,7 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case customerGatewayArn = "customerGatewayArn"
-            case globalNetworkId = "globalNetworkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateCustomerGatewayResponse: AWSDecodableShape {
@@ -745,11 +719,7 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateLinkResponse: AWSDecodableShape {
@@ -795,12 +765,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case customerGatewayArns = "customerGatewayArns"
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCustomerGatewayAssociationsResponse: AWSDecodableShape {
@@ -854,13 +819,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceIds = "deviceIds"
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case siteId = "siteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDevicesResponse: AWSDecodableShape {
@@ -914,13 +873,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLinkAssociationsResponse: AWSDecodableShape {
@@ -982,15 +935,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case linkIds = "linkIds"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case provider = "provider"
-            case siteId = "siteId"
-            case `type` = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLinksResponse: AWSDecodableShape {
@@ -1040,12 +985,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case siteIds = "siteIds"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSitesResponse: AWSDecodableShape {
@@ -1095,12 +1035,7 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case transitGatewayArns = "transitGatewayArns"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTransitGatewayRegistrationsResponse: AWSDecodableShape {
@@ -1247,9 +1182,7 @@ extension NetworkManager {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1304,7 +1237,6 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
             case transitGatewayArn = "TransitGatewayArn"
         }
     }
@@ -1399,7 +1331,6 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
@@ -1468,10 +1399,7 @@ extension NetworkManager {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -1520,8 +1448,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
             case model = "Model"
             case serialNumber = "SerialNumber"
@@ -1562,7 +1488,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
         }
     }
 
@@ -1611,8 +1536,6 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
             case provider = "Provider"
             case `type` = "Type"
         }
@@ -1656,9 +1579,7 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
-            case siteId = "siteId"
         }
     }
 

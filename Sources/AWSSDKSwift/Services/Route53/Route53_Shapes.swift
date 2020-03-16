@@ -306,7 +306,6 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
@@ -425,7 +424,6 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case changeBatch = "ChangeBatch"
-            case hostedZoneId = "Id"
         }
     }
 
@@ -485,8 +483,6 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case addTags = "AddTags"
             case removeTagKeys = "RemoveTagKeys"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
         }
     }
 
@@ -894,7 +890,6 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case document = "Document"
-            case id = "Id"
         }
     }
 
@@ -941,7 +936,6 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
@@ -1005,9 +999,7 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteHealthCheckResponse: AWSDecodableShape {
@@ -1034,9 +1026,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteHostedZoneResponse: AWSDecodableShape {
@@ -1070,9 +1060,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteQueryLoggingConfigResponse: AWSDecodableShape {
@@ -1099,9 +1087,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteReusableDelegationSetResponse: AWSDecodableShape {
@@ -1129,9 +1115,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTrafficPolicyInstanceResponse: AWSDecodableShape {
@@ -1165,10 +1149,7 @@ extension Route53 {
             try validate(self.version, name:"version", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case version = "Version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTrafficPolicyResponse: AWSDecodableShape {
@@ -1201,7 +1182,6 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
@@ -1258,7 +1238,6 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
@@ -1354,9 +1333,7 @@ extension Route53 {
             self.`type` = `type`
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAccountLimitResponse: AWSDecodableShape {
@@ -1393,9 +1370,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetChangeResponse: AWSDecodableShape {
@@ -1466,11 +1441,7 @@ extension Route53 {
             try validate(self.subdivisionCode, name:"subdivisionCode", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continentCode = "continentcode"
-            case countryCode = "countrycode"
-            case subdivisionCode = "subdivisioncode"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGeoLocationResponse: AWSDecodableShape {
@@ -1525,9 +1496,7 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetHealthCheckLastFailureReasonResponse: AWSDecodableShape {
@@ -1563,9 +1532,7 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetHealthCheckResponse: AWSDecodableShape {
@@ -1598,9 +1565,7 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetHealthCheckStatusResponse: AWSDecodableShape {
@@ -1662,10 +1627,7 @@ extension Route53 {
             try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
-            case `type` = "Type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetHostedZoneLimitResponse: AWSDecodableShape {
@@ -1702,9 +1664,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetHostedZoneResponse: AWSDecodableShape {
@@ -1749,9 +1709,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetQueryLoggingConfigResponse: AWSDecodableShape {
@@ -1788,10 +1746,7 @@ extension Route53 {
             try validate(self.delegationSetId, name:"delegationSetId", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case delegationSetId = "Id"
-            case `type` = "Type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReusableDelegationSetLimitResponse: AWSDecodableShape {
@@ -1828,9 +1783,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReusableDelegationSetResponse: AWSDecodableShape {
@@ -1886,9 +1839,7 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTrafficPolicyInstanceResponse: AWSDecodableShape {
@@ -1928,10 +1879,7 @@ extension Route53 {
             try validate(self.version, name:"version", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case version = "Version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTrafficPolicyResponse: AWSDecodableShape {
@@ -2234,12 +2182,7 @@ extension Route53 {
             try validate(self.startSubdivisionCode, name:"startSubdivisionCode", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "maxitems"
-            case startContinentCode = "startcontinentcode"
-            case startCountryCode = "startcountrycode"
-            case startSubdivisionCode = "startsubdivisioncode"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGeoLocationsResponse: AWSDecodableShape {
@@ -2299,10 +2242,7 @@ extension Route53 {
             try validate(self.marker, name:"marker", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListHealthChecksResponse: AWSDecodableShape {
@@ -2363,11 +2303,7 @@ extension Route53 {
             try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dNSName = "dnsname"
-            case hostedZoneId = "hostedzoneid"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListHostedZonesByNameResponse: AWSDecodableShape {
@@ -2436,11 +2372,7 @@ extension Route53 {
             try validate(self.marker, name:"marker", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case delegationSetId = "delegationsetid"
-            case marker = "marker"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListHostedZonesResponse: AWSDecodableShape {
@@ -2501,11 +2433,7 @@ extension Route53 {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "hostedzoneid"
-            case maxResults = "maxresults"
-            case nextToken = "nexttoken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListQueryLoggingConfigsResponse: AWSDecodableShape {
@@ -2564,13 +2492,7 @@ extension Route53 {
             try validate(self.startRecordName, name:"startRecordName", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
-            case maxItems = "maxitems"
-            case startRecordIdentifier = "identifier"
-            case startRecordName = "name"
-            case startRecordType = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResourceRecordSetsResponse: AWSDecodableShape {
@@ -2630,10 +2552,7 @@ extension Route53 {
             try validate(self.marker, name:"marker", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListReusableDelegationSetsResponse: AWSDecodableShape {
@@ -2689,10 +2608,7 @@ extension Route53 {
             try validate(self.resourceId, name:"resourceId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -2736,7 +2652,6 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case resourceIds = "ResourceIds"
-            case resourceType = "ResourceType"
         }
     }
 
@@ -2778,10 +2693,7 @@ extension Route53 {
             try validate(self.trafficPolicyIdMarker, name:"trafficPolicyIdMarker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "maxitems"
-            case trafficPolicyIdMarker = "trafficpolicyid"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTrafficPoliciesResponse: AWSDecodableShape {
@@ -2842,12 +2754,7 @@ extension Route53 {
             try validate(self.trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "id"
-            case maxItems = "maxitems"
-            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
-            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSDecodableShape {
@@ -2924,14 +2831,7 @@ extension Route53 {
             try validate(self.trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneIdMarker = "hostedzoneid"
-            case maxItems = "maxitems"
-            case trafficPolicyId = "id"
-            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
-            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
-            case trafficPolicyVersion = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSDecodableShape {
@@ -3000,12 +2900,7 @@ extension Route53 {
             try validate(self.trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneIdMarker = "hostedzoneid"
-            case maxItems = "maxitems"
-            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
-            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTrafficPolicyInstancesResponse: AWSDecodableShape {
@@ -3071,11 +2966,7 @@ extension Route53 {
             try validate(self.trafficPolicyVersionMarker, name:"trafficPolicyVersionMarker", parent: name, max: 4)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case maxItems = "maxitems"
-            case trafficPolicyVersionMarker = "trafficpolicyversion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTrafficPolicyVersionsResponse: AWSDecodableShape {
@@ -3132,11 +3023,7 @@ extension Route53 {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
-            case maxResults = "maxresults"
-            case nextToken = "nexttoken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVPCAssociationAuthorizationsResponse: AWSDecodableShape {
@@ -3415,14 +3302,7 @@ extension Route53 {
             try validate(self.resolverIP, name:"resolverIP", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eDNS0ClientSubnetIP = "edns0clientsubnetip"
-            case eDNS0ClientSubnetMask = "edns0clientsubnetmask"
-            case hostedZoneId = "hostedzoneid"
-            case recordName = "recordname"
-            case recordType = "recordtype"
-            case resolverIP = "resolverip"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TestDNSAnswerResponse: AWSDecodableShape {
@@ -3667,7 +3547,6 @@ extension Route53 {
             case enableSNI = "EnableSNI"
             case failureThreshold = "FailureThreshold"
             case fullyQualifiedDomainName = "FullyQualifiedDomainName"
-            case healthCheckId = "HealthCheckId"
             case healthCheckVersion = "HealthCheckVersion"
             case healthThreshold = "HealthThreshold"
             case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
@@ -3718,7 +3597,6 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case id = "Id"
         }
     }
 
@@ -3766,8 +3644,6 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case id = "Id"
-            case version = "Version"
         }
     }
 
@@ -3819,7 +3695,6 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case trafficPolicyId = "TrafficPolicyId"
             case trafficPolicyVersion = "TrafficPolicyVersion"
             case ttl = "TTL"

@@ -82,7 +82,6 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
             case outputs = "outputs"
         }
     }
@@ -120,7 +119,6 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
             case sources = "sources"
         }
     }
@@ -158,7 +156,6 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
             case vpcInterfaces = "vpcInterfaces"
         }
     }
@@ -298,9 +295,7 @@ extension MediaConnect {
             self.flowArn = flowArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFlowResponse: AWSDecodableShape {
@@ -332,9 +327,7 @@ extension MediaConnect {
             self.flowArn = flowArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeFlowResponse: AWSDecodableShape {
@@ -551,7 +544,6 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case entitlements = "entitlements"
-            case flowArn = "flowArn"
         }
     }
 
@@ -592,10 +584,7 @@ extension MediaConnect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListEntitlementsResponse: AWSDecodableShape {
@@ -635,10 +624,7 @@ extension MediaConnect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFlowsResponse: AWSDecodableShape {
@@ -670,9 +656,7 @@ extension MediaConnect {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -823,10 +807,7 @@ extension MediaConnect {
             self.outputArn = outputArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case outputArn = "outputArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RemoveFlowOutputResponse: AWSDecodableShape {
@@ -861,10 +842,7 @@ extension MediaConnect {
             self.sourceArn = sourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case sourceArn = "sourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RemoveFlowSourceResponse: AWSDecodableShape {
@@ -899,10 +877,7 @@ extension MediaConnect {
             self.vpcInterfaceName = vpcInterfaceName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-            case vpcInterfaceName = "vpcInterfaceName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RemoveFlowVpcInterfaceResponse: AWSDecodableShape {
@@ -941,10 +916,7 @@ extension MediaConnect {
             self.flowArn = flowArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entitlementArn = "entitlementArn"
-            case flowArn = "flowArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RevokeFlowEntitlementResponse: AWSDecodableShape {
@@ -1084,9 +1056,7 @@ extension MediaConnect {
             self.flowArn = flowArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartFlowResponse: AWSDecodableShape {
@@ -1118,9 +1088,7 @@ extension MediaConnect {
             self.flowArn = flowArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopFlowResponse: AWSDecodableShape {
@@ -1156,7 +1124,6 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -1213,10 +1180,7 @@ extension MediaConnect {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateEncryption: AWSEncodableShape {
@@ -1308,8 +1272,6 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case encryption = "encryption"
-            case entitlementArn = "entitlementArn"
-            case flowArn = "flowArn"
             case subscribers = "subscribers"
         }
     }
@@ -1380,9 +1342,7 @@ extension MediaConnect {
             case description = "description"
             case destination = "destination"
             case encryption = "encryption"
-            case flowArn = "flowArn"
             case maxLatency = "maxLatency"
-            case outputArn = "outputArn"
             case port = "port"
             case `protocol` = "protocol"
             case remoteId = "remoteId"
@@ -1422,7 +1382,6 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn = "flowArn"
             case sourceFailoverConfig = "sourceFailoverConfig"
         }
     }
@@ -1488,12 +1447,10 @@ extension MediaConnect {
             case decryption = "decryption"
             case description = "description"
             case entitlementArn = "entitlementArn"
-            case flowArn = "flowArn"
             case ingestPort = "ingestPort"
             case maxBitrate = "maxBitrate"
             case maxLatency = "maxLatency"
             case `protocol` = "protocol"
-            case sourceArn = "sourceArn"
             case streamId = "streamId"
             case vpcInterfaceName = "vpcInterfaceName"
             case whitelistCidr = "whitelistCidr"

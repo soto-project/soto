@@ -177,9 +177,7 @@ extension Polly {
             try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "LexiconName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLexiconOutput: AWSDecodableShape {
@@ -219,12 +217,7 @@ extension Polly {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case engine = "Engine"
-            case includeAdditionalLanguageCodes = "IncludeAdditionalLanguageCodes"
-            case languageCode = "LanguageCode"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVoicesOutput: AWSDecodableShape {
@@ -261,9 +254,7 @@ extension Polly {
             try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "LexiconName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLexiconOutput: AWSDecodableShape {
@@ -300,9 +291,7 @@ extension Polly {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,100}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "TaskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSpeechSynthesisTaskOutput: AWSDecodableShape {
@@ -406,9 +395,7 @@ extension Polly {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListLexiconsOutput: AWSDecodableShape {
@@ -456,11 +443,7 @@ extension Polly {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case status = "Status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSpeechSynthesisTasksOutput: AWSDecodableShape {
@@ -502,7 +485,6 @@ extension Polly {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
-            case name = "LexiconName"
         }
     }
 

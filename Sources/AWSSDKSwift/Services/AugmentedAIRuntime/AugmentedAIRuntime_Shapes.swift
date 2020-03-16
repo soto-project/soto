@@ -61,9 +61,7 @@ extension AugmentedAIRuntime {
             try validate(self.humanLoopName, name:"humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case humanLoopName = "HumanLoopName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteHumanLoopResponse: AWSDecodableShape {
@@ -92,9 +90,7 @@ extension AugmentedAIRuntime {
             try validate(self.humanLoopName, name:"humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case humanLoopName = "HumanLoopName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeHumanLoopResponse: AWSDecodableShape {
@@ -260,14 +256,7 @@ extension AugmentedAIRuntime {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case creationTimeAfter = "CreationTimeAfter"
-            case creationTimeBefore = "CreationTimeBefore"
-            case flowDefinitionArn = "FlowDefinitionArn"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case sortOrder = "SortOrder"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListHumanLoopsResponse: AWSDecodableShape {

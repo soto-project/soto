@@ -251,8 +251,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case semanticVersion = "semanticVersion"
             case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case templateBody = "templateBody"
@@ -333,7 +331,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case capabilities = "capabilities"
             case changeSetName = "changeSetName"
             case clientToken = "clientToken"
@@ -385,7 +382,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case semanticVersion = "semanticVersion"
         }
     }
@@ -432,9 +428,7 @@ extension ServerlessApplicationRepository {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationPolicyRequest: AWSEncodableShape {
@@ -448,9 +442,7 @@ extension ServerlessApplicationRepository {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationPolicyResponse: AWSDecodableShape {
@@ -480,10 +472,7 @@ extension ServerlessApplicationRepository {
             self.semanticVersion = semanticVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case semanticVersion = "semanticVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationResponse: AWSDecodableShape {
@@ -549,10 +538,7 @@ extension ServerlessApplicationRepository {
             self.templateId = templateId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case templateId = "templateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFormationTemplateResponse: AWSDecodableShape {
@@ -611,12 +597,7 @@ extension ServerlessApplicationRepository {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case maxItems = "maxItems"
-            case nextToken = "nextToken"
-            case semanticVersion = "semanticVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListApplicationDependenciesResponse: AWSDecodableShape {
@@ -657,11 +638,7 @@ extension ServerlessApplicationRepository {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case maxItems = "maxItems"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListApplicationVersionsResponse: AWSDecodableShape {
@@ -699,10 +676,7 @@ extension ServerlessApplicationRepository {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "maxItems"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
@@ -833,7 +807,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case statements = "statements"
         }
     }
@@ -927,7 +900,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case organizationId = "organizationId"
         }
     }
@@ -956,7 +928,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case author = "author"
             case description = "description"
             case homePageUrl = "homePageUrl"

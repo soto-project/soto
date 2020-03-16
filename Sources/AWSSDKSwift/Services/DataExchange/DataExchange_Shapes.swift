@@ -188,9 +188,7 @@ extension DataExchange {
             self.jobId = jobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateDataSetRequest: AWSEncodableShape {
@@ -342,7 +340,6 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case dataSetId = "DataSetId"
             case tags = "Tags"
         }
     }
@@ -451,11 +448,7 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case assetId = "AssetId"
-            case dataSetId = "DataSetId"
-            case revisionId = "RevisionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDataSetRequest: AWSEncodableShape {
@@ -469,9 +462,7 @@ extension DataExchange {
             self.dataSetId = dataSetId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRevisionRequest: AWSEncodableShape {
@@ -488,10 +479,7 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
-            case revisionId = "RevisionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Details: AWSDecodableShape {
@@ -623,11 +611,7 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case assetId = "AssetId"
-            case dataSetId = "DataSetId"
-            case revisionId = "RevisionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAssetResponse: AWSDecodableShape {
@@ -681,9 +665,7 @@ extension DataExchange {
             self.dataSetId = dataSetId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDataSetResponse: AWSDecodableShape {
@@ -740,9 +722,7 @@ extension DataExchange {
             self.jobId = jobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobResponse: AWSDecodableShape {
@@ -793,10 +773,7 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
-            case revisionId = "RevisionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRevisionResponse: AWSDecodableShape {
@@ -1060,11 +1037,7 @@ extension DataExchange {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDataSetRevisionsResponse: AWSDecodableShape {
@@ -1105,11 +1078,7 @@ extension DataExchange {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case origin = "origin"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDataSetsResponse: AWSDecodableShape {
@@ -1153,12 +1122,7 @@ extension DataExchange {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "dataSetId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case revisionId = "revisionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
@@ -1202,12 +1166,7 @@ extension DataExchange {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case revisionId = "RevisionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRevisionAssetsResponse: AWSDecodableShape {
@@ -1237,9 +1196,7 @@ extension DataExchange {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1391,9 +1348,7 @@ extension DataExchange {
             self.jobId = jobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartJobResponse: AWSDecodableShape {
@@ -1418,7 +1373,6 @@ extension DataExchange {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -1437,10 +1391,7 @@ extension DataExchange {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateAssetRequest: AWSEncodableShape {
@@ -1464,10 +1415,7 @@ extension DataExchange {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId = "AssetId"
-            case dataSetId = "DataSetId"
             case name = "Name"
-            case revisionId = "RevisionId"
         }
     }
 
@@ -1529,7 +1477,6 @@ extension DataExchange {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSetId = "DataSetId"
             case description = "Description"
             case name = "Name"
         }
@@ -1602,9 +1549,7 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case dataSetId = "DataSetId"
             case finalized = "Finalized"
-            case revisionId = "RevisionId"
         }
     }
 

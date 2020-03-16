@@ -375,9 +375,7 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAssetResponse: AWSDecodableShape {
@@ -399,9 +397,7 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePackagingConfigurationResponse: AWSDecodableShape {
@@ -423,9 +419,7 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePackagingGroupResponse: AWSDecodableShape {
@@ -447,9 +441,7 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAssetResponse: AWSDecodableShape {
@@ -497,9 +489,7 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribePackagingConfigurationResponse: AWSDecodableShape {
@@ -544,9 +534,7 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribePackagingGroupResponse: AWSDecodableShape {
@@ -702,11 +690,7 @@ extension MediaPackageVod {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case packagingGroupId = "packagingGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAssetsResponse: AWSDecodableShape {
@@ -747,11 +731,7 @@ extension MediaPackageVod {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case packagingGroupId = "packagingGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPackagingConfigurationsResponse: AWSDecodableShape {
@@ -789,10 +769,7 @@ extension MediaPackageVod {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPackagingGroupsResponse: AWSDecodableShape {

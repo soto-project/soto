@@ -137,7 +137,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case invitationId = "invitationId"
             case masterId = "masterId"
         }
@@ -259,7 +258,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case findingIds = "findingIds"
         }
     }
@@ -475,7 +473,6 @@ extension GuardDuty {
             case action = "action"
             case clientToken = "clientToken"
             case description = "description"
-            case detectorId = "detectorId"
             case findingCriteria = "findingCriteria"
             case name = "name"
             case rank = "rank"
@@ -547,7 +544,6 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
             case clientToken = "clientToken"
-            case detectorId = "detectorId"
             case format = "format"
             case location = "location"
             case name = "name"
@@ -596,7 +592,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountDetails = "accountDetails"
-            case detectorId = "detectorId"
         }
     }
 
@@ -646,7 +641,6 @@ extension GuardDuty {
             case clientToken = "clientToken"
             case destinationProperties = "destinationProperties"
             case destinationType = "destinationType"
-            case detectorId = "detectorId"
         }
     }
 
@@ -691,7 +685,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case findingTypes = "findingTypes"
         }
     }
@@ -754,7 +747,6 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
             case clientToken = "clientToken"
-            case detectorId = "detectorId"
             case format = "format"
             case location = "location"
             case name = "name"
@@ -830,9 +822,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDetectorResponse: AWSDecodableShape {
@@ -864,10 +854,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case filterName = "filterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFilterResponse: AWSDecodableShape {
@@ -899,10 +886,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case ipSetId = "ipSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIPSetResponse: AWSDecodableShape {
@@ -978,7 +962,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
-            case detectorId = "detectorId"
         }
     }
 
@@ -1017,10 +1000,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case destinationId = "destinationId"
-            case detectorId = "detectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePublishingDestinationResponse: AWSDecodableShape {
@@ -1052,10 +1032,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case threatIntelSetId = "threatIntelSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteThreatIntelSetResponse: AWSDecodableShape {
@@ -1087,10 +1064,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case destinationId = "destinationId"
-            case detectorId = "detectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribePublishingDestinationResponse: AWSDecodableShape {
@@ -1180,9 +1154,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateFromMasterAccountResponse: AWSDecodableShape {
@@ -1221,7 +1193,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
-            case detectorId = "detectorId"
         }
     }
 
@@ -1412,9 +1383,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDetectorResponse: AWSDecodableShape {
@@ -1472,10 +1441,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case filterName = "filterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFilterResponse: AWSDecodableShape {
@@ -1542,7 +1508,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case findingIds = "findingIds"
             case sortCriteria = "sortCriteria"
         }
@@ -1588,7 +1553,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case findingCriteria = "findingCriteria"
             case findingStatisticTypes = "findingStatisticTypes"
         }
@@ -1629,10 +1593,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case ipSetId = "ipSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIPSetResponse: AWSDecodableShape {
@@ -1704,9 +1665,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMasterAccountResponse: AWSDecodableShape {
@@ -1751,7 +1710,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
-            case detectorId = "detectorId"
         }
     }
 
@@ -1794,10 +1752,7 @@ extension GuardDuty {
             try validate(self.detectorId, name:"detectorId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case threatIntelSetId = "threatIntelSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetThreatIntelSetResponse: AWSDecodableShape {
@@ -1970,7 +1925,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
-            case detectorId = "detectorId"
             case disableEmailNotification = "disableEmailNotification"
             case message = "message"
         }
@@ -2011,10 +1965,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDetectorsResponse: AWSDecodableShape {
@@ -2062,11 +2013,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFiltersResponse: AWSDecodableShape {
@@ -2119,7 +2066,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case findingCriteria = "findingCriteria"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
@@ -2172,11 +2118,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListIPSetsResponse: AWSDecodableShape {
@@ -2218,10 +2160,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInvitationsResponse: AWSDecodableShape {
@@ -2273,12 +2212,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case onlyAssociated = "onlyAssociated"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMembersResponse: AWSDecodableShape {
@@ -2326,11 +2260,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPublishingDestinationsResponse: AWSDecodableShape {
@@ -2367,9 +2297,7 @@ extension GuardDuty {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -2413,11 +2341,7 @@ extension GuardDuty {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThreatIntelSetsResponse: AWSDecodableShape {
@@ -2908,7 +2832,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
-            case detectorId = "detectorId"
         }
     }
 
@@ -2954,7 +2877,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
-            case detectorId = "detectorId"
         }
     }
 
@@ -3016,7 +2938,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -3074,7 +2995,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case findingIds = "findingIds"
         }
     }
@@ -3132,10 +3052,7 @@ extension GuardDuty {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -3170,7 +3087,6 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
             case enable = "enable"
             case findingPublishingFrequency = "findingPublishingFrequency"
         }
@@ -3224,8 +3140,6 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case description = "description"
-            case detectorId = "detectorId"
-            case filterName = "filterName"
             case findingCriteria = "findingCriteria"
             case rank = "rank"
         }
@@ -3279,7 +3193,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case comments = "comments"
-            case detectorId = "detectorId"
             case feedback = "feedback"
             case findingIds = "findingIds"
         }
@@ -3329,8 +3242,6 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
-            case detectorId = "detectorId"
-            case ipSetId = "ipSetId"
             case location = "location"
             case name = "name"
         }
@@ -3369,9 +3280,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationId = "destinationId"
             case destinationProperties = "destinationProperties"
-            case detectorId = "detectorId"
         }
     }
 
@@ -3419,10 +3328,8 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case activate = "activate"
-            case detectorId = "detectorId"
             case location = "location"
             case name = "name"
-            case threatIntelSetId = "threatIntelSetId"
         }
     }
 

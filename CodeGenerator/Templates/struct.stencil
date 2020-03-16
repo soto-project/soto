@@ -76,14 +76,18 @@
 {%endif %}
 {# CodingKeys enum #}
 {%if struct.members.count > 0%}
-        private enum CodingKeys: String, CodingKey {
-{%for member in struct.members %}
-{%if member.duplicate %}
-            case {{member.variable}} = "_{{member.locationPath}}" // TODO this is temporary measure for avoiding CodingKey duplication.
+{%if struct.codingKeys.count == 0%}
+        private enum CodingKeys: CodingKey {}
 {%else %}
-            case {{member.variable}} = "{{member.locationPath}}"
+        private enum CodingKeys: String, CodingKey {
+{%for codingKey in struct.codingKeys %}
+{%if codingKey.duplicate %}
+            case {{codingKey.variable}} = "_{{codingKey.codingKey}}" // TODO this is temporary measure for avoiding CodingKey duplication.
+{%else %}
+            case {{codingKey.variable}} = "{{codingKey.codingKey}}"
 {%endif %}
 {%endfor %}
         }
+{%endif %}
 {%endif %}
     }

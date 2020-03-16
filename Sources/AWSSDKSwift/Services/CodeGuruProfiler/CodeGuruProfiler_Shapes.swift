@@ -106,7 +106,6 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case fleetInstanceId = "fleetInstanceId"
-            case profilingGroupName = "profilingGroupName"
         }
     }
 
@@ -154,7 +153,6 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case agentOrchestrationConfig = "agentOrchestrationConfig"
-            case clientToken = "clientToken"
             case profilingGroupName = "profilingGroupName"
         }
     }
@@ -193,9 +191,7 @@ extension CodeGuruProfiler {
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profilingGroupName = "profilingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProfilingGroupResponse: AWSDecodableShape {
@@ -224,9 +220,7 @@ extension CodeGuruProfiler {
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profilingGroupName = "profilingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -287,14 +281,7 @@ extension CodeGuruProfiler {
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
-            case endTime = "endTime"
-            case maxDepth = "maxDepth"
-            case period = "period"
-            case profilingGroupName = "profilingGroupName"
-            case startTime = "startTime"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetProfileResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -373,15 +360,7 @@ extension CodeGuruProfiler {
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case orderBy = "orderBy"
-            case period = "period"
-            case profilingGroupName = "profilingGroupName"
-            case startTime = "startTime"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProfileTimesResponse: AWSDecodableShape {
@@ -430,11 +409,7 @@ extension CodeGuruProfiler {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case includeDescription = "includeDescription"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProfilingGroupsResponse: AWSDecodableShape {
@@ -492,9 +467,6 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case agentProfile = "agentProfile"
-            case contentType = "Content-Type"
-            case profileToken = "profileToken"
-            case profilingGroupName = "profilingGroupName"
         }
     }
 
@@ -597,7 +569,6 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case agentOrchestrationConfig = "agentOrchestrationConfig"
-            case profilingGroupName = "profilingGroupName"
         }
     }
 

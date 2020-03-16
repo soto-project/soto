@@ -658,7 +658,6 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
             case backupSelection = "BackupSelection"
             case creatorRequestId = "CreatorRequestId"
         }
@@ -712,7 +711,6 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
             case backupVaultTags = "BackupVaultTags"
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
@@ -753,9 +751,7 @@ extension Backup {
             self.backupPlanId = backupPlanId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackupPlanOutput: AWSDecodableShape {
@@ -800,10 +796,7 @@ extension Backup {
             self.selectionId = selectionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-            case selectionId = "selectionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackupVaultAccessPolicyInput: AWSEncodableShape {
@@ -822,9 +815,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackupVaultInput: AWSEncodableShape {
@@ -839,9 +830,7 @@ extension Backup {
             self.backupVaultName = backupVaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackupVaultNotificationsInput: AWSEncodableShape {
@@ -860,9 +849,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRecoveryPointInput: AWSEncodableShape {
@@ -885,10 +872,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-            case recoveryPointArn = "recoveryPointArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBackupJobInput: AWSEncodableShape {
@@ -903,9 +887,7 @@ extension Backup {
             self.backupJobId = backupJobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupJobId = "backupJobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBackupJobOutput: AWSDecodableShape {
@@ -998,9 +980,7 @@ extension Backup {
             self.backupVaultName = backupVaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBackupVaultOutput: AWSDecodableShape {
@@ -1049,9 +1029,7 @@ extension Backup {
             self.copyJobId = copyJobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case copyJobId = "copyJobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCopyJobOutput: AWSDecodableShape {
@@ -1080,9 +1058,7 @@ extension Backup {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProtectedResourceOutput: AWSDecodableShape {
@@ -1127,10 +1103,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-            case recoveryPointArn = "recoveryPointArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRecoveryPointOutput: AWSDecodableShape {
@@ -1223,9 +1196,7 @@ extension Backup {
             self.restoreJobId = restoreJobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case restoreJobId = "restoreJobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRestoreJobOutput: AWSDecodableShape {
@@ -1294,9 +1265,7 @@ extension Backup {
             self.backupPlanId = backupPlanId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ExportBackupPlanTemplateOutput: AWSDecodableShape {
@@ -1353,9 +1322,7 @@ extension Backup {
             self.backupPlanTemplateId = backupPlanTemplateId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanTemplateId = "templateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBackupPlanFromTemplateOutput: AWSDecodableShape {
@@ -1388,10 +1355,7 @@ extension Backup {
             self.versionId = versionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBackupPlanOutput: AWSDecodableShape {
@@ -1452,10 +1416,7 @@ extension Backup {
             self.selectionId = selectionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-            case selectionId = "selectionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBackupSelectionOutput: AWSDecodableShape {
@@ -1504,9 +1465,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBackupVaultAccessPolicyOutput: AWSDecodableShape {
@@ -1547,9 +1506,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBackupVaultNotificationsOutput: AWSDecodableShape {
@@ -1598,10 +1555,7 @@ extension Backup {
             try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-            case recoveryPointArn = "recoveryPointArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecoveryPointRestoreMetadataOutput: AWSDecodableShape {
@@ -1705,16 +1659,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case byBackupVaultName = "backupVaultName"
-            case byCreatedAfter = "createdAfter"
-            case byCreatedBefore = "createdBefore"
-            case byResourceArn = "resourceArn"
-            case byResourceType = "resourceType"
-            case byState = "state"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackupJobsOutput: AWSDecodableShape {
@@ -1756,10 +1701,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackupPlanTemplatesOutput: AWSDecodableShape {
@@ -1805,11 +1747,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackupPlanVersionsOutput: AWSDecodableShape {
@@ -1855,11 +1793,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case includeDeleted = "includeDeleted"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackupPlansOutput: AWSDecodableShape {
@@ -1905,11 +1839,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupPlanId = "backupPlanId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackupSelectionsOutput: AWSDecodableShape {
@@ -1951,10 +1881,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBackupVaultsOutput: AWSDecodableShape {
@@ -2021,16 +1948,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case byCreatedAfter = "createdAfter"
-            case byCreatedBefore = "createdBefore"
-            case byDestinationVaultArn = "destinationVaultArn"
-            case byResourceArn = "resourceArn"
-            case byResourceType = "resourceType"
-            case byState = "state"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCopyJobsOutput: AWSDecodableShape {
@@ -2072,10 +1990,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProtectedResourcesOutput: AWSDecodableShape {
@@ -2143,16 +2058,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
-            case byBackupPlanId = "backupPlanId"
-            case byCreatedAfter = "createdAfter"
-            case byCreatedBefore = "createdBefore"
-            case byResourceArn = "resourceArn"
-            case byResourceType = "resourceType"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRecoveryPointsByBackupVaultOutput: AWSDecodableShape {
@@ -2198,11 +2104,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRecoveryPointsByResourceOutput: AWSDecodableShape {
@@ -2244,10 +2146,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRestoreJobsOutput: AWSDecodableShape {
@@ -2293,11 +2192,7 @@ extension Backup {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsOutput: AWSDecodableShape {
@@ -2360,7 +2255,6 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
             case policy = "Policy"
         }
     }
@@ -2389,7 +2283,6 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultEvents = "BackupVaultEvents"
-            case backupVaultName = "backupVaultName"
             case sNSTopicArn = "SNSTopicArn"
         }
     }
@@ -2765,9 +2658,7 @@ extension Backup {
             self.backupJobId = backupJobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case backupJobId = "backupJobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TagResourceInput: AWSEncodableShape {
@@ -2786,7 +2677,6 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
@@ -2807,7 +2697,6 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tagKeyList = "TagKeyList"
         }
     }
@@ -2833,7 +2722,6 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case backupPlan = "BackupPlan"
-            case backupPlanId = "backupPlanId"
         }
     }
 
@@ -2887,9 +2775,7 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupVaultName = "backupVaultName"
             case lifecycle = "Lifecycle"
-            case recoveryPointArn = "recoveryPointArn"
         }
     }
 

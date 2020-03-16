@@ -314,7 +314,6 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiCachingBehavior = "apiCachingBehavior"
-            case apiId = "apiId"
             case atRestEncryptionEnabled = "atRestEncryptionEnabled"
             case transitEncryptionEnabled = "transitEncryptionEnabled"
             case ttl = "ttl"
@@ -355,7 +354,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case expires = "expires"
         }
@@ -421,7 +419,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
@@ -492,7 +489,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case dataSourceName = "dataSourceName"
             case description = "description"
             case functionVersion = "functionVersion"
@@ -638,7 +634,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
             case fieldName = "fieldName"
@@ -647,7 +642,6 @@ extension AppSync {
             case requestMappingTemplate = "requestMappingTemplate"
             case responseMappingTemplate = "responseMappingTemplate"
             case syncConfig = "syncConfig"
-            case typeName = "typeName"
         }
     }
 
@@ -684,7 +678,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case definition = "definition"
             case format = "format"
         }
@@ -766,9 +759,7 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApiCacheResponse: AWSDecodableShape {
@@ -795,10 +786,7 @@ extension AppSync {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApiKeyResponse: AWSDecodableShape {
@@ -831,10 +819,7 @@ extension AppSync {
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDataSourceResponse: AWSDecodableShape {
@@ -867,10 +852,7 @@ extension AppSync {
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case functionId = "functionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionResponse: AWSDecodableShape {
@@ -893,9 +875,7 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGraphqlApiResponse: AWSDecodableShape {
@@ -935,11 +915,7 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case fieldName = "fieldName"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteResolverResponse: AWSDecodableShape {
@@ -972,10 +948,7 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTypeResponse: AWSDecodableShape {
@@ -1068,9 +1041,7 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct FlushApiCacheResponse: AWSDecodableShape {
@@ -1135,9 +1106,7 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApiCacheResponse: AWSDecodableShape {
@@ -1176,10 +1145,7 @@ extension AppSync {
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDataSourceResponse: AWSDecodableShape {
@@ -1218,10 +1184,7 @@ extension AppSync {
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case functionId = "functionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionResponse: AWSDecodableShape {
@@ -1250,9 +1213,7 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGraphqlApiResponse: AWSDecodableShape {
@@ -1289,11 +1250,7 @@ extension AppSync {
             self.includeDirectives = includeDirectives
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case format = "format"
-            case includeDirectives = "includeDirectives"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntrospectionSchemaResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -1344,11 +1301,7 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case fieldName = "fieldName"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResolverResponse: AWSDecodableShape {
@@ -1377,9 +1330,7 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSchemaCreationStatusResponse: AWSDecodableShape {
@@ -1426,11 +1377,7 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case format = "format"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTypeResponse: AWSDecodableShape {
@@ -1575,11 +1522,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListApiKeysResponse: AWSDecodableShape {
@@ -1628,11 +1571,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDataSourcesResponse: AWSDecodableShape {
@@ -1681,11 +1620,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionsResponse: AWSDecodableShape {
@@ -1730,10 +1665,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGraphqlApisResponse: AWSDecodableShape {
@@ -1786,12 +1718,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case functionId = "functionId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResolversByFunctionResponse: AWSDecodableShape {
@@ -1844,12 +1771,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResolversResponse: AWSDecodableShape {
@@ -1888,9 +1810,7 @@ extension AppSync {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1939,12 +1859,7 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case format = "format"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTypesResponse: AWSDecodableShape {
@@ -2141,7 +2056,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case definition = "definition"
         }
     }
@@ -2210,7 +2124,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -2282,10 +2195,7 @@ extension AppSync {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -2319,7 +2229,6 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiCachingBehavior = "apiCachingBehavior"
-            case apiId = "apiId"
             case ttl = "ttl"
             case `type` = "type"
         }
@@ -2362,10 +2271,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case expires = "expires"
-            case id = "id"
         }
     }
 
@@ -2430,13 +2337,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
             case httpConfig = "httpConfig"
             case lambdaConfig = "lambdaConfig"
-            case name = "name"
             case relationalDatabaseConfig = "relationalDatabaseConfig"
             case serviceRoleArn = "serviceRoleArn"
             case `type` = "type"
@@ -2508,10 +2413,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case dataSourceName = "dataSourceName"
             case description = "description"
-            case functionId = "functionId"
             case functionVersion = "functionVersion"
             case name = "name"
             case requestMappingTemplate = "requestMappingTemplate"
@@ -2568,7 +2471,6 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case additionalAuthenticationProviders = "additionalAuthenticationProviders"
-            case apiId = "apiId"
             case authenticationType = "authenticationType"
             case logConfig = "logConfig"
             case name = "name"
@@ -2650,16 +2552,13 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
-            case fieldName = "fieldName"
             case kind = "kind"
             case pipelineConfig = "pipelineConfig"
             case requestMappingTemplate = "requestMappingTemplate"
             case responseMappingTemplate = "responseMappingTemplate"
             case syncConfig = "syncConfig"
-            case typeName = "typeName"
         }
     }
 
@@ -2706,10 +2605,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case definition = "definition"
             case format = "format"
-            case typeName = "typeName"
         }
     }
 

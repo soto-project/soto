@@ -262,11 +262,7 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ActivateUserRequest: AWSEncodableShape {
@@ -293,10 +289,7 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ActivateUserResponse: AWSDecodableShape {
@@ -394,10 +387,8 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case notificationOptions = "NotificationOptions"
             case principals = "Principals"
-            case resourceId = "ResourceId"
         }
     }
 
@@ -546,13 +537,10 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
             case notifyCollaborators = "NotifyCollaborators"
             case parentId = "ParentId"
             case text = "Text"
             case threadId = "ThreadId"
-            case versionId = "VersionId"
             case visibility = "Visibility"
         }
     }
@@ -614,10 +602,7 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case customMetadata = "CustomMetadata"
-            case resourceId = "ResourceId"
-            case versionId = "versionid"
         }
     }
 
@@ -659,7 +644,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case name = "Name"
             case parentFolderId = "ParentFolderId"
         }
@@ -713,9 +697,7 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case labels = "Labels"
-            case resourceId = "ResourceId"
         }
     }
 
@@ -758,7 +740,6 @@ extension WorkDocs {
 
         private enum CodingKeys: String, CodingKey {
             case endpoint = "Endpoint"
-            case organizationId = "OrganizationId"
             case `protocol` = "Protocol"
             case subscriptionType = "SubscriptionType"
         }
@@ -839,7 +820,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case emailAddress = "EmailAddress"
             case givenName = "GivenName"
             case organizationId = "OrganizationId"
@@ -889,10 +869,7 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCommentRequest: AWSEncodableShape {
@@ -933,12 +910,7 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case commentId = "CommentId"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCustomMetadataRequest: AWSEncodableShape {
@@ -986,13 +958,7 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case deleteAll = "deleteAll"
-            case keys = "keys"
-            case resourceId = "ResourceId"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCustomMetadataResponse: AWSDecodableShape {
@@ -1027,10 +993,7 @@ extension WorkDocs {
             try validate(self.documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFolderContentsRequest: AWSEncodableShape {
@@ -1057,10 +1020,7 @@ extension WorkDocs {
             try validate(self.folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFolderRequest: AWSEncodableShape {
@@ -1087,10 +1047,7 @@ extension WorkDocs {
             try validate(self.folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLabelsRequest: AWSEncodableShape {
@@ -1131,12 +1088,7 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case deleteAll = "deleteAll"
-            case labels = "labels"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLabelsResponse: AWSDecodableShape {
@@ -1172,10 +1124,7 @@ extension WorkDocs {
             try validate(self.subscriptionId, name:"subscriptionId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case subscriptionId = "SubscriptionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
@@ -1202,10 +1151,7 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeActivitiesRequest: AWSEncodableShape {
@@ -1278,18 +1224,7 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case activityTypes = "activityTypes"
-            case authenticationToken = "Authentication"
-            case endTime = "endTime"
-            case includeIndirectActivities = "includeIndirectActivities"
-            case limit = "limit"
-            case marker = "marker"
-            case organizationId = "organizationId"
-            case resourceId = "resourceId"
-            case startTime = "startTime"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeActivitiesResponse: AWSDecodableShape {
@@ -1354,13 +1289,7 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case limit = "limit"
-            case marker = "marker"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCommentsResponse: AWSDecodableShape {
@@ -1431,14 +1360,7 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case include = "include"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDocumentVersionsResponse: AWSDecodableShape {
@@ -1514,16 +1436,7 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-            case include = "include"
-            case limit = "limit"
-            case marker = "marker"
-            case order = "order"
-            case sort = "sort"
-            case `type` = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeFolderContentsResponse: AWSDecodableShape {
@@ -1591,13 +1504,7 @@ extension WorkDocs {
             try validate(self.searchQuery, name:"searchQuery", parent: name, pattern: "[\\u0020-\\uFFFF]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case marker = "marker"
-            case organizationId = "organizationId"
-            case searchQuery = "searchQuery"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeGroupsResponse: AWSDecodableShape {
@@ -1648,11 +1555,7 @@ extension WorkDocs {
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case marker = "marker"
-            case organizationId = "OrganizationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeNotificationSubscriptionsResponse: AWSDecodableShape {
@@ -1716,13 +1619,7 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case marker = "marker"
-            case principalId = "principalId"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeResourcePermissionsResponse: AWSDecodableShape {
@@ -1772,11 +1669,7 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRootFoldersResponse: AWSDecodableShape {
@@ -1866,18 +1759,7 @@ extension WorkDocs {
             try validate(self.userIds, name:"userIds", parent: name, pattern: "[&\\w+-.@, ]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case fields = "fields"
-            case include = "include"
-            case limit = "limit"
-            case marker = "marker"
-            case order = "order"
-            case organizationId = "organizationId"
-            case query = "query"
-            case sort = "sort"
-            case userIds = "userIds"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUsersResponse: AWSDecodableShape {
@@ -2073,9 +1955,7 @@ extension WorkDocs {
             try validate(self.authenticationToken, name:"authenticationToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCurrentUserResponse: AWSDecodableShape {
@@ -2135,13 +2015,7 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDocumentPathResponse: AWSDecodableShape {
@@ -2186,11 +2060,7 @@ extension WorkDocs {
             try validate(self.documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case includeCustomMetadata = "includeCustomMetadata"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDocumentResponse: AWSDecodableShape {
@@ -2253,13 +2123,7 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case includeCustomMetadata = "includeCustomMetadata"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDocumentVersionResponse: AWSDecodableShape {
@@ -2323,13 +2187,7 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case fields = "fields"
-            case folderId = "FolderId"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFolderPathResponse: AWSDecodableShape {
@@ -2374,11 +2232,7 @@ extension WorkDocs {
             try validate(self.folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-            case includeCustomMetadata = "includeCustomMetadata"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFolderResponse: AWSDecodableShape {
@@ -2439,13 +2293,7 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case collectionType = "collectionType"
-            case limit = "limit"
-            case marker = "marker"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResourcesResponse: AWSDecodableShape {
@@ -2538,7 +2386,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case contentCreatedTimestamp = "ContentCreatedTimestamp"
             case contentModifiedTimestamp = "ContentModifiedTimestamp"
             case contentType = "ContentType"
@@ -2672,10 +2519,7 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RemoveResourcePermissionRequest: AWSEncodableShape {
@@ -2713,12 +2557,7 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case principalId = "PrincipalId"
-            case principalType = "type"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ResourceMetadata: AWSDecodableShape {
@@ -2937,8 +2776,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
             case name = "Name"
             case parentFolderId = "ParentFolderId"
             case resourceState = "ResourceState"
@@ -2980,9 +2817,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
             case versionStatus = "VersionStatus"
         }
     }
@@ -3027,8 +2861,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
             case name = "Name"
             case parentFolderId = "ParentFolderId"
             case resourceState = "ResourceState"
@@ -3088,7 +2920,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case givenName = "GivenName"
             case grantPoweruserPrivileges = "GrantPoweruserPrivileges"
             case locale = "Locale"
@@ -3096,7 +2927,6 @@ extension WorkDocs {
             case surname = "Surname"
             case timeZoneId = "TimeZoneId"
             case `type` = "Type"
-            case userId = "UserId"
         }
     }
 

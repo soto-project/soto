@@ -41,9 +41,7 @@ extension IoT1ClickDevicesService {
             self.claimCode = claimCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case claimCode = "claimCode"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ClaimDevicesByClaimCodeResponse: AWSDecodableShape {
@@ -76,9 +74,7 @@ extension IoT1ClickDevicesService {
             self.deviceId = deviceId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDeviceResponse: AWSDecodableShape {
@@ -206,7 +202,6 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
             case tags = "tags"
         }
     }
@@ -235,9 +230,7 @@ extension IoT1ClickDevicesService {
             self.deviceId = deviceId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeviceMethodsResponse: AWSDecodableShape {
@@ -265,9 +258,7 @@ extension IoT1ClickDevicesService {
             self.deviceId = deviceId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InitiateDeviceClaimResponse: AWSDecodableShape {
@@ -301,7 +292,6 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
             case deviceMethod = "deviceMethod"
             case deviceMethodParameters = "deviceMethodParameters"
         }
@@ -349,13 +339,7 @@ extension IoT1ClickDevicesService {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case fromTimeStamp = "fromTimeStamp"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case toTimeStamp = "toTimeStamp"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeviceEventsResponse: AWSDecodableShape {
@@ -396,11 +380,7 @@ extension IoT1ClickDevicesService {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceType = "deviceType"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDevicesResponse: AWSDecodableShape {
@@ -432,9 +412,7 @@ extension IoT1ClickDevicesService {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -464,7 +442,6 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -480,9 +457,7 @@ extension IoT1ClickDevicesService {
             self.deviceId = deviceId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UnclaimDeviceResponse: AWSDecodableShape {
@@ -512,10 +487,7 @@ extension IoT1ClickDevicesService {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDeviceStateRequest: AWSEncodableShape {
@@ -534,7 +506,6 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
             case enabled = "enabled"
         }
     }

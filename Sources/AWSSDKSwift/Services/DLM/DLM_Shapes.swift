@@ -232,9 +232,7 @@ extension DLM {
             try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "policyId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
@@ -336,13 +334,7 @@ extension DLM {
             try validate(self.targetTags, name:"targetTags", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyIds = "policyIds"
-            case resourceTypes = "resourceTypes"
-            case state = "state"
-            case tagsToAdd = "tagsToAdd"
-            case targetTags = "targetTags"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLifecyclePoliciesResponse: AWSDecodableShape {
@@ -377,9 +369,7 @@ extension DLM {
             try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "policyId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLifecyclePolicyResponse: AWSDecodableShape {
@@ -490,9 +480,7 @@ extension DLM {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -718,7 +706,6 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
@@ -760,10 +747,7 @@ extension DLM {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -815,7 +799,6 @@ extension DLM {
             case description = "Description"
             case executionRoleArn = "ExecutionRoleArn"
             case policyDetails = "PolicyDetails"
-            case policyId = "policyId"
             case state = "State"
         }
     }

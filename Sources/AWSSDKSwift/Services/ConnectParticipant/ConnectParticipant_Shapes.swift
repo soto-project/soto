@@ -94,7 +94,6 @@ extension ConnectParticipant {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case participantToken = "X-Amz-Bearer"
             case `type` = "Type"
         }
     }
@@ -140,7 +139,6 @@ extension ConnectParticipant {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
-            case connectionToken = "X-Amz-Bearer"
         }
     }
 
@@ -195,7 +193,6 @@ extension ConnectParticipant {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionToken = "X-Amz-Bearer"
             case contactId = "ContactId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -302,7 +299,6 @@ extension ConnectParticipant {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
-            case connectionToken = "X-Amz-Bearer"
             case content = "Content"
             case contentType = "ContentType"
         }
@@ -359,7 +355,6 @@ extension ConnectParticipant {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
-            case connectionToken = "X-Amz-Bearer"
             case content = "Content"
             case contentType = "ContentType"
         }

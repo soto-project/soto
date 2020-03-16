@@ -481,10 +481,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case setAsActive = "setAsActive"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
@@ -880,7 +877,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
-            case jobId = "jobId"
             case targets = "targets"
         }
     }
@@ -929,7 +925,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
             case target = "target"
         }
     }
@@ -956,10 +951,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case principal = "x-amzn-iot-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AttachSecurityProfileRequest: AWSEncodableShape {
@@ -984,10 +976,7 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AttachSecurityProfileResponse: AWSDecodableShape {
@@ -1020,10 +1009,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-principal"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AttachThingPrincipalResponse: AWSDecodableShape {
@@ -1692,9 +1678,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelAuditMitigationActionsTaskResponse: AWSDecodableShape {
@@ -1723,9 +1707,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelAuditTaskResponse: AWSDecodableShape {
@@ -1754,9 +1736,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelJobExecutionRequest: AWSEncodableShape {
@@ -1804,10 +1784,7 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case expectedVersion = "expectedVersion"
-            case force = "force"
-            case jobId = "jobId"
             case statusDetails = "statusDetails"
-            case thingName = "thingName"
         }
     }
 
@@ -1845,8 +1822,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
-            case force = "force"
-            case jobId = "jobId"
             case reasonCode = "reasonCode"
         }
     }
@@ -2162,9 +2137,7 @@ extension IoT {
             try validate(self.confirmationToken, name:"confirmationToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case confirmationToken = "confirmationToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ConfirmTopicRuleDestinationResponse: AWSDecodableShape {
@@ -2219,7 +2192,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn = "authorizerFunctionArn"
-            case authorizerName = "authorizerName"
             case signingDisabled = "signingDisabled"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
@@ -2271,7 +2243,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
             case billingGroupProperties = "billingGroupProperties"
             case tags = "tags"
         }
@@ -2320,7 +2291,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case certificateSigningRequest = "certificateSigningRequest"
-            case setAsActive = "setAsActive"
         }
     }
 
@@ -2387,7 +2357,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case name = "name"
             case stringValues = "stringValues"
             case tags = "tags"
             case `type` = "type"
@@ -2460,7 +2429,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerConfig = "authorizerConfig"
-            case domainConfigurationName = "domainConfigurationName"
             case domainName = "domainName"
             case serverCertificateArns = "serverCertificateArns"
             case serviceType = "serviceType"
@@ -2529,7 +2497,6 @@ extension IoT {
             case queryString = "queryString"
             case queryVersion = "queryVersion"
             case tags = "tags"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
@@ -2631,7 +2598,6 @@ extension IoT {
             case document = "document"
             case documentSource = "documentSource"
             case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-            case jobId = "jobId"
             case presignedUrlConfig = "presignedUrlConfig"
             case tags = "tags"
             case targets = "targets"
@@ -2674,9 +2640,7 @@ extension IoT {
             self.setAsActive = setAsActive
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case setAsActive = "setAsActive"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateKeysAndCertificateResponse: AWSDecodableShape {
@@ -2735,7 +2699,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
             case actionParams = "actionParams"
             case roleArn = "roleArn"
             case tags = "tags"
@@ -2827,7 +2790,6 @@ extension IoT {
             case awsJobPresignedUrlConfig = "awsJobPresignedUrlConfig"
             case description = "description"
             case files = "files"
-            case otaUpdateId = "otaUpdateId"
             case protocols = "protocols"
             case roleArn = "roleArn"
             case tags = "tags"
@@ -2889,7 +2851,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "policyDocument"
-            case policyName = "policyName"
         }
     }
 
@@ -2946,8 +2907,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "policyDocument"
-            case policyName = "policyName"
-            case setAsDefault = "setAsDefault"
         }
     }
 
@@ -2995,9 +2954,7 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateProvisioningClaimResponse: AWSDecodableShape {
@@ -3119,9 +3076,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setAsDefault = "setAsDefault"
             case templateBody = "templateBody"
-            case templateName = "templateName"
         }
     }
 
@@ -3181,7 +3136,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case credentialDurationSeconds = "credentialDurationSeconds"
-            case roleAlias = "roleAlias"
             case roleArn = "roleArn"
         }
     }
@@ -3242,7 +3196,6 @@ extension IoT {
             case dayOfMonth = "dayOfMonth"
             case dayOfWeek = "dayOfWeek"
             case frequency = "frequency"
-            case scheduledAuditName = "scheduledAuditName"
             case tags = "tags"
             case targetCheckNames = "targetCheckNames"
         }
@@ -3312,7 +3265,6 @@ extension IoT {
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case securityProfileDescription = "securityProfileDescription"
-            case securityProfileName = "securityProfileName"
             case tags = "tags"
         }
     }
@@ -3378,7 +3330,6 @@ extension IoT {
             case description = "description"
             case files = "files"
             case roleArn = "roleArn"
-            case streamId = "streamId"
             case tags = "tags"
         }
     }
@@ -3443,7 +3394,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case parentGroupName = "parentGroupName"
             case tags = "tags"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
@@ -3507,7 +3457,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case attributePayload = "attributePayload"
             case billingGroupName = "billingGroupName"
-            case thingName = "thingName"
             case thingTypeName = "thingTypeName"
         }
     }
@@ -3561,7 +3510,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
-            case thingTypeName = "thingTypeName"
             case thingTypeProperties = "thingTypeProperties"
         }
     }
@@ -3649,8 +3597,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-            case tags = "x-amz-tagging"
             case topicRulePayload = "topicRulePayload"
         }
     }
@@ -3693,9 +3639,7 @@ extension IoT {
             self.deleteScheduledAudits = deleteScheduledAudits
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deleteScheduledAudits = "deleteScheduledAudits"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAccountAuditConfigurationResponse: AWSDecodableShape {
@@ -3724,9 +3668,7 @@ extension IoT {
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAuthorizerResponse: AWSDecodableShape {
@@ -3759,10 +3701,7 @@ extension IoT {
             try validate(self.billingGroupName, name:"billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case expectedVersion = "expectedVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBillingGroupResponse: AWSDecodableShape {
@@ -3791,9 +3730,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCACertificateResponse: AWSDecodableShape {
@@ -3826,10 +3763,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case forceDelete = "forceDelete"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDimensionRequest: AWSEncodableShape {
@@ -3850,9 +3784,7 @@ extension IoT {
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDimensionResponse: AWSDecodableShape {
@@ -3881,9 +3813,7 @@ extension IoT {
             try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainConfigurationName = "domainConfigurationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDomainConfigurationResponse: AWSDecodableShape {
@@ -3916,10 +3846,7 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDynamicThingGroupResponse: AWSDecodableShape {
@@ -3963,12 +3890,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case executionNumber = "executionNumber"
-            case force = "force"
-            case jobId = "jobId"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
@@ -3993,10 +3915,7 @@ extension IoT {
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMitigationActionRequest: AWSEncodableShape {
@@ -4016,9 +3935,7 @@ extension IoT {
             try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMitigationActionResponse: AWSDecodableShape {
@@ -4055,11 +3972,7 @@ extension IoT {
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deleteStream = "deleteStream"
-            case forceDeleteAWSJob = "forceDeleteAWSJob"
-            case otaUpdateId = "otaUpdateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteOTAUpdateResponse: AWSDecodableShape {
@@ -4088,9 +4001,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePolicyVersionRequest: AWSEncodableShape {
@@ -4116,10 +4027,7 @@ extension IoT {
             try validate(self.policyVersionId, name:"policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProvisioningTemplateRequest: AWSEncodableShape {
@@ -4140,9 +4048,7 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProvisioningTemplateResponse: AWSDecodableShape {
@@ -4175,10 +4081,7 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProvisioningTemplateVersionResponse: AWSDecodableShape {
@@ -4223,9 +4126,7 @@ extension IoT {
             try validate(self.roleAlias, name:"roleAlias", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRoleAliasResponse: AWSDecodableShape {
@@ -4254,9 +4155,7 @@ extension IoT {
             try validate(self.scheduledAuditName, name:"scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case scheduledAuditName = "scheduledAuditName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteScheduledAuditResponse: AWSDecodableShape {
@@ -4289,10 +4188,7 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case securityProfileName = "securityProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSecurityProfileResponse: AWSDecodableShape {
@@ -4321,9 +4217,7 @@ extension IoT {
             try validate(self.streamId, name:"streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteStreamResponse: AWSDecodableShape {
@@ -4356,10 +4250,7 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteThingGroupResponse: AWSDecodableShape {
@@ -4392,10 +4283,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteThingResponse: AWSDecodableShape {
@@ -4424,9 +4312,7 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteThingTypeResponse: AWSDecodableShape {
@@ -4449,9 +4335,7 @@ extension IoT {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTopicRuleDestinationResponse: AWSDecodableShape {
@@ -4480,9 +4364,7 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteV2LoggingLevelRequest: AWSEncodableShape {
@@ -4501,10 +4383,7 @@ extension IoT {
             self.targetType = targetType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case targetName = "targetName"
-            case targetType = "targetType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Denied: AWSDecodableShape {
@@ -4547,7 +4426,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
             case undoDeprecate = "undoDeprecate"
         }
     }
@@ -4608,9 +4486,7 @@ extension IoT {
             try validate(self.findingId, name:"findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case findingId = "findingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAuditFindingResponse: AWSDecodableShape {
@@ -4644,9 +4520,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAuditMitigationActionsTaskResponse: AWSDecodableShape {
@@ -4705,9 +4579,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAuditTaskResponse: AWSDecodableShape {
@@ -4762,9 +4634,7 @@ extension IoT {
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAuthorizerResponse: AWSDecodableShape {
@@ -4799,9 +4669,7 @@ extension IoT {
             try validate(self.billingGroupName, name:"billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBillingGroupResponse: AWSDecodableShape {
@@ -4856,9 +4724,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCACertificateResponse: AWSDecodableShape {
@@ -4897,9 +4763,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCertificateResponse: AWSDecodableShape {
@@ -4956,9 +4820,7 @@ extension IoT {
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDimensionResponse: AWSDecodableShape {
@@ -5013,9 +4875,7 @@ extension IoT {
             try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainConfigurationName = "domainConfigurationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDomainConfigurationResponse: AWSDecodableShape {
@@ -5076,9 +4936,7 @@ extension IoT {
             try validate(self.endpointType, name:"endpointType", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointType = "endpointType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeEndpointResponse: AWSDecodableShape {
@@ -5143,9 +5001,7 @@ extension IoT {
             try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case indexName = "indexName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeIndexResponse: AWSDecodableShape {
@@ -5199,11 +5055,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case executionNumber = "executionNumber"
-            case jobId = "jobId"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJobExecutionResponse: AWSDecodableShape {
@@ -5238,9 +5090,7 @@ extension IoT {
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJobResponse: AWSDecodableShape {
@@ -5278,9 +5128,7 @@ extension IoT {
             try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMitigationActionResponse: AWSDecodableShape {
@@ -5343,9 +5191,7 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProvisioningTemplateResponse: AWSDecodableShape {
@@ -5416,10 +5262,7 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProvisioningTemplateVersionResponse: AWSDecodableShape {
@@ -5466,9 +5309,7 @@ extension IoT {
             try validate(self.roleAlias, name:"roleAlias", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRoleAliasResponse: AWSDecodableShape {
@@ -5503,9 +5344,7 @@ extension IoT {
             try validate(self.scheduledAuditName, name:"scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case scheduledAuditName = "scheduledAuditName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeScheduledAuditResponse: AWSDecodableShape {
@@ -5560,9 +5399,7 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeSecurityProfileResponse: AWSDecodableShape {
@@ -5629,9 +5466,7 @@ extension IoT {
             try validate(self.streamId, name:"streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeStreamResponse: AWSDecodableShape {
@@ -5666,9 +5501,7 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeThingGroupResponse: AWSDecodableShape {
@@ -5737,9 +5570,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, max: 40)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeThingRegistrationTaskResponse: AWSDecodableShape {
@@ -5818,9 +5649,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeThingResponse: AWSDecodableShape {
@@ -5883,9 +5712,7 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeThingTypeResponse: AWSDecodableShape {
@@ -5958,7 +5785,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
             case target = "target"
         }
     }
@@ -5985,10 +5811,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case principal = "x-amzn-iot-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DetachSecurityProfileRequest: AWSEncodableShape {
@@ -6013,10 +5836,7 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DetachSecurityProfileResponse: AWSDecodableShape {
@@ -6049,10 +5869,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-principal"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DetachThingPrincipalResponse: AWSDecodableShape {
@@ -6081,9 +5898,7 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DomainConfigurationSummary: AWSDecodableShape {
@@ -6273,9 +6088,7 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ErrorInfo: AWSDecodableShape {
@@ -6482,7 +6295,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case cognitoIdentityPoolId = "cognitoIdentityPoolId"
             case principal = "principal"
-            case thingName = "thingName"
         }
     }
 
@@ -6544,9 +6356,7 @@ extension IoT {
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobDocumentResponse: AWSDecodableShape {
@@ -6607,9 +6417,7 @@ extension IoT {
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateId = "otaUpdateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOTAUpdateResponse: AWSDecodableShape {
@@ -6700,9 +6508,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPolicyResponse: AWSDecodableShape {
@@ -6766,10 +6572,7 @@ extension IoT {
             try validate(self.policyVersionId, name:"policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPolicyVersionResponse: AWSDecodableShape {
@@ -6896,9 +6699,7 @@ extension IoT {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTopicRuleDestinationResponse: AWSDecodableShape {
@@ -6933,9 +6734,7 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTopicRuleResponse: AWSDecodableShape {
@@ -7652,12 +7451,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListActiveViolationsResponse: AWSDecodableShape {
@@ -7708,12 +7502,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case recursive = "recursive"
-            case target = "target"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAttachedPoliciesResponse: AWSDecodableShape {
@@ -7838,13 +7627,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionStatus = "actionStatus"
-            case findingId = "findingId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAuditMitigationActionsExecutionsResponse: AWSDecodableShape {
@@ -7912,15 +7695,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case auditTaskId = "auditTaskId"
-            case endTime = "endTime"
-            case findingId = "findingId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case startTime = "startTime"
-            case taskStatus = "taskStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAuditMitigationActionsTasksResponse: AWSDecodableShape {
@@ -7978,14 +7753,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case startTime = "startTime"
-            case taskStatus = "taskStatus"
-            case taskType = "taskType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAuditTasksResponse: AWSDecodableShape {
@@ -8036,12 +7804,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAuthorizersResponse: AWSDecodableShape {
@@ -8090,11 +7853,7 @@ extension IoT {
             try validate(self.namePrefixFilter, name:"namePrefixFilter", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case namePrefixFilter = "namePrefixFilter"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBillingGroupsResponse: AWSDecodableShape {
@@ -8141,11 +7900,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCACertificatesResponse: AWSDecodableShape {
@@ -8199,12 +7954,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case caCertificateId = "caCertificateId"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCertificatesByCAResponse: AWSDecodableShape {
@@ -8251,11 +8001,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCertificatesResponse: AWSDecodableShape {
@@ -8297,10 +8043,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDimensionsResponse: AWSDecodableShape {
@@ -8347,11 +8090,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case serviceType = "serviceType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDomainConfigurationsResponse: AWSDecodableShape {
@@ -8393,10 +8132,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListIndicesResponse: AWSDecodableShape {
@@ -8449,12 +8185,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobExecutionsForJobResponse: AWSDecodableShape {
@@ -8507,12 +8238,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobExecutionsForThingResponse: AWSDecodableShape {
@@ -8576,14 +8302,7 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-            case targetSelection = "targetSelection"
-            case thingGroupId = "thingGroupId"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
@@ -8629,11 +8348,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionType = "actionType"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMitigationActionsResponse: AWSDecodableShape {
@@ -8679,11 +8394,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case otaUpdateStatus = "otaUpdateStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOTAUpdatesResponse: AWSDecodableShape {
@@ -8730,11 +8441,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOutgoingCertificatesResponse: AWSDecodableShape {
@@ -8781,11 +8488,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPoliciesResponse: AWSDecodableShape {
@@ -8839,12 +8542,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case policyName = "x-amzn-iot-policy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPolicyPrincipalsResponse: AWSDecodableShape {
@@ -8883,9 +8581,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPolicyVersionsResponse: AWSDecodableShape {
@@ -8932,12 +8628,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case principal = "x-amzn-iot-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPrincipalPoliciesResponse: AWSDecodableShape {
@@ -8983,11 +8674,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case principal = "x-amzn-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPrincipalThingsResponse: AWSDecodableShape {
@@ -9036,11 +8723,7 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProvisioningTemplateVersionsResponse: AWSDecodableShape {
@@ -9082,10 +8765,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProvisioningTemplatesResponse: AWSDecodableShape {
@@ -9132,11 +8812,7 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRoleAliasesResponse: AWSDecodableShape {
@@ -9178,10 +8854,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListScheduledAuditsResponse: AWSDecodableShape {
@@ -9231,12 +8904,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case recursive = "recursive"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSecurityProfilesForTargetResponse: AWSDecodableShape {
@@ -9285,11 +8953,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dimensionName = "dimensionName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSecurityProfilesResponse: AWSDecodableShape {
@@ -9335,11 +8999,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListStreamsResponse: AWSDecodableShape {
@@ -9376,10 +9036,7 @@ extension IoT {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -9429,11 +9086,7 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTargetsForPolicyResponse: AWSDecodableShape {
@@ -9482,11 +9135,7 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTargetsForSecurityProfileResponse: AWSDecodableShape {
@@ -9535,11 +9184,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingGroupsForThingResponse: AWSDecodableShape {
@@ -9599,13 +9244,7 @@ extension IoT {
             try validate(self.parentGroup, name:"parentGroup", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case namePrefixFilter = "namePrefixFilter"
-            case nextToken = "nextToken"
-            case parentGroup = "parentGroup"
-            case recursive = "recursive"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingGroupsResponse: AWSDecodableShape {
@@ -9644,9 +9283,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingPrincipalsResponse: AWSDecodableShape {
@@ -9693,12 +9330,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, max: 40)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case reportType = "reportType"
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingRegistrationTaskReportsResponse: AWSDecodableShape {
@@ -9748,11 +9380,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingRegistrationTasksResponse: AWSDecodableShape {
@@ -9801,11 +9429,7 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingTypesResponse: AWSDecodableShape {
@@ -9854,11 +9478,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingsInBillingGroupResponse: AWSDecodableShape {
@@ -9911,12 +9531,7 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case recursive = "recursive"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingsInThingGroupResponse: AWSDecodableShape {
@@ -9977,13 +9592,7 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "attributeName"
-            case attributeValue = "attributeValue"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListThingsResponse: AWSDecodableShape {
@@ -10025,10 +9634,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTopicRuleDestinationsResponse: AWSDecodableShape {
@@ -10078,12 +9684,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case ruleDisabled = "ruleDisabled"
-            case topic = "topic"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTopicRulesResponse: AWSDecodableShape {
@@ -10129,11 +9730,7 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case targetType = "targetType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListV2LoggingLevelsResponse: AWSDecodableShape {
@@ -10196,14 +9793,7 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-            case startTime = "startTime"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListViolationEventsResponse: AWSDecodableShape {
@@ -10957,10 +10547,8 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowAutoRegistration = "allowAutoRegistration"
             case caCertificate = "caCertificate"
             case registrationConfig = "registrationConfig"
-            case setAsActive = "setAsActive"
             case verificationCertificate = "verificationCertificate"
         }
     }
@@ -11112,7 +10700,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
             case rejectReason = "rejectReason"
         }
     }
@@ -11264,7 +10851,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
             case topicRulePayload = "topicRulePayload"
         }
     }
@@ -11716,10 +11302,7 @@ extension IoT {
             try validate(self.policyVersionId, name:"policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SetLoggingOptionsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -11905,7 +11488,6 @@ extension IoT {
             case auditCheckToActionsMapping = "auditCheckToActionsMapping"
             case clientRequestToken = "clientRequestToken"
             case target = "target"
-            case taskId = "taskId"
         }
     }
 
@@ -12126,9 +11708,7 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, max: 40)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopThingRegistrationTaskResponse: AWSDecodableShape {
@@ -12413,7 +11993,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authInfos = "authInfos"
-            case clientId = "clientId"
             case cognitoIdentityPoolId = "cognitoIdentityPoolId"
             case policyNamesToAdd = "policyNamesToAdd"
             case policyNamesToSkip = "policyNamesToSkip"
@@ -12477,7 +12056,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
             case httpContext = "httpContext"
             case mqttContext = "mqttContext"
             case tlsContext = "tlsContext"
@@ -13049,8 +12627,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case targetAwsAccount = "targetAwsAccount"
             case transferMessage = "transferMessage"
         }
     }
@@ -13204,7 +12780,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn = "authorizerFunctionArn"
-            case authorizerName = "authorizerName"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
             case tokenSigningPublicKeys = "tokenSigningPublicKeys"
@@ -13255,7 +12830,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
             case billingGroupProperties = "billingGroupProperties"
             case expectedVersion = "expectedVersion"
         }
@@ -13323,9 +12897,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-            case newAutoRegistrationStatus = "newAutoRegistrationStatus"
-            case newStatus = "newStatus"
             case registrationConfig = "registrationConfig"
             case removeAutoRegistration = "removeAutoRegistration"
         }
@@ -13353,10 +12924,7 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case newStatus = "newStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDeviceCertificateParams: AWSEncodableShape & AWSDecodableShape {
@@ -13401,7 +12969,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
             case stringValues = "stringValues"
         }
     }
@@ -13470,7 +13037,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerConfig = "authorizerConfig"
-            case domainConfigurationName = "domainConfigurationName"
             case domainConfigurationStatus = "domainConfigurationStatus"
             case removeAuthorizerConfig = "removeAuthorizerConfig"
         }
@@ -13537,7 +13103,6 @@ extension IoT {
             case indexName = "indexName"
             case queryString = "queryString"
             case queryVersion = "queryVersion"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
@@ -13646,7 +13211,6 @@ extension IoT {
             case abortConfig = "abortConfig"
             case description = "description"
             case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-            case jobId = "jobId"
             case presignedUrlConfig = "presignedUrlConfig"
             case timeoutConfig = "timeoutConfig"
         }
@@ -13679,7 +13243,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
             case actionParams = "actionParams"
             case roleArn = "roleArn"
         }
@@ -13743,7 +13306,6 @@ extension IoT {
             case description = "description"
             case enabled = "enabled"
             case provisioningRoleArn = "provisioningRoleArn"
-            case templateName = "templateName"
         }
     }
 
@@ -13785,7 +13347,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case credentialDurationSeconds = "credentialDurationSeconds"
-            case roleAlias = "roleAlias"
             case roleArn = "roleArn"
         }
     }
@@ -13843,7 +13404,6 @@ extension IoT {
             case dayOfMonth = "dayOfMonth"
             case dayOfWeek = "dayOfWeek"
             case frequency = "frequency"
-            case scheduledAuditName = "scheduledAuditName"
             case targetCheckNames = "targetCheckNames"
         }
     }
@@ -13924,9 +13484,7 @@ extension IoT {
             case deleteAdditionalMetricsToRetain = "deleteAdditionalMetricsToRetain"
             case deleteAlertTargets = "deleteAlertTargets"
             case deleteBehaviors = "deleteBehaviors"
-            case expectedVersion = "expectedVersion"
             case securityProfileDescription = "securityProfileDescription"
-            case securityProfileName = "securityProfileName"
         }
     }
 
@@ -14016,7 +13574,6 @@ extension IoT {
             case description = "description"
             case files = "files"
             case roleArn = "roleArn"
-            case streamId = "streamId"
         }
     }
 
@@ -14073,7 +13630,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
@@ -14180,7 +13736,6 @@ extension IoT {
             case attributePayload = "attributePayload"
             case expectedVersion = "expectedVersion"
             case removeThingType = "removeThingType"
-            case thingName = "thingName"
             case thingTypeName = "thingTypeName"
         }
     }

@@ -445,7 +445,6 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -471,11 +470,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
             case consoleAccess = "consoleAccess"
             case groups = "groups"
             case password = "password"
-            case username = "username"
         }
     }
 
@@ -498,9 +495,7 @@ extension MQ {
             self.brokerId = brokerId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBrokerResponse: AWSDecodableShape {
@@ -530,10 +525,7 @@ extension MQ {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
@@ -550,10 +542,7 @@ extension MQ {
             self.username = username
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-            case username = "username"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserResponse: AWSDecodableShape {
@@ -586,11 +575,7 @@ extension MQ {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case engineType = "engineType"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBrokerEngineTypesResponse: AWSDecodableShape {
@@ -640,13 +625,7 @@ extension MQ {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case engineType = "engineType"
-            case hostInstanceType = "hostInstanceType"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case storageType = "storageType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBrokerInstanceOptionsResponse: AWSDecodableShape {
@@ -679,9 +658,7 @@ extension MQ {
             self.brokerId = brokerId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBrokerResponse: AWSDecodableShape {
@@ -777,9 +754,7 @@ extension MQ {
             self.configurationId = configurationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeConfigurationResponse: AWSDecodableShape {
@@ -833,10 +808,7 @@ extension MQ {
             self.configurationRevision = configurationRevision
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
-            case configurationRevision = "configuration-revision"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
@@ -875,10 +847,7 @@ extension MQ {
             self.username = username
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-            case username = "username"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
@@ -957,10 +926,7 @@ extension MQ {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBrokersResponse: AWSDecodableShape {
@@ -1001,11 +967,7 @@ extension MQ {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationRevisionsResponse: AWSDecodableShape {
@@ -1049,10 +1011,7 @@ extension MQ {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationsResponse: AWSDecodableShape {
@@ -1085,9 +1044,7 @@ extension MQ {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
@@ -1125,11 +1082,7 @@ extension MQ {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
@@ -1231,9 +1184,7 @@ extension MQ {
             self.brokerId = brokerId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RebootBrokerResponse: AWSDecodableShape {
@@ -1291,7 +1242,6 @@ extension MQ {
 
         private enum CodingKeys: String, CodingKey {
             case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
-            case brokerId = "broker-id"
             case configuration = "configuration"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
@@ -1347,7 +1297,6 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId = "configuration-id"
             case data = "data"
             case description = "description"
         }
@@ -1402,11 +1351,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerId = "broker-id"
             case consoleAccess = "consoleAccess"
             case groups = "groups"
             case password = "password"
-            case username = "username"
         }
     }
 

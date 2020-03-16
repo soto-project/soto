@@ -332,7 +332,6 @@ extension ApiGatewayV2 {
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
             case apiMappingKey = "apiMappingKey"
-            case domainName = "domainName"
             case stage = "stage"
         }
     }
@@ -494,7 +493,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case authorizerCredentialsArn = "authorizerCredentialsArn"
             case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
             case authorizerType = "authorizerType"
@@ -559,7 +557,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case stageName = "stageName"
         }
@@ -681,7 +678,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case connectionId = "connectionId"
             case connectionType = "connectionType"
             case contentHandlingStrategy = "contentHandlingStrategy"
@@ -725,9 +721,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case contentHandlingStrategy = "contentHandlingStrategy"
-            case integrationId = "integrationId"
             case integrationResponseKey = "integrationResponseKey"
             case responseParameters = "responseParameters"
             case responseTemplates = "responseTemplates"
@@ -847,7 +841,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case contentType = "contentType"
             case description = "description"
             case name = "name"
@@ -914,7 +907,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case apiKeyRequired = "apiKeyRequired"
             case authorizationScopes = "authorizationScopes"
             case authorizationType = "authorizationType"
@@ -952,11 +944,9 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case modelSelectionExpression = "modelSelectionExpression"
             case responseModels = "responseModels"
             case responseParameters = "responseParameters"
-            case routeId = "routeId"
             case routeResponseKey = "routeResponseKey"
         }
     }
@@ -1068,7 +1058,6 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case accessLogSettings = "accessLogSettings"
-            case apiId = "apiId"
             case autoDeploy = "autoDeploy"
             case clientCertificateId = "clientCertificateId"
             case defaultRouteSettings = "defaultRouteSettings"
@@ -1206,10 +1195,7 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case stageName = "stageName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApiMappingRequest: AWSEncodableShape {
@@ -1226,10 +1212,7 @@ extension ApiGatewayV2 {
             self.domainName = domainName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiMappingId = "apiMappingId"
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApiRequest: AWSEncodableShape {
@@ -1243,9 +1226,7 @@ extension ApiGatewayV2 {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
@@ -1262,10 +1243,7 @@ extension ApiGatewayV2 {
             self.authorizerId = authorizerId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case authorizerId = "authorizerId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCorsConfigurationRequest: AWSEncodableShape {
@@ -1279,9 +1257,7 @@ extension ApiGatewayV2 {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDeploymentRequest: AWSEncodableShape {
@@ -1298,10 +1274,7 @@ extension ApiGatewayV2 {
             self.deploymentId = deploymentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case deploymentId = "deploymentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDomainNameRequest: AWSEncodableShape {
@@ -1315,9 +1288,7 @@ extension ApiGatewayV2 {
             self.domainName = domainName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
@@ -1334,10 +1305,7 @@ extension ApiGatewayV2 {
             self.integrationId = integrationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case integrationId = "integrationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIntegrationResponseRequest: AWSEncodableShape {
@@ -1357,11 +1325,7 @@ extension ApiGatewayV2 {
             self.integrationResponseId = integrationResponseId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case integrationId = "integrationId"
-            case integrationResponseId = "integrationResponseId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteModelRequest: AWSEncodableShape {
@@ -1378,10 +1342,7 @@ extension ApiGatewayV2 {
             self.modelId = modelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case modelId = "modelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteRequest: AWSEncodableShape {
@@ -1398,10 +1359,7 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case routeId = "routeId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteRequestParameterRequest: AWSEncodableShape {
@@ -1421,11 +1379,7 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case requestParameterKey = "requestParameterKey"
-            case routeId = "routeId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteResponseRequest: AWSEncodableShape {
@@ -1445,11 +1399,7 @@ extension ApiGatewayV2 {
             self.routeResponseId = routeResponseId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case routeId = "routeId"
-            case routeResponseId = "routeResponseId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteSettingsRequest: AWSEncodableShape {
@@ -1469,11 +1419,7 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case routeKey = "routeKey"
-            case stageName = "stageName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteStageRequest: AWSEncodableShape {
@@ -1490,10 +1436,7 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case stageName = "stageName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVpcLinkRequest: AWSEncodableShape {
@@ -1507,9 +1450,7 @@ extension ApiGatewayV2 {
             self.vpcLinkId = vpcLinkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case vpcLinkId = "vpcLinkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVpcLinkResponse: AWSDecodableShape {
@@ -1640,10 +1581,7 @@ extension ApiGatewayV2 {
             self.domainName = domainName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiMappingId = "apiMappingId"
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApiMappingResponse: AWSDecodableShape {
@@ -1685,11 +1623,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApiMappingsResponse: AWSDecodableShape {
@@ -1719,9 +1653,7 @@ extension ApiGatewayV2 {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApiResponse: AWSDecodableShape {
@@ -1790,10 +1722,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApisResponse: AWSDecodableShape {
@@ -1826,10 +1755,7 @@ extension ApiGatewayV2 {
             self.authorizerId = authorizerId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case authorizerId = "authorizerId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAuthorizerResponse: AWSDecodableShape {
@@ -1886,11 +1812,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAuthorizersResponse: AWSDecodableShape {
@@ -1923,10 +1845,7 @@ extension ApiGatewayV2 {
             self.deploymentId = deploymentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case deploymentId = "deploymentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeploymentResponse: AWSDecodableShape {
@@ -1974,11 +1893,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeploymentsResponse: AWSDecodableShape {
@@ -2008,9 +1923,7 @@ extension ApiGatewayV2 {
             self.domainName = domainName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainNameResponse: AWSDecodableShape {
@@ -2049,10 +1962,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainNamesResponse: AWSDecodableShape {
@@ -2085,10 +1995,7 @@ extension ApiGatewayV2 {
             self.integrationId = integrationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case integrationId = "integrationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntegrationResponseRequest: AWSEncodableShape {
@@ -2108,11 +2015,7 @@ extension ApiGatewayV2 {
             self.integrationResponseId = integrationResponseId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case integrationId = "integrationId"
-            case integrationResponseId = "integrationResponseId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntegrationResponseResponse: AWSDecodableShape {
@@ -2163,12 +2066,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case integrationId = "integrationId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntegrationResponsesResponse: AWSDecodableShape {
@@ -2268,11 +2166,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntegrationsResponse: AWSDecodableShape {
@@ -2305,10 +2199,7 @@ extension ApiGatewayV2 {
             self.modelId = modelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case modelId = "modelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetModelResponse: AWSDecodableShape {
@@ -2350,10 +2241,7 @@ extension ApiGatewayV2 {
             self.modelId = modelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case modelId = "modelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetModelTemplateResponse: AWSDecodableShape {
@@ -2386,11 +2274,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetModelsResponse: AWSDecodableShape {
@@ -2423,10 +2307,7 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case routeId = "routeId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRouteResponseRequest: AWSEncodableShape {
@@ -2446,11 +2327,7 @@ extension ApiGatewayV2 {
             self.routeResponseId = routeResponseId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case routeId = "routeId"
-            case routeResponseId = "routeResponseId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRouteResponseResponse: AWSDecodableShape {
@@ -2498,12 +2375,7 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case routeId = "routeId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRouteResponsesResponse: AWSDecodableShape {
@@ -2588,11 +2460,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRoutesResponse: AWSDecodableShape {
@@ -2625,10 +2493,7 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case stageName = "stageName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStageResponse: AWSDecodableShape {
@@ -2700,11 +2565,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStagesResponse: AWSDecodableShape {
@@ -2734,9 +2595,7 @@ extension ApiGatewayV2 {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTagsResponse: AWSDecodableShape {
@@ -2763,9 +2622,7 @@ extension ApiGatewayV2 {
             self.vpcLinkId = vpcLinkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case vpcLinkId = "vpcLinkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVpcLinkResponse: AWSDecodableShape {
@@ -2819,10 +2676,7 @@ extension ApiGatewayV2 {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVpcLinksResponse: AWSDecodableShape {
@@ -2858,9 +2712,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basepath = "basepath"
             case body = "body"
-            case failOnWarnings = "failOnWarnings"
         }
     }
 
@@ -3120,10 +2972,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case basepath = "basepath"
             case body = "body"
-            case failOnWarnings = "failOnWarnings"
         }
     }
 
@@ -3381,7 +3230,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -3436,10 +3284,7 @@ extension ApiGatewayV2 {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApiMappingRequest: AWSEncodableShape {
@@ -3464,9 +3309,7 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
-            case apiMappingId = "apiMappingId"
             case apiMappingKey = "apiMappingKey"
-            case domainName = "domainName"
             case stage = "stage"
         }
     }
@@ -3529,7 +3372,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case apiKeySelectionExpression = "apiKeySelectionExpression"
             case corsConfiguration = "corsConfiguration"
             case credentialsArn = "credentialsArn"
@@ -3631,9 +3473,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case authorizerCredentialsArn = "authorizerCredentialsArn"
-            case authorizerId = "authorizerId"
             case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
             case authorizerType = "authorizerType"
             case authorizerUri = "authorizerUri"
@@ -3698,8 +3538,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case deploymentId = "deploymentId"
             case description = "description"
         }
     }
@@ -3746,7 +3584,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
         }
     }
@@ -3823,13 +3660,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case connectionId = "connectionId"
             case connectionType = "connectionType"
             case contentHandlingStrategy = "contentHandlingStrategy"
             case credentialsArn = "credentialsArn"
             case description = "description"
-            case integrationId = "integrationId"
             case integrationMethod = "integrationMethod"
             case integrationType = "integrationType"
             case integrationUri = "integrationUri"
@@ -3871,10 +3706,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case contentHandlingStrategy = "contentHandlingStrategy"
-            case integrationId = "integrationId"
-            case integrationResponseId = "integrationResponseId"
             case integrationResponseKey = "integrationResponseKey"
             case responseParameters = "responseParameters"
             case responseTemplates = "responseTemplates"
@@ -3997,10 +3829,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case contentType = "contentType"
             case description = "description"
-            case modelId = "modelId"
             case name = "name"
             case schema = "schema"
         }
@@ -4068,7 +3898,6 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case apiKeyRequired = "apiKeyRequired"
             case authorizationScopes = "authorizationScopes"
             case authorizationType = "authorizationType"
@@ -4077,7 +3906,6 @@ extension ApiGatewayV2 {
             case operationName = "operationName"
             case requestModels = "requestModels"
             case requestParameters = "requestParameters"
-            case routeId = "routeId"
             case routeKey = "routeKey"
             case routeResponseSelectionExpression = "routeResponseSelectionExpression"
             case target = "target"
@@ -4110,12 +3938,9 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case modelSelectionExpression = "modelSelectionExpression"
             case responseModels = "responseModels"
             case responseParameters = "responseParameters"
-            case routeId = "routeId"
-            case routeResponseId = "routeResponseId"
             case routeResponseKey = "routeResponseKey"
         }
     }
@@ -4226,14 +4051,12 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case accessLogSettings = "accessLogSettings"
-            case apiId = "apiId"
             case autoDeploy = "autoDeploy"
             case clientCertificateId = "clientCertificateId"
             case defaultRouteSettings = "defaultRouteSettings"
             case deploymentId = "deploymentId"
             case description = "description"
             case routeSettings = "routeSettings"
-            case stageName = "stageName"
             case stageVariables = "stageVariables"
         }
     }
@@ -4305,7 +4128,6 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
-            case vpcLinkId = "vpcLinkId"
         }
     }
 

@@ -308,7 +308,6 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
             case clientToken = "clientToken"
             case filter = "filter"
             case ruleName = "ruleName"
@@ -372,10 +371,7 @@ extension AccessAnalyzer {
             try validate(self.analyzerName, name:"analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case clientToken = "clientToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteArchiveRuleRequest: AWSEncodableShape {
@@ -407,11 +403,7 @@ extension AccessAnalyzer {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case clientToken = "clientToken"
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Finding: AWSDecodableShape {
@@ -559,10 +551,7 @@ extension AccessAnalyzer {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerArn = "analyzerArn"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAnalyzedResourceResponse: AWSDecodableShape {
@@ -597,9 +586,7 @@ extension AccessAnalyzer {
             try validate(self.analyzerName, name:"analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAnalyzerResponse: AWSDecodableShape {
@@ -641,10 +628,7 @@ extension AccessAnalyzer {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetArchiveRuleResponse: AWSDecodableShape {
@@ -680,10 +664,7 @@ extension AccessAnalyzer {
             try validate(self.analyzerArn, name:"analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerArn = "analyzerArn"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFindingResponse: AWSDecodableShape {
@@ -795,11 +776,7 @@ extension AccessAnalyzer {
             self.`type` = `type`
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case `type` = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAnalyzersResponse: AWSDecodableShape {
@@ -846,11 +823,7 @@ extension AccessAnalyzer {
             try validate(self.analyzerName, name:"analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListArchiveRulesResponse: AWSDecodableShape {
@@ -938,9 +911,7 @@ extension AccessAnalyzer {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1028,7 +999,6 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -1057,10 +1027,7 @@ extension AccessAnalyzer {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -1106,10 +1073,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
             case clientToken = "clientToken"
             case filter = "filter"
-            case ruleName = "ruleName"
         }
     }
 

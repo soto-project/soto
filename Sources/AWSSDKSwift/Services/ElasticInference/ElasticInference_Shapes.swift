@@ -39,9 +39,7 @@ extension ElasticInference {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResult: AWSDecodableShape {
@@ -84,7 +82,6 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -124,10 +121,7 @@ extension ElasticInference {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResult: AWSDecodableShape {

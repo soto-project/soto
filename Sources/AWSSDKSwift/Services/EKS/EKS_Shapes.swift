@@ -340,7 +340,6 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case clusterName = "name"
             case fargateProfileName = "fargateProfileName"
             case podExecutionRoleArn = "podExecutionRoleArn"
             case selectors = "selectors"
@@ -432,7 +431,6 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case amiType = "amiType"
             case clientRequestToken = "clientRequestToken"
-            case clusterName = "name"
             case diskSize = "diskSize"
             case instanceTypes = "instanceTypes"
             case labels = "labels"
@@ -473,9 +471,7 @@ extension EKS {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteClusterResponse: AWSDecodableShape {
@@ -508,10 +504,7 @@ extension EKS {
             self.fargateProfileName = fargateProfileName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "name"
-            case fargateProfileName = "fargateProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFargateProfileResponse: AWSDecodableShape {
@@ -544,10 +537,7 @@ extension EKS {
             self.nodegroupName = nodegroupName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "name"
-            case nodegroupName = "nodegroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteNodegroupResponse: AWSDecodableShape {
@@ -576,9 +566,7 @@ extension EKS {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeClusterResponse: AWSDecodableShape {
@@ -611,10 +599,7 @@ extension EKS {
             self.fargateProfileName = fargateProfileName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "name"
-            case fargateProfileName = "fargateProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeFargateProfileResponse: AWSDecodableShape {
@@ -647,10 +632,7 @@ extension EKS {
             self.nodegroupName = nodegroupName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "name"
-            case nodegroupName = "nodegroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeNodegroupResponse: AWSDecodableShape {
@@ -687,11 +669,7 @@ extension EKS {
             self.updateId = updateId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case nodegroupName = "nodegroupName"
-            case updateId = "updateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUpdateResponse: AWSDecodableShape {
@@ -869,10 +847,7 @@ extension EKS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListClustersResponse: AWSDecodableShape {
@@ -918,11 +893,7 @@ extension EKS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "name"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFargateProfilesResponse: AWSDecodableShape {
@@ -968,11 +939,7 @@ extension EKS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "name"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListNodegroupsResponse: AWSDecodableShape {
@@ -1005,9 +972,7 @@ extension EKS {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1053,12 +1018,7 @@ extension EKS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-            case nodegroupName = "nodegroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUpdatesResponse: AWSDecodableShape {
@@ -1327,7 +1287,6 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -1365,10 +1324,7 @@ extension EKS {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -1436,7 +1392,6 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case logging = "logging"
-            case name = "name"
             case resourcesVpcConfig = "resourcesVpcConfig"
         }
     }
@@ -1474,7 +1429,6 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case name = "name"
             case version = "version"
         }
     }
@@ -1552,9 +1506,7 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case clusterName = "name"
             case labels = "labels"
-            case nodegroupName = "nodegroupName"
             case scalingConfig = "scalingConfig"
         }
     }
@@ -1602,9 +1554,7 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case clusterName = "name"
             case force = "force"
-            case nodegroupName = "nodegroupName"
             case releaseVersion = "releaseVersion"
             case version = "version"
         }

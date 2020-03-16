@@ -72,12 +72,7 @@ extension SageMakerRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
             case body = "Body"
-            case contentType = "Content-Type"
-            case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
-            case endpointName = "EndpointName"
-            case targetModel = "X-Amzn-SageMaker-Target-Model"
         }
     }
 

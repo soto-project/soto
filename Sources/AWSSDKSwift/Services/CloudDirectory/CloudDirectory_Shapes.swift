@@ -134,7 +134,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case objectAttributeList = "ObjectAttributeList"
             case objectReference = "ObjectReference"
             case schemaFacet = "SchemaFacet"
@@ -165,7 +164,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case publishedSchemaArn = "PublishedSchemaArn"
         }
     }
@@ -217,7 +215,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case childReference = "ChildReference"
-            case directoryArn = "x-amz-data-partition"
             case linkName = "LinkName"
             case parentReference = "ParentReference"
         }
@@ -256,7 +253,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
             case policyReference = "PolicyReference"
         }
@@ -289,7 +285,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case indexReference = "IndexReference"
             case targetReference = "TargetReference"
         }
@@ -342,7 +337,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
-            case directoryArn = "x-amz-data-partition"
             case sourceObjectReference = "SourceObjectReference"
             case targetObjectReference = "TargetObjectReference"
             case typedLinkFacet = "TypedLinkFacet"
@@ -1657,8 +1651,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case operations = "Operations"
         }
     }
@@ -2018,7 +2010,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case operations = "Operations"
         }
     }
@@ -2060,7 +2051,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -2128,7 +2118,6 @@ extension CloudDirectory {
             case facetStyle = "FacetStyle"
             case name = "Name"
             case objectType = "ObjectType"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -2174,7 +2163,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case isUnique = "IsUnique"
             case linkName = "LinkName"
             case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
@@ -2233,7 +2221,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case linkName = "LinkName"
             case objectAttributeList = "ObjectAttributeList"
             case parentReference = "ParentReference"
@@ -2310,7 +2297,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case facet = "Facet"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -2334,9 +2320,7 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDirectoryResponse: AWSDecodableShape {
@@ -2376,7 +2360,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -2404,7 +2387,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
         }
     }
@@ -2429,9 +2411,7 @@ extension CloudDirectory {
             self.schemaArn = schemaArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSchemaResponse: AWSDecodableShape {
@@ -2469,7 +2449,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -2500,7 +2479,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case indexReference = "IndexReference"
             case targetReference = "TargetReference"
         }
@@ -2545,7 +2523,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case linkName = "LinkName"
             case parentReference = "ParentReference"
         }
@@ -2584,7 +2561,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
             case policyReference = "PolicyReference"
         }
@@ -2618,7 +2594,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case typedLinkSpecifier = "TypedLinkSpecifier"
         }
     }
@@ -2661,9 +2636,7 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisableDirectoryResponse: AWSDecodableShape {
@@ -2692,9 +2665,7 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct EnableDirectoryResponse: AWSDecodableShape {
@@ -2890,9 +2861,7 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDirectoryResponse: AWSDecodableShape {
@@ -2932,7 +2901,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -2983,7 +2951,6 @@ extension CloudDirectory {
         private enum CodingKeys: String, CodingKey {
             case attributeNames = "AttributeNames"
             case consistencyLevel = "ConsistencyLevel"
-            case directoryArn = "x-amz-data-partition"
             case typedLinkSpecifier = "TypedLinkSpecifier"
         }
     }
@@ -3038,8 +3005,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case attributeNames = "AttributeNames"
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
             case schemaFacet = "SchemaFacet"
         }
@@ -3079,8 +3044,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
         }
     }
@@ -3115,9 +3078,7 @@ extension CloudDirectory {
             self.schemaArn = schemaArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSchemaAsJsonResponse: AWSDecodableShape {
@@ -3159,7 +3120,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -3313,8 +3273,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case targetReference = "TargetReference"
@@ -3455,7 +3413,6 @@ extension CloudDirectory {
             case maxResults = "MaxResults"
             case name = "Name"
             case nextToken = "NextToken"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -3502,7 +3459,6 @@ extension CloudDirectory {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -3564,7 +3520,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case consistencyLevel = "ConsistencyLevel"
-            case directoryArn = "x-amz-data-partition"
             case filterAttributeRanges = "FilterAttributeRanges"
             case filterTypedLink = "FilterTypedLink"
             case maxResults = "MaxResults"
@@ -3627,8 +3582,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case indexReference = "IndexReference"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -3732,8 +3685,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case facetFilter = "FacetFilter"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -3789,8 +3740,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case objectReference = "ObjectReference"
@@ -3841,7 +3790,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case objectReference = "ObjectReference"
@@ -3899,8 +3847,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case includeAllLinksToEachParent = "IncludeAllLinksToEachParent"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -3960,8 +3906,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case objectReference = "ObjectReference"
@@ -4026,7 +3970,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case consistencyLevel = "ConsistencyLevel"
-            case directoryArn = "x-amz-data-partition"
             case filterAttributeRanges = "FilterAttributeRanges"
             case filterTypedLink = "FilterTypedLink"
             case maxResults = "MaxResults"
@@ -4083,8 +4026,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "x-amz-consistency-level"
-            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case policyReference = "PolicyReference"
@@ -4227,7 +4168,6 @@ extension CloudDirectory {
             case maxResults = "MaxResults"
             case name = "Name"
             case nextToken = "NextToken"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -4274,7 +4214,6 @@ extension CloudDirectory {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -4322,7 +4261,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case objectReference = "ObjectReference"
@@ -4533,7 +4471,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case developmentSchemaArn = "x-amz-data-partition"
             case minorVersion = "MinorVersion"
             case name = "Name"
             case version = "Version"
@@ -4571,7 +4508,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case document = "Document"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -4612,7 +4548,6 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
             case schemaFacet = "SchemaFacet"
         }
@@ -5008,7 +4943,6 @@ extension CloudDirectory {
             case attributeUpdates = "AttributeUpdates"
             case name = "Name"
             case objectType = "ObjectType"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -5047,7 +4981,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case attributeUpdates = "AttributeUpdates"
-            case directoryArn = "x-amz-data-partition"
             case typedLinkSpecifier = "TypedLinkSpecifier"
         }
     }
@@ -5086,7 +5019,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case attributeUpdates = "AttributeUpdates"
-            case directoryArn = "x-amz-data-partition"
             case objectReference = "ObjectReference"
         }
     }
@@ -5128,7 +5060,6 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 
@@ -5183,7 +5114,6 @@ extension CloudDirectory {
             case attributeUpdates = "AttributeUpdates"
             case identityAttributeOrder = "IdentityAttributeOrder"
             case name = "Name"
-            case schemaArn = "x-amz-data-partition"
         }
     }
 

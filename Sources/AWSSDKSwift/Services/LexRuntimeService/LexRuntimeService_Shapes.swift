@@ -112,11 +112,7 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "botAlias"
-            case botName = "botName"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSessionResponse: AWSDecodableShape {
@@ -251,12 +247,7 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "botAlias"
-            case botName = "botName"
-            case checkpointLabelFilter = "checkpointLabelFilter"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSessionResponse: AWSDecodableShape {
@@ -378,14 +369,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
-            case botAlias = "botAlias"
-            case botName = "botName"
-            case contentType = "Content-Type"
             case inputStream = "inputStream"
-            case requestAttributes = "x-amz-lex-request-attributes"
-            case sessionAttributes = "x-amz-lex-session-attributes"
-            case userId = "userId"
         }
     }
 
@@ -501,12 +485,9 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAlias = "botAlias"
-            case botName = "botName"
             case inputText = "inputText"
             case requestAttributes = "requestAttributes"
             case sessionAttributes = "sessionAttributes"
-            case userId = "userId"
         }
     }
 
@@ -606,13 +587,9 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
-            case botAlias = "botAlias"
-            case botName = "botName"
             case dialogAction = "dialogAction"
             case recentIntentSummaryView = "recentIntentSummaryView"
             case sessionAttributes = "sessionAttributes"
-            case userId = "userId"
         }
     }
 

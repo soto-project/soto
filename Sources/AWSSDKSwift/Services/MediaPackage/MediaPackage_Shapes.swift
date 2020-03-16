@@ -533,9 +533,7 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteChannelResponse: AWSDecodableShape {
@@ -557,9 +555,7 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteOriginEndpointResponse: AWSDecodableShape {
@@ -581,9 +577,7 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeChannelResponse: AWSDecodableShape {
@@ -622,9 +616,7 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeHarvestJobResponse: AWSDecodableShape {
@@ -675,9 +667,7 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeOriginEndpointResponse: AWSDecodableShape {
@@ -1058,10 +1048,7 @@ extension MediaPackage {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
@@ -1105,12 +1092,7 @@ extension MediaPackage {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case includeChannelId = "includeChannelId"
-            case includeStatus = "includeStatus"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListHarvestJobsResponse: AWSDecodableShape {
@@ -1151,11 +1133,7 @@ extension MediaPackage {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOriginEndpointsResponse: AWSDecodableShape {
@@ -1185,9 +1163,7 @@ extension MediaPackage {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1323,9 +1299,7 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RotateChannelCredentialsResponse: AWSDecodableShape {
@@ -1367,10 +1341,7 @@ extension MediaPackage {
             self.ingestEndpointId = ingestEndpointId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case ingestEndpointId = "ingest_endpoint_id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RotateIngestEndpointCredentialsResponse: AWSDecodableShape {
@@ -1489,7 +1460,6 @@ extension MediaPackage {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -1508,10 +1478,7 @@ extension MediaPackage {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
@@ -1529,7 +1496,6 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
-            case id = "id"
         }
     }
 
@@ -1597,7 +1563,6 @@ extension MediaPackage {
             case dashPackage = "dashPackage"
             case description = "description"
             case hlsPackage = "hlsPackage"
-            case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case origination = "origination"

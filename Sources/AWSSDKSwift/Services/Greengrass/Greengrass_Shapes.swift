@@ -128,7 +128,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
             case roleArn = "RoleArn"
         }
     }
@@ -381,7 +380,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -436,8 +434,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case connectorDefinitionId = "ConnectorDefinitionId"
             case connectors = "Connectors"
         }
     }
@@ -482,7 +478,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -537,8 +532,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case coreDefinitionId = "CoreDefinitionId"
             case cores = "Cores"
         }
     }
@@ -589,10 +582,8 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case deploymentId = "DeploymentId"
             case deploymentType = "DeploymentType"
-            case groupId = "GroupId"
             case groupVersionId = "GroupVersionId"
         }
     }
@@ -633,7 +624,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -688,8 +678,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case deviceDefinitionId = "DeviceDefinitionId"
             case devices = "Devices"
         }
     }
@@ -734,7 +722,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -791,9 +778,7 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case defaultConfig = "DefaultConfig"
-            case functionDefinitionId = "FunctionDefinitionId"
             case functions = "Functions"
         }
     }
@@ -834,10 +819,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateGroupCertificateAuthorityResponse: AWSDecodableShape {
@@ -872,7 +854,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -939,12 +920,10 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case connectorDefinitionVersionArn = "ConnectorDefinitionVersionArn"
             case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
             case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
             case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
-            case groupId = "GroupId"
             case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
             case resourceDefinitionVersionArn = "ResourceDefinitionVersionArn"
             case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
@@ -991,7 +970,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -1046,8 +1024,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case loggerDefinitionId = "LoggerDefinitionId"
             case loggers = "Loggers"
         }
     }
@@ -1092,7 +1068,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -1147,8 +1122,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case resourceDefinitionId = "ResourceDefinitionId"
             case resources = "Resources"
         }
     }
@@ -1199,7 +1172,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case s3UrlSignerRole = "S3UrlSignerRole"
             case softwareToUpdate = "SoftwareToUpdate"
             case updateAgentLogLevel = "UpdateAgentLogLevel"
@@ -1249,7 +1221,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
@@ -1304,8 +1275,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
             case subscriptions = "Subscriptions"
         }
     }
@@ -1385,9 +1354,7 @@ extension Greengrass {
             self.connectorDefinitionId = connectorDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConnectorDefinitionResponse: AWSDecodableShape {
@@ -1409,9 +1376,7 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCoreDefinitionResponse: AWSDecodableShape {
@@ -1433,9 +1398,7 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDeviceDefinitionResponse: AWSDecodableShape {
@@ -1457,9 +1420,7 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionDefinitionResponse: AWSDecodableShape {
@@ -1481,9 +1442,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGroupResponse: AWSDecodableShape {
@@ -1505,9 +1464,7 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLoggerDefinitionResponse: AWSDecodableShape {
@@ -1529,9 +1486,7 @@ extension Greengrass {
             self.resourceDefinitionId = resourceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteResourceDefinitionResponse: AWSDecodableShape {
@@ -1553,9 +1508,7 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSubscriptionDefinitionResponse: AWSDecodableShape {
@@ -1647,9 +1600,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateRoleFromGroupResponse: AWSDecodableShape {
@@ -1884,9 +1835,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAssociatedRoleResponse: AWSDecodableShape {
@@ -1918,9 +1867,7 @@ extension Greengrass {
             self.bulkDeploymentId = bulkDeploymentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBulkDeploymentStatusResponse: AWSDecodableShape {
@@ -1967,9 +1914,7 @@ extension Greengrass {
             self.thingName = thingName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "ThingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConnectivityInfoResponse: AWSDecodableShape {
@@ -2001,9 +1946,7 @@ extension Greengrass {
             self.connectorDefinitionId = connectorDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConnectorDefinitionResponse: AWSDecodableShape {
@@ -2057,11 +2000,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-            case connectorDefinitionVersionId = "ConnectorDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConnectorDefinitionVersionResponse: AWSDecodableShape {
@@ -2109,9 +2048,7 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCoreDefinitionResponse: AWSDecodableShape {
@@ -2162,10 +2099,7 @@ extension Greengrass {
             self.coreDefinitionVersionId = coreDefinitionVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case coreDefinitionVersionId = "CoreDefinitionVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCoreDefinitionVersionResponse: AWSDecodableShape {
@@ -2216,10 +2150,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "DeploymentId"
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeploymentStatusResponse: AWSDecodableShape {
@@ -2263,9 +2194,7 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeviceDefinitionResponse: AWSDecodableShape {
@@ -2319,11 +2248,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case deviceDefinitionVersionId = "DeviceDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeviceDefinitionVersionResponse: AWSDecodableShape {
@@ -2371,9 +2296,7 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionDefinitionResponse: AWSDecodableShape {
@@ -2427,11 +2350,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-            case functionDefinitionVersionId = "FunctionDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionDefinitionVersionResponse: AWSDecodableShape {
@@ -2482,10 +2401,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityId = "CertificateAuthorityId"
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGroupCertificateAuthorityResponse: AWSDecodableShape {
@@ -2521,9 +2437,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGroupCertificateConfigurationResponse: AWSDecodableShape {
@@ -2556,9 +2470,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGroupResponse: AWSDecodableShape {
@@ -2609,10 +2521,7 @@ extension Greengrass {
             self.groupVersionId = groupVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case groupVersionId = "GroupVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGroupVersionResponse: AWSDecodableShape {
@@ -2656,9 +2565,7 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLoggerDefinitionResponse: AWSDecodableShape {
@@ -2712,11 +2619,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-            case loggerDefinitionVersionId = "LoggerDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLoggerDefinitionVersionResponse: AWSDecodableShape {
@@ -2760,9 +2663,7 @@ extension Greengrass {
             self.resourceDefinitionId = resourceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResourceDefinitionResponse: AWSDecodableShape {
@@ -2813,10 +2714,7 @@ extension Greengrass {
             self.resourceDefinitionVersionId = resourceDefinitionVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-            case resourceDefinitionVersionId = "ResourceDefinitionVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResourceDefinitionVersionResponse: AWSDecodableShape {
@@ -2886,9 +2784,7 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSubscriptionDefinitionResponse: AWSDecodableShape {
@@ -2942,11 +2838,7 @@ extension Greengrass {
             self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-            case subscriptionDefinitionVersionId = "SubscriptionDefinitionVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSubscriptionDefinitionVersionResponse: AWSDecodableShape {
@@ -3112,11 +3004,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBulkDeploymentDetailedReportsResponse: AWSDecodableShape {
@@ -3151,10 +3039,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBulkDeploymentsResponse: AWSDecodableShape {
@@ -3192,11 +3077,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConnectorDefinitionVersionsResponse: AWSDecodableShape {
@@ -3229,10 +3110,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConnectorDefinitionsResponse: AWSDecodableShape {
@@ -3268,11 +3146,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCoreDefinitionVersionsResponse: AWSDecodableShape {
@@ -3305,10 +3179,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCoreDefinitionsResponse: AWSDecodableShape {
@@ -3344,11 +3215,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeploymentsResponse: AWSDecodableShape {
@@ -3386,11 +3253,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeviceDefinitionVersionsResponse: AWSDecodableShape {
@@ -3423,10 +3286,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeviceDefinitionsResponse: AWSDecodableShape {
@@ -3462,11 +3322,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionDefinitionVersionsResponse: AWSDecodableShape {
@@ -3499,10 +3355,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionDefinitionsResponse: AWSDecodableShape {
@@ -3532,9 +3385,7 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGroupCertificateAuthoritiesResponse: AWSDecodableShape {
@@ -3568,11 +3419,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGroupVersionsResponse: AWSDecodableShape {
@@ -3605,10 +3452,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGroupsResponse: AWSDecodableShape {
@@ -3646,11 +3490,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListLoggerDefinitionVersionsResponse: AWSDecodableShape {
@@ -3683,10 +3523,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListLoggerDefinitionsResponse: AWSDecodableShape {
@@ -3722,11 +3559,7 @@ extension Greengrass {
             self.resourceDefinitionId = resourceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResourceDefinitionVersionsResponse: AWSDecodableShape {
@@ -3759,10 +3592,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResourceDefinitionsResponse: AWSDecodableShape {
@@ -3798,11 +3628,7 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSubscriptionDefinitionVersionsResponse: AWSDecodableShape {
@@ -3835,10 +3661,7 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSubscriptionDefinitionsResponse: AWSDecodableShape {
@@ -3868,9 +3691,7 @@ extension Greengrass {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -3988,9 +3809,7 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case force = "Force"
-            case groupId = "GroupId"
         }
     }
 
@@ -4194,7 +4013,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case executionRoleArn = "ExecutionRoleArn"
             case inputFileUri = "InputFileUri"
             case tags = "tags"
@@ -4230,9 +4048,7 @@ extension Greengrass {
             self.bulkDeploymentId = bulkDeploymentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopBulkDeploymentResponse: AWSDecodableShape {
@@ -4297,7 +4113,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -4316,10 +4131,7 @@ extension Greengrass {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateConnectivityInfoRequest: AWSEncodableShape {
@@ -4338,7 +4150,6 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case connectivityInfo = "ConnectivityInfo"
-            case thingName = "ThingName"
         }
     }
 
@@ -4374,7 +4185,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
             case name = "Name"
         }
     }
@@ -4401,7 +4211,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
             case name = "Name"
         }
     }
@@ -4428,7 +4237,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
             case name = "Name"
         }
     }
@@ -4455,7 +4263,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
             case name = "Name"
         }
     }
@@ -4484,7 +4291,6 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
         }
     }
 
@@ -4521,7 +4327,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
             case name = "Name"
         }
     }
@@ -4548,7 +4353,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
             case name = "Name"
         }
     }
@@ -4576,7 +4380,6 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case resourceDefinitionId = "ResourceDefinitionId"
         }
     }
 
@@ -4603,7 +4406,6 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
         }
     }
 

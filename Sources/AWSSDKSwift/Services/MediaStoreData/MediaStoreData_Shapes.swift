@@ -57,9 +57,7 @@ extension MediaStoreData {
             try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectResponse: AWSDecodableShape {
@@ -88,9 +86,7 @@ extension MediaStoreData {
             try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeObjectResponse: AWSDecodableShape {
@@ -153,10 +149,7 @@ extension MediaStoreData {
             try validate(self.range, name:"range", parent: name, pattern: "^bytes=(?:\\d+\\-\\d*|\\d*\\-\\d+)$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-            case range = "Range"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -274,11 +267,7 @@ extension MediaStoreData {
             try validate(self.path, name:"path", parent: name, pattern: "/?(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}(?:[A-Za-z0-9_\\.\\-\\~]+)?/?")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case path = "Path"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListItemsResponse: AWSDecodableShape {
@@ -342,11 +331,6 @@ extension MediaStoreData {
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
-            case cacheControl = "Cache-Control"
-            case contentType = "Content-Type"
-            case path = "Path"
-            case storageClass = "x-amz-storage-class"
-            case uploadAvailability = "x-amz-upload-availability"
         }
     }
 

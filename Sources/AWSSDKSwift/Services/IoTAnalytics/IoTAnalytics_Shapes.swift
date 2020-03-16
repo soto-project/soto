@@ -195,10 +195,7 @@ extension IoTAnalytics {
             try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pipelineName = "pipelineName"
-            case reprocessingId = "reprocessingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelPipelineReprocessingResponse: AWSDecodableShape {
@@ -480,9 +477,7 @@ extension IoTAnalytics {
             try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateDatasetContentResponse: AWSDecodableShape {
@@ -1265,9 +1260,7 @@ extension IoTAnalytics {
             try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelName = "channelName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDatasetContentRequest: AWSEncodableShape {
@@ -1294,10 +1287,7 @@ extension IoTAnalytics {
             try validate(self.versionId, name:"versionId", parent: name, min: 7)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
@@ -1318,9 +1308,7 @@ extension IoTAnalytics {
             try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDatastoreRequest: AWSEncodableShape {
@@ -1341,9 +1329,7 @@ extension IoTAnalytics {
             try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePipelineRequest: AWSEncodableShape {
@@ -1364,9 +1350,7 @@ extension IoTAnalytics {
             try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pipelineName = "pipelineName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeltaTime: AWSEncodableShape & AWSDecodableShape {
@@ -1409,10 +1393,7 @@ extension IoTAnalytics {
             try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelName = "channelName"
-            case includeStatistics = "includeStatistics"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeChannelResponse: AWSDecodableShape {
@@ -1451,9 +1432,7 @@ extension IoTAnalytics {
             try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
@@ -1492,10 +1471,7 @@ extension IoTAnalytics {
             try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
-            case includeStatistics = "includeStatistics"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDatastoreResponse: AWSDecodableShape {
@@ -1556,9 +1532,7 @@ extension IoTAnalytics {
             try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pipelineName = "pipelineName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribePipelineResponse: AWSDecodableShape {
@@ -1734,10 +1708,7 @@ extension IoTAnalytics {
             try validate(self.versionId, name:"versionId", parent: name, min: 7)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDatasetContentResponse: AWSDecodableShape {
@@ -1874,10 +1845,7 @@ extension IoTAnalytics {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
@@ -1934,13 +1902,7 @@ extension IoTAnalytics {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "datasetName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case scheduledBefore = "scheduledBefore"
-            case scheduledOnOrAfter = "scheduledOnOrAfter"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDatasetContentsResponse: AWSDecodableShape {
@@ -1982,10 +1944,7 @@ extension IoTAnalytics {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
@@ -2027,10 +1986,7 @@ extension IoTAnalytics {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDatastoresResponse: AWSDecodableShape {
@@ -2072,10 +2028,7 @@ extension IoTAnalytics {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPipelinesResponse: AWSDecodableShape {
@@ -2113,9 +2066,7 @@ extension IoTAnalytics {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -2606,12 +2557,7 @@ extension IoTAnalytics {
             try validate(self.maxMessages, name:"maxMessages", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelName = "channelName"
-            case endTime = "endTime"
-            case maxMessages = "maxMessages"
-            case startTime = "startTime"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SampleChannelDataResponse: AWSDecodableShape {
@@ -2758,7 +2704,6 @@ extension IoTAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
-            case pipelineName = "pipelineName"
             case startTime = "startTime"
         }
     }
@@ -2828,7 +2773,6 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -2888,10 +2832,7 @@ extension IoTAnalytics {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -2929,7 +2870,6 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName = "channelName"
             case channelStorage = "channelStorage"
             case retentionPeriod = "retentionPeriod"
         }
@@ -2988,7 +2928,6 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
             case contentDeliveryRules = "contentDeliveryRules"
-            case datasetName = "datasetName"
             case retentionPeriod = "retentionPeriod"
             case triggers = "triggers"
             case versioningConfiguration = "versioningConfiguration"
@@ -3022,7 +2961,6 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreName = "datastoreName"
             case datastoreStorage = "datastoreStorage"
             case retentionPeriod = "retentionPeriod"
         }
@@ -3056,7 +2994,6 @@ extension IoTAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineActivities = "pipelineActivities"
-            case pipelineName = "pipelineName"
         }
     }
 

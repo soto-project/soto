@@ -77,9 +77,7 @@ extension Signer {
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profileName = "profileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeSigningJobRequest: AWSEncodableShape {
@@ -94,9 +92,7 @@ extension Signer {
             self.jobId = jobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeSigningJobResponse: AWSDecodableShape {
@@ -205,9 +201,7 @@ extension Signer {
             self.platformId = platformId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case platformId = "platformId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSigningPlatformResponse: AWSDecodableShape {
@@ -270,9 +264,7 @@ extension Signer {
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profileName = "profileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSigningProfileResponse: AWSDecodableShape {
@@ -368,13 +360,7 @@ extension Signer {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case platformId = "platformId"
-            case requestedBy = "requestedBy"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSigningJobsResponse: AWSDecodableShape {
@@ -428,13 +414,7 @@ extension Signer {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case category = "category"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case partner = "partner"
-            case target = "target"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSigningPlatformsResponse: AWSDecodableShape {
@@ -480,11 +460,7 @@ extension Signer {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case includeCanceled = "includeCanceled"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSigningProfilesResponse: AWSDecodableShape {
@@ -517,9 +493,7 @@ extension Signer {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -578,7 +552,6 @@ extension Signer {
         private enum CodingKeys: String, CodingKey {
             case overrides = "overrides"
             case platformId = "platformId"
-            case profileName = "profileName"
             case signingMaterial = "signingMaterial"
             case signingParameters = "signingParameters"
             case tags = "tags"
@@ -955,7 +928,6 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -994,10 +966,7 @@ extension Signer {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {

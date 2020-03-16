@@ -33,9 +33,7 @@ extension ApiGatewayManagementApi {
             self.connectionId = connectionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConnectionRequest: AWSEncodableShape {
@@ -49,9 +47,7 @@ extension ApiGatewayManagementApi {
             self.connectionId = connectionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConnectionResponse: AWSDecodableShape {
@@ -112,7 +108,6 @@ extension ApiGatewayManagementApi {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
             case data = "Data"
         }
     }

@@ -164,9 +164,7 @@ extension ElasticTranscoder {
             try validate(self.id, name:"id", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelJobResponse: AWSDecodableShape {
@@ -604,9 +602,7 @@ extension ElasticTranscoder {
             try validate(self.id, name:"id", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePipelineResponse: AWSDecodableShape {
@@ -633,9 +629,7 @@ extension ElasticTranscoder {
             try validate(self.id, name:"id", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePresetResponse: AWSDecodableShape {
@@ -1079,11 +1073,7 @@ extension ElasticTranscoder {
             try validate(self.pipelineId, name:"pipelineId", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascending = "Ascending"
-            case pageToken = "PageToken"
-            case pipelineId = "PipelineId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsByPipelineResponse: AWSDecodableShape {
@@ -1130,11 +1120,7 @@ extension ElasticTranscoder {
             try validate(self.status, name:"status", parent: name, pattern: "(^Submitted$)|(^Progressing$)|(^Complete$)|(^Canceled$)|(^Error$)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascending = "Ascending"
-            case pageToken = "PageToken"
-            case status = "Status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsByStatusResponse: AWSDecodableShape {
@@ -1176,10 +1162,7 @@ extension ElasticTranscoder {
             try validate(self.pageToken, name:"pageToken", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascending = "Ascending"
-            case pageToken = "PageToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPipelinesResponse: AWSDecodableShape {
@@ -1221,10 +1204,7 @@ extension ElasticTranscoder {
             try validate(self.pageToken, name:"pageToken", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascending = "Ascending"
-            case pageToken = "PageToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPresetsResponse: AWSDecodableShape {
@@ -1604,9 +1584,7 @@ extension ElasticTranscoder {
             try validate(self.id, name:"id", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ReadJobResponse: AWSDecodableShape {
@@ -1639,9 +1617,7 @@ extension ElasticTranscoder {
             try validate(self.id, name:"id", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ReadPipelineResponse: AWSDecodableShape {
@@ -1678,9 +1654,7 @@ extension ElasticTranscoder {
             try validate(self.id, name:"id", parent: name, pattern: "^\\d{13}-\\w{6}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ReadPresetResponse: AWSDecodableShape {
@@ -1870,7 +1844,6 @@ extension ElasticTranscoder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case notifications = "Notifications"
         }
     }
@@ -1938,7 +1911,6 @@ extension ElasticTranscoder {
         private enum CodingKeys: String, CodingKey {
             case awsKmsKeyArn = "AwsKmsKeyArn"
             case contentConfig = "ContentConfig"
-            case id = "Id"
             case inputBucket = "InputBucket"
             case name = "Name"
             case notifications = "Notifications"
@@ -1986,7 +1958,6 @@ extension ElasticTranscoder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case status = "Status"
         }
     }

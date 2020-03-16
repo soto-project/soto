@@ -319,7 +319,6 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
             case description = "Description"
             case locationUri = "LocationUri"
             case name = "Name"
@@ -432,7 +431,6 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
             case description = "Description"
             case monitors = "Monitors"
             case name = "Name"
@@ -456,9 +454,7 @@ extension AppConfig {
             try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationProfileRequest: AWSEncodableShape {
@@ -482,10 +478,7 @@ extension AppConfig {
             try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case configurationProfileId = "ConfigurationProfileId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDeploymentStrategyRequest: AWSEncodableShape {
@@ -504,9 +497,7 @@ extension AppConfig {
             try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "([a-z0-9]{4,7}|arn:aws.*)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deploymentStrategyId = "DeploymentStrategyId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
@@ -530,10 +521,7 @@ extension AppConfig {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case environmentId = "EnvironmentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Deployment: AWSDecodableShape {
@@ -844,9 +832,7 @@ extension AppConfig {
             try validate(self.applicationId, name:"applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationProfileRequest: AWSEncodableShape {
@@ -870,10 +856,7 @@ extension AppConfig {
             try validate(self.configurationProfileId, name:"configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case configurationProfileId = "ConfigurationProfileId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationRequest: AWSEncodableShape {
@@ -917,13 +900,7 @@ extension AppConfig {
             try validate(self.environment, name:"environment", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case application = "Application"
-            case clientConfigurationVersion = "client_configuration_version"
-            case clientId = "client_id"
-            case configuration = "Configuration"
-            case environment = "Environment"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeploymentRequest: AWSEncodableShape {
@@ -951,11 +928,7 @@ extension AppConfig {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case deploymentNumber = "DeploymentNumber"
-            case environmentId = "EnvironmentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeploymentStrategyRequest: AWSEncodableShape {
@@ -974,9 +947,7 @@ extension AppConfig {
             try validate(self.deploymentStrategyId, name:"deploymentStrategyId", parent: name, pattern: "([a-z0-9]{4,7}|arn:aws.*)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deploymentStrategyId = "DeploymentStrategyId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
@@ -1000,10 +971,7 @@ extension AppConfig {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case environmentId = "EnvironmentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
@@ -1029,10 +997,7 @@ extension AppConfig {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationProfilesRequest: AWSEncodableShape {
@@ -1063,11 +1028,7 @@ extension AppConfig {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeploymentStrategiesRequest: AWSEncodableShape {
@@ -1093,10 +1054,7 @@ extension AppConfig {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
@@ -1132,12 +1090,7 @@ extension AppConfig {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case environmentId = "EnvironmentId"
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
@@ -1168,11 +1121,7 @@ extension AppConfig {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
@@ -1193,9 +1142,7 @@ extension AppConfig {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Monitor: AWSEncodableShape & AWSDecodableShape {
@@ -1287,12 +1234,10 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
             case configurationProfileId = "ConfigurationProfileId"
             case configurationVersion = "ConfigurationVersion"
             case deploymentStrategyId = "DeploymentStrategyId"
             case description = "Description"
-            case environmentId = "EnvironmentId"
             case tags = "Tags"
         }
     }
@@ -1322,11 +1267,7 @@ extension AppConfig {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case deploymentNumber = "DeploymentNumber"
-            case environmentId = "EnvironmentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -1356,7 +1297,6 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
     }
@@ -1389,10 +1329,7 @@ extension AppConfig {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
@@ -1422,7 +1359,6 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
             case description = "Description"
             case name = "Name"
         }
@@ -1474,8 +1410,6 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case configurationProfileId = "ConfigurationProfileId"
             case description = "Description"
             case name = "Name"
             case retrievalRoleArn = "RetrievalRoleArn"
@@ -1524,7 +1458,6 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case deploymentDurationInMinutes = "DeploymentDurationInMinutes"
-            case deploymentStrategyId = "DeploymentStrategyId"
             case description = "Description"
             case finalBakeTimeInMinutes = "FinalBakeTimeInMinutes"
             case growthFactor = "GrowthFactor"
@@ -1572,9 +1505,7 @@ extension AppConfig {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
             case description = "Description"
-            case environmentId = "EnvironmentId"
             case monitors = "Monitors"
             case name = "Name"
         }
@@ -1607,11 +1538,7 @@ extension AppConfig {
             try validate(self.configurationVersion, name:"configurationVersion", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "ApplicationId"
-            case configurationProfileId = "ConfigurationProfileId"
-            case configurationVersion = "configuration_version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Validator: AWSEncodableShape & AWSDecodableShape {

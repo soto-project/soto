@@ -272,10 +272,7 @@ extension RAM {
             self.resourceShareArn = resourceShareArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case resourceShareArn = "resourceShareArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteResourceShareResponse: AWSDecodableShape {
@@ -953,9 +950,7 @@ extension RAM {
             self.resourceShareArn = resourceShareArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceShareArn = "resourceShareArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PromoteResourceShareCreatedFromPolicyResponse: AWSDecodableShape {

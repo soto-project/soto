@@ -40,9 +40,7 @@ extension WorkMailMessageFlow {
             try validate(self.messageId, name:"messageId", parent: name, pattern: "[a-z0-9\\-]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageId = "messageId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRawMessageContentResponse: AWSDecodableShape & AWSShapeWithPayload {

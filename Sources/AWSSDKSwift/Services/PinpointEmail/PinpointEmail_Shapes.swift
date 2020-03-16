@@ -209,7 +209,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
             case eventDestinationName = "EventDestinationName"
         }
@@ -443,10 +442,7 @@ extension PinpointEmail {
             self.eventDestinationName = eventDestinationName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
@@ -469,9 +465,7 @@ extension PinpointEmail {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
@@ -494,9 +488,7 @@ extension PinpointEmail {
             self.poolName = poolName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case poolName = "PoolName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDedicatedIpPoolResponse: AWSDecodableShape {
@@ -519,9 +511,7 @@ extension PinpointEmail {
             self.emailIdentity = emailIdentity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailIdentityResponse: AWSDecodableShape {
@@ -894,9 +884,7 @@ extension PinpointEmail {
             self.blacklistItemNames = blacklistItemNames
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blacklistItemNames = "BlacklistItemNames"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBlacklistReportsResponse: AWSDecodableShape {
@@ -925,9 +913,7 @@ extension PinpointEmail {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
@@ -956,9 +942,7 @@ extension PinpointEmail {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationSetResponse: AWSDecodableShape {
@@ -1007,9 +991,7 @@ extension PinpointEmail {
             self.ip = ip
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ip = "IP"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDedicatedIpResponse: AWSDecodableShape {
@@ -1046,11 +1028,7 @@ extension PinpointEmail {
             self.poolName = poolName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-            case poolName = "PoolName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDedicatedIpsResponse: AWSDecodableShape {
@@ -1121,9 +1099,7 @@ extension PinpointEmail {
             self.reportId = reportId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case reportId = "ReportId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeliverabilityTestReportResponse: AWSDecodableShape {
@@ -1168,9 +1144,7 @@ extension PinpointEmail {
             self.campaignId = campaignId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignId = "CampaignId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainDeliverabilityCampaignResponse: AWSDecodableShape {
@@ -1207,11 +1181,7 @@ extension PinpointEmail {
             self.startDate = startDate
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-            case endDate = "EndDate"
-            case startDate = "StartDate"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainStatisticsReportResponse: AWSDecodableShape {
@@ -1244,9 +1214,7 @@ extension PinpointEmail {
             self.emailIdentity = emailIdentity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailIdentityResponse: AWSDecodableShape {
@@ -1375,10 +1343,7 @@ extension PinpointEmail {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
@@ -1415,10 +1380,7 @@ extension PinpointEmail {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDedicatedIpPoolsResponse: AWSDecodableShape {
@@ -1455,10 +1417,7 @@ extension PinpointEmail {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeliverabilityTestReportsResponse: AWSDecodableShape {
@@ -1507,13 +1466,7 @@ extension PinpointEmail {
             self.subscribedDomain = subscribedDomain
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endDate = "EndDate"
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-            case startDate = "StartDate"
-            case subscribedDomain = "SubscribedDomain"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDomainDeliverabilityCampaignsResponse: AWSDecodableShape {
@@ -1550,10 +1503,7 @@ extension PinpointEmail {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListEmailIdentitiesResponse: AWSDecodableShape {
@@ -1586,9 +1536,7 @@ extension PinpointEmail {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1792,7 +1740,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case sendingPoolName = "SendingPoolName"
             case tlsPolicy = "TlsPolicy"
         }
@@ -1822,7 +1769,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case reputationMetricsEnabled = "ReputationMetricsEnabled"
         }
     }
@@ -1851,7 +1797,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case sendingEnabled = "SendingEnabled"
         }
     }
@@ -1880,7 +1825,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case customRedirectDomain = "CustomRedirectDomain"
         }
     }
@@ -1910,7 +1854,6 @@ extension PinpointEmail {
 
         private enum CodingKeys: String, CodingKey {
             case destinationPoolName = "DestinationPoolName"
-            case ip = "IP"
         }
     }
 
@@ -1938,7 +1881,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ip = "IP"
             case warmupPercentage = "WarmupPercentage"
         }
     }
@@ -1993,7 +1935,6 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
             case signingEnabled = "SigningEnabled"
         }
     }
@@ -2023,7 +1964,6 @@ extension PinpointEmail {
 
         private enum CodingKeys: String, CodingKey {
             case emailForwardingEnabled = "EmailForwardingEnabled"
-            case emailIdentity = "EmailIdentity"
         }
     }
 
@@ -2055,7 +1995,6 @@ extension PinpointEmail {
 
         private enum CodingKeys: String, CodingKey {
             case behaviorOnMxFailure = "BehaviorOnMxFailure"
-            case emailIdentity = "EmailIdentity"
             case mailFromDomain = "MailFromDomain"
         }
     }
@@ -2302,10 +2241,7 @@ extension PinpointEmail {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "TagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -2336,9 +2272,7 @@ extension PinpointEmail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
-            case eventDestinationName = "EventDestinationName"
         }
     }
 

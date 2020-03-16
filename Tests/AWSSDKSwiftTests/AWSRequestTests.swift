@@ -131,7 +131,7 @@ class AWSRequestTests: XCTestCase {
 
     func testRoute53ChangeResourceRecordSetsRequest() {
         let expectedResult = """
-            <?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/"><ChangeBatch><Changes><Change><Action>CREATE</Action><ResourceRecordSet><Name>www</Name><Type>CNAME</Type></ResourceRecordSet></Change><Change><Action>UPSERT</Action><ResourceRecordSet><Name>dev</Name><Type>CNAME</Type></ResourceRecordSet></Change></Changes></ChangeBatch><Id>Zone</Id></ChangeResourceRecordSetsRequest>
+            <?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/"><ChangeBatch><Changes><Change><Action>CREATE</Action><ResourceRecordSet><Name>www</Name><Type>CNAME</Type></ResourceRecordSet></Change><Change><Action>UPSERT</Action><ResourceRecordSet><Name>dev</Name><Type>CNAME</Type></ResourceRecordSet></Change></Changes></ChangeBatch></ChangeResourceRecordSetsRequest>
             """
         let changes: [Route53.Change] = [
             .init(action: .create, resourceRecordSet: .init(name: "www", type: .cname)),

@@ -62,10 +62,7 @@ extension MarketplaceCatalog {
             try validate(self.changeSetId, name:"changeSetId", parent: name, pattern: "^[\\w\\-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case catalog = "catalog"
-            case changeSetId = "changeSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelChangeSetResponse: AWSDecodableShape {
@@ -203,10 +200,7 @@ extension MarketplaceCatalog {
             try validate(self.changeSetId, name:"changeSetId", parent: name, pattern: "^[\\w\\-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case catalog = "catalog"
-            case changeSetId = "changeSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeChangeSetResponse: AWSDecodableShape {
@@ -276,10 +270,7 @@ extension MarketplaceCatalog {
             try validate(self.entityId, name:"entityId", parent: name, pattern: "^[\\w\\-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case catalog = "catalog"
-            case entityId = "entityId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeEntityResponse: AWSDecodableShape {

@@ -398,12 +398,9 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case routeName = "routeName"
             case spec = "spec"
             case tags = "tags"
-            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -474,8 +471,6 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case spec = "spec"
             case tags = "tags"
             case virtualNodeName = "virtualNodeName"
@@ -549,8 +544,6 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case spec = "spec"
             case tags = "tags"
             case virtualRouterName = "virtualRouterName"
@@ -622,8 +615,6 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case spec = "spec"
             case tags = "tags"
             case virtualServiceName = "virtualServiceName"
@@ -663,9 +654,7 @@ extension AppMesh {
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -720,12 +709,7 @@ extension AppMesh {
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case routeName = "routeName"
-            case virtualRouterName = "virtualRouterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -774,11 +758,7 @@ extension AppMesh {
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case virtualNodeName = "virtualNodeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -827,11 +807,7 @@ extension AppMesh {
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case virtualRouterName = "virtualRouterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -878,11 +854,7 @@ extension AppMesh {
             try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case virtualServiceName = "virtualServiceName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -925,10 +897,7 @@ extension AppMesh {
             try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -983,12 +952,7 @@ extension AppMesh {
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case routeName = "routeName"
-            case virtualRouterName = "virtualRouterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -1037,11 +1001,7 @@ extension AppMesh {
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case virtualNodeName = "virtualNodeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -1090,11 +1050,7 @@ extension AppMesh {
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case virtualRouterName = "virtualRouterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -1141,11 +1097,7 @@ extension AppMesh {
             try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case virtualServiceName = "virtualServiceName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -1771,10 +1723,7 @@ extension AppMesh {
             try validate(self.limit, name:"limit", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMeshesOutput: AWSDecodableShape {
@@ -1848,13 +1797,7 @@ extension AppMesh {
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case nextToken = "nextToken"
-            case virtualRouterName = "virtualRouterName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRoutesOutput: AWSDecodableShape {
@@ -1913,11 +1856,7 @@ extension AppMesh {
             try validate(self.limit, name:"limit", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
@@ -1985,12 +1924,7 @@ extension AppMesh {
             try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVirtualNodesOutput: AWSDecodableShape {
@@ -2058,12 +1992,7 @@ extension AppMesh {
             try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVirtualRoutersOutput: AWSDecodableShape {
@@ -2131,12 +2060,7 @@ extension AppMesh {
             try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVirtualServicesOutput: AWSDecodableShape {
@@ -2666,7 +2590,6 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -2823,7 +2746,6 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tagKeys = "tagKeys"
         }
     }
@@ -2862,7 +2784,6 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
             case spec = "spec"
         }
     }
@@ -2928,11 +2849,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
-            case routeName = "routeName"
             case spec = "spec"
-            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -2992,10 +2909,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case spec = "spec"
-            case virtualNodeName = "virtualNodeName"
         }
     }
 
@@ -3055,10 +2969,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case spec = "spec"
-            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -3117,10 +3028,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
-            case meshName = "meshName"
-            case meshOwner = "meshOwner"
             case spec = "spec"
-            case virtualServiceName = "virtualServiceName"
         }
     }
 

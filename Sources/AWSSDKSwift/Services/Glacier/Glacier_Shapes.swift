@@ -114,11 +114,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AbortVaultLockInput: AWSEncodableShape {
@@ -137,10 +133,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AddTagsToVaultInput: AWSEncodableShape {
@@ -163,9 +156,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case tags = "Tags"
-            case vaultName = "vaultName"
         }
     }
 
@@ -288,13 +279,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveSize = "x-amz-archive-size"
-            case checksum = "x-amz-sha256-tree-hash"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CompleteVaultLockInput: AWSEncodableShape {
@@ -317,11 +302,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case lockId = "lockId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVaultInput: AWSEncodableShape {
@@ -340,10 +321,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVaultOutput: AWSDecodableShape {
@@ -415,11 +393,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveId = "archiveId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVaultAccessPolicyInput: AWSEncodableShape {
@@ -438,10 +412,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVaultInput: AWSEncodableShape {
@@ -460,10 +431,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVaultNotificationsInput: AWSEncodableShape {
@@ -482,10 +450,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJobInput: AWSEncodableShape {
@@ -508,11 +473,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case jobId = "jobId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVaultInput: AWSEncodableShape {
@@ -531,10 +492,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVaultOutput: AWSDecodableShape {
@@ -605,9 +563,7 @@ extension Glacier {
             self.accountId = accountId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDataRetrievalPolicyOutput: AWSDecodableShape {
@@ -648,12 +604,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case jobId = "jobId"
-            case range = "Range"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobOutputOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -720,10 +671,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVaultAccessPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -758,10 +706,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVaultLockOutput: AWSDecodableShape {
@@ -806,10 +751,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVaultNotificationsOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -992,9 +934,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case jobParameters = "jobParameters"
-            case vaultName = "vaultName"
         }
     }
 
@@ -1049,12 +989,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveDescription = "x-amz-archive-description"
-            case partSize = "x-amz-part-size"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InitiateMultipartUploadOutput: AWSDecodableShape {
@@ -1101,9 +1036,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case policy = "policy"
-            case vaultName = "vaultName"
         }
     }
 
@@ -1276,14 +1209,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case completed = "completed"
-            case limit = "limit"
-            case marker = "marker"
-            case statuscode = "statuscode"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsOutput: AWSDecodableShape {
@@ -1328,12 +1254,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case limit = "limit"
-            case marker = "marker"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMultipartUploadsOutput: AWSDecodableShape {
@@ -1382,13 +1303,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case limit = "limit"
-            case marker = "marker"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPartsOutput: AWSDecodableShape {
@@ -1441,9 +1356,7 @@ extension Glacier {
             self.accountId = accountId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProvisionedCapacityOutput: AWSDecodableShape {
@@ -1476,10 +1389,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForVaultOutput: AWSDecodableShape {
@@ -1516,11 +1426,7 @@ extension Glacier {
             self.marker = marker
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVaultsOutput: AWSDecodableShape {
@@ -1621,9 +1527,7 @@ extension Glacier {
             self.accountId = accountId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PurchaseProvisionedCapacityOutput: AWSDecodableShape {
@@ -1663,9 +1567,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case tagKeys = "TagKeys"
-            case vaultName = "vaultName"
         }
     }
 
@@ -1753,7 +1655,6 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case policy = "Policy"
         }
     }
@@ -1780,9 +1681,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case policy = "policy"
-            case vaultName = "vaultName"
         }
     }
 
@@ -1808,8 +1707,6 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
             case vaultNotificationConfig = "vaultNotificationConfig"
         }
     }
@@ -1845,11 +1742,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveDescription = "x-amz-archive-description"
             case body = "body"
-            case checksum = "x-amz-sha256-tree-hash"
-            case vaultName = "vaultName"
         }
     }
 
@@ -1918,12 +1811,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case body = "body"
-            case checksum = "x-amz-sha256-tree-hash"
-            case range = "Content-Range"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
         }
     }
 

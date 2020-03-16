@@ -61,9 +61,6 @@ extension IoT1ClickProjects {
 
         private enum CodingKeys: String, CodingKey {
             case deviceId = "deviceId"
-            case deviceTemplateName = "deviceTemplateName"
-            case placementName = "placementName"
-            case projectName = "projectName"
         }
     }
 
@@ -110,7 +107,6 @@ extension IoT1ClickProjects {
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case placementName = "placementName"
-            case projectName = "projectName"
         }
     }
 
@@ -196,10 +192,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case placementName = "placementName"
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePlacementResponse: AWSDecodableShape {
@@ -228,9 +221,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProjectResponse: AWSDecodableShape {
@@ -266,10 +257,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case placementName = "placementName"
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribePlacementResponse: AWSDecodableShape {
@@ -304,9 +292,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProjectResponse: AWSDecodableShape {
@@ -382,11 +368,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceTemplateName = "deviceTemplateName"
-            case placementName = "placementName"
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateDeviceFromPlacementResponse: AWSDecodableShape {
@@ -422,10 +404,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case placementName = "placementName"
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDevicesInPlacementResponse: AWSDecodableShape {
@@ -472,11 +451,7 @@ extension IoT1ClickProjects {
             try validate(self.projectName, name:"projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case projectName = "projectName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPlacementsResponse: AWSDecodableShape {
@@ -520,10 +495,7 @@ extension IoT1ClickProjects {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProjectsResponse: AWSDecodableShape {
@@ -560,9 +532,7 @@ extension IoT1ClickProjects {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -761,7 +731,6 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -801,10 +770,7 @@ extension IoT1ClickProjects {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -850,8 +816,6 @@ extension IoT1ClickProjects {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
-            case placementName = "placementName"
-            case projectName = "projectName"
         }
     }
 
@@ -893,7 +857,6 @@ extension IoT1ClickProjects {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case placementTemplate = "placementTemplate"
-            case projectName = "projectName"
         }
     }
 

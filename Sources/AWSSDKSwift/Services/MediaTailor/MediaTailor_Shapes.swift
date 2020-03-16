@@ -97,9 +97,7 @@ extension MediaTailor {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePlaybackConfigurationResponse: AWSDecodableShape {
@@ -121,9 +119,7 @@ extension MediaTailor {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPlaybackConfigurationResponse: AWSDecodableShape {
@@ -140,7 +136,7 @@ extension MediaTailor {
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The identifier for the playback configuration.
         public let name: String?
-        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
+        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break. 
         public let personalizationThresholdSeconds: Int?
         /// The Amazon Resource Name (ARN) for the playback configuration. 
         public let playbackConfigurationArn: String?
@@ -225,10 +221,7 @@ extension MediaTailor {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPlaybackConfigurationsResponse: AWSDecodableShape {
@@ -260,9 +253,7 @@ extension MediaTailor {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -357,7 +348,7 @@ extension MediaTailor {
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The identifier for the playback configuration.
         public let name: String?
-        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
+        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break. 
         public let personalizationThresholdSeconds: Int?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
         public let slateAdUrl: String?
@@ -462,7 +453,6 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
             case tags = "tags"
         }
     }
@@ -481,9 +471,6 @@ extension MediaTailor {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 }

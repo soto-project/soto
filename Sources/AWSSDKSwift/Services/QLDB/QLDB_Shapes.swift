@@ -135,9 +135,7 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJournalS3ExportRequest: AWSEncodableShape {
@@ -165,10 +163,7 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportId = "exportId"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJournalS3ExportResponse: AWSDecodableShape {
@@ -203,9 +198,7 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeLedgerResponse: AWSDecodableShape {
@@ -274,7 +267,6 @@ extension QLDB {
         private enum CodingKeys: String, CodingKey {
             case exclusiveEndTime = "ExclusiveEndTime"
             case inclusiveStartTime = "InclusiveStartTime"
-            case name = "name"
             case roleArn = "RoleArn"
             case s3ExportConfiguration = "S3ExportConfiguration"
         }
@@ -323,7 +315,6 @@ extension QLDB {
         private enum CodingKeys: String, CodingKey {
             case blockAddress = "BlockAddress"
             case digestTipAddress = "DigestTipAddress"
-            case name = "name"
         }
     }
 
@@ -363,9 +354,7 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDigestResponse: AWSDecodableShape {
@@ -422,7 +411,6 @@ extension QLDB {
             case blockAddress = "BlockAddress"
             case digestTipAddress = "DigestTipAddress"
             case documentId = "DocumentId"
-            case name = "name"
         }
     }
 
@@ -538,11 +526,7 @@ extension QLDB {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case name = "name"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJournalS3ExportsForLedgerResponse: AWSDecodableShape {
@@ -587,10 +571,7 @@ extension QLDB {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJournalS3ExportsResponse: AWSDecodableShape {
@@ -635,10 +616,7 @@ extension QLDB {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListLedgersResponse: AWSDecodableShape {
@@ -676,9 +654,7 @@ extension QLDB {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -776,7 +752,6 @@ extension QLDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
@@ -816,10 +791,7 @@ extension QLDB {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -853,7 +825,6 @@ extension QLDB {
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtection = "DeletionProtection"
-            case name = "name"
         }
     }
 

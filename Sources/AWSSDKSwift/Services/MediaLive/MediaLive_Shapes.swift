@@ -2032,7 +2032,6 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
             case creates = "creates"
             case deletes = "deletes"
         }
@@ -2679,7 +2678,6 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
             case multiplexProgramSettings = "multiplexProgramSettings"
             case programName = "programName"
             case requestId = "requestId"
@@ -2755,7 +2753,6 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -2771,9 +2768,7 @@ extension MediaLive {
             self.channelId = channelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteChannelResponse: AWSDecodableShape {
@@ -2842,9 +2837,7 @@ extension MediaLive {
             self.inputId = inputId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputId = "inputId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInputResponse: AWSDecodableShape {
@@ -2866,9 +2859,7 @@ extension MediaLive {
             self.inputSecurityGroupId = inputSecurityGroupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputSecurityGroupId = "inputSecurityGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInputSecurityGroupResponse: AWSDecodableShape {
@@ -2893,10 +2884,7 @@ extension MediaLive {
             self.programName = programName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
-            case programName = "programName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMultiplexProgramResponse: AWSDecodableShape {
@@ -2932,9 +2920,7 @@ extension MediaLive {
             self.multiplexId = multiplexId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMultiplexResponse: AWSDecodableShape {
@@ -2988,9 +2974,7 @@ extension MediaLive {
             self.reservationId = reservationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case reservationId = "reservationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteReservationResponse: AWSDecodableShape {
@@ -3068,9 +3052,7 @@ extension MediaLive {
             self.channelId = channelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteScheduleResponse: AWSDecodableShape {
@@ -3095,10 +3077,7 @@ extension MediaLive {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
@@ -3112,9 +3091,7 @@ extension MediaLive {
             self.channelId = channelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeChannelResponse: AWSDecodableShape {
@@ -3183,9 +3160,7 @@ extension MediaLive {
             self.inputId = inputId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputId = "inputId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeInputResponse: AWSDecodableShape {
@@ -3251,9 +3226,7 @@ extension MediaLive {
             self.inputSecurityGroupId = inputSecurityGroupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputSecurityGroupId = "inputSecurityGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeInputSecurityGroupResponse: AWSDecodableShape {
@@ -3298,10 +3271,7 @@ extension MediaLive {
             self.programName = programName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
-            case programName = "programName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMultiplexProgramResponse: AWSDecodableShape {
@@ -3337,9 +3307,7 @@ extension MediaLive {
             self.multiplexId = multiplexId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMultiplexResponse: AWSDecodableShape {
@@ -3393,9 +3361,7 @@ extension MediaLive {
             self.offeringId = offeringId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case offeringId = "offeringId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeOfferingResponse: AWSDecodableShape {
@@ -3452,9 +3418,7 @@ extension MediaLive {
             self.reservationId = reservationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case reservationId = "reservationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeReservationResponse: AWSDecodableShape {
@@ -3543,11 +3507,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeScheduleResponse: AWSDecodableShape {
@@ -5629,10 +5589,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
@@ -5670,10 +5627,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInputSecurityGroupsResponse: AWSDecodableShape {
@@ -5711,10 +5665,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInputsResponse: AWSDecodableShape {
@@ -5755,11 +5706,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case multiplexId = "multiplexId"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMultiplexProgramsResponse: AWSDecodableShape {
@@ -5797,10 +5744,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMultiplexesResponse: AWSDecodableShape {
@@ -5868,20 +5812,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelClass = "channelClass"
-            case channelConfiguration = "channelConfiguration"
-            case codec = "codec"
-            case duration = "duration"
-            case maximumBitrate = "maximumBitrate"
-            case maximumFramerate = "maximumFramerate"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case resolution = "resolution"
-            case resourceType = "resourceType"
-            case specialFeature = "specialFeature"
-            case videoQuality = "videoQuality"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOfferingsResponse: AWSDecodableShape {
@@ -5943,18 +5874,7 @@ extension MediaLive {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelClass = "channelClass"
-            case codec = "codec"
-            case maximumBitrate = "maximumBitrate"
-            case maximumFramerate = "maximumFramerate"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case resolution = "resolution"
-            case resourceType = "resourceType"
-            case specialFeature = "specialFeature"
-            case videoQuality = "videoQuality"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListReservationsResponse: AWSDecodableShape {
@@ -5984,9 +5904,7 @@ extension MediaLive {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -7346,7 +7264,6 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case name = "name"
-            case offeringId = "offeringId"
             case requestId = "requestId"
             case start = "start"
             case tags = "tags"
@@ -8075,9 +7992,7 @@ extension MediaLive {
             self.channelId = channelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartChannelResponse: AWSDecodableShape {
@@ -8146,9 +8061,7 @@ extension MediaLive {
             self.multiplexId = multiplexId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartMultiplexResponse: AWSDecodableShape {
@@ -8327,9 +8240,7 @@ extension MediaLive {
             self.channelId = channelId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopChannelResponse: AWSDecodableShape {
@@ -8398,9 +8309,7 @@ extension MediaLive {
             self.multiplexId = multiplexId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopMultiplexResponse: AWSDecodableShape {
@@ -8621,7 +8530,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case channelClass = "channelClass"
-            case channelId = "channelId"
             case destinations = "destinations"
         }
     }
@@ -8675,7 +8583,6 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
             case destinations = "destinations"
             case encoderSettings = "encoderSettings"
             case inputAttachments = "inputAttachments"
@@ -8724,7 +8631,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
-            case inputId = "inputId"
             case inputSecurityGroups = "inputSecurityGroups"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
@@ -8762,7 +8668,6 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputSecurityGroupId = "inputSecurityGroupId"
             case tags = "tags"
             case whitelistRules = "whitelistRules"
         }
@@ -8802,9 +8707,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
             case multiplexProgramSettings = "multiplexProgramSettings"
-            case programName = "programName"
         }
     }
 
@@ -8841,7 +8744,6 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexId = "multiplexId"
             case multiplexSettings = "multiplexSettings"
             case name = "name"
         }
@@ -8875,7 +8777,6 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
-            case reservationId = "reservationId"
         }
     }
 

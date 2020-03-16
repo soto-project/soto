@@ -483,7 +483,6 @@ extension Connect {
             case directoryUserId = "DirectoryUserId"
             case hierarchyGroupId = "HierarchyGroupId"
             case identityInfo = "IdentityInfo"
-            case instanceId = "InstanceId"
             case password = "Password"
             case phoneConfig = "PhoneConfig"
             case routingProfileId = "RoutingProfileId"
@@ -612,10 +611,7 @@ extension Connect {
             try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
@@ -639,10 +635,7 @@ extension Connect {
             try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hierarchyGroupId = "HierarchyGroupId"
-            case instanceId = "InstanceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUserHierarchyGroupResponse: AWSDecodableShape {
@@ -676,9 +669,7 @@ extension Connect {
             try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUserHierarchyStructureResponse: AWSDecodableShape {
@@ -716,10 +707,7 @@ extension Connect {
             try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
@@ -801,10 +789,7 @@ extension Connect {
             try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case initialContactId = "InitialContactId"
-            case instanceId = "InstanceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetContactAttributesResponse: AWSDecodableShape {
@@ -861,7 +846,6 @@ extension Connect {
             case currentMetrics = "CurrentMetrics"
             case filters = "Filters"
             case groupings = "Groupings"
-            case instanceId = "InstanceId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -906,9 +890,7 @@ extension Connect {
             try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFederationTokenResponse: AWSDecodableShape {
@@ -972,7 +954,6 @@ extension Connect {
             case filters = "Filters"
             case groupings = "Groupings"
             case historicalMetrics = "HistoricalMetrics"
-            case instanceId = "InstanceId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case startTime = "StartTime"
@@ -1247,12 +1228,7 @@ extension Connect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contactFlowTypes = "contactFlowTypes"
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListContactFlowsResponse: AWSDecodableShape {
@@ -1300,11 +1276,7 @@ extension Connect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListHoursOfOperationsResponse: AWSDecodableShape {
@@ -1362,13 +1334,7 @@ extension Connect {
             try validate(self.phoneNumberTypes, name:"phoneNumberTypes", parent: name, max: 2)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case phoneNumberCountryCodes = "phoneNumberCountryCodes"
-            case phoneNumberTypes = "phoneNumberTypes"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPhoneNumbersResponse: AWSDecodableShape {
@@ -1421,12 +1387,7 @@ extension Connect {
             try validate(self.queueTypes, name:"queueTypes", parent: name, max: 2)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case queueTypes = "queueTypes"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListQueuesResponse: AWSDecodableShape {
@@ -1474,11 +1435,7 @@ extension Connect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRoutingProfilesResponse: AWSDecodableShape {
@@ -1526,11 +1483,7 @@ extension Connect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSecurityProfilesResponse: AWSDecodableShape {
@@ -1563,9 +1516,7 @@ extension Connect {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1609,11 +1560,7 @@ extension Connect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUserHierarchyGroupsResponse: AWSDecodableShape {
@@ -1661,11 +1608,7 @@ extension Connect {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
@@ -2017,7 +1960,6 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -2066,10 +2008,7 @@ extension Connect {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateContactAttributesRequest: AWSEncodableShape {
@@ -2141,8 +2080,6 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case hierarchyGroupId = "HierarchyGroupId"
-            case instanceId = "InstanceId"
-            case userId = "UserId"
         }
     }
 
@@ -2173,8 +2110,6 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case identityInfo = "IdentityInfo"
-            case instanceId = "InstanceId"
-            case userId = "UserId"
         }
     }
 
@@ -2204,9 +2139,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
             case phoneConfig = "PhoneConfig"
-            case userId = "UserId"
         }
     }
 
@@ -2235,9 +2168,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
             case routingProfileId = "RoutingProfileId"
-            case userId = "UserId"
         }
     }
 
@@ -2268,9 +2199,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
             case securityProfileIds = "SecurityProfileIds"
-            case userId = "UserId"
         }
     }
 

@@ -68,9 +68,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct BulkPublishResponse: AWSDecodableShape {
@@ -187,11 +185,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDatasetResponse: AWSDecodableShape {
@@ -240,11 +234,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
@@ -279,9 +269,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeIdentityPoolUsageResponse: AWSDecodableShape {
@@ -323,10 +311,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeIdentityUsageResponse: AWSDecodableShape {
@@ -361,9 +346,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBulkPublishDetailsResponse: AWSDecodableShape {
@@ -414,9 +397,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCognitoEventsResponse: AWSDecodableShape {
@@ -451,9 +432,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIdentityPoolConfigurationResponse: AWSDecodableShape {
@@ -567,12 +546,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
@@ -613,10 +587,7 @@ extension CognitoSync {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListIdentityPoolUsageResponse: AWSDecodableShape {
@@ -693,15 +664,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-            case lastSyncCount = "lastSyncCount"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case syncSessionToken = "syncSessionToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRecordsResponse: AWSDecodableShape {
@@ -879,8 +842,6 @@ extension CognitoSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
             case platform = "Platform"
             case token = "Token"
         }
@@ -923,7 +884,6 @@ extension CognitoSync {
 
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
-            case identityPoolId = "IdentityPoolId"
         }
     }
 
@@ -955,7 +915,6 @@ extension CognitoSync {
 
         private enum CodingKeys: String, CodingKey {
             case cognitoStreams = "CognitoStreams"
-            case identityPoolId = "IdentityPoolId"
             case pushSync = "PushSync"
         }
     }
@@ -1020,12 +979,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "DatasetName"
-            case deviceId = "DeviceId"
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SubscribeToDatasetResponse: AWSDecodableShape {
@@ -1074,12 +1028,7 @@ extension CognitoSync {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case datasetName = "DatasetName"
-            case deviceId = "DeviceId"
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UnsubscribeFromDatasetResponse: AWSDecodableShape {
@@ -1141,11 +1090,7 @@ extension CognitoSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientContext = "x-amz-Client-Context"
-            case datasetName = "DatasetName"
             case deviceId = "DeviceId"
-            case identityId = "IdentityId"
-            case identityPoolId = "IdentityPoolId"
             case recordPatches = "RecordPatches"
             case syncSessionToken = "SyncSessionToken"
         }

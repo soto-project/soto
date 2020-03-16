@@ -95,11 +95,7 @@ extension EBS {
             try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blockIndex = "blockIndex"
-            case blockToken = "blockToken"
-            case snapshotId = "snapshotId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSnapshotBlockResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -177,13 +173,7 @@ extension EBS {
             try validate(self.secondSnapshotId, name:"secondSnapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case firstSnapshotId = "firstSnapshotId"
-            case maxResults = "maxResults"
-            case nextToken = "pageToken"
-            case secondSnapshotId = "secondSnapshotId"
-            case startingBlockIndex = "startingBlockIndex"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChangedBlocksResponse: AWSDecodableShape {
@@ -250,12 +240,7 @@ extension EBS {
             try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "pageToken"
-            case snapshotId = "snapshotId"
-            case startingBlockIndex = "startingBlockIndex"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSnapshotBlocksResponse: AWSDecodableShape {

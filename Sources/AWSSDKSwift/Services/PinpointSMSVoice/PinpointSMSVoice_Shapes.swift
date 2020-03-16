@@ -82,7 +82,6 @@ extension PinpointSMSVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
             case eventDestinationName = "EventDestinationName"
         }
@@ -132,10 +131,7 @@ extension PinpointSMSVoice {
             self.eventDestinationName = eventDestinationName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
@@ -157,9 +153,7 @@ extension PinpointSMSVoice {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
@@ -237,9 +231,7 @@ extension PinpointSMSVoice {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
@@ -287,10 +279,7 @@ extension PinpointSMSVoice {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
@@ -429,9 +418,7 @@ extension PinpointSMSVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
-            case eventDestinationName = "EventDestinationName"
         }
     }
 

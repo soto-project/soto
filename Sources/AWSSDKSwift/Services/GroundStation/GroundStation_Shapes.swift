@@ -167,9 +167,7 @@ extension GroundStation {
             self.contactId = contactId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contactId = "contactId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ConfigIdResponse: AWSDecodableShape {
@@ -555,10 +553,7 @@ extension GroundStation {
             self.configType = configType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configId = "configId"
-            case configType = "configType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDataflowEndpointGroupRequest: AWSEncodableShape {
@@ -573,9 +568,7 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMissionProfileRequest: AWSEncodableShape {
@@ -590,9 +583,7 @@ extension GroundStation {
             self.missionProfileId = missionProfileId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case missionProfileId = "missionProfileId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DemodulationConfig: AWSEncodableShape & AWSDecodableShape {
@@ -627,9 +618,7 @@ extension GroundStation {
             self.contactId = contactId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contactId = "contactId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeContactResponse: AWSDecodableShape {
@@ -804,10 +793,7 @@ extension GroundStation {
             self.configType = configType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configId = "configId"
-            case configType = "configType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigResponse: AWSDecodableShape {
@@ -856,9 +842,7 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDataflowEndpointGroupResponse: AWSDecodableShape {
@@ -947,9 +931,7 @@ extension GroundStation {
             self.missionProfileId = missionProfileId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case missionProfileId = "missionProfileId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMissionProfileResponse: AWSDecodableShape {
@@ -1014,9 +996,7 @@ extension GroundStation {
             self.satelliteId = satelliteId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case satelliteId = "satelliteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSatelliteResponse: AWSDecodableShape {
@@ -1083,10 +1063,7 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigsResponse: AWSDecodableShape {
@@ -1183,10 +1160,7 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDataflowEndpointGroupsResponse: AWSDecodableShape {
@@ -1227,11 +1201,7 @@ extension GroundStation {
             self.satelliteId = satelliteId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case satelliteId = "satelliteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGroundStationsResponse: AWSDecodableShape {
@@ -1268,10 +1238,7 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMissionProfilesResponse: AWSDecodableShape {
@@ -1308,10 +1275,7 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSatellitesResponse: AWSDecodableShape {
@@ -1344,9 +1308,7 @@ extension GroundStation {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1541,7 +1503,6 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -1584,10 +1545,7 @@ extension GroundStation {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -1629,8 +1587,6 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case configData = "configData"
-            case configId = "configId"
-            case configType = "configType"
             case name = "name"
         }
     }
@@ -1686,7 +1642,6 @@ extension GroundStation {
             case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
             case dataflowEdges = "dataflowEdges"
             case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
-            case missionProfileId = "missionProfileId"
             case name = "name"
             case trackingConfigArn = "trackingConfigArn"
         }

@@ -292,9 +292,7 @@ extension IoTEvents {
             try validate(self.detectorModelName, name:"detectorModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDetectorModelResponse: AWSDecodableShape {
@@ -323,9 +321,7 @@ extension IoTEvents {
             try validate(self.inputName, name:"inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputName = "inputName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInputResponse: AWSDecodableShape {
@@ -360,10 +356,7 @@ extension IoTEvents {
             try validate(self.detectorModelVersion, name:"detectorModelVersion", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case detectorModelVersion = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDetectorModelResponse: AWSDecodableShape {
@@ -398,9 +391,7 @@ extension IoTEvents {
             try validate(self.inputName, name:"inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputName = "inputName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeInputResponse: AWSDecodableShape {
@@ -871,11 +862,7 @@ extension IoTEvents {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDetectorModelVersionsResponse: AWSDecodableShape {
@@ -917,10 +904,7 @@ extension IoTEvents {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDetectorModelsResponse: AWSDecodableShape {
@@ -962,10 +946,7 @@ extension IoTEvents {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInputsResponse: AWSDecodableShape {
@@ -1003,9 +984,7 @@ extension IoTEvents {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1332,7 +1311,6 @@ extension IoTEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -1406,10 +1384,7 @@ extension IoTEvents {
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -1457,7 +1432,6 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case detectorModelDefinition = "detectorModelDefinition"
             case detectorModelDescription = "detectorModelDescription"
-            case detectorModelName = "detectorModelName"
             case evaluationMethod = "evaluationMethod"
             case roleArn = "roleArn"
         }
@@ -1506,7 +1480,6 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case inputDefinition = "inputDefinition"
             case inputDescription = "inputDescription"
-            case inputName = "inputName"
         }
     }
 

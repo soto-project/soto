@@ -116,7 +116,6 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case registryName = "registryName"
             case tags = "tags"
         }
     }
@@ -175,8 +174,6 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
-            case registryName = "registryName"
-            case schemaName = "schemaName"
             case tags = "tags"
             case `type` = "Type"
         }
@@ -227,9 +224,7 @@ extension Schemas {
             self.discovererId = discovererId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case discovererId = "discovererId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRegistryRequest: AWSEncodableShape {
@@ -243,9 +238,7 @@ extension Schemas {
             self.registryName = registryName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case registryName = "registryName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSchemaRequest: AWSEncodableShape {
@@ -262,10 +255,7 @@ extension Schemas {
             self.schemaName = schemaName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSchemaVersionRequest: AWSEncodableShape {
@@ -285,11 +275,7 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-            case schemaVersion = "schemaVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCodeBindingRequest: AWSEncodableShape {
@@ -312,12 +298,7 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case language = "language"
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-            case schemaVersion = "schemaVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCodeBindingResponse: AWSDecodableShape {
@@ -353,9 +334,7 @@ extension Schemas {
             self.discovererId = discovererId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case discovererId = "discovererId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDiscovererResponse: AWSDecodableShape {
@@ -397,9 +376,7 @@ extension Schemas {
             self.registryName = registryName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case registryName = "registryName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRegistryResponse: AWSDecodableShape {
@@ -441,11 +418,7 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-            case schemaVersion = "schemaVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeSchemaResponse: AWSDecodableShape {
@@ -534,12 +507,7 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case language = "language"
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-            case schemaVersion = "schemaVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCodeBindingSourceResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -618,12 +586,7 @@ extension Schemas {
             self.sourceArnPrefix = sourceArnPrefix
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case discovererIdPrefix = "discovererIdPrefix"
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case sourceArnPrefix = "sourceArnPrefix"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDiscoverersResponse: AWSDecodableShape {
@@ -662,12 +625,7 @@ extension Schemas {
             self.scope = scope
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case registryNamePrefix = "registryNamePrefix"
-            case scope = "scope"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRegistriesResponse: AWSDecodableShape {
@@ -706,12 +664,7 @@ extension Schemas {
             self.schemaName = schemaName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSchemaVersionsResponse: AWSDecodableShape {
@@ -750,12 +703,7 @@ extension Schemas {
             self.schemaNamePrefix = schemaNamePrefix
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case registryName = "registryName"
-            case schemaNamePrefix = "schemaNamePrefix"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSchemasResponse: AWSDecodableShape {
@@ -785,9 +733,7 @@ extension Schemas {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -865,12 +811,7 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case language = "language"
-            case registryName = "registryName"
-            case schemaName = "schemaName"
-            case schemaVersion = "schemaVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutCodeBindingResponse: AWSDecodableShape {
@@ -1032,12 +973,7 @@ extension Schemas {
             self.registryName = registryName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case keywords = "keywords"
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case registryName = "registryName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SearchSchemasResponse: AWSDecodableShape {
@@ -1067,9 +1003,7 @@ extension Schemas {
             self.discovererId = discovererId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case discovererId = "discovererId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartDiscovererResponse: AWSDecodableShape {
@@ -1099,9 +1033,7 @@ extension Schemas {
             self.discovererId = discovererId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case discovererId = "discovererId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopDiscovererResponse: AWSDecodableShape {
@@ -1134,7 +1066,6 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
@@ -1179,10 +1110,7 @@ extension Schemas {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDiscovererRequest: AWSEncodableShape {
@@ -1205,7 +1133,6 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case discovererId = "discovererId"
         }
     }
 
@@ -1257,7 +1184,6 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case registryName = "registryName"
         }
     }
 
@@ -1318,8 +1244,6 @@ extension Schemas {
             case clientTokenId = "ClientTokenId"
             case content = "Content"
             case description = "Description"
-            case registryName = "registryName"
-            case schemaName = "schemaName"
             case `type` = "Type"
         }
     }

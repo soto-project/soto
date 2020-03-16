@@ -479,11 +479,7 @@ extension QuickSight {
             try validate(self.ingestionId, name:"ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-            case ingestionId = "IngestionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelIngestionResponse: AWSDecodableShape {
@@ -712,8 +708,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
             case dashboardPublishOptions = "DashboardPublishOptions"
             case name = "Name"
             case parameters = "Parameters"
@@ -833,7 +827,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case columnGroups = "ColumnGroups"
             case dataSetId = "DataSetId"
             case importMode = "ImportMode"
@@ -940,7 +933,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case credentials = "Credentials"
             case dataSourceId = "DataSourceId"
             case dataSourceParameters = "DataSourceParameters"
@@ -1020,12 +1012,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case groupName = "GroupName"
-            case memberName = "MemberName"
-            case namespace = "Namespace"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateGroupMembershipResponse: AWSDecodableShape {
@@ -1085,10 +1072,8 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case description = "Description"
             case groupName = "GroupName"
-            case namespace = "Namespace"
         }
     }
 
@@ -1155,9 +1140,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case assignmentName = "AssignmentName"
             case assignmentStatus = "AssignmentStatus"
-            case awsAccountId = "AwsAccountId"
             case identities = "Identities"
-            case namespace = "Namespace"
             case policyArn = "PolicyArn"
         }
     }
@@ -1229,11 +1212,7 @@ extension QuickSight {
             try validate(self.ingestionId, name:"ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-            case ingestionId = "IngestionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateIngestionResponse: AWSDecodableShape {
@@ -1303,9 +1282,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aliasName = "AliasName"
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
             case templateVersionNumber = "TemplateVersionNumber"
         }
     }
@@ -1389,12 +1365,10 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case name = "Name"
             case permissions = "Permissions"
             case sourceEntity = "SourceEntity"
             case tags = "Tags"
-            case templateId = "TemplateId"
             case versionDescription = "VersionDescription"
         }
     }
@@ -2175,11 +2149,7 @@ extension QuickSight {
             try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
-            case versionNumber = "version-number"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDashboardResponse: AWSDecodableShape {
@@ -2230,10 +2200,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDataSetResponse: AWSDecodableShape {
@@ -2284,10 +2251,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSourceId = "DataSourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDataSourceResponse: AWSDecodableShape {
@@ -2353,12 +2317,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case groupName = "GroupName"
-            case memberName = "MemberName"
-            case namespace = "Namespace"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGroupMembershipResponse: AWSDecodableShape {
@@ -2409,11 +2368,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case groupName = "GroupName"
-            case namespace = "Namespace"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGroupResponse: AWSDecodableShape {
@@ -2464,11 +2419,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case assignmentName = "AssignmentName"
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIAMPolicyAssignmentResponse: AWSDecodableShape {
@@ -2525,11 +2476,7 @@ extension QuickSight {
             try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case aliasName = "AliasName"
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTemplateAliasResponse: AWSDecodableShape {
@@ -2592,11 +2539,7 @@ extension QuickSight {
             try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
-            case versionNumber = "version-number"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTemplateResponse: AWSDecodableShape {
@@ -2653,11 +2596,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-            case principalId = "PrincipalId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserByPrincipalIdResponse: AWSDecodableShape {
@@ -2708,11 +2647,7 @@ extension QuickSight {
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-            case userName = "UserName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserResponse: AWSDecodableShape {
@@ -2758,10 +2693,7 @@ extension QuickSight {
             try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDashboardPermissionsResponse: AWSDecodableShape {
@@ -2831,12 +2763,7 @@ extension QuickSight {
             try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case aliasName = "alias-name"
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
-            case versionNumber = "version-number"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDashboardResponse: AWSDecodableShape {
@@ -2883,10 +2810,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDataSetPermissionsResponse: AWSDecodableShape {
@@ -2941,10 +2865,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDataSetResponse: AWSDecodableShape {
@@ -2991,10 +2912,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSourceId = "DataSourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDataSourcePermissionsResponse: AWSDecodableShape {
@@ -3049,10 +2967,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSourceId = "DataSourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDataSourceResponse: AWSDecodableShape {
@@ -3107,11 +3022,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case groupName = "GroupName"
-            case namespace = "Namespace"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeGroupResponse: AWSDecodableShape {
@@ -3166,11 +3077,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case assignmentName = "AssignmentName"
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeIAMPolicyAssignmentResponse: AWSDecodableShape {
@@ -3224,11 +3131,7 @@ extension QuickSight {
             try validate(self.ingestionId, name:"ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-            case ingestionId = "IngestionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeIngestionResponse: AWSDecodableShape {
@@ -3285,11 +3188,7 @@ extension QuickSight {
             try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case aliasName = "AliasName"
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeTemplateAliasResponse: AWSDecodableShape {
@@ -3339,10 +3238,7 @@ extension QuickSight {
             try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeTemplatePermissionsResponse: AWSDecodableShape {
@@ -3412,12 +3308,7 @@ extension QuickSight {
             try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case aliasName = "alias-name"
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
-            case versionNumber = "version-number"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeTemplateResponse: AWSDecodableShape {
@@ -3468,11 +3359,7 @@ extension QuickSight {
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-            case userName = "UserName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
@@ -3628,15 +3515,7 @@ extension QuickSight {
             try validate(self.sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, min: 15)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
-            case identityType = "creds-type"
-            case resetDisabled = "reset-disabled"
-            case sessionLifetimeInMinutes = "session-lifetime"
-            case undoRedoDisabled = "undo-redo-disabled"
-            case userArn = "user-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDashboardEmbedUrlResponse: AWSDecodableShape {
@@ -3945,12 +3824,7 @@ extension QuickSight {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDashboardVersionsResponse: AWSDecodableShape {
@@ -4007,11 +3881,7 @@ extension QuickSight {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDashboardsResponse: AWSDecodableShape {
@@ -4068,11 +3938,7 @@ extension QuickSight {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDataSetsResponse: AWSDecodableShape {
@@ -4129,11 +3995,7 @@ extension QuickSight {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDataSourcesResponse: AWSDecodableShape {
@@ -4202,13 +4064,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case groupName = "GroupName"
-            case maxResults = "max-results"
-            case namespace = "Namespace"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGroupMembershipsResponse: AWSDecodableShape {
@@ -4271,12 +4127,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case namespace = "Namespace"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListGroupsResponse: AWSDecodableShape {
@@ -4345,13 +4196,7 @@ extension QuickSight {
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case namespace = "Namespace"
-            case nextToken = "next-token"
-            case userName = "UserName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListIAMPolicyAssignmentsForUserResponse: AWSDecodableShape {
@@ -4419,10 +4264,6 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case assignmentStatus = "AssignmentStatus"
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case namespace = "Namespace"
-            case nextToken = "next-token"
         }
     }
 
@@ -4484,12 +4325,7 @@ extension QuickSight {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListIngestionsResponse: AWSDecodableShape {
@@ -4530,9 +4366,7 @@ extension QuickSight {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -4592,12 +4426,7 @@ extension QuickSight {
             try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-result"
-            case nextToken = "next-token"
-            case templateId = "TemplateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplateAliasesResponse: AWSDecodableShape {
@@ -4661,12 +4490,7 @@ extension QuickSight {
             try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case templateId = "TemplateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplateVersionsResponse: AWSDecodableShape {
@@ -4723,11 +4547,7 @@ extension QuickSight {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-result"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape {
@@ -4796,13 +4616,7 @@ extension QuickSight {
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case namespace = "Namespace"
-            case nextToken = "next-token"
-            case userName = "UserName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUserGroupsResponse: AWSDecodableShape {
@@ -4865,12 +4679,7 @@ extension QuickSight {
             try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case namespace = "Namespace"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
@@ -5343,11 +5152,9 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case email = "Email"
             case iamArn = "IamArn"
             case identityType = "IdentityType"
-            case namespace = "Namespace"
             case sessionName = "SessionName"
             case userName = "UserName"
             case userRole = "UserRole"
@@ -5583,7 +5390,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -5845,7 +5651,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
     }
@@ -6228,10 +6033,7 @@ extension QuickSight {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "keys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -6294,8 +6096,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
             case grantPermissions = "GrantPermissions"
             case revokePermissions = "RevokePermissions"
         }
@@ -6361,11 +6161,7 @@ extension QuickSight {
             try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
-            case versionNumber = "VersionNumber"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDashboardPublishedVersionResponse: AWSDecodableShape {
@@ -6442,8 +6238,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dashboardId = "DashboardId"
             case dashboardPublishOptions = "DashboardPublishOptions"
             case name = "Name"
             case parameters = "Parameters"
@@ -6525,8 +6319,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSetId = "DataSetId"
             case grantPermissions = "GrantPermissions"
             case revokePermissions = "RevokePermissions"
         }
@@ -6618,9 +6410,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case columnGroups = "ColumnGroups"
-            case dataSetId = "DataSetId"
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
@@ -6702,8 +6492,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
-            case dataSourceId = "DataSourceId"
             case grantPermissions = "GrantPermissions"
             case revokePermissions = "RevokePermissions"
         }
@@ -6777,9 +6565,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case credentials = "Credentials"
-            case dataSourceId = "DataSourceId"
             case dataSourceParameters = "DataSourceParameters"
             case name = "Name"
             case sslProperties = "SslProperties"
@@ -6853,10 +6639,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case description = "Description"
-            case groupName = "GroupName"
-            case namespace = "Namespace"
         }
     }
 
@@ -6922,11 +6705,8 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignmentName = "AssignmentName"
             case assignmentStatus = "AssignmentStatus"
-            case awsAccountId = "AwsAccountId"
             case identities = "Identities"
-            case namespace = "Namespace"
             case policyArn = "PolicyArn"
         }
     }
@@ -7006,9 +6786,6 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aliasName = "AliasName"
-            case awsAccountId = "AwsAccountId"
-            case templateId = "TemplateId"
             case templateVersionNumber = "TemplateVersionNumber"
         }
     }
@@ -7077,10 +6854,8 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case grantPermissions = "GrantPermissions"
             case revokePermissions = "RevokePermissions"
-            case templateId = "TemplateId"
         }
     }
 
@@ -7155,10 +6930,8 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case name = "Name"
             case sourceEntity = "SourceEntity"
-            case templateId = "TemplateId"
             case versionDescription = "VersionDescription"
         }
     }
@@ -7234,11 +7007,8 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId = "AwsAccountId"
             case email = "Email"
-            case namespace = "Namespace"
             case role = "Role"
-            case userName = "UserName"
         }
     }
 

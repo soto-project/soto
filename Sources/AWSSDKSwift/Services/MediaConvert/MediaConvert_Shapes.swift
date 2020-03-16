@@ -2760,9 +2760,7 @@ extension MediaConvert {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CancelJobResponse: AWSDecodableShape {
@@ -3659,9 +3657,7 @@ extension MediaConvert {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJobTemplateResponse: AWSDecodableShape {
@@ -3684,9 +3680,7 @@ extension MediaConvert {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePresetResponse: AWSDecodableShape {
@@ -3709,9 +3703,7 @@ extension MediaConvert {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteQueueResponse: AWSDecodableShape {
@@ -3792,9 +3784,7 @@ extension MediaConvert {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateCertificateResponse: AWSDecodableShape {
@@ -4507,9 +4497,7 @@ extension MediaConvert {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobResponse: AWSDecodableShape {
@@ -4538,9 +4526,7 @@ extension MediaConvert {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobTemplateResponse: AWSDecodableShape {
@@ -4569,9 +4555,7 @@ extension MediaConvert {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPresetResponse: AWSDecodableShape {
@@ -4600,9 +4584,7 @@ extension MediaConvert {
             self.name = name
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetQueueResponse: AWSDecodableShape {
@@ -6181,13 +6163,7 @@ extension MediaConvert {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case category = "category"
-            case listBy = "listBy"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case order = "order"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobTemplatesResponse: AWSDecodableShape {
@@ -6241,13 +6217,7 @@ extension MediaConvert {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case order = "order"
-            case queue = "queue"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
@@ -6301,13 +6271,7 @@ extension MediaConvert {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case category = "category"
-            case listBy = "listBy"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case order = "order"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPresetsResponse: AWSDecodableShape {
@@ -6357,12 +6321,7 @@ extension MediaConvert {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case listBy = "listBy"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case order = "order"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListQueuesResponse: AWSDecodableShape {
@@ -6395,9 +6354,7 @@ extension MediaConvert {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -8324,7 +8281,6 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
             case tagKeys = "tagKeys"
         }
     }
@@ -8380,7 +8336,6 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
             case description = "description"
-            case name = "name"
             case priority = "priority"
             case queue = "queue"
             case settings = "settings"
@@ -8430,7 +8385,6 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case category = "category"
             case description = "description"
-            case name = "name"
             case settings = "settings"
         }
     }
@@ -8472,7 +8426,6 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
-            case name = "name"
             case reservationPlanSettings = "reservationPlanSettings"
             case status = "status"
         }

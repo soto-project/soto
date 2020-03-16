@@ -127,9 +127,7 @@ extension ResourceGroups {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGroupOutput: AWSDecodableShape {
@@ -164,9 +162,7 @@ extension ResourceGroups {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGroupOutput: AWSDecodableShape {
@@ -201,9 +197,7 @@ extension ResourceGroups {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGroupQueryOutput: AWSDecodableShape {
@@ -238,9 +232,7 @@ extension ResourceGroups {
             try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}-[a-z]+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,128}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTagsOutput: AWSDecodableShape {
@@ -386,9 +378,6 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
-            case groupName = "GroupName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
@@ -446,8 +435,6 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
@@ -639,7 +626,6 @@ extension ResourceGroups {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
             case tags = "Tags"
         }
     }
@@ -689,7 +675,6 @@ extension ResourceGroups {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
             case keys = "Keys"
         }
     }
@@ -737,7 +722,6 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case groupName = "GroupName"
         }
     }
 
@@ -778,7 +762,6 @@ extension ResourceGroups {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
             case resourceQuery = "ResourceQuery"
         }
     }

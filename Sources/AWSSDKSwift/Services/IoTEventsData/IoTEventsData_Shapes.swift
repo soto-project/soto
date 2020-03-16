@@ -170,10 +170,7 @@ extension IoTEventsData {
             try validate(self.keyValue, name:"keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case keyValue = "keyValue"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDetectorResponse: AWSDecodableShape {
@@ -361,12 +358,7 @@ extension IoTEventsData {
             try validate(self.stateName, name:"stateName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case stateName = "stateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDetectorsResponse: AWSDecodableShape {

@@ -221,7 +221,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
             case eventDestinationName = "EventDestinationName"
         }
@@ -466,10 +465,7 @@ extension SESV2 {
             self.eventDestinationName = eventDestinationName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
@@ -492,9 +488,7 @@ extension SESV2 {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
@@ -517,9 +511,7 @@ extension SESV2 {
             self.poolName = poolName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case poolName = "PoolName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDedicatedIpPoolResponse: AWSDecodableShape {
@@ -542,9 +534,7 @@ extension SESV2 {
             self.emailIdentity = emailIdentity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailIdentityResponse: AWSDecodableShape {
@@ -567,9 +557,7 @@ extension SESV2 {
             self.emailAddress = emailAddress
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailAddress = "EmailAddress"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSuppressedDestinationResponse: AWSDecodableShape {
@@ -977,9 +965,7 @@ extension SESV2 {
             self.blacklistItemNames = blacklistItemNames
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blacklistItemNames = "BlacklistItemNames"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBlacklistReportsResponse: AWSDecodableShape {
@@ -1008,9 +994,7 @@ extension SESV2 {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
@@ -1039,9 +1023,7 @@ extension SESV2 {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetConfigurationSetResponse: AWSDecodableShape {
@@ -1094,9 +1076,7 @@ extension SESV2 {
             self.ip = ip
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ip = "IP"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDedicatedIpResponse: AWSDecodableShape {
@@ -1133,11 +1113,7 @@ extension SESV2 {
             self.poolName = poolName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-            case poolName = "PoolName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDedicatedIpsResponse: AWSDecodableShape {
@@ -1208,9 +1184,7 @@ extension SESV2 {
             self.reportId = reportId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case reportId = "ReportId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDeliverabilityTestReportResponse: AWSDecodableShape {
@@ -1255,9 +1229,7 @@ extension SESV2 {
             self.campaignId = campaignId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignId = "CampaignId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainDeliverabilityCampaignResponse: AWSDecodableShape {
@@ -1294,11 +1266,7 @@ extension SESV2 {
             self.startDate = startDate
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-            case endDate = "EndDate"
-            case startDate = "StartDate"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainStatisticsReportResponse: AWSDecodableShape {
@@ -1331,9 +1299,7 @@ extension SESV2 {
             self.emailIdentity = emailIdentity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailIdentityResponse: AWSDecodableShape {
@@ -1382,9 +1348,7 @@ extension SESV2 {
             self.emailAddress = emailAddress
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailAddress = "EmailAddress"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSuppressedDestinationResponse: AWSDecodableShape {
@@ -1493,10 +1457,7 @@ extension SESV2 {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
@@ -1533,10 +1494,7 @@ extension SESV2 {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDedicatedIpPoolsResponse: AWSDecodableShape {
@@ -1573,10 +1531,7 @@ extension SESV2 {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDeliverabilityTestReportsResponse: AWSDecodableShape {
@@ -1625,13 +1580,7 @@ extension SESV2 {
             self.subscribedDomain = subscribedDomain
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endDate = "EndDate"
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-            case startDate = "StartDate"
-            case subscribedDomain = "SubscribedDomain"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDomainDeliverabilityCampaignsResponse: AWSDecodableShape {
@@ -1668,10 +1617,7 @@ extension SESV2 {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListEmailIdentitiesResponse: AWSDecodableShape {
@@ -1720,13 +1666,7 @@ extension SESV2 {
             self.startDate = startDate
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endDate = "EndDate"
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-            case reasons = "Reason"
-            case startDate = "StartDate"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSuppressedDestinationsResponse: AWSDecodableShape {
@@ -1759,9 +1699,7 @@ extension SESV2 {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1987,7 +1925,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case sendingPoolName = "SendingPoolName"
             case tlsPolicy = "TlsPolicy"
         }
@@ -2017,7 +1954,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case reputationMetricsEnabled = "ReputationMetricsEnabled"
         }
     }
@@ -2046,7 +1982,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case sendingEnabled = "SendingEnabled"
         }
     }
@@ -2075,7 +2010,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case suppressedReasons = "SuppressedReasons"
         }
     }
@@ -2104,7 +2038,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case customRedirectDomain = "CustomRedirectDomain"
         }
     }
@@ -2134,7 +2067,6 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case destinationPoolName = "DestinationPoolName"
-            case ip = "IP"
         }
     }
 
@@ -2162,7 +2094,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ip = "IP"
             case warmupPercentage = "WarmupPercentage"
         }
     }
@@ -2217,7 +2148,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
             case signingEnabled = "SigningEnabled"
         }
     }
@@ -2253,7 +2183,6 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
             case signingAttributes = "SigningAttributes"
             case signingAttributesOrigin = "SigningAttributesOrigin"
         }
@@ -2294,7 +2223,6 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case emailForwardingEnabled = "EmailForwardingEnabled"
-            case emailIdentity = "EmailIdentity"
         }
     }
 
@@ -2326,7 +2254,6 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case behaviorOnMxFailure = "BehaviorOnMxFailure"
-            case emailIdentity = "EmailIdentity"
             case mailFromDomain = "MailFromDomain"
         }
     }
@@ -2693,10 +2620,7 @@ extension SESV2 {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "TagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -2727,9 +2651,7 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
-            case eventDestinationName = "EventDestinationName"
         }
     }
 

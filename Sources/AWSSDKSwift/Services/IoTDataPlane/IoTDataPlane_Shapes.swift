@@ -40,9 +40,7 @@ extension IoTDataPlane {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -82,9 +80,7 @@ extension IoTDataPlane {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -135,8 +131,6 @@ extension IoTDataPlane {
 
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
-            case qos = "qos"
-            case topic = "topic"
         }
     }
 
@@ -166,7 +160,6 @@ extension IoTDataPlane {
 
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
-            case thingName = "thingName"
         }
     }
 

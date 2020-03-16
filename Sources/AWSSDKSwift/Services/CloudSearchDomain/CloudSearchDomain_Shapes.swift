@@ -240,22 +240,7 @@ extension CloudSearchDomain {
             self.stats = stats
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cursor = "cursor"
-            case expr = "expr"
-            case facet = "facet"
-            case filterQuery = "fq"
-            case highlight = "highlight"
-            case partial = "partial"
-            case query = "q"
-            case queryOptions = "q.options"
-            case queryParser = "q.parser"
-            case `return` = "return"
-            case size = "size"
-            case sort = "sort"
-            case start = "start"
-            case stats = "stats"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SearchResponse: AWSDecodableShape {
@@ -344,11 +329,7 @@ extension CloudSearchDomain {
             self.suggester = suggester
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case query = "q"
-            case size = "size"
-            case suggester = "suggester"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SuggestResponse: AWSDecodableShape {
@@ -428,7 +409,6 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType = "Content-Type"
             case documents = "documents"
         }
     }

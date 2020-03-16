@@ -443,12 +443,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AccelerateConfiguration: AWSEncodableShape {
@@ -929,11 +924,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
             case multipartUpload = "CompleteMultipartUpload"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
         }
     }
 
@@ -1214,45 +1205,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case cacheControl = "Cache-Control"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentType = "Content-Type"
-            case copySource = "x-amz-copy-source"
-            case copySourceIfMatch = "x-amz-copy-source-if-match"
-            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
-            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
-            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
-            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
-            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
-            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
-            case expires = "Expires"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case metadata = "x-amz-meta-"
-            case metadataDirective = "x-amz-metadata-directive"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case requestPayer = "x-amz-request-payer"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagging = "x-amz-tagging"
-            case taggingDirective = "x-amz-tagging-directive"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CopyObjectResult: AWSDecodableShape {
@@ -1370,15 +1323,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
             case createBucketConfiguration = "CreateBucketConfiguration"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case objectLockEnabledForBucket = "x-amz-bucket-object-lock-enabled"
         }
     }
 
@@ -1565,35 +1510,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case cacheControl = "Cache-Control"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case metadata = "x-amz-meta-"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case requestPayer = "x-amz-request-payer"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagging = "x-amz-tagging"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DefaultRetention: AWSEncodableShape & AWSDecodableShape {
@@ -1662,10 +1579,7 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketCorsRequest: AWSEncodableShape {
@@ -1680,9 +1594,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketEncryptionRequest: AWSEncodableShape {
@@ -1697,9 +1609,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSEncodableShape {
@@ -1718,10 +1628,7 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketLifecycleRequest: AWSEncodableShape {
@@ -1736,9 +1643,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSEncodableShape {
@@ -1757,10 +1662,7 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
@@ -1775,9 +1677,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketReplicationRequest: AWSEncodableShape {
@@ -1792,9 +1692,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketRequest: AWSEncodableShape {
@@ -1809,9 +1707,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketTaggingRequest: AWSEncodableShape {
@@ -1826,9 +1722,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBucketWebsiteRequest: AWSEncodableShape {
@@ -1843,9 +1737,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMarkerEntry: AWSDecodableShape {
@@ -1953,14 +1845,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-            case key = "Key"
-            case mfa = "x-amz-mfa"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectTaggingOutput: AWSDecodableShape {
@@ -2004,11 +1889,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectsOutput: AWSDecodableShape {
@@ -2071,11 +1952,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
             case delete = "Delete"
-            case mfa = "x-amz-mfa"
-            case requestPayer = "x-amz-request-payer"
         }
     }
 
@@ -2091,9 +1968,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletedObject: AWSDecodableShape {
@@ -2297,9 +2172,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketAclOutput: AWSDecodableShape {
@@ -2335,9 +2208,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketAnalyticsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2375,10 +2246,7 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketCorsOutput: AWSDecodableShape {
@@ -2410,9 +2278,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketEncryptionOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2445,9 +2311,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketInventoryConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2485,10 +2349,7 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketLifecycleConfigurationOutput: AWSDecodableShape {
@@ -2520,9 +2381,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketLifecycleOutput: AWSDecodableShape {
@@ -2554,9 +2413,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketLocationOutput: AWSDecodableShape {
@@ -2585,9 +2442,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketLoggingOutput: AWSDecodableShape {
@@ -2615,9 +2470,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketMetricsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2655,10 +2508,7 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketNotificationConfigurationRequest: AWSEncodableShape {
@@ -2673,9 +2523,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2709,9 +2557,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketPolicyStatusOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2745,9 +2591,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketReplicationOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -2780,9 +2624,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketRequestPaymentOutput: AWSDecodableShape {
@@ -2811,9 +2653,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketTaggingOutput: AWSDecodableShape {
@@ -2845,9 +2685,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketVersioningOutput: AWSDecodableShape {
@@ -2883,9 +2721,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketWebsiteOutput: AWSDecodableShape {
@@ -2929,9 +2765,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectAclOutput: AWSDecodableShape {
@@ -2986,12 +2820,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectLegalHoldOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -3040,12 +2869,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectLockConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -3079,9 +2903,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -3339,27 +3161,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case ifMatch = "If-Match"
-            case ifModifiedSince = "If-Modified-Since"
-            case ifNoneMatch = "If-None-Match"
-            case ifUnmodifiedSince = "If-Unmodified-Since"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case range = "Range"
-            case requestPayer = "x-amz-request-payer"
-            case responseCacheControl = "response-cache-control"
-            case responseContentDisposition = "response-content-disposition"
-            case responseContentEncoding = "response-content-encoding"
-            case responseContentLanguage = "response-content-language"
-            case responseContentType = "response-content-type"
-            case responseExpires = "response-expires"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectRetentionOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -3408,12 +3210,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectTaggingOutput: AWSDecodableShape {
@@ -3462,11 +3259,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectTorrentOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -3515,11 +3308,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
@@ -3553,9 +3342,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GlacierJobParameters: AWSEncodableShape {
@@ -3635,9 +3422,7 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct HeadObjectOutput: AWSDecodableShape {
@@ -3854,21 +3639,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case ifMatch = "If-Match"
-            case ifModifiedSince = "If-Modified-Since"
-            case ifNoneMatch = "If-None-Match"
-            case ifUnmodifiedSince = "If-Unmodified-Since"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case range = "Range"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct IndexDocument: AWSEncodableShape & AWSDecodableShape {
@@ -4306,10 +4077,7 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBucketInventoryConfigurationsOutput: AWSDecodableShape {
@@ -4357,10 +4125,7 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBucketMetricsConfigurationsOutput: AWSDecodableShape {
@@ -4408,10 +4173,7 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBucketsOutput: AWSDecodableShape {
@@ -4532,15 +4294,7 @@ extension S3 {
             self.uploadIdMarker = uploadIdMarker
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case keyMarker = "key-marker"
-            case maxUploads = "max-uploads"
-            case prefix = "prefix"
-            case uploadIdMarker = "upload-id-marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListObjectVersionsOutput: AWSDecodableShape {
@@ -4645,15 +4399,7 @@ extension S3 {
             self.versionIdMarker = versionIdMarker
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case keyMarker = "key-marker"
-            case maxKeys = "max-keys"
-            case prefix = "prefix"
-            case versionIdMarker = "version-id-marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListObjectsOutput: AWSDecodableShape {
@@ -4745,15 +4491,7 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case marker = "marker"
-            case maxKeys = "max-keys"
-            case prefix = "prefix"
-            case requestPayer = "x-amz-request-payer"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListObjectsV2Output: AWSDecodableShape {
@@ -4862,17 +4600,7 @@ extension S3 {
             self.startAfter = startAfter
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case fetchOwner = "fetch-owner"
-            case maxKeys = "max-keys"
-            case prefix = "prefix"
-            case requestPayer = "x-amz-request-payer"
-            case startAfter = "start-after"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPartsOutput: AWSDecodableShape {
@@ -4981,14 +4709,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case maxParts = "max-parts"
-            case partNumberMarker = "part-number-marker"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LoggingEnabled: AWSEncodableShape & AWSDecodableShape {
@@ -5585,7 +5306,6 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case accelerateConfiguration = "AccelerateConfiguration"
-            case bucket = "Bucket"
         }
     }
 
@@ -5637,14 +5357,6 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case grantWriteACP = "x-amz-grant-write-acp"
         }
     }
 
@@ -5676,8 +5388,6 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case analyticsConfiguration = "AnalyticsConfiguration"
-            case bucket = "Bucket"
-            case id = "id"
         }
     }
 
@@ -5704,8 +5414,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case cORSConfiguration = "CORSConfiguration"
         }
     }
@@ -5732,8 +5440,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         }
     }
@@ -5761,8 +5467,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
             case inventoryConfiguration = "InventoryConfiguration"
         }
     }
@@ -5790,7 +5494,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case lifecycleConfiguration = "LifecycleConfiguration"
         }
     }
@@ -5815,8 +5518,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case lifecycleConfiguration = "LifecycleConfiguration"
         }
     }
@@ -5844,9 +5545,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case bucketLoggingStatus = "BucketLoggingStatus"
-            case contentMD5 = "Content-MD5"
         }
     }
 
@@ -5877,8 +5576,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
             case metricsConfiguration = "MetricsConfiguration"
         }
     }
@@ -5901,7 +5598,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case notificationConfiguration = "NotificationConfiguration"
         }
     }
@@ -5929,8 +5625,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case notificationConfiguration = "NotificationConfiguration"
         }
     }
@@ -5941,8 +5635,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
-            AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5"))
         ]
 
         /// The name of the bucket.
@@ -5962,9 +5655,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case confirmRemoveSelfBucketAccess = "x-amz-confirm-remove-self-bucket-access"
-            case contentMD5 = "Content-MD5"
             case policy = "Policy"
         }
     }
@@ -5998,10 +5688,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case replicationConfiguration = "ReplicationConfiguration"
-            case token = "x-amz-bucket-object-lock-token"
         }
     }
 
@@ -6028,8 +5715,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case requestPaymentConfiguration = "RequestPaymentConfiguration"
         }
     }
@@ -6061,8 +5746,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case tagging = "Tagging"
         }
     }
@@ -6094,9 +5777,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case mfa = "x-amz-mfa"
             case versioningConfiguration = "VersioningConfiguration"
         }
     }
@@ -6128,8 +5808,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case websiteConfiguration = "WebsiteConfiguration"
         }
     }
@@ -6213,17 +5891,6 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
         }
     }
 
@@ -6281,12 +5948,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
             case legalHold = "LegalHold"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
         }
     }
 
@@ -6336,11 +5998,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case objectLockConfiguration = "ObjectLockConfiguration"
-            case requestPayer = "x-amz-request-payer"
-            case token = "x-amz-bucket-object-lock-token"
         }
     }
 
@@ -6534,36 +6192,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
             case body = "Body"
-            case bucket = "Bucket"
-            case cacheControl = "Cache-Control"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentLength = "Content-Length"
-            case contentMD5 = "Content-MD5"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case metadata = "x-amz-meta-"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case requestPayer = "x-amz-request-payer"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagging = "x-amz-tagging"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
         }
     }
 
@@ -6625,13 +6254,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
             case retention = "Retention"
-            case versionId = "versionId"
         }
     }
 
@@ -6688,11 +6311,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
             case tagging = "Tagging"
-            case versionId = "versionId"
         }
     }
 
@@ -6719,8 +6338,6 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
         }
     }
@@ -7066,11 +6683,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
             case restoreRequest = "RestoreRequest"
-            case versionId = "versionId"
         }
     }
 
@@ -7331,17 +6944,12 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case expression = "Expression"
             case expressionType = "ExpressionType"
             case inputSerialization = "InputSerialization"
-            case key = "Key"
             case outputSerialization = "OutputSerialization"
             case requestProgress = "RequestProgress"
             case scanRange = "ScanRange"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
         }
     }
 
@@ -7747,25 +7355,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case copySource = "x-amz-copy-source"
-            case copySourceIfMatch = "x-amz-copy-source-if-match"
-            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
-            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
-            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
-            case copySourceRange = "x-amz-copy-source-range"
-            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
-            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
-            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case uploadId = "uploadId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadPartOutput: AWSDecodableShape {
@@ -7868,16 +7458,6 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
-            case bucket = "Bucket"
-            case contentLength = "Content-Length"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case uploadId = "uploadId"
         }
     }
 

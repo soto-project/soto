@@ -96,9 +96,6 @@ extension Mobile {
 
         private enum CodingKeys: String, CodingKey {
             case contents = "contents"
-            case name = "name"
-            case region = "region"
-            case snapshotId = "snapshotId"
         }
     }
 
@@ -128,9 +125,7 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProjectResult: AWSDecodableShape {
@@ -163,9 +158,7 @@ extension Mobile {
             self.bundleId = bundleId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bundleId = "bundleId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeBundleResult: AWSDecodableShape {
@@ -198,10 +191,7 @@ extension Mobile {
             self.syncFromResources = syncFromResources
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case syncFromResources = "syncFromResources"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProjectResult: AWSDecodableShape {
@@ -237,11 +227,7 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bundleId = "bundleId"
-            case platform = "platform"
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ExportBundleResult: AWSDecodableShape {
@@ -270,9 +256,7 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ExportProjectResult: AWSDecodableShape {
@@ -313,10 +297,7 @@ extension Mobile {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBundlesResult: AWSDecodableShape {
@@ -353,10 +334,7 @@ extension Mobile {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProjectsResult: AWSDecodableShape {
@@ -475,7 +453,6 @@ extension Mobile {
 
         private enum CodingKeys: String, CodingKey {
             case contents = "contents"
-            case projectId = "projectId"
         }
     }
 

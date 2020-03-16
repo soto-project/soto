@@ -157,7 +157,6 @@ extension ManagedBlockchain {
             case clientRequestToken = "ClientRequestToken"
             case invitationId = "InvitationId"
             case memberConfiguration = "MemberConfiguration"
-            case networkId = "networkId"
         }
     }
 
@@ -281,8 +280,6 @@ extension ManagedBlockchain {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
-            case memberId = "memberId"
-            case networkId = "networkId"
             case nodeConfiguration = "NodeConfiguration"
         }
     }
@@ -341,7 +338,6 @@ extension ManagedBlockchain {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case memberId = "MemberId"
-            case networkId = "networkId"
         }
     }
 
@@ -382,10 +378,7 @@ extension ManagedBlockchain {
             try validate(self.networkId, name:"networkId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case memberId = "memberId"
-            case networkId = "networkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMemberOutput: AWSDecodableShape {
@@ -425,11 +418,7 @@ extension ManagedBlockchain {
             try validate(self.nodeId, name:"nodeId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case memberId = "memberId"
-            case networkId = "networkId"
-            case nodeId = "nodeId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteNodeOutput: AWSDecodableShape {
@@ -463,10 +452,7 @@ extension ManagedBlockchain {
             try validate(self.networkId, name:"networkId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case memberId = "memberId"
-            case networkId = "networkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMemberOutput: AWSDecodableShape {
@@ -500,9 +486,7 @@ extension ManagedBlockchain {
             try validate(self.networkId, name:"networkId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case networkId = "networkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetNetworkOutput: AWSDecodableShape {
@@ -548,11 +532,7 @@ extension ManagedBlockchain {
             try validate(self.nodeId, name:"nodeId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case memberId = "memberId"
-            case networkId = "networkId"
-            case nodeId = "nodeId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetNodeOutput: AWSDecodableShape {
@@ -592,10 +572,7 @@ extension ManagedBlockchain {
             try validate(self.proposalId, name:"proposalId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case networkId = "networkId"
-            case proposalId = "proposalId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetProposalOutput: AWSDecodableShape {
@@ -677,10 +654,7 @@ extension ManagedBlockchain {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInvitationsOutput: AWSDecodableShape {
@@ -741,14 +715,7 @@ extension ManagedBlockchain {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case isOwned = "isOwned"
-            case maxResults = "maxResults"
-            case name = "name"
-            case networkId = "networkId"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMembersOutput: AWSDecodableShape {
@@ -803,13 +770,7 @@ extension ManagedBlockchain {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case framework = "framework"
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListNetworksOutput: AWSDecodableShape {
@@ -868,13 +829,7 @@ extension ManagedBlockchain {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case memberId = "memberId"
-            case networkId = "networkId"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListNodesOutput: AWSDecodableShape {
@@ -929,12 +884,7 @@ extension ManagedBlockchain {
             try validate(self.proposalId, name:"proposalId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case networkId = "networkId"
-            case nextToken = "nextToken"
-            case proposalId = "proposalId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProposalVotesOutput: AWSDecodableShape {
@@ -983,11 +933,7 @@ extension ManagedBlockchain {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case networkId = "networkId"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProposalsOutput: AWSDecodableShape {
@@ -1695,9 +1641,7 @@ extension ManagedBlockchain {
             try validate(self.invitationId, name:"invitationId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case invitationId = "invitationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RejectInvitationOutput: AWSDecodableShape {
@@ -1755,8 +1699,6 @@ extension ManagedBlockchain {
 
         private enum CodingKeys: String, CodingKey {
             case logPublishingConfiguration = "LogPublishingConfiguration"
-            case memberId = "memberId"
-            case networkId = "networkId"
         }
     }
 
@@ -1802,9 +1744,6 @@ extension ManagedBlockchain {
 
         private enum CodingKeys: String, CodingKey {
             case logPublishingConfiguration = "LogPublishingConfiguration"
-            case memberId = "memberId"
-            case networkId = "networkId"
-            case nodeId = "nodeId"
         }
     }
 
@@ -1848,8 +1787,6 @@ extension ManagedBlockchain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkId = "networkId"
-            case proposalId = "proposalId"
             case vote = "Vote"
             case voterMemberId = "VoterMemberId"
         }

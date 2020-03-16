@@ -542,7 +542,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case deploymentArtifacts = "deploymentArtifacts"
             case environmentName = "environmentName"
             case stackName = "stackName"
@@ -650,7 +649,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case backendEnvironmentArn = "backendEnvironmentArn"
             case basicAuthCredentials = "basicAuthCredentials"
             case branchName = "branchName"
@@ -715,8 +713,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
             case fileMap = "fileMap"
         }
     }
@@ -775,7 +771,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case domainName = "domainName"
             case enableAutoSubDomain = "enableAutoSubDomain"
             case subDomainSettings = "subDomainSettings"
@@ -823,7 +818,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case branchName = "branchName"
             case description = "description"
         }
@@ -897,9 +891,7 @@ extension Amplify {
             try validate(self.appId, name:"appId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAppResult: AWSDecodableShape {
@@ -938,10 +930,7 @@ extension Amplify {
             try validate(self.environmentName, name:"environmentName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case environmentName = "environmentName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBackendEnvironmentResult: AWSDecodableShape {
@@ -981,10 +970,7 @@ extension Amplify {
             try validate(self.branchName, name:"branchName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBranchResult: AWSDecodableShape {
@@ -1023,10 +1009,7 @@ extension Amplify {
             try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDomainAssociationResult: AWSDecodableShape {
@@ -1070,11 +1053,7 @@ extension Amplify {
             try validate(self.jobId, name:"jobId", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJobResult: AWSDecodableShape {
@@ -1106,9 +1085,7 @@ extension Amplify {
             try validate(self.webhookId, name:"webhookId", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case webhookId = "webhookId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteWebhookResult: AWSDecodableShape {
@@ -1191,7 +1168,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case domainName = "domainName"
             case endTime = "endTime"
             case startTime = "startTime"
@@ -1229,9 +1205,7 @@ extension Amplify {
             try validate(self.appId, name:"appId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppResult: AWSDecodableShape {
@@ -1263,9 +1237,7 @@ extension Amplify {
             try validate(self.artifactId, name:"artifactId", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case artifactId = "artifactId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetArtifactUrlResult: AWSDecodableShape {
@@ -1309,10 +1281,7 @@ extension Amplify {
             try validate(self.environmentName, name:"environmentName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case environmentName = "environmentName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBackendEnvironmentResult: AWSDecodableShape {
@@ -1352,10 +1321,7 @@ extension Amplify {
             try validate(self.branchName, name:"branchName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBranchResult: AWSDecodableShape {
@@ -1393,10 +1359,7 @@ extension Amplify {
             try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDomainAssociationResult: AWSDecodableShape {
@@ -1441,11 +1404,7 @@ extension Amplify {
             try validate(self.jobId, name:"jobId", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobResult: AWSDecodableShape {
@@ -1477,9 +1436,7 @@ extension Amplify {
             try validate(self.webhookId, name:"webhookId", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case webhookId = "webhookId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetWebhookResult: AWSDecodableShape {
@@ -1582,10 +1539,7 @@ extension Amplify {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAppsResult: AWSDecodableShape {
@@ -1645,13 +1599,7 @@ extension Amplify {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-            case jobId = "jobId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListArtifactsResult: AWSDecodableShape {
@@ -1706,10 +1654,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case environmentName = "environmentName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
@@ -1759,11 +1704,7 @@ extension Amplify {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBranchesResult: AWSDecodableShape {
@@ -1812,11 +1753,7 @@ extension Amplify {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDomainAssociationsResult: AWSDecodableShape {
@@ -1871,12 +1808,7 @@ extension Amplify {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsResult: AWSDecodableShape {
@@ -1913,9 +1845,7 @@ extension Amplify {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1960,11 +1890,7 @@ extension Amplify {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListWebhooksResult: AWSDecodableShape {
@@ -2043,8 +1969,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
             case jobId = "jobId"
             case sourceUrl = "sourceUrl"
         }
@@ -2110,8 +2034,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
             case commitId = "commitId"
             case commitMessage = "commitMessage"
             case commitTime = "commitTime"
@@ -2217,11 +2139,7 @@ extension Amplify {
             try validate(self.jobId, name:"jobId", parent: name, max: 255)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StopJobResult: AWSDecodableShape {
@@ -2310,7 +2228,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -2350,10 +2267,7 @@ extension Amplify {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -2455,7 +2369,6 @@ extension Amplify {
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "accessToken"
-            case appId = "appId"
             case autoBranchCreationConfig = "autoBranchCreationConfig"
             case autoBranchCreationPatterns = "autoBranchCreationPatterns"
             case basicAuthCredentials = "basicAuthCredentials"
@@ -2567,10 +2480,8 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
             case backendEnvironmentArn = "backendEnvironmentArn"
             case basicAuthCredentials = "basicAuthCredentials"
-            case branchName = "branchName"
             case buildSpec = "buildSpec"
             case description = "description"
             case displayName = "displayName"
@@ -2633,8 +2544,6 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case domainName = "domainName"
             case enableAutoSubDomain = "enableAutoSubDomain"
             case subDomainSettings = "subDomainSettings"
         }
@@ -2682,7 +2591,6 @@ extension Amplify {
         private enum CodingKeys: String, CodingKey {
             case branchName = "branchName"
             case description = "description"
-            case webhookId = "webhookId"
         }
     }
 

@@ -65,12 +65,7 @@ extension IoTJobsDataPlane {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case executionNumber = "executionNumber"
-            case includeJobDocument = "includeJobDocument"
-            case jobId = "jobId"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJobExecutionResponse: AWSDecodableShape {
@@ -105,9 +100,7 @@ extension IoTJobsDataPlane {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPendingJobExecutionsResponse: AWSDecodableShape {
@@ -273,7 +266,6 @@ extension IoTJobsDataPlane {
         private enum CodingKeys: String, CodingKey {
             case statusDetails = "statusDetails"
             case stepTimeoutInMinutes = "stepTimeoutInMinutes"
-            case thingName = "thingName"
         }
     }
 
@@ -350,11 +342,9 @@ extension IoTJobsDataPlane {
             case expectedVersion = "expectedVersion"
             case includeJobDocument = "includeJobDocument"
             case includeJobExecutionState = "includeJobExecutionState"
-            case jobId = "jobId"
             case status = "status"
             case statusDetails = "statusDetails"
             case stepTimeoutInMinutes = "stepTimeoutInMinutes"
-            case thingName = "thingName"
         }
     }
 

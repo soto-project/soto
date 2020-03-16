@@ -904,9 +904,7 @@ extension Imagebuilder {
             try validate(self.componentBuildVersionArn, name:"componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentBuildVersionArn = "componentBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteComponentResponse: AWSDecodableShape {
@@ -943,9 +941,7 @@ extension Imagebuilder {
             try validate(self.distributionConfigurationArn, name:"distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationArn = "distributionConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDistributionConfigurationResponse: AWSDecodableShape {
@@ -982,9 +978,7 @@ extension Imagebuilder {
             try validate(self.imagePipelineArn, name:"imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imagePipelineArn = "imagePipelineArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteImagePipelineResponse: AWSDecodableShape {
@@ -1021,9 +1015,7 @@ extension Imagebuilder {
             try validate(self.imageRecipeArn, name:"imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteImageRecipeResponse: AWSDecodableShape {
@@ -1060,9 +1052,7 @@ extension Imagebuilder {
             try validate(self.imageBuildVersionArn, name:"imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn = "imageBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteImageResponse: AWSDecodableShape {
@@ -1099,9 +1089,7 @@ extension Imagebuilder {
             try validate(self.infrastructureConfigurationArn, name:"infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInfrastructureConfigurationResponse: AWSDecodableShape {
@@ -1318,9 +1306,7 @@ extension Imagebuilder {
             try validate(self.componentArn, name:"componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentArn = "componentArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetComponentPolicyResponse: AWSDecodableShape {
@@ -1357,9 +1343,7 @@ extension Imagebuilder {
             try validate(self.componentBuildVersionArn, name:"componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentBuildVersionArn = "componentBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetComponentResponse: AWSDecodableShape {
@@ -1396,9 +1380,7 @@ extension Imagebuilder {
             try validate(self.distributionConfigurationArn, name:"distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationArn = "distributionConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionConfigurationResponse: AWSDecodableShape {
@@ -1435,9 +1417,7 @@ extension Imagebuilder {
             try validate(self.imagePipelineArn, name:"imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imagePipelineArn = "imagePipelineArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImagePipelineResponse: AWSDecodableShape {
@@ -1474,9 +1454,7 @@ extension Imagebuilder {
             try validate(self.imageArn, name:"imageArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageArn = "imageArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImagePolicyResponse: AWSDecodableShape {
@@ -1513,9 +1491,7 @@ extension Imagebuilder {
             try validate(self.imageRecipeArn, name:"imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImageRecipePolicyResponse: AWSDecodableShape {
@@ -1552,9 +1528,7 @@ extension Imagebuilder {
             try validate(self.imageRecipeArn, name:"imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImageRecipeResponse: AWSDecodableShape {
@@ -1591,9 +1565,7 @@ extension Imagebuilder {
             try validate(self.imageBuildVersionArn, name:"imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn = "imageBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImageResponse: AWSDecodableShape {
@@ -1630,9 +1602,7 @@ extension Imagebuilder {
             try validate(self.infrastructureConfigurationArn, name:"infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInfrastructureConfigurationResponse: AWSDecodableShape {
@@ -2806,9 +2776,7 @@ extension Imagebuilder {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):(?:image-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\\d+)\\.(?:x|\\d+)\\.(?:x|\\d+))(?:/\\d+)?)?$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -3103,7 +3071,6 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -3143,10 +3110,7 @@ extension Imagebuilder {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {

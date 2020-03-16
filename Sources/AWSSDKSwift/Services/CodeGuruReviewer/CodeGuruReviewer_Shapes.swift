@@ -112,9 +112,7 @@ extension CodeGuruReviewer {
             try validate(self.associationArn, name:"associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z]+:[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case associationArn = "AssociationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRepositoryAssociationResponse: AWSDecodableShape {
@@ -149,9 +147,7 @@ extension CodeGuruReviewer {
             try validate(self.associationArn, name:"associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z]+:[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case associationArn = "AssociationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociateRepositoryResponse: AWSDecodableShape {
@@ -223,14 +219,7 @@ extension CodeGuruReviewer {
             try validate(self.states, name:"states", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case names = "Name"
-            case nextToken = "NextToken"
-            case owners = "Owner"
-            case providerTypes = "ProviderType"
-            case states = "State"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRepositoryAssociationsResponse: AWSDecodableShape {

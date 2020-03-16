@@ -243,7 +243,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case tags = "Tags"
         }
     }
@@ -290,9 +289,7 @@ extension EFS {
             self.accessPointId = accessPointId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessPointId = "AccessPointId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFileSystemPolicyRequest: AWSEncodableShape {
@@ -307,9 +304,7 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFileSystemRequest: AWSEncodableShape {
@@ -324,9 +319,7 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMountTargetRequest: AWSEncodableShape {
@@ -341,9 +334,7 @@ extension EFS {
             self.mountTargetId = mountTargetId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTagsRequest: AWSEncodableShape {
@@ -371,7 +362,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case tagKeys = "TagKeys"
         }
     }
@@ -404,12 +394,7 @@ extension EFS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessPointId = "AccessPointId"
-            case fileSystemId = "FileSystemId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAccessPointsResponse: AWSDecodableShape {
@@ -442,9 +427,7 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
@@ -477,12 +460,7 @@ extension EFS {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case creationToken = "CreationToken"
-            case fileSystemId = "FileSystemId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeFileSystemsResponse: AWSDecodableShape {
@@ -519,9 +497,7 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSEncodableShape {
@@ -536,9 +512,7 @@ extension EFS {
             self.mountTargetId = mountTargetId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSDecodableShape {
@@ -587,13 +561,7 @@ extension EFS {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessPointId = "AccessPointId"
-            case fileSystemId = "FileSystemId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case mountTargetId = "MountTargetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMountTargetsResponse: AWSDecodableShape {
@@ -642,11 +610,7 @@ extension EFS {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeTagsResponse: AWSDecodableShape {
@@ -833,11 +797,7 @@ extension EFS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -878,7 +838,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
             case securityGroups = "SecurityGroups"
         }
     }
@@ -984,7 +943,6 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
-            case fileSystemId = "FileSystemId"
             case policy = "Policy"
         }
     }
@@ -1005,7 +963,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case lifecyclePolicies = "LifecyclePolicies"
         }
     }
@@ -1079,7 +1036,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
             case tags = "Tags"
         }
     }
@@ -1109,7 +1065,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
             case tagKeys = "TagKeys"
         }
     }
@@ -1137,7 +1092,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
             case throughputMode = "ThroughputMode"
         }

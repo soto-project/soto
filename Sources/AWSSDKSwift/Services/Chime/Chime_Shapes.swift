@@ -270,9 +270,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case e164PhoneNumber = "E164PhoneNumber"
-            case userId = "userId"
         }
     }
 
@@ -312,7 +310,6 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
             case forceAssociate = "ForceAssociate"
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
         }
     }
 
@@ -358,7 +355,6 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
             case forceAssociate = "ForceAssociate"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -399,7 +395,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case signinDelegateGroups = "SigninDelegateGroups"
         }
     }
@@ -458,7 +453,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case attendees = "Attendees"
-            case meetingId = "meetingId"
         }
     }
 
@@ -509,9 +503,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case membershipItemList = "MembershipItemList"
-            case roomId = "roomId"
         }
     }
 
@@ -585,7 +577,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case userIdList = "UserIdList"
         }
     }
@@ -628,7 +619,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case userIdList = "UserIdList"
         }
     }
@@ -705,7 +695,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case updateUserRequestItems = "UpdateUserRequestItems"
         }
     }
@@ -863,7 +852,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case externalUserId = "ExternalUserId"
-            case meetingId = "meetingId"
         }
     }
 
@@ -924,7 +912,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case displayName = "DisplayName"
             case domain = "Domain"
         }
@@ -1060,10 +1047,8 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case memberId = "MemberId"
             case role = "Role"
-            case roomId = "roomId"
         }
     }
 
@@ -1107,7 +1092,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case clientRequestToken = "ClientRequestToken"
             case name = "Name"
         }
@@ -1154,7 +1138,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case email = "Email"
             case username = "Username"
             case userType = "UserType"
@@ -1289,9 +1272,7 @@ extension Chime {
             try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAccountResponse: AWSDecodableShape {
@@ -1323,10 +1304,7 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attendeeId = "attendeeId"
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEventsConfigurationRequest: AWSEncodableShape {
@@ -1350,10 +1328,7 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMeetingRequest: AWSEncodableShape {
@@ -1372,9 +1347,7 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePhoneNumberRequest: AWSEncodableShape {
@@ -1389,9 +1362,7 @@ extension Chime {
             self.phoneNumberId = phoneNumberId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberId = "phoneNumberId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRoomMembershipRequest: AWSEncodableShape {
@@ -1420,11 +1391,7 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case memberId = "memberId"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRoomRequest: AWSEncodableShape {
@@ -1448,10 +1415,7 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceConnectorGroupRequest: AWSEncodableShape {
@@ -1470,9 +1434,7 @@ extension Chime {
             try validate(self.voiceConnectorGroupId, name:"voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceConnectorOriginationRequest: AWSEncodableShape {
@@ -1491,9 +1453,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceConnectorRequest: AWSEncodableShape {
@@ -1512,9 +1472,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
@@ -1533,9 +1491,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
@@ -1559,7 +1515,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case usernames = "Usernames"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -1579,9 +1534,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociatePhoneNumberFromUserRequest: AWSEncodableShape {
@@ -1600,10 +1553,7 @@ extension Chime {
             self.userId = userId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisassociatePhoneNumberFromUserResponse: AWSDecodableShape {
@@ -1638,7 +1588,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
         }
     }
 
@@ -1680,7 +1629,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -1719,7 +1667,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case groupNames = "GroupNames"
         }
     }
@@ -1770,9 +1717,7 @@ extension Chime {
             try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAccountResponse: AWSDecodableShape {
@@ -1805,9 +1750,7 @@ extension Chime {
             try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAccountSettingsResponse: AWSDecodableShape {
@@ -1845,10 +1788,7 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attendeeId = "attendeeId"
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAttendeeResponse: AWSDecodableShape {
@@ -1886,10 +1826,7 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotResponse: AWSDecodableShape {
@@ -1927,10 +1864,7 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEventsConfigurationResponse: AWSDecodableShape {
@@ -1981,9 +1915,7 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMeetingResponse: AWSDecodableShape {
@@ -2016,9 +1948,7 @@ extension Chime {
             try validate(self.phoneNumberOrderId, name:"phoneNumberOrderId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberOrderId = "phoneNumberOrderId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPhoneNumberOrderResponse: AWSDecodableShape {
@@ -2047,9 +1977,7 @@ extension Chime {
             self.phoneNumberId = phoneNumberId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberId = "phoneNumberId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPhoneNumberResponse: AWSDecodableShape {
@@ -2105,10 +2033,7 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRoomResponse: AWSDecodableShape {
@@ -2146,10 +2071,7 @@ extension Chime {
             try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUserResponse: AWSDecodableShape {
@@ -2182,10 +2104,7 @@ extension Chime {
             self.userId = userId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUserSettingsResponse: AWSDecodableShape {
@@ -2218,9 +2137,7 @@ extension Chime {
             try validate(self.voiceConnectorGroupId, name:"voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorGroupResponse: AWSDecodableShape {
@@ -2253,9 +2170,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
@@ -2288,9 +2203,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorOriginationResponse: AWSDecodableShape {
@@ -2323,9 +2236,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorResponse: AWSDecodableShape {
@@ -2358,9 +2269,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
@@ -2393,9 +2302,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorTerminationHealthResponse: AWSDecodableShape {
@@ -2428,9 +2335,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceConnectorTerminationResponse: AWSDecodableShape {
@@ -2500,7 +2405,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case userEmailList = "UserEmailList"
             case userType = "UserType"
         }
@@ -2553,12 +2457,7 @@ extension Chime {
             try validate(self.userEmail, name:"userEmail", parent: name, pattern: ".+@.+\\..+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case name = "name"
-            case nextToken = "next-token"
-            case userEmail = "user-email"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAccountsResponse: AWSDecodableShape {
@@ -2605,11 +2504,7 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case meetingId = "meetingId"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAttendeesResponse: AWSDecodableShape {
@@ -2656,11 +2551,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListBotsResponse: AWSDecodableShape {
@@ -2702,10 +2593,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMeetingsResponse: AWSDecodableShape {
@@ -2747,10 +2635,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPhoneNumberOrdersResponse: AWSDecodableShape {
@@ -2808,14 +2693,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case filterName = "filter-name"
-            case filterValue = "filter-value"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case productType = "product-type"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPhoneNumbersResponse: AWSDecodableShape {
@@ -2867,12 +2745,7 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRoomMembershipsResponse: AWSDecodableShape {
@@ -2923,12 +2796,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case memberId = "member-id"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRoomsResponse: AWSDecodableShape {
@@ -2984,13 +2852,7 @@ extension Chime {
             try validate(self.userEmail, name:"userEmail", parent: name, pattern: ".+@.+\\..+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case userEmail = "user-email"
-            case userType = "user-type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
@@ -3032,10 +2894,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVoiceConnectorGroupsResponse: AWSDecodableShape {
@@ -3072,9 +2931,7 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVoiceConnectorTerminationCredentialsResponse: AWSDecodableShape {
@@ -3112,10 +2969,7 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVoiceConnectorsResponse: AWSDecodableShape {
@@ -3171,10 +3025,7 @@ extension Chime {
             try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LogoutUserResponse: AWSDecodableShape {
@@ -3625,8 +3476,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
             case lambdaFunctionArn = "LambdaFunctionArn"
             case outboundEventsHTTPSEndpoint = "OutboundEventsHTTPSEndpoint"
         }
@@ -3666,7 +3515,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case loggingConfiguration = "LoggingConfiguration"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -3706,7 +3554,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case origination = "Origination"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -3746,7 +3593,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case streamingConfiguration = "StreamingConfiguration"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -3785,7 +3631,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case credentials = "Credentials"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -3811,7 +3656,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case termination = "Termination"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
@@ -3850,10 +3694,7 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RegenerateSecurityTokenResponse: AWSDecodableShape {
@@ -3890,10 +3731,7 @@ extension Chime {
             try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ResetPersonalPINResponse: AWSDecodableShape {
@@ -3926,9 +3764,7 @@ extension Chime {
             try validate(self.phoneNumberId, name:"phoneNumberId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberId = "phoneNumberId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RestorePhoneNumberResponse: AWSDecodableShape {
@@ -4052,15 +3888,7 @@ extension Chime {
             try validate(self.tollFreePrefix, name:"tollFreePrefix", parent: name, pattern: "^8(00|33|44|55|66|77|88)$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case areaCode = "area-code"
-            case city = "city"
-            case country = "country"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case state = "state"
-            case tollFreePrefix = "toll-free-prefix"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
@@ -4215,7 +4043,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case name = "Name"
         }
     }
@@ -4254,7 +4081,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case accountSettings = "AccountSettings"
         }
     }
@@ -4292,8 +4118,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
             case disabled = "Disabled"
         }
     }
@@ -4354,7 +4178,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case callingName = "CallingName"
-            case phoneNumberId = "phoneNumberId"
             case productType = "ProductType"
         }
     }
@@ -4448,10 +4271,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case memberId = "memberId"
             case role = "Role"
-            case roomId = "roomId"
         }
     }
 
@@ -4494,9 +4314,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case name = "Name"
-            case roomId = "roomId"
         }
     }
 
@@ -4545,10 +4363,8 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case alexaForBusinessMetadata = "AlexaForBusinessMetadata"
             case licenseType = "LicenseType"
-            case userId = "userId"
             case userType = "UserType"
         }
     }
@@ -4617,8 +4433,6 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
             case userSettings = "UserSettings"
         }
     }
@@ -4652,7 +4466,6 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
             case voiceConnectorItems = "VoiceConnectorItems"
         }
     }
@@ -4698,7 +4511,6 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case requireEncryption = "RequireEncryption"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 

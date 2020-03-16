@@ -3226,9 +3226,7 @@ extension SecurityHub {
             try validate(self.actionTargetArn, name:"actionTargetArn", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionTargetArn = "ActionTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteActionTargetResponse: AWSDecodableShape {
@@ -3261,9 +3259,7 @@ extension SecurityHub {
             try validate(self.insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case insightArn = "InsightArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInsightResponse: AWSDecodableShape {
@@ -3412,9 +3408,7 @@ extension SecurityHub {
             try validate(self.hubArn, name:"hubArn", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hubArn = "HubArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeHubResponse: AWSDecodableShape {
@@ -3456,10 +3450,7 @@ extension SecurityHub {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeProductsResponse: AWSDecodableShape {
@@ -3506,11 +3497,7 @@ extension SecurityHub {
             try validate(self.standardsSubscriptionArn, name:"standardsSubscriptionArn", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case standardsSubscriptionArn = "StandardsSubscriptionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeStandardsControlsResponse: AWSDecodableShape {
@@ -3552,10 +3539,7 @@ extension SecurityHub {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeStandardsResponse: AWSDecodableShape {
@@ -3592,9 +3576,7 @@ extension SecurityHub {
             try validate(self.productSubscriptionArn, name:"productSubscriptionArn", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case productSubscriptionArn = "ProductSubscriptionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DisableImportFindingsForProductResponse: AWSDecodableShape {
@@ -3851,9 +3833,7 @@ extension SecurityHub {
             try validate(self.insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case insightArn = "InsightArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInsightResultsResponse: AWSDecodableShape {
@@ -4205,10 +4185,7 @@ extension SecurityHub {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListEnabledProductsForImportResponse: AWSDecodableShape {
@@ -4250,10 +4227,7 @@ extension SecurityHub {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInvitationsResponse: AWSDecodableShape {
@@ -4299,11 +4273,7 @@ extension SecurityHub {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case onlyAssociated = "OnlyAssociated"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListMembersResponse: AWSDecodableShape {
@@ -4340,9 +4310,7 @@ extension SecurityHub {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -5162,7 +5130,6 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
     }
@@ -5243,10 +5210,7 @@ extension SecurityHub {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
@@ -5282,7 +5246,6 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTargetArn = "ActionTargetArn"
             case description = "Description"
             case name = "Name"
         }
@@ -5362,7 +5325,6 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case groupByAttribute = "GroupByAttribute"
-            case insightArn = "InsightArn"
             case name = "Name"
         }
     }
@@ -5401,7 +5363,6 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case controlStatus = "ControlStatus"
             case disabledReason = "DisabledReason"
-            case standardsControlArn = "StandardsControlArn"
         }
     }
 

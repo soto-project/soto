@@ -343,10 +343,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AssociatePackageResponse: AWSDecodableShape {
@@ -624,9 +621,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteElasticsearchDomainResponse: AWSDecodableShape {
@@ -655,9 +650,7 @@ extension ElasticsearchService {
             self.packageID = packageID
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePackageResponse: AWSDecodableShape {
@@ -692,9 +685,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeElasticsearchDomainConfigResponse: AWSDecodableShape {
@@ -729,9 +720,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeElasticsearchDomainResponse: AWSDecodableShape {
@@ -810,11 +799,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case elasticsearchVersion = "ElasticsearchVersion"
-            case instanceType = "InstanceType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSDecodableShape {
@@ -925,11 +910,7 @@ extension ElasticsearchService {
             try validate(self.reservedElasticsearchInstanceOfferingId, name:"reservedElasticsearchInstanceOfferingId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case reservedElasticsearchInstanceOfferingId = "offeringId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeReservedElasticsearchInstanceOfferingsResponse: AWSDecodableShape {
@@ -975,11 +956,7 @@ extension ElasticsearchService {
             try validate(self.reservedElasticsearchInstanceId, name:"reservedElasticsearchInstanceId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case reservedElasticsearchInstanceId = "reservationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeReservedElasticsearchInstancesResponse: AWSDecodableShape {
@@ -1022,10 +999,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DissociatePackageResponse: AWSDecodableShape {
@@ -1501,9 +1475,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCompatibleElasticsearchVersionsResponse: AWSDecodableShape {
@@ -1544,11 +1516,7 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUpgradeHistoryResponse: AWSDecodableShape {
@@ -1586,9 +1554,7 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUpgradeStatusResponse: AWSDecodableShape {
@@ -1701,11 +1667,7 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDomainsForPackageResponse: AWSDecodableShape {
@@ -1756,12 +1718,7 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case elasticsearchVersion = "ElasticsearchVersion"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListElasticsearchInstanceTypesResponse: AWSDecodableShape {
@@ -1801,10 +1758,7 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListElasticsearchVersionsResponse: AWSDecodableShape {
@@ -1850,11 +1804,7 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPackagesForDomainResponse: AWSDecodableShape {
@@ -1887,9 +1837,7 @@ extension ElasticsearchService {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
@@ -2501,7 +2449,6 @@ extension ElasticsearchService {
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
-            case domainName = "DomainName"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case logPublishingOptions = "LogPublishingOptions"

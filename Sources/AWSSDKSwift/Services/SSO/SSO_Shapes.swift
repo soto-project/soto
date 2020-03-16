@@ -64,11 +64,7 @@ extension SSO {
             self.roleName = roleName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-            case accountId = "account_id"
-            case roleName = "role_name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRoleCredentialsResponse: AWSDecodableShape {
@@ -114,12 +110,7 @@ extension SSO {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-            case accountId = "account_id"
-            case maxResults = "max_result"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAccountRolesResponse: AWSDecodableShape {
@@ -165,11 +156,7 @@ extension SSO {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-            case maxResults = "max_result"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAccountsResponse: AWSDecodableShape {
@@ -202,9 +189,7 @@ extension SSO {
             self.accessToken = accessToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RoleCredentials: AWSDecodableShape {

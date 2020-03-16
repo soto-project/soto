@@ -407,7 +407,6 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
-            case name = "name"
         }
     }
 
@@ -508,7 +507,6 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
-            case name = "name"
         }
     }
 
@@ -605,7 +603,6 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
-            case name = "name"
         }
     }
 
@@ -684,10 +681,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBotChannelAssociationRequest: AWSEncodableShape {
@@ -722,11 +716,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "aliasName"
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBotRequest: AWSEncodableShape {
@@ -747,9 +737,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBotVersionRequest: AWSEncodableShape {
@@ -777,10 +765,7 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIntentRequest: AWSEncodableShape {
@@ -801,9 +786,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIntentVersionRequest: AWSEncodableShape {
@@ -831,10 +814,7 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSlotTypeRequest: AWSEncodableShape {
@@ -855,9 +835,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSlotTypeVersionRequest: AWSEncodableShape {
@@ -885,10 +863,7 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUtterancesRequest: AWSEncodableShape {
@@ -915,10 +890,7 @@ extension LexModelBuildingService {
             try validate(self.userId, name:"userId", parent: name, min: 2)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct EnumerationValue: AWSEncodableShape & AWSDecodableShape {
@@ -1018,10 +990,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotAliasResponse: AWSDecodableShape {
@@ -1101,12 +1070,7 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotAliasesResponse: AWSDecodableShape {
@@ -1159,11 +1123,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "aliasName"
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotChannelAssociationResponse: AWSDecodableShape {
@@ -1254,13 +1214,7 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "aliasName"
-            case botName = "botName"
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotChannelAssociationsResponse: AWSDecodableShape {
@@ -1303,10 +1257,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case versionOrAlias = "versionoralias"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotResponse: AWSDecodableShape {
@@ -1411,11 +1362,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotVersionsResponse: AWSDecodableShape {
@@ -1464,11 +1411,7 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBotsResponse: AWSDecodableShape {
@@ -1501,9 +1444,7 @@ extension LexModelBuildingService {
             self.signature = signature
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case signature = "signature"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBuiltinIntentResponse: AWSDecodableShape {
@@ -1557,12 +1498,7 @@ extension LexModelBuildingService {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case locale = "locale"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case signatureContains = "signatureContains"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBuiltinIntentsResponse: AWSDecodableShape {
@@ -1612,12 +1548,7 @@ extension LexModelBuildingService {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case locale = "locale"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case signatureContains = "signatureContains"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBuiltinSlotTypesResponse: AWSDecodableShape {
@@ -1671,12 +1602,7 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportType = "exportType"
-            case name = "name"
-            case resourceType = "resourceType"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportResponse: AWSDecodableShape {
@@ -1729,9 +1655,7 @@ extension LexModelBuildingService {
             self.importId = importId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importId = "importId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportResponse: AWSDecodableShape {
@@ -1797,10 +1721,7 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntentResponse: AWSDecodableShape {
@@ -1901,11 +1822,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntentVersionsResponse: AWSDecodableShape {
@@ -1954,11 +1871,7 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntentsResponse: AWSDecodableShape {
@@ -2004,10 +1917,7 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSlotTypeResponse: AWSDecodableShape {
@@ -2088,11 +1998,7 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSlotTypeVersionsResponse: AWSDecodableShape {
@@ -2141,11 +2047,7 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSlotTypesResponse: AWSDecodableShape {
@@ -2199,11 +2101,7 @@ extension LexModelBuildingService {
             try validate(self.botVersions, name:"botVersions", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botname"
-            case botVersions = "bot_versions"
-            case statusType = "status_type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUtterancesViewResponse: AWSDecodableShape {
@@ -2298,9 +2196,7 @@ extension LexModelBuildingService {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -2497,12 +2393,10 @@ extension LexModelBuildingService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
             case botVersion = "botVersion"
             case checksum = "checksum"
             case conversationLogs = "conversationLogs"
             case description = "description"
-            case name = "name"
             case tags = "tags"
         }
     }
@@ -2635,7 +2529,6 @@ extension LexModelBuildingService {
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
             case locale = "locale"
-            case name = "name"
             case processBehavior = "processBehavior"
             case tags = "tags"
             case voiceId = "voiceId"
@@ -2806,7 +2699,6 @@ extension LexModelBuildingService {
             case dialogCodeHook = "dialogCodeHook"
             case followUpPrompt = "followUpPrompt"
             case fulfillmentActivity = "fulfillmentActivity"
-            case name = "name"
             case parentIntentSignature = "parentIntentSignature"
             case rejectionStatement = "rejectionStatement"
             case sampleUtterances = "sampleUtterances"
@@ -2947,7 +2839,6 @@ extension LexModelBuildingService {
             case createVersion = "createVersion"
             case description = "description"
             case enumerationValues = "enumerationValues"
-            case name = "name"
             case parentSlotTypeSignature = "parentSlotTypeSignature"
             case slotTypeConfigurations = "slotTypeConfigurations"
             case valueSelectionStrategy = "valueSelectionStrategy"
@@ -3301,7 +3192,6 @@ extension LexModelBuildingService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -3341,10 +3231,7 @@ extension LexModelBuildingService {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {

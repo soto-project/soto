@@ -100,8 +100,6 @@ extension MobileAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientContext = "x-amz-Client-Context"
-            case clientContextEncoding = "x-amz-Client-Context-Encoding"
             case events = "events"
         }
     }

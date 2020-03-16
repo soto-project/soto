@@ -95,9 +95,7 @@ extension Outposts {
             try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case outpostId = "OutpostId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteOutpostOutput: AWSDecodableShape {
@@ -125,9 +123,7 @@ extension Outposts {
             try validate(self.siteId, name:"siteId", parent: name, pattern: "os-[a-f0-9]{17}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case siteId = "SiteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSiteOutput: AWSDecodableShape {
@@ -155,9 +151,7 @@ extension Outposts {
             try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case outpostId = "OutpostId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOutpostInstanceTypesInput: AWSEncodableShape {
@@ -188,11 +182,7 @@ extension Outposts {
             try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case outpostId = "OutpostId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOutpostInstanceTypesOutput: AWSDecodableShape {
@@ -265,10 +255,7 @@ extension Outposts {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOutpostsOutput: AWSDecodableShape {
@@ -309,10 +296,7 @@ extension Outposts {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSitesOutput: AWSDecodableShape {

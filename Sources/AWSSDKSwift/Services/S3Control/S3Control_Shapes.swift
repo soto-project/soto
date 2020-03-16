@@ -213,9 +213,7 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
             case bucket = "Bucket"
-            case name = "name"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case vpcConfiguration = "VpcConfiguration"
         }
@@ -280,7 +278,6 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
             case clientRequestToken = "ClientRequestToken"
             case confirmationRequired = "ConfirmationRequired"
             case description = "Description"
@@ -329,10 +326,7 @@ extension S3Control {
             try validate(self.name, name:"name", parent: name, min: 3)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAccessPointRequest: AWSEncodableShape {
@@ -357,10 +351,7 @@ extension S3Control {
             try validate(self.name, name:"name", parent: name, min: 3)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJobTaggingRequest: AWSEncodableShape {
@@ -385,10 +376,7 @@ extension S3Control {
             try validate(self.jobId, name:"jobId", parent: name, min: 5)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobId = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJobTaggingResult: AWSDecodableShape {
@@ -415,9 +403,7 @@ extension S3Control {
             try validate(self.accountId, name:"accountId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
@@ -441,10 +427,7 @@ extension S3Control {
             try validate(self.jobId, name:"jobId", parent: name, min: 5)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobId = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeJobResult: AWSDecodableShape {
@@ -483,10 +466,7 @@ extension S3Control {
             try validate(self.name, name:"name", parent: name, min: 3)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAccessPointPolicyResult: AWSDecodableShape {
@@ -525,10 +505,7 @@ extension S3Control {
             try validate(self.name, name:"name", parent: name, min: 3)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAccessPointPolicyStatusResult: AWSDecodableShape {
@@ -567,10 +544,7 @@ extension S3Control {
             try validate(self.name, name:"name", parent: name, min: 3)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAccessPointResult: AWSDecodableShape {
@@ -628,10 +602,7 @@ extension S3Control {
             try validate(self.jobId, name:"jobId", parent: name, min: 5)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobId = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJobTaggingResult: AWSDecodableShape {
@@ -686,9 +657,7 @@ extension S3Control {
             try validate(self.accountId, name:"accountId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct JobDescriptor: AWSDecodableShape {
@@ -1052,12 +1021,7 @@ extension S3Control {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case bucket = "bucket"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAccessPointsResult: AWSDecodableShape {
@@ -1112,12 +1076,7 @@ extension S3Control {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobStatuses = "jobStatuses"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJobsResult: AWSDecodableShape {
@@ -1217,8 +1176,6 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case name = "name"
             case policy = "Policy"
         }
     }
@@ -1254,8 +1211,6 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobId = "id"
             case tags = "Tags"
         }
     }
@@ -1291,7 +1246,6 @@ extension S3Control {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
         }
     }
@@ -1666,11 +1620,7 @@ extension S3Control {
             try validate(self.priority, name:"priority", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobId = "id"
-            case priority = "priority"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateJobPriorityResult: AWSDecodableShape {
@@ -1722,12 +1672,7 @@ extension S3Control {
             try validate(self.statusUpdateReason, name:"statusUpdateReason", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "x-amz-account-id"
-            case jobId = "id"
-            case requestedJobStatus = "requestedJobStatus"
-            case statusUpdateReason = "statusUpdateReason"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateJobStatusResult: AWSDecodableShape {

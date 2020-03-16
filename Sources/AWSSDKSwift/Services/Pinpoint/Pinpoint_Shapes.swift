@@ -1749,9 +1749,6 @@ extension Pinpoint {
     public struct CreateAppRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "createApplicationRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createApplicationRequest", location: .body(locationName: "CreateApplicationRequest"))
-        ]
 
         public let createApplicationRequest: CreateApplicationRequest
 
@@ -1804,8 +1801,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeCampaignRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -1817,7 +1813,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case writeCampaignRequest = "WriteCampaignRequest"
         }
     }
@@ -1844,7 +1839,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "emailTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -1858,7 +1852,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case emailTemplateRequest = "EmailTemplateRequest"
-            case templateName = "template-name"
         }
     }
 
@@ -1884,8 +1877,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "exportJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "exportJobRequest", location: .body(locationName: "ExportJobRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -1897,7 +1889,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case exportJobRequest = "ExportJobRequest"
         }
     }
@@ -1924,8 +1915,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "importJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "importJobRequest", location: .body(locationName: "ImportJobRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -1937,7 +1927,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case importJobRequest = "ImportJobRequest"
         }
     }
@@ -1964,8 +1953,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeJourneyRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -1977,7 +1965,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case writeJourneyRequest = "WriteJourneyRequest"
         }
     }
@@ -2004,7 +1991,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "pushNotificationTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -2018,7 +2004,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
-            case templateName = "template-name"
         }
     }
 
@@ -2089,9 +2074,6 @@ extension Pinpoint {
     public struct CreateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "createRecommenderConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createRecommenderConfiguration", location: .body(locationName: "CreateRecommenderConfiguration"))
-        ]
 
         public let createRecommenderConfiguration: CreateRecommenderConfiguration
 
@@ -2126,8 +2108,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeSegmentRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -2139,7 +2120,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case writeSegmentRequest = "WriteSegmentRequest"
         }
     }
@@ -2166,7 +2146,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "sMSTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -2180,7 +2159,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case sMSTemplateRequest = "SMSTemplateRequest"
-            case templateName = "template-name"
         }
     }
 
@@ -2228,8 +2206,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "voiceTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
-            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
         public let templateName: String
@@ -2241,7 +2218,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
             case voiceTemplateRequest = "VoiceTemplateRequest"
         }
     }
@@ -2361,9 +2337,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2395,9 +2369,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2429,9 +2401,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2463,9 +2433,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2497,9 +2465,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2531,9 +2497,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAppResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2565,9 +2529,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2602,10 +2564,7 @@ extension Pinpoint {
             self.campaignId = campaignId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2637,9 +2596,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2674,10 +2631,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2712,10 +2666,7 @@ extension Pinpoint {
             self.endpointId = endpointId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case endpointId = "endpoint-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2747,9 +2698,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2781,9 +2730,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2818,10 +2765,7 @@ extension Pinpoint {
             self.journeyId = journeyId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case journeyId = "journey-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2856,10 +2800,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2891,9 +2832,7 @@ extension Pinpoint {
             self.recommenderId = recommenderId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case recommenderId = "recommender-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2928,10 +2867,7 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case segmentId = "segment-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -2963,9 +2899,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -3000,10 +2934,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -3038,10 +2969,7 @@ extension Pinpoint {
             self.userId = userId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case userId = "user-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserEndpointsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -3073,9 +3001,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -3110,10 +3036,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4349,9 +4272,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4383,9 +4304,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4417,9 +4336,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4451,9 +4368,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4485,9 +4400,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4519,9 +4432,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4568,14 +4479,7 @@ extension Pinpoint {
             self.startTime = startTime
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case endTime = "end-time"
-            case kpiName = "kpi-name"
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-            case startTime = "start-time"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4607,9 +4511,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationSettingsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4644,10 +4546,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4679,9 +4578,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4722,12 +4619,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignActivitiesResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4777,15 +4669,7 @@ extension Pinpoint {
             self.startTime = startTime
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
-            case endTime = "end-time"
-            case kpiName = "kpi-name"
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-            case startTime = "start-time"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4820,10 +4704,7 @@ extension Pinpoint {
             self.campaignId = campaignId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4861,11 +4742,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4906,12 +4783,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4949,11 +4821,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -4985,9 +4853,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetChannelsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5019,9 +4885,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5056,10 +4920,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5094,10 +4955,7 @@ extension Pinpoint {
             self.endpointId = endpointId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case endpointId = "endpoint-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5129,9 +4987,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5166,10 +5022,7 @@ extension Pinpoint {
             self.jobId = jobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case jobId = "job-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5207,11 +5060,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5243,9 +5092,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5280,10 +5127,7 @@ extension Pinpoint {
             self.jobId = jobId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case jobId = "job-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5321,11 +5165,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5375,15 +5215,7 @@ extension Pinpoint {
             self.startTime = startTime
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case endTime = "end-time"
-            case journeyId = "journey-id"
-            case kpiName = "kpi-name"
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-            case startTime = "start-time"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5427,13 +5259,7 @@ extension Pinpoint {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case journeyActivityId = "journey-activity-id"
-            case journeyId = "journey-id"
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyExecutionActivityMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5474,12 +5300,7 @@ extension Pinpoint {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case journeyId = "journey-id"
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyExecutionMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5514,10 +5335,7 @@ extension Pinpoint {
             self.journeyId = journeyId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case journeyId = "journey-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5552,10 +5370,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5587,9 +5402,7 @@ extension Pinpoint {
             self.recommenderId = recommenderId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case recommenderId = "recommender-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5624,10 +5437,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommenderConfigurationsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5668,12 +5478,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case segmentId = "segment-id"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentExportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5714,12 +5519,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case segmentId = "segment-id"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentImportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5754,10 +5554,7 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case segmentId = "segment-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5795,11 +5592,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case segmentId = "segment-id"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5840,12 +5633,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case segmentId = "segment-id"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5883,11 +5671,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5919,9 +5703,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5956,10 +5738,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -5994,10 +5773,7 @@ extension Pinpoint {
             self.userId = userId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case userId = "user-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUserEndpointsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -6029,9 +5805,7 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -6066,10 +5840,7 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "template-name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -6570,11 +6341,7 @@ extension Pinpoint {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case pageSize = "page-size"
-            case token = "token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListJourneysResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -6624,9 +6391,7 @@ extension Pinpoint {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -6667,12 +6432,7 @@ extension Pinpoint {
             self.templateType = templateType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-            case templateName = "template-name"
-            case templateType = "template-type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplateVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -6713,12 +6473,7 @@ extension Pinpoint {
             self.templateType = templateType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case pageSize = "page-size"
-            case prefix = "prefix"
-            case templateType = "template-type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -7089,9 +6844,6 @@ extension Pinpoint {
     public struct PhoneNumberValidateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "numberValidateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "numberValidateRequest", location: .body(locationName: "NumberValidateRequest"))
-        ]
 
         public let numberValidateRequest: NumberValidateRequest
 
@@ -7296,8 +7048,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeEventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "writeEventStream", location: .body(locationName: "WriteEventStream"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -7309,7 +7060,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case writeEventStream = "WriteEventStream"
         }
     }
@@ -7336,8 +7086,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "eventsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "eventsRequest", location: .body(locationName: "EventsRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -7349,7 +7098,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case eventsRequest = "EventsRequest"
         }
     }
@@ -7517,8 +7265,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "updateAttributesRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type")), 
-            AWSMemberEncoding(label: "updateAttributesRequest", location: .body(locationName: "UpdateAttributesRequest"))
+            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type"))
         ]
 
         public let applicationId: String
@@ -7532,8 +7279,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case attributeType = "attribute-type"
             case updateAttributesRequest = "UpdateAttributesRequest"
         }
     }
@@ -8137,8 +7882,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "messageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "messageRequest", location: .body(locationName: "MessageRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -8150,7 +7894,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case messageRequest = "MessageRequest"
         }
     }
@@ -8229,8 +7972,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "sendUsersMessageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "sendUsersMessageRequest", location: .body(locationName: "SendUsersMessageRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -8242,7 +7984,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case sendUsersMessageRequest = "SendUsersMessageRequest"
         }
     }
@@ -8393,8 +8134,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "tagsModel"
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
-            AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
 
         public let resourceArn: String
@@ -8406,7 +8146,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tagsModel = "TagsModel"
         }
     }
@@ -8667,17 +8406,13 @@ extension Pinpoint {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateAdmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "aDMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelRequest", location: .body(locationName: "ADMChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8691,7 +8426,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case aDMChannelRequest = "ADMChannelRequest"
-            case applicationId = "application-id"
         }
     }
 
@@ -8717,7 +8451,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body(locationName: "APNSChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8731,7 +8464,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case aPNSChannelRequest = "APNSChannelRequest"
-            case applicationId = "application-id"
         }
     }
 
@@ -8757,7 +8489,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body(locationName: "APNSSandboxChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8771,7 +8502,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case aPNSSandboxChannelRequest = "APNSSandboxChannelRequest"
-            case applicationId = "application-id"
         }
     }
 
@@ -8797,7 +8527,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body(locationName: "APNSVoipChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8811,7 +8540,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case aPNSVoipChannelRequest = "APNSVoipChannelRequest"
-            case applicationId = "application-id"
         }
     }
 
@@ -8837,7 +8565,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "aPNSVoipSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body(locationName: "APNSVoipSandboxChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8851,7 +8578,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case aPNSVoipSandboxChannelRequest = "APNSVoipSandboxChannelRequest"
-            case applicationId = "application-id"
         }
     }
 
@@ -8877,8 +8603,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "writeApplicationSettingsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "writeApplicationSettingsRequest", location: .body(locationName: "WriteApplicationSettingsRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -8890,7 +8615,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case writeApplicationSettingsRequest = "WriteApplicationSettingsRequest"
         }
     }
@@ -8931,8 +8655,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "baiduChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "baiduChannelRequest", location: .body(locationName: "BaiduChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -8944,7 +8667,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case baiduChannelRequest = "BaiduChannelRequest"
         }
     }
@@ -8972,8 +8694,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "writeCampaignRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
-            AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id"))
         ]
 
         public let applicationId: String
@@ -8987,8 +8708,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case campaignId = "campaign-id"
             case writeCampaignRequest = "WriteCampaignRequest"
         }
     }
@@ -9015,8 +8734,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "emailChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "emailChannelRequest", location: .body(locationName: "EmailChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -9028,7 +8746,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case emailChannelRequest = "EmailChannelRequest"
         }
     }
@@ -9056,7 +8773,6 @@ extension Pinpoint {
         public static let payloadPath: String? = "emailTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
@@ -9074,10 +8790,7 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createNewVersion = "create-new-version"
             case emailTemplateRequest = "EmailTemplateRequest"
-            case templateName = "template-name"
-            case version = "version"
         }
     }
 
@@ -9104,8 +8817,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "endpointRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id")), 
-            AWSMemberEncoding(label: "endpointRequest", location: .body(locationName: "EndpointRequest"))
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id"))
         ]
 
         public let applicationId: String
@@ -9119,8 +8831,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case endpointId = "endpoint-id"
             case endpointRequest = "EndpointRequest"
         }
     }
@@ -9147,8 +8857,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "endpointBatchRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "endpointBatchRequest", location: .body(locationName: "EndpointBatchRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -9160,7 +8869,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case endpointBatchRequest = "EndpointBatchRequest"
         }
     }
@@ -9187,8 +8895,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "gCMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "gCMChannelRequest", location: .body(locationName: "GCMChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -9200,7 +8907,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case gCMChannelRequest = "GCMChannelRequest"
         }
     }
@@ -9228,8 +8934,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "writeJourneyRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
-            AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
         ]
 
         public let applicationId: String
@@ -9243,8 +8948,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case journeyId = "journey-id"
             case writeJourneyRequest = "WriteJourneyRequest"
         }
     }
@@ -9272,8 +8975,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "journeyStateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
-            AWSMemberEncoding(label: "journeyStateRequest", location: .body(locationName: "JourneyStateRequest"))
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
         ]
 
         public let applicationId: String
@@ -9287,8 +8989,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case journeyId = "journey-id"
             case journeyStateRequest = "JourneyStateRequest"
         }
     }
@@ -9316,7 +9016,6 @@ extension Pinpoint {
         public static let payloadPath: String? = "pushNotificationTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
@@ -9334,10 +9033,7 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createNewVersion = "create-new-version"
             case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
-            case templateName = "template-name"
-            case version = "version"
         }
     }
 
@@ -9409,8 +9105,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "updateRecommenderConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "recommender-id")), 
-            AWSMemberEncoding(label: "updateRecommenderConfiguration", location: .body(locationName: "UpdateRecommenderConfiguration"))
+            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "recommender-id"))
         ]
 
         public let recommenderId: String
@@ -9422,7 +9117,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderId = "recommender-id"
             case updateRecommenderConfiguration = "UpdateRecommenderConfiguration"
         }
     }
@@ -9450,8 +9144,7 @@ extension Pinpoint {
         public static let payloadPath: String? = "writeSegmentRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
-            AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id"))
         ]
 
         public let applicationId: String
@@ -9465,8 +9158,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
-            case segmentId = "segment-id"
             case writeSegmentRequest = "WriteSegmentRequest"
         }
     }
@@ -9493,8 +9184,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "sMSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "sMSChannelRequest", location: .body(locationName: "SMSChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -9506,7 +9196,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case sMSChannelRequest = "SMSChannelRequest"
         }
     }
@@ -9534,7 +9223,6 @@ extension Pinpoint {
         public static let payloadPath: String? = "sMSTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
@@ -9552,10 +9240,7 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createNewVersion = "create-new-version"
             case sMSTemplateRequest = "SMSTemplateRequest"
-            case templateName = "template-name"
-            case version = "version"
         }
     }
 
@@ -9581,7 +9266,6 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "templateActiveVersionRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body(locationName: "TemplateActiveVersionRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "templateType", location: .uri(locationName: "template-type"))
         ]
@@ -9598,8 +9282,6 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case templateActiveVersionRequest = "TemplateActiveVersionRequest"
-            case templateName = "template-name"
-            case templateType = "template-type"
         }
     }
 
@@ -9625,8 +9307,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payloadPath: String? = "voiceChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
-            AWSMemberEncoding(label: "voiceChannelRequest", location: .body(locationName: "VoiceChannelRequest"))
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
         public let applicationId: String
@@ -9638,7 +9319,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "application-id"
             case voiceChannelRequest = "VoiceChannelRequest"
         }
     }
@@ -9667,8 +9347,7 @@ extension Pinpoint {
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version")), 
-            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
+            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
         public let createNewVersion: Bool?
@@ -9684,9 +9363,6 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createNewVersion = "create-new-version"
-            case templateName = "template-name"
-            case version = "version"
             case voiceTemplateRequest = "VoiceTemplateRequest"
         }
     }

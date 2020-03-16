@@ -219,12 +219,9 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
-            case layerName = "LayerName"
             case organizationId = "OrganizationId"
             case principal = "Principal"
-            case revisionId = "RevisionId"
             case statementId = "StatementId"
-            case versionNumber = "VersionNumber"
         }
     }
 
@@ -305,9 +302,7 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case eventSourceToken = "EventSourceToken"
-            case functionName = "FunctionName"
             case principal = "Principal"
-            case qualifier = "Qualifier"
             case revisionId = "RevisionId"
             case sourceAccount = "SourceAccount"
             case sourceArn = "SourceArn"
@@ -442,7 +437,6 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case functionName = "FunctionName"
             case functionVersion = "FunctionVersion"
             case name = "Name"
             case routingConfig = "RoutingConfig"
@@ -666,10 +660,7 @@ extension Lambda {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case name = "Name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEventSourceMappingRequest: AWSEncodableShape {
@@ -684,9 +675,7 @@ extension Lambda {
             self.uuid = uuid
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case uuid = "UUID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionConcurrencyRequest: AWSEncodableShape {
@@ -707,9 +696,7 @@ extension Lambda {
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionEventInvokeConfigRequest: AWSEncodableShape {
@@ -737,10 +724,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionRequest: AWSEncodableShape {
@@ -768,10 +752,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteLayerVersionRequest: AWSEncodableShape {
@@ -796,10 +777,7 @@ extension Lambda {
             try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case layerName = "LayerName"
-            case versionNumber = "VersionNumber"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProvisionedConcurrencyConfigRequest: AWSEncodableShape {
@@ -827,10 +805,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DestinationConfig: AWSEncodableShape & AWSDecodableShape {
@@ -1227,10 +1202,7 @@ extension Lambda {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case name = "Name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEventSourceMappingRequest: AWSEncodableShape {
@@ -1245,9 +1217,7 @@ extension Lambda {
             self.uuid = uuid
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case uuid = "UUID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionConcurrencyRequest: AWSEncodableShape {
@@ -1268,9 +1238,7 @@ extension Lambda {
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionConcurrencyResponse: AWSDecodableShape {
@@ -1312,10 +1280,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionEventInvokeConfigRequest: AWSEncodableShape {
@@ -1343,10 +1308,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionRequest: AWSEncodableShape {
@@ -1374,10 +1336,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionResponse: AWSDecodableShape {
@@ -1424,9 +1383,7 @@ extension Lambda {
             try validate(self.arn, name:"arn", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLayerVersionPolicyRequest: AWSEncodableShape {
@@ -1451,10 +1408,7 @@ extension Lambda {
             try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case layerName = "LayerName"
-            case versionNumber = "VersionNumber"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLayerVersionPolicyResponse: AWSDecodableShape {
@@ -1497,10 +1451,7 @@ extension Lambda {
             try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case layerName = "LayerName"
-            case versionNumber = "VersionNumber"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetLayerVersionResponse: AWSDecodableShape {
@@ -1570,10 +1521,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPolicyResponse: AWSDecodableShape {
@@ -1619,10 +1567,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetProvisionedConcurrencyConfigResponse: AWSDecodableShape {
@@ -1703,12 +1648,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientContext = "X-Amz-Client-Context"
-            case functionName = "FunctionName"
-            case invocationType = "X-Amz-Invocation-Type"
-            case logType = "X-Amz-Log-Type"
             case payload = "Payload"
-            case qualifier = "Qualifier"
         }
     }
 
@@ -1775,7 +1715,6 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
             case invokeArgs = "InvokeArgs"
         }
     }
@@ -1961,12 +1900,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case functionVersion = "FunctionVersion"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAliasesResponse: AWSDecodableShape {
@@ -2020,12 +1954,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventSourceArn = "EventSourceArn"
-            case functionName = "FunctionName"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListEventSourceMappingsResponse: AWSDecodableShape {
@@ -2074,11 +2003,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionEventInvokeConfigsResponse: AWSDecodableShape {
@@ -2129,12 +2054,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionVersion = "FunctionVersion"
-            case marker = "Marker"
-            case masterRegion = "MasterRegion"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionsResponse: AWSDecodableShape {
@@ -2187,12 +2107,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case compatibleRuntime = "CompatibleRuntime"
-            case layerName = "LayerName"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListLayerVersionsResponse: AWSDecodableShape {
@@ -2238,11 +2153,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case compatibleRuntime = "CompatibleRuntime"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListLayersResponse: AWSDecodableShape {
@@ -2291,11 +2202,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProvisionedConcurrencyConfigsResponse: AWSDecodableShape {
@@ -2332,9 +2239,7 @@ extension Lambda {
             try validate(self.resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resource = "ARN"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
@@ -2379,11 +2284,7 @@ extension Lambda {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListVersionsByFunctionResponse: AWSDecodableShape {
@@ -2521,7 +2422,6 @@ extension Lambda {
             case compatibleRuntimes = "CompatibleRuntimes"
             case content = "Content"
             case description = "Description"
-            case layerName = "LayerName"
             case licenseInfo = "LicenseInfo"
         }
     }
@@ -2600,7 +2500,6 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case codeSha256 = "CodeSha256"
             case description = "Description"
-            case functionName = "FunctionName"
             case revisionId = "RevisionId"
         }
     }
@@ -2628,7 +2527,6 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
             case reservedConcurrentExecutions = "ReservedConcurrentExecutions"
         }
     }
@@ -2674,10 +2572,8 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case destinationConfig = "DestinationConfig"
-            case functionName = "FunctionName"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
-            case qualifier = "Qualifier"
         }
     }
 
@@ -2711,9 +2607,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
             case provisionedConcurrentExecutions = "ProvisionedConcurrentExecutions"
-            case qualifier = "Qualifier"
         }
     }
 
@@ -2784,12 +2678,7 @@ extension Lambda {
             try validate(self.statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case layerName = "LayerName"
-            case revisionId = "RevisionId"
-            case statementId = "StatementId"
-            case versionNumber = "VersionNumber"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RemovePermissionRequest: AWSEncodableShape {
@@ -2828,12 +2717,7 @@ extension Lambda {
             try validate(self.statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_.]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case qualifier = "Qualifier"
-            case revisionId = "RevisionId"
-            case statementId = "StatementId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -2856,7 +2740,6 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource = "ARN"
             case tags = "Tags"
         }
     }
@@ -2909,10 +2792,7 @@ extension Lambda {
             try validate(self.resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resource = "ARN"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateAliasRequest: AWSEncodableShape {
@@ -2960,9 +2840,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case functionName = "FunctionName"
             case functionVersion = "FunctionVersion"
-            case name = "Name"
             case revisionId = "RevisionId"
             case routingConfig = "RoutingConfig"
         }
@@ -3034,7 +2912,6 @@ extension Lambda {
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
-            case uuid = "UUID"
         }
     }
 
@@ -3086,7 +2963,6 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
-            case functionName = "FunctionName"
             case publish = "Publish"
             case revisionId = "RevisionId"
             case s3Bucket = "S3Bucket"
@@ -3174,7 +3050,6 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
-            case functionName = "FunctionName"
             case handler = "Handler"
             case kMSKeyArn = "KMSKeyArn"
             case layers = "Layers"
@@ -3229,10 +3104,8 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case destinationConfig = "DestinationConfig"
-            case functionName = "FunctionName"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
-            case qualifier = "Qualifier"
         }
     }
 

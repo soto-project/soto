@@ -775,7 +775,6 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionId = "DistributionId"
             case invalidationBatch = "InvalidationBatch"
         }
     }
@@ -1127,10 +1126,7 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDistributionRequest: AWSEncodableShape {
@@ -1149,10 +1145,7 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFieldLevelEncryptionConfigRequest: AWSEncodableShape {
@@ -1171,10 +1164,7 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFieldLevelEncryptionProfileRequest: AWSEncodableShape {
@@ -1193,10 +1183,7 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePublicKeyRequest: AWSEncodableShape {
@@ -1215,10 +1202,7 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteStreamingDistributionRequest: AWSEncodableShape {
@@ -1237,10 +1221,7 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Distribution: AWSDecodableShape {
@@ -1873,9 +1854,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -1914,9 +1893,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -1955,9 +1932,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -1996,9 +1971,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2037,9 +2010,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2078,9 +2049,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionProfileConfigResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2119,9 +2088,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2160,9 +2127,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2205,10 +2170,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionId = "DistributionId"
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2242,9 +2204,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicKeyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2283,9 +2243,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2324,9 +2282,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStreamingDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2365,9 +2321,7 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2599,10 +2553,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2644,11 +2595,7 @@ extension CloudFront {
             self.webACLId = webACLId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case webACLId = "WebACLId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByWebACLIdResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2686,10 +2633,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2727,10 +2671,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFieldLevelEncryptionConfigsResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2768,10 +2709,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFieldLevelEncryptionProfilesResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2813,11 +2751,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionId = "DistributionId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInvalidationsResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2855,10 +2789,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPublicKeysResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2896,10 +2827,7 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListStreamingDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -2937,9 +2865,7 @@ extension CloudFront {
             try validate(self.resource, name:"resource", parent: name, pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResult: AWSDecodableShape & AWSShapeWithPayload {
@@ -3787,7 +3713,6 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
             case tags = "Tags"
         }
     }
@@ -3865,7 +3790,6 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
             case tagKeys = "TagKeys"
         }
     }
@@ -3894,8 +3818,6 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
@@ -3951,8 +3873,6 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case distributionConfig = "DistributionConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
@@ -4004,8 +3924,6 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
@@ -4057,8 +3975,6 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
@@ -4109,8 +4025,6 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
             case publicKeyConfig = "PublicKeyConfig"
         }
     }
@@ -4162,8 +4076,6 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
             case streamingDistributionConfig = "StreamingDistributionConfig"
         }
     }

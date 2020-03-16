@@ -576,10 +576,7 @@ extension Kafka {
             self.currentVersion = currentVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
-            case currentVersion = "currentVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteClusterResponse: AWSDecodableShape {
@@ -611,9 +608,7 @@ extension Kafka {
             self.clusterOperationArn = clusterOperationArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterOperationArn = "clusterOperationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeClusterOperationResponse: AWSDecodableShape {
@@ -641,9 +636,7 @@ extension Kafka {
             self.clusterArn = clusterArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeClusterResponse: AWSDecodableShape {
@@ -671,9 +664,7 @@ extension Kafka {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeConfigurationResponse: AWSDecodableShape {
@@ -724,10 +715,7 @@ extension Kafka {
             self.revision = revision
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case revision = "revision"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeConfigurationRevisionResponse: AWSDecodableShape {
@@ -875,9 +863,7 @@ extension Kafka {
             self.clusterArn = clusterArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBootstrapBrokersResponse: AWSDecodableShape {
@@ -968,11 +954,7 @@ extension Kafka {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListClusterOperationsResponse: AWSDecodableShape {
@@ -1015,11 +997,7 @@ extension Kafka {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterNameFilter = "clusterNameFilter"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListClustersResponse: AWSDecodableShape {
@@ -1062,11 +1040,7 @@ extension Kafka {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationRevisionsResponse: AWSDecodableShape {
@@ -1106,10 +1080,7 @@ extension Kafka {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConfigurationsResponse: AWSDecodableShape {
@@ -1149,10 +1120,7 @@ extension Kafka {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListKafkaVersionsResponse: AWSDecodableShape {
@@ -1195,11 +1163,7 @@ extension Kafka {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListNodesResponse: AWSDecodableShape {
@@ -1231,9 +1195,7 @@ extension Kafka {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
@@ -1480,7 +1442,6 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
@@ -1513,10 +1474,7 @@ extension Kafka {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateBrokerCountRequest: AWSEncodableShape {
@@ -1542,7 +1500,6 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
             case currentVersion = "currentVersion"
             case targetNumberOfBrokerNodes = "targetNumberOfBrokerNodes"
         }
@@ -1584,7 +1541,6 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
             case currentVersion = "currentVersion"
             case targetBrokerEBSVolumeInfo = "targetBrokerEBSVolumeInfo"
         }
@@ -1626,7 +1582,6 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
             case configurationInfo = "configurationInfo"
             case currentVersion = "currentVersion"
         }
@@ -1674,7 +1629,6 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn = "clusterArn"
             case currentVersion = "currentVersion"
             case enhancedMonitoring = "enhancedMonitoring"
             case loggingInfo = "loggingInfo"
