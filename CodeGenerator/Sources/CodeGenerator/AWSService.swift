@@ -173,7 +173,6 @@ struct AWSService {
                 structure[_struct["shape"].stringValue] = try shapeType(from: shapeJSON, level: level+1)
             }
 
-            var xmlNamespace: String? = nil
             let members: [Member] = json["members"].dictionaryValue.compactMap { name, memberJSON in
                 if memberJSON["deprecated"].bool == true {
                     return nil
@@ -227,7 +226,7 @@ struct AWSService {
                     options.insert(.idempotencyToken)
                 }
                 if let memberXMLNamespace = memberJSON["xmlNamespace"]["uri"].string {
-                    xmlNamespace = memberXMLNamespace
+                    addShapeOperation(shapeName: shapeName, operation: SetXMLNamespaceOperation(xmlNamespace: memberXMLNamespace))
                 }
 
                 return Member(
@@ -240,7 +239,7 @@ struct AWSService {
                 )
             }.sorted{ $0.name.lowercased() < $1.name.lowercased() }
 
-            let shape = StructureShape(members: members, payload: json["payload"].string, xmlNamespace: xmlNamespace)
+            let shape = StructureShape(members: members, payload: json["payload"].string, xmlNamespace: nil)
             type = .structure(shape)
 
         case "map":
@@ -412,15 +411,6 @@ struct AWSService {
                 if let index = shapes.firstIndex(where: { inputShapeName == $0.name }) {
                     if let xmlNamespace = json["input"]["xmlNamespace"]["uri"].string {
                         addShapeOperation(shapeName: inputShapeName, operation: SetXMLNamespaceOperation(xmlNamespace: xmlNamespace))
-/*                        if case .structure(let shapeStructure) = shapes[index].type {
-                            shapes[index].type = .structure(
-                                StructureShape(
-                                    members: shapeStructure.members,
-                                    payload: shapeStructure.payload,
-                                    xmlNamespace: xmlNamespace
-                                )
-                            )
-                        }*/
                     }
                     setShapeUsed(shape: shapes[index], inInput: true)
                     inputShape = shapes[index]

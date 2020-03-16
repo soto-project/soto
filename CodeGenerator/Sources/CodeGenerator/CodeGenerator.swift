@@ -388,16 +388,14 @@ extension AWSService {
     func generateAWSShapeMemberContext(_ member: Member, shape: Shape, forceOutput: Bool) -> AWSShapeMemberContext? {
         let encoding = member.shapeEncoding?.enumStyleDescription()
         var location = member.location
-        // if member has collection encoding ie the codingkey will be needed, then add a Location.body
-        if encoding != nil && location == nil {
+        
+        // if member has collection encoding ie the codingkey will be needed, or name has been force to output then add a Location.body
+        if (encoding != nil || forceOutput) && location == nil {
             location = .body(locationName: member.name)
         }
         // remove location if equal to body and name is same as variable name
         if case .body(let name) = location, name == member.name.toSwiftLabelCase() {
-            // if not forcing output or encoding isn't set clear the location
-            if forceOutput == false || encoding != nil {
-                location = nil
-            }
+            location = nil
         }
         guard location != nil || encoding != nil else { return nil }
         return AWSShapeMemberContext(
