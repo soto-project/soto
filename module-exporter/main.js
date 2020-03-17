@@ -1,7 +1,7 @@
 const fs = require('fs-promise');
 const co = require('co');
 const _copydir = require('copy-dir');
-const mkdirp = require('mkdirp-promise');
+const mkdirp = require('mkdirp');
 const _ = require('lodash');
 
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
@@ -102,11 +102,11 @@ co(function *() {
     var sourceDestPath = repoPath+"/Sources/"+moduleNamefy(path);
     var middlewareDestPath = repoPath+"/Sources/"+middlewareNamefy(path);
 
-    yield mkdirp(repoPath);
-    yield mkdirp(sourceDestPath);
+    mkdirp.sync(repoPath)
+    mkdirp.sync(sourceDestPath)
 
     if (middlewareExists) {
-        yield mkdirp(middlewareDestPath);
+        mkdirp.sync(middlewareDestPath);
     }
 
     // create files
