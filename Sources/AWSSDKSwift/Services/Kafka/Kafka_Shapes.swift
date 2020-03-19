@@ -376,8 +376,7 @@ extension Kafka {
         public let enhancedMonitoring: EnhancedMonitoring?
         /// The version of Apache Kafka.
         public let kafkaVersion: String
-        ///             The number of broker nodes in the cluster.
-        ///          
+        /// The number of Kafka broker nodes in the Amazon MSK cluster.
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?

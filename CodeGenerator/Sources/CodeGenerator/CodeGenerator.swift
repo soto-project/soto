@@ -388,15 +388,30 @@ extension AWSService {
         } else {
             codingWrapper = "@OptionalCoding"
         }
+        
+        // if not located in body don't generate collection encoding property wrapper
         if let location = member.location {
             guard case .body(_) = location else { return nil }
         }
         switch member.shapeEncoding {
-        case .list(_):
-            if case .list(let entry,_,_) = member.shape.type {
-                return "\(codingWrapper)<ArrayCoder<\(encodingName(member)), \(entry.swiftTypeName)>>"
+        case .list(let memberString):
+            if memberString == "member" {
+                return "\(codingWrapper)<DefaultArrayCoder>"
+            } else {
+                if case .list(let entry,_,_) = member.shape.type {
+                    return "\(codingWrapper)<ArrayCoder<\(encodingName(member)), \(entry.swiftTypeName)>>"
+                }
             }
-        case .map(_,_,_), .flatMap(_,_):
+        case .map(let entryString, let keyString, let valueString):
+            if entryString == "entry" && keyString == "key" && valueString == "value" {
+                return "\(codingWrapper)<DefaultDictionaryCoder>"
+            } else {
+                if case .map(let key, let value) = member.shape.type {
+                    return "\(codingWrapper)<DictionaryCoder<\(encodingName(member)), \(key.swiftTypeName), \(value.swiftTypeName)>>"
+                }
+            }
+
+        case .flatMap(_,_):
             if case .map(let key, let value) = member.shape.type {
                 return "\(codingWrapper)<DictionaryCoder<\(encodingName(member)), \(key.swiftTypeName), \(value.swiftTypeName)>>"
             }
@@ -437,12 +452,14 @@ extension AWSService {
             guard case .body(_) = location else { return nil }
         }
         switch member.shapeEncoding {
-        case .list(let m):
-            return ArrayEncodingPropertiesContext(name: encodingName(member), member: m)
-        case .map(let entry, let key, let value):
-            return DictionaryEncodingPropertiesContext(name: encodingName(member), entry: entry, key: key, value: value)
-        case .flatMap(let key, let value):
-            return DictionaryEncodingPropertiesContext(name: encodingName(member), entry: nil, key: key, value: value)
+        case .list(let memberString):
+            guard memberString != "member" else { return nil }
+            return ArrayEncodingPropertiesContext(name: encodingName(member), member: memberString)
+        case .map(let entryString, let keyString, let valueString):
+            guard entryString != "entry" || keyString != "key" || valueString != "value" else { return nil }
+            return DictionaryEncodingPropertiesContext(name: encodingName(member), entry: entryString, key: keyString, value: valueString)
+        case .flatMap(let keyString, let valueString):
+            return DictionaryEncodingPropertiesContext(name: encodingName(member), entry: nil, key: keyString, value: valueString)
         default:
             return nil
         }
@@ -450,22 +467,21 @@ extension AWSService {
     
     /// Generate the context information for outputting a member variable
     func generateAWSShapeMemberContext(_ member: Member, shape: Shape, forceOutput: Bool) -> AWSShapeMemberContext? {
-        let encoding = member.shapeEncoding?.enumStyleDescription()
         var location = member.location
         
-        // if member has collection encoding ie the codingkey will be needed, or name has been force to output then add a Location.body
-        if (encoding != nil || forceOutput) && location == nil {
+        // if name has been force to output then add a Location.body
+        /*if (forceOutput && location == nil {
             location = .body(locationName: member.name)
-        }
+        }*/
         // remove location if equal to body and name is same as variable name
         if case .body(let name) = location, name == member.name.toSwiftLabelCase() {
             location = nil
         }
-        guard location != nil || encoding != nil else { return nil }
+        guard location != nil else { return nil }
         return AWSShapeMemberContext(
             name: member.name.toSwiftLabelCase(),
             location: location?.enumStyleDescription(),
-            encoding: encoding
+            encoding: nil
         )
     }
 

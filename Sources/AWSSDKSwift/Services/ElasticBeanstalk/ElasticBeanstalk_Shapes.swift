@@ -199,14 +199,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "versions", location: .body(locationName: "Versions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ConfigurationTemplatesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _VersionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationArn: String?
         /// The name of the application.
         public let applicationName: String?
         /// The names of the configuration templates associated with this application.
-        @OptionalCoding<ArrayCoder<_ConfigurationTemplatesEncoding, String>> public var configurationTemplates: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var configurationTemplates: [String]?
         /// The date when the application was created.
         public let dateCreated: TimeStamp?
         /// The date when the application was last modified.
@@ -216,7 +214,7 @@ extension ElasticBeanstalk {
         /// The lifecycle settings for the application.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The names of the versions for this application.
-        @OptionalCoding<ArrayCoder<_VersionsEncoding, String>> public var versions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var versions: [String]?
 
         public init(applicationArn: String? = nil, applicationName: String? = nil, configurationTemplates: [String]? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, versions: [String]? = nil) {
             self.applicationArn = applicationArn
@@ -260,9 +258,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "applications", location: .body(locationName: "Applications"), encoding: .list(member:"member"))
         ]
 
-        public struct _ApplicationsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// This parameter contains a list of ApplicationDescription.
-        @OptionalCoding<ArrayCoder<_ApplicationsEncoding, ApplicationDescription>> public var applications: [ApplicationDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var applications: [ApplicationDescription]?
 
         public init(applications: [ApplicationDescription]? = nil) {
             self.applications = applications
@@ -404,9 +401,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "applicationVersions", location: .body(locationName: "ApplicationVersions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ApplicationVersionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// List of ApplicationVersionDescription objects sorted in order of creation.
-        @OptionalCoding<ArrayCoder<_ApplicationVersionsEncoding, ApplicationVersionDescription>> public var applicationVersions: [ApplicationVersionDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var applicationVersions: [ApplicationVersionDescription]?
         /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
 
@@ -634,13 +630,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "versionLabels", location: .body(locationName: "VersionLabels"), encoding: .list(member:"member"))
         ]
 
-        public struct _VersionLabelsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application to which the specified source bundles belong.
         public let applicationName: String?
         /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
         /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
-        @OptionalCoding<ArrayCoder<_VersionLabelsEncoding, String>> public var versionLabels: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var versionLabels: [String]?
 
         public init(applicationName: String? = nil, groupName: String? = nil, versionLabels: [String]? = nil) {
             self.applicationName = applicationName
@@ -671,7 +666,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "valueOptions", location: .body(locationName: "ValueOptions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValueOptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.  
         public let changeSeverity: String?
         /// The default value for this configuration option.
@@ -691,7 +685,7 @@ extension ElasticBeanstalk {
         /// An indication of whether the user defined this configuration option:    true : This configuration option was defined by the user. It is a valid choice for specifying if this as an Option to Remove when updating configuration settings.     false : This configuration was not defined by the user.    Constraint: You can remove only UserDefined options from a configuration.   Valid Values: true | false 
         public let userDefined: Bool?
         /// If specified, values for the configuration option are selected from this list.
-        @OptionalCoding<ArrayCoder<_ValueOptionsEncoding, String>> public var valueOptions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var valueOptions: [String]?
         /// An indication of which type of values this option has and whether it is allowable to select one or more than one of the possible values:    Scalar : Values for this option are a single selection from the possible values, or an unformatted string, or numeric value governed by the MIN/MAX/Regex constraints.    List : Values for this option are multiple selections from the possible values.    Boolean : Values for this option are either true or false .    Json : Values for this option are a JSON representation of a ConfigDocument.  
         public let valueType: ConfigurationOptionValueType?
 
@@ -760,9 +754,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "options", location: .body(locationName: "Options"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  A list of ConfigurationOptionDescription. 
-        @OptionalCoding<ArrayCoder<_OptionsEncoding, ConfigurationOptionDescription>> public var options: [ConfigurationOptionDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var options: [ConfigurationOptionDescription]?
         /// The ARN of the platform.
         public let platformArn: String?
         /// The name of the solution stack these configuration options belong to.
@@ -786,7 +779,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application associated with this configuration set.
         public let applicationName: String?
         /// The date (in UTC time) when this configuration set was created.
@@ -800,7 +792,7 @@ extension ElasticBeanstalk {
         ///  If not null, the name of the environment for this configuration set. 
         public let environmentName: String?
         /// A list of the configuration options and their values in this configuration set.
-        @OptionalCoding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]?
+        @OptionalCoding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]?
         /// The ARN of the platform.
         public let platformArn: String?
         /// The name of the solution stack this configuration set uses.
@@ -840,9 +832,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "configurationSettings", location: .body(locationName: "ConfigurationSettings"), encoding: .list(member:"member"))
         ]
 
-        public struct _ConfigurationSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  A list of ConfigurationSettingsDescription. 
-        @OptionalCoding<ArrayCoder<_ConfigurationSettingsEncoding, ConfigurationSettingsDescription>> public var configurationSettings: [ConfigurationSettingsDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var configurationSettings: [ConfigurationSettingsDescription]?
 
         public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
             self.configurationSettings = configurationSettings
@@ -858,9 +849,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "messages", location: .body(locationName: "Messages"), encoding: .list(member:"member"))
         ]
 
-        public struct _MessagesEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  A list of ValidationMessage. 
-        @OptionalCoding<ArrayCoder<_MessagesEncoding, ValidationMessage>> public var messages: [ValidationMessage]?
+        @OptionalCoding<DefaultArrayCoder> public var messages: [ValidationMessage]?
 
         public init(messages: [ValidationMessage]? = nil) {
             self.messages = messages
@@ -876,7 +866,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
         public let applicationName: String
         /// Describes the application.
@@ -884,7 +873,7 @@ extension ElasticBeanstalk {
         /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Environments that you create in the application don't inherit the tags.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
 
         public init(applicationName: String, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, tags: [Tag]? = nil) {
             self.applicationName = applicationName
@@ -915,7 +904,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
         public let applicationName: String
         /// Set to true to create an application with the specified name if it doesn't already exist.
@@ -931,7 +919,7 @@ extension ElasticBeanstalk {
         /// The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
         public let sourceBundle: S3Location?
         /// Specifies the tags applied to the application version. Elastic Beanstalk applies these tags only to the application version. Environments that use the application version don't inherit the tags.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
         /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let versionLabel: String
 
@@ -980,8 +968,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let applicationName: String
         /// Describes this configuration.
@@ -989,7 +975,7 @@ extension ElasticBeanstalk {
         /// The ID of the environment used with this configuration template.
         public let environmentId: String?
         /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
-        @OptionalCoding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]?
+        @OptionalCoding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]?
         /// The ARN of the custom platform.
         public let platformArn: String?
         /// The name of the solution stack used by this configuration. The solution stack specifies the operating system, architecture, and application server for a configuration template. It determines the set of configuration options as well as the possible and default values.  Use ListAvailableSolutionStacks to obtain a list of available solution stacks.   A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.  If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
@@ -997,7 +983,7 @@ extension ElasticBeanstalk {
         /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
         public let sourceConfiguration: SourceConfiguration?
         /// Specifies the tags applied to the configuration template.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
         /// The name of the configuration template. Constraint: This name must be unique per application. Default: If a configuration template already exists with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let templateName: String
 
@@ -1048,9 +1034,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _OptionsToRemoveEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
         public let applicationName: String
         /// If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
@@ -1062,15 +1045,15 @@ extension ElasticBeanstalk {
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
         /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
-        @OptionalCoding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]?
+        @OptionalCoding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
-        @OptionalCoding<ArrayCoder<_OptionsToRemoveEncoding, OptionSpecification>> public var optionsToRemove: [OptionSpecification]?
+        @OptionalCoding<DefaultArrayCoder> public var optionsToRemove: [OptionSpecification]?
         /// The ARN of the platform.
         public let platformArn: String?
         /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms.
         public let solutionStackName: String?
         /// Specifies the tags applied to resources in the environment.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
         ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let templateName: String?
         /// This specifies the tier to use for creating this environment.
@@ -1142,12 +1125,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the builder environment.
         public let environmentName: String?
         /// The configuration option settings to apply to the builder environment.
-        @OptionalCoding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]?
+        @OptionalCoding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]?
         /// The location of the platform definition archive in Amazon S3.
         public let platformDefinitionBundle: S3Location
         /// The name of your custom platform.
@@ -1155,7 +1136,7 @@ extension ElasticBeanstalk {
         /// The number, such as 1.0.2, for the new platform version.
         public let platformVersion: String
         /// Specifies the tags applied to the new platform version. Elastic Beanstalk applies these tags only to the platform version. Environments that you create using the platform version don't inherit the tags.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
 
         public init(environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformDefinitionBundle: S3Location, platformName: String, platformVersion: String, tags: [Tag]? = nil) {
             self.environmentName = environmentName
@@ -1413,7 +1394,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "versionLabels", location: .body(locationName: "VersionLabels"), encoding: .list(member:"member"))
         ]
 
-        public struct _VersionLabelsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Specify an application name to show only application versions for that application.
         public let applicationName: String?
         /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
@@ -1421,7 +1401,7 @@ extension ElasticBeanstalk {
         /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
         public let nextToken: String?
         /// Specify a version label to show a specific application version.
-        @OptionalCoding<ArrayCoder<_VersionLabelsEncoding, String>> public var versionLabels: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var versionLabels: [String]?
 
         public init(applicationName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, versionLabels: [String]? = nil) {
             self.applicationName = applicationName
@@ -1454,9 +1434,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "applicationNames", location: .body(locationName: "ApplicationNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _ApplicationNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
-        @OptionalCoding<ArrayCoder<_ApplicationNamesEncoding, String>> public var applicationNames: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var applicationNames: [String]?
 
         public init(applicationNames: [String]? = nil) {
             self.applicationNames = applicationNames
@@ -1479,13 +1458,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "options", location: .body(locationName: "Options"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
         public let applicationName: String?
         /// The name of the environment whose configuration options you want to describe.
         public let environmentName: String?
         /// If specified, restricts the descriptions to only the specified options.
-        @OptionalCoding<ArrayCoder<_OptionsEncoding, OptionSpecification>> public var options: [OptionSpecification]?
+        @OptionalCoding<DefaultArrayCoder> public var options: [OptionSpecification]?
         /// The ARN of the custom platform.
         public let platformArn: String?
         /// The name of the solution stack whose configuration options you want to describe.
@@ -1560,9 +1538,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
-        @OptionalCoding<ArrayCoder<_AttributeNamesEncoding, EnvironmentHealthAttribute>> public var attributeNames: [EnvironmentHealthAttribute]?
+        @OptionalCoding<DefaultArrayCoder> public var attributeNames: [EnvironmentHealthAttribute]?
         /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
         public let environmentId: String?
         /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
@@ -1591,11 +1568,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "causes", location: .body(locationName: "Causes"), encoding: .list(member:"member"))
         ]
 
-        public struct _CausesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Application request metrics for the environment.
         public let applicationMetrics: ApplicationMetrics?
         /// Descriptions of the data that contributed to the environment's current health status.
-        @OptionalCoding<ArrayCoder<_CausesEncoding, String>> public var causes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var causes: [String]?
         /// The health color of the environment.
         public let color: String?
         /// The environment's name.
@@ -1668,9 +1644,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "managedActionHistoryItems", location: .body(locationName: "ManagedActionHistoryItems"), encoding: .list(member:"member"))
         ]
 
-        public struct _ManagedActionHistoryItemsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A list of completed and failed managed actions.
-        @OptionalCoding<ArrayCoder<_ManagedActionHistoryItemsEncoding, ManagedActionHistoryItem>> public var managedActionHistoryItems: [ManagedActionHistoryItem]?
+        @OptionalCoding<DefaultArrayCoder> public var managedActionHistoryItems: [ManagedActionHistoryItem]?
         /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
         public let nextToken: String?
 
@@ -1712,9 +1687,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "managedActions", location: .body(locationName: "ManagedActions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ManagedActionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A list of upcoming and in-progress managed actions.
-        @OptionalCoding<ArrayCoder<_ManagedActionsEncoding, ManagedAction>> public var managedActions: [ManagedAction]?
+        @OptionalCoding<DefaultArrayCoder> public var managedActions: [ManagedAction]?
 
         public init(managedActions: [ManagedAction]? = nil) {
             self.managedActions = managedActions
@@ -1754,14 +1728,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "environmentNames", location: .body(locationName: "EnvironmentNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _EnvironmentIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _EnvironmentNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
         public let applicationName: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-        @OptionalCoding<ArrayCoder<_EnvironmentIdsEncoding, String>> public var environmentIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var environmentIds: [String]?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
-        @OptionalCoding<ArrayCoder<_EnvironmentNamesEncoding, String>> public var environmentNames: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var environmentNames: [String]?
         ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed. 
         public let includedDeletedBackTo: TimeStamp?
         /// Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
@@ -1885,9 +1857,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
-        @OptionalCoding<ArrayCoder<_AttributeNamesEncoding, InstancesHealthAttribute>> public var attributeNames: [InstancesHealthAttribute]?
+        @OptionalCoding<DefaultArrayCoder> public var attributeNames: [InstancesHealthAttribute]?
         /// Specify the AWS Elastic Beanstalk environment by ID.
         public let environmentId: String?
         /// Specify the AWS Elastic Beanstalk environment by name.
@@ -1922,9 +1893,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "instanceHealthList", location: .body(locationName: "InstanceHealthList"), encoding: .list(member:"member"))
         ]
 
-        public struct _InstanceHealthListEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the &lt;CPUUtilization&gt; type.
-        @OptionalCoding<ArrayCoder<_InstanceHealthListEncoding, SingleInstanceHealth>> public var instanceHealthList: [SingleInstanceHealth]?
+        @OptionalCoding<DefaultArrayCoder> public var instanceHealthList: [SingleInstanceHealth]?
         /// Pagination token for the next page of results, if available.
         public let nextToken: String?
         /// The date and time that the health information was retrieved.
@@ -1976,7 +1946,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "environmentLinks", location: .body(locationName: "EnvironmentLinks"), encoding: .list(member:"member"))
         ]
 
-        public struct _EnvironmentLinksEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
         public let abortableOperationInProgress: Bool?
         /// The name of the application associated with this environment.
@@ -1996,7 +1965,7 @@ extension ElasticBeanstalk {
         /// The ID of this environment.
         public let environmentId: String?
         /// A list of links to other environments in the same group.
-        @OptionalCoding<ArrayCoder<_EnvironmentLinksEncoding, EnvironmentLink>> public var environmentLinks: [EnvironmentLink]?
+        @OptionalCoding<DefaultArrayCoder> public var environmentLinks: [EnvironmentLink]?
         /// The name of this environment.
         public let environmentName: String?
         /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:    Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.    Yellow: Indicates that something is wrong. Occurs when two consecutive failures occur for an environment.    Green: Indicates the environment is healthy and fully functional.    Grey: Default health for a new environment. The environment is not fully launched and health checks have not started or health checks are suspended during an UpdateEnvironment or RestartEnvironment request.    Default: Grey 
@@ -2070,9 +2039,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "environments", location: .body(locationName: "Environments"), encoding: .list(member:"member"))
         ]
 
-        public struct _EnvironmentsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  Returns an EnvironmentDescription list. 
-        @OptionalCoding<ArrayCoder<_EnvironmentsEncoding, EnvironmentDescription>> public var environments: [EnvironmentDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var environments: [EnvironmentDescription]?
         /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
 
@@ -2142,29 +2110,22 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "triggers", location: .body(locationName: "Triggers"), encoding: .list(member:"member"))
         ]
 
-        public struct _AutoScalingGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _LaunchConfigurationsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _LaunchTemplatesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _LoadBalancersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _QueuesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TriggersEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  The AutoScalingGroups used by this environment. 
-        @OptionalCoding<ArrayCoder<_AutoScalingGroupsEncoding, AutoScalingGroup>> public var autoScalingGroups: [AutoScalingGroup]?
+        @OptionalCoding<DefaultArrayCoder> public var autoScalingGroups: [AutoScalingGroup]?
         /// The name of the environment.
         public let environmentName: String?
         /// The Amazon EC2 instances used by this environment.
-        @OptionalCoding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]?
+        @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
         /// The Auto Scaling launch configurations in use by this environment.
-        @OptionalCoding<ArrayCoder<_LaunchConfigurationsEncoding, LaunchConfiguration>> public var launchConfigurations: [LaunchConfiguration]?
+        @OptionalCoding<DefaultArrayCoder> public var launchConfigurations: [LaunchConfiguration]?
         /// The Amazon EC2 launch templates in use by this environment.
-        @OptionalCoding<ArrayCoder<_LaunchTemplatesEncoding, LaunchTemplate>> public var launchTemplates: [LaunchTemplate]?
+        @OptionalCoding<DefaultArrayCoder> public var launchTemplates: [LaunchTemplate]?
         /// The LoadBalancers in use by this environment.
-        @OptionalCoding<ArrayCoder<_LoadBalancersEncoding, LoadBalancer>> public var loadBalancers: [LoadBalancer]?
+        @OptionalCoding<DefaultArrayCoder> public var loadBalancers: [LoadBalancer]?
         /// The queues used by this environment.
-        @OptionalCoding<ArrayCoder<_QueuesEncoding, Queue>> public var queues: [Queue]?
+        @OptionalCoding<DefaultArrayCoder> public var queues: [Queue]?
         /// The AutoScaling triggers in use by this environment. 
-        @OptionalCoding<ArrayCoder<_TriggersEncoding, Trigger>> public var triggers: [Trigger]?
+        @OptionalCoding<DefaultArrayCoder> public var triggers: [Trigger]?
 
         public init(autoScalingGroups: [AutoScalingGroup]? = nil, environmentName: String? = nil, instances: [Instance]? = nil, launchConfigurations: [LaunchConfiguration]? = nil, launchTemplates: [LaunchTemplate]? = nil, loadBalancers: [LoadBalancer]? = nil, queues: [Queue]? = nil, triggers: [Trigger]? = nil) {
             self.autoScalingGroups = autoScalingGroups
@@ -2290,9 +2251,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"member"))
         ]
 
-        public struct _EventsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  A list of EventDescription. 
-        @OptionalCoding<ArrayCoder<_EventsEncoding, EventDescription>> public var events: [EventDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var events: [EventDescription]?
         ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
         public let nextToken: String?
 
@@ -2439,12 +2399,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "solutionStacks", location: .body(locationName: "SolutionStacks"), encoding: .list(member:"member"))
         ]
 
-        public struct _SolutionStackDetailsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SolutionStacksEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  A list of available solution stacks and their SolutionStackDescription. 
-        @OptionalCoding<ArrayCoder<_SolutionStackDetailsEncoding, SolutionStackDescription>> public var solutionStackDetails: [SolutionStackDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var solutionStackDetails: [SolutionStackDescription]?
         /// A list of available solution stacks.
-        @OptionalCoding<ArrayCoder<_SolutionStacksEncoding, String>> public var solutionStacks: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var solutionStacks: [String]?
 
         public init(solutionStackDetails: [SolutionStackDescription]? = nil, solutionStacks: [String]? = nil) {
             self.solutionStackDetails = solutionStackDetails
@@ -2462,9 +2420,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"member"))
         ]
 
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// List only the platforms where the platform member value relates to one of the supplied values.
-        @OptionalCoding<ArrayCoder<_FiltersEncoding, PlatformFilter>> public var filters: [PlatformFilter]?
+        @OptionalCoding<DefaultArrayCoder> public var filters: [PlatformFilter]?
         /// The maximum number of platform values returned in one call.
         public let maxRecords: Int?
         /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
@@ -2492,11 +2449,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "platformSummaryList", location: .body(locationName: "PlatformSummaryList"), encoding: .list(member:"member"))
         ]
 
-        public struct _PlatformSummaryListEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
         public let nextToken: String?
         /// Detailed information about the platforms.
-        @OptionalCoding<ArrayCoder<_PlatformSummaryListEncoding, PlatformSummary>> public var platformSummaryList: [PlatformSummary]?
+        @OptionalCoding<DefaultArrayCoder> public var platformSummaryList: [PlatformSummary]?
 
         public init(nextToken: String? = nil, platformSummaryList: [PlatformSummary]? = nil) {
             self.nextToken = nextToken
@@ -2560,11 +2516,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
 
-        public struct _ListenersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The domain name of the LoadBalancer.
         public let domain: String?
         /// A list of Listeners used by the LoadBalancer.
-        @OptionalCoding<ArrayCoder<_ListenersEncoding, Listener>> public var listeners: [Listener]?
+        @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
         /// The name of the LoadBalancer.
         public let loadBalancerName: String?
 
@@ -2751,13 +2706,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "supportedTierList", location: .body(locationName: "SupportedTierList"), encoding: .list(member:"member"))
         ]
 
-        public struct _CustomAmiListEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _FrameworksEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ProgrammingLanguagesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SupportedAddonListEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SupportedTierListEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The custom AMIs supported by the platform.
-        @OptionalCoding<ArrayCoder<_CustomAmiListEncoding, CustomAmi>> public var customAmiList: [CustomAmi]?
+        @OptionalCoding<DefaultArrayCoder> public var customAmiList: [CustomAmi]?
         /// The date when the platform was created.
         public let dateCreated: TimeStamp?
         /// The date when the platform was last updated.
@@ -2765,7 +2715,7 @@ extension ElasticBeanstalk {
         /// The description of the platform.
         public let description: String?
         /// The frameworks supported by the platform.
-        @OptionalCoding<ArrayCoder<_FrameworksEncoding, PlatformFramework>> public var frameworks: [PlatformFramework]?
+        @OptionalCoding<DefaultArrayCoder> public var frameworks: [PlatformFramework]?
         /// Information about the maintainer of the platform.
         public let maintainer: String?
         /// The operating system used by the platform.
@@ -2785,13 +2735,13 @@ extension ElasticBeanstalk {
         /// The version of the platform.
         public let platformVersion: String?
         /// The programming languages supported by the platform.
-        @OptionalCoding<ArrayCoder<_ProgrammingLanguagesEncoding, PlatformProgrammingLanguage>> public var programmingLanguages: [PlatformProgrammingLanguage]?
+        @OptionalCoding<DefaultArrayCoder> public var programmingLanguages: [PlatformProgrammingLanguage]?
         /// The name of the solution stack used by the platform.
         public let solutionStackName: String?
         /// The additions supported by the platform.
-        @OptionalCoding<ArrayCoder<_SupportedAddonListEncoding, String>> public var supportedAddonList: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedAddonList: [String]?
         /// The tiers supported by the platform.
-        @OptionalCoding<ArrayCoder<_SupportedTierListEncoding, String>> public var supportedTierList: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedTierList: [String]?
 
         public init(customAmiList: [CustomAmi]? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformCategory: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
             self.customAmiList = customAmiList
@@ -2841,13 +2791,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
         public let `operator`: String?
         /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
         public let `type`: String?
         /// The list of values applied to the custom platform attribute.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(operator: String? = nil, type: String? = nil, values: [String]? = nil) {
             self.`operator` = `operator`
@@ -2904,8 +2853,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "supportedTierList", location: .body(locationName: "SupportedTierList"), encoding: .list(member:"member"))
         ]
 
-        public struct _SupportedAddonListEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SupportedTierListEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The operating system used by the platform.
         public let operatingSystemName: String?
         /// The version of the operating system used by the platform.
@@ -2919,9 +2866,9 @@ extension ElasticBeanstalk {
         /// The status of the platform. You can create an environment from the platform once it is ready.
         public let platformStatus: PlatformStatus?
         /// The additions associated with the platform.
-        @OptionalCoding<ArrayCoder<_SupportedAddonListEncoding, String>> public var supportedAddonList: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedAddonList: [String]?
         /// The tiers in which the platform runs.
-        @OptionalCoding<ArrayCoder<_SupportedTierListEncoding, String>> public var supportedTierList: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedTierList: [String]?
 
         public init(operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformCategory: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
             self.operatingSystemName = operatingSystemName
@@ -3063,11 +3010,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "resourceTags", location: .body(locationName: "ResourceTags"), encoding: .list(member:"member"))
         ]
 
-        public struct _ResourceTagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
         public let resourceArn: String?
         /// A list of tag key-value pairs.
-        @OptionalCoding<ArrayCoder<_ResourceTagsEncoding, Tag>> public var resourceTags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var resourceTags: [Tag]?
 
         public init(resourceArn: String? = nil, resourceTags: [Tag]? = nil) {
             self.resourceArn = resourceArn
@@ -3135,9 +3081,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "environmentInfo", location: .body(locationName: "EnvironmentInfo"), encoding: .list(member:"member"))
         ]
 
-        public struct _EnvironmentInfoEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  The EnvironmentInfoDescription of the environment. 
-        @OptionalCoding<ArrayCoder<_EnvironmentInfoEncoding, EnvironmentInfoDescription>> public var environmentInfo: [EnvironmentInfoDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var environmentInfo: [EnvironmentInfoDescription]?
 
         public init(environmentInfo: [EnvironmentInfoDescription]? = nil) {
             self.environmentInfo = environmentInfo
@@ -3176,13 +3121,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "causes", location: .body(locationName: "Causes"), encoding: .list(member:"member"))
         ]
 
-        public struct _CausesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Request metrics from your application.
         public let applicationMetrics: ApplicationMetrics?
         /// The availability zone in which the instance runs.
         public let availabilityZone: String?
         /// Represents the causes, which provide more information about the current health status.
-        @OptionalCoding<ArrayCoder<_CausesEncoding, String>> public var causes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var causes: [String]?
         /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
         public let color: String?
         /// Information about the most recent deployment to an instance.
@@ -3230,9 +3174,8 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "permittedFileTypes", location: .body(locationName: "PermittedFileTypes"), encoding: .list(member:"member"))
         ]
 
-        public struct _PermittedFileTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The permitted file types allowed for a solution stack.
-        @OptionalCoding<ArrayCoder<_PermittedFileTypesEncoding, String>> public var permittedFileTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var permittedFileTypes: [String]?
         /// The name of the solution stack.
         public let solutionStackName: String?
 
@@ -3364,11 +3307,10 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "loadAverage", location: .body(locationName: "LoadAverage"), encoding: .list(member:"member"))
         ]
 
-        public struct _LoadAverageEncoding: ArrayCoderProperties { static public let member = "member" }
         /// CPU utilization metrics for the instance.
         public let cPUUtilization: CPUUtilization?
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
-        @OptionalCoding<ArrayCoder<_LoadAverageEncoding, Double>> public var loadAverage: [Double]?
+        @OptionalCoding<DefaultArrayCoder> public var loadAverage: [Double]?
 
         public init(cPUUtilization: CPUUtilization? = nil, loadAverage: [Double]? = nil) {
             self.cPUUtilization = cPUUtilization
@@ -3534,16 +3476,14 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "optionsToRemove", location: .body(locationName: "OptionsToRemove"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _OptionsToRemoveEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
         public let applicationName: String
         /// A new description for the configuration.
         public let description: String?
         /// A list of configuration option settings to update with the new specified option value.
-        @OptionalCoding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]?
+        @OptionalCoding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of configuration options to remove from the configuration set.  Constraint: You can remove only UserDefined configuration options. 
-        @OptionalCoding<ArrayCoder<_OptionsToRemoveEncoding, OptionSpecification>> public var optionsToRemove: [OptionSpecification]?
+        @OptionalCoding<DefaultArrayCoder> public var optionsToRemove: [OptionSpecification]?
         /// The name of the configuration template to update.  If no configuration template is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
         public let templateName: String
 
@@ -3584,8 +3524,6 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "optionsToRemove", location: .body(locationName: "OptionsToRemove"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _OptionsToRemoveEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application with which the environment is associated.
         public let applicationName: String?
         /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
@@ -3597,9 +3535,9 @@ extension ElasticBeanstalk {
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
         /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
-        @OptionalCoding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]?
+        @OptionalCoding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of custom user-defined configuration options to remove from the configuration set for this environment.
-        @OptionalCoding<ArrayCoder<_OptionsToRemoveEncoding, OptionSpecification>> public var optionsToRemove: [OptionSpecification]?
+        @OptionalCoding<DefaultArrayCoder> public var optionsToRemove: [OptionSpecification]?
         /// The ARN of the platform, if used.
         public let platformArn: String?
         /// This specifies the platform version that the environment will run after the environment is updated.
@@ -3668,14 +3606,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "tagsToRemove", location: .body(locationName: "TagsToRemove"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagsToAddEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsToRemoveEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk environment.
         public let resourceArn: String
         /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.
-        @OptionalCoding<ArrayCoder<_TagsToAddEncoding, Tag>> public var tagsToAdd: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tagsToAdd: [Tag]?
         /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored.
-        @OptionalCoding<ArrayCoder<_TagsToRemoveEncoding, String>> public var tagsToRemove: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var tagsToRemove: [String]?
 
         public init(resourceArn: String, tagsToAdd: [Tag]? = nil, tagsToRemove: [String]? = nil) {
             self.resourceArn = resourceArn
@@ -3705,13 +3641,12 @@ extension ElasticBeanstalk {
             AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member"))
         ]
 
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the application that the configuration template or environment belongs to.
         public let applicationName: String
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
         public let environmentName: String?
         /// A list of the options and desired values to evaluate.
-        @Coding<ArrayCoder<_OptionSettingsEncoding, ConfigurationOptionSetting>> public var optionSettings: [ConfigurationOptionSetting]
+        @Coding<DefaultArrayCoder> public var optionSettings: [ConfigurationOptionSetting]
         /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name.
         public let templateName: String?
 

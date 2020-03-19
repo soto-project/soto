@@ -14,8 +14,8 @@
             AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
 {%endfor %}
         ]
-{%endif %}
 
+{%endif %}
 {%for encoding in struct.encoding %}
 {# Is encoding a dictionary #}
 {%if encoding.key %}
@@ -24,6 +24,7 @@
         public struct {{encoding.name}}: ArrayCoderProperties { static public let member = "{{encoding.member}}" }
 {%endif %}
 {%endfor %}
+
 {# Member variables #}
 {%for member in struct.members %}
 {%for comment in member.comment %}

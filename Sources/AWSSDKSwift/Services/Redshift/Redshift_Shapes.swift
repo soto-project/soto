@@ -422,12 +422,10 @@ extension Redshift {
             AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroup"))
         ]
 
-        public struct _ClusterNodesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterParameterGroup" }
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroup" }
         public struct _DeferredMaintenanceWindowsEncoding: ArrayCoderProperties { static public let member = "DeferredMaintenanceWindow" }
         public struct _IamRolesEncoding: ArrayCoderProperties { static public let member = "ClusterIamRole" }
-        public struct _PendingActionsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroup" }
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window. 
@@ -443,7 +441,7 @@ extension Redshift {
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
         /// The nodes in the cluster.
-        @OptionalCoding<ArrayCoder<_ClusterNodesEncoding, ClusterNode>> public var clusterNodes: [ClusterNode]?
+        @OptionalCoding<DefaultArrayCoder> public var clusterNodes: [ClusterNode]?
         /// The list of cluster parameter groups that are associated with this cluster. Each parameter group in the list is returned with its status.
         @OptionalCoding<ArrayCoder<_ClusterParameterGroupsEncoding, ClusterParameterGroupStatus>> public var clusterParameterGroups: [ClusterParameterGroupStatus]?
         /// The public key for the cluster.
@@ -500,7 +498,7 @@ extension Redshift {
         /// The number of compute nodes in the cluster.
         public let numberOfNodes: Int?
         /// Cluster operations that are waiting to be started.
-        @OptionalCoding<ArrayCoder<_PendingActionsEncoding, String>> public var pendingActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var pendingActions: [String]?
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur.
@@ -826,9 +824,8 @@ extension Redshift {
             AWSMemberEncoding(label: "clusterParameterStatusList", location: .body(locationName: "ClusterParameterStatusList"), encoding: .list(member:"member"))
         ]
 
-        public struct _ClusterParameterStatusListEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
-        @OptionalCoding<ArrayCoder<_ClusterParameterStatusListEncoding, ClusterParameterStatus>> public var clusterParameterStatusList: [ClusterParameterStatus]?
+        @OptionalCoding<DefaultArrayCoder> public var clusterParameterStatusList: [ClusterParameterStatus]?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
         /// The name of the cluster parameter group.
@@ -4713,9 +4710,6 @@ extension Redshift {
             AWSMemberEncoding(label: "importTablesNotStarted", location: .body(locationName: "ImportTablesNotStarted"), encoding: .list(member:"member"))
         ]
 
-        public struct _ImportTablesCompletedEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ImportTablesInProgressEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ImportTablesNotStartedEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
         public let avgResizeRateInMegaBytesPerSecond: Double?
         /// The percent of data transferred from source cluster to target cluster.
@@ -4725,11 +4719,11 @@ extension Redshift {
         /// The estimated time remaining, in seconds, until the resize operation is complete. This value is calculated based on the average resize rate and the estimated amount of data remaining to be processed. Once the resize operation is complete, this value will be 0.
         public let estimatedTimeToCompletionInSeconds: Int64?
         /// The names of tables that have been completely imported . Valid Values: List of table names.
-        @OptionalCoding<ArrayCoder<_ImportTablesCompletedEncoding, String>> public var importTablesCompleted: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var importTablesCompleted: [String]?
         /// The names of tables that are being currently imported. Valid Values: List of table names.
-        @OptionalCoding<ArrayCoder<_ImportTablesInProgressEncoding, String>> public var importTablesInProgress: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var importTablesInProgress: [String]?
         /// The names of tables that have not been yet imported. Valid Values: List of table names
-        @OptionalCoding<ArrayCoder<_ImportTablesNotStartedEncoding, String>> public var importTablesNotStarted: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var importTablesNotStarted: [String]?
         /// An optional string to provide additional details about the resize action.
         public let message: String?
         /// While the resize operation is in progress, this value shows the current amount of data, in megabytes, that has been processed so far. When the resize operation is complete, this value shows the total amount of data, in megabytes, on the cluster, which may be more or less than TotalResizeDataInMegaBytes (the estimated total amount of data before resize).

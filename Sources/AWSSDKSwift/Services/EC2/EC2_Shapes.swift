@@ -4956,11 +4956,10 @@ extension EC2 {
             AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
         ]
 
-        public struct _AuthenticationOptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _DnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         /// Information about the authentication method to be used to authenticate clients.
-        @Coding<ArrayCoder<_AuthenticationOptionsEncoding, ClientVpnAuthenticationRequest>> public var authenticationOptions: [ClientVpnAuthenticationRequest]
+        @Coding<DefaultArrayCoder> public var authenticationOptions: [ClientVpnAuthenticationRequest]
         /// The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. The CIDR block should be /22 or greater.
         public let clientCidrBlock: String
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6552,12 +6551,11 @@ extension EC2 {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
         ]
 
-        public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @Coding<ArrayCoder<_ResourcesEncoding, String>> public var resources: [String]
+        @Coding<DefaultArrayCoder> public var resources: [String]
         /// The tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.
         @Coding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]
 
@@ -7877,11 +7875,10 @@ extension EC2 {
             AWSMemberEncoding(label: "fleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
         ]
 
-        public struct _FleetIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the EC2 Fleets.
-        @Coding<ArrayCoder<_FleetIdsEncoding, String>> public var fleetIds: [String]
+        @Coding<DefaultArrayCoder> public var fleetIds: [String]
         /// Indicates whether to terminate instances for an EC2 Fleet if it is deleted successfully.
         public let terminateInstances: Bool
 
@@ -8583,12 +8580,11 @@ extension EC2 {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
         ]
 
-        public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @Coding<ArrayCoder<_ResourcesEncoding, String>> public var resources: [String]
+        @Coding<DefaultArrayCoder> public var resources: [String]
         /// The tags to delete. Specify a tag key and an optional tag value to delete specific tags. If you specify a tag key without a tag value, we delete any tag with this key regardless of its value. If you specify a tag key with an empty string as the tag value, we delete the tag only if its value is an empty string. If you omit this parameter, we delete all user-defined tags for the specified resources. We do not delete AWS-generated tags (tags that have the aws: prefix).
         @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
 
@@ -10780,13 +10776,12 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _FleetIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    activity-status - The progress of the EC2 Fleet ( error | pending-fulfillment | pending-termination | fulfilled).    excess-capacity-termination-policy - Indicates whether to terminate running instances if the target capacity is decreased below the current EC2 Fleet size (true | false).    fleet-state - The state of the EC2 Fleet (submitted | active | deleted | failed | deleted-running | deleted-terminating | modifying).    replace-unhealthy-instances - Indicates whether EC2 Fleet should replace unhealthy instances (true | false).    type - The type of request (instant | request | maintain).  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The ID of the EC2 Fleets.
-        @OptionalCoding<ArrayCoder<_FleetIdsEncoding, String>> public var fleetIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var fleetIds: [String]?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -11705,13 +11700,12 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _InstanceTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported. (true | false)    bare-metal - Indicates whether it is a bare metal instance type. (true | false)    burstable-performance-supported - Indicates whether it is a burstable performance instance type. (true | false)    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family. (true | false)    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized. (true | false)    ebs-info.encryption-support - Indicates whether EBS encryption is supported. (true | false)    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier. (true | false)    hibernation-supported - Indicates whether On-Demand hibernation is supported. (true | false)    hypervisor - The hypervisor used. (nitro | xen)    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks. (hdd | ssd)    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage. (true | false)    memory-info.size-in-mib - The memory size.    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required. (required | supported | unsupported)    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6. (true | false)    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - Describes the network performance.    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The instance types. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
-        @OptionalCoding<ArrayCoder<_InstanceTypesEncoding, InstanceType>> public var instanceTypes: [InstanceType]?
+        @OptionalCoding<DefaultArrayCoder> public var instanceTypes: [InstanceType]?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the next token value.
         public let maxResults: Int?
         /// The token to retrieve the next page of results.
@@ -12778,13 +12772,12 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _NetworkInterfacePermissionIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the permission.    network-interface-permission.network-interface-id - The ID of the network interface.    network-interface-permission.aws-account-id - The AWS account ID.    network-interface-permission.aws-service - The AWS service.    network-interface-permission.permission - The type of permission (INSTANCE-ATTACH | EIP-ASSOCIATE).  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. If this parameter is not specified, up to 50 results are returned by default.
         public let maxResults: Int?
         /// One or more network interface permission IDs.
-        @OptionalCoding<ArrayCoder<_NetworkInterfacePermissionIdsEncoding, String>> public var networkInterfacePermissionIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var networkInterfacePermissionIds: [String]?
         /// The token to request the next page of results.
         public let nextToken: String?
 
@@ -12902,7 +12895,6 @@ extension EC2 {
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "GroupId" }
-        public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).  
@@ -12910,7 +12902,7 @@ extension EC2 {
         /// The IDs of the placement groups.
         @OptionalCoding<ArrayCoder<_GroupIdsEncoding, String>> public var groupIds: [String]?
         /// The names of the placement groups. Default: Describes all your placement groups, or only those otherwise specified.
-        @OptionalCoding<ArrayCoder<_GroupNamesEncoding, String>> public var groupNames: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var groupNames: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil) {
             self.dryRun = dryRun
@@ -13264,7 +13256,6 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _ReservedInstancesOfferingIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Availability Zone in which the Reserved Instance can be used.
         public let availabilityZone: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13294,7 +13285,7 @@ extension EC2 {
         /// The Reserved Instance product platform description. Instances that include (Amazon VPC) in the description are for use with Amazon VPC.
         public let productDescription: RIProductDescription?
         /// One or more Reserved Instances offering IDs.
-        @OptionalCoding<ArrayCoder<_ReservedInstancesOfferingIdsEncoding, String>> public var reservedInstancesOfferingIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var reservedInstancesOfferingIds: [String]?
 
         public init(availabilityZone: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, includeMarketplace: Bool? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, maxDuration: Int64? = nil, maxInstanceCount: Int? = nil, maxResults: Int? = nil, minDuration: Int64? = nil, nextToken: String? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, reservedInstancesOfferingIds: [String]? = nil) {
             self.availabilityZone = availabilityZone
@@ -13776,7 +13767,6 @@ extension EC2 {
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _OwnerIdsEncoding: ArrayCoderProperties { static public let member = "Owner" }
-        public struct _RestorableByUserIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _SnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13789,7 +13779,7 @@ extension EC2 {
         /// Describes the snapshots owned by these owners.
         @OptionalCoding<ArrayCoder<_OwnerIdsEncoding, String>> public var ownerIds: [String]?
         /// The IDs of the AWS accounts that can create volumes from the snapshot.
-        @OptionalCoding<ArrayCoder<_RestorableByUserIdsEncoding, String>> public var restorableByUserIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var restorableByUserIds: [String]?
         /// The snapshot IDs. Default: Describes the snapshots for which you have create volume permissions.
         @OptionalCoding<ArrayCoder<_SnapshotIdsEncoding, String>> public var snapshotIds: [String]?
 
@@ -14112,8 +14102,6 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _InstanceTypesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ProductDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Filters the results by the specified Availability Zone.
         public let availabilityZone: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14123,13 +14111,13 @@ extension EC2 {
         /// One or more filters.    availability-zone - The Availability Zone for which prices should be returned.    instance-type - The type of instance (for example, m3.medium).    product-description - The product description for the Spot price (Linux/UNIX | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).    spot-price - The Spot price. The value must match exactly (or use wildcards; greater than or less than comparison is not supported).    timestamp - The time stamp of the Spot price history, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and ?). Greater than or less than comparison is not supported.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// Filters the results by the specified instance types.
-        @OptionalCoding<ArrayCoder<_InstanceTypesEncoding, InstanceType>> public var instanceTypes: [InstanceType]?
+        @OptionalCoding<DefaultArrayCoder> public var instanceTypes: [InstanceType]?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// Filters the results by the specified basic product descriptions.
-        @OptionalCoding<ArrayCoder<_ProductDescriptionsEncoding, String>> public var productDescriptions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var productDescriptions: [String]?
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: TimeStamp?
 
@@ -14546,7 +14534,6 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _TransitGatewayAttachmentIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type (vpc | vpn).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
@@ -14556,7 +14543,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCoding<ArrayCoder<_TransitGatewayAttachmentIdsEncoding, String>> public var transitGatewayAttachmentIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -14672,7 +14659,6 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _TransitGatewayAttachmentIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -14682,7 +14668,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// One or more IDs of the transit gateway peering attachments.
-        @OptionalCoding<ArrayCoder<_TransitGatewayAttachmentIdsEncoding, String>> public var transitGatewayAttachmentIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -14798,7 +14784,6 @@ extension EC2 {
         ]
 
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
-        public struct _TransitGatewayAttachmentIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    vpc-id - The ID of the VPC.  
@@ -14808,7 +14793,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCoding<ArrayCoder<_TransitGatewayAttachmentIdsEncoding, String>> public var transitGatewayAttachmentIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -20234,11 +20219,10 @@ extension EC2 {
             AWSMemberEncoding(label: "diskImages", location: .body(locationName: "diskImage"), encoding: .list(member:"member"))
         ]
 
-        public struct _DiskImagesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A description for the instance being imported.
         public let description: String?
         /// The disk image.
-        @OptionalCoding<ArrayCoder<_DiskImagesEncoding, DiskImage>> public var diskImages: [DiskImage]?
+        @OptionalCoding<DefaultArrayCoder> public var diskImages: [DiskImage]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The launch specification.
@@ -20558,9 +20542,8 @@ extension EC2 {
             AWSMemberEncoding(label: "accelerators", encoding: .list(member:"member"))
         ]
 
-        public struct _AcceleratorsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Describes the Inference accelerators for the instance type.
-        @OptionalCoding<ArrayCoder<_AcceleratorsEncoding, InferenceDeviceInfo>> public var accelerators: [InferenceDeviceInfo]?
+        @OptionalCoding<DefaultArrayCoder> public var accelerators: [InferenceDeviceInfo]?
 
         public init(accelerators: [InferenceDeviceInfo]? = nil) {
             self.accelerators = accelerators
@@ -24490,7 +24473,6 @@ extension EC2 {
             AWSMemberEncoding(label: "removeFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
         ]
 
-        public struct _RemoveFieldsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The description to assign to the Traffic Mirror rule.
         public let description: String?
         /// The destination CIDR block to assign to the Traffic Mirror rule.
@@ -24502,7 +24484,7 @@ extension EC2 {
         /// The protocol, for example TCP, to assign to the Traffic Mirror rule.
         public let `protocol`: Int?
         /// The properties that you want to remove from the Traffic Mirror filter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default.
-        @OptionalCoding<ArrayCoder<_RemoveFieldsEncoding, TrafficMirrorFilterRuleField>> public var removeFields: [TrafficMirrorFilterRuleField]?
+        @OptionalCoding<DefaultArrayCoder> public var removeFields: [TrafficMirrorFilterRuleField]?
         /// The action to assign to the rule.
         public let ruleAction: TrafficMirrorRuleAction?
         /// The number of the Traffic Mirror rule. This number must be unique for each Traffic Mirror rule in a given direction. The rules are processed in ascending order by rule number.
@@ -24566,7 +24548,6 @@ extension EC2 {
             AWSMemberEncoding(label: "removeFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
         ]
 
-        public struct _RemoveFieldsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The description to assign to the Traffic Mirror session.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24574,7 +24555,7 @@ extension EC2 {
         /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet.
         public let packetLength: Int?
         /// The properties that you want to remove from the Traffic Mirror session. When you remove a property from a Traffic Mirror session, the property is set to the default.
-        @OptionalCoding<ArrayCoder<_RemoveFieldsEncoding, TrafficMirrorSessionField>> public var removeFields: [TrafficMirrorSessionField]?
+        @OptionalCoding<DefaultArrayCoder> public var removeFields: [TrafficMirrorSessionField]?
         /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
         public let sessionNumber: Int?
         /// The ID of the Traffic Mirror filter.
@@ -34424,13 +34405,12 @@ extension EC2 {
             AWSMemberEncoding(label: "tunnelOptions", location: .body(locationName: "TunnelOptions"), encoding: .list(member:"member"))
         ]
 
-        public struct _TunnelOptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Indicate whether to enable acceleration for the VPN connection. Default: false 
         public let enableAcceleration: Bool?
         /// Indicate whether the VPN connection uses static routes only. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Use CreateVpnConnectionRoute to create a static route. Default: false 
         public let staticRoutesOnly: Bool?
         /// The tunnel options for the VPN connection.
-        @OptionalCoding<ArrayCoder<_TunnelOptionsEncoding, VpnTunnelOptionsSpecification>> public var tunnelOptions: [VpnTunnelOptionsSpecification]?
+        @OptionalCoding<DefaultArrayCoder> public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
         public init(enableAcceleration: Bool? = nil, staticRoutesOnly: Bool? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
             self.enableAcceleration = enableAcceleration

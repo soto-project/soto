@@ -1416,9 +1416,8 @@ extension Route53 {
             AWSMemberEncoding(label: "checkerIpRanges", location: .body(locationName: "CheckerIpRanges"), encoding: .list(member:"member"))
         ]
 
-        public struct _CheckerIpRangesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
-        @Coding<ArrayCoder<_CheckerIpRangesEncoding, String>> public var checkerIpRanges: [String]
+        @Coding<DefaultArrayCoder> public var checkerIpRanges: [String]
 
         public init(checkerIpRanges: [String]) {
             self.checkerIpRanges = checkerIpRanges

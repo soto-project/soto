@@ -136,12 +136,10 @@ extension ElastiCache {
             AWSMemberEncoding(label: "scaleUpModifications", location: .body(locationName: "ScaleUpModifications"), encoding: .list(member:"member"))
         ]
 
-        public struct _ScaleDownModificationsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ScaleUpModificationsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down on a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCoding<ArrayCoder<_ScaleDownModificationsEncoding, String>> public var scaleDownModifications: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var scaleDownModifications: [String]?
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCoding<ArrayCoder<_ScaleUpModificationsEncoding, String>> public var scaleUpModifications: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var scaleUpModifications: [String]?
 
         public init(scaleDownModifications: [String]? = nil, scaleUpModifications: [String]? = nil) {
             self.scaleDownModifications = scaleDownModifications
@@ -209,12 +207,10 @@ extension ElastiCache {
             AWSMemberEncoding(label: "replicationGroupIds", location: .body(locationName: "ReplicationGroupIds"), encoding: .list(member:"member"))
         ]
 
-        public struct _CacheClusterIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ReplicationGroupIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The cache cluster IDs
-        @OptionalCoding<ArrayCoder<_CacheClusterIdsEncoding, String>> public var cacheClusterIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCoding<ArrayCoder<_ReplicationGroupIdsEncoding, String>> public var replicationGroupIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
 
@@ -242,12 +238,10 @@ extension ElastiCache {
             AWSMemberEncoding(label: "replicationGroupIds", location: .body(locationName: "ReplicationGroupIds"), encoding: .list(member:"member"))
         ]
 
-        public struct _CacheClusterIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ReplicationGroupIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The cache cluster IDs
-        @OptionalCoding<ArrayCoder<_CacheClusterIdsEncoding, String>> public var cacheClusterIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCoding<ArrayCoder<_ReplicationGroupIdsEncoding, String>> public var replicationGroupIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
 
@@ -278,7 +272,6 @@ extension ElastiCache {
 
         public struct _CacheNodesEncoding: ArrayCoderProperties { static public let member = "CacheNode" }
         public struct _CacheSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "CacheSecurityGroup" }
-        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
@@ -323,7 +316,7 @@ extension ElastiCache {
         /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
         public let replicationGroupId: String?
         /// A list of VPC Security Groups associated with the cluster.
-        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, SecurityGroupMembership>> public var securityGroups: [SecurityGroupMembership]?
+        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [SecurityGroupMembership]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
         public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00 
@@ -1403,7 +1396,6 @@ extension ElastiCache {
         ]
 
         public struct _ReplicaConfigurationEncoding: ArrayCoderProperties { static public let member = "ConfigureShard" }
-        public struct _ReplicasToRemoveEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
         public let applyImmediately: Bool
         /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
@@ -1411,7 +1403,7 @@ extension ElastiCache {
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
         @OptionalCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>> public var replicaConfiguration: [ConfigureShard]?
         /// A list of the node ids to remove from the replication group or node group (shard).
-        @OptionalCoding<ArrayCoder<_ReplicasToRemoveEncoding, String>> public var replicasToRemove: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var replicasToRemove: [String]?
         /// The id of the replication group from which you want to remove replica nodes.
         public let replicationGroupId: String
 
@@ -1922,7 +1914,6 @@ extension ElastiCache {
             AWSMemberEncoding(label: "serviceUpdateStatus", location: .body(locationName: "ServiceUpdateStatus"), encoding: .list(member:"member"))
         ]
 
-        public struct _ServiceUpdateStatusEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response
@@ -1930,7 +1921,7 @@ extension ElastiCache {
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCoding<ArrayCoder<_ServiceUpdateStatusEncoding, ServiceUpdateStatus>> public var serviceUpdateStatus: [ServiceUpdateStatus]?
+        @OptionalCoding<DefaultArrayCoder> public var serviceUpdateStatus: [ServiceUpdateStatus]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil) {
             self.marker = marker
@@ -2019,12 +2010,8 @@ extension ElastiCache {
             AWSMemberEncoding(label: "updateActionStatus", location: .body(locationName: "UpdateActionStatus"), encoding: .list(member:"member"))
         ]
 
-        public struct _CacheClusterIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ReplicationGroupIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ServiceUpdateStatusEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _UpdateActionStatusEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The cache cluster IDs
-        @OptionalCoding<ArrayCoder<_CacheClusterIdsEncoding, String>> public var cacheClusterIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var cacheClusterIds: [String]?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached 
         public let engine: String?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2032,17 +2019,17 @@ extension ElastiCache {
         /// The maximum number of records to include in the response
         public let maxRecords: Int?
         /// The replication group IDs
-        @OptionalCoding<ArrayCoder<_ReplicationGroupIdsEncoding, String>> public var replicationGroupIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCoding<ArrayCoder<_ServiceUpdateStatusEncoding, ServiceUpdateStatus>> public var serviceUpdateStatus: [ServiceUpdateStatus]?
+        @OptionalCoding<DefaultArrayCoder> public var serviceUpdateStatus: [ServiceUpdateStatus]?
         /// The range of time specified to search for service updates that are in available status
         public let serviceUpdateTimeRange: TimeRangeFilter?
         /// Dictates whether to include node level update status in the response 
         public let showNodeLevelUpdateStatus: Bool?
         /// The status of the update action.
-        @OptionalCoding<ArrayCoder<_UpdateActionStatusEncoding, UpdateActionStatus>> public var updateActionStatus: [UpdateActionStatus]?
+        @OptionalCoding<DefaultArrayCoder> public var updateActionStatus: [UpdateActionStatus]?
 
         public init(cacheClusterIds: [String]? = nil, engine: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
             self.cacheClusterIds = cacheClusterIds
@@ -3074,11 +3061,10 @@ extension ElastiCache {
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
         /// A list of TagKeys identifying the tags you want removed from the named resource.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder> public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -3717,9 +3703,8 @@ extension ElastiCache {
             AWSMemberEncoding(label: "customerNodeEndpointList", location: .body(locationName: "CustomerNodeEndpointList"), encoding: .list(member:"member"))
         ]
 
-        public struct _CustomerNodeEndpointListEncoding: ArrayCoderProperties { static public let member = "member" }
         /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
-        @Coding<ArrayCoder<_CustomerNodeEndpointListEncoding, CustomerNodeEndpoint>> public var customerNodeEndpointList: [CustomerNodeEndpoint]
+        @Coding<DefaultArrayCoder> public var customerNodeEndpointList: [CustomerNodeEndpoint]
         /// The ID of the replication group to which data should be migrated.
         public let replicationGroupId: String
 

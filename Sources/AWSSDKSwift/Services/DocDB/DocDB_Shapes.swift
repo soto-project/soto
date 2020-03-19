@@ -157,12 +157,10 @@ extension DocDB {
             AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
         ]
 
-        public struct _DisableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _EnableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of log types to disable.
-        @OptionalCoding<ArrayCoder<_DisableLogTypesEncoding, String>> public var disableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCoding<ArrayCoder<_EnableLogTypesEncoding, String>> public var enableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
@@ -278,7 +276,6 @@ extension DocDB {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// A list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
@@ -294,7 +291,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// The name of the database engine to be used for this DB cluster. Valid values: docdb 
         public let engine: String
         /// The version number of the database engine to use.
@@ -576,7 +573,6 @@ extension DocDB {
         public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBClusterRole" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
-        public struct _EnabledCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
         @OptionalCoding<ArrayCoder<_AssociatedRolesEncoding, DBClusterRole>> public var associatedRoles: [DBClusterRole]?
@@ -603,7 +599,7 @@ extension DocDB {
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
         /// A list of log types that this DB cluster is configured to export to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnabledCloudwatchLogsExportsEncoding, String>> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
         /// Provides the name of the database engine to be used for this DB cluster.
@@ -1006,7 +1002,6 @@ extension DocDB {
             AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
         ]
 
-        public struct _ExportableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
         /// The description of the database engine.
         public let dBEngineDescription: String?
@@ -1019,7 +1014,7 @@ extension DocDB {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_ExportableLogTypesEncoding, String>> public var exportableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var exportableLogTypes: [String]?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public let supportsLogExportsToCloudwatchLogs: Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
@@ -1077,7 +1072,6 @@ extension DocDB {
             AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
-        public struct _EnabledCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _StatusInfosEncoding: ArrayCoderProperties { static public let member = "DBInstanceStatusInfo" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
         /// Indicates that minor version patches are applied automatically.
@@ -1103,7 +1097,7 @@ extension DocDB {
         /// Specifies information on the subnet group that is associated with the DB instance, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: DBSubnetGroup?
         /// A list of log types that this DB instance is configured to export to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnabledCloudwatchLogsExportsEncoding, String>> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
         /// Provides the name of the database engine to be used for this DB instance.
@@ -2496,12 +2490,10 @@ extension DocDB {
             AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
         ]
 
-        public struct _LogTypesToDisableEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _LogTypesToEnableEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_LogTypesToDisableEncoding, String>> public var logTypesToDisable: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_LogTypesToEnableEncoding, String>> public var logTypesToEnable: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
@@ -2672,11 +2664,10 @@ extension DocDB {
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon DocumentDB resource that the tags are removed from. This value is an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder> public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -2746,7 +2737,6 @@ extension DocDB {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
@@ -2758,7 +2748,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// The database engine to use for the new DB cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
         public let engine: String
         /// The version of the database engine to use for the new DB cluster.
@@ -2825,7 +2815,6 @@ extension DocDB {
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
@@ -2835,7 +2824,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new DB cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with an AWS KMS key that is different from the AWS KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the AWS KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the AWS KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.

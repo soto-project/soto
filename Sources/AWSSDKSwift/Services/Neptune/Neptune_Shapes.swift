@@ -168,12 +168,10 @@ extension Neptune {
             AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
         ]
 
-        public struct _DisableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _EnableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of log types to disable.
-        @OptionalCoding<ArrayCoder<_DisableLogTypesEncoding, String>> public var disableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCoding<ArrayCoder<_EnableLogTypesEncoding, String>> public var enableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
@@ -332,7 +330,6 @@ extension Neptune {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
@@ -352,7 +349,7 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: neptune 
@@ -543,7 +540,6 @@ extension Neptune {
         ]
 
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer Not applicable. Neptune cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in a Neptune cluster volume.
@@ -579,7 +575,7 @@ extension Neptune {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// True to enable AWS Identity and Access Management (IAM) authentication for Neptune. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         ///  (Not supported by Neptune) 
@@ -897,7 +893,6 @@ extension Neptune {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
         public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBClusterOptionGroup" }
-        public struct _EnabledCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaIdentifier" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
         ///  AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
@@ -935,7 +930,7 @@ extension Neptune {
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnabledCloudwatchLogsExportsEncoding, String>> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
         /// Provides the name of the database engine to be used for this DB cluster.
@@ -1392,7 +1387,6 @@ extension Neptune {
             AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
         ]
 
-        public struct _ExportableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
         public struct _SupportedTimezonesEncoding: ArrayCoderProperties { static public let member = "Timezone" }
         public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
@@ -1409,7 +1403,7 @@ extension Neptune {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_ExportableLogTypesEncoding, String>> public var exportableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var exportableLogTypes: [String]?
         ///  (Not supported by Neptune) 
         @OptionalCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>> public var supportedCharacterSets: [CharacterSet]?
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
@@ -1490,7 +1484,6 @@ extension Neptune {
         public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
         public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
-        public struct _EnabledCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _OptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "OptionGroupMembership" }
         public struct _ReadReplicaDBClusterIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBClusterIdentifier" }
         public struct _ReadReplicaDBInstanceIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBInstanceIdentifier" }
@@ -1537,7 +1530,7 @@ extension Neptune {
         /// Not supported
         @OptionalCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>> public var domainMemberships: [DomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnabledCloudwatchLogsExportsEncoding, String>> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
         /// Provides the name of the database engine to be used for this DB instance.
@@ -3710,12 +3703,10 @@ extension Neptune {
             AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
         ]
 
-        public struct _LogTypesToDisableEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _LogTypesToEnableEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_LogTypesToDisableEncoding, String>> public var logTypesToDisable: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_LogTypesToEnableEncoding, String>> public var logTypesToEnable: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
@@ -3984,11 +3975,10 @@ extension Neptune {
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder> public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -4084,7 +4074,6 @@ extension Neptune {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
@@ -4100,7 +4089,7 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
@@ -4179,7 +4168,6 @@ extension Neptune {
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
@@ -4191,7 +4179,7 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.

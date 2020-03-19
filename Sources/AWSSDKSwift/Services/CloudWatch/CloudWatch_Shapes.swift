@@ -128,11 +128,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
         public let configuration: AnomalyDetectorConfiguration?
         /// The metric dimensions associated with the anomaly detection model.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The name of the metric associated with the anomaly detection model.
         public let metricName: String?
         /// The namespace of the metric associated with the anomaly detection model.
@@ -166,9 +165,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "excludedTimeRanges", location: .body(locationName: "ExcludedTimeRanges"), encoding: .list(member:"member"))
         ]
 
-        public struct _ExcludedTimeRangesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
-        @OptionalCoding<ArrayCoder<_ExcludedTimeRangesEncoding, Range>> public var excludedTimeRanges: [Range]?
+        @OptionalCoding<DefaultArrayCoder> public var excludedTimeRanges: [Range]?
         /// The time zone to use for the metric. This is useful to enable the model to automatically account for daylight savings time changes if the metric is sensitive to such time changes. To specify a time zone, use the name of the time zone as specified in the standard tz database. For more information, see tz database.
         public let metricTimezone: String?
 
@@ -232,11 +230,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "extendedStatistics", location: .body(locationName: "ExtendedStatistics"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
-        public struct _ExtendedStatisticsEncoding: DictionaryCoderProperties { static public let entry: String? = "entry"; static public let key = "key"; static public let value = "value" }
         /// The average of the metric values that correspond to the data point.
         public let average: Double?
         /// The percentile statistic for the data point.
-        @OptionalCoding<DictionaryCoder<_ExtendedStatisticsEncoding, String, Double>> public var extendedStatistics: [String: Double]?
+        @OptionalCoding<DefaultDictionaryCoder> public var extendedStatistics: [String: Double]?
         /// The maximum metric value for the data point.
         public let maximum: Double?
         /// The minimum metric value for the data point.
@@ -278,9 +275,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The alarms to be deleted.
-        @Coding<ArrayCoder<_AlarmNamesEncoding, String>> public var alarmNames: [String]
+        @Coding<DefaultArrayCoder> public var alarmNames: [String]
 
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
@@ -304,9 +300,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The metric dimensions associated with the anomaly detection model to delete.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The metric name associated with the anomaly detection model to delete.
         public let metricName: String
         /// The namespace associated with the anomaly detection model to delete.
@@ -354,9 +349,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dashboardNames", location: .body(locationName: "DashboardNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _DashboardNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The dashboards to be deleted. This parameter is required.
-        @Coding<ArrayCoder<_DashboardNamesEncoding, String>> public var dashboardNames: [String]
+        @Coding<DefaultArrayCoder> public var dashboardNames: [String]
 
         public init(dashboardNames: [String]) {
             self.dashboardNames = dashboardNames
@@ -380,9 +374,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _RuleNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules.
-        @Coding<ArrayCoder<_RuleNamesEncoding, String>> public var ruleNames: [String]
+        @Coding<DefaultArrayCoder> public var ruleNames: [String]
 
         public init(ruleNames: [String]) {
             self.ruleNames = ruleNames
@@ -406,9 +399,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
 
-        public struct _FailuresEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array listing the rules that could not be deleted. You cannot delete built-in rules.
-        @OptionalCoding<ArrayCoder<_FailuresEncoding, PartialFailure>> public var failures: [PartialFailure]?
+        @OptionalCoding<DefaultArrayCoder> public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
@@ -465,9 +457,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "alarmHistoryItems", location: .body(locationName: "AlarmHistoryItems"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmHistoryItemsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The alarm histories, in JSON format.
-        @OptionalCoding<ArrayCoder<_AlarmHistoryItemsEncoding, AlarmHistoryItem>> public var alarmHistoryItems: [AlarmHistoryItem]?
+        @OptionalCoding<DefaultArrayCoder> public var alarmHistoryItems: [AlarmHistoryItem]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
@@ -487,9 +478,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The percentile statistic for the metric. Specify a value between p0.0 and p100.
         public let extendedStatistic: String?
         /// The name of the metric.
@@ -543,9 +533,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metricAlarms", location: .body(locationName: "MetricAlarms"), encoding: .list(member:"member"))
         ]
 
-        public struct _MetricAlarmsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The information for each alarm with the specified metric.
-        @OptionalCoding<ArrayCoder<_MetricAlarmsEncoding, MetricAlarm>> public var metricAlarms: [MetricAlarm]?
+        @OptionalCoding<DefaultArrayCoder> public var metricAlarms: [MetricAlarm]?
 
         public init(metricAlarms: [MetricAlarm]? = nil) {
             self.metricAlarms = metricAlarms
@@ -561,13 +550,12 @@ extension CloudWatch {
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The action name prefix.
         public let actionPrefix: String?
         /// The alarm name prefix. If this parameter is specified, you cannot specify AlarmNames.
         public let alarmNamePrefix: String?
         /// The names of the alarms.
-        @OptionalCoding<ArrayCoder<_AlarmNamesEncoding, String>> public var alarmNames: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var alarmNames: [String]?
         /// The maximum number of alarm descriptions to retrieve.
         public let maxRecords: Int?
         /// The token returned by a previous call to indicate that there is more data available.
@@ -613,9 +601,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metricAlarms", location: .body(locationName: "MetricAlarms"), encoding: .list(member:"member"))
         ]
 
-        public struct _MetricAlarmsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The information for the specified alarms.
-        @OptionalCoding<ArrayCoder<_MetricAlarmsEncoding, MetricAlarm>> public var metricAlarms: [MetricAlarm]?
+        @OptionalCoding<DefaultArrayCoder> public var metricAlarms: [MetricAlarm]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
@@ -635,9 +622,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The maximum number of results to return in one operation. The maximum value you can specify is 10. To retrieve the remaining results, make another call with the returned NextToken value. 
         public let maxResults: Int?
         /// Limits the results to only the anomaly detection models that are associated with the specified metric name. If there are multiple metrics with this name in different namespaces that have anomaly detection models, they're all returned.
@@ -682,9 +668,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "anomalyDetectors", location: .body(locationName: "AnomalyDetectors"), encoding: .list(member:"member"))
         ]
 
-        public struct _AnomalyDetectorsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of anomaly detection models returned by the operation.
-        @OptionalCoding<ArrayCoder<_AnomalyDetectorsEncoding, AnomalyDetector>> public var anomalyDetectors: [AnomalyDetector]?
+        @OptionalCoding<DefaultArrayCoder> public var anomalyDetectors: [AnomalyDetector]?
         /// A token that you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
@@ -727,9 +712,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "insightRules", location: .body(locationName: "InsightRules"), encoding: .list(member:"member"))
         ]
 
-        public struct _InsightRulesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The rules returned by the operation.
-        @OptionalCoding<ArrayCoder<_InsightRulesEncoding, InsightRule>> public var insightRules: [InsightRule]?
+        @OptionalCoding<DefaultArrayCoder> public var insightRules: [InsightRule]?
         /// Reserved for future use.
         public let nextToken: String?
 
@@ -799,9 +783,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the alarms.
-        @Coding<ArrayCoder<_AlarmNamesEncoding, String>> public var alarmNames: [String]
+        @Coding<DefaultArrayCoder> public var alarmNames: [String]
 
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
@@ -825,9 +808,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _RuleNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules.
-        @Coding<ArrayCoder<_RuleNamesEncoding, String>> public var ruleNames: [String]
+        @Coding<DefaultArrayCoder> public var ruleNames: [String]
 
         public init(ruleNames: [String]) {
             self.ruleNames = ruleNames
@@ -851,9 +833,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
 
-        public struct _FailuresEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array listing the rules that could not be disabled. You cannot disable built-in rules.
-        @OptionalCoding<ArrayCoder<_FailuresEncoding, PartialFailure>> public var failures: [PartialFailure]?
+        @OptionalCoding<DefaultArrayCoder> public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
@@ -869,9 +850,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the alarms.
-        @Coding<ArrayCoder<_AlarmNamesEncoding, String>> public var alarmNames: [String]
+        @Coding<DefaultArrayCoder> public var alarmNames: [String]
 
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
@@ -895,9 +875,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
 
-        public struct _RuleNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array of the rule names to enable. If you need to find out the names of your rules, use DescribeInsightRules.
-        @Coding<ArrayCoder<_RuleNamesEncoding, String>> public var ruleNames: [String]
+        @Coding<DefaultArrayCoder> public var ruleNames: [String]
 
         public init(ruleNames: [String]) {
             self.ruleNames = ruleNames
@@ -921,9 +900,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
 
-        public struct _FailuresEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An array listing the rules that could not be enabled. You cannot disable or enable built-in rules.
-        @OptionalCoding<ArrayCoder<_FailuresEncoding, PartialFailure>> public var failures: [PartialFailure]?
+        @OptionalCoding<DefaultArrayCoder> public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
@@ -975,13 +953,12 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
 
-        public struct _MetricsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let endTime: TimeStamp
         /// The maximum number of contributors to include in the report. The range is 1 to 100. If you omit this, the default of 10 is used.
         public let maxContributorCount: Int?
         /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics:    UniqueContributors -- the number of unique contributors for each data point.    MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor may change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.  
-        @OptionalCoding<ArrayCoder<_MetricsEncoding, String>> public var metrics: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var metrics: [String]?
         /// Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
         public let orderBy: String?
         /// The period, in seconds, to use for the statistics in the InsightRuleMetricDatapoint results.
@@ -1034,9 +1011,6 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metricDatapoints", location: .body(locationName: "MetricDatapoints"), encoding: .list(member:"member"))
         ]
 
-        public struct _ContributorsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _KeyLabelsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _MetricDatapointsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The sum of the values from all individual contributors that match the rule.
         public let aggregateValue: Double?
         /// Specifies whether this rule aggregates contributor data by COUNT or SUM.
@@ -1044,11 +1018,11 @@ extension CloudWatch {
         /// An approximate count of the unique contributors found by this rule in this time period.
         public let approximateUniqueCount: Int64?
         /// An array of the unique contributors found by this rule in this time period. If the rule contains multiple keys, each combination of values for the keys counts as a unique contributor.
-        @OptionalCoding<ArrayCoder<_ContributorsEncoding, InsightRuleContributor>> public var contributors: [InsightRuleContributor]?
+        @OptionalCoding<DefaultArrayCoder> public var contributors: [InsightRuleContributor]?
         /// An array of the strings used as the keys for this rule. The keys are the dimensions used to classify contributors. If the rule contains more than one key, then each unique combination of values for the keys is counted as a unique contributor.
-        @OptionalCoding<ArrayCoder<_KeyLabelsEncoding, String>> public var keyLabels: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var keyLabels: [String]?
         /// A time series of metric data points that matches the time period in the rule request.
-        @OptionalCoding<ArrayCoder<_MetricDatapointsEncoding, InsightRuleMetricDatapoint>> public var metricDatapoints: [InsightRuleMetricDatapoint]?
+        @OptionalCoding<DefaultArrayCoder> public var metricDatapoints: [InsightRuleMetricDatapoint]?
 
         public init(aggregateValue: Double? = nil, aggregationStatistic: String? = nil, approximateUniqueCount: Int64? = nil, contributors: [InsightRuleContributor]? = nil, keyLabels: [String]? = nil, metricDatapoints: [InsightRuleMetricDatapoint]? = nil) {
             self.aggregateValue = aggregateValue
@@ -1074,13 +1048,12 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metricDataQueries", location: .body(locationName: "MetricDataQueries"), encoding: .list(member:"member"))
         ]
 
-        public struct _MetricDataQueriesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
         public let endTime: TimeStamp
         /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
         public let maxDatapoints: Int?
         /// The metric queries to be returned. A single GetMetricData call can include as many as 100 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data. 
-        @Coding<ArrayCoder<_MetricDataQueriesEncoding, MetricDataQuery>> public var metricDataQueries: [MetricDataQuery]
+        @Coding<DefaultArrayCoder> public var metricDataQueries: [MetricDataQuery]
         /// Include this value, if it was returned by the previous call, to get the next set of data points.
         public let nextToken: String?
         /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
@@ -1119,12 +1092,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metricDataResults", location: .body(locationName: "MetricDataResults"), encoding: .list(member:"member"))
         ]
 
-        public struct _MessagesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _MetricDataResultsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Contains a message about this GetMetricData operation, if the operation results in such a message. An example of a message that may be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
-        @OptionalCoding<ArrayCoder<_MessagesEncoding, MessageData>> public var messages: [MessageData]?
+        @OptionalCoding<DefaultArrayCoder> public var messages: [MessageData]?
         /// The metrics that are returned, including the metric name, namespace, and dimensions.
-        @OptionalCoding<ArrayCoder<_MetricDataResultsEncoding, MetricDataResult>> public var metricDataResults: [MetricDataResult]?
+        @OptionalCoding<DefaultArrayCoder> public var metricDataResults: [MetricDataResult]?
         /// A token that marks the next batch of returned results.
         public let nextToken: String?
 
@@ -1148,15 +1119,12 @@ extension CloudWatch {
             AWSMemberEncoding(label: "statistics", location: .body(locationName: "Statistics"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ExtendedStatisticsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _StatisticsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
         public let endTime: TimeStamp
         /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers.
-        @OptionalCoding<ArrayCoder<_ExtendedStatisticsEncoding, String>> public var extendedStatistics: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var extendedStatistics: [String]?
         /// The name of the metric, with or without spaces.
         public let metricName: String
         /// The namespace of the metric, with or without spaces.
@@ -1166,7 +1134,7 @@ extension CloudWatch {
         /// The time stamp that determines the first data point to return. Start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. 
         public let startTime: TimeStamp
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
-        @OptionalCoding<ArrayCoder<_StatisticsEncoding, Statistic>> public var statistics: [Statistic]?
+        @OptionalCoding<DefaultArrayCoder> public var statistics: [Statistic]?
         /// The unit for a given metric. If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
@@ -1220,9 +1188,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "datapoints", location: .body(locationName: "Datapoints"), encoding: .list(member:"member"))
         ]
 
-        public struct _DatapointsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The data points for the specified metric.
-        @OptionalCoding<ArrayCoder<_DatapointsEncoding, Datapoint>> public var datapoints: [Datapoint]?
+        @OptionalCoding<DefaultArrayCoder> public var datapoints: [Datapoint]?
         /// A label for the specified metric.
         public let label: String?
 
@@ -1301,14 +1268,12 @@ extension CloudWatch {
             AWSMemberEncoding(label: "keys", location: .body(locationName: "Keys"), encoding: .list(member:"member"))
         ]
 
-        public struct _DatapointsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _KeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// An approximation of the aggregate value that comes from this contributor.
         public let approximateAggregateValue: Double
         /// An array of the data points where this contributor is present. Only the data points when this contributor appeared are included in the array.
-        @Coding<ArrayCoder<_DatapointsEncoding, InsightRuleContributorDatapoint>> public var datapoints: [InsightRuleContributorDatapoint]
+        @Coding<DefaultArrayCoder> public var datapoints: [InsightRuleContributorDatapoint]
         /// One of the log entry field keywords that is used to define contributors for this rule.
-        @Coding<ArrayCoder<_KeysEncoding, String>> public var keys: [String]
+        @Coding<DefaultArrayCoder> public var keys: [String]
 
         public init(approximateAggregateValue: Double, datapoints: [InsightRuleContributorDatapoint], keys: [String]) {
             self.approximateAggregateValue = approximateAggregateValue
@@ -1406,9 +1371,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dashboardEntries", location: .body(locationName: "DashboardEntries"), encoding: .list(member:"member"))
         ]
 
-        public struct _DashboardEntriesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of matching dashboards.
-        @OptionalCoding<ArrayCoder<_DashboardEntriesEncoding, DashboardEntry>> public var dashboardEntries: [DashboardEntry]?
+        @OptionalCoding<DefaultArrayCoder> public var dashboardEntries: [DashboardEntry]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
@@ -1428,9 +1392,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The dimensions to filter against.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, DimensionFilter>> public var dimensions: [DimensionFilter]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [DimensionFilter]?
         /// The name of the metric to filter against.
         public let metricName: String?
         /// The namespace to filter against.
@@ -1470,9 +1433,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
 
-        public struct _MetricsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The metrics.
-        @OptionalCoding<ArrayCoder<_MetricsEncoding, Metric>> public var metrics: [Metric]?
+        @OptionalCoding<DefaultArrayCoder> public var metrics: [Metric]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
@@ -1511,9 +1473,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of tag keys and values associated with the resource you specified.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
@@ -1547,9 +1508,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The dimensions for the metric.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The name of the metric. This is a required field.
         public let metricName: String?
         /// The namespace of the metric.
@@ -1589,15 +1549,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "oKActions", location: .body(locationName: "OKActions"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _InsufficientDataActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _MetricsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _OKActionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCoding<ArrayCoder<_AlarmActionsEncoding, String>> public var alarmActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var alarmActions: [String]?
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
         /// The time stamp of the last update to the alarm configuration.
@@ -1611,7 +1566,7 @@ extension CloudWatch {
         /// The number of data points that must be breaching to trigger the alarm.
         public let datapointsToAlarm: Int?
         /// The dimensions for the metric associated with the alarm.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// Used only for alarms based on percentiles. If ignore, the alarm state does not change during periods with too few data points to be statistically significant. If evaluate or this parameter is not used, the alarm is always evaluated and possibly changes state no matter how many data points are available.
         public let evaluateLowSampleCountPercentile: String?
         /// The number of periods over which data is compared to the specified threshold.
@@ -1619,15 +1574,15 @@ extension CloudWatch {
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCoding<ArrayCoder<_InsufficientDataActionsEncoding, String>> public var insufficientDataActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var insufficientDataActions: [String]?
         /// The name of the metric associated with the alarm, if this is an alarm based on a single metric.
         public let metricName: String?
         /// An array of MetricDataQuery structures, used in an alarm based on a metric math expression. Each structure either retrieves a metric or performs a math expression. One item in the Metrics array is the math expression that the alarm watches. This expression by designated by having ReturnValue set to true.
-        @OptionalCoding<ArrayCoder<_MetricsEncoding, MetricDataQuery>> public var metrics: [MetricDataQuery]?
+        @OptionalCoding<DefaultArrayCoder> public var metrics: [MetricDataQuery]?
         /// The namespace of the metric associated with the alarm.
         public let namespace: String?
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCoding<ArrayCoder<_OKActionsEncoding, String>> public var oKActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var oKActions: [String]?
         /// The period, in seconds, over which the statistic is applied.
         public let period: Int?
         /// An explanation for the alarm state, in text format.
@@ -1760,21 +1715,18 @@ extension CloudWatch {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _MessagesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TimestampsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The short name you specified to represent this metric.
         public let id: String?
         /// The human-readable label associated with the data.
         public let label: String?
         /// A list of messages with additional information about the data returned.
-        @OptionalCoding<ArrayCoder<_MessagesEncoding, MessageData>> public var messages: [MessageData]?
+        @OptionalCoding<DefaultArrayCoder> public var messages: [MessageData]?
         /// The status of the returned data. Complete indicates that all data points in the requested time range were returned. PartialData means that an incomplete set of data points were returned. You can use the NextToken value that was returned and repeat your request to get more data points. NextToken is not returned if you are performing a math expression. InternalError indicates that an error occurred. Retry your request using NextToken, if present.
         public let statusCode: StatusCode?
         /// The timestamps for the data points, formatted in Unix timestamp format. The number of timestamps always matches the number of values and the value for Timestamps[x] is Values[x].
-        @OptionalCoding<ArrayCoder<_TimestampsEncoding, TimeStamp>> public var timestamps: [TimeStamp]?
+        @OptionalCoding<DefaultArrayCoder> public var timestamps: [TimeStamp]?
         /// The data points for the metric corresponding to Timestamps. The number of values always matches the number of timestamps and the timestamp for Values[x] is Timestamps[x].
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, Double>> public var values: [Double]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [Double]?
 
         public init(id: String? = nil, label: String? = nil, messages: [MessageData]? = nil, statusCode: StatusCode? = nil, timestamps: [TimeStamp]? = nil, values: [Double]? = nil) {
             self.id = id
@@ -1802,13 +1754,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _CountsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period.  If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
-        @OptionalCoding<ArrayCoder<_CountsEncoding, Double>> public var counts: [Double]?
+        @OptionalCoding<DefaultArrayCoder> public var counts: [Double]?
         /// The dimensions associated with the metric.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The name of the metric.
         public let metricName: String
         /// The statistical values for the metric.
@@ -1822,7 +1771,7 @@ extension CloudWatch {
         /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let value: Double?
         /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, Double>> public var values: [Double]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [Double]?
 
         public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, storageResolution: Int? = nil, timestamp: TimeStamp? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
             self.counts = counts
@@ -1921,11 +1870,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
 
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric. You can in
         public let configuration: AnomalyDetectorConfiguration?
         /// The metric dimensions to create the anomaly detection model for.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         /// The name of the metric to create the anomaly detection model for.
         public let metricName: String
         /// The namespace of the metric to create the anomaly detection model for.
@@ -1993,9 +1941,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "dashboardValidationMessages", location: .body(locationName: "DashboardValidationMessages"), encoding: .list(member:"member"))
         ]
 
-        public struct _DashboardValidationMessagesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
-        @OptionalCoding<ArrayCoder<_DashboardValidationMessagesEncoding, DashboardValidationMessage>> public var dashboardValidationMessages: [DashboardValidationMessage]?
+        @OptionalCoding<DefaultArrayCoder> public var dashboardValidationMessages: [DashboardValidationMessage]?
 
         public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil) {
             self.dashboardValidationMessages = dashboardValidationMessages
@@ -2058,16 +2005,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _AlarmActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _InsufficientDataActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _MetricsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _OKActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
-        @OptionalCoding<ArrayCoder<_AlarmActionsEncoding, String>> public var alarmActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var alarmActions: [String]?
         /// The description for the alarm.
         public let alarmDescription: String?
         /// The name for the alarm. This name must be unique within your AWS account.
@@ -2077,7 +2018,7 @@ extension CloudWatch {
         /// The number of data points that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
         public let datapointsToAlarm: Int?
         /// The dimensions for the metric specified in MetricName.
-        @OptionalCoding<ArrayCoder<_DimensionsEncoding, Dimension>> public var dimensions: [Dimension]?
+        @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
         ///  Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid Values: evaluate | ignore 
         public let evaluateLowSampleCountPercentile: String?
         /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. An alarm's total current evaluation period can be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
@@ -2085,21 +2026,21 @@ extension CloudWatch {
         /// The percentile statistic for the metric specified in MetricName. Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
-        @OptionalCoding<ArrayCoder<_InsufficientDataActionsEncoding, String>> public var insufficientDataActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var insufficientDataActions: [String]?
         /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
         public let metricName: String?
         /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnValue to true for this object in the array. For more information, see MetricDataQuery. If you use the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
-        @OptionalCoding<ArrayCoder<_MetricsEncoding, MetricDataQuery>> public var metrics: [MetricDataQuery]?
+        @OptionalCoding<DefaultArrayCoder> public var metrics: [MetricDataQuery]?
         /// The namespace for the metric associated specified in MetricName.
         public let namespace: String?
         /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
-        @OptionalCoding<ArrayCoder<_OKActionsEncoding, String>> public var oKActions: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var oKActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm may often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
         public let period: Int?
         /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
         public let statistic: Statistic?
         /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
         /// The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should not be used for alarms based on anomaly detection models.
         public let threshold: Double?
         /// If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm uses this parameter, it cannot have Auto Scaling actions.
@@ -2212,9 +2153,8 @@ extension CloudWatch {
             AWSMemberEncoding(label: "metricData", location: .body(locationName: "MetricData"), encoding: .list(member:"member"))
         ]
 
-        public struct _MetricDataEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The data for the metric. The array can include no more than 20 metrics per call.
-        @Coding<ArrayCoder<_MetricDataEncoding, MetricDatum>> public var metricData: [MetricDatum]
+        @Coding<DefaultArrayCoder> public var metricData: [MetricDatum]
         /// The namespace for the metric data. To avoid conflicts with AWS service namespaces, you should not specify a namespace that begins with AWS/ 
         public let namespace: String
 
@@ -2347,11 +2287,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The ARN of the CloudWatch alarm that you're adding tags to. The ARN format is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  
         public let resourceARN: String
         /// The list of key-value pairs to associate with the alarm.
-        @Coding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]
+        @Coding<DefaultArrayCoder> public var tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
@@ -2385,11 +2324,10 @@ extension CloudWatch {
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The ARN of the CloudWatch resource that you're removing tags from. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder> public var tagKeys: [String]
 
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN

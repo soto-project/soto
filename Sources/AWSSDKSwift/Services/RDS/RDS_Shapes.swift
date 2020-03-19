@@ -450,12 +450,10 @@ extension RDS {
             AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
         ]
 
-        public struct _DisableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _EnableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of log types to disable.
-        @OptionalCoding<ArrayCoder<_DisableLogTypesEncoding, String>> public var disableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCoding<ArrayCoder<_EnableLogTypesEncoding, String>> public var enableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
@@ -473,7 +471,6 @@ extension RDS {
             AWSMemberEncoding(label: "sessionPinningFilters", location: .body(locationName: "SessionPinningFilters"), encoding: .list(member:"member"))
         ]
 
-        public struct _SessionPinningFiltersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
         public let connectionBorrowTimeout: Int?
         ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.  Default: no initialization query
@@ -483,7 +480,7 @@ extension RDS {
         ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.  Default: 50 Constraints: between 0 and MaxConnectionsPercent 
         public let maxIdleConnectionsPercent: Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Default: no session pinning filters
-        @OptionalCoding<ArrayCoder<_SessionPinningFiltersEncoding, String>> public var sessionPinningFilters: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var sessionPinningFilters: [String]?
 
         public init(connectionBorrowTimeout: Int? = nil, initQuery: String? = nil, maxConnectionsPercent: Int? = nil, maxIdleConnectionsPercent: Int? = nil, sessionPinningFilters: [String]? = nil) {
             self.connectionBorrowTimeout = connectionBorrowTimeout
@@ -507,7 +504,6 @@ extension RDS {
             AWSMemberEncoding(label: "sessionPinningFilters", location: .body(locationName: "SessionPinningFilters"), encoding: .list(member:"member"))
         ]
 
-        public struct _SessionPinningFiltersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public let connectionBorrowTimeout: Int?
         ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2. 
@@ -517,7 +513,7 @@ extension RDS {
         ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. 
         public let maxIdleConnectionsPercent: Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Currently, the only allowed value is EXCLUDE_VARIABLE_SETS.
-        @OptionalCoding<ArrayCoder<_SessionPinningFiltersEncoding, String>> public var sessionPinningFilters: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var sessionPinningFilters: [String]?
 
         public init(connectionBorrowTimeout: Int? = nil, initQuery: String? = nil, maxConnectionsPercent: Int? = nil, maxIdleConnectionsPercent: Int? = nil, sessionPinningFilters: [String]? = nil) {
             self.connectionBorrowTimeout = connectionBorrowTimeout
@@ -812,8 +808,6 @@ extension RDS {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
 
-        public struct _ExcludedMembersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _StaticMembersEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
@@ -822,9 +816,9 @@ extension RDS {
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCoding<ArrayCoder<_ExcludedMembersEncoding, String>> public var excludedMembers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCoding<ArrayCoder<_StaticMembersEncoding, String>> public var staticMembers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var staticMembers: [String]?
         /// The tags to be assigned to the Amazon RDS resource.
         @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
 
@@ -856,7 +850,6 @@ extension RDS {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// A list of Availability Zones (AZs) where instances in the DB cluster can be created. For information on AWS Regions and Availability Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide. 
@@ -880,7 +873,7 @@ extension RDS {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
         public let enableHttpEndpoint: Bool?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
@@ -1092,7 +1085,6 @@ extension RDS {
         ]
 
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
@@ -1129,7 +1121,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   For MySQL 8.0, minor version 8.0.16 or higher    PostgreSQL    For PostgreSQL 9.5, minor version 9.5.15 or higher   For PostgreSQL 9.6, minor version 9.6.11 or higher   PostgreSQL 10.6, 10.7, and 10.9   For more information, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
@@ -1296,7 +1288,6 @@ extension RDS {
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
@@ -1321,7 +1312,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the Read Replica.  For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide. 
@@ -1504,12 +1495,9 @@ extension RDS {
             AWSMemberEncoding(label: "vpcSubnetIds", location: .body(locationName: "VpcSubnetIds"), encoding: .list(member:"member"))
         ]
 
-        public struct _AuthEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _VpcSubnetIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The authorization mechanism that the proxy uses.
-        @Coding<ArrayCoder<_AuthEncoding, UserAuthConfig>> public var auth: [UserAuthConfig]
+        @Coding<DefaultArrayCoder> public var auth: [UserAuthConfig]
         /// The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
         public let dBProxyName: String
         /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
@@ -1525,9 +1513,9 @@ extension RDS {
         /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
         @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
         /// One or more VPC security group IDs to associate with the new proxy.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var vpcSecurityGroupIds: [String]?
         /// One or more VPC subnet IDs to associate with the new proxy.
-        @Coding<ArrayCoder<_VpcSubnetIdsEncoding, String>> public var vpcSubnetIds: [String]
+        @Coding<DefaultArrayCoder> public var vpcSubnetIds: [String]
 
         public init(auth: [UserAuthConfig], dBProxyName: String, debugLogging: Bool? = nil, engineFamily: EngineFamily, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.auth = auth
@@ -1910,10 +1898,8 @@ extension RDS {
 
         public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBClusterRole" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _CustomEndpointsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
         public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBClusterOptionGroup" }
-        public struct _EnabledCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaIdentifier" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
@@ -1949,7 +1935,7 @@ extension RDS {
         /// Specifies whether the DB cluster is a clone of a DB cluster owned by a different AWS account.
         public let crossAccountClone: Bool?
         /// Identifies all custom endpoints associated with the cluster.
-        @OptionalCoding<ArrayCoder<_CustomEndpointsEncoding, String>> public var customEndpoints: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var customEndpoints: [String]?
         /// Contains the name of the initial database of this DB cluster that was provided at create time, if one was specified when the DB cluster was created. This same name is returned for the life of the DB cluster.
         public let databaseName: String?
         /// The Amazon Resource Name (ARN) for the DB cluster.
@@ -1973,7 +1959,7 @@ extension RDS {
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon Aurora User Guide. 
-        @OptionalCoding<ArrayCoder<_EnabledCloudwatchLogsExportsEncoding, String>> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
         /// Provides the name of the database engine to be used for this DB cluster.
@@ -2219,8 +2205,6 @@ extension RDS {
             AWSMemberEncoding(label: "staticMembers", location: .body(locationName: "StaticMembers"), encoding: .list(member:"member"))
         ]
 
-        public struct _ExcludedMembersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _StaticMembersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
@@ -2236,9 +2220,9 @@ extension RDS {
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCoding<ArrayCoder<_ExcludedMembersEncoding, String>> public var excludedMembers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCoding<ArrayCoder<_StaticMembersEncoding, String>> public var staticMembers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, modifying.
         public let status: String?
 
@@ -2633,10 +2617,7 @@ extension RDS {
             AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
         ]
 
-        public struct _ExportableLogTypesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
-        public struct _SupportedEngineModesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SupportedFeatureNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _SupportedTimezonesEncoding: ArrayCoderProperties { static public let member = "Timezone" }
         public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
         /// The description of the database engine.
@@ -2652,15 +2633,15 @@ extension RDS {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_ExportableLogTypesEncoding, String>> public var exportableLogTypes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var exportableLogTypes: [String]?
         /// The status of the DB engine version, either available or deprecated.
         public let status: String?
         ///  A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance action. 
         @OptionalCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>> public var supportedCharacterSets: [CharacterSet]?
         /// A list of the supported DB engine modes.
-        @OptionalCoding<ArrayCoder<_SupportedEngineModesEncoding, String>> public var supportedEngineModes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedEngineModes: [String]?
         ///  A list of features supported by the DB engine. Supported feature names include the following.    s3Import  
-        @OptionalCoding<ArrayCoder<_SupportedFeatureNamesEncoding, String>> public var supportedFeatureNames: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedFeatureNames: [String]?
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action. 
         @OptionalCoding<ArrayCoder<_SupportedTimezonesEncoding, Timezone>> public var supportedTimezones: [Timezone]?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -2748,7 +2729,6 @@ extension RDS {
         public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
         public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
-        public struct _EnabledCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _OptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "OptionGroupMembership" }
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
         public struct _ReadReplicaDBClusterIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBClusterIdentifier" }
@@ -2798,7 +2778,7 @@ extension RDS {
         /// The Active Directory Domain membership records associated with the DB instance.
         @OptionalCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>> public var domainMemberships: [DomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon RDS User Guide. 
-        @OptionalCoding<ArrayCoder<_EnabledCloudwatchLogsExportsEncoding, String>> public var enabledCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
         /// Provides the name of the database engine to be used for this DB instance.
@@ -3298,11 +3278,8 @@ extension RDS {
             AWSMemberEncoding(label: "vpcSubnetIds", location: .body(locationName: "VpcSubnetIds"), encoding: .list(member:"member"))
         ]
 
-        public struct _AuthEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _VpcSubnetIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
-        @OptionalCoding<ArrayCoder<_AuthEncoding, UserAuthConfigInfo>> public var auth: [UserAuthConfigInfo]?
+        @OptionalCoding<DefaultArrayCoder> public var auth: [UserAuthConfigInfo]?
         /// The date and time when the proxy was first created.
         public let createdDate: TimeStamp?
         /// The Amazon Resource Name (ARN) for the proxy.
@@ -3326,9 +3303,9 @@ extension RDS {
         /// The date and time when the proxy was last updated.
         public let updatedDate: TimeStamp?
         /// Provides a list of VPC security groups that the proxy belongs to.
-        @OptionalCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>> public var vpcSecurityGroupIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var vpcSecurityGroupIds: [String]?
         /// The EC2 subnet IDs for the proxy.
-        @OptionalCoding<ArrayCoder<_VpcSubnetIdsEncoding, String>> public var vpcSubnetIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var vpcSubnetIds: [String]?
 
         public init(auth: [UserAuthConfigInfo]? = nil, createdDate: TimeStamp? = nil, dBProxyArn: String? = nil, dBProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: TimeStamp? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.auth = auth
@@ -4145,12 +4122,10 @@ extension RDS {
             AWSMemberEncoding(label: "dBInstanceIdentifiers", location: .body(locationName: "DBInstanceIdentifiers"), encoding: .list(member:"member"))
         ]
 
-        public struct _DBClusterIdentifiersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DBInstanceIdentifiersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more DB cluster identifiers.
-        @OptionalCoding<ArrayCoder<_DBClusterIdentifiersEncoding, String>> public var dBClusterIdentifiers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var dBClusterIdentifiers: [String]?
         /// One or more DB instance identifiers.
-        @OptionalCoding<ArrayCoder<_DBInstanceIdentifiersEncoding, String>> public var dBInstanceIdentifiers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var dBInstanceIdentifiers: [String]?
         /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup.
         public let dBProxyName: String
         /// The identifier of the DBProxyTargetGroup.
@@ -4794,9 +4769,8 @@ extension RDS {
             AWSMemberEncoding(label: "dBProxies", location: .body(locationName: "DBProxies"), encoding: .list(member:"member"))
         ]
 
-        public struct _DBProxiesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A return value representing an arbitrary number of DBProxy data structures.
-        @OptionalCoding<ArrayCoder<_DBProxiesEncoding, DBProxy>> public var dBProxies: [DBProxy]?
+        @OptionalCoding<DefaultArrayCoder> public var dBProxies: [DBProxy]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
@@ -4855,11 +4829,10 @@ extension RDS {
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// An arbitrary number of DBProxyTargetGroup objects, containing details of the corresponding target groups.
-        @OptionalCoding<ArrayCoder<_TargetGroupsEncoding, DBProxyTargetGroup>> public var targetGroups: [DBProxyTargetGroup]?
+        @OptionalCoding<DefaultArrayCoder> public var targetGroups: [DBProxyTargetGroup]?
 
         public init(marker: String? = nil, targetGroups: [DBProxyTargetGroup]? = nil) {
             self.marker = marker
@@ -4916,11 +4889,10 @@ extension RDS {
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetsEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// An arbitrary number of DBProxyTarget objects, containing details of the corresponding targets.
-        @OptionalCoding<ArrayCoder<_TargetsEncoding, DBProxyTarget>> public var targets: [DBProxyTarget]?
+        @OptionalCoding<DefaultArrayCoder> public var targets: [DBProxyTarget]?
 
         public init(marker: String? = nil, targets: [DBProxyTarget]? = nil) {
             self.marker = marker
@@ -6016,9 +5988,8 @@ extension RDS {
             AWSMemberEncoding(label: "exportOnly", location: .body(locationName: "ExportOnly"), encoding: .list(member:"member"))
         ]
 
-        public struct _ExportOnlyEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The data exported from the snapshot. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
-        @OptionalCoding<ArrayCoder<_ExportOnlyEncoding, String>> public var exportOnly: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var exportOnly: [String]?
         /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to. 
         public let exportTaskIdentifier: String?
         /// The reason the export failed, if it failed.
@@ -6219,13 +6190,12 @@ extension RDS {
             AWSMemberEncoding(label: "readers", location: .body(locationName: "Readers"), encoding: .list(member:"member"))
         ]
 
-        public struct _ReadersEncoding: ArrayCoderProperties { static public let member = "member" }
         ///  The Amazon Resource Name (ARN) for each Aurora cluster. 
         public let dBClusterArn: String?
         ///  Specifies whether the Aurora cluster is the primary cluster (that is, has read-write capability) for the Aurora global database with which it is associated. 
         public let isWriter: Bool?
         ///  The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database. 
-        @OptionalCoding<ArrayCoder<_ReadersEncoding, String>> public var readers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var readers: [String]?
 
         public init(dBClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
             self.dBClusterArn = dBClusterArn
@@ -6491,16 +6461,14 @@ extension RDS {
             AWSMemberEncoding(label: "staticMembers", location: .body(locationName: "StaticMembers"), encoding: .list(member:"member"))
         ]
 
-        public struct _ExcludedMembersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _StaticMembersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCoding<ArrayCoder<_ExcludedMembersEncoding, String>> public var excludedMembers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCoding<ArrayCoder<_StaticMembersEncoding, String>> public var staticMembers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var staticMembers: [String]?
 
         public init(dBClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
             self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
@@ -6922,10 +6890,8 @@ extension RDS {
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _AuthEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The new authentication settings for the DBProxy.
-        @OptionalCoding<ArrayCoder<_AuthEncoding, UserAuthConfig>> public var auth: [UserAuthConfig]?
+        @OptionalCoding<DefaultArrayCoder> public var auth: [UserAuthConfig]?
         /// The identifier for the DBProxy to modify.
         public let dBProxyName: String
         /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
@@ -6939,7 +6905,7 @@ extension RDS {
         /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in AWS Secrets Manager.
         public let roleArn: String?
         /// The new list of security groups for the DBProxy.
-        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
 
         public init(auth: [UserAuthConfig]? = nil, dBProxyName: String, debugLogging: Bool? = nil, idleClientTimeout: Int? = nil, newDBProxyName: String? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, securityGroups: [String]? = nil) {
             self.auth = auth
@@ -7226,7 +7192,6 @@ extension RDS {
         ]
 
         public struct _OptionsToIncludeEncoding: ArrayCoderProperties { static public let member = "OptionConfiguration" }
-        public struct _OptionsToRemoveEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A value that indicates whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
         public let applyImmediately: Bool?
         /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
@@ -7234,7 +7199,7 @@ extension RDS {
         /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration.
         @OptionalCoding<ArrayCoder<_OptionsToIncludeEncoding, OptionConfiguration>> public var optionsToInclude: [OptionConfiguration]?
         /// Options in this list are removed from the option group.
-        @OptionalCoding<ArrayCoder<_OptionsToRemoveEncoding, String>> public var optionsToRemove: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var optionsToRemove: [String]?
 
         public init(applyImmediately: Bool? = nil, optionGroupName: String, optionsToInclude: [OptionConfiguration]? = nil, optionsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
@@ -7670,7 +7635,6 @@ extension RDS {
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _AvailableProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "AvailableProcessorFeature" }
-        public struct _SupportedEngineModesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A list of Availability Zones for a DB instance.
         @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
         /// A list of the available processor features for the DB instance class of a DB instance.
@@ -7702,7 +7666,7 @@ extension RDS {
         /// Indicates the storage type for a DB instance.
         public let storageType: String?
         /// A list of the supported DB engine modes.
-        @OptionalCoding<ArrayCoder<_SupportedEngineModesEncoding, String>> public var supportedEngineModes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedEngineModes: [String]?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public let supportsEnhancedMonitoring: Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
@@ -7802,7 +7766,6 @@ extension RDS {
             AWSMemberEncoding(label: "supportedEngineModes", location: .body(locationName: "SupportedEngineModes"), encoding: .list(member:"member"))
         ]
 
-        public struct _SupportedEngineModesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when to apply parameter updates.
@@ -7824,7 +7787,7 @@ extension RDS {
         /// Indicates the source of the parameter value.
         public let source: String?
         /// The valid DB engine modes.
-        @OptionalCoding<ArrayCoder<_SupportedEngineModesEncoding, String>> public var supportedEngineModes: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var supportedEngineModes: [String]?
 
         public init(allowedValues: String? = nil, applyMethod: ApplyMethod? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil, supportedEngineModes: [String]? = nil) {
             self.allowedValues = allowedValues
@@ -7861,12 +7824,10 @@ extension RDS {
             AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
         ]
 
-        public struct _LogTypesToDisableEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _LogTypesToEnableEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_LogTypesToDisableEncoding, String>> public var logTypesToDisable: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCoding<ArrayCoder<_LogTypesToEnableEncoding, String>> public var logTypesToEnable: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
@@ -8207,12 +8168,10 @@ extension RDS {
             AWSMemberEncoding(label: "dBInstanceIdentifiers", location: .body(locationName: "DBInstanceIdentifiers"), encoding: .list(member:"member"))
         ]
 
-        public struct _DBClusterIdentifiersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DBInstanceIdentifiersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more DB cluster identifiers.
-        @OptionalCoding<ArrayCoder<_DBClusterIdentifiersEncoding, String>> public var dBClusterIdentifiers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var dBClusterIdentifiers: [String]?
         /// One or more DB instance identifiers.
-        @OptionalCoding<ArrayCoder<_DBInstanceIdentifiersEncoding, String>> public var dBInstanceIdentifiers: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var dBInstanceIdentifiers: [String]?
         /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup.
         public let dBProxyName: String
         /// The identifier of the DBProxyTargetGroup.
@@ -8238,9 +8197,8 @@ extension RDS {
             AWSMemberEncoding(label: "dBProxyTargets", location: .body(locationName: "DBProxyTargets"), encoding: .list(member:"member"))
         ]
 
-        public struct _DBProxyTargetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more DBProxyTarget objects that are created when you register targets with a target group.
-        @OptionalCoding<ArrayCoder<_DBProxyTargetsEncoding, DBProxyTarget>> public var dBProxyTargets: [DBProxyTarget]?
+        @OptionalCoding<DefaultArrayCoder> public var dBProxyTargets: [DBProxyTarget]?
 
         public init(dBProxyTargets: [DBProxyTarget]? = nil) {
             self.dBProxyTargets = dBProxyTargets
@@ -8362,11 +8320,10 @@ extension RDS {
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide. 
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder> public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -8638,7 +8595,6 @@ extension RDS {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
@@ -8662,7 +8618,7 @@ extension RDS {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for the restored DB cluster. Valid Values: aurora, aurora-postgresql 
@@ -8786,7 +8742,6 @@ extension RDS {
         ]
 
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
@@ -8806,7 +8761,7 @@ extension RDS {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Aurora User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
@@ -8897,7 +8852,6 @@ extension RDS {
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
@@ -8913,7 +8867,7 @@ extension RDS {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted.   If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected.
@@ -8996,7 +8950,6 @@ extension RDS {
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
@@ -9025,7 +8978,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
@@ -9142,7 +9095,6 @@ extension RDS {
         ]
 
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
@@ -9171,7 +9123,7 @@ extension RDS {
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
@@ -9347,7 +9299,6 @@ extension RDS {
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        public struct _EnableCloudwatchLogsExportsEncoding: ArrayCoderProperties { static public let member = "member" }
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
@@ -9372,7 +9323,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
-        @OptionalCoding<ArrayCoder<_EnableCloudwatchLogsExportsEncoding, String>> public var enableCloudwatchLogsExports: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
@@ -9775,9 +9726,8 @@ extension RDS {
             AWSMemberEncoding(label: "exportOnly", location: .body(locationName: "ExportOnly"), encoding: .list(member:"member"))
         ]
 
-        public struct _ExportOnlyEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data of the snapshot.    database.table [table-name] - Export a table of the snapshot.    database.schema [schema-name] - Export a database schema of the snapshot. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.    database.schema.table [table-name] - Export a table of the database schema. This value isn't valid for RDS for MySQL, RDS for MariaDB, or Aurora MySQL.  
-        @OptionalCoding<ArrayCoder<_ExportOnlyEncoding, String>> public var exportOnly: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var exportOnly: [String]?
         /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is to be exported to. 
         public let exportTaskIdentifier: String
         /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot. 

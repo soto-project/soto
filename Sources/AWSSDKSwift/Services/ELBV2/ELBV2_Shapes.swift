@@ -160,9 +160,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        @Coding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]
+        @Coding<DefaultArrayCoder> public var certificates: [Certificate]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
@@ -182,9 +181,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the certificates in the certificate list.
-        @OptionalCoding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]?
+        @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
 
         public init(certificates: [Certificate]? = nil) {
             self.certificates = certificates
@@ -201,12 +199,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _ResourceArnsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the resource.
-        @Coding<ArrayCoder<_ResourceArnsEncoding, String>> public var resourceArns: [String]
+        @Coding<DefaultArrayCoder> public var resourceArns: [String]
         /// The tags. Each resource can have a maximum of 10 tags.
-        @Coding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]
+        @Coding<DefaultArrayCoder> public var tags: [Tag]
 
         public init(resourceArns: [String], tags: [Tag]) {
             self.resourceArns = resourceArns
@@ -239,9 +235,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "authenticationRequestExtraParams", location: .body(locationName: "AuthenticationRequestExtraParams"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
-        public struct _AuthenticationRequestExtraParamsEncoding: DictionaryCoderProperties { static public let entry: String? = "entry"; static public let key = "key"; static public let value = "value" }
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
-        @OptionalCoding<DictionaryCoder<_AuthenticationRequestExtraParamsEncoding, String, String>> public var authenticationRequestExtraParams: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder> public var authenticationRequestExtraParams: [String: String]?
         /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
         public let onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum?
         /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
@@ -285,9 +280,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "authenticationRequestExtraParams", location: .body(locationName: "AuthenticationRequestExtraParams"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
-        public struct _AuthenticationRequestExtraParamsEncoding: DictionaryCoderProperties { static public let entry: String? = "entry"; static public let key = "key"; static public let value = "value" }
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
-        @OptionalCoding<DictionaryCoder<_AuthenticationRequestExtraParamsEncoding, String, String>> public var authenticationRequestExtraParams: [String: String]?
+        @OptionalCoding<DefaultDictionaryCoder> public var authenticationRequestExtraParams: [String: String]?
         /// The authorization endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
         public let authorizationEndpoint: String
         /// The OAuth 2.0 client identifier.
@@ -347,9 +341,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "loadBalancerAddresses", location: .body(locationName: "LoadBalancerAddresses"), encoding: .list(member:"member"))
         ]
 
-        public struct _LoadBalancerAddressesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
-        @OptionalCoding<ArrayCoder<_LoadBalancerAddressesEncoding, LoadBalancerAddress>> public var loadBalancerAddresses: [LoadBalancerAddress]?
+        @OptionalCoding<DefaultArrayCoder> public var loadBalancerAddresses: [LoadBalancerAddress]?
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
         /// The name of the Availability Zone.
@@ -410,12 +403,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DefaultActionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
-        @OptionalCoding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]?
+        @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
         /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        @Coding<ArrayCoder<_DefaultActionsEncoding, Action>> public var defaultActions: [Action]
+        @Coding<DefaultArrayCoder> public var defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The port on which the load balancer is listening.
@@ -457,9 +448,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
 
-        public struct _ListenersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the listener.
-        @OptionalCoding<ArrayCoder<_ListenersEncoding, Listener>> public var listeners: [Listener]?
+        @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
 
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
@@ -478,10 +468,6 @@ extension ELBV2 {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SubnetMappingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
         public let ipAddressType: IpAddressType?
         /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
@@ -489,13 +475,13 @@ extension ELBV2 {
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// [Application Load Balancers] The IDs of the security groups for the load balancer.
-        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
-        @OptionalCoding<ArrayCoder<_SubnetMappingsEncoding, SubnetMapping>> public var subnetMappings: [SubnetMapping]?
+        @OptionalCoding<DefaultArrayCoder> public var subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
-        @OptionalCoding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
         /// One or more tags to assign to the load balancer.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
         /// The type of load balancer. The default is application.
         public let `type`: LoadBalancerTypeEnum?
 
@@ -534,9 +520,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
         ]
 
-        public struct _LoadBalancersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the load balancer.
-        @OptionalCoding<ArrayCoder<_LoadBalancersEncoding, LoadBalancer>> public var loadBalancers: [LoadBalancer]?
+        @OptionalCoding<DefaultArrayCoder> public var loadBalancers: [LoadBalancer]?
 
         public init(loadBalancers: [LoadBalancer]? = nil) {
             self.loadBalancers = loadBalancers
@@ -553,12 +538,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ConditionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        @Coding<ArrayCoder<_ActionsEncoding, Action>> public var actions: [Action]
+        @Coding<DefaultArrayCoder> public var actions: [Action]
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
-        @Coding<ArrayCoder<_ConditionsEncoding, RuleCondition>> public var conditions: [RuleCondition]
+        @Coding<DefaultArrayCoder> public var conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The rule priority. A listener can't have multiple rules with the same priority.
@@ -595,9 +578,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
 
-        public struct _RulesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the rule.
-        @OptionalCoding<ArrayCoder<_RulesEncoding, Rule>> public var rules: [Rule]?
+        @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -694,9 +676,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the target group.
-        @OptionalCoding<ArrayCoder<_TargetGroupsEncoding, TargetGroup>> public var targetGroups: [TargetGroup]?
+        @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
@@ -800,11 +781,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
-        @Coding<ArrayCoder<_TargetsEncoding, TargetDescription>> public var targets: [TargetDescription]
+        @Coding<DefaultArrayCoder> public var targets: [TargetDescription]
 
         public init(targetGroupArn: String, targets: [TargetDescription]) {
             self.targetGroupArn = targetGroupArn
@@ -859,9 +839,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "limits", location: .body(locationName: "Limits"), encoding: .list(member:"member"))
         ]
 
-        public struct _LimitsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the limits.
-        @OptionalCoding<ArrayCoder<_LimitsEncoding, Limit>> public var limits: [Limit]?
+        @OptionalCoding<DefaultArrayCoder> public var limits: [Limit]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
@@ -908,9 +887,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the certificates.
-        @OptionalCoding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]?
+        @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
@@ -930,9 +908,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "listenerArns", location: .body(locationName: "ListenerArns"), encoding: .list(member:"member"))
         ]
 
-        public struct _ListenerArnsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Names (ARN) of the listeners.
-        @OptionalCoding<ArrayCoder<_ListenerArnsEncoding, String>> public var listenerArns: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var listenerArns: [String]?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -965,9 +942,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
 
-        public struct _ListenersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the listeners.
-        @OptionalCoding<ArrayCoder<_ListenersEncoding, Listener>> public var listeners: [Listener]?
+        @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
@@ -1001,9 +977,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the load balancer attributes.
-        @OptionalCoding<ArrayCoder<_AttributesEncoding, LoadBalancerAttribute>> public var attributes: [LoadBalancerAttribute]?
+        @OptionalCoding<DefaultArrayCoder> public var attributes: [LoadBalancerAttribute]?
 
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
@@ -1020,14 +995,12 @@ extension ELBV2 {
             AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member"))
         ]
 
-        public struct _LoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _NamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
-        @OptionalCoding<ArrayCoder<_LoadBalancerArnsEncoding, String>> public var loadBalancerArns: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var loadBalancerArns: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the load balancers.
-        @OptionalCoding<ArrayCoder<_NamesEncoding, String>> public var names: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
@@ -1056,9 +1029,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
         ]
 
-        public struct _LoadBalancersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the load balancers.
-        @OptionalCoding<ArrayCoder<_LoadBalancersEncoding, LoadBalancer>> public var loadBalancers: [LoadBalancer]?
+        @OptionalCoding<DefaultArrayCoder> public var loadBalancers: [LoadBalancer]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
@@ -1078,7 +1050,6 @@ extension ELBV2 {
             AWSMemberEncoding(label: "ruleArns", location: .body(locationName: "RuleArns"), encoding: .list(member:"member"))
         ]
 
-        public struct _RuleArnsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1086,7 +1057,7 @@ extension ELBV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
         /// The Amazon Resource Names (ARN) of the rules.
-        @OptionalCoding<ArrayCoder<_RuleArnsEncoding, String>> public var ruleArns: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var ruleArns: [String]?
 
         public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil, ruleArns: [String]? = nil) {
             self.listenerArn = listenerArn
@@ -1113,11 +1084,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
 
-        public struct _RulesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the rules.
-        @OptionalCoding<ArrayCoder<_RulesEncoding, Rule>> public var rules: [Rule]?
+        @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
 
         public init(nextMarker: String? = nil, rules: [Rule]? = nil) {
             self.nextMarker = nextMarker
@@ -1135,11 +1105,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member"))
         ]
 
-        public struct _NamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the policies.
-        @OptionalCoding<ArrayCoder<_NamesEncoding, String>> public var names: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
@@ -1166,11 +1135,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "sslPolicies", location: .body(locationName: "SslPolicies"), encoding: .list(member:"member"))
         ]
 
-        public struct _SslPoliciesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the policies.
-        @OptionalCoding<ArrayCoder<_SslPoliciesEncoding, SslPolicy>> public var sslPolicies: [SslPolicy]?
+        @OptionalCoding<DefaultArrayCoder> public var sslPolicies: [SslPolicy]?
 
         public init(nextMarker: String? = nil, sslPolicies: [SslPolicy]? = nil) {
             self.nextMarker = nextMarker
@@ -1188,9 +1156,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member"))
         ]
 
-        public struct _ResourceArnsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Names (ARN) of the resources.
-        @Coding<ArrayCoder<_ResourceArnsEncoding, String>> public var resourceArns: [String]
+        @Coding<DefaultArrayCoder> public var resourceArns: [String]
 
         public init(resourceArns: [String]) {
             self.resourceArns = resourceArns
@@ -1206,9 +1173,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "tagDescriptions", location: .body(locationName: "TagDescriptions"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the tags.
-        @OptionalCoding<ArrayCoder<_TagDescriptionsEncoding, TagDescription>> public var tagDescriptions: [TagDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var tagDescriptions: [TagDescription]?
 
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
@@ -1238,9 +1204,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the target group attributes
-        @OptionalCoding<ArrayCoder<_AttributesEncoding, TargetGroupAttribute>> public var attributes: [TargetGroupAttribute]?
+        @OptionalCoding<DefaultArrayCoder> public var attributes: [TargetGroupAttribute]?
 
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
@@ -1257,18 +1222,16 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targetGroupArns", location: .body(locationName: "TargetGroupArns"), encoding: .list(member:"member"))
         ]
 
-        public struct _NamesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TargetGroupArnsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the target groups.
-        @OptionalCoding<ArrayCoder<_NamesEncoding, String>> public var names: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
         /// The Amazon Resource Names (ARN) of the target groups.
-        @OptionalCoding<ArrayCoder<_TargetGroupArnsEncoding, String>> public var targetGroupArns: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var targetGroupArns: [String]?
 
         public init(loadBalancerArn: String? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil, targetGroupArns: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
@@ -1297,11 +1260,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the target groups.
-        @OptionalCoding<ArrayCoder<_TargetGroupsEncoding, TargetGroup>> public var targetGroups: [TargetGroup]?
+        @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroup]?
 
         public init(nextMarker: String? = nil, targetGroups: [TargetGroup]? = nil) {
             self.nextMarker = nextMarker
@@ -1319,11 +1281,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets.
-        @OptionalCoding<ArrayCoder<_TargetsEncoding, TargetDescription>> public var targets: [TargetDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var targets: [TargetDescription]?
 
         public init(targetGroupArn: String, targets: [TargetDescription]? = nil) {
             self.targetGroupArn = targetGroupArn
@@ -1347,9 +1308,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targetHealthDescriptions", location: .body(locationName: "TargetHealthDescriptions"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetHealthDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the health of the targets.
-        @OptionalCoding<ArrayCoder<_TargetHealthDescriptionsEncoding, TargetHealthDescription>> public var targetHealthDescriptions: [TargetHealthDescription]?
+        @OptionalCoding<DefaultArrayCoder> public var targetHealthDescriptions: [TargetHealthDescription]?
 
         public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
             self.targetHealthDescriptions = targetHealthDescriptions
@@ -1395,9 +1355,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more target groups. For Network Load Balancers, you can specify a single target group.
-        @OptionalCoding<ArrayCoder<_TargetGroupsEncoding, TargetGroupTuple>> public var targetGroups: [TargetGroupTuple]?
+        @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroupTuple]?
         /// The target group stickiness for the rule.
         public let targetGroupStickinessConfig: TargetGroupStickinessConfig?
 
@@ -1417,9 +1376,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(values: [String]? = nil) {
             self.values = values
@@ -1435,11 +1393,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use HostHeaderConditionConfig to specify a host header condition.
         public let httpHeaderName: String?
         /// One or more strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(httpHeaderName: String? = nil, values: [String]? = nil) {
             self.httpHeaderName = httpHeaderName
@@ -1457,9 +1414,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(values: [String]? = nil) {
             self.values = values
@@ -1494,12 +1450,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DefaultActionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// [HTTPS or TLS listener] The default certificate for the listener.
-        @OptionalCoding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]?
+        @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
         /// The default actions for the listener.
-        @OptionalCoding<ArrayCoder<_DefaultActionsEncoding, Action>> public var defaultActions: [Action]?
+        @OptionalCoding<DefaultArrayCoder> public var defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1538,10 +1492,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Availability Zones for the load balancer.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
+        @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public let canonicalHostedZoneId: String?
         /// The date and time the load balancer was created.
@@ -1557,7 +1509,7 @@ extension ELBV2 {
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// The IDs of the security groups for the load balancer.
-        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
         /// The state of the load balancer.
         public let state: LoadBalancerState?
         /// The type of load balancer.
@@ -1680,12 +1632,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _DefaultActionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
-        @OptionalCoding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]?
+        @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
         /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        @OptionalCoding<ArrayCoder<_DefaultActionsEncoding, Action>> public var defaultActions: [Action]?
+        @OptionalCoding<DefaultArrayCoder> public var defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The port for connections from clients to the load balancer.
@@ -1727,9 +1677,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
 
-        public struct _ListenersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the modified listener.
-        @OptionalCoding<ArrayCoder<_ListenersEncoding, Listener>> public var listeners: [Listener]?
+        @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
 
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
@@ -1745,9 +1694,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The load balancer attributes.
-        @Coding<ArrayCoder<_AttributesEncoding, LoadBalancerAttribute>> public var attributes: [LoadBalancerAttribute]
+        @Coding<DefaultArrayCoder> public var attributes: [LoadBalancerAttribute]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
 
@@ -1774,9 +1722,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the load balancer attributes.
-        @OptionalCoding<ArrayCoder<_AttributesEncoding, LoadBalancerAttribute>> public var attributes: [LoadBalancerAttribute]?
+        @OptionalCoding<DefaultArrayCoder> public var attributes: [LoadBalancerAttribute]?
 
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
@@ -1793,12 +1740,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ConditionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        @OptionalCoding<ArrayCoder<_ActionsEncoding, Action>> public var actions: [Action]?
+        @OptionalCoding<DefaultArrayCoder> public var actions: [Action]?
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
-        @OptionalCoding<ArrayCoder<_ConditionsEncoding, RuleCondition>> public var conditions: [RuleCondition]?
+        @OptionalCoding<DefaultArrayCoder> public var conditions: [RuleCondition]?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
 
@@ -1829,9 +1774,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
 
-        public struct _RulesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the modified rule.
-        @OptionalCoding<ArrayCoder<_RulesEncoding, Rule>> public var rules: [Rule]?
+        @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -1847,9 +1791,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The attributes.
-        @Coding<ArrayCoder<_AttributesEncoding, TargetGroupAttribute>> public var attributes: [TargetGroupAttribute]
+        @Coding<DefaultArrayCoder> public var attributes: [TargetGroupAttribute]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
 
@@ -1875,9 +1818,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
 
-        public struct _AttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the attributes.
-        @OptionalCoding<ArrayCoder<_AttributesEncoding, TargetGroupAttribute>> public var attributes: [TargetGroupAttribute]?
+        @OptionalCoding<DefaultArrayCoder> public var attributes: [TargetGroupAttribute]?
 
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
@@ -1956,9 +1898,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the modified target group.
-        @OptionalCoding<ArrayCoder<_TargetGroupsEncoding, TargetGroup>> public var targetGroups: [TargetGroup]?
+        @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
@@ -1974,9 +1915,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use QueryStringConditionConfig.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(values: [String]? = nil) {
             self.values = values
@@ -1992,9 +1932,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, QueryStringKeyValuePair>> public var values: [QueryStringKeyValuePair]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [QueryStringKeyValuePair]?
 
         public init(values: [QueryStringKeyValuePair]? = nil) {
             self.values = values
@@ -2072,11 +2011,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
 
-        public struct _TargetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets. To register a target by instance ID, specify the instance ID. To register a target by IP address, specify the IP address. To register a Lambda function, specify the ARN of the Lambda function.
-        @Coding<ArrayCoder<_TargetsEncoding, TargetDescription>> public var targets: [TargetDescription]
+        @Coding<DefaultArrayCoder> public var targets: [TargetDescription]
 
         public init(targetGroupArn: String, targets: [TargetDescription]) {
             self.targetGroupArn = targetGroupArn
@@ -2108,9 +2046,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
 
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        @Coding<ArrayCoder<_CertificatesEncoding, Certificate>> public var certificates: [Certificate]
+        @Coding<DefaultArrayCoder> public var certificates: [Certificate]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
@@ -2139,12 +2076,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
 
-        public struct _ResourceArnsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the resource.
-        @Coding<ArrayCoder<_ResourceArnsEncoding, String>> public var resourceArns: [String]
+        @Coding<DefaultArrayCoder> public var resourceArns: [String]
         /// The tag keys for the tags to remove.
-        @Coding<ArrayCoder<_TagKeysEncoding, String>> public var tagKeys: [String]
+        @Coding<DefaultArrayCoder> public var tagKeys: [String]
 
         public init(resourceArns: [String], tagKeys: [String]) {
             self.resourceArns = resourceArns
@@ -2179,12 +2114,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
         ]
 
-        public struct _ActionsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _ConditionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
-        @OptionalCoding<ArrayCoder<_ActionsEncoding, Action>> public var actions: [Action]?
+        @OptionalCoding<DefaultArrayCoder> public var actions: [Action]?
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
-        @OptionalCoding<ArrayCoder<_ConditionsEncoding, RuleCondition>> public var conditions: [RuleCondition]?
+        @OptionalCoding<DefaultArrayCoder> public var conditions: [RuleCondition]?
         /// Indicates whether this is the default rule.
         public let isDefault: Bool?
         /// The priority.
@@ -2214,7 +2147,6 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The field in the HTTP request. The following are the possible values:    http-header     http-request-method     host-header     path-pattern     query-string     source-ip   
         public let field: String?
         /// Information for a host header condition. Specify only when Field is host-header.
@@ -2230,7 +2162,7 @@ extension ELBV2 {
         /// Information for a source IP condition. Specify only when Field is source-ip.
         public let sourceIpConfig: SourceIpConditionConfig?
         /// The condition value. You can use Values if the rule contains only host-header and path-pattern conditions. Otherwise, you can use HostHeaderConfig for host-header conditions and PathPatternConfig for path-pattern conditions. If Field is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
             self.field = field
@@ -2319,9 +2251,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "rulePriorities", location: .body(locationName: "RulePriorities"), encoding: .list(member:"member"))
         ]
 
-        public struct _RulePrioritiesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The rule priorities.
-        @Coding<ArrayCoder<_RulePrioritiesEncoding, RulePriorityPair>> public var rulePriorities: [RulePriorityPair]
+        @Coding<DefaultArrayCoder> public var rulePriorities: [RulePriorityPair]
 
         public init(rulePriorities: [RulePriorityPair]) {
             self.rulePriorities = rulePriorities
@@ -2343,9 +2274,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
 
-        public struct _RulesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the rules.
-        @OptionalCoding<ArrayCoder<_RulesEncoding, Rule>> public var rules: [Rule]?
+        @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -2361,11 +2291,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
 
-        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the security groups.
-        @Coding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]
+        @Coding<DefaultArrayCoder> public var securityGroups: [String]
 
         public init(loadBalancerArn: String, securityGroups: [String]) {
             self.loadBalancerArn = loadBalancerArn
@@ -2383,9 +2312,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupIds"), encoding: .list(member:"member"))
         ]
 
-        public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the security groups associated with the load balancer.
-        @OptionalCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>> public var securityGroupIds: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var securityGroupIds: [String]?
 
         public init(securityGroupIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
@@ -2402,14 +2330,12 @@ extension ELBV2 {
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
 
-        public struct _SubnetMappingsEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. If you need static IP addresses for your internet-facing load balancer, you can specify one Elastic IP address per subnet. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
-        @OptionalCoding<ArrayCoder<_SubnetMappingsEncoding, SubnetMapping>> public var subnetMappings: [SubnetMapping]?
+        @OptionalCoding<DefaultArrayCoder> public var subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
-        @OptionalCoding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
 
         public init(loadBalancerArn: String, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
@@ -2429,9 +2355,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
 
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the subnet and Availability Zone.
-        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
+        @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [AvailabilityZone]?
 
         public init(availabilityZones: [AvailabilityZone]? = nil) {
             self.availabilityZones = availabilityZones
@@ -2447,9 +2372,8 @@ extension ELBV2 {
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
 
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use HttpHeaderConditionConfig.
-        @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var values: [String]?
 
         public init(values: [String]? = nil) {
             self.values = values
@@ -2466,14 +2390,12 @@ extension ELBV2 {
             AWSMemberEncoding(label: "sslProtocols", location: .body(locationName: "SslProtocols"), encoding: .list(member:"member"))
         ]
 
-        public struct _CiphersEncoding: ArrayCoderProperties { static public let member = "member" }
-        public struct _SslProtocolsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The ciphers.
-        @OptionalCoding<ArrayCoder<_CiphersEncoding, Cipher>> public var ciphers: [Cipher]?
+        @OptionalCoding<DefaultArrayCoder> public var ciphers: [Cipher]?
         /// The name of the policy.
         public let name: String?
         /// The protocols.
-        @OptionalCoding<ArrayCoder<_SslProtocolsEncoding, String>> public var sslProtocols: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var sslProtocols: [String]?
 
         public init(ciphers: [Cipher]? = nil, name: String? = nil, sslProtocols: [String]? = nil) {
             self.ciphers = ciphers
@@ -2542,11 +2464,10 @@ extension ELBV2 {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// Information about the tags.
-        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
+        @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
 
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
@@ -2591,7 +2512,6 @@ extension ELBV2 {
             AWSMemberEncoding(label: "loadBalancerArns", location: .body(locationName: "LoadBalancerArns"), encoding: .list(member:"member"))
         ]
 
-        public struct _LoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
@@ -2607,7 +2527,7 @@ extension ELBV2 {
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public let healthyThresholdCount: Int?
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
-        @OptionalCoding<ArrayCoder<_LoadBalancerArnsEncoding, String>> public var loadBalancerArns: [String]?
+        @OptionalCoding<DefaultArrayCoder> public var loadBalancerArns: [String]?
         /// The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
         /// The port on which the targets are listening. Not used if the target is a Lambda function.
