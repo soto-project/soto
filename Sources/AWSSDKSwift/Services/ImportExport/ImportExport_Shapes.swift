@@ -89,7 +89,8 @@ extension ImportExport {
             AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
 
-        public let artifactList: [Artifact]?
+        public struct _ArtifactListEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_ArtifactListEncoding, Artifact>> public var artifactList: [Artifact]?
         public let jobId: String?
         public let jobType: JobType?
         public let signature: String?
@@ -120,11 +121,12 @@ extension ImportExport {
             AWSMemberEncoding(label: "jobIds", encoding: .list(member:"member"))
         ]
 
+        public struct _jobIdsEncoding: ArrayCoderProperties { static public let member = "member" }
         public let aPIVersion: String?
         public let city: String?
         public let company: String?
         public let country: String?
-        public let jobIds: [String]
+        @Coding<ArrayCoder<_jobIdsEncoding, String>> public var jobIds: [String]
         public let name: String?
         public let phoneNumber: String?
         public let postalCode: String?
@@ -201,7 +203,8 @@ extension ImportExport {
             AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
 
-        public let artifactList: [Artifact]?
+        public struct _ArtifactListEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_ArtifactListEncoding, Artifact>> public var artifactList: [Artifact]?
         public let carrier: String?
         public let creationDate: TimeStamp?
         public let currentManifest: String?
@@ -303,8 +306,9 @@ extension ImportExport {
             AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
         ]
 
+        public struct _JobsEncoding: ArrayCoderProperties { static public let member = "member" }
         public let isTruncated: Bool?
-        public let jobs: [Job]?
+        @OptionalCoding<ArrayCoder<_JobsEncoding, Job>> public var jobs: [Job]?
 
         public init(isTruncated: Bool? = nil, jobs: [Job]? = nil) {
             self.isTruncated = isTruncated
@@ -347,7 +351,8 @@ extension ImportExport {
             AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
         ]
 
-        public let artifactList: [Artifact]?
+        public struct _ArtifactListEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_ArtifactListEncoding, Artifact>> public var artifactList: [Artifact]?
         public let success: Bool?
         public let warningMessage: String?
 

@@ -39,8 +39,9 @@ extension ELB {
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
 
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Availability Zones. These must be in the same region as the load balancer.
-        public let availabilityZones: [String]
+        @Coding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -60,8 +61,9 @@ extension ELB {
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
 
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The updated list of Availability Zones for the load balancer.
-        public let availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
 
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
@@ -78,10 +80,12 @@ extension ELB {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
+        public struct _LoadBalancerNamesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer. You can specify one load balancer only.
-        public let loadBalancerNames: [String]
+        @Coding<ArrayCoder<_LoadBalancerNamesEncoding, String>> public var loadBalancerNames: [String]
         /// The tags.
-        public let tags: [Tag]
+        @Coding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]
 
         public init(loadBalancerNames: [String], tags: [Tag]) {
             self.loadBalancerNames = loadBalancerNames
@@ -157,10 +161,11 @@ extension ELB {
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
 
+        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
-        public let securityGroups: [String]
+        @Coding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]
 
         public init(loadBalancerName: String, securityGroups: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -178,8 +183,9 @@ extension ELB {
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
 
+        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the security groups associated with the load balancer.
-        public let securityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]?
 
         public init(securityGroups: [String]? = nil) {
             self.securityGroups = securityGroups
@@ -195,10 +201,11 @@ extension ELB {
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
 
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
-        public let subnets: [String]
+        @Coding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]
 
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -216,8 +223,9 @@ extension ELB {
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
 
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the subnets attached to the load balancer.
-        public let subnets: [String]?
+        @OptionalCoding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]?
 
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
@@ -233,10 +241,11 @@ extension ELB {
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The port on which the EC2 instance is listening.
         public let instancePort: Int?
         /// The names of the policies enabled for the EC2 instance.
-        public let policyNames: [String]?
+        @OptionalCoding<ArrayCoder<_PolicyNamesEncoding, String>> public var policyNames: [String]?
 
         public init(instancePort: Int? = nil, policyNames: [String]? = nil) {
             self.instancePort = instancePort
@@ -331,20 +340,25 @@ extension ELB {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _ListenersEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
-        public let availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
         /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
-        public let listeners: [Listener]
+        @Coding<ArrayCoder<_ListenersEncoding, Listener>> public var listeners: [Listener]
         /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
         public let loadBalancerName: String
         /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide. Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
         public let scheme: String?
         /// The IDs of the security groups to assign to the load balancer.
-        public let securityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]?
         /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones.
-        public let subnets: [String]?
+        @OptionalCoding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]?
         /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
-        public let tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
 
         public init(availabilityZones: [String]? = nil, listeners: [Listener], loadBalancerName: String, scheme: String? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
@@ -456,8 +470,9 @@ extension ELB {
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
 
+        public struct _ListenersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The listeners.
-        public let listeners: [Listener]
+        @Coding<ArrayCoder<_ListenersEncoding, Listener>> public var listeners: [Listener]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -491,10 +506,11 @@ extension ELB {
             AWSMemberEncoding(label: "policyAttributes", location: .body(locationName: "PolicyAttributes"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyAttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The policy attributes.
-        public let policyAttributes: [PolicyAttribute]?
+        @OptionalCoding<ArrayCoder<_PolicyAttributesEncoding, PolicyAttribute>> public var policyAttributes: [PolicyAttribute]?
         /// The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
         public let policyName: String
         /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
@@ -564,10 +580,11 @@ extension ELB {
             AWSMemberEncoding(label: "loadBalancerPorts", location: .body(locationName: "LoadBalancerPorts"), encoding: .list(member:"member"))
         ]
 
+        public struct _LoadBalancerPortsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The client port numbers of the listeners.
-        public let loadBalancerPorts: [Int]
+        @Coding<ArrayCoder<_LoadBalancerPortsEncoding, Int>> public var loadBalancerPorts: [Int]
 
         public init(loadBalancerName: String, loadBalancerPorts: [Int]) {
             self.loadBalancerName = loadBalancerName
@@ -619,8 +636,9 @@ extension ELB {
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
 
+        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the instances.
-        public let instances: [Instance]
+        @Coding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -640,8 +658,9 @@ extension ELB {
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
 
+        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The remaining instances registered with the load balancer.
-        public let instances: [Instance]?
+        @OptionalCoding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]?
 
         public init(instances: [Instance]? = nil) {
             self.instances = instances
@@ -657,8 +676,9 @@ extension ELB {
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _LoadBalancerNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the load balancers.
-        public let loadBalancerNames: [String]?
+        @OptionalCoding<ArrayCoder<_LoadBalancerNamesEncoding, String>> public var loadBalancerNames: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
@@ -687,8 +707,9 @@ extension ELB {
             AWSMemberEncoding(label: "loadBalancerDescriptions", location: .body(locationName: "LoadBalancerDescriptions"), encoding: .list(member:"member"))
         ]
 
+        public struct _LoadBalancerDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the load balancers.
-        public let loadBalancerDescriptions: [LoadBalancerDescription]?
+        @OptionalCoding<ArrayCoder<_LoadBalancerDescriptionsEncoding, LoadBalancerDescription>> public var loadBalancerDescriptions: [LoadBalancerDescription]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
 
@@ -731,8 +752,9 @@ extension ELB {
             AWSMemberEncoding(label: "limits", location: .body(locationName: "Limits"), encoding: .list(member:"member"))
         ]
 
+        public struct _LimitsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the limits.
-        public let limits: [Limit]?
+        @OptionalCoding<ArrayCoder<_LimitsEncoding, Limit>> public var limits: [Limit]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
 
@@ -752,8 +774,9 @@ extension ELB {
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
 
+        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the instances.
-        public let instances: [Instance]?
+        @OptionalCoding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]?
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -773,8 +796,9 @@ extension ELB {
             AWSMemberEncoding(label: "instanceStates", location: .body(locationName: "InstanceStates"), encoding: .list(member:"member"))
         ]
 
+        public struct _InstanceStatesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the health of the instances.
-        public let instanceStates: [InstanceState]?
+        @OptionalCoding<ArrayCoder<_InstanceStatesEncoding, InstanceState>> public var instanceStates: [InstanceState]?
 
         public init(instanceStates: [InstanceState]? = nil) {
             self.instanceStates = instanceStates
@@ -818,10 +842,11 @@ extension ELB {
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The names of the policies.
-        public let policyNames: [String]?
+        @OptionalCoding<ArrayCoder<_PolicyNamesEncoding, String>> public var policyNames: [String]?
 
         public init(loadBalancerName: String? = nil, policyNames: [String]? = nil) {
             self.loadBalancerName = loadBalancerName
@@ -839,8 +864,9 @@ extension ELB {
             AWSMemberEncoding(label: "policyDescriptions", location: .body(locationName: "PolicyDescriptions"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the policies.
-        public let policyDescriptions: [PolicyDescription]?
+        @OptionalCoding<ArrayCoder<_PolicyDescriptionsEncoding, PolicyDescription>> public var policyDescriptions: [PolicyDescription]?
 
         public init(policyDescriptions: [PolicyDescription]? = nil) {
             self.policyDescriptions = policyDescriptions
@@ -856,8 +882,9 @@ extension ELB {
             AWSMemberEncoding(label: "policyTypeNames", location: .body(locationName: "PolicyTypeNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyTypeNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
-        public let policyTypeNames: [String]?
+        @OptionalCoding<ArrayCoder<_PolicyTypeNamesEncoding, String>> public var policyTypeNames: [String]?
 
         public init(policyTypeNames: [String]? = nil) {
             self.policyTypeNames = policyTypeNames
@@ -873,8 +900,9 @@ extension ELB {
             AWSMemberEncoding(label: "policyTypeDescriptions", location: .body(locationName: "PolicyTypeDescriptions"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyTypeDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the policy types.
-        public let policyTypeDescriptions: [PolicyTypeDescription]?
+        @OptionalCoding<ArrayCoder<_PolicyTypeDescriptionsEncoding, PolicyTypeDescription>> public var policyTypeDescriptions: [PolicyTypeDescription]?
 
         public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
             self.policyTypeDescriptions = policyTypeDescriptions
@@ -890,8 +918,9 @@ extension ELB {
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _LoadBalancerNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the load balancers.
-        public let loadBalancerNames: [String]
+        @Coding<ArrayCoder<_LoadBalancerNamesEncoding, String>> public var loadBalancerNames: [String]
 
         public init(loadBalancerNames: [String]) {
             self.loadBalancerNames = loadBalancerNames
@@ -912,8 +941,9 @@ extension ELB {
             AWSMemberEncoding(label: "tagDescriptions", location: .body(locationName: "TagDescriptions"), encoding: .list(member:"member"))
         ]
 
+        public struct _TagDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Information about the tags.
-        public let tagDescriptions: [TagDescription]?
+        @OptionalCoding<ArrayCoder<_TagDescriptionsEncoding, TagDescription>> public var tagDescriptions: [TagDescription]?
 
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
@@ -929,10 +959,11 @@ extension ELB {
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
 
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the subnets.
-        public let subnets: [String]
+        @Coding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]
 
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -950,8 +981,9 @@ extension ELB {
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
 
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the remaining subnets for the load balancer.
-        public let subnets: [String]?
+        @OptionalCoding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]?
 
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
@@ -1119,10 +1151,11 @@ extension ELB {
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The listener.
         public let listener: Listener?
         /// The policies. If there are no policies enabled, the list is empty.
-        public let policyNames: [String]?
+        @OptionalCoding<ArrayCoder<_PolicyNamesEncoding, String>> public var policyNames: [String]?
 
         public init(listener: Listener? = nil, policyNames: [String]? = nil) {
             self.listener = listener
@@ -1140,10 +1173,11 @@ extension ELB {
             AWSMemberEncoding(label: "additionalAttributes", location: .body(locationName: "AdditionalAttributes"), encoding: .list(member:"member"))
         ]
 
+        public struct _AdditionalAttributesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
         public let accessLog: AccessLog?
         /// This parameter is reserved.
-        public let additionalAttributes: [AdditionalAttribute]?
+        @OptionalCoding<ArrayCoder<_AdditionalAttributesEncoding, AdditionalAttribute>> public var additionalAttributes: [AdditionalAttribute]?
         /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide.
         public let connectionDraining: ConnectionDraining?
         /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide.
@@ -1186,10 +1220,16 @@ extension ELB {
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
         ]
 
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _BackendServerDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _ListenerDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Availability Zones for the load balancer.
-        public let availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
         /// Information about your EC2 instances.
-        public let backendServerDescriptions: [BackendServerDescription]?
+        @OptionalCoding<ArrayCoder<_BackendServerDescriptionsEncoding, BackendServerDescription>> public var backendServerDescriptions: [BackendServerDescription]?
         /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancers Guide.
         public let canonicalHostedZoneName: String?
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
@@ -1201,9 +1241,9 @@ extension ELB {
         /// Information about the health checks conducted on the load balancer.
         public let healthCheck: HealthCheck?
         /// The IDs of the instances for the load balancer.
-        public let instances: [Instance]?
+        @OptionalCoding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]?
         /// The listeners for the load balancer.
-        public let listenerDescriptions: [ListenerDescription]?
+        @OptionalCoding<ArrayCoder<_ListenerDescriptionsEncoding, ListenerDescription>> public var listenerDescriptions: [ListenerDescription]?
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The policies defined for the load balancer.
@@ -1211,11 +1251,11 @@ extension ELB {
         /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
         public let scheme: String?
         /// The security groups for the load balancer. Valid only for load balancers in a VPC.
-        public let securityGroups: [String]?
+        @OptionalCoding<ArrayCoder<_SecurityGroupsEncoding, String>> public var securityGroups: [String]?
         /// The security group for the load balancer, which you can use as part of your inbound rules for your registered instances. To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
         public let sourceSecurityGroup: SourceSecurityGroup?
         /// The IDs of the subnets for the load balancer.
-        public let subnets: [String]?
+        @OptionalCoding<ArrayCoder<_SubnetsEncoding, String>> public var subnets: [String]?
         /// The ID of the VPC for the load balancer.
         public let vPCId: String?
 
@@ -1305,12 +1345,15 @@ extension ELB {
             AWSMemberEncoding(label: "otherPolicies", location: .body(locationName: "OtherPolicies"), encoding: .list(member:"member"))
         ]
 
+        public struct _AppCookieStickinessPoliciesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _LBCookieStickinessPoliciesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _OtherPoliciesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The stickiness policies created using CreateAppCookieStickinessPolicy.
-        public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
+        @OptionalCoding<ArrayCoder<_AppCookieStickinessPoliciesEncoding, AppCookieStickinessPolicy>> public var appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
         /// The stickiness policies created using CreateLBCookieStickinessPolicy.
-        public let lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
+        @OptionalCoding<ArrayCoder<_LBCookieStickinessPoliciesEncoding, LBCookieStickinessPolicy>> public var lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
         /// The policies other than the stickiness policies.
-        public let otherPolicies: [String]?
+        @OptionalCoding<ArrayCoder<_OtherPoliciesEncoding, String>> public var otherPolicies: [String]?
 
         public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
@@ -1396,8 +1439,9 @@ extension ELB {
             AWSMemberEncoding(label: "policyAttributeDescriptions", location: .body(locationName: "PolicyAttributeDescriptions"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyAttributeDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The policy attributes.
-        public let policyAttributeDescriptions: [PolicyAttributeDescription]?
+        @OptionalCoding<ArrayCoder<_PolicyAttributeDescriptionsEncoding, PolicyAttributeDescription>> public var policyAttributeDescriptions: [PolicyAttributeDescription]?
         /// The name of the policy.
         public let policyName: String?
         /// The name of the policy type.
@@ -1421,10 +1465,11 @@ extension ELB {
             AWSMemberEncoding(label: "policyAttributeTypeDescriptions", location: .body(locationName: "PolicyAttributeTypeDescriptions"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyAttributeTypeDescriptionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// A description of the policy type.
         public let description: String?
         /// The description of the policy attributes associated with the policies defined by Elastic Load Balancing.
-        public let policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]?
+        @OptionalCoding<ArrayCoder<_PolicyAttributeTypeDescriptionsEncoding, PolicyAttributeTypeDescription>> public var policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]?
         /// The name of the policy type.
         public let policyTypeName: String?
 
@@ -1446,8 +1491,9 @@ extension ELB {
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
 
+        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The IDs of the instances.
-        public let instances: [Instance]
+        @Coding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -1467,8 +1513,9 @@ extension ELB {
             AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member"))
         ]
 
+        public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The updated list of instances for the load balancer.
-        public let instances: [Instance]?
+        @OptionalCoding<ArrayCoder<_InstancesEncoding, Instance>> public var instances: [Instance]?
 
         public init(instances: [Instance]? = nil) {
             self.instances = instances
@@ -1484,8 +1531,9 @@ extension ELB {
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
 
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The Availability Zones.
-        public let availabilityZones: [String]
+        @Coding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -1505,8 +1553,9 @@ extension ELB {
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
 
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The remaining Availability Zones for the load balancer.
-        public let availabilityZones: [String]?
+        @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
 
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
@@ -1523,10 +1572,12 @@ extension ELB {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
+        public struct _LoadBalancerNamesEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer. You can specify a maximum of one load balancer name.
-        public let loadBalancerNames: [String]
+        @Coding<ArrayCoder<_LoadBalancerNamesEncoding, String>> public var loadBalancerNames: [String]
         /// The list of tag keys to remove.
-        public let tags: [TagKeyOnly]
+        @Coding<ArrayCoder<_TagsEncoding, TagKeyOnly>> public var tags: [TagKeyOnly]
 
         public init(loadBalancerNames: [String], tags: [TagKeyOnly]) {
             self.loadBalancerNames = loadBalancerNames
@@ -1589,12 +1640,13 @@ extension ELB {
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The port number associated with the EC2 instance.
         public let instancePort: Int
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
-        public let policyNames: [String]
+        @Coding<ArrayCoder<_PolicyNamesEncoding, String>> public var policyNames: [String]
 
         public init(instancePort: Int, loadBalancerName: String, policyNames: [String]) {
             self.instancePort = instancePort
@@ -1622,12 +1674,13 @@ extension ELB {
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _PolicyNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The external port of the load balancer.
         public let loadBalancerPort: Int
         /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
-        public let policyNames: [String]
+        @Coding<ArrayCoder<_PolicyNamesEncoding, String>> public var policyNames: [String]
 
         public init(loadBalancerName: String, loadBalancerPort: Int, policyNames: [String]) {
             self.loadBalancerName = loadBalancerName
@@ -1700,10 +1753,11 @@ extension ELB {
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
 
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The tags.
-        public let tags: [Tag]?
+        @OptionalCoding<ArrayCoder<_TagsEncoding, Tag>> public var tags: [Tag]?
 
         public init(loadBalancerName: String? = nil, tags: [Tag]? = nil) {
             self.loadBalancerName = loadBalancerName

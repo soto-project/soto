@@ -231,7 +231,8 @@ extension CloudSearch {
             AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
         ]
 
-        public let fieldNames: [String]?
+        public struct _FieldNamesEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_FieldNamesEncoding, String>> public var fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
@@ -695,8 +696,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "analysisSchemeNames", location: .body(locationName: "AnalysisSchemeNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _AnalysisSchemeNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The analysis schemes you want to describe.
-        public let analysisSchemeNames: [String]?
+        @OptionalCoding<ArrayCoder<_AnalysisSchemeNamesEncoding, String>> public var analysisSchemeNames: [String]?
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
         /// The name of the domain you want to describe.
@@ -731,8 +733,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "analysisSchemes", location: .body(locationName: "AnalysisSchemes"), encoding: .list(member:"member"))
         ]
 
+        public struct _AnalysisSchemesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The analysis scheme descriptions.
-        public let analysisSchemes: [AnalysisSchemeStatus]
+        @Coding<ArrayCoder<_AnalysisSchemesEncoding, AnalysisSchemeStatus>> public var analysisSchemes: [AnalysisSchemeStatus]
 
         public init(analysisSchemes: [AnalysisSchemeStatus]) {
             self.analysisSchemes = analysisSchemes
@@ -824,8 +827,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _DomainNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the domains you want to include in the response.
-        public let domainNames: [String]?
+        @OptionalCoding<ArrayCoder<_DomainNamesEncoding, String>> public var domainNames: [String]?
 
         public init(domainNames: [String]? = nil) {
             self.domainNames = domainNames
@@ -849,7 +853,8 @@ extension CloudSearch {
             AWSMemberEncoding(label: "domainStatusList", location: .body(locationName: "DomainStatusList"), encoding: .list(member:"member"))
         ]
 
-        public let domainStatusList: [DomainStatus]
+        public struct _DomainStatusListEncoding: ArrayCoderProperties { static public let member = "member" }
+        @Coding<ArrayCoder<_DomainStatusListEncoding, DomainStatus>> public var domainStatusList: [DomainStatus]
 
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
@@ -865,12 +870,13 @@ extension CloudSearch {
             AWSMemberEncoding(label: "expressionNames", location: .body(locationName: "ExpressionNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _ExpressionNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
-        public let expressionNames: [String]?
+        @OptionalCoding<ArrayCoder<_ExpressionNamesEncoding, String>> public var expressionNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, expressionNames: [String]? = nil) {
             self.deployed = deployed
@@ -901,8 +907,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "expressions", location: .body(locationName: "Expressions"), encoding: .list(member:"member"))
         ]
 
+        public struct _ExpressionsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The expressions configured for the domain.
-        public let expressions: [ExpressionStatus]
+        @Coding<ArrayCoder<_ExpressionsEncoding, ExpressionStatus>> public var expressions: [ExpressionStatus]
 
         public init(expressions: [ExpressionStatus]) {
             self.expressions = expressions
@@ -918,12 +925,13 @@ extension CloudSearch {
             AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _FieldNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
-        public let fieldNames: [String]?
+        @OptionalCoding<ArrayCoder<_FieldNamesEncoding, String>> public var fieldNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, fieldNames: [String]? = nil) {
             self.deployed = deployed
@@ -954,8 +962,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "indexFields", location: .body(locationName: "IndexFields"), encoding: .list(member:"member"))
         ]
 
+        public struct _IndexFieldsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The index fields configured for the domain.
-        public let indexFields: [IndexFieldStatus]
+        @Coding<ArrayCoder<_IndexFieldsEncoding, IndexFieldStatus>> public var indexFields: [IndexFieldStatus]
 
         public init(indexFields: [IndexFieldStatus]) {
             self.indexFields = indexFields
@@ -1041,12 +1050,13 @@ extension CloudSearch {
             AWSMemberEncoding(label: "suggesterNames", location: .body(locationName: "SuggesterNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _SuggesterNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
         /// The suggesters you want to describe.
-        public let suggesterNames: [String]?
+        @OptionalCoding<ArrayCoder<_SuggesterNamesEncoding, String>> public var suggesterNames: [String]?
 
         public init(deployed: Bool? = nil, domainName: String, suggesterNames: [String]? = nil) {
             self.deployed = deployed
@@ -1077,8 +1087,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "suggesters", location: .body(locationName: "Suggesters"), encoding: .list(member:"member"))
         ]
 
+        public struct _SuggestersEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The suggesters configured for the domain specified in the request.
-        public let suggesters: [SuggesterStatus]
+        @Coding<ArrayCoder<_SuggestersEncoding, SuggesterStatus>> public var suggesters: [SuggesterStatus]
 
         public init(suggesters: [SuggesterStatus]) {
             self.suggesters = suggesters
@@ -1350,8 +1361,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
         ]
 
+        public struct _FieldNamesEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The names of the fields that are currently being indexed.
-        public let fieldNames: [String]?
+        @OptionalCoding<ArrayCoder<_FieldNamesEncoding, String>> public var fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
@@ -1581,8 +1593,9 @@ extension CloudSearch {
             AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainNames"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
+        public struct _DomainNamesEncoding: DictionaryCoderProperties { static public let entry: String? = "entry"; static public let key = "key"; static public let value = "value" }
         /// The names of the search domains owned by an account.
-        public let domainNames: [String: String]?
+        @OptionalCoding<DictionaryCoder<_DomainNamesEncoding, String, String>> public var domainNames: [String: String]?
 
         public init(domainNames: [String: String]? = nil) {
             self.domainNames = domainNames

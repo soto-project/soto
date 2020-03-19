@@ -593,6 +593,7 @@ extension S3Control {
             AWSMemberEncoding(label: "failureReasons", location: .body(locationName: "FailureReasons"), encoding: .list(member:"member"))
         ]
 
+        public struct _FailureReasonsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public let confirmationRequired: Bool?
         /// A timestamp indicating when this job was created.
@@ -600,7 +601,7 @@ extension S3Control {
         /// The description for this job, if one was provided in this job's Create Job request.
         public let description: String?
         /// If the specified job failed, this field contains information describing the failure.
-        public let failureReasons: [JobFailure]?
+        @OptionalCoding<ArrayCoder<_FailureReasonsEncoding, JobFailure>> public var failureReasons: [JobFailure]?
         /// The Amazon Resource Name (ARN) for this job.
         public let jobArn: String?
         /// The ID for the specified job.
@@ -786,8 +787,9 @@ extension S3Control {
             AWSMemberEncoding(label: "fields", location: .body(locationName: "Fields"), encoding: .list(member:"member"))
         ]
 
+        public struct _FieldsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
-        public let fields: [JobManifestFieldName]?
+        @OptionalCoding<ArrayCoder<_FieldsEncoding, JobManifestFieldName>> public var fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
 
@@ -962,8 +964,9 @@ extension S3Control {
             AWSMemberEncoding(label: "accessPointList", location: .body(locationName: "AccessPointList"), encoding: .list(member:"AccessPoint"))
         ]
 
+        public struct _AccessPointListEncoding: ArrayCoderProperties { static public let member = "AccessPoint" }
         /// Contains identification and configuration information for one or more access points associated with the specified bucket.
-        public let accessPointList: [AccessPoint]?
+        @OptionalCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>> public var accessPointList: [AccessPoint]?
         /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
@@ -1022,8 +1025,9 @@ extension S3Control {
             AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
         ]
 
+        public struct _JobsEncoding: ArrayCoderProperties { static public let member = "member" }
         /// The list of current jobs and jobs that have ended within the last 30 days.
-        public let jobs: [JobListDescriptor]?
+        @OptionalCoding<ArrayCoder<_JobsEncoding, JobListDescriptor>> public var jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
 
@@ -1153,7 +1157,8 @@ extension S3Control {
             AWSMemberEncoding(label: "grants", location: .body(locationName: "Grants"), encoding: .list(member:"member"))
         ]
 
-        public let grants: [S3Grant]?
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_GrantsEncoding, S3Grant>> public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
 
         public init(grants: [S3Grant]? = nil, owner: S3ObjectOwner) {
@@ -1200,12 +1205,14 @@ extension S3Control {
             AWSMemberEncoding(label: "newObjectTagging", location: .body(locationName: "NewObjectTagging"), encoding: .list(member:"member"))
         ]
 
-        public let accessControlGrants: [S3Grant]?
+        public struct _AccessControlGrantsEncoding: ArrayCoderProperties { static public let member = "member" }
+        public struct _NewObjectTaggingEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_AccessControlGrantsEncoding, S3Grant>> public var accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
         public let metadataDirective: S3MetadataDirective?
         public let modifiedSinceConstraint: TimeStamp?
         public let newObjectMetadata: S3ObjectMetadata?
-        public let newObjectTagging: [S3Tag]?
+        @OptionalCoding<ArrayCoder<_NewObjectTaggingEncoding, S3Tag>> public var newObjectTagging: [S3Tag]?
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
         public let objectLockMode: S3ObjectLockMode?
         public let objectLockRetainUntilDate: TimeStamp?
@@ -1345,6 +1352,7 @@ extension S3Control {
             AWSMemberEncoding(label: "userMetadata", location: .body(locationName: "UserMetadata"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
 
+        public struct _UserMetadataEncoding: DictionaryCoderProperties { static public let entry: String? = "entry"; static public let key = "key"; static public let value = "value" }
         public let cacheControl: String?
         public let contentDisposition: String?
         public let contentEncoding: String?
@@ -1355,7 +1363,7 @@ extension S3Control {
         public let httpExpiresDate: TimeStamp?
         public let requesterCharged: Bool?
         public let sSEAlgorithm: S3SSEAlgorithm?
-        public let userMetadata: [String: String]?
+        @OptionalCoding<DictionaryCoder<_UserMetadataEncoding, String, String>> public var userMetadata: [String: String]?
 
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: TimeStamp? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
@@ -1452,7 +1460,8 @@ extension S3Control {
             AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"member"))
         ]
 
-        public let tagSet: [S3Tag]?
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "member" }
+        @OptionalCoding<ArrayCoder<_TagSetEncoding, S3Tag>> public var tagSet: [S3Tag]?
 
         public init(tagSet: [S3Tag]? = nil) {
             self.tagSet = tagSet

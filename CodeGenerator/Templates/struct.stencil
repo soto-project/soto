@@ -16,12 +16,20 @@
         ]
 {%endif %}
 
+{%for encoding in struct.encoding %}
+{# Is encoding a dictionary #}
+{%if encoding.key %}
+        public struct {{encoding.name}}: DictionaryCoderProperties { static public let entry: String? = {%if encoding.entry %}"{{encoding.entry}}"{%else %}nil{%endif %}; static public let key = "{{encoding.key}}"; static public let value = "{{encoding.value}}" }
+{%else %}
+        public struct {{encoding.name}}: ArrayCoderProperties { static public let member = "{{encoding.member}}" }
+{%endif %}
+{%endfor %}
 {# Member variables #}
 {%for member in struct.members %}
 {%for comment in member.comment %}
         /// {{comment}}
 {%endfor %}
-        public let {{member.variable}}: {{member.type}}
+        {%if member.propertyWrapper %}{{member.propertyWrapper}} {%endif %}public {%if member.propertyWrapper %}var{%else %}let{%endif %} {{member.variable}}: {{member.type}}
 {%endfor %}
 
 {# init() function #}
