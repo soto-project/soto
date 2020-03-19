@@ -85,9 +85,6 @@ extension ImportExport {
     }
 
     public struct CreateJobOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var artifactList: [Artifact]?
         public let jobId: String?
@@ -116,9 +113,6 @@ extension ImportExport {
     }
 
     public struct GetShippingLabelInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobIds", encoding: .list(member:"member"))
-        ]
 
         public let aPIVersion: String?
         public let city: String?
@@ -197,9 +191,6 @@ extension ImportExport {
     }
 
     public struct GetStatusOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var artifactList: [Artifact]?
         public let carrier: String?
@@ -299,9 +290,6 @@ extension ImportExport {
     }
 
     public struct ListJobsOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
-        ]
 
         public let isTruncated: Bool?
         @OptionalCoding<DefaultArrayCoder> public var jobs: [Job]?
@@ -343,9 +331,6 @@ extension ImportExport {
     }
 
     public struct UpdateJobOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "artifactList", location: .body(locationName: "ArtifactList"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var artifactList: [Artifact]?
         public let success: Bool?

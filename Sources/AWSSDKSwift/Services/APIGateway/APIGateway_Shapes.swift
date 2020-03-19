@@ -285,9 +285,6 @@ extension APIGateway {
     }
 
     public struct ApiKeys: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [ApiKey]?
@@ -381,9 +378,6 @@ extension APIGateway {
     }
 
     public struct Authorizers: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [Authorizer]?
@@ -423,9 +417,6 @@ extension APIGateway {
     }
 
     public struct BasePathMappings: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [BasePathMapping]?
@@ -503,9 +494,6 @@ extension APIGateway {
     }
 
     public struct ClientCertificates: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [ClientCertificate]?
@@ -1606,9 +1594,6 @@ extension APIGateway {
     }
 
     public struct Deployments: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [Deployment]?
@@ -1700,9 +1685,6 @@ extension APIGateway {
     }
 
     public struct DocumentationParts: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [DocumentationPart]?
@@ -1742,9 +1724,6 @@ extension APIGateway {
     }
 
     public struct DocumentationVersions: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [DocumentationVersion]?
@@ -1832,9 +1811,6 @@ extension APIGateway {
     }
 
     public struct DomainNames: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [DomainName]?
@@ -1973,9 +1949,6 @@ extension APIGateway {
     }
 
     public struct GatewayResponses: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// Returns the entire collection, because of no pagination support.
         public let items: [GatewayResponse]?
@@ -3541,9 +3514,6 @@ extension APIGateway {
     }
 
     public struct Models: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [Model]?
@@ -3627,7 +3597,6 @@ extension APIGateway {
     public struct PutIntegrationRequest: AWSShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "httpMethod", location: .uri(locationName: "http_method")), 
-            AWSMemberEncoding(label: "integrationHttpMethod", location: .body(locationName: "httpMethod")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "resource_id")), 
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
@@ -3946,9 +3915,6 @@ extension APIGateway {
     }
 
     public struct RequestValidators: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [RequestValidator]?
@@ -3996,9 +3962,6 @@ extension APIGateway {
     }
 
     public struct Resources: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [Resource]?
@@ -4074,9 +4037,6 @@ extension APIGateway {
     }
 
     public struct RestApis: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [RestApi]?
@@ -4179,9 +4139,6 @@ extension APIGateway {
     }
 
     public struct SdkTypes: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [SdkType]?
@@ -5134,9 +5091,6 @@ extension APIGateway {
     }
 
     public struct Usage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "values"))
-        ]
 
         /// The ending date of the usage data.
         public let endDate: String?
@@ -5234,9 +5188,6 @@ extension APIGateway {
     }
 
     public struct UsagePlanKeys: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [UsagePlanKey]?
@@ -5254,9 +5205,6 @@ extension APIGateway {
     }
 
     public struct UsagePlans: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [UsagePlan]?
@@ -5312,9 +5260,6 @@ extension APIGateway {
     }
 
     public struct VpcLinks: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "items", location: .body(locationName: "item"))
-        ]
 
         /// The current page of elements from this collection.
         public let items: [VpcLink]?

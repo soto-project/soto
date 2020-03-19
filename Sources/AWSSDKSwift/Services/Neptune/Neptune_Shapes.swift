@@ -74,11 +74,8 @@ extension Neptune {
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The Amazon Neptune resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tags to be assigned to the Amazon Neptune resource.
@@ -163,10 +160,6 @@ extension Neptune {
     }
 
     public struct CloudwatchLogsExportConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "disableLogTypes", location: .body(locationName: "DisableLogTypes"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The list of log types to disable.
         @OptionalCoding<DefaultArrayCoder> public var disableLogTypes: [String]?
@@ -185,11 +178,8 @@ extension Neptune {
     }
 
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
         public let sourceDBClusterParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB cluster parameter group.
@@ -228,11 +218,8 @@ extension Neptune {
     }
 
     public struct CopyDBClusterSnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
         /// The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -279,11 +266,8 @@ extension Neptune {
     }
 
     public struct CopyDBParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
         public let sourceDBParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB parameter group.
@@ -322,16 +306,10 @@ extension Neptune {
     }
 
     public struct CreateDBClusterMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
         @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
@@ -437,11 +415,8 @@ extension Neptune {
     }
 
     public struct CreateDBClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String
         /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
@@ -493,11 +468,8 @@ extension Neptune {
     }
 
     public struct CreateDBClusterSnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
         public let dBClusterIdentifier: String
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
@@ -532,16 +504,10 @@ extension Neptune {
     }
 
     public struct CreateDBInstanceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
-            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer Not applicable. Neptune cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in a Neptune cluster volume.
         public let allocatedStorage: Int?
         /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true 
@@ -732,11 +698,8 @@ extension Neptune {
     }
 
     public struct CreateDBParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
         public let dBParameterGroupFamily: String
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
@@ -775,13 +738,9 @@ extension Neptune {
     }
 
     public struct CreateDBSubnetGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
@@ -820,15 +779,10 @@ extension Neptune {
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "sourceIds", location: .body(locationName: "SourceIds"), encoding: .list(member:"SourceId")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
@@ -879,22 +833,13 @@ extension Neptune {
     }
 
     public struct DBCluster: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associatedRoles", location: .body(locationName: "AssociatedRoles"), encoding: .list(member:"DBClusterRole")), 
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "dBClusterMembers", location: .body(locationName: "DBClusterMembers"), encoding: .list(member:"DBClusterMember")), 
-            AWSMemberEncoding(label: "dBClusterOptionGroupMemberships", location: .body(locationName: "DBClusterOptionGroupMemberships"), encoding: .list(member:"DBClusterOptionGroup")), 
-            AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "readReplicaIdentifiers", location: .body(locationName: "ReadReplicaIdentifiers"), encoding: .list(member:"ReadReplicaIdentifier")), 
-            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
-        ]
-
         public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBClusterRole" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
         public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBClusterOptionGroup" }
         public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaIdentifier" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
+
         ///  AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
         public let allocatedStorage: Int?
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
@@ -1078,11 +1023,8 @@ extension Neptune {
     }
 
     public struct DBClusterMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBClusters", location: .body(locationName: "DBClusters"), encoding: .list(member:"DBCluster"))
-        ]
-
         public struct _DBClustersEncoding: ArrayCoderProperties { static public let member = "DBCluster" }
+
         /// Contains a list of DB clusters for the user.
         @OptionalCoding<ArrayCoder<_DBClustersEncoding, DBCluster>> public var dBClusters: [DBCluster]?
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
@@ -1144,11 +1086,8 @@ extension Neptune {
     }
 
     public struct DBClusterParameterGroupDetails: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
@@ -1180,11 +1119,8 @@ extension Neptune {
     }
 
     public struct DBClusterParameterGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBClusterParameterGroups", location: .body(locationName: "DBClusterParameterGroups"), encoding: .list(member:"DBClusterParameterGroup"))
-        ]
-
         public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBClusterParameterGroup" }
+
         /// A list of DB cluster parameter groups.
         @OptionalCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>> public var dBClusterParameterGroups: [DBClusterParameterGroup]?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1220,11 +1156,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshot: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
@@ -1314,11 +1247,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshotAttribute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValue"))
-        ]
-
         public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
         public let attributeName: String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
@@ -1336,11 +1266,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshotAttributesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBClusterSnapshotAttributes", location: .body(locationName: "DBClusterSnapshotAttributes"), encoding: .list(member:"DBClusterSnapshotAttribute"))
-        ]
-
         public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshotAttribute" }
+
         /// The list of attributes and values for the manual DB cluster snapshot.
         @OptionalCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>> public var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
@@ -1358,11 +1285,8 @@ extension Neptune {
     }
 
     public struct DBClusterSnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBClusterSnapshots", location: .body(locationName: "DBClusterSnapshots"), encoding: .list(member:"DBClusterSnapshot"))
-        ]
-
         public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshot" }
+
         /// Provides a list of DB cluster snapshots for the user.
         @OptionalCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>> public var dBClusterSnapshots: [DBClusterSnapshot]?
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1380,16 +1304,10 @@ extension Neptune {
     }
 
     public struct DBEngineVersion: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportableLogTypes", location: .body(locationName: "ExportableLogTypes"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "supportedCharacterSets", location: .body(locationName: "SupportedCharacterSets"), encoding: .list(member:"CharacterSet")), 
-            AWSMemberEncoding(label: "supportedTimezones", location: .body(locationName: "SupportedTimezones"), encoding: .list(member:"Timezone")), 
-            AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
-        ]
-
         public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
         public struct _SupportedTimezonesEncoding: ArrayCoderProperties { static public let member = "Timezone" }
         public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
+
         /// The description of the database engine.
         public let dBEngineDescription: String?
         /// The description of the database engine version.
@@ -1447,11 +1365,8 @@ extension Neptune {
     }
 
     public struct DBEngineVersionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBEngineVersions", location: .body(locationName: "DBEngineVersions"), encoding: .list(member:"DBEngineVersion"))
-        ]
-
         public struct _DBEngineVersionsEncoding: ArrayCoderProperties { static public let member = "DBEngineVersion" }
+
         ///  A list of DBEngineVersion elements.
         @OptionalCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>> public var dBEngineVersions: [DBEngineVersion]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1469,18 +1384,6 @@ extension Neptune {
     }
 
     public struct DBInstance: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup")), 
-            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroup")), 
-            AWSMemberEncoding(label: "domainMemberships", location: .body(locationName: "DomainMemberships"), encoding: .list(member:"DomainMembership")), 
-            AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "optionGroupMemberships", location: .body(locationName: "OptionGroupMemberships"), encoding: .list(member:"OptionGroupMembership")), 
-            AWSMemberEncoding(label: "readReplicaDBClusterIdentifiers", location: .body(locationName: "ReadReplicaDBClusterIdentifiers"), encoding: .list(member:"ReadReplicaDBClusterIdentifier")), 
-            AWSMemberEncoding(label: "readReplicaDBInstanceIdentifiers", location: .body(locationName: "ReadReplicaDBInstanceIdentifiers"), encoding: .list(member:"ReadReplicaDBInstanceIdentifier")), 
-            AWSMemberEncoding(label: "statusInfos", location: .body(locationName: "StatusInfos"), encoding: .list(member:"DBInstanceStatusInfo")), 
-            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroupMembership"))
-        ]
-
         public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
         public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
@@ -1489,6 +1392,7 @@ extension Neptune {
         public struct _ReadReplicaDBInstanceIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBInstanceIdentifier" }
         public struct _StatusInfosEncoding: ArrayCoderProperties { static public let member = "DBInstanceStatusInfo" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
+
         /// Specifies the allocated storage size specified in gibibytes.
         public let allocatedStorage: Int?
         /// Indicates that minor version patches are applied automatically.
@@ -1706,11 +1610,8 @@ extension Neptune {
     }
 
     public struct DBInstanceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBInstances", location: .body(locationName: "DBInstances"), encoding: .list(member:"DBInstance"))
-        ]
-
         public struct _DBInstancesEncoding: ArrayCoderProperties { static public let member = "DBInstance" }
+
         ///  A list of DBInstance instances.
         @OptionalCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>> public var dBInstances: [DBInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -1780,11 +1681,8 @@ extension Neptune {
     }
 
     public struct DBParameterGroupDetails: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of Parameter values.
@@ -1834,11 +1732,8 @@ extension Neptune {
     }
 
     public struct DBParameterGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup"))
-        ]
-
         public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
+
         /// A list of DBParameterGroup instances.
         @OptionalCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroup>> public var dBParameterGroups: [DBParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1874,11 +1769,8 @@ extension Neptune {
     }
 
     public struct DBSubnetGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"Subnet"))
-        ]
-
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "Subnet" }
+
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
         /// Provides the description of the DB subnet group.
@@ -1912,11 +1804,8 @@ extension Neptune {
     }
 
     public struct DBSubnetGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBSubnetGroups", location: .body(locationName: "DBSubnetGroups"), encoding: .list(member:"DBSubnetGroup"))
-        ]
-
         public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "DBSubnetGroup" }
+
         ///  A list of DBSubnetGroup instances.
         @OptionalCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>> public var dBSubnetGroups: [DBSubnetGroup]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2100,11 +1989,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         /// This parameter is not currently supported.
@@ -2130,11 +2016,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterParametersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String
         /// This parameter is not currently supported.
@@ -2191,11 +2074,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
         /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string. Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
@@ -2237,11 +2117,8 @@ extension Neptune {
     }
 
     public struct DescribeDBClustersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
@@ -2267,11 +2144,8 @@ extension Neptune {
     }
 
     public struct DescribeDBEngineVersionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
         public let dBParameterGroupFamily: String?
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
@@ -2317,11 +2191,8 @@ extension Neptune {
     }
 
     public struct DescribeDBInstancesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
@@ -2347,11 +2218,8 @@ extension Neptune {
     }
 
     public struct DescribeDBParameterGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBParameterGroupName: String?
         /// This parameter is not currently supported.
@@ -2377,11 +2245,8 @@ extension Neptune {
     }
 
     public struct DescribeDBParametersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// This parameter is not currently supported.
@@ -2411,11 +2276,8 @@ extension Neptune {
     }
 
     public struct DescribeDBSubnetGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of the DB subnet group to return details for.
         public let dBSubnetGroupName: String?
         /// This parameter is not currently supported.
@@ -2441,11 +2303,8 @@ extension Neptune {
     }
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of the DB cluster parameter group family to return engine parameter information for.
         public let dBParameterGroupFamily: String
         /// This parameter is not currently supported.
@@ -2484,11 +2343,8 @@ extension Neptune {
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The name of the DB parameter group family.
         public let dBParameterGroupFamily: String
         /// Not currently supported.
@@ -2527,11 +2383,8 @@ extension Neptune {
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// This parameter is not currently supported.
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
@@ -2549,11 +2402,8 @@ extension Neptune {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// This parameter is not currently supported.
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -2579,13 +2429,9 @@ extension Neptune {
     }
 
     public struct DescribeEventsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
@@ -2631,11 +2477,8 @@ extension Neptune {
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
         public let dBInstanceClass: String?
         /// The name of the engine to retrieve DB instance options for.
@@ -2677,11 +2520,8 @@ extension Neptune {
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
@@ -2800,11 +2640,8 @@ extension Neptune {
     }
 
     public struct EngineDefaults: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
         public let dBParameterGroupFamily: String?
         ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -2826,11 +2663,8 @@ extension Neptune {
     }
 
     public struct Event: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+
         /// Specifies the date and time of the event.
         public let date: TimeStamp?
         /// Specifies the category for the event.
@@ -2864,11 +2698,8 @@ extension Neptune {
     }
 
     public struct EventCategoriesMap: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+
         /// The event categories for the specified source type
         @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
         /// The source type that the returned categories belong to
@@ -2886,11 +2717,8 @@ extension Neptune {
     }
 
     public struct EventCategoriesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategoriesMapList", location: .body(locationName: "EventCategoriesMapList"), encoding: .list(member:"EventCategoriesMap"))
-        ]
-
         public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
+
         /// A list of EventCategoriesMap data types.
         @OptionalCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>> public var eventCategoriesMapList: [EventCategoriesMap]?
 
@@ -2904,13 +2732,9 @@ extension Neptune {
     }
 
     public struct EventSubscription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategoriesList", location: .body(locationName: "EventCategoriesList"), encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "sourceIdsList", location: .body(locationName: "SourceIdsList"), encoding: .list(member:"SourceId"))
-        ]
-
         public struct _EventCategoriesListEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsListEncoding: ArrayCoderProperties { static public let member = "SourceId" }
+
         /// The AWS customer account associated with the event notification subscription.
         public let customerAwsId: String?
         /// The event notification subscription Id.
@@ -2960,11 +2784,8 @@ extension Neptune {
     }
 
     public struct EventSubscriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventSubscriptionsList", location: .body(locationName: "EventSubscriptionsList"), encoding: .list(member:"EventSubscription"))
-        ]
-
         public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
+
         /// A list of EventSubscriptions data types.
         @OptionalCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>> public var eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2982,11 +2803,8 @@ extension Neptune {
     }
 
     public struct EventsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"Event"))
-        ]
-
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
+
         ///  A list of Event instances.
         @OptionalCoding<ArrayCoder<_EventsEncoding, Event>> public var events: [Event]?
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -3035,11 +2853,8 @@ extension Neptune {
     }
 
     public struct Filter: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"Value"))
-        ]
-
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "Value" }
+
         /// This parameter is not currently supported.
         public let name: String
         /// This parameter is not currently supported.
@@ -3057,11 +2872,8 @@ extension Neptune {
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// This parameter is not currently supported.
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The Amazon Neptune resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
@@ -3079,11 +2891,8 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
@@ -3153,11 +2962,8 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// The name of the DB cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
         /// A list of parameters in the DB cluster parameter group to modify.
@@ -3188,13 +2994,9 @@ extension Neptune {
     }
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "valuesToAdd", location: .body(locationName: "ValuesToAdd"), encoding: .list(member:"AttributeValue")), 
-            AWSMemberEncoding(label: "valuesToRemove", location: .body(locationName: "ValuesToRemove"), encoding: .list(member:"AttributeValue"))
-        ]
-
         public struct _ValuesToAddEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
         public struct _ValuesToRemoveEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
         public let attributeName: String
         /// The identifier for the DB cluster snapshot to modify the attributes for.
@@ -3233,13 +3035,9 @@ extension Neptune {
     }
 
     public struct ModifyDBInstanceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// The new amount of storage (in gibibytes) to allocate for the DB instance. Not applicable. Storage is managed by the DB Cluster.
         public let allocatedStorage: Int?
         /// Indicates that major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
@@ -3406,11 +3204,8 @@ extension Neptune {
     }
 
     public struct ModifyDBParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
@@ -3428,11 +3223,8 @@ extension Neptune {
     }
 
     public struct ModifyDBSubnetGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
+
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String?
         /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
@@ -3467,11 +3259,8 @@ extension Neptune {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+
         ///  A Boolean value; set to true to activate the subscription.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
@@ -3532,11 +3321,8 @@ extension Neptune {
     }
 
     public struct OrderableDBInstanceOption: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+
         /// A list of Availability Zones for a DB instance.
         @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
         /// The DB instance class for a DB instance.
@@ -3626,11 +3412,8 @@ extension Neptune {
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "orderableDBInstanceOptions", location: .body(locationName: "OrderableDBInstanceOptions"), encoding: .list(member:"OrderableDBInstanceOption"))
-        ]
-
         public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { static public let member = "OrderableDBInstanceOption" }
+
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
@@ -3698,10 +3481,6 @@ extension Neptune {
     }
 
     public struct PendingCloudwatchLogsExports: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "logTypesToDisable", location: .body(locationName: "LogTypesToDisable"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
-        ]
 
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
         @OptionalCoding<DefaultArrayCoder> public var logTypesToDisable: [String]?
@@ -3754,11 +3533,8 @@ extension Neptune {
     }
 
     public struct PendingMaintenanceActionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pendingMaintenanceActions", location: .body(locationName: "PendingMaintenanceActions"), encoding: .list(member:"ResourcePendingMaintenanceActions"))
-        ]
-
         public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { static public let member = "ResourcePendingMaintenanceActions" }
+
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         /// A list of the pending maintenance actions for the resource.
@@ -3971,9 +3747,6 @@ extension Neptune {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
@@ -3992,11 +3765,8 @@ extension Neptune {
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
@@ -4018,11 +3788,8 @@ extension Neptune {
     }
 
     public struct ResetDBParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot 
@@ -4044,11 +3811,8 @@ extension Neptune {
     }
 
     public struct ResourcePendingMaintenanceActions: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pendingMaintenanceActionDetails", location: .body(locationName: "PendingMaintenanceActionDetails"), encoding: .list(member:"PendingMaintenanceAction"))
-        ]
-
         public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { static public let member = "PendingMaintenanceAction" }
+
         /// A list that provides details about the pending maintenance actions for the resource.
         @OptionalCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>> public var pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
         /// The ARN of the resource that has pending maintenance actions.
@@ -4066,16 +3830,10 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
         @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]?
         /// Not supported.
@@ -4162,14 +3920,9 @@ extension Neptune {
     }
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to associate with the new DB cluster. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
@@ -4292,11 +4045,8 @@ extension Neptune {
     }
 
     public struct TagListMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagList", location: .body(locationName: "TagList"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// List of tags returned by the ListTagsForResource operation.
         @OptionalCoding<ArrayCoder<_TagListEncoding, Tag>> public var tagList: [Tag]?
 
@@ -4354,11 +4104,8 @@ extension Neptune {
     }
 
     public struct ValidDBInstanceModificationsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "storage", location: .body(locationName: "Storage"), encoding: .list(member:"ValidStorageOptions"))
-        ]
-
         public struct _StorageEncoding: ArrayCoderProperties { static public let member = "ValidStorageOptions" }
+
         /// Valid storage options for your DB instance.
         @OptionalCoding<ArrayCoder<_StorageEncoding, ValidStorageOptions>> public var storage: [ValidStorageOptions]?
 
@@ -4372,15 +4119,10 @@ extension Neptune {
     }
 
     public struct ValidStorageOptions: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "iopsToStorageRatio", location: .body(locationName: "IopsToStorageRatio"), encoding: .list(member:"DoubleRange")), 
-            AWSMemberEncoding(label: "provisionedIops", location: .body(locationName: "ProvisionedIops"), encoding: .list(member:"Range")), 
-            AWSMemberEncoding(label: "storageSize", location: .body(locationName: "StorageSize"), encoding: .list(member:"Range"))
-        ]
-
         public struct _IopsToStorageRatioEncoding: ArrayCoderProperties { static public let member = "DoubleRange" }
         public struct _ProvisionedIopsEncoding: ArrayCoderProperties { static public let member = "Range" }
         public struct _StorageSizeEncoding: ArrayCoderProperties { static public let member = "Range" }
+
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
         @OptionalCoding<ArrayCoder<_IopsToStorageRatioEncoding, DoubleRange>> public var iopsToStorageRatio: [DoubleRange]?
         /// The valid range of provisioned IOPS. For example, 1000-20000.

@@ -138,11 +138,8 @@ extension Redshift {
     }
 
     public struct AccountAttribute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValueTarget"))
-        ]
-
         public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValueTarget" }
+
         /// The name of the attribute.
         public let attributeName: String?
         /// A list of attribute values.
@@ -160,11 +157,8 @@ extension Redshift {
     }
 
     public struct AccountAttributeList: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountAttributes", location: .body(locationName: "AccountAttributes"), encoding: .list(member:"AccountAttribute"))
-        ]
-
         public struct _AccountAttributesEncoding: ArrayCoderProperties { static public let member = "AccountAttribute" }
+
         /// A list of attributes assigned to an account.
         @OptionalCoding<ArrayCoder<_AccountAttributesEncoding, AccountAttribute>> public var accountAttributes: [AccountAttribute]?
 
@@ -284,11 +278,8 @@ extension Redshift {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "supportedPlatforms", location: .body(locationName: "SupportedPlatforms"), encoding: .list(member:"SupportedPlatform"))
-        ]
-
         public struct _SupportedPlatformsEncoding: ArrayCoderProperties { static public let member = "SupportedPlatform" }
+
         /// The name of the availability zone.
         public let name: String?
         @OptionalCoding<ArrayCoder<_SupportedPlatformsEncoding, SupportedPlatform>> public var supportedPlatforms: [SupportedPlatform]?
@@ -305,11 +296,8 @@ extension Redshift {
     }
 
     public struct BatchDeleteClusterSnapshotsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifiers", location: .body(locationName: "Identifiers"), encoding: .list(member:"DeleteClusterSnapshotMessage"))
-        ]
-
         public struct _IdentifiersEncoding: ArrayCoderProperties { static public let member = "DeleteClusterSnapshotMessage" }
+
         /// A list of identifiers for the snapshots that you want to delete.
         @Coding<ArrayCoder<_IdentifiersEncoding, DeleteClusterSnapshotMessage>> public var identifiers: [DeleteClusterSnapshotMessage]
 
@@ -323,13 +311,9 @@ extension Redshift {
     }
 
     public struct BatchDeleteClusterSnapshotsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "errors", location: .body(locationName: "Errors"), encoding: .list(member:"SnapshotErrorMessage")), 
-            AWSMemberEncoding(label: "resources", location: .body(locationName: "Resources"), encoding: .list(member:"String"))
-        ]
-
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "SnapshotErrorMessage" }
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "String" }
+
         /// A list of any errors returned.
         @OptionalCoding<ArrayCoder<_ErrorsEncoding, SnapshotErrorMessage>> public var errors: [SnapshotErrorMessage]?
         /// A list of the snapshot identifiers that were deleted. 
@@ -347,11 +331,8 @@ extension Redshift {
     }
 
     public struct BatchModifyClusterSnapshotsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshotIdentifierList", location: .body(locationName: "SnapshotIdentifierList"), encoding: .list(member:"String"))
-        ]
-
         public struct _SnapshotIdentifierListEncoding: ArrayCoderProperties { static public let member = "String" }
+
         /// A boolean value indicating whether to override an exception if the retention period has passed. 
         public let force: Bool?
         /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option. 
@@ -373,13 +354,9 @@ extension Redshift {
     }
 
     public struct BatchModifyClusterSnapshotsOutputMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "errors", location: .body(locationName: "Errors"), encoding: .list(member:"SnapshotErrorMessage")), 
-            AWSMemberEncoding(label: "resources", location: .body(locationName: "Resources"), encoding: .list(member:"String"))
-        ]
-
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "SnapshotErrorMessage" }
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "String" }
+
         /// A list of any errors returned.
         @OptionalCoding<ArrayCoder<_ErrorsEncoding, SnapshotErrorMessage>> public var errors: [SnapshotErrorMessage]?
         /// A list of the snapshots that were modified.
@@ -411,23 +388,13 @@ extension Redshift {
     }
 
     public struct Cluster: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterNodes", location: .body(locationName: "ClusterNodes"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "clusterParameterGroups", location: .body(locationName: "ClusterParameterGroups"), encoding: .list(member:"ClusterParameterGroup")), 
-            AWSMemberEncoding(label: "clusterSecurityGroups", location: .body(locationName: "ClusterSecurityGroups"), encoding: .list(member:"ClusterSecurityGroup")), 
-            AWSMemberEncoding(label: "deferredMaintenanceWindows", location: .body(locationName: "DeferredMaintenanceWindows"), encoding: .list(member:"DeferredMaintenanceWindow")), 
-            AWSMemberEncoding(label: "iamRoles", location: .body(locationName: "IamRoles"), encoding: .list(member:"ClusterIamRole")), 
-            AWSMemberEncoding(label: "pendingActions", location: .body(locationName: "PendingActions"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "vpcSecurityGroups", location: .body(locationName: "VpcSecurityGroups"), encoding: .list(member:"VpcSecurityGroup"))
-        ]
-
         public struct _ClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterParameterGroup" }
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroup" }
         public struct _DeferredMaintenanceWindowsEncoding: ArrayCoderProperties { static public let member = "DeferredMaintenanceWindow" }
         public struct _IamRolesEncoding: ArrayCoderProperties { static public let member = "ClusterIamRole" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroup" }
+
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window. 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automatic cluster snapshots are retained.
@@ -658,11 +625,8 @@ extension Redshift {
     }
 
     public struct ClusterDbRevision: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "revisionTargets", location: .body(locationName: "RevisionTargets"), encoding: .list(member:"RevisionTarget"))
-        ]
-
         public struct _RevisionTargetsEncoding: ArrayCoderProperties { static public let member = "RevisionTarget" }
+
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
         /// A string representing the current cluster version.
@@ -688,11 +652,8 @@ extension Redshift {
     }
 
     public struct ClusterDbRevisionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterDbRevisions", location: .body(locationName: "ClusterDbRevisions"), encoding: .list(member:"ClusterDbRevision"))
-        ]
-
         public struct _ClusterDbRevisionsEncoding: ArrayCoderProperties { static public let member = "ClusterDbRevision" }
+
         /// A list of revisions.
         @OptionalCoding<ArrayCoder<_ClusterDbRevisionsEncoding, ClusterDbRevision>> public var clusterDbRevisions: [ClusterDbRevision]?
         /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
@@ -750,11 +711,8 @@ extension Redshift {
     }
 
     public struct ClusterParameterGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The description of the parameter group.
         public let description: String?
         /// The name of the cluster parameter group family that this cluster parameter group is compatible with.
@@ -780,11 +738,8 @@ extension Redshift {
     }
 
     public struct ClusterParameterGroupDetails: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Parameter instances. Each instance lists the parameters of one cluster parameter group. 
@@ -820,9 +775,6 @@ extension Redshift {
     }
 
     public struct ClusterParameterGroupStatus: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterParameterStatusList", location: .body(locationName: "ClusterParameterStatusList"), encoding: .list(member:"member"))
-        ]
 
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
         @OptionalCoding<DefaultArrayCoder> public var clusterParameterStatusList: [ClusterParameterStatus]?
@@ -845,11 +797,8 @@ extension Redshift {
     }
 
     public struct ClusterParameterGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameterGroups", location: .body(locationName: "ParameterGroups"), encoding: .list(member:"ClusterParameterGroup"))
-        ]
-
         public struct _ParameterGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterParameterGroup" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ClusterParameterGroup instances. Each instance describes one cluster parameter group. 
@@ -889,15 +838,10 @@ extension Redshift {
     }
 
     public struct ClusterSecurityGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eC2SecurityGroups", location: .body(locationName: "EC2SecurityGroups"), encoding: .list(member:"EC2SecurityGroup")), 
-            AWSMemberEncoding(label: "iPRanges", location: .body(locationName: "IPRanges"), encoding: .list(member:"IPRange")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _EC2SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "EC2SecurityGroup" }
         public struct _IPRangesEncoding: ArrayCoderProperties { static public let member = "IPRange" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The name of the cluster security group to which the operation was applied.
         public let clusterSecurityGroupName: String?
         /// A description of the security group.
@@ -945,11 +889,8 @@ extension Redshift {
     }
 
     public struct ClusterSecurityGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterSecurityGroups", location: .body(locationName: "ClusterSecurityGroups"), encoding: .list(member:"ClusterSecurityGroup"))
-        ]
-
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroup" }
+
         /// A list of ClusterSecurityGroup instances. 
         @OptionalCoding<ArrayCoder<_ClusterSecurityGroupsEncoding, ClusterSecurityGroup>> public var clusterSecurityGroups: [ClusterSecurityGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -993,13 +934,9 @@ extension Redshift {
     }
 
     public struct ClusterSubnetGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"Subnet")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "Subnet" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The name of the cluster subnet group.
         public let clusterSubnetGroupName: String?
         /// The description of the cluster subnet group.
@@ -1033,11 +970,8 @@ extension Redshift {
     }
 
     public struct ClusterSubnetGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterSubnetGroups", location: .body(locationName: "ClusterSubnetGroups"), encoding: .list(member:"ClusterSubnetGroup"))
-        ]
-
         public struct _ClusterSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSubnetGroup" }
+
         /// A list of ClusterSubnetGroup instances. 
         @OptionalCoding<ArrayCoder<_ClusterSubnetGroupsEncoding, ClusterSubnetGroup>> public var clusterSubnetGroups: [ClusterSubnetGroup]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1077,11 +1011,8 @@ extension Redshift {
     }
 
     public struct ClusterVersionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterVersions", location: .body(locationName: "ClusterVersions"), encoding: .list(member:"ClusterVersion"))
-        ]
-
         public struct _ClusterVersionsEncoding: ArrayCoderProperties { static public let member = "ClusterVersion" }
+
         /// A list of Version elements. 
         @OptionalCoding<ArrayCoder<_ClusterVersionsEncoding, ClusterVersion>> public var clusterVersions: [ClusterVersion]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1099,11 +1030,8 @@ extension Redshift {
     }
 
     public struct ClustersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusters", location: .body(locationName: "Clusters"), encoding: .list(member:"Cluster"))
-        ]
-
         public struct _ClustersEncoding: ArrayCoderProperties { static public let member = "Cluster" }
+
         /// A list of Cluster objects, where each object describes one cluster. 
         @OptionalCoding<ArrayCoder<_ClustersEncoding, Cluster>> public var clusters: [Cluster]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1160,17 +1088,11 @@ extension Redshift {
     }
 
     public struct CreateClusterMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterSecurityGroups", location: .body(locationName: "ClusterSecurityGroups"), encoding: .list(member:"ClusterSecurityGroupName")), 
-            AWSMemberEncoding(label: "iamRoles", location: .body(locationName: "IamRoles"), encoding: .list(member:"IamRoleArn")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroupName" }
         public struct _IamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// Reserved.
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true 
@@ -1300,11 +1222,8 @@ extension Redshift {
     }
 
     public struct CreateClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// A description of the parameter group.
         public let description: String
         /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your AWS account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". 
@@ -1356,11 +1275,8 @@ extension Redshift {
     }
 
     public struct CreateClusterSecurityGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your AWS account.   Example: examplesecuritygroup 
         public let clusterSecurityGroupName: String
         /// A description for the security group.
@@ -1395,11 +1311,8 @@ extension Redshift {
     }
 
     public struct CreateClusterSnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The cluster identifier for which you want a snapshot.
         public let clusterIdentifier: String
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
@@ -1438,13 +1351,9 @@ extension Redshift {
     }
 
     public struct CreateClusterSubnetGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all subnet groups that are created by your AWS account.   Example: examplesubnetgroup 
         public let clusterSubnetGroupName: String
         /// A description for the subnet group.
@@ -1483,15 +1392,10 @@ extension Redshift {
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "sourceIds", location: .body(locationName: "SourceIds"), encoding: .list(member:"SourceId")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// A boolean value; set to true to activate the subscription, and set to false to create the subscription but not activate it. 
         public let enabled: Bool?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
@@ -1546,11 +1450,8 @@ extension Redshift {
     }
 
     public struct CreateHsmClientCertificateMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
         public let hsmClientCertificateIdentifier: String
         /// A list of tag instances.
@@ -1581,11 +1482,8 @@ extension Redshift {
     }
 
     public struct CreateHsmConfigurationMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// A text description of the HSM configuration to be created.
         public let description: String
         /// The identifier to be assigned to the new Amazon Redshift HSM configuration.
@@ -1678,11 +1576,8 @@ extension Redshift {
     }
 
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The unique identifier of the customer master key (CMK) to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
         public let kmsKeyId: String?
         /// The name of the snapshot copy grant. This name must be unique in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
@@ -1717,13 +1612,9 @@ extension Redshift {
     }
 
     public struct CreateSnapshotScheduleMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduleDefinitions", location: .body(locationName: "ScheduleDefinitions"), encoding: .list(member:"ScheduleDefinition")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         public let dryRun: Bool?
         public let nextInvocations: Int?
         /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 *)" or "rate(12 hours)". 
@@ -1755,11 +1646,8 @@ extension Redshift {
     }
 
     public struct CreateTagsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
@@ -1829,11 +1717,8 @@ extension Redshift {
     }
 
     public struct DefaultClusterParameters: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The name of the cluster parameter group family to which the engine default parameters apply.
@@ -2073,11 +1958,8 @@ extension Redshift {
     }
 
     public struct DeleteTagsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
+
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
         public let resourceName: String
         /// The tag key that you want to delete.
@@ -2095,11 +1977,8 @@ extension Redshift {
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeNames"), encoding: .list(member:"AttributeName"))
-        ]
-
         public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "AttributeName" }
+
         /// A list of attribute names.
         @OptionalCoding<ArrayCoder<_AttributeNamesEncoding, String>> public var attributeNames: [String]?
 
@@ -2135,13 +2014,9 @@ extension Redshift {
     }
 
     public struct DescribeClusterParameterGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameterGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2197,13 +2072,9 @@ extension Redshift {
     }
 
     public struct DescribeClusterSecurityGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// The name of a cluster security group for which you are requesting details. You can specify either the Marker parameter or a ClusterSecurityGroupName parameter, but not both.   Example: securitygroup1 
         public let clusterSecurityGroupName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSecurityGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both. 
@@ -2233,15 +2104,10 @@ extension Redshift {
     }
 
     public struct DescribeClusterSnapshotsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sortingEntities", location: .body(locationName: "SortingEntities"), encoding: .list(member:"SnapshotSortingEntity")), 
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _SortingEntitiesEncoding: ArrayCoderProperties { static public let member = "SnapshotSortingEntity" }
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// A value that indicates whether to return snapshots only for an existing cluster. You can perform table-level restore only by using a snapshot of an existing cluster, that is, a cluster that has not been deleted. Values for this parameter work as follows:    If ClusterExists is set to true, ClusterIdentifier is required.   If ClusterExists is set to false and ClusterIdentifier isn't specified, all snapshots associated with deleted clusters (orphaned snapshots) are returned.    If ClusterExists is set to false and ClusterIdentifier is specified for a deleted cluster, snapshots associated with that cluster are returned.   If ClusterExists is set to false and ClusterIdentifier is specified for an existing cluster, no snapshots are returned.   
         public let clusterExists: Bool?
         /// The identifier of the cluster which generated the requested snapshots.
@@ -2298,13 +2164,9 @@ extension Redshift {
     }
 
     public struct DescribeClusterSubnetGroupsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// The name of the cluster subnet group for which information is requested.
         public let clusterSubnetGroupName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSubnetGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2382,13 +2244,9 @@ extension Redshift {
     }
 
     public struct DescribeClustersMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// The unique identifier of a cluster whose properties you are requesting. This parameter is case sensitive. The default is that all clusters defined for an account are returned.
         public let clusterIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter or the Marker parameter, but not both. 
@@ -2467,13 +2325,9 @@ extension Redshift {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2541,13 +2395,9 @@ extension Redshift {
     }
 
     public struct DescribeHsmClientCertificatesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// The identifier of a specific HSM client certificate for which you want information. If no identifier is specified, information is returned for all HSM client certificates owned by your AWS customer account.
         public let hsmClientCertificateIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmClientCertificates request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2577,13 +2427,9 @@ extension Redshift {
     }
 
     public struct DescribeHsmConfigurationsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// The identifier of a specific Amazon Redshift HSM configuration to be described. If no identifier is specified, information is returned for all HSM configurations owned by your AWS customer account.
         public let hsmConfigurationIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmConfigurations request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -2627,11 +2473,8 @@ extension Redshift {
     }
 
     public struct DescribeNodeConfigurationOptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"NodeConfigurationOptionsFilter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "NodeConfigurationOptionsFilter" }
+
         /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. 
         public let actionType: ActionType
         /// The identifier of the cluster to evaluate for possible node configurations.
@@ -2753,11 +2596,8 @@ extension Redshift {
     }
 
     public struct DescribeScheduledActionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"ScheduledActionFilter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "ScheduledActionFilter" }
+
         /// If true, retrieve only active scheduled actions. If false, retrieve only disabled scheduled actions. 
         public let active: Bool?
         /// The end time in UTC of the scheduled action to retrieve. Only active scheduled actions that have invocations before this time are retrieved.
@@ -2799,13 +2639,9 @@ extension Redshift {
     }
 
     public struct DescribeSnapshotCopyGrantsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2835,13 +2671,9 @@ extension Redshift {
     }
 
     public struct DescribeSnapshotSchedulesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// The unique identifier for the cluster whose snapshot schedules you want to view.
         public let clusterIdentifier: String?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
@@ -2875,11 +2707,8 @@ extension Redshift {
     }
 
     public struct DescribeSnapshotSchedulesOutputMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshotSchedules", location: .body(locationName: "SnapshotSchedules"), encoding: .list(member:"SnapshotSchedule"))
-        ]
-
         public struct _SnapshotSchedulesEncoding: ArrayCoderProperties { static public let member = "SnapshotSchedule" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
         /// A list of SnapshotSchedules.
@@ -2923,13 +2752,9 @@ extension Redshift {
     }
 
     public struct DescribeTagsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"TagKey")), 
-            AWSMemberEncoding(label: "tagValues", location: .body(locationName: "TagValues"), encoding: .list(member:"TagValue"))
-        ]
-
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
@@ -3004,11 +2829,8 @@ extension Redshift {
     }
 
     public struct EC2SecurityGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The name of the EC2 Security Group.
         public let eC2SecurityGroupName: String?
         /// The AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
@@ -3135,11 +2957,8 @@ extension Redshift {
     }
 
     public struct Event: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+
         /// The date and time of the event.
         public let date: TimeStamp?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
@@ -3177,11 +2996,8 @@ extension Redshift {
     }
 
     public struct EventCategoriesMap: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"EventInfoMap"))
-        ]
-
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "EventInfoMap" }
+
         /// The events in the event category.
         @OptionalCoding<ArrayCoder<_EventsEncoding, EventInfoMap>> public var events: [EventInfoMap]?
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
@@ -3199,11 +3015,8 @@ extension Redshift {
     }
 
     public struct EventCategoriesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategoriesMapList", location: .body(locationName: "EventCategoriesMapList"), encoding: .list(member:"EventCategoriesMap"))
-        ]
-
         public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
+
         /// A list of event categories descriptions.
         @OptionalCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>> public var eventCategoriesMapList: [EventCategoriesMap]?
 
@@ -3217,11 +3030,8 @@ extension Redshift {
     }
 
     public struct EventInfoMap: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+
         /// The category of an Amazon Redshift event.
         @OptionalCoding<ArrayCoder<_EventCategoriesEncoding, String>> public var eventCategories: [String]?
         /// The description of an Amazon Redshift event.
@@ -3247,15 +3057,10 @@ extension Redshift {
     }
 
     public struct EventSubscription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategoriesList", location: .body(locationName: "EventCategoriesList"), encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "sourceIdsList", location: .body(locationName: "SourceIdsList"), encoding: .list(member:"SourceId")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _EventCategoriesListEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsListEncoding: ArrayCoderProperties { static public let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The AWS customer account associated with the Amazon Redshift event notification subscription.
         public let customerAwsId: String?
         /// The name of the Amazon Redshift event notification subscription.
@@ -3309,11 +3114,8 @@ extension Redshift {
     }
 
     public struct EventSubscriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventSubscriptionsList", location: .body(locationName: "EventSubscriptionsList"), encoding: .list(member:"EventSubscription"))
-        ]
-
         public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
+
         /// A list of event subscriptions.
         @OptionalCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>> public var eventSubscriptionsList: [EventSubscription]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3331,11 +3133,8 @@ extension Redshift {
     }
 
     public struct EventsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"Event"))
-        ]
-
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
+
         /// A list of Event instances. 
         @OptionalCoding<ArrayCoder<_EventsEncoding, Event>> public var events: [Event]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3353,11 +3152,8 @@ extension Redshift {
     }
 
     public struct GetClusterCredentialsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dbGroups", location: .body(locationName: "DbGroups"), encoding: .list(member:"DbGroup"))
-        ]
-
         public struct _DbGroupsEncoding: ArrayCoderProperties { static public let member = "DbGroup" }
+
         /// Create a database user with the name specified for the user named in DbUser if one does not exist.
         public let autoCreate: Bool?
         /// The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
@@ -3413,11 +3209,8 @@ extension Redshift {
     }
 
     public struct GetReservedNodeExchangeOfferingsOutputMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedNodeOfferings", location: .body(locationName: "ReservedNodeOfferings"), encoding: .list(member:"ReservedNodeOffering"))
-        ]
-
         public struct _ReservedNodeOfferingsEncoding: ArrayCoderProperties { static public let member = "ReservedNodeOffering" }
+
         /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a GetReservedNodeExchangeOfferings request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request. 
         public let marker: String?
         /// Returns an array of ReservedNodeOffering objects.
@@ -3435,11 +3228,8 @@ extension Redshift {
     }
 
     public struct HsmClientCertificate: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The identifier of the HSM client certificate.
         public let hsmClientCertificateIdentifier: String?
         /// The public key that the Amazon Redshift cluster will use to connect to the HSM. You must register the public key in the HSM.
@@ -3461,11 +3251,8 @@ extension Redshift {
     }
 
     public struct HsmClientCertificateMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hsmClientCertificates", location: .body(locationName: "HsmClientCertificates"), encoding: .list(member:"HsmClientCertificate"))
-        ]
-
         public struct _HsmClientCertificatesEncoding: ArrayCoderProperties { static public let member = "HsmClientCertificate" }
+
         /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
         @OptionalCoding<ArrayCoder<_HsmClientCertificatesEncoding, HsmClientCertificate>> public var hsmClientCertificates: [HsmClientCertificate]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3483,11 +3270,8 @@ extension Redshift {
     }
 
     public struct HsmConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// A text description of the HSM configuration.
         public let description: String?
         /// The name of the Amazon Redshift HSM configuration.
@@ -3517,11 +3301,8 @@ extension Redshift {
     }
 
     public struct HsmConfigurationMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hsmConfigurations", location: .body(locationName: "HsmConfigurations"), encoding: .list(member:"HsmConfiguration"))
-        ]
-
         public struct _HsmConfigurationsEncoding: ArrayCoderProperties { static public let member = "HsmConfiguration" }
+
         /// A list of HsmConfiguration objects.
         @OptionalCoding<ArrayCoder<_HsmConfigurationsEncoding, HsmConfiguration>> public var hsmConfigurations: [HsmConfiguration]?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3561,11 +3342,8 @@ extension Redshift {
     }
 
     public struct IPRange: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
         public let cidrip: String?
         /// The status of the IP range, for example, "authorized".
@@ -3621,11 +3399,8 @@ extension Redshift {
     }
 
     public struct MaintenanceTrack: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "updateTargets", location: .body(locationName: "UpdateTargets"), encoding: .list(member:"UpdateTarget"))
-        ]
-
         public struct _UpdateTargetsEncoding: ArrayCoderProperties { static public let member = "UpdateTarget" }
+
         /// The version number for the cluster release.
         public let databaseVersion: String?
         /// The name of the maintenance track. Possible values are current and trailing.
@@ -3678,13 +3453,9 @@ extension Redshift {
     }
 
     public struct ModifyClusterIamRolesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addIamRoles", location: .body(locationName: "AddIamRoles"), encoding: .list(member:"IamRoleArn")), 
-            AWSMemberEncoding(label: "removeIamRoles", location: .body(locationName: "RemoveIamRoles"), encoding: .list(member:"IamRoleArn"))
-        ]
-
         public struct _AddIamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
         public struct _RemoveIamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
+
         /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a single cluster in a single request.
         @OptionalCoding<ArrayCoder<_AddIamRolesEncoding, String>> public var addIamRoles: [String]?
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
@@ -3766,13 +3537,9 @@ extension Redshift {
     }
 
     public struct ModifyClusterMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterSecurityGroups", location: .body(locationName: "ClusterSecurityGroups"), encoding: .list(member:"ClusterSecurityGroupName")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroupName" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
@@ -3870,11 +3637,8 @@ extension Redshift {
     }
 
     public struct ModifyClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// The name of the parameter group to be modified.
         public let parameterGroupName: String
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
@@ -3962,11 +3726,8 @@ extension Redshift {
     }
 
     public struct ModifyClusterSubnetGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
+
         /// The name of the subnet group to be modified.
         public let clusterSubnetGroupName: String
         /// A text description of the subnet group to be modified.
@@ -4001,13 +3762,9 @@ extension Redshift {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
-            AWSMemberEncoding(label: "sourceIds", location: .body(locationName: "SourceIds"), encoding: .list(member:"SourceId"))
-        ]
-
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
+
         /// A Boolean value indicating if the subscription is enabled. true indicates the subscription is enabled 
         public let enabled: Bool?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: configuration, management, monitoring, security
@@ -4135,11 +3892,8 @@ extension Redshift {
     }
 
     public struct ModifySnapshotScheduleMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduleDefinitions", location: .body(locationName: "ScheduleDefinitions"), encoding: .list(member:"ScheduleDefinition"))
-        ]
-
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
+
         /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 *)" or "rate(12 hours)".
         @Coding<ArrayCoder<_ScheduleDefinitionsEncoding, String>> public var scheduleDefinitions: [String]
         /// A unique alphanumeric identifier of the schedule to modify.
@@ -4183,11 +3937,8 @@ extension Redshift {
     }
 
     public struct NodeConfigurationOptionsFilter: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
-        ]
-
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The name of the element to filter.
         public let name: NodeConfigurationOptionsFilterName?
         /// The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to evaluate for 'between'. Provide a list of values for 'in'.
@@ -4209,11 +3960,8 @@ extension Redshift {
     }
 
     public struct NodeConfigurationOptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nodeConfigurationOptionList", location: .body(locationName: "NodeConfigurationOptionList"), encoding: .list(member:"NodeConfigurationOption"))
-        ]
-
         public struct _NodeConfigurationOptionListEncoding: ArrayCoderProperties { static public let member = "NodeConfigurationOption" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of valid node configurations.
@@ -4231,11 +3979,8 @@ extension Redshift {
     }
 
     public struct OrderableClusterOption: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+
         /// A list of availability zones for the orderable cluster.
         @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
         /// The cluster type, for example multi-node. 
@@ -4261,11 +4006,8 @@ extension Redshift {
     }
 
     public struct OrderableClusterOptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "orderableClusterOptions", location: .body(locationName: "OrderableClusterOptions"), encoding: .list(member:"OrderableClusterOption"))
-        ]
-
         public struct _OrderableClusterOptionsEncoding: ArrayCoderProperties { static public let member = "OrderableClusterOption" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// An OrderableClusterOption structure containing information about orderable options for the cluster.
@@ -4459,11 +4201,8 @@ extension Redshift {
     }
 
     public struct ReservedNode: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recurringCharges", location: .body(locationName: "RecurringCharges"), encoding: .list(member:"RecurringCharge"))
-        ]
-
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
+
         /// The currency code for the reserved cluster.
         public let currencyCode: String?
         /// The duration of the node reservation in seconds.
@@ -4524,11 +4263,8 @@ extension Redshift {
     }
 
     public struct ReservedNodeOffering: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recurringCharges", location: .body(locationName: "RecurringCharges"), encoding: .list(member:"RecurringCharge"))
-        ]
-
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
+
         /// The currency code for the compute nodes offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the node.
@@ -4573,11 +4309,8 @@ extension Redshift {
     }
 
     public struct ReservedNodeOfferingsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedNodeOfferings", location: .body(locationName: "ReservedNodeOfferings"), encoding: .list(member:"ReservedNodeOffering"))
-        ]
-
         public struct _ReservedNodeOfferingsEncoding: ArrayCoderProperties { static public let member = "ReservedNodeOffering" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ReservedNodeOffering objects.
@@ -4595,11 +4328,8 @@ extension Redshift {
     }
 
     public struct ReservedNodesMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedNodes", location: .body(locationName: "ReservedNodes"), encoding: .list(member:"ReservedNode"))
-        ]
-
         public struct _ReservedNodesEncoding: ArrayCoderProperties { static public let member = "ReservedNode" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The list of ReservedNode objects.
@@ -4617,11 +4347,8 @@ extension Redshift {
     }
 
     public struct ResetClusterParameterGroupMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
-        ]
-
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+
         /// The name of the cluster parameter group to be reset.
         public let parameterGroupName: String
         /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied.  Constraints: A maximum of 20 parameters can be reset in a single request.
@@ -4704,11 +4431,6 @@ extension Redshift {
     }
 
     public struct ResizeProgressMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importTablesCompleted", location: .body(locationName: "ImportTablesCompleted"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "importTablesInProgress", location: .body(locationName: "ImportTablesInProgress"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "importTablesNotStarted", location: .body(locationName: "ImportTablesNotStarted"), encoding: .list(member:"member"))
-        ]
 
         /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
         public let avgResizeRateInMegaBytesPerSecond: Double?
@@ -4783,15 +4505,10 @@ extension Redshift {
     }
 
     public struct RestoreFromClusterSnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterSecurityGroups", location: .body(locationName: "ClusterSecurityGroups"), encoding: .list(member:"ClusterSecurityGroupName")), 
-            AWSMemberEncoding(label: "iamRoles", location: .body(locationName: "IamRoles"), encoding: .list(member:"IamRoleArn")), 
-            AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
-        ]
-
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroupName" }
         public struct _IamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+
         /// Reserved.
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true 
@@ -5130,11 +4847,8 @@ extension Redshift {
     }
 
     public struct ScheduledAction: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextInvocations", location: .body(locationName: "NextInvocations"), encoding: .list(member:"ScheduledActionTime"))
-        ]
-
         public struct _NextInvocationsEncoding: ArrayCoderProperties { static public let member = "ScheduledActionTime" }
+
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger. 
         public let endTime: TimeStamp?
         /// The IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster Management Guide. 
@@ -5180,11 +4894,8 @@ extension Redshift {
     }
 
     public struct ScheduledActionFilter: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"item"))
-        ]
-
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The type of element to filter. 
         public let name: ScheduledActionFilterName
         /// List of values. Compare if the value (of type defined by Name) equals an item in the list of scheduled actions. 
@@ -5216,11 +4927,8 @@ extension Redshift {
     }
 
     public struct ScheduledActionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledActions", location: .body(locationName: "ScheduledActions"), encoding: .list(member:"ScheduledAction"))
-        ]
-
         public struct _ScheduledActionsEncoding: ArrayCoderProperties { static public let member = "ScheduledAction" }
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeScheduledActions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// List of retrieved scheduled actions. 
@@ -5238,15 +4946,10 @@ extension Redshift {
     }
 
     public struct Snapshot: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountsWithRestoreAccess", location: .body(locationName: "AccountsWithRestoreAccess"), encoding: .list(member:"AccountWithRestoreAccess")), 
-            AWSMemberEncoding(label: "restorableNodeTypes", location: .body(locationName: "RestorableNodeTypes"), encoding: .list(member:"NodeType")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _AccountsWithRestoreAccessEncoding: ArrayCoderProperties { static public let member = "AccountWithRestoreAccess" }
         public struct _RestorableNodeTypesEncoding: ArrayCoderProperties { static public let member = "NodeType" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// A list of the AWS customer accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner. 
         @OptionalCoding<ArrayCoder<_AccountsWithRestoreAccessEncoding, AccountWithRestoreAccess>> public var accountsWithRestoreAccess: [AccountWithRestoreAccess]?
         /// The size of the incremental backup.
@@ -5388,11 +5091,8 @@ extension Redshift {
     }
 
     public struct SnapshotCopyGrant: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The unique identifier of the customer master key (CMK) in AWS KMS to which Amazon Redshift is granted permission.
         public let kmsKeyId: String?
         /// The name of the snapshot copy grant.
@@ -5414,11 +5114,8 @@ extension Redshift {
     }
 
     public struct SnapshotCopyGrantMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshotCopyGrants", location: .body(locationName: "SnapshotCopyGrants"), encoding: .list(member:"SnapshotCopyGrant"))
-        ]
-
         public struct _SnapshotCopyGrantsEncoding: ArrayCoderProperties { static public let member = "SnapshotCopyGrant" }
+
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The list of SnapshotCopyGrant objects.
@@ -5462,11 +5159,8 @@ extension Redshift {
     }
 
     public struct SnapshotMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshots", location: .body(locationName: "Snapshots"), encoding: .list(member:"Snapshot"))
-        ]
-
         public struct _SnapshotsEncoding: ArrayCoderProperties { static public let member = "Snapshot" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Snapshot instances. 
@@ -5484,17 +5178,11 @@ extension Redshift {
     }
 
     public struct SnapshotSchedule: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associatedClusters", location: .body(locationName: "AssociatedClusters"), encoding: .list(member:"ClusterAssociatedToSchedule")), 
-            AWSMemberEncoding(label: "nextInvocations", location: .body(locationName: "NextInvocations"), encoding: .list(member:"SnapshotTime")), 
-            AWSMemberEncoding(label: "scheduleDefinitions", location: .body(locationName: "ScheduleDefinitions"), encoding: .list(member:"ScheduleDefinition")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _AssociatedClustersEncoding: ArrayCoderProperties { static public let member = "ClusterAssociatedToSchedule" }
         public struct _NextInvocationsEncoding: ArrayCoderProperties { static public let member = "SnapshotTime" }
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The number of clusters associated with the schedule.
         public let associatedClusterCount: Int?
         /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
@@ -5663,11 +5351,8 @@ extension Redshift {
     }
 
     public struct TableRestoreStatusMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableRestoreStatusDetails", location: .body(locationName: "TableRestoreStatusDetails"), encoding: .list(member:"TableRestoreStatus"))
-        ]
-
         public struct _TableRestoreStatusDetailsEncoding: ArrayCoderProperties { static public let member = "TableRestoreStatus" }
+
         /// A pagination token that can be used in a subsequent DescribeTableRestoreStatus request.
         public let marker: String?
         /// A list of status details for one or more table restore requests.
@@ -5725,11 +5410,8 @@ extension Redshift {
     }
 
     public struct TaggedResourceListMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taggedResources", location: .body(locationName: "TaggedResources"), encoding: .list(member:"TaggedResource"))
-        ]
-
         public struct _TaggedResourcesEncoding: ArrayCoderProperties { static public let member = "TaggedResource" }
+
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of tags with their associated resources.
@@ -5747,11 +5429,8 @@ extension Redshift {
     }
 
     public struct TrackListMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maintenanceTracks", location: .body(locationName: "MaintenanceTracks"), encoding: .list(member:"MaintenanceTrack"))
-        ]
-
         public struct _MaintenanceTracksEncoding: ArrayCoderProperties { static public let member = "MaintenanceTrack" }
+
         /// A list of maintenance tracks output by the DescribeClusterTracks operation. 
         @OptionalCoding<ArrayCoder<_MaintenanceTracksEncoding, MaintenanceTrack>> public var maintenanceTracks: [MaintenanceTrack]?
         /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
@@ -5769,11 +5448,8 @@ extension Redshift {
     }
 
     public struct UpdateTarget: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "supportedOperations", location: .body(locationName: "SupportedOperations"), encoding: .list(member:"SupportedOperation"))
-        ]
-
         public struct _SupportedOperationsEncoding: ArrayCoderProperties { static public let member = "SupportedOperation" }
+
         /// The cluster version for the new maintenance track.
         public let databaseVersion: String?
         /// The name of the new maintenance track.

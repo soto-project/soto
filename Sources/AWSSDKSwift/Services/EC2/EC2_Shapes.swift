@@ -1735,13 +1735,9 @@ extension EC2 {
     //MARK: Shapes
 
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), encoding: .list(member:"ReservedInstanceId")), 
-            AWSMemberEncoding(label: "targetConfigurations", location: .body(locationName: "TargetConfiguration"), encoding: .list(member:"TargetConfigurationRequest"))
-        ]
-
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstanceId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { static public let member = "TargetConfigurationRequest" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Convertible Reserved Instances to exchange for another Convertible Reserved Instance of the same or higher value.
@@ -1841,11 +1837,8 @@ extension EC2 {
     }
 
     public struct AcceptVpcEndpointConnectionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the VPC endpoint service.
@@ -1867,11 +1860,8 @@ extension EC2 {
     }
 
     public struct AcceptVpcEndpointConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the interface endpoints that were not accepted, if applicable.
         @OptionalCoding<ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>> public var unsuccessful: [UnsuccessfulItem]?
 
@@ -1917,11 +1907,8 @@ extension EC2 {
     }
 
     public struct AccountAttribute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "attributeValueSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The name of the account attribute.
         public let attributeName: String?
         /// The values for the account attribute.
@@ -1979,11 +1966,8 @@ extension EC2 {
     }
 
     public struct Address: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID representing the allocation of the address for use with EC2-VPC.
         public let allocationId: String?
         /// The ID representing the association of the address with an instance in a VPC.
@@ -2149,11 +2133,8 @@ extension EC2 {
     }
 
     public struct AllocateHostsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether the host accepts any untargeted instance launches that match its instance type configuration, or if it only accepts Host tenancy instance launches that specify its unique host ID. For more information, see  Understanding Instance Placement and Host Affinity in the Amazon EC2 User Guide for Linux Instances. Default: on 
         public let autoPlacement: AutoPlacement?
         /// The Availability Zone in which to allocate the Dedicated Host.
@@ -2195,11 +2176,8 @@ extension EC2 {
     }
 
     public struct AllocateHostsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostIdSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the allocated Dedicated Host. This is used to launch an instance onto a specific host.
         @OptionalCoding<ArrayCoder<_HostIdsEncoding, String>> public var hostIds: [String]?
 
@@ -2231,11 +2209,8 @@ extension EC2 {
     }
 
     public struct ApplySecurityGroupsToClientVpnTargetNetworkRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item"))
-        ]
-
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2261,11 +2236,8 @@ extension EC2 {
     }
 
     public struct ApplySecurityGroupsToClientVpnTargetNetworkResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroupIds", encoding: .list(member:"item"))
-        ]
-
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the applied security groups.
         @OptionalCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>> public var securityGroupIds: [String]?
 
@@ -2279,11 +2251,8 @@ extension EC2 {
     }
 
     public struct AssignIpv6AddressesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipv6Addresses", encoding: .list(member:"item"))
-        ]
-
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
         public let ipv6AddressCount: Int?
         /// One or more specific IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
@@ -2305,11 +2274,8 @@ extension EC2 {
     }
 
     public struct AssignIpv6AddressesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assignedIpv6Addresses", encoding: .list(member:"item"))
-        ]
-
         public struct _AssignedIpv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IPv6 addresses assigned to the network interface.
         @OptionalCoding<ArrayCoder<_AssignedIpv6AddressesEncoding, String>> public var assignedIpv6Addresses: [String]?
         /// The ID of the network interface.
@@ -2327,11 +2293,8 @@ extension EC2 {
     }
 
     public struct AssignPrivateIpAddressesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
-        ]
-
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "PrivateIpAddress" }
+
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
         public let allowReassignment: Bool?
         /// The ID of the network interface.
@@ -2357,11 +2320,8 @@ extension EC2 {
     }
 
     public struct AssignPrivateIpAddressesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assignedPrivateIpAddresses", location: .body(locationName: "assignedPrivateIpAddressesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AssignedPrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The private IP addresses assigned to the network interface.
         @OptionalCoding<ArrayCoder<_AssignedPrivateIpAddressesEncoding, AssignedPrivateIpAddress>> public var assignedPrivateIpAddresses: [AssignedPrivateIpAddress]?
         /// The ID of the network interface.
@@ -2623,11 +2583,8 @@ extension EC2 {
     }
 
     public struct AssociateTransitGatewayMulticastDomainRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the subnets to associate with the transit gateway multicast domain.
@@ -2777,11 +2734,8 @@ extension EC2 {
     }
 
     public struct AttachClassicLinkVpcRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"groupId"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "groupId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of one or more of the VPC's security groups. You cannot specify security groups from a different VPC.
@@ -2931,9 +2885,6 @@ extension EC2 {
     }
 
     public struct AttachVpnGatewayResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcAttachment", location: .body(locationName: "attachment"))
-        ]
 
         /// Information about the attachment.
         public let vpcAttachment: VpcAttachment?
@@ -3062,11 +3013,8 @@ extension EC2 {
     }
 
     public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipPermissions", encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Not supported. Use a set of IP permissions to specify the CIDR.
         public let cidrIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3112,11 +3060,8 @@ extension EC2 {
     }
 
     public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IPv4 address range, in CIDR format. You can't specify this parameter when specifying a source security group. To specify an IPv6 address range, use a set of IP permissions. Alternatively, use a set of IP permissions to specify multiple rules and a description for the rule.
         public let cidrIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3166,12 +3111,8 @@ extension EC2 {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messages", location: .body(locationName: "messageSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "state", location: .body(locationName: "zoneState"))
-        ]
-
         public struct _MessagesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         ///  For Availability Zones, this parameter has the same value as the Region name. For Local Zones, the name of the associated group, for example us-west-2-lax-1.
         public let groupName: String?
         /// Any messages about the Availability Zone or Local Zone.
@@ -3227,11 +3168,8 @@ extension EC2 {
     }
 
     public struct AvailableCapacity: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availableInstanceCapacity", encoding: .list(member:"item"))
-        ]
-
         public struct _AvailableInstanceCapacityEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The number of instances that can be launched onto the Dedicated Host depending on the host's available capacity. For Dedicated Hosts that support multiple instance types, this parameter represents the number of instances for each instance size that is supported on the host.
         @OptionalCoding<ArrayCoder<_AvailableInstanceCapacityEncoding, InstanceCapacity>> public var availableInstanceCapacity: [InstanceCapacity]?
         /// The number of vCPUs available for launching instances onto the Dedicated Host.
@@ -3310,9 +3248,6 @@ extension EC2 {
     }
 
     public struct BundleInstanceResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleTask", location: .body(locationName: "bundleInstanceTask"))
-        ]
 
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
@@ -3327,9 +3262,6 @@ extension EC2 {
     }
 
     public struct BundleTask: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleTaskError", location: .body(locationName: "error"))
-        ]
 
         /// The ID of the bundle task.
         public let bundleId: String?
@@ -3434,9 +3366,6 @@ extension EC2 {
     }
 
     public struct CancelBundleTaskResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleTask", location: .body(locationName: "bundleInstanceTask"))
-        ]
 
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
@@ -3577,11 +3506,8 @@ extension EC2 {
     }
 
     public struct CancelReservedInstancesListingResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesListingsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Reserved Instance listing.
         @OptionalCoding<ArrayCoder<_ReservedInstancesListingsEncoding, ReservedInstancesListing>> public var reservedInstancesListings: [ReservedInstancesListing]?
 
@@ -3631,11 +3557,8 @@ extension EC2 {
     }
 
     public struct CancelSpotFleetRequestsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
-        ]
-
         public struct _SpotFleetRequestIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Spot Fleet requests.
@@ -3657,13 +3580,9 @@ extension EC2 {
     }
 
     public struct CancelSpotFleetRequestsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successfulFleetRequests", location: .body(locationName: "successfulFleetRequestSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessfulFleetRequests", location: .body(locationName: "unsuccessfulFleetRequestSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulFleetRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulFleetRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Spot Fleet requests that are successfully canceled.
         @OptionalCoding<ArrayCoder<_SuccessfulFleetRequestsEncoding, CancelSpotFleetRequestsSuccessItem>> public var successfulFleetRequests: [CancelSpotFleetRequestsSuccessItem]?
         /// Information about the Spot Fleet requests that are not successfully canceled.
@@ -3703,11 +3622,8 @@ extension EC2 {
     }
 
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
-        ]
-
         public struct _SpotInstanceRequestIdsEncoding: ArrayCoderProperties { static public let member = "SpotInstanceRequestId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more Spot Instance request IDs.
@@ -3725,11 +3641,8 @@ extension EC2 {
     }
 
     public struct CancelSpotInstanceRequestsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cancelledSpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CancelledSpotInstanceRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more Spot Instance requests.
         @OptionalCoding<ArrayCoder<_CancelledSpotInstanceRequestsEncoding, CancelledSpotInstanceRequest>> public var cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]?
 
@@ -3761,11 +3674,8 @@ extension EC2 {
     }
 
     public struct CapacityReservation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone in which the capacity is reserved.
         public let availabilityZone: String?
         /// The Availability Zone ID of the Capacity Reservation.
@@ -4017,13 +3927,9 @@ extension EC2 {
     }
 
     public struct ClassicLinkInstance: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A list of security groups.
         @OptionalCoding<ArrayCoder<_GroupsEncoding, GroupIdentifier>> public var groups: [GroupIdentifier]?
         /// The ID of the instance.
@@ -4063,11 +3969,8 @@ extension EC2 {
     }
 
     public struct ClassicLoadBalancersConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "classicLoadBalancers", encoding: .list(member:"item"))
-        ]
-
         public struct _ClassicLoadBalancersEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more Classic Load Balancers.
         @OptionalCoding<ArrayCoder<_ClassicLoadBalancersEncoding, ClassicLoadBalancer>> public var classicLoadBalancers: [ClassicLoadBalancer]?
 
@@ -4272,15 +4175,10 @@ extension EC2 {
     }
 
     public struct ClientVpnEndpoint: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationOptions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "dnsServers", location: .body(locationName: "dnsServer"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AuthenticationOptionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _DnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the authentication method used by the Client VPN endpoint.
         @OptionalCoding<ArrayCoder<_AuthenticationOptionsEncoding, ClientVpnAuthentication>> public var authenticationOptions: [ClientVpnAuthentication]?
         /// The IPv4 address range, in CIDR notation, from which client IP addresses are assigned.
@@ -4454,13 +4352,9 @@ extension EC2 {
     }
 
     public struct CoipPool: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolCidrs", location: .body(locationName: "poolCidrSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PoolCidrsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The address ranges of the address pool.
@@ -4570,11 +4464,8 @@ extension EC2 {
     }
 
     public struct ConnectionNotification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionEvents", encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The events for the notification. Valid values are Accept, Connect, Delete, and Reject.
         @OptionalCoding<ArrayCoder<_ConnectionEventsEncoding, String>> public var connectionEvents: [String]?
         /// The ARN of the SNS topic for the notification.
@@ -4612,11 +4503,8 @@ extension EC2 {
     }
 
     public struct ConversionTask: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the conversion task.
         public let conversionTaskId: String?
         /// The time when the task expires. If the upload isn't complete before the expiration time, we automatically cancel the task.
@@ -4758,11 +4646,8 @@ extension EC2 {
     }
 
     public struct CopySnapshotRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description for the EBS snapshot.
         public let description: String?
         /// The destination Region to use in the PresignedUrl parameter of a snapshot copy operation. This parameter is only valid for specifying the destination Region in a PresignedUrl parameter, where it is required. The snapshot copy is sent to the regional endpoint that you sent the HTTP request to (for example, ec2.us-east-1.amazonaws.com). With the AWS CLI, this is specified using the --region parameter or the default Region in your AWS configuration file.
@@ -4808,11 +4693,8 @@ extension EC2 {
     }
 
     public struct CopySnapshotResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the new snapshot.
         public let snapshotId: String?
         /// Any tags applied to the new snapshot.
@@ -4866,11 +4748,8 @@ extension EC2 {
     }
 
     public struct CreateCapacityReservationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecifications"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone in which to create the Capacity Reservation.
         public let availabilityZone: String?
         /// The ID of the Availability Zone in which to create the Capacity Reservation.
@@ -4950,14 +4829,9 @@ extension EC2 {
     }
 
     public struct CreateClientVpnEndpointRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationOptions", location: .body(locationName: "Authentication"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "dnsServers", location: .body(locationName: "DnsServers"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _DnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the authentication method to be used to authenticate clients.
         @Coding<DefaultArrayCoder> public var authenticationOptions: [ClientVpnAuthenticationRequest]
         /// The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. The CIDR block should be /22 or greater.
@@ -5085,9 +4959,6 @@ extension EC2 {
     }
 
     public struct CreateCustomerGatewayRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "publicIp", location: .body(locationName: "IpAddress"))
-        ]
 
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
         public let bgpAsn: Int
@@ -5196,11 +5067,8 @@ extension EC2 {
     }
 
     public struct CreateDhcpOptionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dhcpConfigurations", location: .body(locationName: "dhcpConfiguration"), encoding: .list(member:"item"))
-        ]
-
         public struct _DhcpConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A DHCP configuration option.
         @Coding<ArrayCoder<_DhcpConfigurationsEncoding, NewDhcpConfiguration>> public var dhcpConfigurations: [NewDhcpConfiguration]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5298,11 +5166,8 @@ extension EC2 {
     }
 
     public struct CreateFleetInstance: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the instances.
         @OptionalCoding<ArrayCoder<_InstanceIdsEncoding, String>> public var instanceIds: [String]?
         /// The instance type.
@@ -5332,13 +5197,9 @@ extension EC2 {
     }
 
     public struct CreateFleetRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchTemplateConfigs", location: .body(locationName: "LaunchTemplateConfigs"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5407,13 +5268,9 @@ extension EC2 {
     }
 
     public struct CreateFleetResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the instances that could not be launched by the fleet. Valid only when Type is set to instant.
         @OptionalCoding<ArrayCoder<_ErrorsEncoding, CreateFleetError>> public var errors: [CreateFleetError]?
         /// The ID of the EC2 Fleet.
@@ -5435,11 +5292,8 @@ extension EC2 {
     }
 
     public struct CreateFlowLogsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIds", location: .body(locationName: "ResourceId"), encoding: .list(member:"item"))
-        ]
-
         public struct _ResourceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// The ARN for the IAM role that permits Amazon EC2 to publish flow logs to a CloudWatch Logs log group in your account. If you specify LogDestinationType as s3, do not specify DeliverLogsPermissionArn or LogGroupName.
@@ -5489,13 +5343,9 @@ extension EC2 {
     }
 
     public struct CreateFlowLogsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowLogIds", location: .body(locationName: "flowLogIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _FlowLogIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// The IDs of the flow logs.
@@ -5517,11 +5367,8 @@ extension EC2 {
     }
 
     public struct CreateFpgaImageRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// A description for the AFI.
@@ -5577,11 +5424,8 @@ extension EC2 {
     }
 
     public struct CreateImageRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
+
         /// The block device mappings. This parameter cannot be used to modify the encryption status of existing volumes or snapshots. To create an AMI with encrypted snapshots, use the CopyImage action.
         @OptionalCoding<ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>> public var blockDeviceMappings: [BlockDeviceMapping]?
         /// A description for the new image.
@@ -5629,9 +5473,6 @@ extension EC2 {
     }
 
     public struct CreateInstanceExportTaskRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportToS3Task", location: .body(locationName: "exportToS3"))
-        ]
 
         /// A description for the conversion task or the resource being exported. The maximum length is 255 bytes.
         public let description: String?
@@ -5718,11 +5559,8 @@ extension EC2 {
     }
 
     public struct CreateLaunchTemplateRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5954,9 +5792,6 @@ extension EC2 {
     }
 
     public struct CreateNetworkAclEntryRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "icmpTypeCode", location: .body(locationName: "Icmp"))
-        ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public let cidrBlock: String?
@@ -6083,15 +5918,10 @@ extension EC2 {
     }
 
     public struct CreateNetworkInterfaceRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "ipv6Addresses", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "privateIpAddresses", encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description for the network interface.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6181,11 +6011,8 @@ extension EC2 {
     }
 
     public struct CreateReservedInstancesListingRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "priceSchedules", encoding: .list(member:"item"))
-        ]
-
         public struct _PriceSchedulesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
         public let clientToken: String
         /// The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
@@ -6211,11 +6038,8 @@ extension EC2 {
     }
 
     public struct CreateReservedInstancesListingResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesListingsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Standard Reserved Instance listing.
         @OptionalCoding<ArrayCoder<_ReservedInstancesListingsEncoding, ReservedInstancesListing>> public var reservedInstancesListings: [ReservedInstancesListing]?
 
@@ -6333,9 +6157,6 @@ extension EC2 {
     }
 
     public struct CreateSecurityGroupRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "description", location: .body(locationName: "GroupDescription"))
-        ]
 
         /// A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
         public let description: String
@@ -6376,11 +6197,8 @@ extension EC2 {
     }
 
     public struct CreateSnapshotRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description for the snapshot.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6406,11 +6224,8 @@ extension EC2 {
     }
 
     public struct CreateSnapshotsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Copies the tags from the specified volume to corresponding snapshot.
         public let copyTagsFromSource: CopyTagsFromSource?
         ///  A description propagated to every snapshot specified by the instance.
@@ -6440,11 +6255,8 @@ extension EC2 {
     }
 
     public struct CreateSnapshotsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SnapshotsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// List of snapshots.
         @OptionalCoding<ArrayCoder<_SnapshotsEncoding, SnapshotInfo>> public var snapshots: [SnapshotInfo]?
 
@@ -6546,12 +6358,8 @@ extension EC2 {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resources", location: .body(locationName: "ResourceId"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
@@ -6573,11 +6381,8 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorFilterRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror filter.
@@ -6697,11 +6502,8 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorSessionRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror session.
@@ -6769,11 +6571,8 @@ extension EC2 {
     }
 
     public struct CreateTrafficMirrorTargetRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// The description of the Traffic Mirror target.
@@ -6825,11 +6624,8 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayMulticastDomainRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The tags for the transit gateway multicast domain.
@@ -6865,11 +6661,8 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayPeeringAttachmentRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The AWS account ID of the owner of the peer transit gateway.
@@ -6917,11 +6710,8 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description of the transit gateway.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7005,11 +6795,8 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayRouteTableRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecifications"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The tags to apply to the transit gateway route table.
@@ -7045,13 +6832,9 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayVpcAttachmentRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecifications"), encoding: .list(member:"item"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The VPC attachment options.
@@ -7135,13 +6918,9 @@ extension EC2 {
     }
 
     public struct CreateVolumePermissionModifications: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "add", location: .body(locationName: "Add"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "remove", location: .body(locationName: "Remove"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Adds the specified AWS account ID or group to the list.
         @OptionalCoding<ArrayCoder<_AddEncoding, CreateVolumePermission>> public var add: [CreateVolumePermission]?
         /// Removes the specified AWS account ID or group from the list.
@@ -7159,11 +6938,8 @@ extension EC2 {
     }
 
     public struct CreateVolumeRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone in which to create the volume.
         public let availabilityZone: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7213,11 +6989,8 @@ extension EC2 {
     }
 
     public struct CreateVpcEndpointConnectionNotificationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionEvents", location: .body(locationName: "ConnectionEvents"), encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// One or more endpoint events for which to receive notifications. Valid values are Accept, Connect, Delete, and Reject.
@@ -7269,15 +7042,10 @@ extension EC2 {
     }
 
     public struct CreateVpcEndpointRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routeTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"item"))
-        ]
-
         public struct _RouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7345,11 +7113,8 @@ extension EC2 {
     }
 
     public struct CreateVpcEndpointServiceConfigurationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkLoadBalancerArns", location: .body(locationName: "NetworkLoadBalancerArn"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether requests from service consumers to create an endpoint to your service must be accepted. To accept a request, use AcceptVpcEndpointConnections.
         public let acceptanceRequired: Bool?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -7627,11 +7392,8 @@ extension EC2 {
     }
 
     public struct CustomerGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
         public let bgpAsn: String?
         /// The Amazon Resource Name (ARN) for the customer gateway certificate.
@@ -7871,9 +7633,6 @@ extension EC2 {
     }
 
     public struct DeleteFleetsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
-        ]
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7896,13 +7655,9 @@ extension EC2 {
     }
 
     public struct DeleteFleetsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successfulFleetDeletions", location: .body(locationName: "successfulFleetDeletionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessfulFleetDeletions", location: .body(locationName: "unsuccessfulFleetDeletionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulFleetDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulFleetDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the EC2 Fleets that are successfully deleted.
         @OptionalCoding<ArrayCoder<_SuccessfulFleetDeletionsEncoding, DeleteFleetSuccessItem>> public var successfulFleetDeletions: [DeleteFleetSuccessItem]?
         /// Information about the EC2 Fleets that are not successfully deleted.
@@ -7920,11 +7675,8 @@ extension EC2 {
     }
 
     public struct DeleteFlowLogsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowLogIds", location: .body(locationName: "FlowLogId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FlowLogIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more flow log IDs. Constraint: Maximum of 1000 flow log IDs.
@@ -7942,11 +7694,8 @@ extension EC2 {
     }
 
     public struct DeleteFlowLogsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the flow logs that could not be deleted successfully.
         @OptionalCoding<ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>> public var unsuccessful: [UnsuccessfulItem]?
 
@@ -8070,11 +7819,8 @@ extension EC2 {
     }
 
     public struct DeleteLaunchTemplateVersionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "versions", location: .body(locationName: "LaunchTemplateVersion"), encoding: .list(member:"item"))
-        ]
-
         public struct _VersionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the launch template. You must specify either the launch template ID or launch template name in the request.
@@ -8154,13 +7900,9 @@ extension EC2 {
     }
 
     public struct DeleteLaunchTemplateVersionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successfullyDeletedLaunchTemplateVersions", location: .body(locationName: "successfullyDeletedLaunchTemplateVersionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessfullyDeletedLaunchTemplateVersions", location: .body(locationName: "unsuccessfullyDeletedLaunchTemplateVersionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfullyDeletedLaunchTemplateVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfullyDeletedLaunchTemplateVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the launch template versions that were successfully deleted.
         @OptionalCoding<ArrayCoder<_SuccessfullyDeletedLaunchTemplateVersionsEncoding, DeleteLaunchTemplateVersionsResponseSuccessItem>> public var successfullyDeletedLaunchTemplateVersions: [DeleteLaunchTemplateVersionsResponseSuccessItem]?
         /// Information about the launch template versions that could not be deleted.
@@ -8408,11 +8150,8 @@ extension EC2 {
     }
 
     public struct DeleteQueuedReservedInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Reserved Instances.
@@ -8435,13 +8174,9 @@ extension EC2 {
     }
 
     public struct DeleteQueuedReservedInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "failedQueuedPurchaseDeletions", location: .body(locationName: "failedQueuedPurchaseDeletionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "successfulQueuedPurchaseDeletions", location: .body(locationName: "successfulQueuedPurchaseDeletionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FailedQueuedPurchaseDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SuccessfulQueuedPurchaseDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the queued purchases that could not be deleted.
         @OptionalCoding<ArrayCoder<_FailedQueuedPurchaseDeletionsEncoding, FailedQueuedPurchaseDeletion>> public var failedQueuedPurchaseDeletions: [FailedQueuedPurchaseDeletion]?
         /// Information about the queued purchases that were successfully deleted.
@@ -8575,12 +8310,8 @@ extension EC2 {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resources", location: .body(locationName: "resourceId"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
@@ -8944,11 +8675,8 @@ extension EC2 {
     }
 
     public struct DeleteVpcEndpointConnectionNotificationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionNotificationIds", location: .body(locationName: "ConnectionNotificationId"), encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionNotificationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more notification IDs.
         @Coding<ArrayCoder<_ConnectionNotificationIdsEncoding, String>> public var connectionNotificationIds: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8966,11 +8694,8 @@ extension EC2 {
     }
 
     public struct DeleteVpcEndpointConnectionNotificationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the notifications that could not be deleted successfully.
         @OptionalCoding<ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>> public var unsuccessful: [UnsuccessfulItem]?
 
@@ -8984,11 +8709,8 @@ extension EC2 {
     }
 
     public struct DeleteVpcEndpointServiceConfigurationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceIds", location: .body(locationName: "ServiceId"), encoding: .list(member:"item"))
-        ]
-
         public struct _ServiceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of one or more services.
@@ -9006,11 +8728,8 @@ extension EC2 {
     }
 
     public struct DeleteVpcEndpointServiceConfigurationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the service configurations that were not deleted, if applicable.
         @OptionalCoding<ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>> public var unsuccessful: [UnsuccessfulItem]?
 
@@ -9024,11 +8743,8 @@ extension EC2 {
     }
 
     public struct DeleteVpcEndpointsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more VPC endpoint IDs.
@@ -9046,11 +8762,8 @@ extension EC2 {
     }
 
     public struct DeleteVpcEndpointsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the VPC endpoints that were not successfully deleted.
         @OptionalCoding<ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>> public var unsuccessful: [UnsuccessfulItem]?
 
@@ -9218,11 +8931,8 @@ extension EC2 {
     }
 
     public struct DeregisterTransitGatewayMulticastGroupMembersRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IP address assigned to the transit gateway multicast group.
@@ -9262,11 +8972,8 @@ extension EC2 {
     }
 
     public struct DeregisterTransitGatewayMulticastGroupSourcesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IP address assigned to the transit gateway multicast group.
@@ -9306,11 +9013,8 @@ extension EC2 {
     }
 
     public struct DescribeAccountAttributesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "attributeName"), encoding: .list(member:"attributeName"))
-        ]
-
         public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "attributeName" }
+
         /// The account attribute names.
         @OptionalCoding<ArrayCoder<_AttributeNamesEncoding, AccountAttributeName>> public var attributeNames: [AccountAttributeName]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9328,11 +9032,8 @@ extension EC2 {
     }
 
     public struct DescribeAccountAttributesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountAttributes", location: .body(locationName: "accountAttributeSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AccountAttributesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the account attributes.
         @OptionalCoding<ArrayCoder<_AccountAttributesEncoding, AccountAttribute>> public var accountAttributes: [AccountAttribute]?
 
@@ -9346,15 +9047,10 @@ extension EC2 {
     }
 
     public struct DescribeAddressesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "allocationIds", location: .body(locationName: "AllocationId"), encoding: .list(member:"AllocationId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "publicIps", location: .body(locationName: "PublicIp"), encoding: .list(member:"PublicIp"))
-        ]
-
         public struct _AllocationIdsEncoding: ArrayCoderProperties { static public let member = "AllocationId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PublicIpsEncoding: ArrayCoderProperties { static public let member = "PublicIp" }
+
         /// [EC2-VPC] Information about the allocation IDs.
         @OptionalCoding<ArrayCoder<_AllocationIdsEncoding, String>> public var allocationIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9380,11 +9076,8 @@ extension EC2 {
     }
 
     public struct DescribeAddressesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addresses", location: .body(locationName: "addressesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Elastic IP addresses.
         @OptionalCoding<ArrayCoder<_AddressesEncoding, Address>> public var addresses: [Address]?
 
@@ -9412,11 +9105,8 @@ extension EC2 {
     }
 
     public struct DescribeAggregateIdFormatResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about each resource's ID format.
         @OptionalCoding<ArrayCoder<_StatusesEncoding, IdFormat>> public var statuses: [IdFormat]?
         /// Indicates whether all resource types in the Region are configured to use longer IDs. This value is only true if all users are configured to use longer IDs for all resources types in the Region.
@@ -9434,15 +9124,10 @@ extension EC2 {
     }
 
     public struct DescribeAvailabilityZonesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "zoneIds", location: .body(locationName: "ZoneId"), encoding: .list(member:"ZoneId")), 
-            AWSMemberEncoding(label: "zoneNames", location: .body(locationName: "ZoneName"), encoding: .list(member:"ZoneName"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ZoneIdsEncoding: ArrayCoderProperties { static public let member = "ZoneId" }
         public struct _ZoneNamesEncoding: ArrayCoderProperties { static public let member = "ZoneName" }
+
         /// Include all Availability Zones and Local Zones regardless of your opt in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
         public let allAvailabilityZones: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9472,11 +9157,8 @@ extension EC2 {
     }
 
     public struct DescribeAvailabilityZonesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "availabilityZoneInfo"), encoding: .list(member:"item"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Availability Zones and Local Zones.
         @OptionalCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>> public var availabilityZones: [AvailabilityZone]?
 
@@ -9490,13 +9172,9 @@ extension EC2 {
     }
 
     public struct DescribeBundleTasksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleIds", location: .body(locationName: "BundleId"), encoding: .list(member:"BundleId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _BundleIdsEncoding: ArrayCoderProperties { static public let member = "BundleId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The bundle task IDs. Default: Describes all your bundle tasks.
         @OptionalCoding<ArrayCoder<_BundleIdsEncoding, String>> public var bundleIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9518,11 +9196,8 @@ extension EC2 {
     }
 
     public struct DescribeBundleTasksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleTasks", location: .body(locationName: "bundleInstanceTasksSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _BundleTasksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the bundle tasks.
         @OptionalCoding<ArrayCoder<_BundleTasksEncoding, BundleTask>> public var bundleTasks: [BundleTask]?
 
@@ -9563,11 +9238,8 @@ extension EC2 {
     }
 
     public struct DescribeByoipCidrsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "byoipCidrs", location: .body(locationName: "byoipCidrSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ByoipCidrsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about your address ranges.
         @OptionalCoding<ArrayCoder<_ByoipCidrsEncoding, ByoipCidr>> public var byoipCidrs: [ByoipCidr]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9585,13 +9257,9 @@ extension EC2 {
     }
 
     public struct DescribeCapacityReservationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "capacityReservationIds", location: .body(locationName: "CapacityReservationId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the Capacity Reservation.
         @OptionalCoding<ArrayCoder<_CapacityReservationIdsEncoding, String>> public var capacityReservationIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9626,11 +9294,8 @@ extension EC2 {
     }
 
     public struct DescribeCapacityReservationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "capacityReservations", location: .body(locationName: "capacityReservationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CapacityReservationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Capacity Reservations.
         @OptionalCoding<ArrayCoder<_CapacityReservationsEncoding, CapacityReservation>> public var capacityReservations: [CapacityReservation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9648,13 +9313,9 @@ extension EC2 {
     }
 
     public struct DescribeClassicLinkInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    group-id - The ID of a VPC security group that's associated with the instance.    instance-id - The ID of the instance.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC to which the instance is linked.  vpc-id - The ID of the VPC that the instance is linked to.  
@@ -9689,11 +9350,8 @@ extension EC2 {
     }
 
     public struct DescribeClassicLinkInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more linked EC2-Classic instances.
         @OptionalCoding<ArrayCoder<_InstancesEncoding, ClassicLinkInstance>> public var instances: [ClassicLinkInstance]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9711,11 +9369,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnAuthorizationRulesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9750,11 +9405,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnAuthorizationRulesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authorizationRules", location: .body(locationName: "authorizationRule"), encoding: .list(member:"item"))
-        ]
-
         public struct _AuthorizationRulesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the authorization rules.
         @OptionalCoding<ArrayCoder<_AuthorizationRulesEncoding, AuthorizationRule>> public var authorizationRules: [AuthorizationRule]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9772,11 +9424,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnConnectionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9811,11 +9460,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connections", encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the active and terminated client connections.
         @OptionalCoding<ArrayCoder<_ConnectionsEncoding, ClientVpnConnection>> public var connections: [ClientVpnConnection]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9833,13 +9479,9 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnEndpointsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientVpnEndpointIds", location: .body(locationName: "ClientVpnEndpointId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _ClientVpnEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the Client VPN endpoint.
         @OptionalCoding<ArrayCoder<_ClientVpnEndpointIdsEncoding, String>> public var clientVpnEndpointIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9874,11 +9516,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnEndpointsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientVpnEndpoints", location: .body(locationName: "clientVpnEndpoint"), encoding: .list(member:"item"))
-        ]
-
         public struct _ClientVpnEndpointsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Client VPN endpoints.
         @OptionalCoding<ArrayCoder<_ClientVpnEndpointsEncoding, ClientVpnEndpoint>> public var clientVpnEndpoints: [ClientVpnEndpoint]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9896,11 +9535,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnRoutesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9935,11 +9571,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnRoutesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routes", encoding: .list(member:"item"))
-        ]
-
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the Client VPN endpoint routes.
@@ -9957,13 +9590,9 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnTargetNetworksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationIds", location: .body(locationName: "AssociationIds"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _AssociationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The IDs of the target network associations.
         @OptionalCoding<ArrayCoder<_AssociationIdsEncoding, String>> public var associationIds: [String]?
         /// The ID of the Client VPN endpoint.
@@ -10002,11 +9631,8 @@ extension EC2 {
     }
 
     public struct DescribeClientVpnTargetNetworksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientVpnTargetNetworks", encoding: .list(member:"item"))
-        ]
-
         public struct _ClientVpnTargetNetworksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the associated target networks.
         @OptionalCoding<ArrayCoder<_ClientVpnTargetNetworksEncoding, TargetNetwork>> public var clientVpnTargetNetworks: [TargetNetwork]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10024,13 +9650,9 @@ extension EC2 {
     }
 
     public struct DescribeCoipPoolsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "poolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PoolIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters. The following are the possible values:    coip-pool.pool-id       coip-pool.local-gateway-route-table-id   
@@ -10065,11 +9687,8 @@ extension EC2 {
     }
 
     public struct DescribeCoipPoolsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coipPools", location: .body(locationName: "coipPoolSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CoipPoolsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the address pools.
         @OptionalCoding<ArrayCoder<_CoipPoolsEncoding, CoipPool>> public var coipPools: [CoipPool]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10087,11 +9706,8 @@ extension EC2 {
     }
 
     public struct DescribeConversionTasksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "conversionTaskIds", location: .body(locationName: "conversionTaskId"), encoding: .list(member:"item"))
-        ]
-
         public struct _ConversionTaskIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The conversion task IDs.
         @OptionalCoding<ArrayCoder<_ConversionTaskIdsEncoding, String>> public var conversionTaskIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10109,11 +9725,8 @@ extension EC2 {
     }
 
     public struct DescribeConversionTasksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "conversionTasks", encoding: .list(member:"item"))
-        ]
-
         public struct _ConversionTasksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the conversion tasks.
         @OptionalCoding<ArrayCoder<_ConversionTasksEncoding, ConversionTask>> public var conversionTasks: [ConversionTask]?
 
@@ -10127,13 +9740,9 @@ extension EC2 {
     }
 
     public struct DescribeCustomerGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customerGatewayIds", location: .body(locationName: "CustomerGatewayId"), encoding: .list(member:"CustomerGatewayId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _CustomerGatewayIdsEncoding: ArrayCoderProperties { static public let member = "CustomerGatewayId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// One or more customer gateway IDs. Default: Describes all your customer gateways.
         @OptionalCoding<ArrayCoder<_CustomerGatewayIdsEncoding, String>> public var customerGatewayIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10155,11 +9764,8 @@ extension EC2 {
     }
 
     public struct DescribeCustomerGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customerGateways", location: .body(locationName: "customerGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CustomerGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more customer gateways.
         @OptionalCoding<ArrayCoder<_CustomerGatewaysEncoding, CustomerGateway>> public var customerGateways: [CustomerGateway]?
 
@@ -10173,13 +9779,9 @@ extension EC2 {
     }
 
     public struct DescribeDhcpOptionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dhcpOptionsIds", location: .body(locationName: "DhcpOptionsId"), encoding: .list(member:"DhcpOptionsId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _DhcpOptionsIdsEncoding: ArrayCoderProperties { static public let member = "DhcpOptionsId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The IDs of one or more DHCP options sets. Default: Describes all your DHCP options sets.
         @OptionalCoding<ArrayCoder<_DhcpOptionsIdsEncoding, String>> public var dhcpOptionsIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10214,11 +9816,8 @@ extension EC2 {
     }
 
     public struct DescribeDhcpOptionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dhcpOptions", location: .body(locationName: "dhcpOptionsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _DhcpOptionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more DHCP options sets.
         @OptionalCoding<ArrayCoder<_DhcpOptionsEncoding, DhcpOptions>> public var dhcpOptions: [DhcpOptions]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10236,13 +9835,9 @@ extension EC2 {
     }
 
     public struct DescribeEgressOnlyInternetGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "egressOnlyInternetGatewayIds", location: .body(locationName: "EgressOnlyInternetGatewayId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _EgressOnlyInternetGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more egress-only internet gateway IDs.
@@ -10277,11 +9872,8 @@ extension EC2 {
     }
 
     public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "egressOnlyInternetGateways", location: .body(locationName: "egressOnlyInternetGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _EgressOnlyInternetGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the egress-only internet gateways.
         @OptionalCoding<ArrayCoder<_EgressOnlyInternetGatewaysEncoding, EgressOnlyInternetGateway>> public var egressOnlyInternetGateways: [EgressOnlyInternetGateway]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10299,13 +9891,9 @@ extension EC2 {
     }
 
     public struct DescribeElasticGpusRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "elasticGpuIds", location: .body(locationName: "ElasticGpuId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _ElasticGpuIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The Elastic Graphics accelerator IDs.
@@ -10340,11 +9928,8 @@ extension EC2 {
     }
 
     public struct DescribeElasticGpusResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "elasticGpuSet", encoding: .list(member:"item"))
-        ]
-
         public struct _ElasticGpuSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Elastic Graphics accelerators.
         @OptionalCoding<ArrayCoder<_ElasticGpuSetEncoding, ElasticGpus>> public var elasticGpuSet: [ElasticGpus]?
         /// The total number of items to return. If the total number of items available is more than the value specified in max-items then a Next-Token will be provided in the output that you can use to resume pagination.
@@ -10366,13 +9951,9 @@ extension EC2 {
     }
 
     public struct DescribeExportImageTasksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportImageTaskIds", location: .body(locationName: "ExportImageTaskId"), encoding: .list(member:"ExportImageTaskId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _ExportImageTaskIdsEncoding: ArrayCoderProperties { static public let member = "ExportImageTaskId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the export image tasks.
@@ -10407,11 +9988,8 @@ extension EC2 {
     }
 
     public struct DescribeExportImageTasksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportImageTasks", location: .body(locationName: "exportImageTaskSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ExportImageTasksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the export image tasks.
         @OptionalCoding<ArrayCoder<_ExportImageTasksEncoding, ExportImageTask>> public var exportImageTasks: [ExportImageTask]?
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
@@ -10429,13 +10007,9 @@ extension EC2 {
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportTaskIds", location: .body(locationName: "exportTaskId"), encoding: .list(member:"ExportTaskId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _ExportTaskIdsEncoding: ArrayCoderProperties { static public let member = "ExportTaskId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The export task IDs.
         @OptionalCoding<ArrayCoder<_ExportTaskIdsEncoding, String>> public var exportTaskIds: [String]?
         /// the filters for the export tasks.
@@ -10453,11 +10027,8 @@ extension EC2 {
     }
 
     public struct DescribeExportTasksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportTasks", location: .body(locationName: "exportTaskSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ExportTasksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the export tasks.
         @OptionalCoding<ArrayCoder<_ExportTasksEncoding, ExportTask>> public var exportTasks: [ExportTask]?
 
@@ -10525,11 +10096,8 @@ extension EC2 {
     }
 
     public struct DescribeFastSnapshotRestoresRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters. The possible values are:    availability-zone: The Availability Zone of the snapshot.    owner-id: The ID of the AWS account that owns the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of fast snapshot restores for the snapshot (enabling | optimizing | enabled | disabling | disabled).  
@@ -10560,11 +10128,8 @@ extension EC2 {
     }
 
     public struct DescribeFastSnapshotRestoresResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fastSnapshotRestores", location: .body(locationName: "fastSnapshotRestoreSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FastSnapshotRestoresEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the state of fast snapshot restores.
         @OptionalCoding<ArrayCoder<_FastSnapshotRestoresEncoding, DescribeFastSnapshotRestoreSuccessItem>> public var fastSnapshotRestores: [DescribeFastSnapshotRestoreSuccessItem]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10642,11 +10207,8 @@ extension EC2 {
     }
 
     public struct DescribeFleetHistoryResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "historyRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HistoryRecordsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the EC Fleet.
         public let fleetId: String?
         /// Information about the events in the history of the EC2 Fleet.
@@ -10676,11 +10238,8 @@ extension EC2 {
     }
 
     public struct DescribeFleetInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    instance-type - The instance type.  
@@ -10710,11 +10269,8 @@ extension EC2 {
     }
 
     public struct DescribeFleetInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activeInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ActiveInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The running instances. This list is refreshed periodically and might be out of date.
         @OptionalCoding<ArrayCoder<_ActiveInstancesEncoding, ActiveInstance>> public var activeInstances: [ActiveInstance]?
         /// The ID of the EC2 Fleet.
@@ -10736,11 +10292,8 @@ extension EC2 {
     }
 
     public struct DescribeFleetsInstances: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the instances.
         @OptionalCoding<ArrayCoder<_InstanceIdsEncoding, String>> public var instanceIds: [String]?
         /// The instance type.
@@ -10770,12 +10323,8 @@ extension EC2 {
     }
 
     public struct DescribeFleetsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "fleetIds", location: .body(locationName: "FleetId"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    activity-status - The progress of the EC2 Fleet ( error | pending-fulfillment | pending-termination | fulfilled).    excess-capacity-termination-policy - Indicates whether to terminate running instances if the target capacity is decreased below the current EC2 Fleet size (true | false).    fleet-state - The state of the EC2 Fleet (submitted | active | deleted | failed | deleted-running | deleted-terminating | modifying).    replace-unhealthy-instances - Indicates whether EC2 Fleet should replace unhealthy instances (true | false).    type - The type of request (instant | request | maintain).  
@@ -10805,11 +10354,8 @@ extension EC2 {
     }
 
     public struct DescribeFleetsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleets", location: .body(locationName: "fleetSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FleetsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the EC2 Fleets.
         @OptionalCoding<ArrayCoder<_FleetsEncoding, FleetData>> public var fleets: [FleetData]?
         /// The token for the next set of results.
@@ -10827,13 +10373,9 @@ extension EC2 {
     }
 
     public struct DescribeFlowLogsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "flowLogIds", location: .body(locationName: "FlowLogId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _FlowLogIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    deliver-log-status - The status of the logs delivery (SUCCESS | FAILED).    log-destination-type - The type of destination to which the flow log publishes data. Possible destination types include cloud-watch-logs and S3.    flow-log-id - The ID of the flow log.    log-group-name - The name of the log group.    resource-id - The ID of the VPC, subnet, or network interface.    traffic-type - The type of traffic (ACCEPT | REJECT | ALL).  
@@ -10863,11 +10405,8 @@ extension EC2 {
     }
 
     public struct DescribeFlowLogsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "flowLogs", location: .body(locationName: "flowLogSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FlowLogsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the flow logs.
         @OptionalCoding<ArrayCoder<_FlowLogsEncoding, FlowLog>> public var flowLogs: [FlowLog]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10921,15 +10460,10 @@ extension EC2 {
     }
 
     public struct DescribeFpgaImagesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "fpgaImageIds", location: .body(locationName: "FpgaImageId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "owners", location: .body(locationName: "Owner"), encoding: .list(member:"Owner"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _FpgaImageIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _OwnersEncoding: ArrayCoderProperties { static public let member = "Owner" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    create-time - The creation time of the AFI.    fpga-image-id - The FPGA image identifier (AFI ID).    fpga-image-global-id - The global FPGA image identifier (AGFI ID).    name - The name of the AFI.    owner-id - The AWS account ID of the AFI owner.    product-code - The product code.    shell-version - The version of the AWS Shell that was used to create the bitstream.    state - The state of the AFI (pending | failed | available | unavailable).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    update-time - The time of the most recent update.  
@@ -10968,11 +10502,8 @@ extension EC2 {
     }
 
     public struct DescribeFpgaImagesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fpgaImages", location: .body(locationName: "fpgaImageSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FpgaImagesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the FPGA images.
         @OptionalCoding<ArrayCoder<_FpgaImagesEncoding, FpgaImage>> public var fpgaImages: [FpgaImage]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10990,11 +10521,8 @@ extension EC2 {
     }
 
     public struct DescribeHostReservationOfferingsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The filters.    instance-family - The instance family of the offering (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).  
         @OptionalCoding<ArrayCoder<_FilterEncoding, Filter>> public var filter: [Filter]?
         /// This is the maximum duration of the reservation to purchase, specified in seconds. Reservations are available in one-year and three-year terms. The number of seconds specified must be the number of seconds in a year (365x24x60x60) times one of the supported durations (1 or 3). For example, specify 94608000 for three years.
@@ -11033,11 +10561,8 @@ extension EC2 {
     }
 
     public struct DescribeHostReservationOfferingsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "offeringSet", encoding: .list(member:"item"))
-        ]
-
         public struct _OfferingSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the offerings.
@@ -11055,13 +10580,9 @@ extension EC2 {
     }
 
     public struct DescribeHostReservationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "hostReservationIdSet", location: .body(locationName: "HostReservationIdSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _HostReservationIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The filters.    instance-family - The instance family (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).    state - The state of the reservation (payment-pending | payment-failed | active | retired).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
         @OptionalCoding<ArrayCoder<_FilterEncoding, Filter>> public var filter: [Filter]?
         /// The host reservation IDs.
@@ -11087,11 +10608,8 @@ extension EC2 {
     }
 
     public struct DescribeHostReservationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostReservationSet", encoding: .list(member:"item"))
-        ]
-
         public struct _HostReservationSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Details about the reservation's configuration.
         @OptionalCoding<ArrayCoder<_HostReservationSetEncoding, HostReservation>> public var hostReservationSet: [HostReservation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11109,13 +10627,9 @@ extension EC2 {
     }
 
     public struct DescribeHostsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filter", encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The filters.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    availability-zone - The Availability Zone of the host.    client-token - The idempotency token that you provided when you allocated the host.    host-reservation-id - The ID of the reservation assigned to this host.    instance-type - The instance type size that the Dedicated Host is configured to support.    state - The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
         @OptionalCoding<ArrayCoder<_FilterEncoding, Filter>> public var filter: [Filter]?
         /// The IDs of the Dedicated Hosts. The IDs are used for targeted instance launches.
@@ -11141,11 +10655,8 @@ extension EC2 {
     }
 
     public struct DescribeHostsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hosts", location: .body(locationName: "hostSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Dedicated Hosts.
         @OptionalCoding<ArrayCoder<_HostsEncoding, Host>> public var hosts: [Host]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11163,13 +10674,9 @@ extension EC2 {
     }
 
     public struct DescribeIamInstanceProfileAssociationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationIds", location: .body(locationName: "AssociationId"), encoding: .list(member:"AssociationId")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _AssociationIdsEncoding: ArrayCoderProperties { static public let member = "AssociationId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The IAM instance profile associations.
         @OptionalCoding<ArrayCoder<_AssociationIdsEncoding, String>> public var associationIds: [String]?
         /// The filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating | disassociated).  
@@ -11200,11 +10707,8 @@ extension EC2 {
     }
 
     public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "iamInstanceProfileAssociations", location: .body(locationName: "iamInstanceProfileAssociationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _IamInstanceProfileAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the IAM instance profile associations.
         @OptionalCoding<ArrayCoder<_IamInstanceProfileAssociationsEncoding, IamInstanceProfileAssociation>> public var iamInstanceProfileAssociations: [IamInstanceProfileAssociation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11236,11 +10740,8 @@ extension EC2 {
     }
 
     public struct DescribeIdFormatResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the ID format for the resource.
         @OptionalCoding<ArrayCoder<_StatusesEncoding, IdFormat>> public var statuses: [IdFormat]?
 
@@ -11272,11 +10773,8 @@ extension EC2 {
     }
 
     public struct DescribeIdentityIdFormatResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the ID format for the resources.
         @OptionalCoding<ArrayCoder<_StatusesEncoding, IdFormat>> public var statuses: [IdFormat]?
 
@@ -11312,17 +10810,11 @@ extension EC2 {
     }
 
     public struct DescribeImagesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "executableUsers", location: .body(locationName: "ExecutableBy"), encoding: .list(member:"ExecutableBy")), 
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "imageIds", location: .body(locationName: "ImageId"), encoding: .list(member:"ImageId")), 
-            AWSMemberEncoding(label: "owners", location: .body(locationName: "Owner"), encoding: .list(member:"Owner"))
-        ]
-
         public struct _ExecutableUsersEncoding: ArrayCoderProperties { static public let member = "ExecutableBy" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ImageIdsEncoding: ArrayCoderProperties { static public let member = "ImageId" }
         public struct _OwnersEncoding: ArrayCoderProperties { static public let member = "Owner" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Scopes the images by users with explicit launch permissions. Specify an AWS account ID, self (the sender of the request), or all (public AMIs).
@@ -11352,11 +10844,8 @@ extension EC2 {
     }
 
     public struct DescribeImagesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "images", location: .body(locationName: "imagesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ImagesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the images.
         @OptionalCoding<ArrayCoder<_ImagesEncoding, Image>> public var images: [Image]?
 
@@ -11370,13 +10859,9 @@ extension EC2 {
     }
 
     public struct DescribeImportImageTasksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "importTaskIds", location: .body(locationName: "ImportTaskId"), encoding: .list(member:"ImportTaskId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ImportTaskIdsEncoding: ArrayCoderProperties { static public let member = "ImportTaskId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Filter tasks using the task-state filter and one of the following values: active, completed, deleting, or deleted.
@@ -11406,11 +10891,8 @@ extension EC2 {
     }
 
     public struct DescribeImportImageTasksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importImageTasks", location: .body(locationName: "importImageTaskSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ImportImageTasksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A list of zero or more import image tasks that are currently active or were completed or canceled in the previous 7 days.
         @OptionalCoding<ArrayCoder<_ImportImageTasksEncoding, ImportImageTask>> public var importImageTasks: [ImportImageTask]?
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
@@ -11428,13 +10910,9 @@ extension EC2 {
     }
 
     public struct DescribeImportSnapshotTasksRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "importTaskIds", location: .body(locationName: "ImportTaskId"), encoding: .list(member:"ImportTaskId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ImportTaskIdsEncoding: ArrayCoderProperties { static public let member = "ImportTaskId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.
@@ -11464,11 +10942,8 @@ extension EC2 {
     }
 
     public struct DescribeImportSnapshotTasksResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importSnapshotTasks", location: .body(locationName: "importSnapshotTaskSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ImportSnapshotTasksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A list of zero or more import snapshot tasks that are currently active or were completed or canceled in the previous 7 days.
         @OptionalCoding<ArrayCoder<_ImportSnapshotTasksEncoding, ImportSnapshotTask>> public var importSnapshotTasks: [ImportSnapshotTask]?
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
@@ -11508,13 +10983,9 @@ extension EC2 {
     }
 
     public struct DescribeInstanceCreditSpecificationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    instance-id - The ID of the instance.  
@@ -11549,11 +11020,8 @@ extension EC2 {
     }
 
     public struct DescribeInstanceCreditSpecificationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceCreditSpecifications", location: .body(locationName: "instanceCreditSpecificationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the credit option for CPU usage of an instance.
         @OptionalCoding<ArrayCoder<_InstanceCreditSpecificationsEncoding, InstanceCreditSpecification>> public var instanceCreditSpecifications: [InstanceCreditSpecification]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11571,13 +11039,9 @@ extension EC2 {
     }
 
     public struct DescribeInstanceStatusRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    availability-zone - The Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).  
@@ -11611,11 +11075,8 @@ extension EC2 {
     }
 
     public struct DescribeInstanceStatusResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceStatuses", location: .body(locationName: "instanceStatusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the status of the instances.
         @OptionalCoding<ArrayCoder<_InstanceStatusesEncoding, InstanceStatus>> public var instanceStatuses: [InstanceStatus]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11633,11 +11094,8 @@ extension EC2 {
     }
 
     public struct DescribeInstanceTypeOfferingsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.    location - This depends on the location type. For example, if the location type is region (default), the location is the Region code (for example, us-east-2.)    instance-type - The instance type.  
@@ -11672,11 +11130,8 @@ extension EC2 {
     }
 
     public struct DescribeInstanceTypeOfferingsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceTypeOfferings", location: .body(locationName: "instanceTypeOfferingSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceTypeOfferingsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The instance types offered.
         @OptionalCoding<ArrayCoder<_InstanceTypeOfferingsEncoding, InstanceTypeOffering>> public var instanceTypeOfferings: [InstanceTypeOffering]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11694,12 +11149,8 @@ extension EC2 {
     }
 
     public struct DescribeInstanceTypesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "instanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported. (true | false)    bare-metal - Indicates whether it is a bare metal instance type. (true | false)    burstable-performance-supported - Indicates whether it is a burstable performance instance type. (true | false)    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family. (true | false)    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized. (true | false)    ebs-info.encryption-support - Indicates whether EBS encryption is supported. (true | false)    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier. (true | false)    hibernation-supported - Indicates whether On-Demand hibernation is supported. (true | false)    hypervisor - The hypervisor used. (nitro | xen)    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks. (hdd | ssd)    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage. (true | false)    memory-info.size-in-mib - The memory size.    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required. (required | supported | unsupported)    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6. (true | false)    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - Describes the network performance.    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.  
@@ -11735,11 +11186,8 @@ extension EC2 {
     }
 
     public struct DescribeInstanceTypesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceTypes", location: .body(locationName: "instanceTypeSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceTypesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
         @OptionalCoding<ArrayCoder<_InstanceTypesEncoding, InstanceTypeInfo>> public var instanceTypes: [InstanceTypeInfo]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11757,13 +11205,9 @@ extension EC2 {
     }
 
     public struct DescribeInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.     host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.http-put-response-hop-limit - The http metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-endpoint - Enable or disable metadata access on http endpoint (enabled | disabled)    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
@@ -11793,11 +11237,8 @@ extension EC2 {
     }
 
     public struct DescribeInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservations", location: .body(locationName: "reservationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the reservations.
@@ -11815,13 +11256,9 @@ extension EC2 {
     }
 
     public struct DescribeInternetGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "internetGatewayIds", location: .body(locationName: "internetGatewayId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InternetGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    attachment.state - The current state of the attachment between the gateway and the VPC (available). Present only if a VPC is attached.    attachment.vpc-id - The ID of an attached VPC.    internet-gateway-id - The ID of the Internet gateway.    owner-id - The ID of the AWS account that owns the internet gateway.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -11856,11 +11293,8 @@ extension EC2 {
     }
 
     public struct DescribeInternetGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "internetGateways", location: .body(locationName: "internetGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InternetGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more internet gateways.
         @OptionalCoding<ArrayCoder<_InternetGatewaysEncoding, InternetGateway>> public var internetGateways: [InternetGateway]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11878,13 +11312,9 @@ extension EC2 {
     }
 
     public struct DescribeIpv6PoolsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "poolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PoolIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -11919,11 +11349,8 @@ extension EC2 {
     }
 
     public struct DescribeIpv6PoolsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipv6Pools", location: .body(locationName: "ipv6PoolSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _Ipv6PoolsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the IPv6 address pools.
         @OptionalCoding<ArrayCoder<_Ipv6PoolsEncoding, Ipv6Pool>> public var ipv6Pools: [Ipv6Pool]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11941,15 +11368,10 @@ extension EC2 {
     }
 
     public struct DescribeKeyPairsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "keyNames", location: .body(locationName: "KeyName"), encoding: .list(member:"KeyName")), 
-            AWSMemberEncoding(label: "keyPairIds", location: .body(locationName: "KeyPairId"), encoding: .list(member:"KeyPairId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _KeyNamesEncoding: ArrayCoderProperties { static public let member = "KeyName" }
         public struct _KeyPairIdsEncoding: ArrayCoderProperties { static public let member = "KeyPairId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
@@ -11975,11 +11397,8 @@ extension EC2 {
     }
 
     public struct DescribeKeyPairsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyPairs", location: .body(locationName: "keySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _KeyPairsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the key pairs.
         @OptionalCoding<ArrayCoder<_KeyPairsEncoding, KeyPairInfo>> public var keyPairs: [KeyPairInfo]?
 
@@ -11993,13 +11412,9 @@ extension EC2 {
     }
 
     public struct DescribeLaunchTemplateVersionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "versions", location: .body(locationName: "LaunchTemplateVersion"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VersionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    create-time - The time the launch template version was created.    ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O.    iam-instance-profile - The ARN of the IAM instance profile.    image-id - The ID of the AMI.    instance-type - The instance type.    is-default-version - A boolean that indicates whether the launch template version is the default version.    kernel-id - The kernel ID.    ram-disk-id - The RAM disk ID.  
@@ -12051,11 +11466,8 @@ extension EC2 {
     }
 
     public struct DescribeLaunchTemplateVersionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchTemplateVersions", location: .body(locationName: "launchTemplateVersionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LaunchTemplateVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the launch template versions.
         @OptionalCoding<ArrayCoder<_LaunchTemplateVersionsEncoding, LaunchTemplateVersion>> public var launchTemplateVersions: [LaunchTemplateVersion]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12073,15 +11485,10 @@ extension EC2 {
     }
 
     public struct DescribeLaunchTemplatesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "launchTemplateIds", location: .body(locationName: "LaunchTemplateId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "launchTemplateNames", location: .body(locationName: "LaunchTemplateName"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LaunchTemplateIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchTemplateNamesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    create-time - The time the launch template was created.    launch-template-name - The name of the launch template.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -12125,11 +11532,8 @@ extension EC2 {
     }
 
     public struct DescribeLaunchTemplatesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchTemplates", encoding: .list(member:"item"))
-        ]
-
         public struct _LaunchTemplatesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the launch templates.
         @OptionalCoding<ArrayCoder<_LaunchTemplatesEncoding, LaunchTemplate>> public var launchTemplates: [LaunchTemplate]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12147,13 +11551,9 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "localGatewayRouteTableVirtualInterfaceGroupAssociationIds", location: .body(locationName: "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayRouteTableVirtualInterfaceGroupAssociationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -12188,11 +11588,8 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGatewayRouteTableVirtualInterfaceGroupAssociations", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewayRouteTableVirtualInterfaceGroupAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the associations.
         @OptionalCoding<ArrayCoder<_LocalGatewayRouteTableVirtualInterfaceGroupAssociationsEncoding, LocalGatewayRouteTableVirtualInterfaceGroupAssociation>> public var localGatewayRouteTableVirtualInterfaceGroupAssociations: [LocalGatewayRouteTableVirtualInterfaceGroupAssociation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12210,13 +11607,9 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "localGatewayRouteTableVpcAssociationIds", location: .body(locationName: "LocalGatewayRouteTableVpcAssociationId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayRouteTableVpcAssociationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -12251,11 +11644,8 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayRouteTableVpcAssociationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGatewayRouteTableVpcAssociations", location: .body(locationName: "localGatewayRouteTableVpcAssociationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewayRouteTableVpcAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the associations.
         @OptionalCoding<ArrayCoder<_LocalGatewayRouteTableVpcAssociationsEncoding, LocalGatewayRouteTableVpcAssociation>> public var localGatewayRouteTableVpcAssociations: [LocalGatewayRouteTableVpcAssociation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12273,13 +11663,9 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayRouteTablesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "localGatewayRouteTableIds", location: .body(locationName: "LocalGatewayRouteTableId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -12314,11 +11700,8 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayRouteTablesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGatewayRouteTables", location: .body(locationName: "localGatewayRouteTableSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewayRouteTablesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the local gateway route tables.
         @OptionalCoding<ArrayCoder<_LocalGatewayRouteTablesEncoding, LocalGatewayRouteTable>> public var localGatewayRouteTables: [LocalGatewayRouteTable]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12336,13 +11719,9 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "localGatewayVirtualInterfaceGroupIds", location: .body(locationName: "LocalGatewayVirtualInterfaceGroupId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayVirtualInterfaceGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -12377,11 +11756,8 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayVirtualInterfaceGroupsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGatewayVirtualInterfaceGroups", location: .body(locationName: "localGatewayVirtualInterfaceGroupSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewayVirtualInterfaceGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The virtual interface groups.
         @OptionalCoding<ArrayCoder<_LocalGatewayVirtualInterfaceGroupsEncoding, LocalGatewayVirtualInterfaceGroup>> public var localGatewayVirtualInterfaceGroups: [LocalGatewayVirtualInterfaceGroup]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12399,13 +11775,9 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayVirtualInterfacesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "localGatewayVirtualInterfaceIds", location: .body(locationName: "LocalGatewayVirtualInterfaceId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayVirtualInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -12440,11 +11812,8 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewayVirtualInterfacesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGatewayVirtualInterfaces", location: .body(locationName: "localGatewayVirtualInterfaceSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewayVirtualInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the virtual interfaces.
         @OptionalCoding<ArrayCoder<_LocalGatewayVirtualInterfacesEncoding, LocalGatewayVirtualInterface>> public var localGatewayVirtualInterfaces: [LocalGatewayVirtualInterface]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12462,13 +11831,9 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "localGatewayIds", location: .body(locationName: "LocalGatewayId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -12503,11 +11868,8 @@ extension EC2 {
     }
 
     public struct DescribeLocalGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGateways", location: .body(locationName: "localGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the local gateways.
         @OptionalCoding<ArrayCoder<_LocalGatewaysEncoding, LocalGateway>> public var localGateways: [LocalGateway]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12525,13 +11887,9 @@ extension EC2 {
     }
 
     public struct DescribeMovingAddressesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "publicIps", location: .body(locationName: "publicIp"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PublicIpsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    moving-status - The status of the Elastic IP address (MovingToVpc | RestoringToClassic).  
@@ -12566,11 +11924,8 @@ extension EC2 {
     }
 
     public struct DescribeMovingAddressesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "movingAddressStatuses", location: .body(locationName: "movingAddressStatusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _MovingAddressStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The status for each Elastic IP address.
         @OptionalCoding<ArrayCoder<_MovingAddressStatusesEncoding, MovingAddressStatus>> public var movingAddressStatuses: [MovingAddressStatus]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12588,13 +11943,9 @@ extension EC2 {
     }
 
     public struct DescribeNatGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filter", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "natGatewayIds", location: .body(locationName: "NatGatewayId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _NatGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more filters.    nat-gateway-id - The ID of the NAT gateway.    state - The state of the NAT gateway (pending | failed | available | deleting | deleted).    subnet-id - The ID of the subnet in which the NAT gateway resides.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the NAT gateway resides.  
         @OptionalCoding<ArrayCoder<_FilterEncoding, Filter>> public var filter: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -12625,11 +11976,8 @@ extension EC2 {
     }
 
     public struct DescribeNatGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "natGateways", location: .body(locationName: "natGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _NatGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the NAT gateways.
         @OptionalCoding<ArrayCoder<_NatGatewaysEncoding, NatGateway>> public var natGateways: [NatGateway]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12647,13 +11995,9 @@ extension EC2 {
     }
 
     public struct DescribeNetworkAclsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "networkAclIds", location: .body(locationName: "NetworkAclId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _NetworkAclIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    association.association-id - The ID of an association ID for the ACL.    association.network-acl-id - The ID of the network ACL involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    default - Indicates whether the ACL is the default network ACL for the VPC.    entry.cidr - The IPv4 CIDR range specified in the entry.    entry.icmp.code - The ICMP code specified in the entry, if any.    entry.icmp.type - The ICMP type specified in the entry, if any.    entry.ipv6-cidr - The IPv6 CIDR range specified in the entry.    entry.port-range.from - The start of the port range specified in the entry.     entry.port-range.to - The end of the port range specified in the entry.     entry.protocol - The protocol specified in the entry (tcp | udp | icmp or a protocol number).    entry.rule-action - Allows or denies the matching traffic (allow | deny).    entry.rule-number - The number of an entry (in other words, rule) in the set of ACL entries.    network-acl-id - The ID of the network ACL.    owner-id - The ID of the AWS account that owns the network ACL.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network ACL.  
@@ -12688,11 +12032,8 @@ extension EC2 {
     }
 
     public struct DescribeNetworkAclsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkAcls", location: .body(locationName: "networkAclSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkAclsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more network ACLs.
         @OptionalCoding<ArrayCoder<_NetworkAclsEncoding, NetworkAcl>> public var networkAcls: [NetworkAcl]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12732,11 +12073,8 @@ extension EC2 {
     }
 
     public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The attachment (if any) of the network interface.
         public let attachment: NetworkInterfaceAttachment?
         /// The description of the network interface.
@@ -12766,12 +12104,8 @@ extension EC2 {
     }
 
     public struct DescribeNetworkInterfacePermissionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "networkInterfacePermissionIds", location: .body(locationName: "NetworkInterfacePermissionId"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the permission.    network-interface-permission.network-interface-id - The ID of the network interface.    network-interface-permission.aws-account-id - The AWS account ID.    network-interface-permission.aws-service - The AWS service.    network-interface-permission.permission - The type of permission (INSTANCE-ATTACH | EIP-ASSOCIATE).  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. If this parameter is not specified, up to 50 results are returned by default.
@@ -12802,11 +12136,8 @@ extension EC2 {
     }
 
     public struct DescribeNetworkInterfacePermissionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkInterfacePermissions", encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkInterfacePermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The network interface permissions.
         @OptionalCoding<ArrayCoder<_NetworkInterfacePermissionsEncoding, NetworkInterfacePermission>> public var networkInterfacePermissions: [NetworkInterfacePermission]?
         /// The token to use to retrieve the next page of results.
@@ -12824,13 +12155,9 @@ extension EC2 {
     }
 
     public struct DescribeNetworkInterfacesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attachment-id - The ID of the interface attachment.    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.nat-gateway-id - The ID of the NAT gateway to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    group-name - The name of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    owner-id - The AWS account ID of the network interface owner.    private-ip-address - The private IPv4 address or addresses of the network interface.    private-dns-name - The private DNS name of the network interface (IPv4).    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    requester-managed - Indicates whether the network interface is being managed by an AWS service (for example, AWS Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.  
@@ -12865,11 +12192,8 @@ extension EC2 {
     }
 
     public struct DescribeNetworkInterfacesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more network interfaces.
         @OptionalCoding<ArrayCoder<_NetworkInterfacesEncoding, NetworkInterface>> public var networkInterfaces: [NetworkInterface]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12887,14 +12211,9 @@ extension EC2 {
     }
 
     public struct DescribePlacementGroupsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "groupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"GroupId")), 
-            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "groupName"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "GroupId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).  
@@ -12920,11 +12239,8 @@ extension EC2 {
     }
 
     public struct DescribePlacementGroupsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "placementGroups", location: .body(locationName: "placementGroupSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PlacementGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the placement groups.
         @OptionalCoding<ArrayCoder<_PlacementGroupsEncoding, PlacementGroup>> public var placementGroups: [PlacementGroup]?
 
@@ -12938,13 +12254,9 @@ extension EC2 {
     }
 
     public struct DescribePrefixListsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "prefixListIds", location: .body(locationName: "PrefixListId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PrefixListIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    prefix-list-id: The ID of a prefix list.    prefix-list-name: The name of a prefix list.  
@@ -12974,11 +12286,8 @@ extension EC2 {
     }
 
     public struct DescribePrefixListsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "prefixLists", location: .body(locationName: "prefixListSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PrefixListsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// All available prefix lists.
@@ -12996,11 +12305,8 @@ extension EC2 {
     }
 
     public struct DescribePrincipalIdFormatRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resources", location: .body(locationName: "Resource"), encoding: .list(member:"item"))
-        ]
-
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. 
@@ -13031,11 +12337,8 @@ extension EC2 {
     }
 
     public struct DescribePrincipalIdFormatResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "principals", location: .body(locationName: "principalSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the ID format settings for the ARN.
@@ -13053,11 +12356,8 @@ extension EC2 {
     }
 
     public struct DescribePublicIpv4PoolsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolIds", location: .body(locationName: "PoolId"), encoding: .list(member:"item"))
-        ]
-
         public struct _PoolIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -13084,11 +12384,8 @@ extension EC2 {
     }
 
     public struct DescribePublicIpv4PoolsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "publicIpv4Pools", location: .body(locationName: "publicIpv4PoolSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PublicIpv4PoolsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the address pools.
@@ -13106,13 +12403,9 @@ extension EC2 {
     }
 
     public struct DescribeRegionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "regionNames", location: .body(locationName: "RegionName"), encoding: .list(member:"RegionName"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _RegionNamesEncoding: ArrayCoderProperties { static public let member = "RegionName" }
+
         /// Indicates whether to display all Regions, including Regions that are disabled for your account.
         public let allRegions: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13138,11 +12431,8 @@ extension EC2 {
     }
 
     public struct DescribeRegionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "regions", location: .body(locationName: "regionInfo"), encoding: .list(member:"item"))
-        ]
-
         public struct _RegionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Regions.
         @OptionalCoding<ArrayCoder<_RegionsEncoding, Region>> public var regions: [Region]?
 
@@ -13156,11 +12446,8 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesListingsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// One or more filters.    reserved-instances-id - The ID of the Reserved Instances.    reserved-instances-listing-id - The ID of the Reserved Instances listing.    status - The status of the Reserved Instance listing (pending | active | cancelled | closed).    status-message - The reason for the status.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// One or more Reserved Instance IDs.
@@ -13182,11 +12469,8 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesListingsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesListingsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Reserved Instance listing.
         @OptionalCoding<ArrayCoder<_ReservedInstancesListingsEncoding, ReservedInstancesListing>> public var reservedInstancesListings: [ReservedInstancesListing]?
 
@@ -13200,13 +12484,9 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesModificationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "reservedInstancesModificationIds", location: .body(locationName: "ReservedInstancesModificationId"), encoding: .list(member:"ReservedInstancesModificationId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ReservedInstancesModificationIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstancesModificationId" }
+
         /// One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    modification-result.target-configuration.platform - The network platform of the new Reserved Instances (EC2-Classic | EC2-VPC).    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.  
         @OptionalCoding<ArrayCoder<_FiltersEncoding, Filter>> public var filters: [Filter]?
         /// The token to retrieve the next page of results.
@@ -13228,11 +12508,8 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesModificationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesModifications", location: .body(locationName: "reservedInstancesModificationsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesModificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The Reserved Instance modification information.
@@ -13250,12 +12527,8 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "reservedInstancesOfferingIds", location: .body(locationName: "ReservedInstancesOfferingId"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The Availability Zone in which the Reserved Instance can be used.
         public let availabilityZone: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13325,11 +12598,8 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesOfferingsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesOfferings", location: .body(locationName: "reservedInstancesOfferingsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesOfferingsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// A list of Reserved Instances offerings.
@@ -13347,13 +12617,9 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstancesId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000).    end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    scope - The scope of the Reserved Instance (Region or Availability Zone).    product-description - The Reserved Instance product platform description. Instances that include (Amazon VPC) in the product platform description will only be displayed to EC2-Classic account holders and are for use with Amazon VPC (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC)).    reserved-instances-id - The ID of the Reserved Instance.    start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).  
@@ -13383,11 +12649,8 @@ extension EC2 {
     }
 
     public struct DescribeReservedInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstances", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A list of Reserved Instances.
         @OptionalCoding<ArrayCoder<_ReservedInstancesEncoding, ReservedInstances>> public var reservedInstances: [ReservedInstances]?
 
@@ -13401,13 +12664,9 @@ extension EC2 {
     }
 
     public struct DescribeRouteTablesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "routeTableIds", location: .body(locationName: "RouteTableId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _RouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    association.route-table-association-id - The ID of an association ID for the route table.    association.route-table-id - The ID of the route table involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    association.main - Indicates whether the route table is the main route table for the VPC (true | false). Route tables that do not have an association ID are not returned in the response.    owner-id - The ID of the AWS account that owns the route table.    route-table-id - The ID of the route table.    route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route table.    route.destination-prefix-list-id - The ID (prefix) of the AWS service specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.    route.transit-gateway-id - The ID of a transit gateway.    route.origin - Describes how the route was created. CreateRouteTable indicates that the route was automatically created when the route table was created; CreateRoute indicates that the route was manually added to the route table; EnableVgwRoutePropagation indicates that the route was propagated by route propagation.    route.state - The state of a route in the route table (active | blackhole). The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, the specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route in the table.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    transit-gateway-id - The ID of a transit gateway.    vpc-id - The ID of the VPC for the route table.  
@@ -13442,11 +12701,8 @@ extension EC2 {
     }
 
     public struct DescribeRouteTablesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routeTables", location: .body(locationName: "routeTableSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _RouteTablesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more route tables.
@@ -13464,11 +12720,8 @@ extension EC2 {
     }
 
     public struct DescribeScheduledInstanceAvailabilityRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    availability-zone - The Availability Zone (for example, us-west-2a).    instance-type - The instance type (for example, c4.large).    network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The platform (Linux/UNIX or Windows).  
@@ -13515,11 +12768,8 @@ extension EC2 {
     }
 
     public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledInstanceAvailabilitySet", encoding: .list(member:"item"))
-        ]
-
         public struct _ScheduledInstanceAvailabilitySetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the available Scheduled Instances.
@@ -13537,13 +12787,9 @@ extension EC2 {
     }
 
     public struct DescribeScheduledInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "scheduledInstanceIds", location: .body(locationName: "ScheduledInstanceId"), encoding: .list(member:"ScheduledInstanceId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ScheduledInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ScheduledInstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    availability-zone - The Availability Zone (for example, us-west-2a).    instance-type - The instance type (for example, c4.large).    network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The platform (Linux/UNIX or Windows).  
@@ -13577,11 +12823,8 @@ extension EC2 {
     }
 
     public struct DescribeScheduledInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledInstanceSet", encoding: .list(member:"item"))
-        ]
-
         public struct _ScheduledInstanceSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the Scheduled Instances.
@@ -13599,11 +12842,8 @@ extension EC2 {
     }
 
     public struct DescribeSecurityGroupReferencesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .body(locationName: "GroupId"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupIdEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the security groups in your account.
@@ -13621,11 +12861,8 @@ extension EC2 {
     }
 
     public struct DescribeSecurityGroupReferencesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroupReferenceSet", encoding: .list(member:"item"))
-        ]
-
         public struct _SecurityGroupReferenceSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the VPCs with the referencing security groups.
         @OptionalCoding<ArrayCoder<_SecurityGroupReferenceSetEncoding, SecurityGroupReference>> public var securityGroupReferenceSet: [SecurityGroupReference]?
 
@@ -13639,15 +12876,10 @@ extension EC2 {
     }
 
     public struct DescribeSecurityGroupsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "groupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId")), 
-            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"GroupName"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "groupId" }
         public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "GroupName" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters. If using multiple filters for rules, the results include security groups for which any combination of rules - not necessarily a single rule - match all filters.    description - The description of the security group.    egress.ip-permission.cidr - An IPv4 CIDR block for an outbound security group rule.    egress.ip-permission.from-port - For an outbound rule, the start of port range for the TCP and UDP protocols, or an ICMP type number.    egress.ip-permission.group-id - The ID of a security group that has been referenced in an outbound security group rule.    egress.ip-permission.group-name - The name of a security group that has been referenced in an outbound security group rule.    egress.ip-permission.ipv6-cidr - An IPv6 CIDR block for an outbound security group rule.    egress.ip-permission.prefix-list-id - The ID (prefix) of the AWS service to which a security group rule allows outbound access.    egress.ip-permission.protocol - The IP protocol for an outbound security group rule (tcp | udp | icmp or a protocol number).    egress.ip-permission.to-port - For an outbound rule, the end of port range for the TCP and UDP protocols, or an ICMP code.    egress.ip-permission.user-id - The ID of an AWS account that has been referenced in an outbound security group rule.    group-id - The ID of the security group.     group-name - The name of the security group.    ip-permission.cidr - An IPv4 CIDR block for an inbound security group rule.    ip-permission.from-port - For an inbound rule, the start of port range for the TCP and UDP protocols, or an ICMP type number.    ip-permission.group-id - The ID of a security group that has been referenced in an inbound security group rule.    ip-permission.group-name - The name of a security group that has been referenced in an inbound security group rule.    ip-permission.ipv6-cidr - An IPv6 CIDR block for an inbound security group rule.    ip-permission.prefix-list-id - The ID (prefix) of the AWS service from which a security group rule allows inbound access.    ip-permission.protocol - The IP protocol for an inbound security group rule (tcp | udp | icmp or a protocol number).    ip-permission.to-port - For an inbound rule, the end of port range for the TCP and UDP protocols, or an ICMP code.    ip-permission.user-id - The ID of an AWS account that has been referenced in an inbound security group rule.    owner-id - The AWS account ID of the owner of the security group.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC specified when the security group was created.  
@@ -13686,11 +12918,8 @@ extension EC2 {
     }
 
     public struct DescribeSecurityGroupsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "securityGroupInfo"), encoding: .list(member:"item"))
-        ]
-
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the security groups.
@@ -13730,13 +12959,9 @@ extension EC2 {
     }
 
     public struct DescribeSnapshotAttributeResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createVolumePermissions", location: .body(locationName: "createVolumePermission"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item"))
-        ]
-
         public struct _CreateVolumePermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The users and groups that have the permissions for creating volumes from the snapshot.
         @OptionalCoding<ArrayCoder<_CreateVolumePermissionsEncoding, CreateVolumePermission>> public var createVolumePermissions: [CreateVolumePermission]?
         /// The product codes.
@@ -13758,16 +12983,10 @@ extension EC2 {
     }
 
     public struct DescribeSnapshotsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "ownerIds", location: .body(locationName: "Owner"), encoding: .list(member:"Owner")), 
-            AWSMemberEncoding(label: "restorableByUserIds", location: .body(locationName: "RestorableBy"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "snapshotIds", location: .body(locationName: "SnapshotId"), encoding: .list(member:"SnapshotId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _OwnerIdsEncoding: ArrayCoderProperties { static public let member = "Owner" }
         public struct _SnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    description - A description of the snapshot.    encrypted - Indicates whether the snapshot is encrypted (true | false)    owner-alias - Value from an Amazon-maintained list (amazon | self | all | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console.    owner-id - The ID of the AWS account that owns the snapshot.    progress - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status - The status of the snapshot (pending | completed | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the volume, in GiB.  
@@ -13805,11 +13024,8 @@ extension EC2 {
     }
 
     public struct DescribeSnapshotsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshots", location: .body(locationName: "snapshotSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SnapshotsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the snapshots.
@@ -13886,11 +13102,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotFleetInstancesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activeInstances", location: .body(locationName: "activeInstanceSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ActiveInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The running instances. This list is refreshed periodically and might be out of date.
         @OptionalCoding<ArrayCoder<_ActiveInstancesEncoding, ActiveInstance>> public var activeInstances: [ActiveInstance]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13951,11 +13164,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "historyRecords", location: .body(locationName: "historyRecordSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HistoryRecordsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the events in the history of the Spot Fleet request.
         @OptionalCoding<ArrayCoder<_HistoryRecordsEncoding, HistoryRecord>> public var historyRecords: [HistoryRecord]?
         /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
@@ -13985,11 +13195,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotFleetRequestsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), encoding: .list(member:"item"))
-        ]
-
         public struct _SpotFleetRequestIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -14015,11 +13222,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotFleetRequestsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotFleetRequestConfigs", location: .body(locationName: "spotFleetRequestConfigSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SpotFleetRequestConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the configuration of your Spot Fleet.
@@ -14037,13 +13241,9 @@ extension EC2 {
     }
 
     public struct DescribeSpotInstanceRequestsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "spotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), encoding: .list(member:"SpotInstanceRequestId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _SpotInstanceRequestIdsEncoding: ArrayCoderProperties { static public let member = "SpotInstanceRequestId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot Instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot Instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the volume in the block device mapping (for example, /dev/sdh or xvdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot for the EBS volume.    launch.block-device-mapping.volume-size - The size of the EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of EBS volume: gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The ID of the security group for the instance.    launch.group-name - The name of the security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether detailed monitoring is enabled for the Spot Instance.    launch.ramdisk-id - The RAM disk ID.    launched-availability-zone - The Availability Zone in which the request is launched.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.description - A description of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.subnet-id - The ID of the subnet for the instance.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot Instance request ID.    spot-price - The maximum hourly price for any Spot Instance launched to fulfill the request.    state - The state of the Spot Instance request (open | active | closed | cancelled | failed). Spot request status information can help you track your Amazon EC2 Spot Instance requests. For more information, see Spot Request Status in the Amazon EC2 User Guide for Linux Instances.    status-code - The short code describing the most recent evaluation of your Spot Instance request.    status-message - The message explaining the status of the Spot Instance request.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of Spot Instance request (one-time | persistent).    valid-from - The start date of the request.    valid-until - The end date of the request.  
@@ -14073,11 +13273,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotInstanceRequestsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SpotInstanceRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// One or more Spot Instance requests.
@@ -14095,13 +13292,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotPriceHistoryRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "instanceTypes", location: .body(locationName: "InstanceType"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "productDescriptions", location: .body(locationName: "ProductDescription"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Filters the results by the specified Availability Zone.
         public let availabilityZone: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14147,11 +13339,8 @@ extension EC2 {
     }
 
     public struct DescribeSpotPriceHistoryResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotPriceHistory", location: .body(locationName: "spotPriceHistorySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SpotPriceHistoryEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token required to retrieve the next set of results. This value is null or an empty string when there are no more results to return.
         public let nextToken: String?
         /// The historical Spot prices.
@@ -14202,11 +13391,8 @@ extension EC2 {
     }
 
     public struct DescribeStaleSecurityGroupsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "staleSecurityGroupSet", encoding: .list(member:"item"))
-        ]
-
         public struct _StaleSecurityGroupSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
         /// Information about the stale security groups.
@@ -14224,13 +13410,9 @@ extension EC2 {
     }
 
     public struct DescribeSubnetsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetId"), encoding: .list(member:"SubnetId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    availability-zone - The Availability Zone for the subnet. You can also use availabilityZone as the filter name.    availability-zone-id - The ID of the Availability Zone for the subnet. You can also use availabilityZoneId as the filter name.    available-ip-address-count - The number of IPv4 addresses in the subnet that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you specify must exactly match the subnet's CIDR block for information to be returned for the subnet. You can also use cidr or cidrBlock as the filter names.    default-for-az - Indicates whether this is the default subnet for the Availability Zone. You can also use defaultForAz as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.    owner-id - The ID of the AWS account that owns the subnet.    state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the subnet.  
@@ -14265,11 +13447,8 @@ extension EC2 {
     }
 
     public struct DescribeSubnetsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnets", location: .body(locationName: "subnetSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more subnets.
@@ -14287,11 +13466,8 @@ extension EC2 {
     }
 
     public struct DescribeTagsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    key - The tag key.    resource-id - The ID of the resource.    resource-type - The resource type (customer-gateway | dedicated-host | dhcp-options | elastic-ip | fleet | fpga-image | image | instance | host-reservation | internet-gateway | launch-template | natgateway | network-acl | network-interface | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpc-peering-connection | vpn-connection | vpn-gateway).    tag:&lt;key&gt; - The key/value combination of the tag. For example, specify "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with the tag "Owner=TeamA".    value - The tag value.  
@@ -14317,11 +13493,8 @@ extension EC2 {
     }
 
     public struct DescribeTagsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The tags.
@@ -14339,13 +13512,9 @@ extension EC2 {
     }
 
     public struct DescribeTrafficMirrorFiltersRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "trafficMirrorFilterIds", location: .body(locationName: "TrafficMirrorFilterId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TrafficMirrorFilterIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    description: The Traffic Mirror filter description.    traffic-mirror-filter-id: The ID of the Traffic Mirror filter.  
@@ -14380,11 +13549,8 @@ extension EC2 {
     }
 
     public struct DescribeTrafficMirrorFiltersResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficMirrorFilters", location: .body(locationName: "trafficMirrorFilterSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TrafficMirrorFiltersEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more Traffic Mirror filters.
@@ -14402,13 +13568,9 @@ extension EC2 {
     }
 
     public struct DescribeTrafficMirrorSessionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "trafficMirrorSessionIds", location: .body(locationName: "TrafficMirrorSessionId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TrafficMirrorSessionIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    description: The Traffic Mirror session description.    network-interface-id: The ID of the Traffic Mirror session network interface.    owner-id: The ID of the account that owns the Traffic Mirror session.    packet-length: The assigned number of packets to mirror.     session-number: The assigned session number.     traffic-mirror-filter-id: The ID of the Traffic Mirror filter.    traffic-mirror-session-id: The ID of the Traffic Mirror session.    traffic-mirror-target-id: The ID of the Traffic Mirror target.    virtual-network-id: The virtual network ID of the Traffic Mirror session.  
@@ -14443,11 +13605,8 @@ extension EC2 {
     }
 
     public struct DescribeTrafficMirrorSessionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficMirrorSessions", location: .body(locationName: "trafficMirrorSessionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TrafficMirrorSessionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
         public let nextToken: String?
         /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
@@ -14465,13 +13624,9 @@ extension EC2 {
     }
 
     public struct DescribeTrafficMirrorTargetsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "trafficMirrorTargetIds", location: .body(locationName: "TrafficMirrorTargetId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TrafficMirrorTargetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    description: The Traffic Mirror target description.    network-interface-id: The ID of the Traffic Mirror session network interface.    network-load-balancer-arn: The Amazon Resource Name (ARN) of the Network Load Balancer that is associated with the session.    owner-id: The ID of the account that owns the Traffic Mirror session.    traffic-mirror-target-id: The ID of the Traffic Mirror target.  
@@ -14506,11 +13661,8 @@ extension EC2 {
     }
 
     public struct DescribeTrafficMirrorTargetsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficMirrorTargets", location: .body(locationName: "trafficMirrorTargetSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TrafficMirrorTargetsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more Traffic Mirror targets.
@@ -14528,12 +13680,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayAttachmentsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "transitGatewayAttachmentIds", location: .body(locationName: "TransitGatewayAttachmentIds"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type (vpc | vpn).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
@@ -14568,11 +13716,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayAttachmentsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayAttachments", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the attachments.
@@ -14590,13 +13735,9 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayMulticastDomainsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "transitGatewayMulticastDomainIds", location: .body(locationName: "TransitGatewayMulticastDomainIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TransitGatewayMulticastDomainIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    state - The state of the transit gateway multicast domain. Valid values are pending | available | deleting | deleted.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-multicast-domain-id - The ID of the transit gateway multicast domain.  
@@ -14631,11 +13772,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayMulticastDomainsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayMulticastDomains", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayMulticastDomainsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the transit gateway multicast domains.
@@ -14653,12 +13791,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayPeeringAttachmentsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "transitGatewayAttachmentIds", location: .body(locationName: "TransitGatewayAttachmentIds"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -14693,11 +13827,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayPeeringAttachmentsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayPeeringAttachments", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayPeeringAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The transit gateway peering attachments.
@@ -14715,13 +13846,9 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayRouteTablesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "transitGatewayRouteTableIds", location: .body(locationName: "TransitGatewayRouteTableIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TransitGatewayRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    default-association-route-table - Indicates whether this is the default association route table for the transit gateway (true | false).    default-propagation-route-table - Indicates whether this is the default propagation route table for the transit gateway (true | false).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-id - The ID of the transit gateway.    transit-gateway-route-table-id - The ID of the transit gateway route table.  
@@ -14756,11 +13883,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayRouteTablesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayRouteTables", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayRouteTablesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the transit gateway route tables.
@@ -14778,12 +13902,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayVpcAttachmentsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "transitGatewayAttachmentIds", location: .body(locationName: "TransitGatewayAttachmentIds"), encoding: .list(member:"member"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    vpc-id - The ID of the VPC.  
@@ -14818,11 +13938,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewayVpcAttachmentsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayVpcAttachments", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayVpcAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the VPC attachments.
@@ -14840,13 +13957,9 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "transitGatewayIds", location: .body(locationName: "TransitGatewayIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TransitGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    options.propagation-default-route-table-id - The ID of the default propagation route table.    options.amazon-side-asn - The private ASN for the Amazon side of a BGP session.    options.association-default-route-table-id - The ID of the default association route table.    options.auto-accept-shared-attachments - Indicates whether there is automatic acceptance of attachment requests (enable | disable).    options.default-route-table-association - Indicates whether resource attachments are automatically associated with the default association route table (enable | disable).    options.default-route-table-propagation - Indicates whether resource attachments automatically propagate routes to the default propagation route table (enable | disable).    options.dns-support - Indicates whether DNS support is enabled (enable | disable).    options.vpn-ecmp-support - Indicates whether Equal Cost Multipath Protocol support is enabled (enable | disable).    owner-id - The ID of the AWS account that owns the transit gateway.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-id - The ID of the transit gateway.  
@@ -14881,11 +13994,8 @@ extension EC2 {
     }
 
     public struct DescribeTransitGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGateways", location: .body(locationName: "transitGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the transit gateways.
@@ -14925,11 +14035,8 @@ extension EC2 {
     }
 
     public struct DescribeVolumeAttributeResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item"))
-        ]
-
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The state of autoEnableIO attribute.
         public let autoEnableIO: AttributeBooleanValue?
         /// A list of product codes.
@@ -14951,13 +14058,9 @@ extension EC2 {
     }
 
     public struct DescribeVolumeStatusRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "volumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VolumeIdsEncoding: ArrayCoderProperties { static public let member = "VolumeId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).  
@@ -14987,11 +14090,8 @@ extension EC2 {
     }
 
     public struct DescribeVolumeStatusResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "volumeStatuses", location: .body(locationName: "volumeStatusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VolumeStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the status of the volumes.
@@ -15009,13 +14109,9 @@ extension EC2 {
     }
 
     public struct DescribeVolumesModificationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "volumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VolumeIdsEncoding: ArrayCoderProperties { static public let member = "VolumeId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters. Supported filters: volume-id, modification-state, target-size, target-iops, target-volume-type, original-size, original-iops, original-volume-type, start-time. 
@@ -15045,11 +14141,8 @@ extension EC2 {
     }
 
     public struct DescribeVolumesModificationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "volumesModifications", location: .body(locationName: "volumeModificationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VolumesModificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Token for pagination, null if there are no more results 
         public let nextToken: String?
         /// Information about the volume modifications.
@@ -15067,13 +14160,9 @@ extension EC2 {
     }
 
     public struct DescribeVolumesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "volumeIds", location: .body(locationName: "VolumeId"), encoding: .list(member:"VolumeId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VolumeIdsEncoding: ArrayCoderProperties { static public let member = "VolumeId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The status of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
@@ -15103,11 +14192,8 @@ extension EC2 {
     }
 
     public struct DescribeVolumesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "volumes", location: .body(locationName: "volumeSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VolumesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The NextToken value to include in a future DescribeVolumes request. When the results of a DescribeVolumes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the volumes.
@@ -15169,11 +14255,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcIds", location: .body(locationName: "VpcIds"), encoding: .list(member:"VpcId"))
-        ]
-
         public struct _VpcIdsEncoding: ArrayCoderProperties { static public let member = "VpcId" }
+
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -15202,11 +14285,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcs", encoding: .list(member:"item"))
-        ]
-
         public struct _VpcsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the ClassicLink DNS support status of the VPCs.
@@ -15224,13 +14304,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcClassicLinkRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "vpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcIdsEncoding: ArrayCoderProperties { static public let member = "VpcId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    is-classic-link-enabled - Whether the VPC is enabled for ClassicLink (true | false).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -15252,11 +14328,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcClassicLinkResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ClassicLink status of one or more VPCs.
         @OptionalCoding<ArrayCoder<_VpcsEncoding, VpcClassicLink>> public var vpcs: [VpcClassicLink]?
 
@@ -15270,11 +14343,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointConnectionNotificationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// The ID of the notification.
         public let connectionNotificationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15304,11 +14374,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointConnectionNotificationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionNotificationSet", encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionNotificationSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more notifications.
         @OptionalCoding<ArrayCoder<_ConnectionNotificationSetEncoding, ConnectionNotification>> public var connectionNotificationSet: [ConnectionNotification]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15326,11 +14393,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointConnectionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    service-id - The ID of the service.    vpc-endpoint-owner - The AWS account number of the owner of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-id - The ID of the endpoint.  
@@ -15356,11 +14420,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcEndpointConnections", location: .body(locationName: "vpcEndpointConnectionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcEndpointConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more VPC endpoint connections.
@@ -15378,13 +14439,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointServiceConfigurationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "serviceIds", location: .body(locationName: "ServiceId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ServiceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    service-name - The name of the service.    service-id - The ID of the service.    service-state - The state of the service (Pending | Available | Deleting | Deleted | Failed).     tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -15414,11 +14471,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointServiceConfigurationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceConfigurations", location: .body(locationName: "serviceConfigurationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ServiceConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more services.
@@ -15436,11 +14490,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointServicePermissionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    principal - The ARN of the principal.    principal-type - The principal type (All | Service | OrganizationUnit | Account | User | Role).  
@@ -15470,11 +14521,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointServicePermissionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "allowedPrincipals", encoding: .list(member:"item"))
-        ]
-
         public struct _AllowedPrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more allowed principals.
         @OptionalCoding<ArrayCoder<_AllowedPrincipalsEncoding, AllowedPrincipal>> public var allowedPrincipals: [AllowedPrincipal]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15492,13 +14540,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointServicesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "serviceNames", location: .body(locationName: "ServiceName"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ServiceNamesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    service-name - The name of the service.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -15528,13 +14572,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointServicesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceDetails", location: .body(locationName: "serviceDetailSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "serviceNames", location: .body(locationName: "serviceNameSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ServiceDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ServiceNamesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
         /// Information about the service.
@@ -15556,13 +14596,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    service-name - The name of the service.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.  
@@ -15592,11 +14628,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcEndpointsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcEndpoints", location: .body(locationName: "vpcEndpointSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcEndpointsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
         /// Information about the endpoints.
@@ -15614,13 +14647,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "vpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), encoding: .list(member:"item"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcPeeringConnectionIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of the accepter VPC.    accepter-vpc-info.owner-id - The AWS account ID of the owner of the accepter VPC.    accepter-vpc-info.vpc-id - The ID of the accepter VPC.    expiration-time - The expiration date and time for the VPC peering connection.    requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.    requester-vpc-info.owner-id - The AWS account ID of the owner of the requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleting | deleted | rejected).    status-message - A message that provides more information about the status of the VPC peering connection, if applicable.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-peering-connection-id - The ID of the VPC peering connection.  
@@ -15655,11 +14684,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcPeeringConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcPeeringConnections", location: .body(locationName: "vpcPeeringConnectionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcPeeringConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the VPC peering connections.
@@ -15677,13 +14703,9 @@ extension EC2 {
     }
 
     public struct DescribeVpcsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "vpcIds", location: .body(locationName: "VpcId"), encoding: .list(member:"VpcId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcIdsEncoding: ArrayCoderProperties { static public let member = "VpcId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    cidr - The primary IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    cidr-block-association.cidr-block - An IPv4 CIDR block associated with the VPC.    cidr-block-association.association-id - The association ID for an IPv4 CIDR block associated with the VPC.    cidr-block-association.state - The state of an IPv4 CIDR block associated with the VPC.    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.ipv6-pool - The ID of the IPv6 address pool from which the IPv6 CIDR block is allocated.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    owner-id - The ID of the AWS account that owns the VPC.    state - The state of the VPC (pending | available).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC.  
@@ -15718,11 +14740,8 @@ extension EC2 {
     }
 
     public struct DescribeVpcsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcs", location: .body(locationName: "vpcSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about one or more VPCs.
@@ -15740,13 +14759,9 @@ extension EC2 {
     }
 
     public struct DescribeVpnConnectionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "vpnConnectionIds", location: .body(locationName: "VpnConnectionId"), encoding: .list(member:"VpnConnectionId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpnConnectionIdsEncoding: ArrayCoderProperties { static public let member = "VpnConnectionId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    customer-gateway-configuration - The configuration information for the customer gateway.    customer-gateway-id - The ID of a customer gateway associated with the VPN connection.    state - The state of the VPN connection (pending | available | deleting | deleted).    option.static-routes-only - Indicates whether the connection has static routes only. Used for devices that do not support Border Gateway Protocol (BGP).    route.destination-cidr-block - The destination CIDR block. This corresponds to the subnet used in a customer data center.    bgp-asn - The BGP Autonomous System Number (ASN) associated with a BGP device.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of VPN connection. Currently the only supported type is ipsec.1.    vpn-connection-id - The ID of the VPN connection.    vpn-gateway-id - The ID of a virtual private gateway associated with the VPN connection.    transit-gateway-id - The ID of a transit gateway associated with the VPN connection.  
@@ -15768,11 +14783,8 @@ extension EC2 {
     }
 
     public struct DescribeVpnConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpnConnections", location: .body(locationName: "vpnConnectionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpnConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more VPN connections.
         @OptionalCoding<ArrayCoder<_VpnConnectionsEncoding, VpnConnection>> public var vpnConnections: [VpnConnection]?
 
@@ -15786,13 +14798,9 @@ extension EC2 {
     }
 
     public struct DescribeVpnGatewaysRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter")), 
-            AWSMemberEncoding(label: "vpnGatewayIds", location: .body(locationName: "VpnGatewayId"), encoding: .list(member:"VpnGatewayId"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpnGatewayIdsEncoding: ArrayCoderProperties { static public let member = "VpnGatewayId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.    amazon-side-asn - The Autonomous System Number (ASN) for the Amazon side of the gateway.    attachment.state - The current state of the attachment between the gateway and the VPC (attaching | attached | detaching | detached).    attachment.vpc-id - The ID of an attached VPC.    availability-zone - The Availability Zone for the virtual private gateway (if applicable).    state - The state of the virtual private gateway (pending | available | deleting | deleted).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of virtual private gateway. Currently the only supported type is ipsec.1.    vpn-gateway-id - The ID of the virtual private gateway.  
@@ -15814,11 +14822,8 @@ extension EC2 {
     }
 
     public struct DescribeVpnGatewaysResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpnGateways", location: .body(locationName: "vpnGatewaySet"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpnGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about one or more virtual private gateways.
         @OptionalCoding<ArrayCoder<_VpnGatewaysEncoding, VpnGateway>> public var vpnGateways: [VpnGateway]?
 
@@ -15964,11 +14969,8 @@ extension EC2 {
     }
 
     public struct DhcpConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "valueSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The name of a DHCP option.
         public let key: String?
         /// One or more values for the DHCP option.
@@ -15986,13 +14988,9 @@ extension EC2 {
     }
 
     public struct DhcpOptions: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dhcpConfigurations", location: .body(locationName: "dhcpConfigurationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _DhcpConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more DHCP options in the set.
         @OptionalCoding<ArrayCoder<_DhcpConfigurationsEncoding, DhcpConfiguration>> public var dhcpConfigurations: [DhcpConfiguration]?
         /// The ID of the set of DHCP options.
@@ -16074,11 +15072,8 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoreErrorItem: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FastSnapshotRestoreStateErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The errors.
         @OptionalCoding<ArrayCoder<_FastSnapshotRestoreStateErrorsEncoding, DisableFastSnapshotRestoreStateErrorItem>> public var fastSnapshotRestoreStateErrors: [DisableFastSnapshotRestoreStateErrorItem]?
         /// The ID of the snapshot.
@@ -16186,13 +15181,9 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoresRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZone"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "sourceSnapshotIds", location: .body(locationName: "SourceSnapshotId"), encoding: .list(member:"SnapshotId"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
+
         /// One or more Availability Zones. For example, us-east-2a.
         @Coding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16214,13 +15205,9 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoresResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the snapshots for which fast snapshot restores were successfully disabled.
         @OptionalCoding<ArrayCoder<_SuccessfulEncoding, DisableFastSnapshotRestoreSuccessItem>> public var successful: [DisableFastSnapshotRestoreSuccessItem]?
         /// Information about the snapshots for which fast snapshot restores could not be disabled.
@@ -16492,11 +15479,8 @@ extension EC2 {
     }
 
     public struct DisassociateTransitGatewayMulticastDomainRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the subnets;
@@ -16736,11 +15720,8 @@ extension EC2 {
     }
 
     public struct DnsServersOptionsModifyStructure: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customDnsServers", location: .body(locationName: "CustomDnsServers"), encoding: .list(member:"item"))
-        ]
-
         public struct _CustomDnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IPv4 address range, in CIDR notation, of the DNS servers to be used. You can specify up to two DNS servers. Ensure that the DNS servers can be reached by the clients. The specified values overwrite the existing values.
         @OptionalCoding<ArrayCoder<_CustomDnsServersEncoding, String>> public var customDnsServers: [String]?
         /// Indicates whether DNS servers should be used. Specify False to delete the existing DNS servers.
@@ -16858,13 +15839,9 @@ extension EC2 {
     }
 
     public struct EgressOnlyInternetGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the attachment of the egress-only internet gateway.
         @OptionalCoding<ArrayCoder<_AttachmentsEncoding, InternetGatewayAttachment>> public var attachments: [InternetGatewayAttachment]?
         /// The ID of the egress-only internet gateway.
@@ -16954,11 +15931,8 @@ extension EC2 {
     }
 
     public struct ElasticGpus: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone in the which the Elastic Graphics accelerator resides.
         public let availabilityZone: String?
         /// The status of the Elastic Graphics accelerator.
@@ -17072,11 +16046,8 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoreErrorItem: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fastSnapshotRestoreStateErrors", location: .body(locationName: "fastSnapshotRestoreStateErrorSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _FastSnapshotRestoreStateErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The errors.
         @OptionalCoding<ArrayCoder<_FastSnapshotRestoreStateErrorsEncoding, EnableFastSnapshotRestoreStateErrorItem>> public var fastSnapshotRestoreStateErrors: [EnableFastSnapshotRestoreStateErrorItem]?
         /// The ID of the snapshot.
@@ -17184,13 +16155,9 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoresRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZone"), encoding: .list(member:"AvailabilityZone")), 
-            AWSMemberEncoding(label: "sourceSnapshotIds", location: .body(locationName: "SourceSnapshotId"), encoding: .list(member:"SnapshotId"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
+
         /// One or more Availability Zones. For example, us-east-2a.
         @Coding<ArrayCoder<_AvailabilityZonesEncoding, String>> public var availabilityZones: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17212,13 +16179,9 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoresResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the snapshots for which fast snapshot restores were successfully enabled.
         @OptionalCoding<ArrayCoder<_SuccessfulEncoding, EnableFastSnapshotRestoreSuccessItem>> public var successful: [EnableFastSnapshotRestoreSuccessItem]?
         /// Information about the snapshots for which fast snapshot restores could not be enabled.
@@ -17580,13 +16543,8 @@ extension EC2 {
     }
 
     public struct ExportTask: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportToS3Task", location: .body(locationName: "exportToS3")), 
-            AWSMemberEncoding(label: "instanceExportDetails", location: .body(locationName: "instanceExport")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description of the resource being exported.
         public let description: String?
         /// The ID of the export task.
@@ -17712,11 +16670,8 @@ extension EC2 {
     }
 
     public struct ExportTransitGatewayRoutesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id - The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-route-destination-cidr-block - The CIDR range.    type - The type of route (active | blackhole).  
@@ -17774,11 +16729,8 @@ extension EC2 {
     }
 
     public struct Filter: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
-        ]
-
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The name of the filter. Filter names are case-sensitive.
         public let name: String?
         /// The filter values. Filter values are case-sensitive.
@@ -17796,17 +16748,11 @@ extension EC2 {
     }
 
     public struct FleetData: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "errors", location: .body(locationName: "errorSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "fleetInstanceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "launchTemplateConfigs", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The progress of the EC2 Fleet. If there is an error, the status is error. After all requests are placed, the status is pending_fulfillment. If the size of the EC2 Fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the EC2 Fleet is decreased, the status is pending_termination while instances are terminating.
         public let activityStatus: FleetActivityStatus?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraints: Maximum 64 ASCII characters
@@ -17896,11 +16842,8 @@ extension EC2 {
     }
 
     public struct FleetLaunchTemplateConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "overrides", encoding: .list(member:"item"))
-        ]
-
         public struct _OverridesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The launch template.
         public let launchTemplateSpecification: FleetLaunchTemplateSpecification?
         /// Any parameters that you specify override the same parameters in the launch template.
@@ -17918,11 +16861,8 @@ extension EC2 {
     }
 
     public struct FleetLaunchTemplateConfigRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "overrides", location: .body(locationName: "Overrides"), encoding: .list(member:"item"))
-        ]
-
         public struct _OverridesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
         public let launchTemplateSpecification: FleetLaunchTemplateSpecificationRequest?
         /// Any parameters that you specify override the same parameters in the launch template.
@@ -18175,13 +17115,9 @@ extension EC2 {
     }
 
     public struct FpgaImage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", encoding: .list(member:"item"))
-        ]
-
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The date and time the AFI was created.
         public let createTime: TimeStamp?
         /// Indicates whether data retention support is enabled for the AFI.
@@ -18251,13 +17187,9 @@ extension EC2 {
     }
 
     public struct FpgaImageAttribute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadPermissions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item"))
-        ]
-
         public struct _LoadPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The description of the AFI.
         public let description: String?
         /// The ID of the AFI.
@@ -18305,11 +17237,8 @@ extension EC2 {
     }
 
     public struct FpgaInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fpgas", encoding: .list(member:"item"))
-        ]
-
         public struct _FpgasEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Describes the FPGAs for the instance type.
         @OptionalCoding<ArrayCoder<_FpgasEncoding, FpgaDeviceInfo>> public var fpgas: [FpgaDeviceInfo]?
         /// The total memory of all FPGA accelerators for the instance type.
@@ -18358,11 +17287,8 @@ extension EC2 {
     }
 
     public struct GetAssociatedIpv6PoolCidrsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipv6CidrAssociations", location: .body(locationName: "ipv6CidrAssociationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _Ipv6CidrAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the IPv6 CIDR block associations.
         @OptionalCoding<ArrayCoder<_Ipv6CidrAssociationsEncoding, Ipv6CidrAssociation>> public var ipv6CidrAssociations: [Ipv6CidrAssociation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -18411,11 +17337,8 @@ extension EC2 {
     }
 
     public struct GetCapacityReservationUsageResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceUsages", location: .body(locationName: "instanceUsageSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceUsagesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The remaining capacity. Indicates the number of instances that can be launched in the Capacity Reservation.
         public let availableInstanceCount: Int?
         /// The ID of the Capacity Reservation.
@@ -18453,11 +17376,8 @@ extension EC2 {
     }
 
     public struct GetCoipPoolUsageRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters. The following are the possible values:    coip-address-usage.allocation-id       coip-address-usage.aws-account-id       coip-address-usage.aws-service       coip-address-usage.co-ip   
@@ -18492,11 +17412,8 @@ extension EC2 {
     }
 
     public struct GetCoipPoolUsageResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "coipAddressUsages", location: .body(locationName: "coipAddressUsageSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CoipAddressUsagesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the address usage.
         @OptionalCoding<ArrayCoder<_CoipAddressUsagesEncoding, CoipAddressUsage>> public var coipAddressUsages: [CoipAddressUsage]?
         /// The ID of the customer-owned address pool.
@@ -18690,11 +17607,8 @@ extension EC2 {
     }
 
     public struct GetHostReservationPurchasePreviewRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIdSet", location: .body(locationName: "HostIdSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the Dedicated Hosts with which the reservation is associated.
         @Coding<ArrayCoder<_HostIdSetEncoding, String>> public var hostIdSet: [String]
         /// The offering ID of the reservation.
@@ -18712,11 +17626,8 @@ extension EC2 {
     }
 
     public struct GetHostReservationPurchasePreviewResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "purchase", encoding: .list(member:"item"))
-        ]
-
         public struct _PurchaseEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
         /// The purchase information of the Dedicated Host reservation and the Dedicated Hosts associated with it.
@@ -18814,13 +17725,9 @@ extension EC2 {
     }
 
     public struct GetReservedInstancesExchangeQuoteRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), encoding: .list(member:"ReservedInstanceId")), 
-            AWSMemberEncoding(label: "targetConfigurations", location: .body(locationName: "TargetConfiguration"), encoding: .list(member:"TargetConfigurationRequest"))
-        ]
-
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstanceId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { static public let member = "TargetConfigurationRequest" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Convertible Reserved Instances to exchange.
@@ -18842,13 +17749,9 @@ extension EC2 {
     }
 
     public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstanceValueSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "targetConfigurationValueSet", encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstanceValueSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TargetConfigurationValueSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The currency of the transaction.
         public let currencyCode: String?
         /// If true, the exchange is valid. If false, the exchange cannot be completed.
@@ -18894,11 +17797,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayAttachmentPropagationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    transit-gateway-route-table-id - The ID of the transit gateway route table.  
@@ -18933,11 +17833,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayAttachmentPropagationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayAttachmentPropagations", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayAttachmentPropagationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the propagation route tables.
@@ -18955,11 +17852,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayMulticastDomainAssociationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The type of resource. The valid value is: vpc.    state - The state of the subnet association. Valid values are associated | associating | disassociated | disassociating.    subnet-id - The ID of the subnet.    transit-gateway-attachment-id - The id of the transit gateway attachment.  
@@ -18994,11 +17888,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayMulticastDomainAssociationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multicastDomainAssociations", encoding: .list(member:"item"))
-        ]
-
         public struct _MulticastDomainAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the multicast domain associations.
         @OptionalCoding<ArrayCoder<_MulticastDomainAssociationsEncoding, TransitGatewayMulticastDomainAssociation>> public var multicastDomainAssociations: [TransitGatewayMulticastDomainAssociation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -19016,11 +17907,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayRouteTableAssociationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn).    transit-gateway-attachment-id - The ID of the attachment.  
@@ -19055,11 +17943,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayRouteTableAssociationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associations", encoding: .list(member:"item"))
-        ]
-
         public struct _AssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the associations.
         @OptionalCoding<ArrayCoder<_AssociationsEncoding, TransitGatewayRouteTableAssociation>> public var associations: [TransitGatewayRouteTableAssociation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -19077,11 +17962,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayRouteTablePropagationsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn).    transit-gateway-attachment-id - The ID of the attachment.  
@@ -19116,11 +17998,8 @@ extension EC2 {
     }
 
     public struct GetTransitGatewayRouteTablePropagationsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayRouteTablePropagations", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayRouteTablePropagationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the route table propagations.
@@ -19178,11 +18057,8 @@ extension EC2 {
     }
 
     public struct GpuInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gpus", encoding: .list(member:"item"))
-        ]
-
         public struct _GpusEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Describes the GPU accelerators for the instance type.
         @OptionalCoding<ArrayCoder<_GpusEncoding, GpuDeviceInfo>> public var gpus: [GpuDeviceInfo]?
         /// The total size of the memory for the GPU accelerators for the instance type.
@@ -19290,13 +18166,9 @@ extension EC2 {
     }
 
     public struct Host: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instances", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The time that the Dedicated Host was allocated.
         public let allocationTime: TimeStamp?
         /// Indicates whether the Dedicated Host supports multiple instance types of the same instance family, or a specific instance type only. one indicates that the Dedicated Host supports multiple instance types in the instance family. off indicates that the Dedicated Host supports a single instance type only.
@@ -19464,13 +18336,9 @@ extension EC2 {
     }
 
     public struct HostReservation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIdSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The number of Dedicated Hosts the reservation is associated with.
         public let count: Int?
         /// The currency in which the upfrontPrice and hourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -19670,18 +18538,10 @@ extension EC2 {
     }
 
     public struct Image: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ownerId", location: .body(locationName: "imageOwnerId")), 
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "public", location: .body(locationName: "isPublic")), 
-            AWSMemberEncoding(label: "state", location: .body(locationName: "imageState")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The architecture of the image.
         public let architecture: ArchitectureValues?
         /// Any block device mapping entries.
@@ -19787,17 +18647,10 @@ extension EC2 {
     }
 
     public struct ImageAttribute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "kernelId", location: .body(locationName: "kernel")), 
-            AWSMemberEncoding(label: "launchPermissions", location: .body(locationName: "launchPermission"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ramdiskId", location: .body(locationName: "ramdisk"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The block device mapping entries.
         @OptionalCoding<ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>> public var blockDeviceMappings: [BlockDeviceMapping]?
         /// A description for the AMI.
@@ -19937,13 +18790,9 @@ extension EC2 {
     }
 
     public struct ImportImageRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "diskContainers", location: .body(locationName: "DiskContainer"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "LicenseSpecifications"), encoding: .list(member:"item"))
-        ]
-
         public struct _DiskContainersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LicenseSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 | arm64 
         public let architecture: String?
         /// The client-specific data.
@@ -20005,13 +18854,9 @@ extension EC2 {
     }
 
     public struct ImportImageResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "licenseSpecifications", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "snapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LicenseSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SnapshotDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The architecture of the virtual machine.
         public let architecture: String?
         /// A description of the import task.
@@ -20077,15 +18922,10 @@ extension EC2 {
     }
 
     public struct ImportImageTask: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "licenseSpecifications", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "snapshotDetails", location: .body(locationName: "snapshotDetailSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LicenseSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SnapshotDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 | arm64 
         public let architecture: String?
         /// A description of the import task.
@@ -20155,13 +18995,9 @@ extension EC2 {
     }
 
     public struct ImportInstanceLaunchSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupIds", location: .body(locationName: "GroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "GroupName"), encoding: .list(member:"SecurityGroup"))
-        ]
-
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "SecurityGroup" }
+
         /// Reserved.
         public let additionalInfo: String?
         /// The architecture of the instance.
@@ -20215,9 +19051,6 @@ extension EC2 {
     }
 
     public struct ImportInstanceRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "diskImages", location: .body(locationName: "diskImage"), encoding: .list(member:"member"))
-        ]
 
         /// A description for the instance being imported.
         public let description: String?
@@ -20262,11 +19095,8 @@ extension EC2 {
     }
 
     public struct ImportInstanceTaskDetails: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "volumes", encoding: .list(member:"item"))
-        ]
-
         public struct _VolumesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description of the task.
         public let description: String?
         /// The ID of the instance.
@@ -20434,11 +19264,8 @@ extension EC2 {
     }
 
     public struct ImportSnapshotTask: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description of the import snapshot task.
         public let description: String?
         /// The ID of the import snapshot task.
@@ -20538,9 +19365,6 @@ extension EC2 {
     }
 
     public struct InferenceAcceleratorInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accelerators", encoding: .list(member:"member"))
-        ]
 
         /// Describes the Inference accelerators for the instance type.
         @OptionalCoding<DefaultArrayCoder> public var accelerators: [InferenceDeviceInfo]?
@@ -20577,21 +19401,6 @@ extension EC2 {
     }
 
     public struct Instance: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "elasticGpuAssociations", location: .body(locationName: "elasticGpuAssociationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "elasticInferenceAcceleratorAssociations", location: .body(locationName: "elasticInferenceAcceleratorAssociationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "licenses", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "publicDnsName", location: .body(locationName: "dnsName")), 
-            AWSMemberEncoding(label: "publicIpAddress", location: .body(locationName: "ipAddress")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "state", location: .body(locationName: "instanceState")), 
-            AWSMemberEncoding(label: "stateTransitionReason", location: .body(locationName: "reason")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticGpuAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticInferenceAcceleratorAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -20600,6 +19409,7 @@ extension EC2 {
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The AMI launch index, which can be used to find this instance in the launch group.
         public let amiLaunchIndex: Int?
         /// The architecture of the image.
@@ -20797,17 +19607,10 @@ extension EC2 {
     }
 
     public struct InstanceAttribute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "kernelId", location: .body(locationName: "kernel")), 
-            AWSMemberEncoding(label: "productCodes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ramdiskId", location: .body(locationName: "ramdisk"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The block device mapping of the instance.
         @OptionalCoding<ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMapping>> public var blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
@@ -21145,15 +19948,10 @@ extension EC2 {
     }
 
     public struct InstanceNetworkInterface: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The association information for an Elastic IPv4 associated with the network interface.
         public let association: InstanceNetworkInterfaceAssociation?
         /// The network interface attachment.
@@ -21279,15 +20077,10 @@ extension EC2 {
     }
 
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
         public let associatePublicIpAddress: Bool?
         /// If set to true, the interface is deleted when the instance is terminated. You can specify true only if creating a new network interface when launching an instance.
@@ -21433,11 +20226,8 @@ extension EC2 {
     }
 
     public struct InstanceStatus: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone of the instance.
         public let availabilityZone: String?
         /// Any scheduled events associated with the instance.
@@ -21531,11 +20321,8 @@ extension EC2 {
     }
 
     public struct InstanceStatusSummary: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "details", encoding: .list(member:"item"))
-        ]
-
         public struct _DetailsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The system instance health or application instance health.
         @OptionalCoding<ArrayCoder<_DetailsEncoding, InstanceStatusDetails>> public var details: [InstanceStatusDetails]?
         /// The status.
@@ -21553,11 +20340,8 @@ extension EC2 {
     }
 
     public struct InstanceStorageInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "disks", encoding: .list(member:"item"))
-        ]
-
         public struct _DisksEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Array describing the disks that are available for the instance type.
         @OptionalCoding<ArrayCoder<_DisksEncoding, DiskInfo>> public var disks: [DiskInfo]?
         /// The total size of the disks, in GB.
@@ -21575,13 +20359,9 @@ extension EC2 {
     }
 
     public struct InstanceTypeInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "supportedRootDeviceTypes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "supportedUsageClasses", encoding: .list(member:"item"))
-        ]
-
         public struct _SupportedRootDeviceTypesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SupportedUsageClassesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether auto recovery is supported.
         public let autoRecoverySupported: Bool?
         /// Indicates whether the instance is bare metal.
@@ -21719,13 +20499,9 @@ extension EC2 {
     }
 
     public struct InternetGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Any VPCs attached to the internet gateway.
         @OptionalCoding<ArrayCoder<_AttachmentsEncoding, InternetGatewayAttachment>> public var attachments: [InternetGatewayAttachment]?
         /// The ID of the internet gateway.
@@ -21769,17 +20545,11 @@ extension EC2 {
     }
 
     public struct IpPermission: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipRanges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipv6Ranges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "prefixListIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "userIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpRangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6RangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrefixListIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UserIdGroupPairsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types. If you specify all ICMP/ICMPv6 types, you must specify all codes.
         public let fromPort: Int?
         /// The IP protocol name (tcp, udp, icmp, icmpv6) or number (see Protocol Numbers). [VPC only] Use -1 to specify all protocols. When authorizing security group rules, specifying -1 or a protocol number other than tcp, udp, icmp, or icmpv6 allows traffic on all ports, regardless of any port range you specify. For tcp, udp, and icmp, you must specify a port range. For icmpv6, the port range is optional; if you omit the port range, traffic for all types and codes is allowed.
@@ -21867,13 +20637,9 @@ extension EC2 {
     }
 
     public struct Ipv6Pool: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolCidrBlocks", location: .body(locationName: "poolCidrBlockSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PoolCidrBlocksEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The description for the address pool.
         public let description: String?
         /// The CIDR blocks for the address pool.
@@ -21943,11 +20709,8 @@ extension EC2 {
     }
 
     public struct KeyPairInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// If you used CreateKeyPair to create the key pair, this is the SHA-1 digest of the DER encoded private key. If you used ImportKeyPair to provide AWS the public key, this is the MD5 public key fingerprint as specified in section 4 of RFC4716.
         public let keyFingerprint: String?
         /// The name of the key pair.
@@ -22009,13 +20772,9 @@ extension EC2 {
     }
 
     public struct LaunchPermissionModifications: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "add", location: .body(locationName: "Add"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "remove", location: .body(locationName: "Remove"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The AWS account ID to add to the list of launch permissions for the AMI.
         @OptionalCoding<ArrayCoder<_AddEncoding, LaunchPermission>> public var add: [LaunchPermission]?
         /// The AWS account ID to remove from the list of launch permissions for the AMI.
@@ -22033,15 +20792,10 @@ extension EC2 {
     }
 
     public struct LaunchSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Deprecated.
         public let addressingType: String?
         /// One or more block device mapping entries.
@@ -22110,11 +20864,8 @@ extension EC2 {
     }
 
     public struct LaunchTemplate: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The principal that created the launch template. 
         public let createdBy: String?
         /// The time launch template was created.
@@ -22258,11 +21009,8 @@ extension EC2 {
     }
 
     public struct LaunchTemplateConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "overrides", encoding: .list(member:"item"))
-        ]
-
         public struct _OverridesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The launch template.
         public let launchTemplateSpecification: FleetLaunchTemplateSpecification?
         /// Any parameters that you specify override the same parameters in the launch template.
@@ -22584,15 +21332,10 @@ extension EC2 {
     }
 
     public struct LaunchTemplateInstanceNetworkInterfaceSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"groupId")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "groupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether to associate a public IPv4 address with eth0 for a new network interface.
         public let associatePublicIpAddress: Bool?
         /// Indicates whether the network interface is deleted when the instance is terminated.
@@ -22654,15 +21397,10 @@ extension EC2 {
     }
 
     public struct LaunchTemplateInstanceNetworkInterfaceSpecificationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "Ipv6Addresses"), encoding: .list(member:"InstanceIpv6Address")), 
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "PrivateIpAddresses"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "InstanceIpv6Address" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Associates a public IPv4 address with eth0 for a new network interface.
         public let associatePublicIpAddress: Bool?
         /// Indicates whether the network interface is deleted when the instance is terminated.
@@ -22952,11 +21690,8 @@ extension EC2 {
     }
 
     public struct LaunchTemplateTagSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The type of resource.
         public let resourceType: ResourceType?
         /// The tags for the resource.
@@ -22974,11 +21709,8 @@ extension EC2 {
     }
 
     public struct LaunchTemplateTagSpecificationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume. To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
@@ -23135,13 +21867,9 @@ extension EC2 {
     }
 
     public struct LoadPermissionModifications: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "add", location: .body(locationName: "Add"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "remove", location: .body(locationName: "Remove"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The load permissions to add.
         @OptionalCoding<ArrayCoder<_AddEncoding, LoadPermissionRequest>> public var add: [LoadPermissionRequest]?
         /// The load permissions to remove.
@@ -23177,11 +21905,8 @@ extension EC2 {
     }
 
     public struct LocalGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the local gateway.
         public let localGatewayId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
@@ -23241,11 +21966,8 @@ extension EC2 {
     }
 
     public struct LocalGatewayRouteTable: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the local gateway.
         public let localGatewayId: String?
         /// The ID of the local gateway route table.
@@ -23275,11 +21997,8 @@ extension EC2 {
     }
 
     public struct LocalGatewayRouteTableVirtualInterfaceGroupAssociation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the local gateway.
         public let localGatewayId: String?
         /// The ID of the local gateway route table.
@@ -23313,11 +22032,8 @@ extension EC2 {
     }
 
     public struct LocalGatewayRouteTableVpcAssociation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the local gateway.
         public let localGatewayId: String?
         /// The ID of the local gateway route table.
@@ -23351,11 +22067,8 @@ extension EC2 {
     }
 
     public struct LocalGatewayVirtualInterface: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The local address.
         public let localAddress: String?
         /// The Border Gateway Protocol (BGP) Autonomous System Number (ASN) of the local gateway.
@@ -23397,13 +22110,9 @@ extension EC2 {
     }
 
     public struct LocalGatewayVirtualInterfaceGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localGatewayVirtualInterfaceIds", location: .body(locationName: "localGatewayVirtualInterfaceIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _LocalGatewayVirtualInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the local gateway.
         public let localGatewayId: String?
         /// The ID of the virtual interface group.
@@ -23651,15 +22360,10 @@ extension EC2 {
     }
 
     public struct ModifyFpgaImageAttributeRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
-            AWSMemberEncoding(label: "userGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
-            AWSMemberEncoding(label: "userIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
-        ]
-
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "ProductCode" }
         public struct _UserGroupsEncoding: ArrayCoderProperties { static public let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { static public let member = "UserId" }
+
         /// The name of the attribute.
         public let attribute: FpgaImageAttributeName?
         /// A description for the AFI.
@@ -23723,11 +22427,8 @@ extension EC2 {
     }
 
     public struct ModifyHostsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Specify whether to enable or disable auto-placement.
         public let autoPlacement: AutoPlacement?
         /// The IDs of the Dedicated Hosts to modify.
@@ -23757,13 +22458,9 @@ extension EC2 {
     }
 
     public struct ModifyHostsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the Dedicated Hosts that were successfully modified.
         @OptionalCoding<ArrayCoder<_SuccessfulEncoding, String>> public var successful: [String]?
         /// The IDs of the Dedicated Hosts that could not be modified. Check whether the setting you requested can be used.
@@ -23821,15 +22518,10 @@ extension EC2 {
     }
 
     public struct ModifyImageAttributeRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productCodes", location: .body(locationName: "ProductCode"), encoding: .list(member:"ProductCode")), 
-            AWSMemberEncoding(label: "userGroups", location: .body(locationName: "UserGroup"), encoding: .list(member:"UserGroup")), 
-            AWSMemberEncoding(label: "userIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
-        ]
-
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "ProductCode" }
         public struct _UserGroupsEncoding: ArrayCoderProperties { static public let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { static public let member = "UserId" }
+
         /// The name of the attribute to modify. The valid values are description, launchPermission, and productCodes.
         public let attribute: String?
         /// A new description for the AMI.
@@ -23879,13 +22571,9 @@ extension EC2 {
     }
 
     public struct ModifyInstanceAttributeRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "GroupId"), encoding: .list(member:"groupId"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "groupId" }
+
         /// The name of the attribute.
         public let attribute: InstanceAttributeName?
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Updating the Block Device Mapping when Launching an Instance in the Amazon Elastic Compute Cloud User Guide.
@@ -23995,11 +22683,8 @@ extension EC2 {
     }
 
     public struct ModifyInstanceCreditSpecificationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceCreditSpecifications", location: .body(locationName: "InstanceCreditSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24021,13 +22706,9 @@ extension EC2 {
     }
 
     public struct ModifyInstanceCreditSpecificationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successfulInstanceCreditSpecifications", location: .body(locationName: "successfulInstanceCreditSpecificationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessfulInstanceCreditSpecifications", location: .body(locationName: "unsuccessfulInstanceCreditSpecificationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulInstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulInstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the instances whose credit option for CPU usage was successfully modified.
         @OptionalCoding<ArrayCoder<_SuccessfulInstanceCreditSpecificationsEncoding, SuccessfulInstanceCreditSpecificationItem>> public var successfulInstanceCreditSpecifications: [SuccessfulInstanceCreditSpecificationItem]?
         /// Information about the instances whose credit option for CPU usage was not modified.
@@ -24184,9 +22865,6 @@ extension EC2 {
     }
 
     public struct ModifyLaunchTemplateRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "defaultVersion", location: .body(locationName: "SetDefaultVersion"))
-        ]
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
@@ -24237,11 +22915,8 @@ extension EC2 {
     }
 
     public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
+
         /// Information about the interface attachment. If modifying the 'delete on termination' attribute, you must specify the ID of the interface attachment.
         public let attachment: NetworkInterfaceAttachmentChanges?
         /// A description for the network interface.
@@ -24275,13 +22950,9 @@ extension EC2 {
     }
 
     public struct ModifyReservedInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), encoding: .list(member:"ReservedInstancesId")), 
-            AWSMemberEncoding(label: "targetConfigurations", location: .body(locationName: "ReservedInstancesConfigurationSetItemType"), encoding: .list(member:"item"))
-        ]
-
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstancesId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// The IDs of the Reserved Instances to modify.
@@ -24317,13 +22988,9 @@ extension EC2 {
     }
 
     public struct ModifySnapshotAttributeRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupNames", location: .body(locationName: "UserGroup"), encoding: .list(member:"GroupName")), 
-            AWSMemberEncoding(label: "userIds", location: .body(locationName: "UserId"), encoding: .list(member:"UserId"))
-        ]
-
         public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "GroupName" }
         public struct _UserIdsEncoding: ArrayCoderProperties { static public let member = "UserId" }
+
         /// The snapshot attribute to modify. Only volume creation permissions can be modified.
         public let attribute: SnapshotAttributeName?
         /// A JSON representation of the snapshot attribute modification.
@@ -24423,13 +23090,9 @@ extension EC2 {
     }
 
     public struct ModifyTrafficMirrorFilterNetworkServicesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addNetworkServices", location: .body(locationName: "AddNetworkService"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeNetworkServices", location: .body(locationName: "RemoveNetworkService"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddNetworkServicesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveNetworkServicesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The network service, for example Amazon DNS, that you want to mirror.
         @OptionalCoding<ArrayCoder<_AddNetworkServicesEncoding, TrafficMirrorNetworkService>> public var addNetworkServices: [TrafficMirrorNetworkService]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24469,9 +23132,6 @@ extension EC2 {
     }
 
     public struct ModifyTrafficMirrorFilterRuleRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "removeFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
-        ]
 
         /// The description to assign to the Traffic Mirror rule.
         public let description: String?
@@ -24544,9 +23204,6 @@ extension EC2 {
     }
 
     public struct ModifyTrafficMirrorSessionRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "removeFields", location: .body(locationName: "RemoveField"), encoding: .list(member:"member"))
-        ]
 
         /// The description to assign to the Traffic Mirror session.
         public let description: String?
@@ -24607,13 +23264,9 @@ extension EC2 {
     }
 
     public struct ModifyTransitGatewayVpcAttachmentRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addSubnetIds", location: .body(locationName: "AddSubnetIds"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeSubnetIds", location: .body(locationName: "RemoveSubnetIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of one or more subnets to add. You can specify at most one subnet per Availability Zone.
         @OptionalCoding<ArrayCoder<_AddSubnetIdsEncoding, String>> public var addSubnetIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24763,11 +23416,8 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointConnectionNotificationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionEvents", location: .body(locationName: "ConnectionEvents"), encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more events for the endpoint. Valid values are Accept, Connect, Delete, and Reject.
         @OptionalCoding<ArrayCoder<_ConnectionEventsEncoding, String>> public var connectionEvents: [String]?
         /// The ARN for the SNS topic for the notification.
@@ -24793,9 +23443,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointConnectionNotificationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
@@ -24810,21 +23457,13 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addRouteTableIds", location: .body(locationName: "AddRouteTableId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "addSecurityGroupIds", location: .body(locationName: "AddSecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "addSubnetIds", location: .body(locationName: "AddSubnetId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeRouteTableIds", location: .body(locationName: "RemoveRouteTableId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeSecurityGroupIds", location: .body(locationName: "RemoveSecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeSubnetIds", location: .body(locationName: "RemoveSubnetId"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _AddSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _AddSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// (Gateway endpoint) One or more route tables IDs to associate with the endpoint.
         @OptionalCoding<ArrayCoder<_AddRouteTableIdsEncoding, String>> public var addRouteTableIds: [String]?
         /// (Interface endpoint) One or more security group IDs to associate with the network interface.
@@ -24892,13 +23531,9 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointServiceConfigurationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addNetworkLoadBalancerArns", location: .body(locationName: "AddNetworkLoadBalancerArn"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeNetworkLoadBalancerArns", location: .body(locationName: "RemoveNetworkLoadBalancerArn"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddNetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveNetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether requests to create an endpoint to your service must be accepted.
         public let acceptanceRequired: Bool?
         /// The Amazon Resource Names (ARNs) of Network Load Balancers to add to your service configuration.
@@ -24950,13 +23585,9 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointServicePermissionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addAllowedPrincipals", location: .body(locationName: "AddAllowedPrincipals"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "removeAllowedPrincipals", location: .body(locationName: "RemoveAllowedPrincipals"), encoding: .list(member:"item"))
-        ]
-
         public struct _AddAllowedPrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveAllowedPrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Amazon Resource Names (ARN) of one or more principals. Permissions are granted to the principals in this list. To grant permissions to all principals, specify an asterisk (*).
         @OptionalCoding<ArrayCoder<_AddAllowedPrincipalsEncoding, String>> public var addAllowedPrincipals: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24982,9 +23613,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcEndpointServicePermissionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
@@ -25065,9 +23693,6 @@ extension EC2 {
     }
 
     public struct ModifyVpcTenancyResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let returnValue: Bool?
@@ -25199,16 +23824,6 @@ extension EC2 {
     }
 
     public struct ModifyVpnTunnelOptionsSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "iKEVersions", location: .body(locationName: "IKEVersion"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1DHGroupNumbers", location: .body(locationName: "Phase1DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1EncryptionAlgorithms", location: .body(locationName: "Phase1EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1IntegrityAlgorithms", location: .body(locationName: "Phase1IntegrityAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2DHGroupNumbers", location: .body(locationName: "Phase2DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2EncryptionAlgorithms", location: .body(locationName: "Phase2EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2IntegrityAlgorithms", location: .body(locationName: "Phase2IntegrityAlgorithm"), encoding: .list(member:"item"))
-        ]
-
         public struct _IKEVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -25216,6 +23831,7 @@ extension EC2 {
         public struct _Phase2DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30 
         public let dPDTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2 
@@ -25285,11 +23901,8 @@ extension EC2 {
     }
 
     public struct MonitorInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
@@ -25307,11 +23920,8 @@ extension EC2 {
     }
 
     public struct MonitorInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceMonitorings", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceMonitoringsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The monitoring information.
         @OptionalCoding<ArrayCoder<_InstanceMonitoringsEncoding, InstanceMonitoring>> public var instanceMonitorings: [InstanceMonitoring]?
 
@@ -25393,13 +24003,9 @@ extension EC2 {
     }
 
     public struct NatGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "natGatewayAddresses", location: .body(locationName: "natGatewayAddressSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The date and time the NAT gateway was created.
         public let createTime: TimeStamp?
         /// The date and time the NAT gateway was deleted, if applicable.
@@ -25479,16 +24085,10 @@ extension EC2 {
     }
 
     public struct NetworkAcl: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "entries", location: .body(locationName: "entrySet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "isDefault", location: .body(locationName: "default")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _EntriesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Any associations between the network ACL and one or more subnets
         @OptionalCoding<ArrayCoder<_AssociationsEncoding, NetworkAclAssociation>> public var associations: [NetworkAclAssociation]?
         /// One or more entries (rules) in the network ACL.
@@ -25624,17 +24224,11 @@ extension EC2 {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tagSet", encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
         public let association: NetworkInterfaceAssociation?
         /// The network interface attachment.
@@ -25906,11 +24500,8 @@ extension EC2 {
     }
 
     public struct NewDhcpConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Value"), encoding: .list(member:"item"))
-        ]
-
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         public let key: String?
         @OptionalCoding<ArrayCoder<_ValuesEncoding, String>> public var values: [String]?
 
@@ -26314,11 +24905,8 @@ extension EC2 {
     }
 
     public struct PlacementGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the placement group.
         public let groupId: String?
         /// The name of the placement group.
@@ -26352,11 +24940,8 @@ extension EC2 {
     }
 
     public struct PlacementGroupInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "supportedStrategies", encoding: .list(member:"item"))
-        ]
-
         public struct _SupportedStrategiesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A list of supported placement groups types.
         @OptionalCoding<ArrayCoder<_SupportedStrategiesEncoding, PlacementGroupStrategy>> public var supportedStrategies: [PlacementGroupStrategy]?
 
@@ -26384,9 +24969,6 @@ extension EC2 {
     }
 
     public struct PoolCidrBlock: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cidr", location: .body(locationName: "poolCidrBlock"))
-        ]
 
         /// The CIDR block.
         public let cidr: String?
@@ -26419,11 +25001,8 @@ extension EC2 {
     }
 
     public struct PrefixList: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cidrs", location: .body(locationName: "cidrSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CidrsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IP address range of the AWS service.
         @OptionalCoding<ArrayCoder<_CidrsEncoding, String>> public var cidrs: [String]?
         /// The ID of the prefix.
@@ -26529,11 +25108,8 @@ extension EC2 {
     }
 
     public struct PrincipalIdFormat: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "statuses", location: .body(locationName: "statusSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// PrincipalIdFormatARN description
         public let arn: String?
         /// PrincipalIdFormatStatuses description
@@ -26595,11 +25171,8 @@ extension EC2 {
     }
 
     public struct ProcessorInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "supportedArchitectures", encoding: .list(member:"item"))
-        ]
-
         public struct _SupportedArchitecturesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A list of architectures supported by the instance type.
         @OptionalCoding<ArrayCoder<_SupportedArchitecturesEncoding, ArchitectureType>> public var supportedArchitectures: [ArchitectureType]?
         /// The speed of the processor, in GHz.
@@ -26617,10 +25190,6 @@ extension EC2 {
     }
 
     public struct ProductCode: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productCodeId", location: .body(locationName: "productCode")), 
-            AWSMemberEncoding(label: "productCodeType", location: .body(locationName: "type"))
-        ]
 
         /// The product code.
         public let productCodeId: String?
@@ -26727,11 +25296,8 @@ extension EC2 {
     }
 
     public struct PublicIpv4Pool: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolAddressRanges", location: .body(locationName: "poolAddressRangeSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _PoolAddressRangesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description of the address pool.
         public let description: String?
         /// The address ranges.
@@ -26787,11 +25353,8 @@ extension EC2 {
     }
 
     public struct Purchase: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIdSet", encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The currency in which the UpfrontPrice and HourlyPrice amounts are specified. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
         /// The duration of the reservation's term in seconds.
@@ -26833,11 +25396,8 @@ extension EC2 {
     }
 
     public struct PurchaseHostReservationRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIdSet", location: .body(locationName: "HostIdSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// The currency in which the totalUpfrontPrice, LimitPrice, and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -26867,11 +25427,8 @@ extension EC2 {
     }
 
     public struct PurchaseHostReservationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "purchase", encoding: .list(member:"item"))
-        ]
-
         public struct _PurchaseEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -26963,11 +25520,8 @@ extension EC2 {
     }
 
     public struct PurchaseScheduledInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "purchaseRequests", location: .body(locationName: "PurchaseRequest"), encoding: .list(member:"PurchaseRequest"))
-        ]
-
         public struct _PurchaseRequestsEncoding: ArrayCoderProperties { static public let member = "PurchaseRequest" }
+
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -26993,11 +25547,8 @@ extension EC2 {
     }
 
     public struct PurchaseScheduledInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledInstanceSet", encoding: .list(member:"item"))
-        ]
-
         public struct _ScheduledInstanceSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Scheduled Instances.
         @OptionalCoding<ArrayCoder<_ScheduledInstanceSetEncoding, ScheduledInstance>> public var scheduledInstanceSet: [ScheduledInstance]?
 
@@ -27011,11 +25562,8 @@ extension EC2 {
     }
 
     public struct RebootInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance IDs.
@@ -27051,9 +25599,6 @@ extension EC2 {
     }
 
     public struct Region: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpoint", location: .body(locationName: "regionEndpoint"))
-        ]
 
         /// The Region service endpoint.
         public let endpoint: String?
@@ -27076,13 +25621,9 @@ extension EC2 {
     }
 
     public struct RegisterImageRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "billingProducts", location: .body(locationName: "BillingProduct"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping"))
-        ]
-
         public struct _BillingProductsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
+
         /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
         public let architecture: ArchitectureValues?
         /// The billing product codes. Your account must be authorized to specify billing product codes. Otherwise, you can use the AWS Marketplace to bill for the use of an AMI.
@@ -27158,11 +25699,8 @@ extension EC2 {
     }
 
     public struct RegisterTransitGatewayMulticastGroupMembersRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IP address assigned to the transit gateway multicast group.
@@ -27202,11 +25740,8 @@ extension EC2 {
     }
 
     public struct RegisterTransitGatewayMulticastGroupSourcesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "NetworkInterfaceIds"), encoding: .list(member:"item"))
-        ]
-
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IP address assigned to the transit gateway multicast group.
@@ -27310,11 +25845,8 @@ extension EC2 {
     }
 
     public struct RejectVpcEndpointConnectionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcEndpointIds", location: .body(locationName: "VpcEndpointId"), encoding: .list(member:"item"))
-        ]
-
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the service.
@@ -27336,11 +25868,8 @@ extension EC2 {
     }
 
     public struct RejectVpcEndpointConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the endpoints that were not rejected, if applicable.
         @OptionalCoding<ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>> public var unsuccessful: [UnsuccessfulItem]?
 
@@ -27412,11 +25941,8 @@ extension EC2 {
     }
 
     public struct ReleaseHostsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostIds", location: .body(locationName: "hostId"), encoding: .list(member:"item"))
-        ]
-
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the Dedicated Hosts to release.
         @Coding<ArrayCoder<_HostIdsEncoding, String>> public var hostIds: [String]
 
@@ -27430,13 +25956,9 @@ extension EC2 {
     }
 
     public struct ReleaseHostsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "successful", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "unsuccessful", encoding: .list(member:"item"))
-        ]
-
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the Dedicated Hosts that were successfully released.
         @OptionalCoding<ArrayCoder<_SuccessfulEncoding, String>> public var successful: [String]?
         /// The IDs of the Dedicated Hosts that could not be released, including an error message.
@@ -27522,9 +26044,6 @@ extension EC2 {
     }
 
     public struct ReplaceNetworkAclEntryRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "icmpTypeCode", location: .body(locationName: "Icmp"))
-        ]
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public let cidrBlock: String?
@@ -27721,13 +26240,9 @@ extension EC2 {
     }
 
     public struct ReportInstanceStatusRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "instanceId"), encoding: .list(member:"InstanceId")), 
-            AWSMemberEncoding(label: "reasonCodes", location: .body(locationName: "reasonCode"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
         public struct _ReasonCodesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Descriptive text about the health state of your instance.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -27765,17 +26280,6 @@ extension EC2 {
     }
 
     public struct RequestLaunchTemplateData: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSMemberEncoding(label: "elasticGpuSpecifications", location: .body(locationName: "ElasticGpuSpecification"), encoding: .list(member:"ElasticGpuSpecification")), 
-            AWSMemberEncoding(label: "elasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"InstanceNetworkInterfaceSpecification")), 
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"LaunchTemplateTagSpecificationRequest"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
         public struct _ElasticGpuSpecificationsEncoding: ArrayCoderProperties { static public let member = "ElasticGpuSpecification" }
         public struct _ElasticInferenceAcceleratorsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -27784,6 +26288,7 @@ extension EC2 {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroup" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "LaunchTemplateTagSpecificationRequest" }
+
         /// The block device mapping.
         @OptionalCoding<ArrayCoder<_BlockDeviceMappingsEncoding, LaunchTemplateBlockDeviceMappingRequest>> public var blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]?
         /// The Capacity Reservation targeting option. If you do not specify this parameter, the instance's Capacity Reservation preference defaults to open, which enables it to run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).
@@ -27997,11 +26502,8 @@ extension EC2 {
     }
 
     public struct RequestSpotInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "spotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SpotInstanceRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more Spot Instance requests.
         @OptionalCoding<ArrayCoder<_SpotInstanceRequestsEncoding, SpotInstanceRequest>> public var spotInstanceRequests: [SpotInstanceRequest]?
 
@@ -28015,17 +26517,11 @@ extension EC2 {
     }
 
     public struct RequestSpotLaunchSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Deprecated.
         public let addressingType: String?
         /// One or more block device mapping entries. You can't specify both a snapshot ID and an encryption value. This is because only blank volumes can be encrypted on creation. If a snapshot is the basis for a volume, it is not blank and its encryption status is used for the volume encryption status.
@@ -28099,13 +26595,9 @@ extension EC2 {
     }
 
     public struct Reservation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// [EC2-Classic only] The security groups.
         @OptionalCoding<ArrayCoder<_GroupsEncoding, GroupIdentifier>> public var groups: [GroupIdentifier]?
         /// The instances.
@@ -28193,13 +26685,9 @@ extension EC2 {
     }
 
     public struct ReservedInstances: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recurringCharges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone in which the Reserved Instance can be used.
         public let availabilityZone: String?
         /// The currency of the Reserved Instance. It's specified using ISO 4217 standard currency codes. At this time, the only supported currency is USD.
@@ -28325,15 +26813,10 @@ extension EC2 {
     }
 
     public struct ReservedInstancesListing: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceCounts", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "priceSchedules", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceCountsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PriceSchedulesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// The time the listing was created.
@@ -28383,13 +26866,9 @@ extension EC2 {
     }
 
     public struct ReservedInstancesModification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "modificationResults", location: .body(locationName: "modificationResultSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "reservedInstancesIds", location: .body(locationName: "reservedInstancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ModificationResultsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
         public let clientToken: String?
         /// The time when the modification request was created.
@@ -28453,13 +26932,9 @@ extension EC2 {
     }
 
     public struct ReservedInstancesOffering: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pricingDetails", location: .body(locationName: "pricingDetailsSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "recurringCharges", encoding: .list(member:"item"))
-        ]
-
         public struct _PricingDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The Availability Zone in which the Reserved Instance can be used.
         public let availabilityZone: String?
         /// The currency of the Reserved Instance offering you are purchasing. It's specified using ISO 4217 standard currency codes. At this time, the only supported currency is USD.
@@ -28699,17 +27174,6 @@ extension EC2 {
     }
 
     public struct ResponseLaunchTemplateData: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMappingSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "elasticGpuSpecifications", location: .body(locationName: "elasticGpuSpecificationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "elasticInferenceAccelerators", location: .body(locationName: "elasticInferenceAcceleratorSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "licenseSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "securityGroupIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "securityGroupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticGpuSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticInferenceAcceleratorsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -28718,6 +27182,7 @@ extension EC2 {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The block device mappings.
         @OptionalCoding<ArrayCoder<_BlockDeviceMappingsEncoding, LaunchTemplateBlockDeviceMapping>> public var blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]?
         /// Information about the Capacity Reservation targeting option.
@@ -28911,11 +27376,8 @@ extension EC2 {
     }
 
     public struct RevokeSecurityGroupEgressRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipPermissions", encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Not supported. Use a set of IP permissions to specify the CIDR.
         public let cidrIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28961,11 +27423,8 @@ extension EC2 {
     }
 
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The CIDR IP address range. You can't specify this parameter when specifying a source security group.
         public let cidrIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -29081,17 +27540,11 @@ extension EC2 {
     }
 
     public struct RouteTable: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associations", location: .body(locationName: "associationSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "propagatingVgws", location: .body(locationName: "propagatingVgwSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PropagatingVgwsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The associations between the route table and one or more subnets or a gateway.
         @OptionalCoding<ArrayCoder<_AssociationsEncoding, RouteTableAssociation>> public var associations: [RouteTableAssociation]?
         /// The ID of the AWS account that owns the route table.
@@ -29195,18 +27648,6 @@ extension EC2 {
     }
 
     public struct RunInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSMemberEncoding(label: "elasticGpuSpecification", location: .body(locationName: "ElasticGpuSpecification"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "elasticInferenceAccelerators", location: .body(locationName: "ElasticInferenceAccelerator"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "licenseSpecifications", location: .body(locationName: "LicenseSpecification"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterface"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroup"), encoding: .list(member:"SecurityGroup")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "TagSpecification"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
         public struct _ElasticGpuSpecificationEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticInferenceAcceleratorsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -29216,6 +27657,7 @@ extension EC2 {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroup" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Reserved.
         public let additionalInfo: String?
         /// The block device mapping entries.
@@ -29405,11 +27847,8 @@ extension EC2 {
     }
 
     public struct RunScheduledInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIdSet", encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IDs of the newly launched instances.
         @OptionalCoding<ArrayCoder<_InstanceIdSetEncoding, String>> public var instanceIdSet: [String]?
 
@@ -29585,11 +28024,8 @@ extension EC2 {
     }
 
     public struct ScheduledInstanceRecurrence: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "occurrenceDaySet", encoding: .list(member:"item"))
-        ]
-
         public struct _OccurrenceDaySetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The frequency (Daily, Weekly, or Monthly).
         public let frequency: String?
         /// The interval quantity. The interval unit depends on the value of frequency. For example, every 2 weeks or every 2 months.
@@ -29619,11 +28055,8 @@ extension EC2 {
     }
 
     public struct ScheduledInstanceRecurrenceRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "occurrenceDays", location: .body(locationName: "OccurrenceDay"), encoding: .list(member:"OccurenceDay"))
-        ]
-
         public struct _OccurrenceDaysEncoding: ArrayCoderProperties { static public let member = "OccurenceDay" }
+
         /// The frequency (Daily, Weekly, or Monthly).
         public let frequency: String?
         /// The interval quantity. The interval unit depends on the value of Frequency. For example, every 2 weeks or every 2 months.
@@ -29745,15 +28178,10 @@ extension EC2 {
     }
 
     public struct ScheduledInstancesLaunchSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), encoding: .list(member:"BlockDeviceMapping")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "NetworkInterface"), encoding: .list(member:"NetworkInterface")), 
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupId"), encoding: .list(member:"SecurityGroupId"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "NetworkInterface" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
+
         /// The block device mapping entries.
         @OptionalCoding<ArrayCoder<_BlockDeviceMappingsEncoding, ScheduledInstancesBlockDeviceMapping>> public var blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]?
         /// Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance. Default: false 
@@ -29833,15 +28261,10 @@ extension EC2 {
     }
 
     public struct ScheduledInstancesNetworkInterface: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "Group"), encoding: .list(member:"SecurityGroupId")), 
-            AWSMemberEncoding(label: "ipv6Addresses", location: .body(locationName: "Ipv6Address"), encoding: .list(member:"Ipv6Address")), 
-            AWSMemberEncoding(label: "privateIpAddressConfigs", location: .body(locationName: "PrivateIpAddressConfig"), encoding: .list(member:"PrivateIpAddressConfigSet"))
-        ]
-
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "Ipv6Address" }
         public struct _PrivateIpAddressConfigsEncoding: ArrayCoderProperties { static public let member = "PrivateIpAddressConfigSet" }
+
         /// Indicates whether to assign a public IPv4 address to instances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
         public let associatePublicIpAddress: Bool?
         /// Indicates whether to delete the interface when the instance is terminated.
@@ -29935,11 +28358,8 @@ extension EC2 {
     }
 
     public struct SearchLocalGatewayRoutesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters.
@@ -29969,11 +28389,8 @@ extension EC2 {
     }
 
     public struct SearchLocalGatewayRoutesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the routes.
@@ -29991,11 +28408,8 @@ extension EC2 {
     }
 
     public struct SearchTransitGatewayMulticastGroupsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    group-ip-address - The IP address of the transit gateway multicast group.    is-group-member - The resource is a group member. Valid values are true | false.    is-group-source - The resource is a group source. Valid values are true | false.    member-type - The member type. Valid values are igmp | static.    resource-id - The ID of the resource.    resource-type - The type of resource. Valid values are vpc | vpn | direct-connect-gateway | tgw-peering.    source-type - The source type. Valid values are igmp | static.    state - The state of the subnet association. Valid values are associated | associated | disassociated | disassociating.    subnet-id - The ID of the subnet.    transit-gateway-attachment-id - The id of the transit gateway attachment.  
@@ -30030,11 +28444,8 @@ extension EC2 {
     }
 
     public struct SearchTransitGatewayMulticastGroupsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "multicastGroups", encoding: .list(member:"item"))
-        ]
-
         public struct _MulticastGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the transit gateway multicast group.
         @OptionalCoding<ArrayCoder<_MulticastGroupsEncoding, TransitGatewayMulticastGroup>> public var multicastGroups: [TransitGatewayMulticastGroup]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -30052,11 +28463,8 @@ extension EC2 {
     }
 
     public struct SearchTransitGatewayRoutesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"Filter"))
-        ]
-
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type (vpc | vpn).    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
@@ -30087,11 +28495,8 @@ extension EC2 {
     }
 
     public struct SearchTransitGatewayRoutesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routes", location: .body(locationName: "routeSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether there are additional routes available.
         public let additionalRoutesAvailable: Bool?
         /// Information about the routes.
@@ -30109,16 +28514,10 @@ extension EC2 {
     }
 
     public struct SecurityGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "description", location: .body(locationName: "groupDescription")), 
-            AWSMemberEncoding(label: "ipPermissions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipPermissionsEgress", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _IpPermissionsEgressEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// A description of the security group.
         public let description: String?
         /// The ID of the security group.
@@ -30218,19 +28617,12 @@ extension EC2 {
     }
 
     public struct ServiceConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "baseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "serviceType", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _BaseEndpointDnsNamesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ServiceTypeEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether requests from other AWS accounts to create an endpoint to the service must first be accepted.
         public let acceptanceRequired: Bool?
         /// The Availability Zones in which the service is available.
@@ -30288,17 +28680,11 @@ extension EC2 {
     }
 
     public struct ServiceDetail: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "availabilityZoneSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "baseEndpointDnsNames", location: .body(locationName: "baseEndpointDnsNameSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "serviceType", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _BaseEndpointDnsNamesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ServiceTypeEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether VPC endpoint connection requests to the service must be accepted by the service owner.
         public let acceptanceRequired: Bool?
         /// The Availability Zones in which the service is available.
@@ -30406,13 +28792,8 @@ extension EC2 {
     }
 
     public struct Snapshot: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "state", location: .body(locationName: "status")), 
-            AWSMemberEncoding(label: "stateMessage", location: .body(locationName: "statusMessage")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by DescribeSnapshots.
         public let dataEncryptionKeyId: String?
         /// The description for the snapshot.
@@ -30554,11 +28935,8 @@ extension EC2 {
     }
 
     public struct SnapshotInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Description specified by the CreateSnapshotRequest that has been applied to all snapshots.
         public let description: String?
         /// Indicates whether the snapshot is encrypted.
@@ -30692,17 +29070,11 @@ extension EC2 {
     }
 
     public struct SpotFleetLaunchSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaces", location: .body(locationName: "networkInterfaceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tagSpecifications", location: .body(locationName: "tagSpecificationSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Deprecated.
         public let addressingType: String?
         /// One or more block devices that are mapped to the Spot Instances. You can't specify both a snapshot ID and an encryption value. This is because only blank volumes can be encrypted on creation. If a snapshot is the basis for a volume, it is not blank and its encryption status is used for the volume encryption status.
@@ -30828,13 +29200,9 @@ extension EC2 {
     }
 
     public struct SpotFleetRequestConfigData: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchSpecifications", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "launchTemplateConfigs", encoding: .list(member:"item"))
-        ]
-
         public struct _LaunchSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the Spot Fleet request. If the allocation strategy is lowestPrice, Spot Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, Spot Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacityOptimized, Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: AllocationStrategy?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of your listings. This helps to avoid duplicate listings. For more information, see Ensuring Idempotency.
@@ -30939,11 +29307,8 @@ extension EC2 {
     }
 
     public struct SpotFleetTagSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tag"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The type of resource. Currently, the only resource type that is supported is instance.
         public let resourceType: ResourceType?
         /// The tags.
@@ -30961,11 +29326,8 @@ extension EC2 {
     }
 
     public struct SpotInstanceRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// If you specified a duration and your Spot Instance request was fulfilled, this is the fixed hourly price in effect for the Spot Instance while it runs.
         public let actualBlockHourlyPrice: String?
         /// The Availability Zone group. If you specify the same Availability Zone group for all Spot Instance requests, all Spot Instances are launched in the same Availability Zone.
@@ -31249,15 +29611,10 @@ extension EC2 {
     }
 
     public struct StaleIpPermission: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipRanges", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "prefixListIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "userIdGroupPairs", location: .body(locationName: "groups"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpRangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrefixListIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UserIdGroupPairsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The start of the port range for the TCP and UDP protocols, or an ICMP type number. A value of -1 indicates all ICMP types. 
         public let fromPort: Int?
         /// The IP protocol name (for tcp, udp, and icmp) or number (see Protocol Numbers).
@@ -31291,13 +29648,9 @@ extension EC2 {
     }
 
     public struct StaleSecurityGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "staleIpPermissions", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "staleIpPermissionsEgress", encoding: .list(member:"item"))
-        ]
-
         public struct _StaleIpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _StaleIpPermissionsEgressEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The description of the security group.
         public let description: String?
         /// The ID of the security group.
@@ -31331,11 +29684,8 @@ extension EC2 {
     }
 
     public struct StartInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Reserved.
         public let additionalInfo: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -31357,11 +29707,8 @@ extension EC2 {
     }
 
     public struct StartInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "startingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _StartingInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the started instances.
         @OptionalCoding<ArrayCoder<_StartingInstancesEncoding, InstanceStateChange>> public var startingInstances: [InstanceStateChange]?
 
@@ -31393,9 +29740,6 @@ extension EC2 {
     }
 
     public struct StartVpcEndpointServicePrivateDnsVerificationResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "returnValue", location: .body(locationName: "return"))
-        ]
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
@@ -31428,11 +29772,8 @@ extension EC2 {
     }
 
     public struct StopInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false 
@@ -31458,11 +29799,8 @@ extension EC2 {
     }
 
     public struct StopInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "stoppingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _StoppingInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the stopped instances.
         @OptionalCoding<ArrayCoder<_StoppingInstancesEncoding, InstanceStateChange>> public var stoppingInstances: [InstanceStateChange]?
 
@@ -31508,13 +29846,9 @@ extension EC2 {
     }
 
     public struct Subnet: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _Ipv6CidrBlockAssociationSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives an IPv6 address.
         public let assignIpv6AddressOnCreation: Bool?
         /// The Availability Zone of the subnet.
@@ -31714,11 +30048,8 @@ extension EC2 {
     }
 
     public struct TagSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | client-vpn-endpoint | dedicated-host | fleet | fpga-image | instance | key-pair | launch-template | placement-group | snapshot | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-route-table | volume. To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
@@ -31838,11 +30169,8 @@ extension EC2 {
     }
 
     public struct TargetGroupsConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroups", encoding: .list(member:"item"))
-        ]
-
         public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// One or more target groups.
         @OptionalCoding<ArrayCoder<_TargetGroupsEncoding, TargetGroup>> public var targetGroups: [TargetGroup]?
 
@@ -31861,11 +30189,8 @@ extension EC2 {
     }
 
     public struct TargetNetwork: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroups", encoding: .list(member:"item"))
-        ]
-
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the association.
         public let associationId: String?
         /// The ID of the Client VPN endpoint with which the target network is associated.
@@ -31943,11 +30268,8 @@ extension EC2 {
     }
 
     public struct TerminateClientVpnConnectionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionStatuses", encoding: .list(member:"item"))
-        ]
-
         public struct _ConnectionStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String?
         /// The current state of the client connections.
@@ -31991,11 +30313,8 @@ extension EC2 {
     }
 
     public struct TerminateInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches.
@@ -32013,11 +30332,8 @@ extension EC2 {
     }
 
     public struct TerminateInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "terminatingInstances", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TerminatingInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the terminated instances.
         @OptionalCoding<ArrayCoder<_TerminatingInstancesEncoding, InstanceStateChange>> public var terminatingInstances: [InstanceStateChange]?
 
@@ -32031,17 +30347,11 @@ extension EC2 {
     }
 
     public struct TrafficMirrorFilter: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "egressFilterRules", location: .body(locationName: "egressFilterRuleSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ingressFilterRules", location: .body(locationName: "ingressFilterRuleSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkServices", location: .body(locationName: "networkServiceSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _EgressFilterRulesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _IngressFilterRulesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkServicesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The description of the Traffic Mirror filter.
         public let description: String?
         /// Information about the egress rules that are associated with the Traffic Mirror filter.
@@ -32165,11 +30475,8 @@ extension EC2 {
     }
 
     public struct TrafficMirrorSession: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The description of the Traffic Mirror session.
         public let description: String?
         /// The ID of the Traffic Mirror session's network interface.
@@ -32219,11 +30526,8 @@ extension EC2 {
     }
 
     public struct TrafficMirrorTarget: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the Traffic Mirror target.
         public let description: String?
         /// The network interface ID that is attached to the target.
@@ -32261,11 +30565,8 @@ extension EC2 {
     }
 
     public struct TransitGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The creation time.
         public let creationTime: TimeStamp?
         /// The description of the transit gateway.
@@ -32337,11 +30638,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayAttachment: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The association.
         public let association: TransitGatewayAttachmentAssociation?
         /// The creation time.
@@ -32427,11 +30725,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
-        ]
-
         public struct _DeregisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The network interface IDs of the deregistered members.
         @OptionalCoding<ArrayCoder<_DeregisteredNetworkInterfaceIdsEncoding, String>> public var deregisteredNetworkInterfaceIds: [String]?
         /// The IP address assigned to the transit gateway multicast group.
@@ -32453,11 +30748,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastDeregisteredGroupSources: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deregisteredNetworkInterfaceIds", encoding: .list(member:"item"))
-        ]
-
         public struct _DeregisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The network interface IDs of the non-registered members.
         @OptionalCoding<ArrayCoder<_DeregisteredNetworkInterfaceIdsEncoding, String>> public var deregisteredNetworkInterfaceIds: [String]?
         /// The IP address assigned to the transit gateway multicast group.
@@ -32479,11 +30771,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastDomain: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The time the transit gateway multicast domain was created.
         public let creationTime: TimeStamp?
         /// The state of the transit gateway multicast domain.
@@ -32539,11 +30828,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastDomainAssociations: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnets", encoding: .list(member:"item"))
-        ]
-
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the resource.
         public let resourceId: String?
         /// The type of resource, for example a VPC attachment.
@@ -32623,11 +30909,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastRegisteredGroupMembers: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registeredNetworkInterfaceIds", encoding: .list(member:"item"))
-        ]
-
         public struct _RegisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IP address assigned to the transit gateway multicast group.
         public let groupIpAddress: String?
         /// The ID of the registered network interfaces.
@@ -32649,11 +30932,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayMulticastRegisteredGroupSources: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registeredNetworkInterfaceIds", encoding: .list(member:"item"))
-        ]
-
         public struct _RegisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IP address assigned to the transit gateway multicast group.
         public let groupIpAddress: String?
         /// The IDs of the network interfaces members registered with the transit gateway multicast group.
@@ -32721,11 +31001,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayPeeringAttachment: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the accepter transit gateway.
         public let accepterTgwInfo: PeeringTgwInfo?
         /// The time the transit gateway peering attachment was created.
@@ -32831,11 +31108,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayRoute: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "transitGatewayAttachments", encoding: .list(member:"item"))
-        ]
-
         public struct _TransitGatewayAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
         /// The state of the route.
@@ -32883,11 +31157,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayRouteTable: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The creation time.
         public let creationTime: TimeStamp?
         /// Indicates whether this is the default association route table for the transit gateway.
@@ -32977,13 +31248,9 @@ extension EC2 {
     }
 
     public struct TransitGatewayVpcAttachment: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetIds", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The creation time.
         public let creationTime: TimeStamp?
         /// The VPC attachment options.
@@ -33047,16 +31314,6 @@ extension EC2 {
     }
 
     public struct TunnelOption: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ikeVersions", location: .body(locationName: "ikeVersionSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1DHGroupNumbers", location: .body(locationName: "phase1DHGroupNumberSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1EncryptionAlgorithms", location: .body(locationName: "phase1EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1IntegrityAlgorithms", location: .body(locationName: "phase1IntegrityAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2DHGroupNumbers", location: .body(locationName: "phase2DHGroupNumberSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2EncryptionAlgorithms", location: .body(locationName: "phase2EncryptionAlgorithmSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2IntegrityAlgorithms", location: .body(locationName: "phase2IntegrityAlgorithmSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _IkeVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -33064,6 +31321,7 @@ extension EC2 {
         public struct _Phase2DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The number of seconds after which a DPD timeout occurs.
         public let dpdTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel.
@@ -33137,11 +31395,8 @@ extension EC2 {
     }
 
     public struct UnassignIpv6AddressesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipv6Addresses", encoding: .list(member:"item"))
-        ]
-
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IPv6 addresses to unassign from the network interface.
         @Coding<ArrayCoder<_Ipv6AddressesEncoding, String>> public var ipv6Addresses: [String]
         /// The ID of the network interface.
@@ -33159,11 +31414,8 @@ extension EC2 {
     }
 
     public struct UnassignIpv6AddressesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "unassignedIpv6Addresses", encoding: .list(member:"item"))
-        ]
-
         public struct _UnassignedIpv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The ID of the network interface.
         public let networkInterfaceId: String?
         /// The IPv6 addresses that have been unassigned from the network interface.
@@ -33181,11 +31433,8 @@ extension EC2 {
     }
 
     public struct UnassignPrivateIpAddressesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "privateIpAddresses", location: .body(locationName: "privateIpAddress"), encoding: .list(member:"PrivateIpAddress"))
-        ]
-
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "PrivateIpAddress" }
+
         /// The ID of the network interface.
         public let networkInterfaceId: String
         /// The secondary private IP addresses to unassign from the network interface. You can specify this option multiple times to unassign more than one IP address.
@@ -33203,11 +31452,8 @@ extension EC2 {
     }
 
     public struct UnmonitorInstancesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceId"), encoding: .list(member:"InstanceId"))
-        ]
-
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
@@ -33225,11 +31471,8 @@ extension EC2 {
     }
 
     public struct UnmonitorInstancesResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceMonitorings", location: .body(locationName: "instancesSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _InstanceMonitoringsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The monitoring information.
         @OptionalCoding<ArrayCoder<_InstanceMonitoringsEncoding, InstanceMonitoring>> public var instanceMonitorings: [InstanceMonitoring]?
 
@@ -33315,11 +31558,8 @@ extension EC2 {
     }
 
     public struct UpdateSecurityGroupRuleDescriptionsEgressRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the security group. You must specify either the security group ID or the security group name in the request. For security groups in a nondefault VPC, you must specify the security group ID.
@@ -33359,11 +31599,8 @@ extension EC2 {
     }
 
     public struct UpdateSecurityGroupRuleDescriptionsIngressRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ipPermissions", location: .body(locationName: "IpPermissions"), encoding: .list(member:"item"))
-        ]
-
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the security group. You must specify either the security group ID or the security group name in the request. For security groups in a nondefault VPC, you must specify the security group ID.
@@ -33491,13 +31728,9 @@ extension EC2 {
     }
 
     public struct VCpuInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "validCores", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "validThreadsPerCore", encoding: .list(member:"item"))
-        ]
-
         public struct _ValidCoresEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ValidThreadsPerCoreEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The default number of cores for the instance type.
         public let defaultCores: Int?
         /// The default number of threads per core for the instance type.
@@ -33561,14 +31794,9 @@ extension EC2 {
     }
 
     public struct Volume: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attachments", location: .body(locationName: "attachmentSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "state", location: .body(locationName: "status")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _AttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the volume attachments.
         @OptionalCoding<ArrayCoder<_AttachmentsEncoding, VolumeAttachment>> public var attachments: [VolumeAttachment]?
         /// The Availability Zone for the volume.
@@ -33634,9 +31862,6 @@ extension EC2 {
     }
 
     public struct VolumeAttachment: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "state", location: .body(locationName: "status"))
-        ]
 
         /// The time stamp when the attachment initiated.
         public let attachTime: TimeStamp?
@@ -33817,11 +32042,8 @@ extension EC2 {
     }
 
     public struct VolumeStatusInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "details", encoding: .list(member:"item"))
-        ]
-
         public struct _DetailsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The details of the volume status.
         @OptionalCoding<ArrayCoder<_DetailsEncoding, VolumeStatusDetails>> public var details: [VolumeStatusDetails]?
         /// The status of the volume.
@@ -33839,13 +32061,9 @@ extension EC2 {
     }
 
     public struct VolumeStatusItem: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actions", location: .body(locationName: "actionsSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "events", location: .body(locationName: "eventsSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _ActionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The details of the operation.
         @OptionalCoding<ArrayCoder<_ActionsEncoding, VolumeStatusAction>> public var actions: [VolumeStatusAction]?
         /// The Availability Zone of the volume.
@@ -33879,15 +32097,10 @@ extension EC2 {
     }
 
     public struct Vpc: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cidrBlockAssociationSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipv6CidrBlockAssociationSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _CidrBlockAssociationSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6CidrBlockAssociationSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The primary IPv4 CIDR block for the VPC.
         public let cidrBlock: String?
         /// Information about the IPv4 CIDR blocks associated with the VPC.
@@ -33995,11 +32208,8 @@ extension EC2 {
     }
 
     public struct VpcClassicLink: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether the VPC is enabled for ClassicLink.
         public let classicLinkEnabled: Bool?
         /// Any tags assigned to the VPC.
@@ -34021,21 +32231,13 @@ extension EC2 {
     }
 
     public struct VpcEndpoint: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "groups", location: .body(locationName: "groupSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkInterfaceIds", location: .body(locationName: "networkInterfaceIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "routeTableIds", location: .body(locationName: "routeTableIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "subnetIdSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _DnsEntriesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The date and time that the VPC endpoint was created.
         public let creationTimestamp: TimeStamp?
         /// (Interface endpoint) The DNS entries for the endpoint.
@@ -34113,13 +32315,9 @@ extension EC2 {
     }
 
     public struct VpcEndpointConnection: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dnsEntries", location: .body(locationName: "dnsEntrySet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "networkLoadBalancerArns", location: .body(locationName: "networkLoadBalancerArnSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _DnsEntriesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The date and time that the VPC endpoint was created.
         public let creationTimestamp: TimeStamp?
         /// The DNS entries for the VPC endpoint.
@@ -34187,11 +32385,8 @@ extension EC2 {
     }
 
     public struct VpcPeeringConnection: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Information about the accepter VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public let accepterVpcInfo: VpcPeeringConnectionVpcInfo?
         /// The time that an unaccepted VPC peering connection will expire.
@@ -34265,13 +32460,9 @@ extension EC2 {
     }
 
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cidrBlockSet", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "ipv6CidrBlockSet", encoding: .list(member:"item"))
-        ]
-
         public struct _CidrBlockSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6CidrBlockSetEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The IPv4 CIDR block for the VPC.
         public let cidrBlock: String?
         /// Information about the IPv4 CIDR blocks for the VPC.
@@ -34309,15 +32500,10 @@ extension EC2 {
     }
 
     public struct VpnConnection: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routes", encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "vgwTelemetry", encoding: .list(member:"item"))
-        ]
-
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _VgwTelemetryEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The category of the VPN connection. A value of VPN indicates an AWS VPN connection. A value of VPN-Classic indicates an AWS Classic VPN connection.
         public let category: String?
         /// The configuration information for the VPN connection's customer gateway (in the native XML format). This element is always present in the CreateVpnConnection response; however, it's present in the DescribeVpnConnections response only if the VPN connection is in the pending or available state.
@@ -34375,11 +32561,8 @@ extension EC2 {
     }
 
     public struct VpnConnectionOptions: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tunnelOptions", location: .body(locationName: "tunnelOptionSet"), encoding: .list(member:"item"))
-        ]
-
         public struct _TunnelOptionsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// Indicates whether acceleration is enabled for the VPN connection.
         public let enableAcceleration: Bool?
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
@@ -34401,9 +32584,6 @@ extension EC2 {
     }
 
     public struct VpnConnectionOptionsSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tunnelOptions", location: .body(locationName: "TunnelOptions"), encoding: .list(member:"member"))
-        ]
 
         /// Indicate whether to enable acceleration for the VPN connection. Default: false 
         public let enableAcceleration: Bool?
@@ -34426,13 +32606,9 @@ extension EC2 {
     }
 
     public struct VpnGateway: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "tagSet"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "vpcAttachments", location: .body(locationName: "attachments"), encoding: .list(member:"item"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _VpcAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The private Autonomous System Number (ASN) for the Amazon side of a BGP session.
         public let amazonSideAsn: Int64?
         /// The Availability Zone where the virtual private gateway was created, if applicable. This field may be empty or not returned.
@@ -34492,16 +32668,6 @@ extension EC2 {
     }
 
     public struct VpnTunnelOptionsSpecification: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "iKEVersions", location: .body(locationName: "IKEVersion"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1DHGroupNumbers", location: .body(locationName: "Phase1DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1EncryptionAlgorithms", location: .body(locationName: "Phase1EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase1IntegrityAlgorithms", location: .body(locationName: "Phase1IntegrityAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2DHGroupNumbers", location: .body(locationName: "Phase2DHGroupNumber"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2EncryptionAlgorithms", location: .body(locationName: "Phase2EncryptionAlgorithm"), encoding: .list(member:"item")), 
-            AWSMemberEncoding(label: "phase2IntegrityAlgorithms", location: .body(locationName: "Phase2IntegrityAlgorithm"), encoding: .list(member:"item"))
-        ]
-
         public struct _IKEVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -34509,6 +32675,7 @@ extension EC2 {
         public struct _Phase2DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase2IntegrityAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
+
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value between 0 and 30. Default: 30 
         public let dPDTimeoutSeconds: Int?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2 

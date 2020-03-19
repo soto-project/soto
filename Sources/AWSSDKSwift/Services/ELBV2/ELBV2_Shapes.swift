@@ -156,9 +156,6 @@ extension ELBV2 {
     }
 
     public struct AddListenerCertificatesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
-        ]
 
         /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
         @Coding<DefaultArrayCoder> public var certificates: [Certificate]
@@ -177,9 +174,6 @@ extension ELBV2 {
     }
 
     public struct AddListenerCertificatesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the certificates in the certificate list.
         @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
@@ -194,10 +188,6 @@ extension ELBV2 {
     }
 
     public struct AddTagsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         @Coding<DefaultArrayCoder> public var resourceArns: [String]
@@ -231,9 +221,6 @@ extension ELBV2 {
     }
 
     public struct AuthenticateCognitoActionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationRequestExtraParams", location: .body(locationName: "AuthenticationRequestExtraParams"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
         @OptionalCoding<DefaultDictionaryCoder> public var authenticationRequestExtraParams: [String: String]?
@@ -276,9 +263,6 @@ extension ELBV2 {
     }
 
     public struct AuthenticateOidcActionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationRequestExtraParams", location: .body(locationName: "AuthenticationRequestExtraParams"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
         @OptionalCoding<DefaultDictionaryCoder> public var authenticationRequestExtraParams: [String: String]?
@@ -337,9 +321,6 @@ extension ELBV2 {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancerAddresses", location: .body(locationName: "LoadBalancerAddresses"), encoding: .list(member:"member"))
-        ]
 
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
         @OptionalCoding<DefaultArrayCoder> public var loadBalancerAddresses: [LoadBalancerAddress]?
@@ -398,10 +379,6 @@ extension ELBV2 {
     }
 
     public struct CreateListenerInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
-        ]
 
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
         @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
@@ -444,9 +421,6 @@ extension ELBV2 {
     }
 
     public struct CreateListenerOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the listener.
         @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
@@ -461,12 +435,6 @@ extension ELBV2 {
     }
 
     public struct CreateLoadBalancerInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "subnetMappings", location: .body(locationName: "SubnetMappings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
         public let ipAddressType: IpAddressType?
@@ -516,9 +484,6 @@ extension ELBV2 {
     }
 
     public struct CreateLoadBalancerOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var loadBalancers: [LoadBalancer]?
@@ -533,10 +498,6 @@ extension ELBV2 {
     }
 
     public struct CreateRuleInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
-        ]
 
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         @Coding<DefaultArrayCoder> public var actions: [Action]
@@ -574,9 +535,6 @@ extension ELBV2 {
     }
 
     public struct CreateRuleOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the rule.
         @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
@@ -672,9 +630,6 @@ extension ELBV2 {
     }
 
     public struct CreateTargetGroupOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the target group.
         @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroup]?
@@ -777,9 +732,6 @@ extension ELBV2 {
     }
 
     public struct DeregisterTargetsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -835,9 +787,6 @@ extension ELBV2 {
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limits", location: .body(locationName: "Limits"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the limits.
         @OptionalCoding<DefaultArrayCoder> public var limits: [Limit]?
@@ -883,9 +832,6 @@ extension ELBV2 {
     }
 
     public struct DescribeListenerCertificatesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the certificates.
         @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
@@ -904,9 +850,6 @@ extension ELBV2 {
     }
 
     public struct DescribeListenersInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listenerArns", location: .body(locationName: "ListenerArns"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Names (ARN) of the listeners.
         @OptionalCoding<DefaultArrayCoder> public var listenerArns: [String]?
@@ -938,9 +881,6 @@ extension ELBV2 {
     }
 
     public struct DescribeListenersOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the listeners.
         @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
@@ -973,9 +913,6 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the load balancer attributes.
         @OptionalCoding<DefaultArrayCoder> public var attributes: [LoadBalancerAttribute]?
@@ -990,10 +927,6 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancersInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancerArns", location: .body(locationName: "LoadBalancerArns"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
         @OptionalCoding<DefaultArrayCoder> public var loadBalancerArns: [String]?
@@ -1025,9 +958,6 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancersOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the load balancers.
         @OptionalCoding<DefaultArrayCoder> public var loadBalancers: [LoadBalancer]?
@@ -1046,9 +976,6 @@ extension ELBV2 {
     }
 
     public struct DescribeRulesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleArns", location: .body(locationName: "RuleArns"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
@@ -1080,9 +1007,6 @@ extension ELBV2 {
     }
 
     public struct DescribeRulesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
-        ]
 
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -1101,9 +1025,6 @@ extension ELBV2 {
     }
 
     public struct DescribeSSLPoliciesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member"))
-        ]
 
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -1131,9 +1052,6 @@ extension ELBV2 {
     }
 
     public struct DescribeSSLPoliciesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sslPolicies", location: .body(locationName: "SslPolicies"), encoding: .list(member:"member"))
-        ]
 
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -1152,9 +1070,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTagsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Names (ARN) of the resources.
         @Coding<DefaultArrayCoder> public var resourceArns: [String]
@@ -1169,9 +1084,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTagsOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagDescriptions", location: .body(locationName: "TagDescriptions"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the tags.
         @OptionalCoding<DefaultArrayCoder> public var tagDescriptions: [TagDescription]?
@@ -1200,9 +1112,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the target group attributes
         @OptionalCoding<DefaultArrayCoder> public var attributes: [TargetGroupAttribute]?
@@ -1217,10 +1126,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "targetGroupArns", location: .body(locationName: "TargetGroupArns"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -1256,9 +1161,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupsOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
-        ]
 
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -1277,9 +1179,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetHealthInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1304,9 +1203,6 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetHealthOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetHealthDescriptions", location: .body(locationName: "TargetHealthDescriptions"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the health of the targets.
         @OptionalCoding<DefaultArrayCoder> public var targetHealthDescriptions: [TargetHealthDescription]?
@@ -1351,9 +1247,6 @@ extension ELBV2 {
     }
 
     public struct ForwardActionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
-        ]
 
         /// One or more target groups. For Network Load Balancers, you can specify a single target group.
         @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroupTuple]?
@@ -1372,9 +1265,6 @@ extension ELBV2 {
     }
 
     public struct HostHeaderConditionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// One or more host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         @OptionalCoding<DefaultArrayCoder> public var values: [String]?
@@ -1389,9 +1279,6 @@ extension ELBV2 {
     }
 
     public struct HttpHeaderConditionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use HostHeaderConditionConfig to specify a host header condition.
         public let httpHeaderName: String?
@@ -1410,9 +1297,6 @@ extension ELBV2 {
     }
 
     public struct HttpRequestMethodConditionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
         @OptionalCoding<DefaultArrayCoder> public var values: [String]?
@@ -1445,10 +1329,6 @@ extension ELBV2 {
     }
 
     public struct Listener: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
-        ]
 
         /// [HTTPS or TLS listener] The default certificate for the listener.
         @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
@@ -1487,10 +1367,6 @@ extension ELBV2 {
     }
 
     public struct LoadBalancer: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
-        ]
 
         /// The Availability Zones for the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [AvailabilityZone]?
@@ -1627,10 +1503,6 @@ extension ELBV2 {
     }
 
     public struct ModifyListenerInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
-        ]
 
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
         @OptionalCoding<DefaultArrayCoder> public var certificates: [Certificate]?
@@ -1673,9 +1545,6 @@ extension ELBV2 {
     }
 
     public struct ModifyListenerOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the modified listener.
         @OptionalCoding<DefaultArrayCoder> public var listeners: [Listener]?
@@ -1690,9 +1559,6 @@ extension ELBV2 {
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
-        ]
 
         /// The load balancer attributes.
         @Coding<DefaultArrayCoder> public var attributes: [LoadBalancerAttribute]
@@ -1718,9 +1584,6 @@ extension ELBV2 {
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the load balancer attributes.
         @OptionalCoding<DefaultArrayCoder> public var attributes: [LoadBalancerAttribute]?
@@ -1735,10 +1598,6 @@ extension ELBV2 {
     }
 
     public struct ModifyRuleInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
-        ]
 
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         @OptionalCoding<DefaultArrayCoder> public var actions: [Action]?
@@ -1770,9 +1629,6 @@ extension ELBV2 {
     }
 
     public struct ModifyRuleOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the modified rule.
         @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
@@ -1787,9 +1643,6 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupAttributesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
-        ]
 
         /// The attributes.
         @Coding<DefaultArrayCoder> public var attributes: [TargetGroupAttribute]
@@ -1814,9 +1667,6 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the attributes.
         @OptionalCoding<DefaultArrayCoder> public var attributes: [TargetGroupAttribute]?
@@ -1894,9 +1744,6 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the modified target group.
         @OptionalCoding<DefaultArrayCoder> public var targetGroups: [TargetGroup]?
@@ -1911,9 +1758,6 @@ extension ELBV2 {
     }
 
     public struct PathPatternConditionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// One or more path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use QueryStringConditionConfig.
         @OptionalCoding<DefaultArrayCoder> public var values: [String]?
@@ -1928,9 +1772,6 @@ extension ELBV2 {
     }
 
     public struct QueryStringConditionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// One or more key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         @OptionalCoding<DefaultArrayCoder> public var values: [QueryStringKeyValuePair]?
@@ -2007,9 +1848,6 @@ extension ELBV2 {
     }
 
     public struct RegisterTargetsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -2042,9 +1880,6 @@ extension ELBV2 {
     }
 
     public struct RemoveListenerCertificatesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
-        ]
 
         /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
         @Coding<DefaultArrayCoder> public var certificates: [Certificate]
@@ -2071,10 +1906,6 @@ extension ELBV2 {
     }
 
     public struct RemoveTagsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         @Coding<DefaultArrayCoder> public var resourceArns: [String]
@@ -2109,10 +1940,6 @@ extension ELBV2 {
     }
 
     public struct Rule: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
-        ]
 
         /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
         @OptionalCoding<DefaultArrayCoder> public var actions: [Action]?
@@ -2143,9 +1970,6 @@ extension ELBV2 {
     }
 
     public struct RuleCondition: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// The field in the HTTP request. The following are the possible values:    http-header     http-request-method     host-header     path-pattern     query-string     source-ip   
         public let field: String?
@@ -2247,9 +2071,6 @@ extension ELBV2 {
     }
 
     public struct SetRulePrioritiesInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rulePriorities", location: .body(locationName: "RulePriorities"), encoding: .list(member:"member"))
-        ]
 
         /// The rule priorities.
         @Coding<DefaultArrayCoder> public var rulePriorities: [RulePriorityPair]
@@ -2270,9 +2091,6 @@ extension ELBV2 {
     }
 
     public struct SetRulePrioritiesOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the rules.
         @OptionalCoding<DefaultArrayCoder> public var rules: [Rule]?
@@ -2287,9 +2105,6 @@ extension ELBV2 {
     }
 
     public struct SetSecurityGroupsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2308,9 +2123,6 @@ extension ELBV2 {
     }
 
     public struct SetSecurityGroupsOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupIds"), encoding: .list(member:"member"))
-        ]
 
         /// The IDs of the security groups associated with the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var securityGroupIds: [String]?
@@ -2325,10 +2137,6 @@ extension ELBV2 {
     }
 
     public struct SetSubnetsInput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "subnetMappings", location: .body(locationName: "SubnetMappings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -2351,9 +2159,6 @@ extension ELBV2 {
     }
 
     public struct SetSubnetsOutput: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
-        ]
 
         /// Information about the subnet and Availability Zone.
         @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [AvailabilityZone]?
@@ -2368,9 +2173,6 @@ extension ELBV2 {
     }
 
     public struct SourceIpConditionConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// One or more source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use HttpHeaderConditionConfig.
         @OptionalCoding<DefaultArrayCoder> public var values: [String]?
@@ -2385,10 +2187,6 @@ extension ELBV2 {
     }
 
     public struct SslPolicy: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ciphers", location: .body(locationName: "Ciphers"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "sslProtocols", location: .body(locationName: "SslProtocols"), encoding: .list(member:"member"))
-        ]
 
         /// The ciphers.
         @OptionalCoding<DefaultArrayCoder> public var ciphers: [Cipher]?
@@ -2460,9 +2258,6 @@ extension ELBV2 {
     }
 
     public struct TagDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -2508,9 +2303,6 @@ extension ELBV2 {
     }
 
     public struct TargetGroup: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadBalancerArns", location: .body(locationName: "LoadBalancerArns"), encoding: .list(member:"member"))
-        ]
 
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?

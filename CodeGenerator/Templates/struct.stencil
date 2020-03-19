@@ -14,7 +14,6 @@
             AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
 {%endfor %}
         ]
-
 {%endif %}
 {%for encoding in struct.encoding %}
 {# Is encoding a dictionary #}

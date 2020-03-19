@@ -227,9 +227,6 @@ extension CloudSearch {
     }
 
     public struct BuildSuggestersResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
 
@@ -691,9 +688,6 @@ extension CloudSearch {
     }
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisSchemeNames", location: .body(locationName: "AnalysisSchemeNames"), encoding: .list(member:"member"))
-        ]
 
         /// The analysis schemes you want to describe.
         @OptionalCoding<DefaultArrayCoder> public var analysisSchemeNames: [String]?
@@ -727,9 +721,6 @@ extension CloudSearch {
     }
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analysisSchemes", location: .body(locationName: "AnalysisSchemes"), encoding: .list(member:"member"))
-        ]
 
         /// The analysis scheme descriptions.
         @Coding<DefaultArrayCoder> public var analysisSchemes: [AnalysisSchemeStatus]
@@ -820,9 +811,6 @@ extension CloudSearch {
     }
 
     public struct DescribeDomainsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainNames"), encoding: .list(member:"member"))
-        ]
 
         /// The names of the domains you want to include in the response.
         @OptionalCoding<DefaultArrayCoder> public var domainNames: [String]?
@@ -845,9 +833,6 @@ extension CloudSearch {
     }
 
     public struct DescribeDomainsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainStatusList", location: .body(locationName: "DomainStatusList"), encoding: .list(member:"member"))
-        ]
 
         @Coding<DefaultArrayCoder> public var domainStatusList: [DomainStatus]
 
@@ -861,9 +846,6 @@ extension CloudSearch {
     }
 
     public struct DescribeExpressionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expressionNames", location: .body(locationName: "ExpressionNames"), encoding: .list(member:"member"))
-        ]
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -897,9 +879,6 @@ extension CloudSearch {
     }
 
     public struct DescribeExpressionsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expressions", location: .body(locationName: "Expressions"), encoding: .list(member:"member"))
-        ]
 
         /// The expressions configured for the domain.
         @Coding<DefaultArrayCoder> public var expressions: [ExpressionStatus]
@@ -914,9 +893,6 @@ extension CloudSearch {
     }
 
     public struct DescribeIndexFieldsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
-        ]
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -950,9 +926,6 @@ extension CloudSearch {
     }
 
     public struct DescribeIndexFieldsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexFields", location: .body(locationName: "IndexFields"), encoding: .list(member:"member"))
-        ]
 
         /// The index fields configured for the domain.
         @Coding<DefaultArrayCoder> public var indexFields: [IndexFieldStatus]
@@ -1037,9 +1010,6 @@ extension CloudSearch {
     }
 
     public struct DescribeSuggestersRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suggesterNames", location: .body(locationName: "SuggesterNames"), encoding: .list(member:"member"))
-        ]
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1073,9 +1043,6 @@ extension CloudSearch {
     }
 
     public struct DescribeSuggestersResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "suggesters", location: .body(locationName: "Suggesters"), encoding: .list(member:"member"))
-        ]
 
         /// The suggesters configured for the domain specified in the request.
         @Coding<DefaultArrayCoder> public var suggesters: [SuggesterStatus]
@@ -1346,9 +1313,6 @@ extension CloudSearch {
     }
 
     public struct IndexDocumentsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldNames", location: .body(locationName: "FieldNames"), encoding: .list(member:"member"))
-        ]
 
         /// The names of the fields that are currently being indexed.
         @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
@@ -1577,9 +1541,6 @@ extension CloudSearch {
     }
 
     public struct ListDomainNamesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainNames", location: .body(locationName: "DomainNames"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// The names of the search domains owned by an account.
         @OptionalCoding<DefaultDictionaryCoder> public var domainNames: [String: String]?

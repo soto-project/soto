@@ -589,9 +589,6 @@ extension S3Control {
     }
 
     public struct JobDescriptor: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "failureReasons", location: .body(locationName: "FailureReasons"), encoding: .list(member:"member"))
-        ]
 
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public let confirmationRequired: Bool?
@@ -782,9 +779,6 @@ extension S3Control {
     }
 
     public struct JobManifestSpec: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fields", location: .body(locationName: "Fields"), encoding: .list(member:"member"))
-        ]
 
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
         @OptionalCoding<DefaultArrayCoder> public var fields: [JobManifestFieldName]?
@@ -958,11 +952,8 @@ extension S3Control {
     }
 
     public struct ListAccessPointsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointList", location: .body(locationName: "AccessPointList"), encoding: .list(member:"AccessPoint"))
-        ]
-
         public struct _AccessPointListEncoding: ArrayCoderProperties { static public let member = "AccessPoint" }
+
         /// Contains identification and configuration information for one or more access points associated with the specified bucket.
         @OptionalCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>> public var accessPointList: [AccessPoint]?
         /// If the specified bucket has more access points than can be returned in one call to this API, then this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
@@ -982,7 +973,7 @@ extension S3Control {
     public struct ListJobsRequest: AWSShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")), 
-            AWSMemberEncoding(label: "jobStatuses", location: .querystring(locationName: "jobStatuses"), encoding: .list(member:"member")), 
+            AWSMemberEncoding(label: "jobStatuses", location: .querystring(locationName: "jobStatuses")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
@@ -1019,9 +1010,6 @@ extension S3Control {
     }
 
     public struct ListJobsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobs", location: .body(locationName: "Jobs"), encoding: .list(member:"member"))
-        ]
 
         /// The list of current jobs and jobs that have ended within the last 30 days.
         @OptionalCoding<DefaultArrayCoder> public var jobs: [JobListDescriptor]?
@@ -1040,9 +1028,6 @@ extension S3Control {
     }
 
     public struct PolicyStatus: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "isPublic", location: .body(locationName: "IsPublic"))
-        ]
 
         public let isPublic: Bool?
 
@@ -1057,12 +1042,6 @@ extension S3Control {
 
     public struct PublicAccessBlockConfiguration: AWSShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
-            AWSMemberEncoding(label: "blockPublicPolicy", location: .body(locationName: "BlockPublicPolicy")), 
-            AWSMemberEncoding(label: "ignorePublicAcls", location: .body(locationName: "IgnorePublicAcls")), 
-            AWSMemberEncoding(label: "restrictPublicBuckets", location: .body(locationName: "RestrictPublicBuckets"))
-        ]
 
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:   PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.   PUT Object calls fail if the request includes a public ACL.   PUT Bucket calls fail if the request includes a public ACL.   Enabling this setting doesn't affect existing policies or ACLs.
         public let blockPublicAcls: Bool?
@@ -1150,9 +1129,6 @@ extension S3Control {
     }
 
     public struct S3AccessControlList: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "grants", location: .body(locationName: "Grants"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
@@ -1196,10 +1172,6 @@ extension S3Control {
     }
 
     public struct S3CopyObjectOperation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlGrants", location: .body(locationName: "AccessControlGrants"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "newObjectTagging", location: .body(locationName: "NewObjectTagging"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var accessControlGrants: [S3Grant]?
         public let cannedAccessControlList: S3CannedAccessControlList?
@@ -1342,9 +1314,6 @@ extension S3Control {
     }
 
     public struct S3ObjectMetadata: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userMetadata", location: .body(locationName: "UserMetadata"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         public let cacheControl: String?
         public let contentDisposition: String?
@@ -1449,9 +1418,6 @@ extension S3Control {
     }
 
     public struct S3SetObjectTaggingOperation: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"member"))
-        ]
 
         @OptionalCoding<DefaultArrayCoder> public var tagSet: [S3Tag]?
 

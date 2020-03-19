@@ -467,21 +467,30 @@ extension AWSService {
     
     /// Generate the context information for outputting a member variable
     func generateAWSShapeMemberContext(_ member: Member, shape: Shape, forceOutput: Bool) -> AWSShapeMemberContext? {
+        let encoding: String?
         var location = member.location
         
-        // if name has been force to output then add a Location.body
-        /*if (forceOutput && location == nil {
-            location = .body(locationName: member.name)
-        }*/
-        // remove location if equal to body and name is same as variable name
-        if case .body(let name) = location, name == member.name.toSwiftLabelCase() {
-            location = nil
+        if case .blob = member.shapeEncoding {
+            encoding = ".blob"
+        } else {
+            encoding = nil
         }
-        guard location != nil else { return nil }
+        
+        // if name has been force to output then add a Location.body
+        if forceOutput && location == nil {
+            location = .body(locationName: member.name)
+        }
+        // remove location if equal to body and name is same as variable name
+        if case .body(let name) = location {
+            if name == member.name.toSwiftLabelCase() || forceOutput == false {
+                location = nil
+            }
+        }
+        guard location != nil || encoding != nil else { return nil }
         return AWSShapeMemberContext(
             name: member.name.toSwiftLabelCase(),
             location: location?.enumStyleDescription(),
-            encoding: nil
+            encoding: encoding
         )
     }
 

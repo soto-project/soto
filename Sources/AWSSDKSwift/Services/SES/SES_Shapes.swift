@@ -230,9 +230,6 @@ extension SES {
     }
 
     public struct BulkEmailDestination: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "replacementTags", location: .body(locationName: "ReplacementTags"), encoding: .list(member:"member"))
-        ]
 
         public let destination: Destination
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendBulkTemplatedEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
@@ -306,9 +303,6 @@ extension SES {
     }
 
     public struct CloudWatchDestination: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dimensionConfigurations", location: .body(locationName: "DimensionConfigurations"), encoding: .list(member:"member"))
-        ]
 
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
         @Coding<DefaultArrayCoder> public var dimensionConfigurations: [CloudWatchDimensionConfiguration]
@@ -875,9 +869,6 @@ extension SES {
     }
 
     public struct DescribeActiveReceiptRuleSetResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
-        ]
 
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
@@ -896,9 +887,6 @@ extension SES {
     }
 
     public struct DescribeConfigurationSetRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetAttributeNames", location: .body(locationName: "ConfigurationSetAttributeNames"), encoding: .list(member:"member"))
-        ]
 
         /// A list of configuration set attributes to return.
         @OptionalCoding<DefaultArrayCoder> public var configurationSetAttributeNames: [ConfigurationSetAttribute]?
@@ -917,9 +905,6 @@ extension SES {
     }
 
     public struct DescribeConfigurationSetResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventDestinations", location: .body(locationName: "EventDestinations"), encoding: .list(member:"member"))
-        ]
 
         /// The configuration set object associated with the specified configuration set.
         public let configurationSet: ConfigurationSet?
@@ -995,9 +980,6 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleSetResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
-        ]
 
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
@@ -1016,11 +998,6 @@ extension SES {
     }
 
     public struct Destination: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bccAddresses", location: .body(locationName: "BccAddresses"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "ccAddresses", location: .body(locationName: "CcAddresses"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "toAddresses", location: .body(locationName: "ToAddresses"), encoding: .list(member:"member"))
-        ]
 
         /// The recipients to place on the BCC: line of the message.
         @OptionalCoding<DefaultArrayCoder> public var bccAddresses: [String]?
@@ -1043,9 +1020,6 @@ extension SES {
     }
 
     public struct EventDestination: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "matchingEventTypes", location: .body(locationName: "MatchingEventTypes"), encoding: .list(member:"member"))
-        ]
 
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public let cloudWatchDestination: CloudWatchDestination?
@@ -1160,9 +1134,6 @@ extension SES {
     }
 
     public struct GetIdentityDkimAttributesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
-        ]
 
         /// A list of one or more verified identities - email addresses, domains, or both.
         @Coding<DefaultArrayCoder> public var identities: [String]
@@ -1177,9 +1148,6 @@ extension SES {
     }
 
     public struct GetIdentityDkimAttributesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dkimAttributes", location: .body(locationName: "DkimAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// The DKIM attributes for an email address or a domain.
         @Coding<DefaultDictionaryCoder> public var dkimAttributes: [String: IdentityDkimAttributes]
@@ -1194,9 +1162,6 @@ extension SES {
     }
 
     public struct GetIdentityMailFromDomainAttributesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
-        ]
 
         /// A list of one or more identities.
         @Coding<DefaultArrayCoder> public var identities: [String]
@@ -1211,9 +1176,6 @@ extension SES {
     }
 
     public struct GetIdentityMailFromDomainAttributesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mailFromDomainAttributes", location: .body(locationName: "MailFromDomainAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of identities to custom MAIL FROM attributes.
         @Coding<DefaultDictionaryCoder> public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
@@ -1228,9 +1190,6 @@ extension SES {
     }
 
     public struct GetIdentityNotificationAttributesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
-        ]
 
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         @Coding<DefaultArrayCoder> public var identities: [String]
@@ -1245,9 +1204,6 @@ extension SES {
     }
 
     public struct GetIdentityNotificationAttributesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "notificationAttributes", location: .body(locationName: "NotificationAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of Identity to IdentityNotificationAttributes.
         @Coding<DefaultDictionaryCoder> public var notificationAttributes: [String: IdentityNotificationAttributes]
@@ -1262,9 +1218,6 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
-        ]
 
         /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
@@ -1290,9 +1243,6 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policies", location: .body(locationName: "Policies"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of policy names to policies.
         @Coding<DefaultDictionaryCoder> public var policies: [String: String]
@@ -1307,9 +1257,6 @@ extension SES {
     }
 
     public struct GetIdentityVerificationAttributesRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
-        ]
 
         /// A list of identities.
         @Coding<DefaultArrayCoder> public var identities: [String]
@@ -1324,9 +1271,6 @@ extension SES {
     }
 
     public struct GetIdentityVerificationAttributesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "verificationAttributes", location: .body(locationName: "VerificationAttributes"), encoding: .map(entry:"entry", key: "key", value: "value"))
-        ]
 
         /// A map of Identities to IdentityVerificationAttributes objects.
         @Coding<DefaultDictionaryCoder> public var verificationAttributes: [String: IdentityVerificationAttributes]
@@ -1363,9 +1307,6 @@ extension SES {
     }
 
     public struct GetSendStatisticsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sendDataPoints", location: .body(locationName: "SendDataPoints"), encoding: .list(member:"member"))
-        ]
 
         /// A list of data points, each of which represents 15 minutes of activity.
         @OptionalCoding<DefaultArrayCoder> public var sendDataPoints: [SendDataPoint]?
@@ -1407,9 +1348,6 @@ extension SES {
     }
 
     public struct IdentityDkimAttributes: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dkimTokens", location: .body(locationName: "DkimTokens"), encoding: .list(member:"member"))
-        ]
 
         /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
         public let dkimEnabled: Bool
@@ -1568,9 +1506,6 @@ extension SES {
     }
 
     public struct ListConfigurationSetsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSets", location: .body(locationName: "ConfigurationSets"), encoding: .list(member:"member"))
-        ]
 
         /// A list of configuration sets.
         @OptionalCoding<DefaultArrayCoder> public var configurationSets: [ConfigurationSet]?
@@ -1612,9 +1547,6 @@ extension SES {
     }
 
     public struct ListCustomVerificationEmailTemplatesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customVerificationEmailTemplates", location: .body(locationName: "CustomVerificationEmailTemplates"), encoding: .list(member:"member"))
-        ]
 
         /// A list of the custom verification email templates that exist in your account.
         @OptionalCoding<DefaultArrayCoder> public var customVerificationEmailTemplates: [CustomVerificationEmailTemplate]?
@@ -1655,9 +1587,6 @@ extension SES {
     }
 
     public struct ListIdentitiesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identities", location: .body(locationName: "Identities"), encoding: .list(member:"member"))
-        ]
 
         /// A list of identities.
         @Coding<DefaultArrayCoder> public var identities: [String]
@@ -1690,9 +1619,6 @@ extension SES {
     }
 
     public struct ListIdentityPoliciesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member"))
-        ]
 
         /// A list of names of policies that apply to the specified identity.
         @Coding<DefaultArrayCoder> public var policyNames: [String]
@@ -1715,9 +1641,6 @@ extension SES {
     }
 
     public struct ListReceiptFiltersResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"member"))
-        ]
 
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
         @OptionalCoding<DefaultArrayCoder> public var filters: [ReceiptFilter]?
@@ -1746,9 +1669,6 @@ extension SES {
     }
 
     public struct ListReceiptRuleSetsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleSets", location: .body(locationName: "RuleSets"), encoding: .list(member:"member"))
-        ]
 
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
         public let nextToken: String?
@@ -1785,9 +1705,6 @@ extension SES {
     }
 
     public struct ListTemplatesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templatesMetadata", location: .body(locationName: "TemplatesMetadata"), encoding: .list(member:"member"))
-        ]
 
         /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
         public let nextToken: String?
@@ -1806,9 +1723,6 @@ extension SES {
     }
 
     public struct ListVerifiedEmailAddressesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "verifiedEmailAddresses", location: .body(locationName: "VerifiedEmailAddresses"), encoding: .list(member:"member"))
-        ]
 
         /// A list of email addresses that have been verified.
         @OptionalCoding<DefaultArrayCoder> public var verifiedEmailAddresses: [String]?
@@ -1841,9 +1755,6 @@ extension SES {
     }
 
     public struct MessageDsn: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionFields", location: .body(locationName: "ExtensionFields"), encoding: .list(member:"member"))
-        ]
 
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
         public let arrivalDate: TimeStamp?
@@ -2034,10 +1945,6 @@ extension SES {
     }
 
     public struct ReceiptRule: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "recipients", location: .body(locationName: "Recipients"), encoding: .list(member:"member"))
-        ]
 
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
         @OptionalCoding<DefaultArrayCoder> public var actions: [ReceiptAction]?
@@ -2090,9 +1997,6 @@ extension SES {
     }
 
     public struct RecipientDsnFields: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionFields", location: .body(locationName: "ExtensionFields"), encoding: .list(member:"member"))
-        ]
 
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464.
         public let action: DsnAction
@@ -2131,9 +2035,6 @@ extension SES {
     }
 
     public struct ReorderReceiptRuleSetRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
-        ]
 
         /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
         @Coding<DefaultArrayCoder> public var ruleNames: [String]
@@ -2240,9 +2141,6 @@ extension SES {
     }
 
     public struct SendBounceRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bouncedRecipientInfoList", location: .body(locationName: "BouncedRecipientInfoList"), encoding: .list(member:"member"))
-        ]
 
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
         @Coding<DefaultArrayCoder> public var bouncedRecipientInfoList: [BouncedRecipientInfo]
@@ -2291,11 +2189,6 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "defaultTags", location: .body(locationName: "DefaultTags"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "destinations", location: .body(locationName: "Destinations"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "replyToAddresses", location: .body(locationName: "ReplyToAddresses"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the configuration set to use when you send an email using SendBulkTemplatedEmail.
         public let configurationSetName: String?
@@ -2357,9 +2250,6 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .body(locationName: "Status"), encoding: .list(member:"member"))
-        ]
 
         /// The unique message identifier returned from the SendBulkTemplatedEmail action.
         @Coding<DefaultArrayCoder> public var status: [BulkEmailDestinationStatus]
@@ -2440,10 +2330,6 @@ extension SES {
     }
 
     public struct SendEmailRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "replyToAddresses", location: .body(locationName: "ReplyToAddresses"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the configuration set to use when you send an email using SendEmail.
         public let configurationSetName: String?
@@ -2504,10 +2390,6 @@ extension SES {
     }
 
     public struct SendRawEmailRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinations", location: .body(locationName: "Destinations"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the configuration set to use when you send an email using SendRawEmail.
         public let configurationSetName: String?
@@ -2564,10 +2446,6 @@ extension SES {
     }
 
     public struct SendTemplatedEmailRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "replyToAddresses", location: .body(locationName: "ReplyToAddresses"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the configuration set to use when you send an email using SendTemplatedEmail.
         public let configurationSetName: String?
@@ -3142,9 +3020,6 @@ extension SES {
     }
 
     public struct VerifyDomainDkimResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dkimTokens", location: .body(locationName: "DkimTokens"), encoding: .list(member:"member"))
-        ]
 
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
         @Coding<DefaultArrayCoder> public var dkimTokens: [String]

@@ -334,11 +334,8 @@ extension Route53 {
     }
 
     public struct ChangeBatch: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "changes", location: .body(locationName: "Changes"), encoding: .list(member:"Change"))
-        ]
-
         public struct _ChangesEncoding: ArrayCoderProperties { static public let member = "Change" }
+
         /// Information about the changes to make to the record sets.
         @Coding<ArrayCoder<_ChangesEncoding, Change>> public var changes: [Change]
         ///  Optional: Any comments you want to include about a change batch request.
@@ -433,14 +430,12 @@ extension Route53 {
     public struct ChangeTagsForResourceRequest: AWSShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "addTags", location: .body(locationName: "AddTags"), encoding: .list(member:"Tag")), 
-            AWSMemberEncoding(label: "removeTagKeys", location: .body(locationName: "RemoveTagKeys"), encoding: .list(member:"Key")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
             AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
         ]
-
         public struct _AddTagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
         public struct _RemoveTagKeysEncoding: ArrayCoderProperties { static public let member = "Key" }
+
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
         @OptionalCoding<ArrayCoder<_AddTagsEncoding, Tag>> public var addTags: [Tag]?
         /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
@@ -488,11 +483,8 @@ extension Route53 {
     }
 
     public struct CloudWatchAlarmConfiguration: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"Dimension"))
-        ]
-
         public struct _DimensionsEncoding: ArrayCoderProperties { static public let member = "Dimension" }
+
         /// For the metric that the CloudWatch alarm is associated with, the arithmetic operation that is used for the comparison.
         public let comparisonOperator: ComparisonOperator
         /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric. For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
@@ -955,11 +947,8 @@ extension Route53 {
     }
 
     public struct DelegationSet: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nameServers", location: .body(locationName: "NameServers"), encoding: .list(member:"NameServer"))
-        ]
-
         public struct _NameServersEncoding: ArrayCoderProperties { static public let member = "NameServer" }
+
         /// The value that you specified for CallerReference when you created the reusable delegation set.
         public let callerReference: String?
         /// The ID that Amazon Route 53 assigns to a reusable delegation set.
@@ -1412,9 +1401,6 @@ extension Route53 {
     }
 
     public struct GetCheckerIpRangesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "checkerIpRanges", location: .body(locationName: "CheckerIpRanges"), encoding: .list(member:"member"))
-        ]
 
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
         @Coding<DefaultArrayCoder> public var checkerIpRanges: [String]
@@ -1522,11 +1508,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckLastFailureReasonResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckObservations", location: .body(locationName: "HealthCheckObservations"), encoding: .list(member:"HealthCheckObservation"))
-        ]
-
         public struct _HealthCheckObservationsEncoding: ArrayCoderProperties { static public let member = "HealthCheckObservation" }
+
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason. 
         @Coding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>> public var healthCheckObservations: [HealthCheckObservation]
 
@@ -1596,11 +1579,8 @@ extension Route53 {
     }
 
     public struct GetHealthCheckStatusResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthCheckObservations", location: .body(locationName: "HealthCheckObservations"), encoding: .list(member:"HealthCheckObservation"))
-        ]
-
         public struct _HealthCheckObservationsEncoding: ArrayCoderProperties { static public let member = "HealthCheckObservation" }
+
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
         @Coding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>> public var healthCheckObservations: [HealthCheckObservation]
 
@@ -1701,11 +1681,8 @@ extension Route53 {
     }
 
     public struct GetHostedZoneResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vPCs", location: .body(locationName: "VPCs"), encoding: .list(member:"VPC"))
-        ]
-
         public struct _VPCsEncoding: ArrayCoderProperties { static public let member = "VPC" }
+
         /// A complex type that lists the Amazon Route 53 name servers for the specified hosted zone.
         public let delegationSet: DelegationSet?
         /// A complex type that contains general information about the specified hosted zone.
@@ -1977,13 +1954,9 @@ extension Route53 {
     }
 
     public struct HealthCheckConfig: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "childHealthChecks", location: .body(locationName: "ChildHealthChecks"), encoding: .list(member:"ChildHealthCheck")), 
-            AWSMemberEncoding(label: "regions", location: .body(locationName: "Regions"), encoding: .list(member:"Region"))
-        ]
-
         public struct _ChildHealthChecksEncoding: ArrayCoderProperties { static public let member = "ChildHealthCheck" }
         public struct _RegionsEncoding: ArrayCoderProperties { static public let member = "Region" }
+
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public let alarmIdentifier: AlarmIdentifier?
         /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
@@ -2239,11 +2212,8 @@ extension Route53 {
     }
 
     public struct ListGeoLocationsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "geoLocationDetailsList", location: .body(locationName: "GeoLocationDetailsList"), encoding: .list(member:"GeoLocationDetails"))
-        ]
-
         public struct _GeoLocationDetailsListEncoding: ArrayCoderProperties { static public let member = "GeoLocationDetails" }
+
         /// A complex type that contains one GeoLocationDetails element for each location that Amazon Route 53 supports for geolocation.
         @Coding<ArrayCoder<_GeoLocationDetailsListEncoding, GeoLocationDetails>> public var geoLocationDetailsList: [GeoLocationDetails]
         /// A value that indicates whether more locations remain to be listed after the last location in this response. If so, the value of IsTruncated is true. To get more values, submit another request and include the values of NextContinentCode, NextCountryCode, and NextSubdivisionCode in the startcontinentcode, startcountrycode, and startsubdivisioncode, as applicable.
@@ -2303,11 +2273,8 @@ extension Route53 {
     }
 
     public struct ListHealthChecksResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "healthChecks", location: .body(locationName: "HealthChecks"), encoding: .list(member:"HealthCheck"))
-        ]
-
         public struct _HealthChecksEncoding: ArrayCoderProperties { static public let member = "HealthCheck" }
+
         /// A complex type that contains one HealthCheck element for each health check that is associated with the current AWS account.
         @Coding<ArrayCoder<_HealthChecksEncoding, HealthCheck>> public var healthChecks: [HealthCheck]
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
@@ -2369,11 +2336,8 @@ extension Route53 {
     }
 
     public struct ListHostedZonesByNameResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZones", location: .body(locationName: "HostedZones"), encoding: .list(member:"HostedZone"))
-        ]
-
         public struct _HostedZonesEncoding: ArrayCoderProperties { static public let member = "HostedZone" }
+
         /// For the second and subsequent calls to ListHostedZonesByName, DNSName is the value that you specified for the dnsname parameter in the request that produced the current response.
         public let dNSName: String?
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
@@ -2443,11 +2407,8 @@ extension Route53 {
     }
 
     public struct ListHostedZonesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hostedZones", location: .body(locationName: "HostedZones"), encoding: .list(member:"HostedZone"))
-        ]
-
         public struct _HostedZonesEncoding: ArrayCoderProperties { static public let member = "HostedZone" }
+
         /// A complex type that contains general information about the hosted zone.
         @Coding<ArrayCoder<_HostedZonesEncoding, HostedZone>> public var hostedZones: [HostedZone]
         /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get more hosted zones by submitting another ListHostedZones request and specifying the value of NextMarker in the marker parameter.
@@ -2509,11 +2470,8 @@ extension Route53 {
     }
 
     public struct ListQueryLoggingConfigsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "queryLoggingConfigs", location: .body(locationName: "QueryLoggingConfigs"), encoding: .list(member:"QueryLoggingConfig"))
-        ]
-
         public struct _QueryLoggingConfigsEncoding: ArrayCoderProperties { static public let member = "QueryLoggingConfig" }
+
         /// If a response includes the last of the query logging configurations that are associated with the current AWS account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListQueryLoggingConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
         public let nextToken: String?
         /// An array that contains one QueryLoggingConfig element for each configuration for DNS query logging that is associated with the current AWS account.
@@ -2575,11 +2533,8 @@ extension Route53 {
     }
 
     public struct ListResourceRecordSetsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceRecordSets", location: .body(locationName: "ResourceRecordSets"), encoding: .list(member:"ResourceRecordSet"))
-        ]
-
         public struct _ResourceRecordSetsEncoding: ArrayCoderProperties { static public let member = "ResourceRecordSet" }
+
         /// A flag that indicates whether more resource record sets remain to be listed. If your results were truncated, you can make a follow-up pagination request by using the NextRecordName element.
         public let isTruncated: Bool
         /// The maximum number of records you requested.
@@ -2639,11 +2594,8 @@ extension Route53 {
     }
 
     public struct ListReusableDelegationSetsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "delegationSets", location: .body(locationName: "DelegationSets"), encoding: .list(member:"DelegationSet"))
-        ]
-
         public struct _DelegationSetsEncoding: ArrayCoderProperties { static public let member = "DelegationSet" }
+
         /// A complex type that contains one DelegationSet element for each reusable delegation set that was created by the current AWS account.
         @Coding<ArrayCoder<_DelegationSetsEncoding, DelegationSet>> public var delegationSets: [DelegationSet]
         /// A flag that indicates whether there are more reusable delegation sets to be listed.
@@ -2715,11 +2667,10 @@ extension Route53 {
     public struct ListTagsForResourcesRequest: AWSShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIds", location: .body(locationName: "ResourceIds"), encoding: .list(member:"ResourceId")), 
             AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
         ]
-
         public struct _ResourceIdsEncoding: ArrayCoderProperties { static public let member = "ResourceId" }
+
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
         @Coding<ArrayCoder<_ResourceIdsEncoding, String>> public var resourceIds: [String]
         /// The type of the resources.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
@@ -2745,11 +2696,8 @@ extension Route53 {
     }
 
     public struct ListTagsForResourcesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceTagSets", location: .body(locationName: "ResourceTagSets"), encoding: .list(member:"ResourceTagSet"))
-        ]
-
         public struct _ResourceTagSetsEncoding: ArrayCoderProperties { static public let member = "ResourceTagSet" }
+
         /// A list of ResourceTagSets containing tags associated with the specified resources.
         @Coding<ArrayCoder<_ResourceTagSetsEncoding, ResourceTagSet>> public var resourceTagSets: [ResourceTagSet]
 
@@ -2790,11 +2738,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPoliciesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficPolicySummaries", location: .body(locationName: "TrafficPolicySummaries"), encoding: .list(member:"TrafficPolicySummary"))
-        ]
-
         public struct _TrafficPolicySummariesEncoding: ArrayCoderProperties { static public let member = "TrafficPolicySummary" }
+
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicies request and specifying the value of TrafficPolicyIdMarker in the TrafficPolicyIdMarker request parameter.
         public let isTruncated: Bool
         /// The value that you specified for the MaxItems parameter in the ListTrafficPolicies request that produced the current response.
@@ -2857,11 +2802,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
-        ]
-
         public struct _TrafficPolicyInstancesEncoding: ArrayCoderProperties { static public let member = "TrafficPolicyInstance" }
+
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by submitting another ListTrafficPolicyInstancesByHostedZone request and specifying the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
         public let isTruncated: Bool
         /// The value that you specified for the MaxItems parameter in the ListTrafficPolicyInstancesByHostedZone request that produced the current response.
@@ -2942,11 +2884,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
-        ]
-
         public struct _TrafficPolicyInstancesEncoding: ArrayCoderProperties { static public let member = "TrafficPolicyInstance" }
+
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of traffic policy instances.
         public let hostedZoneIdMarker: String?
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
@@ -3017,11 +2956,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyInstancesResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
-        ]
-
         public struct _TrafficPolicyInstancesEncoding: ArrayCoderProperties { static public let member = "TrafficPolicyInstance" }
+
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance that Route 53 will return if you submit another ListTrafficPolicyInstances request. 
         public let hostedZoneIdMarker: String?
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get more traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
@@ -3088,11 +3024,8 @@ extension Route53 {
     }
 
     public struct ListTrafficPolicyVersionsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "trafficPolicies", location: .body(locationName: "TrafficPolicies"), encoding: .list(member:"TrafficPolicy"))
-        ]
-
         public struct _TrafficPoliciesEncoding: ArrayCoderProperties { static public let member = "TrafficPolicy" }
+
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicyVersions request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// The value that you specified for the maxitems parameter in the ListTrafficPolicyVersions request that produced the current response.
@@ -3150,11 +3083,8 @@ extension Route53 {
     }
 
     public struct ListVPCAssociationAuthorizationsResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vPCs", location: .body(locationName: "VPCs"), encoding: .list(member:"VPC"))
-        ]
-
         public struct _VPCsEncoding: ArrayCoderProperties { static public let member = "VPC" }
+
         /// The ID of the hosted zone that you can associate the listed VPCs with.
         public let hostedZoneId: String
         /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the nexttoken request parameter.
@@ -3216,11 +3146,8 @@ extension Route53 {
     }
 
     public struct ResourceRecordSet: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceRecords", location: .body(locationName: "ResourceRecords"), encoding: .list(member:"ResourceRecord"))
-        ]
-
         public struct _ResourceRecordsEncoding: ArrayCoderProperties { static public let member = "ResourceRecord" }
+
         ///  Alias resource record sets only: Information about the AWS resource, such as a CloudFront distribution or an Amazon S3 bucket, that you want to route traffic to.  If you're creating resource records sets for a private hosted zone, note the following:   You can't create an alias resource record set in a private hosted zone to route traffic to a CloudFront distribution.   Creating geolocation alias resource record sets or latency alias resource record sets in a private hosted zone is unsupported.   For information about creating failover resource record sets in a private hosted zone, see Configuring Failover in a Private Hosted Zone in the Amazon Route 53 Developer Guide.  
         public let aliasTarget: AliasTarget?
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone   
@@ -3301,11 +3228,8 @@ extension Route53 {
     }
 
     public struct ResourceTagSet: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
-        ]
-
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+
         /// The ID for the specified resource.
         public let resourceId: String?
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
@@ -3439,11 +3363,8 @@ extension Route53 {
     }
 
     public struct TestDNSAnswerResponse: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recordData", location: .body(locationName: "RecordData"), encoding: .list(member:"RecordDataEntry"))
-        ]
-
         public struct _RecordDataEncoding: ArrayCoderProperties { static public let member = "RecordDataEntry" }
+
         /// The Amazon Route 53 name server used to respond to the request.
         public let nameserver: String
         /// The protocol that Amazon Route 53 used to respond to the request, either UDP or TCP. 
@@ -3589,15 +3510,12 @@ extension Route53 {
     public struct UpdateHealthCheckRequest: AWSShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "childHealthChecks", location: .body(locationName: "ChildHealthChecks"), encoding: .list(member:"ChildHealthCheck")), 
-            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId")), 
-            AWSMemberEncoding(label: "regions", location: .body(locationName: "Regions"), encoding: .list(member:"Region")), 
-            AWSMemberEncoding(label: "resetElements", location: .body(locationName: "ResetElements"), encoding: .list(member:"ResettableElementName"))
+            AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
-
         public struct _ChildHealthChecksEncoding: ArrayCoderProperties { static public let member = "ChildHealthCheck" }
         public struct _RegionsEncoding: ArrayCoderProperties { static public let member = "Region" }
         public struct _ResetElementsEncoding: ArrayCoderProperties { static public let member = "ResettableElementName" }
+
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public let alarmIdentifier: AlarmIdentifier?
         /// A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.

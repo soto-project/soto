@@ -194,10 +194,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationTemplates", location: .body(locationName: "ConfigurationTemplates"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "versions", location: .body(locationName: "Versions"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationArn: String?
@@ -254,9 +250,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationDescriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applications", location: .body(locationName: "Applications"), encoding: .list(member:"member"))
-        ]
 
         /// This parameter contains a list of ApplicationDescription.
         @OptionalCoding<DefaultArrayCoder> public var applications: [ApplicationDescription]?
@@ -397,9 +390,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationVersionDescriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationVersions", location: .body(locationName: "ApplicationVersions"), encoding: .list(member:"member"))
-        ]
 
         /// List of ApplicationVersionDescription objects sorted in order of creation.
         @OptionalCoding<DefaultArrayCoder> public var applicationVersions: [ApplicationVersionDescription]?
@@ -626,9 +616,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ComposeEnvironmentsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "versionLabels", location: .body(locationName: "VersionLabels"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application to which the specified source bundles belong.
         public let applicationName: String?
@@ -662,9 +649,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationOptionDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "valueOptions", location: .body(locationName: "ValueOptions"), encoding: .list(member:"member"))
-        ]
 
         /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.  
         public let changeSeverity: String?
@@ -750,9 +734,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationOptionsDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "options", location: .body(locationName: "Options"), encoding: .list(member:"member"))
-        ]
 
         ///  A list of ConfigurationOptionDescription. 
         @OptionalCoding<DefaultArrayCoder> public var options: [ConfigurationOptionDescription]?
@@ -775,9 +756,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationSettingsDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application associated with this configuration set.
         public let applicationName: String?
@@ -828,9 +806,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationSettingsDescriptions: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSettings", location: .body(locationName: "ConfigurationSettings"), encoding: .list(member:"member"))
-        ]
 
         ///  A list of ConfigurationSettingsDescription. 
         @OptionalCoding<DefaultArrayCoder> public var configurationSettings: [ConfigurationSettingsDescription]?
@@ -845,9 +820,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationSettingsValidationMessages: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messages", location: .body(locationName: "Messages"), encoding: .list(member:"member"))
-        ]
 
         ///  A list of ValidationMessage. 
         @OptionalCoding<DefaultArrayCoder> public var messages: [ValidationMessage]?
@@ -862,9 +834,6 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateApplicationMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
         public let applicationName: String
@@ -900,9 +869,6 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateApplicationVersionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
         public let applicationName: String
@@ -963,10 +929,6 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateConfigurationTemplateMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let applicationName: String
@@ -1028,11 +990,6 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateEnvironmentMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "optionsToRemove", location: .body(locationName: "OptionsToRemove"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
         public let applicationName: String
@@ -1120,10 +1077,6 @@ extension ElasticBeanstalk {
     }
 
     public struct CreatePlatformVersionRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the builder environment.
         public let environmentName: String?
@@ -1390,9 +1343,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeApplicationVersionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "versionLabels", location: .body(locationName: "VersionLabels"), encoding: .list(member:"member"))
-        ]
 
         /// Specify an application name to show only application versions for that application.
         public let applicationName: String?
@@ -1430,9 +1380,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeApplicationsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationNames", location: .body(locationName: "ApplicationNames"), encoding: .list(member:"member"))
-        ]
 
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
         @OptionalCoding<DefaultArrayCoder> public var applicationNames: [String]?
@@ -1454,9 +1401,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeConfigurationOptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "options", location: .body(locationName: "Options"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
         public let applicationName: String?
@@ -1534,9 +1478,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentHealthRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeNames"), encoding: .list(member:"member"))
-        ]
 
         /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
         @OptionalCoding<DefaultArrayCoder> public var attributeNames: [EnvironmentHealthAttribute]?
@@ -1564,9 +1505,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentHealthResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "causes", location: .body(locationName: "Causes"), encoding: .list(member:"member"))
-        ]
 
         /// Application request metrics for the environment.
         public let applicationMetrics: ApplicationMetrics?
@@ -1640,9 +1578,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "managedActionHistoryItems", location: .body(locationName: "ManagedActionHistoryItems"), encoding: .list(member:"member"))
-        ]
 
         /// A list of completed and failed managed actions.
         @OptionalCoding<DefaultArrayCoder> public var managedActionHistoryItems: [ManagedActionHistoryItem]?
@@ -1683,9 +1618,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentManagedActionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "managedActions", location: .body(locationName: "ManagedActions"), encoding: .list(member:"member"))
-        ]
 
         /// A list of upcoming and in-progress managed actions.
         @OptionalCoding<DefaultArrayCoder> public var managedActions: [ManagedAction]?
@@ -1723,10 +1655,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentIds", location: .body(locationName: "EnvironmentIds"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "environmentNames", location: .body(locationName: "EnvironmentNames"), encoding: .list(member:"member"))
-        ]
 
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
         public let applicationName: String?
@@ -1853,9 +1781,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeInstancesHealthRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeNames"), encoding: .list(member:"member"))
-        ]
 
         /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
         @OptionalCoding<DefaultArrayCoder> public var attributeNames: [InstancesHealthAttribute]?
@@ -1889,9 +1814,6 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeInstancesHealthResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "instanceHealthList", location: .body(locationName: "InstanceHealthList"), encoding: .list(member:"member"))
-        ]
 
         /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the &lt;CPUUtilization&gt; type.
         @OptionalCoding<DefaultArrayCoder> public var instanceHealthList: [SingleInstanceHealth]?
@@ -1942,9 +1864,6 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentLinks", location: .body(locationName: "EnvironmentLinks"), encoding: .list(member:"member"))
-        ]
 
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
         public let abortableOperationInProgress: Bool?
@@ -2035,9 +1954,6 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentDescriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environments", location: .body(locationName: "Environments"), encoding: .list(member:"member"))
-        ]
 
         ///  Returns an EnvironmentDescription list. 
         @OptionalCoding<DefaultArrayCoder> public var environments: [EnvironmentDescription]?
@@ -2100,15 +2016,6 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentResourceDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "autoScalingGroups", location: .body(locationName: "AutoScalingGroups"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "instances", location: .body(locationName: "Instances"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "launchConfigurations", location: .body(locationName: "LaunchConfigurations"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "launchTemplates", location: .body(locationName: "LaunchTemplates"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "queues", location: .body(locationName: "Queues"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "triggers", location: .body(locationName: "Triggers"), encoding: .list(member:"member"))
-        ]
 
         ///  The AutoScalingGroups used by this environment. 
         @OptionalCoding<DefaultArrayCoder> public var autoScalingGroups: [AutoScalingGroup]?
@@ -2247,9 +2154,6 @@ extension ElasticBeanstalk {
     }
 
     public struct EventDescriptionsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"member"))
-        ]
 
         ///  A list of EventDescription. 
         @OptionalCoding<DefaultArrayCoder> public var events: [EventDescription]?
@@ -2394,10 +2298,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ListAvailableSolutionStacksResultMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "solutionStackDetails", location: .body(locationName: "SolutionStackDetails"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "solutionStacks", location: .body(locationName: "SolutionStacks"), encoding: .list(member:"member"))
-        ]
 
         ///  A list of available solution stacks and their SolutionStackDescription. 
         @OptionalCoding<DefaultArrayCoder> public var solutionStackDetails: [SolutionStackDescription]?
@@ -2416,9 +2316,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ListPlatformVersionsRequest: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"member"))
-        ]
 
         /// List only the platforms where the platform member value relates to one of the supplied values.
         @OptionalCoding<DefaultArrayCoder> public var filters: [PlatformFilter]?
@@ -2445,9 +2342,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ListPlatformVersionsResult: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "platformSummaryList", location: .body(locationName: "PlatformSummaryList"), encoding: .list(member:"member"))
-        ]
 
         /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
         public let nextToken: String?
@@ -2512,9 +2406,6 @@ extension ElasticBeanstalk {
     }
 
     public struct LoadBalancerDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
-        ]
 
         /// The domain name of the LoadBalancer.
         public let domain: String?
@@ -2698,13 +2589,6 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "customAmiList", location: .body(locationName: "CustomAmiList"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "frameworks", location: .body(locationName: "Frameworks"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "programmingLanguages", location: .body(locationName: "ProgrammingLanguages"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "supportedAddonList", location: .body(locationName: "SupportedAddonList"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "supportedTierList", location: .body(locationName: "SupportedTierList"), encoding: .list(member:"member"))
-        ]
 
         /// The custom AMIs supported by the platform.
         @OptionalCoding<DefaultArrayCoder> public var customAmiList: [CustomAmi]?
@@ -2787,9 +2671,6 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformFilter: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
-        ]
 
         /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
         public let `operator`: String?
@@ -2848,10 +2729,6 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformSummary: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "supportedAddonList", location: .body(locationName: "SupportedAddonList"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "supportedTierList", location: .body(locationName: "SupportedTierList"), encoding: .list(member:"member"))
-        ]
 
         /// The operating system used by the platform.
         public let operatingSystemName: String?
@@ -3006,9 +2883,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ResourceTagsDescriptionMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceTags", location: .body(locationName: "ResourceTags"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
         public let resourceArn: String?
@@ -3077,9 +2951,6 @@ extension ElasticBeanstalk {
     }
 
     public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentInfo", location: .body(locationName: "EnvironmentInfo"), encoding: .list(member:"member"))
-        ]
 
         ///  The EnvironmentInfoDescription of the environment. 
         @OptionalCoding<DefaultArrayCoder> public var environmentInfo: [EnvironmentInfoDescription]?
@@ -3117,9 +2988,6 @@ extension ElasticBeanstalk {
     }
 
     public struct SingleInstanceHealth: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "causes", location: .body(locationName: "Causes"), encoding: .list(member:"member"))
-        ]
 
         /// Request metrics from your application.
         public let applicationMetrics: ApplicationMetrics?
@@ -3170,9 +3038,6 @@ extension ElasticBeanstalk {
     }
 
     public struct SolutionStackDescription: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "permittedFileTypes", location: .body(locationName: "PermittedFileTypes"), encoding: .list(member:"member"))
-        ]
 
         /// The permitted file types allowed for a solution stack.
         @OptionalCoding<DefaultArrayCoder> public var permittedFileTypes: [String]?
@@ -3303,9 +3168,6 @@ extension ElasticBeanstalk {
     }
 
     public struct SystemStatus: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "loadAverage", location: .body(locationName: "LoadAverage"), encoding: .list(member:"member"))
-        ]
 
         /// CPU utilization metrics for the instance.
         public let cPUUtilization: CPUUtilization?
@@ -3471,10 +3333,6 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateConfigurationTemplateMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "optionsToRemove", location: .body(locationName: "OptionsToRemove"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
         public let applicationName: String
@@ -3519,10 +3377,6 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateEnvironmentMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "optionsToRemove", location: .body(locationName: "OptionsToRemove"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application with which the environment is associated.
         public let applicationName: String?
@@ -3601,10 +3455,6 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateTagsForResourceMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagsToAdd", location: .body(locationName: "TagsToAdd"), encoding: .list(member:"member")), 
-            AWSMemberEncoding(label: "tagsToRemove", location: .body(locationName: "TagsToRemove"), encoding: .list(member:"member"))
-        ]
 
         /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk environment.
         public let resourceArn: String
@@ -3637,9 +3487,6 @@ extension ElasticBeanstalk {
     }
 
     public struct ValidateConfigurationSettingsMessage: AWSShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "optionSettings", location: .body(locationName: "OptionSettings"), encoding: .list(member:"member"))
-        ]
 
         /// The name of the application that the configuration template or environment belongs to.
         public let applicationName: String
