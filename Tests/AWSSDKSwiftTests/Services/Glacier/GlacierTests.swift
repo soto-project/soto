@@ -35,8 +35,12 @@ class GlacierTests: XCTestCase {
         //  create buffer full of random data, use the same seeds to ensure we get the same buffer everytime
         let data = createRandomBuffer(23, 4, size: 7*1024*1024 + 258)
 
+        // create byte buffer
+        var byteBuffer = ByteBufferAllocator().buffer(capacity: data.count)
+        byteBuffer.writeBytes(data)
+
         let middleware = GlacierRequestMiddleware(apiVersion: "2012-06-01")
-        let treeHash = middleware.computeTreeHash(Data(data))
+        let treeHash = try middleware.computeTreeHash(byteBuffer)
 
         XCTAssertEqual(treeHash, [210, 50, 5, 126, 16, 6, 59, 6, 21, 40, 186, 74, 192, 56, 39, 85, 210, 25, 238, 54, 4, 252, 221, 238, 107, 127, 76, 118, 245, 76, 22, 45])
     }
