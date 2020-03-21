@@ -135,6 +135,8 @@ extension Shape {
             return "Float"
         case .blob:
             return "Data"
+        case .payload:
+            return "AWSPayload"
         case .timestamp:
             return "TimeStamp"
         case .enum(_):
@@ -155,39 +157,6 @@ extension Shape {
             return "[\(keyShape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(valueShape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
         default:
             return self.swiftTypeName
-        }
-    }
-}
-
-extension ShapeType {
-    var description: String {
-        switch self {
-        case .structure:
-            return "structure"
-        case .list:
-            return "list"
-        case .map:
-            return "map"
-        case .enum:
-            return "enum"
-        case .boolean:
-            return "boolean"
-        case .blob:
-            return "blob"
-        case .double:
-            return "double"
-        case .float:
-            return "float"
-        case .long:
-            return "long"
-        case .integer:
-            return "integer"
-        case .string:
-            return "string"
-        case .timestamp:
-            return "timestamp"
-        case .unhandledType:
-            return "any"
         }
     }
 }
@@ -226,7 +195,6 @@ extension AWSService {
         let required : Bool
         let `default` : String?
         let type : String
-        let typeEnum : String
         let comment : [String.SubSequence]
         var duplicate : Bool
     }
@@ -407,7 +375,6 @@ extension AWSService {
             required: member.required,
             default: defaultValue,
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
-            typeEnum: "\(member.shape.type.description)",
             comment: shapeDoc[shape.name]?[member.name]?.split(separator: "\n") ?? [],
             duplicate: false
         )

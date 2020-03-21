@@ -127,6 +127,7 @@ struct AWSService {
         self.shapeDoc = parseDoc()
 
         self.applyShapeOperations(shapePostProcessOperations, shapes: &shapes)
+        self.postProcessShapes(&shapes)
     }
 
     private mutating func shapeType(from json: JSON, level: Int = 0) throws -> ShapeType {
@@ -461,6 +462,28 @@ struct AWSService {
         shapePostProcessOperations.append((name: shapeName, operation: operation))
     }
 
+    func postProcessShapes(_ shapes: inout [Shape]) {
+        for i in 0..<shapes.count {
+            let shape = shapes[i]
+            guard shape.usedInInput else { continue }
+            guard case .structure(let shapeStructure) = shape.type else { continue }
+            guard let payload = shapeStructure.payload else { continue }
+            guard let memberIndex = shapeStructure.members.firstIndex(where: { $0.name == payload }) else { continue }
+            let member = shapeStructure.members[memberIndex]
+            guard case .blob(let max, let min) = member.shape.type else { continue }
+            guard let encoding = member.shapeEncoding, case .blob = encoding else { continue }
+            var members = shapeStructure.members
+            members[memberIndex] = Member(
+                name: member.name,
+                required: member.required,
+                shape: Shape(name: member.shape.name, type: .payload(max: max, min: min)),
+                location: member.location,
+                shapeEncoding: .blob,
+                options: member.options)
+            shapes[i].type = .structure(StructureShape(members: members, payload: shapeStructure.payload, xmlNamespace: shapeStructure.xmlNamespace))
+        }
+    }
+    
     /// Apply the collated shape operations to the shapes in the shape array
     /// - Parameter operations: list of shape name, operation tuples
     func applyShapeOperations(_ operations: [(name: String, operation: ShapeOperation)], shapes: inout [Shape]) {
