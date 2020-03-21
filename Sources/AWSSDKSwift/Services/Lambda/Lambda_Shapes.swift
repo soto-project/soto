@@ -1680,11 +1680,11 @@ extension Lambda {
         /// Set to Tail to include the execution log in the response.
         public let logType: LogType?
         /// The JSON that you want to provide to your Lambda function as input.
-        public let payload: Data?
+        public let payload: AWSPayload?
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
 
-        public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: Data? = nil, qualifier: String? = nil) {
+        public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: AWSPayload? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
             self.invocationType = invocationType
@@ -1761,9 +1761,9 @@ extension Lambda {
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
-        public let invokeArgs: Data
+        public let invokeArgs: AWSPayload
 
-        public init(functionName: String, invokeArgs: Data) {
+        public init(functionName: String, invokeArgs: AWSPayload) {
             self.functionName = functionName
             self.invokeArgs = invokeArgs
         }

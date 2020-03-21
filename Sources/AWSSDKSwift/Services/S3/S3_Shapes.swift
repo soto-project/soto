@@ -6439,7 +6439,7 @@ extension S3 {
         /// The canned ACL to apply to the object. For more information, see Canned ACL.
         public let acl: ObjectCannedACL?
         /// Object data.
-        public let body: Data?
+        public let body: AWSPayload?
         /// Bucket name to which the PUT operation was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
         ///  Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
@@ -6496,7 +6496,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. 
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: Data? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expires: TimeStamp? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: TimeStamp? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -7827,7 +7827,7 @@ extension S3 {
         ]
 
         /// Object data.
-        public let body: Data?
+        public let body: AWSPayload?
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
@@ -7848,7 +7848,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose part is being uploaded.
         public let uploadId: String
 
-        public init(body: Data? = nil, bucket: String, contentLength: Int64? = nil, contentMD5: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(body: AWSPayload? = nil, bucket: String, contentLength: Int64? = nil, contentMD5: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
             self.contentLength = contentLength

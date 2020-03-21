@@ -312,7 +312,7 @@ extension MediaStoreData {
         ]
 
         /// The bytes to be stored. 
-        public let body: Data
+        public let body: AWSPayload
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The content type of the object.
@@ -324,7 +324,7 @@ extension MediaStoreData {
         /// Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
         public let uploadAvailability: UploadAvailability?
 
-        public init(body: Data, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
+        public init(body: AWSPayload, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
             self.body = body
             self.cacheControl = cacheControl
             self.contentType = contentType

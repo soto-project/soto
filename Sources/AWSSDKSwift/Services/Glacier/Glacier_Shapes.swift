@@ -1830,13 +1830,13 @@ extension Glacier {
         /// The optional description of the archive you are uploading.
         public let archiveDescription: String?
         /// The data to upload.
-        public let body: Data?
+        public let body: AWSPayload?
         /// The SHA256 tree hash of the data being uploaded.
         public let checksum: String?
         /// The name of the vault.
         public let vaultName: String
 
-        public init(accountId: String, archiveDescription: String? = nil, body: Data? = nil, checksum: String? = nil, vaultName: String) {
+        public init(accountId: String, archiveDescription: String? = nil, body: AWSPayload? = nil, checksum: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.archiveDescription = archiveDescription
             self.body = body
@@ -1898,7 +1898,7 @@ extension Glacier {
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The data to upload.
-        public let body: Data?
+        public let body: AWSPayload?
         /// The SHA256 tree hash of the data being uploaded.
         public let checksum: String?
         /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
@@ -1908,7 +1908,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
-        public init(accountId: String, body: Data? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
+        public init(accountId: String, body: AWSPayload? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.body = body
             self.checksum = checksum

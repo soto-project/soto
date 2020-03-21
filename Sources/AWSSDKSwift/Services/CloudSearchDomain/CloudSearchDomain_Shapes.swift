@@ -420,9 +420,9 @@ extension CloudSearchDomain {
         /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml 
         public let contentType: ContentType
         /// A batch of documents formatted in JSON or HTML.
-        public let documents: Data
+        public let documents: AWSPayload
 
-        public init(contentType: ContentType, documents: Data) {
+        public init(contentType: ContentType, documents: AWSPayload) {
             self.contentType = contentType
             self.documents = documents
         }
