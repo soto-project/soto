@@ -21,7 +21,7 @@ extension Lambda {
         return client.paginate(input: input, command: listFunctionEventInvokeConfigs, tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker, onPage: onPage)
     }
 
-    ///  Returns a list of Lambda functions, with the version-specific configuration of each. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
+    ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
     public func listFunctionsPaginator(_ input: ListFunctionsRequest, onPage: @escaping (ListFunctionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listFunctions, tokenKey: \ListFunctionsResponse.nextMarker, onPage: onPage)
     }
@@ -41,7 +41,7 @@ extension Lambda {
         return client.paginate(input: input, command: listProvisionedConcurrencyConfigs, tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker, onPage: onPage)
     }
 
-    ///  Returns a list of versions, with the version-specific configuration of each. 
+    ///  Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     public func listVersionsByFunctionPaginator(_ input: ListVersionsByFunctionRequest, onPage: @escaping (ListVersionsByFunctionResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listVersionsByFunction, tokenKey: \ListVersionsByFunctionResponse.nextMarker, onPage: onPage)
     }

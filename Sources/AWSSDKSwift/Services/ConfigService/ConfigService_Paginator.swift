@@ -21,6 +21,11 @@ extension ConfigService {
         return client.paginate(input: input, command: getResourceConfigHistory, tokenKey: \GetResourceConfigHistoryResponse.nextToken, onPage: onPage)
     }
 
+    ///  Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of AWS resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the  Query Components  section in the AWS Config Developer Guide.
+    public func selectAggregateResourceConfigPaginator(_ input: SelectAggregateResourceConfigRequest, onPage: @escaping (SelectAggregateResourceConfigResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: selectAggregateResourceConfig, tokenKey: \SelectAggregateResourceConfigResponse.nextToken, onPage: onPage)
+    }
+
 }
 
 extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateStringToken {
@@ -57,6 +62,19 @@ extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateStringToken 
             nextToken: token, 
             resourceId: self.resourceId, 
             resourceType: self.resourceType
+        )
+
+    }
+}
+
+extension ConfigService.SelectAggregateResourceConfigRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.SelectAggregateResourceConfigRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName, 
+            expression: self.expression, 
+            limit: self.limit, 
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }

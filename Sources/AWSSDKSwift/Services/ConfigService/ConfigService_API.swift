@@ -400,6 +400,11 @@ public struct ConfigService {
         return client.send(operation: "PutRetentionConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of AWS resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the  Query Components  section in the AWS Config Developer Guide.
+    public func selectAggregateResourceConfig(_ input: SelectAggregateResourceConfigRequest) -> EventLoopFuture<SelectAggregateResourceConfigResponse> {
+        return client.send(operation: "SelectAggregateResourceConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the  Query Components  section in the AWS Config Developer Guide.
     public func selectResourceConfig(_ input: SelectResourceConfigRequest) -> EventLoopFuture<SelectResourceConfigResponse> {
         return client.send(operation: "SelectResourceConfig", path: "/", httpMethod: "POST", input: input)

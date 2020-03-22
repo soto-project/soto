@@ -474,6 +474,7 @@ extension IoT {
     public struct Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cloudwatchAlarm", required: false, type: .structure), 
+            AWSShapeMember(label: "cloudwatchLogs", required: false, type: .structure), 
             AWSShapeMember(label: "cloudwatchMetric", required: false, type: .structure), 
             AWSShapeMember(label: "dynamoDB", required: false, type: .structure), 
             AWSShapeMember(label: "dynamoDBv2", required: false, type: .structure), 
@@ -495,6 +496,8 @@ extension IoT {
 
         /// Change the state of a CloudWatch alarm.
         public let cloudwatchAlarm: CloudwatchAlarmAction?
+        /// Send data to CloudWatch logs.
+        public let cloudwatchLogs: CloudwatchLogsAction?
         /// Capture a CloudWatch metric.
         public let cloudwatchMetric: CloudwatchMetricAction?
         /// Write to a DynamoDB table.
@@ -530,8 +533,9 @@ extension IoT {
         /// Starts execution of a Step Functions state machine.
         public let stepFunctions: StepFunctionsAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
+            self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
             self.dynamoDB = dynamoDB
             self.dynamoDBv2 = dynamoDBv2
@@ -563,6 +567,7 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case cloudwatchAlarm = "cloudwatchAlarm"
+            case cloudwatchLogs = "cloudwatchLogs"
             case cloudwatchMetric = "cloudwatchMetric"
             case dynamoDB = "dynamoDB"
             case dynamoDBv2 = "dynamoDBv2"
@@ -2241,6 +2246,28 @@ extension IoT {
             case roleArn = "roleArn"
             case stateReason = "stateReason"
             case stateValue = "stateValue"
+        }
+    }
+
+    public struct CloudwatchLogsAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+
+        /// The CloudWatch log group to which the action sends data.
+        public let logGroupName: String
+        /// The IAM role that allows access to the CloudWatch log.
+        public let roleArn: String
+
+        public init(logGroupName: String, roleArn: String) {
+            self.logGroupName = logGroupName
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case roleArn = "roleArn"
         }
     }
 
@@ -5395,7 +5422,7 @@ extension IoT {
             AWSShapeMember(label: "endpointType", location: .querystring(locationName: "endpointType"), required: false, type: .string)
         ]
 
-        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.  
+        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the widespread distrust of Symantec certificate authorities.
         public let endpointType: String?
 
         public init(endpointType: String? = nil) {
@@ -12012,7 +12039,7 @@ extension IoT {
 
         /// The parameters for provisioning a thing. See Programmatic Provisioning for more information.
         public let parameters: [String: String]?
-        /// The provisioning template. See Programmatic Provisioning for more information.
+        /// The provisioning template. See Provisioning Devices That Have Device Certificates for more information.
         public let templateBody: String
 
         public init(parameters: [String: String]? = nil, templateBody: String) {
@@ -14722,7 +14749,7 @@ extension IoT {
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
-        /// The new status.  Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+        /// The new status.  Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let newStatus: CertificateStatus
 
         public init(certificateId: String, newStatus: CertificateStatus) {

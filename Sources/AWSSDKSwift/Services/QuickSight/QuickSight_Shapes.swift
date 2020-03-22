@@ -39,6 +39,11 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashboardFilterAttribute: String, CustomStringConvertible, Codable {
+        case quicksightUser = "QUICKSIGHT_USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashboardUIState: String, CustomStringConvertible, Codable {
         case expanded = "EXPANDED"
         case collapsed = "COLLAPSED"
@@ -93,6 +98,11 @@ extension QuickSight {
         case elf = "ELF"
         case xlsx = "XLSX"
         case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterOperator: String, CustomStringConvertible, Codable {
+        case stringequals = "StringEquals"
         public var description: String { return self.rawValue }
     }
 
@@ -1737,6 +1747,33 @@ extension QuickSight {
             case adHocFilteringOption = "AdHocFilteringOption"
             case exportToCSVOption = "ExportToCSVOption"
             case sheetControlsOption = "SheetControlsOption"
+        }
+    }
+
+    public struct DashboardSearchFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Operator", required: true, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+
+        /// The name of the value that you want to use as a filter. For example, "Name": "QUICKSIGHT_USER". 
+        public let name: DashboardFilterAttribute?
+        /// The comparison operator that you want to use as a filter. For example, "Operator": "StringEquals".
+        public let `operator`: FilterOperator
+        /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter. For example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1". 
+        public let value: String?
+
+        public init(name: DashboardFilterAttribute? = nil, operator: FilterOperator, value: String? = nil) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
         }
     }
 
@@ -6203,6 +6240,79 @@ extension QuickSight {
             case dataSourceArn = "DataSourceArn"
             case inputColumns = "InputColumns"
             case uploadSettings = "UploadSettings"
+        }
+    }
+
+    public struct SearchDashboardsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: true, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the user whose dashboards you're searching for. 
+        public let awsAccountId: String
+        /// The filters to apply to the search. Currently, you can search only by user name. For example, "Filters": [ { "Name": "QUICKSIGHT_USER", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ] 
+        public let filters: [DashboardSearchFilter]
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, filters: [DashboardSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.filters, name:"filters", parent: name, max: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchDashboardsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The list of dashboards owned by the user specified in Filters in your request.
+        public let dashboardSummaryList: [DashboardSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dashboardSummaryList: [DashboardSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardSummaryList = dashboardSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardSummaryList = "DashboardSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 

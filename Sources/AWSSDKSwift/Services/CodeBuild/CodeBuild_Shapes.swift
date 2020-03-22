@@ -89,6 +89,11 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum FileSystemType: String, CustomStringConvertible, Codable {
+        case efs = "EFS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable {
         case codebuild = "CODEBUILD"
         case serviceRole = "SERVICE_ROLE"
@@ -467,6 +472,7 @@ extension CodeBuild {
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "environment", required: false, type: .structure), 
             AWSShapeMember(label: "exportedEnvironmentVariables", required: false, type: .list), 
+            AWSShapeMember(label: "fileSystemLocations", required: false, type: .list), 
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "initiator", required: false, type: .string), 
             AWSShapeMember(label: "logs", required: false, type: .structure), 
@@ -509,6 +515,8 @@ extension CodeBuild {
         public let environment: ProjectEnvironment?
         ///  A list of exported environment variables for this build. 
         public let exportedEnvironmentVariables: [ExportedEnvironmentVariable]?
+        ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System. 
+        public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// The unique ID for the build.
         public let id: String?
         /// The entity that started the build. Valid values include:   If AWS CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an AWS Identity and Access Management (IAM) user started the build, the user's name (for example, MyUserName).   If the Jenkins plugin for AWS CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.  
@@ -546,7 +554,7 @@ extension CodeBuild {
         /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, encryptionKey: String? = nil, endTime: TimeStamp? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: TimeStamp? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildComplete = buildComplete
@@ -558,6 +566,7 @@ extension CodeBuild {
             self.endTime = endTime
             self.environment = environment
             self.exportedEnvironmentVariables = exportedEnvironmentVariables
+            self.fileSystemLocations = fileSystemLocations
             self.id = id
             self.initiator = initiator
             self.logs = logs
@@ -590,6 +599,7 @@ extension CodeBuild {
             case endTime = "endTime"
             case environment = "environment"
             case exportedEnvironmentVariables = "exportedEnvironmentVariables"
+            case fileSystemLocations = "fileSystemLocations"
             case id = "id"
             case initiator = "initiator"
             case logs = "logs"
@@ -629,7 +639,7 @@ extension CodeBuild {
         public let location: String?
         /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
         public let md5sum: String?
-        ///  If this flag is set, a name specified in the build spec file overrides the artifact name. The name specified in a build spec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
+        ///  If this flag is set, a name specified in the buildspec file overrides the artifact name. The name specified in a buildspec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
         public let overrideArtifactName: Bool?
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
         public let sha256sum: String?
@@ -752,6 +762,7 @@ extension CodeBuild {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
             AWSShapeMember(label: "environment", required: true, type: .structure), 
+            AWSShapeMember(label: "fileSystemLocations", required: false, type: .list), 
             AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
@@ -778,6 +789,8 @@ extension CodeBuild {
         public let encryptionKey: String?
         /// Information about the build environment for the build project.
         public let environment: ProjectEnvironment
+        ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System. 
+        public let fileSystemLocations: [ProjectFileSystemLocation]?
         ///  Information about logs for the build project. These can be logs in Amazon CloudWatch Logs, logs uploaded to a specified S3 bucket, or both. 
         public let logsConfig: LogsConfig?
         /// The name of the build project.
@@ -803,13 +816,14 @@ extension CodeBuild {
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
             self.cache = cache
             self.description = description
             self.encryptionKey = encryptionKey
             self.environment = environment
+            self.fileSystemLocations = fileSystemLocations
             self.logsConfig = logsConfig
             self.name = name
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
@@ -862,6 +876,7 @@ extension CodeBuild {
             case description = "description"
             case encryptionKey = "encryptionKey"
             case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
             case logsConfig = "logsConfig"
             case name = "name"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
@@ -1320,7 +1335,7 @@ extension CodeBuild {
         public let name: String
         /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in AWS Secrets Manager.  
         public let `type`: EnvironmentVariableType?
-        /// The value of the environment variable.  We strongly discourage the use of environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). 
+        /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. PLAINTEXT environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER. 
         public let value: String
 
         public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
@@ -2134,6 +2149,7 @@ extension CodeBuild {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
             AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "fileSystemLocations", required: false, type: .list), 
             AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -2166,6 +2182,8 @@ extension CodeBuild {
         public let encryptionKey: String?
         /// Information about the build environment for this build project.
         public let environment: ProjectEnvironment?
+        ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System. 
+        public let fileSystemLocations: [ProjectFileSystemLocation]?
         /// When the build project's settings were last modified, expressed in Unix time format.
         public let lastModified: TimeStamp?
         ///  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, an S3 bucket, or both. 
@@ -2195,7 +2213,7 @@ extension CodeBuild {
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
 
-        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, cache: ProjectCache? = nil, created: TimeStamp? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: TimeStamp? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.badge = badge
@@ -2204,6 +2222,7 @@ extension CodeBuild {
             self.description = description
             self.encryptionKey = encryptionKey
             self.environment = environment
+            self.fileSystemLocations = fileSystemLocations
             self.lastModified = lastModified
             self.logsConfig = logsConfig
             self.name = name
@@ -2229,6 +2248,7 @@ extension CodeBuild {
             case description = "description"
             case encryptionKey = "encryptionKey"
             case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
             case lastModified = "lastModified"
             case logsConfig = "logsConfig"
             case name = "name"
@@ -2269,7 +2289,7 @@ extension CodeBuild {
         public let name: String?
         /// Along with path and name, the pattern that AWS CodeBuild uses to determine the name and location to store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, valid values include:    BUILD_ID: Include the build ID in the location of the build output artifact.    NONE: Do not include the build ID. This is the default if namespaceType is not specified.     For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, the output artifact is stored in MyArtifacts/build-ID/MyArtifact.zip.
         public let namespaceType: ArtifactNamespace?
-        ///  If this flag is set, a name specified in the build spec file overrides the artifact name. The name specified in a build spec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
+        ///  If this flag is set, a name specified in the buildspec file overrides the artifact name. The name specified in a buildspec file is calculated at build time and uses the Shell Command Language. For example, you can append a date and time to your artifact name so that it is always unique. 
         public let overrideArtifactName: Bool?
         /// The type of build output artifact to create:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output artifacts instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, valid values include:    NONE: AWS CodeBuild creates in the output bucket a folder that contains the build output. This is the default if packaging is not specified.    ZIP: AWS CodeBuild creates in the output bucket a ZIP file that contains the build output.    
         public let packaging: ArtifactPackaging?
@@ -2412,6 +2432,43 @@ extension CodeBuild {
         }
     }
 
+    public struct ProjectFileSystemLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "identifier", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "mountOptions", required: false, type: .string), 
+            AWSShapeMember(label: "mountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        ///  The name used to access a file system created by Amazon EFS. CodeBuild creates an environment variable by appending the identifier in all capital letters to CODEBUILD_. For example, if you specify my-efs for identifier, a new environment variable is create named CODEBUILD_MY-EFS.   The identifier is used to mount your file system. 
+        public let identifier: String?
+        ///  A string that specifies the location of the file system created by Amazon EFS. Its format is efs-dns-name:/directory-path. You can find the DNS name of file system when you view it in the AWS EFS console. The directory path is a path to a directory in the file system that CodeBuild mounts. For example, if the DNS name of a file system is fs-abcd1234.efs.us-west-2.amazonaws.com, and its mount directory is my-efs-mount-directory, then the location is fs-abcd1234.efs.us-west-2.amazonaws.com:/my-efs-mount-directory.   The directory path in the format efs-dns-name:/directory-path is optional. If you do not specify a directory path, the location is only the DNS name and CodeBuild mounts the entire file system. 
+        public let location: String?
+        ///  The mount options for a file system created by AWS EFS. The default mount options used by CodeBuild are nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2. For more information, see Recommended NFS Mount Options. 
+        public let mountOptions: String?
+        ///  The location in the container where you mount the file system. 
+        public let mountPoint: String?
+        ///  The type of the file system. The one supported type is EFS. 
+        public let `type`: FileSystemType?
+
+        public init(identifier: String? = nil, location: String? = nil, mountOptions: String? = nil, mountPoint: String? = nil, type: FileSystemType? = nil) {
+            self.identifier = identifier
+            self.location = location
+            self.mountOptions = mountOptions
+            self.mountPoint = mountPoint
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+            case location = "location"
+            case mountOptions = "mountOptions"
+            case mountPoint = "mountPoint"
+            case `type` = "type"
+        }
+    }
+
     public struct ProjectSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "auth", required: false, type: .structure), 
@@ -2427,7 +2484,7 @@ extension CodeBuild {
 
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly.
         public let auth: SourceAuth?
-        /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
+        /// The buildspec file declaration to use for the builds in this build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location. 
         public let buildspec: String?
         /// Information about the Git clone depth for the build project.
         public let gitCloneDepth: Int?
@@ -2435,7 +2492,7 @@ extension CodeBuild {
         public let gitSubmodulesConfig: GitSubmodulesConfig?
         /// Enable this flag to ignore SSL warnings while connecting to the project source code.
         public let insecureSsl: Bool?
-        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, one of the following.     The path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip).     The path to the folder that contains the source code (for example,  bucket-name/path/to/source-code/folder/).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your GitHub account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow AWS CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec. You must connect your AWS account to your Bitbucket account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.  
+        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the buildspec file (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, one of the following.     The path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip).     The path to the folder that contains the source code (for example,  bucket-name/path/to/source-code/folder/).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your AWS account to your GitHub account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow AWS CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your AWS account to your Bitbucket account. Use the AWS CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.  
         public let location: String?
         ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown.    The status of a build triggered by a webhook is always reported to your source provider.  
         public let reportBuildStatus: Bool?
@@ -2545,7 +2602,7 @@ extension CodeBuild {
             AWSShapeMember(label: "credentialProvider", required: true, type: .enum)
         ]
 
-        ///  The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.    The credential can use the name of the credentials only if they exist in your current region.  
+        ///  The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.    The credential can use the name of the credentials only if they exist in your current AWS Region.  
         public let credential: String
         ///  The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager. 
         public let credentialProvider: CredentialProviderType
@@ -2870,7 +2927,7 @@ extension CodeBuild {
 
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
-        /// A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
+        /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location. 
         public let buildspecOverride: String?
         /// A ProjectCache object specified for this build that overrides the one defined in the build project.
         public let cacheOverride: ProjectCache?
@@ -3207,6 +3264,7 @@ extension CodeBuild {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
             AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "fileSystemLocations", required: false, type: .list), 
             AWSShapeMember(label: "logsConfig", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "queuedTimeoutInMinutes", required: false, type: .integer), 
@@ -3233,6 +3291,8 @@ extension CodeBuild {
         public let encryptionKey: String?
         /// Information to be changed about the build environment for the build project.
         public let environment: ProjectEnvironment?
+        ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System. 
+        public let fileSystemLocations: [ProjectFileSystemLocation]?
         ///  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, logs in an S3 bucket, or both. 
         public let logsConfig: LogsConfig?
         /// The name of the build project.  You cannot change a build project's name. 
@@ -3258,13 +3318,14 @@ extension CodeBuild {
         /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, cache: ProjectCache? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
             self.cache = cache
             self.description = description
             self.encryptionKey = encryptionKey
             self.environment = environment
+            self.fileSystemLocations = fileSystemLocations
             self.logsConfig = logsConfig
             self.name = name
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
@@ -3315,6 +3376,7 @@ extension CodeBuild {
             case description = "description"
             case encryptionKey = "encryptionKey"
             case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
             case logsConfig = "logsConfig"
             case name = "name"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"

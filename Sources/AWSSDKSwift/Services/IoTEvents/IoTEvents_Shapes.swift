@@ -56,9 +56,9 @@ extension IoTEvents {
 
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
-        /// Sends information about the detector model instance and the event that triggered the action to a Kinesis Data Firehose delivery stream.
+        /// Sends information about the detector model instance and the event that triggered the action to an Amazon Kinesis Data Firehose delivery stream.
         public let firehose: FirehoseAction?
-        /// Sends an IoT Events input, passing in information about the detector model instance and the event that triggered the action.
+        /// Sends an AWS IoT Events input, passing in information about the detector model instance and the event that triggered the action.
         public let iotEvents: IotEventsAction?
         /// Publishes an MQTT message with the given topic to the AWS IoT message broker.
         public let iotTopicPublish: IotTopicPublishAction?
@@ -119,7 +119,7 @@ extension IoTEvents {
             AWSShapeMember(label: "jsonPath", required: true, type: .string)
         ]
 
-        /// An expression that specifies an attribute-value pair in a JSON structure. Use this to specify an attribute from the JSON payload that is made available by the input. Inputs are derived from messages sent to the AWS IoT Events system (BatchPutMessage). Each such message contains a JSON payload, and the attribute (and its paired value) specified here are available for use in the "condition" expressions used by detectors.  Syntax: &lt;field-name&gt;.&lt;field-name&gt;... 
+        /// An expression that specifies an attribute-value pair in a JSON structure. Use this to specify an attribute from the JSON payload that is made available by the input. Inputs are derived from messages sent to AWS IoT Events (BatchPutMessage). Each such message contains a JSON payload. The attribute (and its paired value) specified here are available for use in the condition expressions used by detectors.  Syntax: &lt;field-name&gt;.&lt;field-name&gt;... 
         public let jsonPath: String
 
         public init(jsonPath: String) {
@@ -178,7 +178,7 @@ extension IoTEvents {
         public let detectorModelName: String
         /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
-        /// The input attribute key used to identify a device or system in order to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
+        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression in the message payload of each input to specify the attribute-value pair that is used to identify the device associated with the input.
         public let key: String?
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
@@ -552,7 +552,7 @@ extension IoTEvents {
         public let detectorModelVersion: String?
         /// Information about the order in which events are evaluated and how actions are executed. 
         public let evaluationMethod: EvaluationMethod?
-        /// The input attribute key used to identify a device or system in order to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
+        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression in the message payload of each input to specify the attribute-value pair that is used to identify the device associated with the input.
         public let key: String?
         /// The time the detector model was last updated.
         public let lastUpdateTime: TimeStamp?
@@ -707,7 +707,7 @@ extension IoTEvents {
 
         /// The actions to be performed.
         public let actions: [Action]?
-        /// [Optional] The Boolean expression that when TRUE causes the "actions" to be performed. If not present, the actions are performed (=TRUE); if the expression result is not a Boolean value, the actions are NOT performed (=FALSE).
+        /// Optional. The Boolean expression that, when TRUE, causes the actions to be performed. If not present, the actions are performed (=TRUE). If the expression result is not a Boolean value, the actions are not performed (=FALSE).
         public let condition: String?
         /// The name of the event.
         public let eventName: String
@@ -828,7 +828,7 @@ extension IoTEvents {
             AWSShapeMember(label: "attributes", required: true, type: .list)
         ]
 
-        /// The attributes from the JSON payload that are made available by the input. Inputs are derived from messages sent to the AWS IoT Events system using BatchPutMessage. Each such message contains a JSON payload, and those attributes (and their paired values) specified here are available for use in the "condition" expressions used by detectors that monitor this input. 
+        /// The attributes from the JSON payload that are made available by the input. Inputs are derived from messages sent to the AWS IoT Events system using BatchPutMessage. Each such message contains a JSON payload, and those attributes (and their paired values) specified here are available for use in the condition expressions used by detectors that monitor this input. 
         public let attributes: [Attribute]
 
         public init(attributes: [Attribute]) {
@@ -918,7 +918,7 @@ extension IoTEvents {
             AWSShapeMember(label: "mqttTopic", required: true, type: .string)
         ]
 
-        /// The MQTT topic of the message.
+        /// The MQTT topic of the message. You can use a string expression that includes variables ($variable.&lt;variable-name&gt;) and input values ($input.&lt;input-name&gt;.&lt;path-to-datum&gt;) as the topic string.
         public let mqttTopic: String
 
         public init(mqttTopic: String) {
@@ -1197,7 +1197,7 @@ extension IoTEvents {
             AWSShapeMember(label: "events", required: false, type: .list)
         ]
 
-        /// Specifies the actions that are performed when the state is entered and the "condition" is TRUE.
+        /// Specifies the actions that are performed when the state is entered and the condition is TRUE.
         public let events: [Event]?
 
         public init(events: [Event]? = nil) {
@@ -1220,7 +1220,7 @@ extension IoTEvents {
             AWSShapeMember(label: "events", required: false, type: .list)
         ]
 
-        /// Specifies the "actions" that are performed when the state is exited and the "condition" is TRUE.
+        /// Specifies the actions that are performed when the state is exited and the condition is TRUE.
         public let events: [Event]?
 
         public init(events: [Event]? = nil) {
@@ -1244,9 +1244,9 @@ extension IoTEvents {
             AWSShapeMember(label: "transitionEvents", required: false, type: .list)
         ]
 
-        /// Specifies the actions performed when the "condition" evaluates to TRUE.
+        /// Specifies the actions performed when the condition evaluates to TRUE.
         public let events: [Event]?
-        /// Specifies the actions performed, and the next state entered, when a "condition" evaluates to TRUE.
+        /// Specifies the actions performed, and the next state entered, when a condition evaluates to TRUE.
         public let transitionEvents: [TransitionEvent]?
 
         public init(events: [Event]? = nil, transitionEvents: [TransitionEvent]? = nil) {
@@ -1336,27 +1336,29 @@ extension IoTEvents {
 
     public struct SetTimerAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "seconds", required: true, type: .integer), 
+            AWSShapeMember(label: "durationExpression", required: false, type: .string), 
             AWSShapeMember(label: "timerName", required: true, type: .string)
         ]
 
-        /// The number of seconds until the timer expires. The minimum value is 60 seconds to ensure accuracy.
-        public let seconds: Int
+        /// The duration of the timer, in seconds. You can use a string expression that includes numbers, variables ($variable.&lt;variable-name&gt;), and input values ($input.&lt;input-name&gt;.&lt;path-to-datum&gt;) as the duration. The range of the duration is 1-31622400 seconds. To ensure accuracy, the minimum duration is 60 seconds. The evaluated result of the duration is rounded down to the nearest whole number. 
+        public let durationExpression: String?
         /// The name of the timer.
         public let timerName: String
 
-        public init(seconds: Int, timerName: String) {
-            self.seconds = seconds
+        public init(durationExpression: String? = nil, timerName: String) {
+            self.durationExpression = durationExpression
             self.timerName = timerName
         }
 
         public func validate(name: String) throws {
+            try validate(self.durationExpression, name:"durationExpression", parent: name, max: 1024)
+            try validate(self.durationExpression, name:"durationExpression", parent: name, min: 1)
             try validate(self.timerName, name:"timerName", parent: name, max: 128)
             try validate(self.timerName, name:"timerName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case seconds = "seconds"
+            case durationExpression = "durationExpression"
             case timerName = "timerName"
         }
     }
@@ -1399,7 +1401,7 @@ extension IoTEvents {
 
         /// The URL of the SQS queue where the data is written.
         public let queueUrl: String
-        /// Set this to TRUE if you want the data to be Base-64 encoded before it is written to the queue. Otherwise, set this to FALSE.
+        /// Set this to TRUE if you want the data to be base-64 encoded before it is written to the queue.
         public let useBase64: Bool?
 
         public init(queueUrl: String, useBase64: Bool? = nil) {
@@ -1421,11 +1423,11 @@ extension IoTEvents {
             AWSShapeMember(label: "stateName", required: true, type: .string)
         ]
 
-        /// When entering this state, perform these "actions" if the "condition" is TRUE.
+        /// When entering this state, perform these actions if the condition is TRUE.
         public let onEnter: OnEnterLifecycle?
-        /// When exiting this state, perform these "actions" if the specified "condition" is TRUE.
+        /// When exiting this state, perform these actions if the specified condition is TRUE.
         public let onExit: OnExitLifecycle?
-        /// When an input is received and the "condition" is TRUE, perform the specified "actions".
+        /// When an input is received and the condition is TRUE, perform the specified actions.
         public let onInput: OnInputLifecycle?
         /// The name of the state.
         public let stateName: String
@@ -1530,7 +1532,7 @@ extension IoTEvents {
 
         /// The actions to be performed.
         public let actions: [Action]?
-        /// [Required] A Boolean expression that when TRUE causes the actions to be performed and the "nextState" to be entered.
+        /// Required. A Boolean expression that when TRUE causes the actions to be performed and the nextState to be entered.
         public let condition: String
         /// The name of the transition event.
         public let eventName: String

@@ -64,7 +64,7 @@ public struct CloudFormation {
         return client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates stack instances for the specified accounts, within the specified regions. A stack instance refers to a stack in a specific account and region. Accounts and Regions are required parameters—you must specify at least one account and one region. 
+    ///  Creates stack instances for the specified accounts, within the specified regions. A stack instance refers to a stack in a specific account and region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions.
     public func createStackInstances(_ input: CreateStackInstancesInput) -> EventLoopFuture<CreateStackInstancesOutput> {
         return client.send(operation: "CreateStackInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -249,7 +249,7 @@ public struct CloudFormation {
         return client.send(operation: "ListStacks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of registration tokens for the specified type.
+    ///  Returns a list of registration tokens for the specified type(s).
     public func listTypeRegistrations(_ input: ListTypeRegistrationsInput) -> EventLoopFuture<ListTypeRegistrationsOutput> {
         return client.send(operation: "ListTypeRegistrations", path: "/", httpMethod: "POST", input: input)
     }

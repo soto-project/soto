@@ -36,12 +36,12 @@ extension Chime {
         return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the membership details for the specified room, such as the members' IDs, email addresses, and names.
+    ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     public func listRoomMembershipsPaginator(_ input: ListRoomMembershipsRequest, onPage: @escaping (ListRoomMembershipsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoomMemberships, tokenKey: \ListRoomMembershipsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the room details for the specified Amazon Chime account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
+    ///  Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     public func listRoomsPaginator(_ input: ListRoomsRequest, onPage: @escaping (ListRoomsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRooms, tokenKey: \ListRoomsResponse.nextToken, onPage: onPage)
     }

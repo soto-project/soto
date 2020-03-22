@@ -844,7 +844,7 @@ extension AutoScaling {
         public let lifecycleHookSpecificationList: [LifecycleHookSpecification]?
         /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers and Network Load Balancers, specify a list of target groups using the TargetGroupARNs property instead. For more information, see Using a Load Balancer with an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
         public let loadBalancerNames: [String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 604800.
+        /// The maximum amount of time, in seconds, that an instance can be in service. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 604800.
         public let maxInstanceLifetime: Int?
         /// The maximum size of the group.
         public let maxSize: Int
@@ -1372,9 +1372,9 @@ extension AutoScaling {
             AWSShapeMember(label: "NumberOfLaunchConfigurations", required: false, type: .integer)
         ]
 
-        /// The maximum number of groups allowed for your AWS account. The default limit is 200 per AWS Region.
+        /// The maximum number of groups allowed for your AWS account. The default is 200 groups per AWS Region.
         public let maxNumberOfAutoScalingGroups: Int?
-        /// The maximum number of launch configurations allowed for your AWS account. The default limit is 200 per AWS Region.
+        /// The maximum number of launch configurations allowed for your AWS account. The default is 200 launch configurations per AWS Region.
         public let maxNumberOfLaunchConfigurations: Int?
         /// The current number of groups for your AWS account.
         public let numberOfAutoScalingGroups: Int?
@@ -2769,7 +2769,7 @@ extension AutoScaling {
 
         /// The instance type. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
         public let instanceType: String?
-        /// The number of capacity units, which gives the instance type a proportional weight to other instance types. For example, larger instance types are generally weighted more than smaller instance types. These are the same units that you chose to set the desired capacity in terms of instances, or a performance attribute such as vCPUs, memory, or I/O. Valid Range: Minimum value of 1. Maximum value of 999.
+        /// The number of capacity units, which gives the instance type a proportional weight to other instance types. For example, larger instance types are generally weighted more than smaller instance types. These are the same units that you chose to set the desired capacity in terms of instances, or a performance attribute such as vCPUs, memory, or I/O. For more information, see Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 1. Maximum value of 999.
         public let weightedCapacity: String?
 
         public init(instanceType: String? = nil, weightedCapacity: String? = nil) {
@@ -3334,6 +3334,7 @@ extension AutoScaling {
             AWSShapeMember(label: "AdjustmentType", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
             AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
             AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
@@ -3351,6 +3352,8 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start. If this parameter is not specified, the default cooldown period for the group applies. Valid only if the policy type is SimpleScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
         public let cooldown: Int?
+        /// Indicates whether the scaling policy is enabled or disabled. The default is enabled. For more information, see Disabling a Scaling Policy for an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
+        public let enabled: Bool?
         /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. The default is to use the value specified for the default cooldown period for the group. Valid only if the policy type is StepScaling or TargetTrackingScaling.
         public let estimatedInstanceWarmup: Int?
         /// The aggregation type for the CloudWatch metrics. The valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average. Valid only if the policy type is StepScaling.
@@ -3370,10 +3373,11 @@ extension AutoScaling {
         /// A target tracking scaling policy. Includes support for predefined or customized metrics. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Conditional: If you specify TargetTrackingScaling for the policy type, you must specify this parameter. (Not used with any other policy type.) 
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
-        public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyName: String, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+        public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyName: String, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.adjustmentType = adjustmentType
             self.autoScalingGroupName = autoScalingGroupName
             self.cooldown = cooldown
+            self.enabled = enabled
             self.estimatedInstanceWarmup = estimatedInstanceWarmup
             self.metricAggregationType = metricAggregationType
             self.minAdjustmentMagnitude = minAdjustmentMagnitude
@@ -3408,6 +3412,7 @@ extension AutoScaling {
             case adjustmentType = "AdjustmentType"
             case autoScalingGroupName = "AutoScalingGroupName"
             case cooldown = "Cooldown"
+            case enabled = "Enabled"
             case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
             case metricAggregationType = "MetricAggregationType"
             case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
@@ -3549,6 +3554,7 @@ extension AutoScaling {
             AWSShapeMember(label: "Alarms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
             AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
             AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
@@ -3569,6 +3575,8 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start.
         public let cooldown: Int?
+        /// Indicates whether the policy is enabled (true) or disabled (false).
+        public let enabled: Bool?
         /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics.
         public let estimatedInstanceWarmup: Int?
         /// The aggregation type for the CloudWatch metrics. The valid values are Minimum, Maximum, and Average.
@@ -3590,11 +3598,12 @@ extension AutoScaling {
         /// A target tracking scaling policy.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
-        public init(adjustmentType: String? = nil, alarms: [Alarm]? = nil, autoScalingGroupName: String? = nil, cooldown: Int? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyARN: String? = nil, policyName: String? = nil, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+        public init(adjustmentType: String? = nil, alarms: [Alarm]? = nil, autoScalingGroupName: String? = nil, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyARN: String? = nil, policyName: String? = nil, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.adjustmentType = adjustmentType
             self.alarms = alarms
             self.autoScalingGroupName = autoScalingGroupName
             self.cooldown = cooldown
+            self.enabled = enabled
             self.estimatedInstanceWarmup = estimatedInstanceWarmup
             self.metricAggregationType = metricAggregationType
             self.minAdjustmentMagnitude = minAdjustmentMagnitude
@@ -3612,6 +3621,7 @@ extension AutoScaling {
             case alarms = "Alarms"
             case autoScalingGroupName = "AutoScalingGroupName"
             case cooldown = "Cooldown"
+            case enabled = "Enabled"
             case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
             case metricAggregationType = "MetricAggregationType"
             case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
@@ -4170,7 +4180,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template and version to use to specify the updates. If you specify LaunchTemplate in your update request, you can't specify LaunchConfigurationName or MixedInstancesPolicy. For more information, see LaunchTemplateSpecification in the Amazon EC2 Auto Scaling API Reference.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 604800.
+        /// The maximum amount of time, in seconds, that an instance can be in service. For more information, see Replacing Auto Scaling Instances Based on Maximum Instance Lifetime in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 604800.
         public let maxInstanceLifetime: Int?
         /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?

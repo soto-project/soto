@@ -44,12 +44,17 @@ public struct MediaConnect {
     
     //MARK: API Calls
 
-    ///  Adds outputs to an existing flow. You can create up to 20 outputs per flow.
+    ///  Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     public func addFlowOutputs(_ input: AddFlowOutputsRequest) -> EventLoopFuture<AddFlowOutputsResponse> {
         return client.send(operation: "AddFlowOutputs", path: "/v1/flows/{flowArn}/outputs", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new flow. The request must include one source. The request optionally can include outputs (up to 20) and entitlements (up to 50).
+    ///  Adds Sources to flow
+    public func addFlowSources(_ input: AddFlowSourcesRequest) -> EventLoopFuture<AddFlowSourcesResponse> {
+        return client.send(operation: "AddFlowSources", path: "/v1/flows/{flowArn}/source", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     public func createFlow(_ input: CreateFlowRequest) -> EventLoopFuture<CreateFlowResponse> {
         return client.send(operation: "CreateFlow", path: "/v1/flows", httpMethod: "POST", input: input)
     }
@@ -89,6 +94,11 @@ public struct MediaConnect {
         return client.send(operation: "RemoveFlowOutput", path: "/v1/flows/{flowArn}/outputs/{outputArn}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
+    public func removeFlowSource(_ input: RemoveFlowSourceRequest) -> EventLoopFuture<RemoveFlowSourceResponse> {
+        return client.send(operation: "RemoveFlowSource", path: "/v1/flows/{flowArn}/source/{sourceArn}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     public func revokeFlowEntitlement(_ input: RevokeFlowEntitlementRequest) -> EventLoopFuture<RevokeFlowEntitlementResponse> {
         return client.send(operation: "RevokeFlowEntitlement", path: "/v1/flows/{flowArn}/entitlements/{entitlementArn}", httpMethod: "DELETE", input: input)
@@ -112,6 +122,11 @@ public struct MediaConnect {
     ///  Deletes specified tags from a resource.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Updates flow
+    public func updateFlow(_ input: UpdateFlowRequest) -> EventLoopFuture<UpdateFlowResponse> {
+        return client.send(operation: "UpdateFlow", path: "/v1/flows/{flowArn}", httpMethod: "PUT", input: input)
     }
 
     ///  You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.

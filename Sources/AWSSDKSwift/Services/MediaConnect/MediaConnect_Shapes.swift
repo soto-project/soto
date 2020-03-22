@@ -34,6 +34,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum State: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable {
         case standby = "STANDBY"
         case active = "ACTIVE"
@@ -87,6 +93,49 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
             case outputs = "outputs"
+        }
+    }
+
+    public struct AddFlowSourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: true, type: .list)
+        ]
+
+        public let flowArn: String
+        /// A list of sources that you want to add.
+        public let sources: [SetSourceRequest]
+
+        public init(flowArn: String, sources: [SetSourceRequest]) {
+            self.flowArn = flowArn
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case sources = "sources"
+        }
+    }
+
+    public struct AddFlowSourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list)
+        ]
+
+        /// The ARN of the flow that these sources were added to.
+        public let flowArn: String?
+        /// The details of the newly added sources.
+        public let sources: [Source]?
+
+        public init(flowArn: String? = nil, sources: [Source]? = nil) {
+            self.flowArn = flowArn
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case sources = "sources"
         }
     }
 
@@ -163,7 +212,9 @@ extension MediaConnect {
             AWSShapeMember(label: "Entitlements", location: .body(locationName: "entitlements"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list), 
-            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure)
+            AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .structure), 
+            AWSShapeMember(label: "SourceFailoverConfig", location: .body(locationName: "sourceFailoverConfig"), required: false, type: .structure), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list)
         ]
 
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
@@ -174,14 +225,18 @@ extension MediaConnect {
         public let name: String
         /// The outputs that you want to add to this flow.
         public let outputs: [AddOutputRequest]?
-        public let source: SetSourceRequest
+        public let source: SetSourceRequest?
+        public let sourceFailoverConfig: FailoverConfig?
+        public let sources: [SetSourceRequest]?
 
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
             self.name = name
             self.outputs = outputs
             self.source = source
+            self.sourceFailoverConfig = sourceFailoverConfig
+            self.sources = sources
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -190,6 +245,8 @@ extension MediaConnect {
             case name = "name"
             case outputs = "outputs"
             case source = "source"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
         }
     }
 
@@ -382,6 +439,27 @@ extension MediaConnect {
         }
     }
 
+    public struct FailoverConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecoveryWindow", location: .body(locationName: "recoveryWindow"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
+        ]
+
+        /// Search window time to look for dash-7 packets
+        public let recoveryWindow: Int?
+        public let state: State?
+
+        public init(recoveryWindow: Int? = nil, state: State? = nil) {
+            self.recoveryWindow = recoveryWindow
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryWindow = "recoveryWindow"
+            case state = "state"
+        }
+    }
+
     public struct Flow: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
@@ -392,6 +470,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: true, type: .list), 
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure), 
+            AWSShapeMember(label: "SourceFailoverConfig", location: .body(locationName: "sourceFailoverConfig"), required: false, type: .structure), 
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
         ]
 
@@ -410,10 +490,12 @@ extension MediaConnect {
         /// The outputs in this flow.
         public let outputs: [Output]
         public let source: Source
+        public let sourceFailoverConfig: FailoverConfig?
+        public let sources: [Source]?
         /// The current status of the flow.
         public let status: Status
 
-        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, status: Status) {
+        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
@@ -422,6 +504,8 @@ extension MediaConnect {
             self.name = name
             self.outputs = outputs
             self.source = source
+            self.sourceFailoverConfig = sourceFailoverConfig
+            self.sources = sources
             self.status = status
         }
 
@@ -434,6 +518,8 @@ extension MediaConnect {
             case name = "name"
             case outputs = "outputs"
             case source = "source"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
             case status = "status"
         }
     }
@@ -835,6 +921,48 @@ extension MediaConnect {
         }
     }
 
+    public struct RemoveFlowSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceArn", location: .uri(locationName: "sourceArn"), required: true, type: .string)
+        ]
+
+        public let flowArn: String
+        public let sourceArn: String
+
+        public init(flowArn: String, sourceArn: String) {
+            self.flowArn = flowArn
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case sourceArn = "sourceArn"
+        }
+    }
+
+    public struct RemoveFlowSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: false, type: .string)
+        ]
+
+        /// The ARN of the flow that is associated with the source you removed.
+        public let flowArn: String?
+        /// The ARN of the source that was removed.
+        public let sourceArn: String?
+
+        public init(flowArn: String? = nil, sourceArn: String? = nil) {
+            self.flowArn = flowArn
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case sourceArn = "sourceArn"
+        }
+    }
+
     public struct RevokeFlowEntitlementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
@@ -1222,6 +1350,27 @@ extension MediaConnect {
         }
     }
 
+    public struct UpdateFailoverConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecoveryWindow", location: .body(locationName: "recoveryWindow"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
+        ]
+
+        /// Recovery window time to look for dash-7 packets
+        public let recoveryWindow: Int?
+        public let state: State?
+
+        public init(recoveryWindow: Int? = nil, state: State? = nil) {
+            self.recoveryWindow = recoveryWindow
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryWindow = "recoveryWindow"
+            case state = "state"
+        }
+    }
+
     public struct UpdateFlowEntitlementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -1366,6 +1515,42 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
             case output = "output"
+        }
+    }
+
+    public struct UpdateFlowRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SourceFailoverConfig", location: .body(locationName: "sourceFailoverConfig"), required: false, type: .structure)
+        ]
+
+        public let flowArn: String
+        public let sourceFailoverConfig: UpdateFailoverConfig?
+
+        public init(flowArn: String, sourceFailoverConfig: UpdateFailoverConfig? = nil) {
+            self.flowArn = flowArn
+            self.sourceFailoverConfig = sourceFailoverConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+        }
+    }
+
+    public struct UpdateFlowResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Flow", location: .body(locationName: "flow"), required: false, type: .structure)
+        ]
+
+        public let flow: Flow?
+
+        public init(flow: Flow? = nil) {
+            self.flow = flow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flow = "flow"
         }
     }
 

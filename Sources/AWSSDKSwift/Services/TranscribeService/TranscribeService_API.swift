@@ -70,7 +70,7 @@ public struct TranscribeService {
         return client.send(operation: "DeleteVocabularyFilter", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptionFileUri field.
+    ///  Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptFileUri field. If you enable content redaction, the redacted transcript appears in RedactedTranscriptFileUri.
     public func getTranscriptionJob(_ input: GetTranscriptionJobRequest) -> EventLoopFuture<GetTranscriptionJobResponse> {
         return client.send(operation: "GetTranscriptionJob", path: "/", httpMethod: "POST", input: input)
     }

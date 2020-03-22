@@ -106,6 +106,11 @@ extension Glue {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResponse.nextToken, onPage: onPage)
     }
 
+    ///   Retrieves a sortable, filterable list of existing AWS Glue machine learning transforms in this AWS account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved. 
+    public func listMLTransformsPaginator(_ input: ListMLTransformsRequest, onPage: @escaping (ListMLTransformsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMLTransforms, tokenKey: \ListMLTransformsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listTriggersPaginator(_ input: ListTriggersRequest, onPage: @escaping (ListTriggersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTriggers, tokenKey: \ListTriggersResponse.nextToken, onPage: onPage)
@@ -348,6 +353,19 @@ extension Glue.ListJobsRequest: AWSPaginateStringToken {
         return .init(
             maxResults: self.maxResults, 
             nextToken: token, 
+            tags: self.tags
+        )
+
+    }
+}
+
+extension Glue.ListMLTransformsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListMLTransformsRequest {
+        return .init(
+            filter: self.filter, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            sort: self.sort, 
             tags: self.tags
         )
 

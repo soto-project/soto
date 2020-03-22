@@ -124,7 +124,7 @@ public struct Lambda {
         return client.send(operation: "GetFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns details about the concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
+    ///  Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
     public func getFunctionConcurrency(_ input: GetFunctionConcurrencyRequest) -> EventLoopFuture<GetFunctionConcurrencyResponse> {
         return client.send(operation: "GetFunctionConcurrency", path: "/2019-09-30/functions/{FunctionName}/concurrency", httpMethod: "GET", input: input)
     }
@@ -190,7 +190,7 @@ public struct Lambda {
         return client.send(operation: "ListFunctionEventInvokeConfigs", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config/list", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of Lambda functions, with the version-specific configuration of each. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
+    ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
     public func listFunctions(_ input: ListFunctionsRequest) -> EventLoopFuture<ListFunctionsResponse> {
         return client.send(operation: "ListFunctions", path: "/2015-03-31/functions/", httpMethod: "GET", input: input)
     }
@@ -215,7 +215,7 @@ public struct Lambda {
         return client.send(operation: "ListTags", path: "/2017-03-31/tags/{ARN}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of versions, with the version-specific configuration of each. 
+    ///  Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     public func listVersionsByFunction(_ input: ListVersionsByFunctionRequest) -> EventLoopFuture<ListVersionsByFunctionResponse> {
         return client.send(operation: "ListVersionsByFunction", path: "/2015-03-31/functions/{FunctionName}/versions", httpMethod: "GET", input: input)
     }
@@ -235,7 +235,7 @@ public struct Lambda {
         return client.send(operation: "PutFunctionConcurrency", path: "/2017-10-31/functions/{FunctionName}/concurrency", httpMethod: "PUT", input: input)
     }
 
-    ///  Configures options for asynchronous invocation on a function, version, or alias. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with UpdateFunctionConfiguration.
+    ///  Configures options for asynchronous invocation on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use PutFunctionEventInvokeConfig. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with UpdateFunctionConfiguration. To send an invocation record to a queue, topic, function, or event bus, specify a destination. You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue.
     public func putFunctionEventInvokeConfig(_ input: PutFunctionEventInvokeConfigRequest) -> EventLoopFuture<FunctionEventInvokeConfig> {
         return client.send(operation: "PutFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: "PUT", input: input)
     }

@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS SecurityHub service.
 
-Security Hub provides you with a comprehensive view of the security state of your AWS environment and resources. It also provides you with the compliance status of your environment based on CIS AWS Foundations compliance checks. Security Hub collects security data from AWS accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the  AWS Security Hub User Guide . When you use operations in the Security Hub API, the requests are executed only in the AWS Region that is currently active or in the specific AWS Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, execute the same command for each Region to apply the change to. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the master account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invite was sent from. The following throttling limits apply to using Security Hub API operations:    GetFindings - RateLimit of 3 requests per second, and a BurstLimit of 6 requests per second.    UpdateFindings - RateLimit of 1 request per second, and a BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 request per second, and a BurstLimit of 30 requests per second.  
+Security Hub provides you with a comprehensive view of the security state of your AWS environment and resources. It also provides you with the readiness status of your environment based on controls from supported security standards. Security Hub collects security data from AWS accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the  AWS Security Hub User Guide . When you use operations in the Security Hub API, the requests are executed only in the AWS Region that is currently active or in the specific AWS Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, execute the same command for each Region to apply the change to. For example, if your Region is set to us-west-2, when you use  CreateMembers  to add a member account to Security Hub, the association of the member account with the master account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invitation was sent from. The following throttling limits apply to using Security Hub API operations.     GetFindings  - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.     UpdateFindings  - RateLimit of 1 request per second. BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.  
 */
 public struct SecurityHub {
 
@@ -49,12 +49,12 @@ public struct SecurityHub {
         return client.send(operation: "AcceptInvitation", path: "/master", httpMethod: "POST", input: input)
     }
 
-    ///  Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Standards Supported in AWS Security Hub.
+    ///  Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the AWS Security Hub User Guide.
     public func batchDisableStandards(_ input: BatchDisableStandardsRequest) -> EventLoopFuture<BatchDisableStandardsResponse> {
         return client.send(operation: "BatchDisableStandards", path: "/standards/deregister", httpMethod: "POST", input: input)
     }
 
-    ///  Enables the standards specified by the provided standardsArn. In this release, only CIS AWS Foundations standards are supported. For more information, see Standards Supported in AWS Security Hub.
+    ///  Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the  DescribeStandards  operation. For more information, see the Security Standards section of the AWS Security Hub User Guide.
     public func batchEnableStandards(_ input: BatchEnableStandardsRequest) -> EventLoopFuture<BatchEnableStandardsResponse> {
         return client.send(operation: "BatchEnableStandards", path: "/standards/register", httpMethod: "POST", input: input)
     }
@@ -69,12 +69,12 @@ public struct SecurityHub {
         return client.send(operation: "CreateActionTarget", path: "/actionTargets", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. Use the GroupByAttribute to group the related findings in the insight.
+    ///  Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     public func createInsight(_ input: CreateInsightRequest) -> EventLoopFuture<CreateInsightResponse> {
         return client.send(operation: "CreateInsight", path: "/insights", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the master account. To successfully create a member, you must use this action from an account that already has Security Hub enabled. You can use the EnableSecurityHub to enable Security Hub. After you use CreateMembers to create member account associations in Security Hub, you need to use the InviteMembers action, which invites the accounts to enable Security Hub and become member accounts in Security Hub. If the invitation is accepted by the account owner, the account becomes a member account in Security Hub, and a permission policy is added that permits the master account to view the findings generated in the member account. When Security Hub is enabled in the invited account, findings start being sent to both the member and master accounts. You can remove the association between the master and member accounts by using the DisassociateFromMasterAccount or DisassociateMembers operation.
+    ///  Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the master account. To successfully create a member, you must use this action from an account that already has Security Hub enabled. To enable Security Hub, you can use the  EnableSecurityHub  operation. After you use CreateMembers to create member account associations in Security Hub, you must use the  InviteMembers  operation to invite the accounts to enable Security Hub and become member accounts in Security Hub. If the account owner accepts the invitation, the account becomes a member account in Security Hub, and a permission policy is added that permits the master account to view the findings generated in the member account. When Security Hub is enabled in the invited account, findings start to be sent to both the member and master accounts. To remove the association between the master and member accounts, use the  DisassociateFromMasterAccount  or  DisassociateMembers  operation.
     public func createMembers(_ input: CreateMembersRequest) -> EventLoopFuture<CreateMembersResponse> {
         return client.send(operation: "CreateMembers", path: "/members", httpMethod: "POST", input: input)
     }
@@ -84,7 +84,7 @@ public struct SecurityHub {
         return client.send(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a custom action target from Security Hub. Deleting a custom action target doesn't affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+    ///  Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     public func deleteActionTarget(_ input: DeleteActionTargetRequest) -> EventLoopFuture<DeleteActionTargetResponse> {
         return client.send(operation: "DeleteActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: "DELETE", input: input)
     }
@@ -114,22 +114,27 @@ public struct SecurityHub {
         return client.send(operation: "DescribeHub", path: "/accounts", httpMethod: "GET", input: input)
     }
 
-    ///  Returns information about the products available that you can subscribe to and integrate with Security Hub to consolidate findings.
+    ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
     public func describeProducts(_ input: DescribeProductsRequest) -> EventLoopFuture<DescribeProductsResponse> {
         return client.send(operation: "DescribeProducts", path: "/products", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of compliance standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
+    public func describeStandards(_ input: DescribeStandardsRequest) -> EventLoopFuture<DescribeStandardsResponse> {
+        return client.send(operation: "DescribeStandards", path: "/standards", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
     public func describeStandardsControls(_ input: DescribeStandardsControlsRequest) -> EventLoopFuture<DescribeStandardsControlsResponse> {
         return client.send(operation: "DescribeStandardsControls", path: "/standards/controls/{StandardsSubscriptionArn+}", httpMethod: "GET", input: input)
     }
 
-    ///  Disables the integration of the specified product with Security Hub. Findings from that product are no longer sent to Security Hub after the integration is disabled.
+    ///  Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
     public func disableImportFindingsForProduct(_ input: DisableImportFindingsForProductRequest) -> EventLoopFuture<DisableImportFindingsForProductResponse> {
         return client.send(operation: "DisableImportFindingsForProduct", path: "/productSubscriptions/{ProductSubscriptionArn+}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and can't be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+    ///  Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
     public func disableSecurityHub(_ input: DisableSecurityHubRequest) -> EventLoopFuture<DisableSecurityHubResponse> {
         return client.send(operation: "DisableSecurityHub", path: "/accounts", httpMethod: "DELETE", input: input)
     }
@@ -149,7 +154,7 @@ public struct SecurityHub {
         return client.send(operation: "EnableImportFindingsForProduct", path: "/productSubscriptions", httpMethod: "POST", input: input)
     }
 
-    ///  Enables Security Hub for your account in the current Region or the Region you specify in the request. Enabling Security Hub also enables the CIS AWS Foundations standard. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from AWS Config, Amazon GuardDuty, Amazon Inspector, and Amazon Macie. To learn more, see Setting Up AWS Security Hub.
+    ///  Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from AWS Config, Amazon GuardDuty, Amazon Inspector, and Amazon Macie. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the CIS AWS Foundations standard. You do not enable the Payment Card Industry Data Security Standard (PCI DSS) standard. To enable a standard, use the  BatchEnableStandards  operation. To disable a standard, use the  BatchDisableStandards  operation. To learn more, see Setting Up AWS Security Hub in the AWS Security Hub User Guide.
     public func enableSecurityHub(_ input: EnableSecurityHubRequest) -> EventLoopFuture<EnableSecurityHubResponse> {
         return client.send(operation: "EnableSecurityHub", path: "/accounts", httpMethod: "POST", input: input)
     }
@@ -164,12 +169,12 @@ public struct SecurityHub {
         return client.send(operation: "GetFindings", path: "/findings", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the results of the Security Hub insight that the insight ARN specifies.
+    ///  Lists the results of the Security Hub insight specified by the insight ARN.
     public func getInsightResults(_ input: GetInsightResultsRequest) -> EventLoopFuture<GetInsightResultsResponse> {
         return client.send(operation: "GetInsightResults", path: "/insights/results/{InsightArn+}", httpMethod: "GET", input: input)
     }
 
-    ///  Lists and describes insights that insight ARNs specify.
+    ///  Lists and describes insights for the specified insight ARNs.
     public func getInsights(_ input: GetInsightsRequest) -> EventLoopFuture<GetInsightsResponse> {
         return client.send(operation: "GetInsights", path: "/insights/get", httpMethod: "POST", input: input)
     }
@@ -179,22 +184,22 @@ public struct SecurityHub {
         return client.send(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: "GET", input: input)
     }
 
-    ///  Provides the details for the Security Hub master account to the current member account. 
+    ///  Provides the details for the Security Hub master account for the current member account. 
     public func getMasterAccount(_ input: GetMasterAccountRequest) -> EventLoopFuture<GetMasterAccountResponse> {
         return client.send(operation: "GetMasterAccount", path: "/master", httpMethod: "GET", input: input)
     }
 
-    ///  Returns the details on the Security Hub member accounts that the account IDs specify.
+    ///  Returns the details for the Security Hub member accounts for the specified account IDs.
     public func getMembers(_ input: GetMembersRequest) -> EventLoopFuture<GetMembersResponse> {
         return client.send(operation: "GetMembers", path: "/members/get", httpMethod: "POST", input: input)
     }
 
-    ///  Invites other AWS accounts to become member accounts for the Security Hub master account that the invitation is sent from. Before you can use this action to invite a member, you must first create the member account in Security Hub by using the CreateMembers action. When the account owner accepts the invitation to become a member account and enables Security Hub, the master account can view the findings generated from member account.
+    ///  Invites other AWS accounts to become member accounts for the Security Hub master account that the invitation is sent from. Before you can use this action to invite a member, you must first use the  CreateMembers  action to create the member account in Security Hub. When the account owner accepts the invitation to become a member account and enables Security Hub, the master account can view the findings generated from the member account.
     public func inviteMembers(_ input: InviteMembersRequest) -> EventLoopFuture<InviteMembersResponse> {
         return client.send(operation: "InviteMembers", path: "/members/invite", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all findings-generating solutions (products) whose findings you have subscribed to receive in Security Hub.
+    ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     public func listEnabledProductsForImport(_ input: ListEnabledProductsForImportRequest) -> EventLoopFuture<ListEnabledProductsForImportResponse> {
         return client.send(operation: "ListEnabledProductsForImport", path: "/productSubscriptions", httpMethod: "GET", input: input)
     }
@@ -234,12 +239,12 @@ public struct SecurityHub {
         return client.send(operation: "UpdateFindings", path: "/findings", httpMethod: "PATCH", input: input)
     }
 
-    ///  Updates the Security Hub insight that the insight ARN specifies.
+    ///  Updates the Security Hub insight identified by the specified insight ARN.
     public func updateInsight(_ input: UpdateInsightRequest) -> EventLoopFuture<UpdateInsightResponse> {
         return client.send(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Used to control whether an individual compliance standard control is enabled or disabled.
+    ///  Used to control whether an individual security standard control is enabled or disabled.
     public func updateStandardsControl(_ input: UpdateStandardsControlRequest) -> EventLoopFuture<UpdateStandardsControlResponse> {
         return client.send(operation: "UpdateStandardsControl", path: "/standards/control/{StandardsControlArn+}", httpMethod: "PATCH", input: input)
     }

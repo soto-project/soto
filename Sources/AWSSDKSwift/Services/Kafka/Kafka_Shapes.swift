@@ -34,6 +34,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum KafkaVersionStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeType: String, CustomStringConvertible, Codable {
         case broker = "BROKER"
         public var description: String { return self.rawValue }
@@ -61,6 +67,33 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case kafkaBrokerNodeId = "kafkaBrokerNodeId"
             case volumeSizeGB = "volumeSizeGB"
+        }
+    }
+
+    public struct BrokerLogs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLogs", location: .body(locationName: "cloudWatchLogs"), required: false, type: .structure), 
+            AWSShapeMember(label: "Firehose", location: .body(locationName: "firehose"), required: false, type: .structure), 
+            AWSShapeMember(label: "S3", location: .body(locationName: "s3"), required: false, type: .structure)
+        ]
+
+        /// Details of the CloudWatch Logs destination for broker logs.
+        public let cloudWatchLogs: CloudWatchLogs?
+        /// Details of the Kinesis Data Firehose delivery stream that is the destination for broker logs.
+        public let firehose: Firehose?
+        /// Details of the Amazon S3 destination for broker logs.
+        public let s3: S3?
+
+        public init(cloudWatchLogs: CloudWatchLogs? = nil, firehose: Firehose? = nil, s3: S3? = nil) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
         }
     }
 
@@ -193,6 +226,28 @@ extension Kafka {
         }
     }
 
+    public struct CloudWatchLogs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: true, type: .boolean), 
+            AWSShapeMember(label: "LogGroup", location: .body(locationName: "logGroup"), required: false, type: .string)
+        ]
+
+        /// Specifies whether broker logs get sent to the specified CloudWatch Logs destination.
+        public let enabled: Bool
+        /// The CloudWatch log group that is the destination for broker logs.
+        public let logGroup: String?
+
+        public init(enabled: Bool, logGroup: String? = nil) {
+            self.enabled = enabled
+            self.logGroup = logGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case logGroup = "logGroup"
+        }
+    }
+
     public struct ClusterInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActiveOperationArn", location: .body(locationName: "activeOperationArn"), required: false, type: .string), 
@@ -205,6 +260,7 @@ extension Kafka {
             AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: false, type: .string), 
             AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
+            AWSShapeMember(label: "LoggingInfo", location: .body(locationName: "loggingInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer), 
             AWSShapeMember(label: "OpenMonitoring", location: .body(locationName: "openMonitoring"), required: false, type: .structure), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -232,6 +288,8 @@ extension Kafka {
         public let encryptionInfo: EncryptionInfo?
         /// Specifies which metrics are gathered for the MSK cluster. This property has three possible values: DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER. For a list of the metrics associated with each of these three levels of monitoring, see Monitoring.
         public let enhancedMonitoring: EnhancedMonitoring?
+        /// You can configure your MSK cluster to send broker logs to different destination types. This is a container for the configuration details related to broker logs.
+        public let loggingInfo: LoggingInfo?
         ///             The number of broker nodes in the cluster.
         ///          
         public let numberOfBrokerNodes: Int?
@@ -244,7 +302,7 @@ extension Kafka {
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
         public let zookeeperConnectString: String?
 
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -255,6 +313,7 @@ extension Kafka {
             self.currentVersion = currentVersion
             self.encryptionInfo = encryptionInfo
             self.enhancedMonitoring = enhancedMonitoring
+            self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
             self.state = state
@@ -273,6 +332,7 @@ extension Kafka {
             case currentVersion = "currentVersion"
             case encryptionInfo = "encryptionInfo"
             case enhancedMonitoring = "enhancedMonitoring"
+            case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
             case state = "state"
@@ -442,6 +502,7 @@ extension Kafka {
             AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
             AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "LoggingInfo", location: .body(locationName: "loggingInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: true, type: .integer), 
             AWSShapeMember(label: "OpenMonitoring", location: .body(locationName: "openMonitoring"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
@@ -461,14 +522,17 @@ extension Kafka {
         public let enhancedMonitoring: EnhancedMonitoring?
         /// The version of Apache Kafka.
         public let kafkaVersion: String
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        /// LoggingInfo details.
+        public let loggingInfo: LoggingInfo?
+        ///             The number of broker nodes in the cluster.
+        ///          
         public let numberOfBrokerNodes: Int
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
         /// Create tags when creating the cluster.
         public let tags: [String: String]?
 
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil, tags: [String: String]? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil, tags: [String: String]? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.clusterName = clusterName
@@ -476,6 +540,7 @@ extension Kafka {
             self.encryptionInfo = encryptionInfo
             self.enhancedMonitoring = enhancedMonitoring
             self.kafkaVersion = kafkaVersion
+            self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
             self.tags = tags
@@ -499,6 +564,7 @@ extension Kafka {
             case encryptionInfo = "encryptionInfo"
             case enhancedMonitoring = "enhancedMonitoring"
             case kafkaVersion = "kafkaVersion"
+            case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
             case tags = "tags"
@@ -922,6 +988,28 @@ extension Kafka {
         }
     }
 
+    public struct Firehose: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStream", location: .body(locationName: "deliveryStream"), required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: true, type: .boolean)
+        ]
+
+        /// The Kinesis Data Firehose delivery stream that is the destination for broker logs.
+        public let deliveryStream: String?
+        /// Specifies whether broker logs get sent to the specified Kinesis Data Firehose delivery stream.
+        public let enabled: Bool
+
+        public init(deliveryStream: String? = nil, enabled: Bool) {
+            self.deliveryStream = deliveryStream
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStream = "deliveryStream"
+            case enabled = "enabled"
+        }
+    }
+
     public struct GetBootstrapBrokersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string)
@@ -984,7 +1072,7 @@ extension Kafka {
             AWSShapeMember(label: "EnabledInBroker", location: .body(locationName: "enabledInBroker"), required: true, type: .boolean)
         ]
 
-        /// Indicates whether you want to enable or disable the JMX Exporter.
+        /// JMX Exporter being enabled in broker.
         public let enabledInBroker: Bool
 
         public init(enabledInBroker: Bool) {
@@ -993,6 +1081,28 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case enabledInBroker = "enabledInBroker"
+        }
+    }
+
+    public struct KafkaVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .string)
+        ]
+
+        /// The status of the Apache Kafka version.
+        public let status: KafkaVersionStatus?
+        /// The Kafka version.
+        public let version: String?
+
+        public init(status: KafkaVersionStatus? = nil, version: String? = nil) {
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -1196,6 +1306,53 @@ extension Kafka {
         }
     }
 
+    public struct ListKafkaVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListKafkaVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// An array of Kafka version objects.
+        public let kafkaVersions: [KafkaVersion]?
+        /// Paginated results marker.
+        public let nextToken: String?
+
+        public init(kafkaVersions: [KafkaVersion]? = nil, nextToken: String? = nil) {
+            self.kafkaVersions = kafkaVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kafkaVersions = "kafkaVersions"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListNodesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
@@ -1280,11 +1437,29 @@ extension Kafka {
         }
     }
 
+    public struct LoggingInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BrokerLogs", location: .body(locationName: "brokerLogs"), required: true, type: .structure)
+        ]
+
+        /// You can configure your MSK cluster to send broker logs to different destination types. This configuration specifies the details of these destinations.
+        public let brokerLogs: BrokerLogs
+
+        public init(brokerLogs: BrokerLogs) {
+            self.brokerLogs = brokerLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerLogs = "brokerLogs"
+        }
+    }
+
     public struct MutableClusterInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BrokerEBSVolumeInfo", location: .body(locationName: "brokerEBSVolumeInfo"), required: false, type: .list), 
             AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
+            AWSShapeMember(label: "LoggingInfo", location: .body(locationName: "loggingInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer), 
             AWSShapeMember(label: "OpenMonitoring", location: .body(locationName: "openMonitoring"), required: false, type: .structure)
         ]
@@ -1295,16 +1470,19 @@ extension Kafka {
         public let configurationInfo: ConfigurationInfo?
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
         public let enhancedMonitoring: EnhancedMonitoring?
+        /// LoggingInfo details.
+        public let loggingInfo: LoggingInfo?
         ///             The number of broker nodes in the cluster.
         ///          
         public let numberOfBrokerNodes: Int?
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.configurationInfo = configurationInfo
             self.enhancedMonitoring = enhancedMonitoring
+            self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
         }
@@ -1313,6 +1491,7 @@ extension Kafka {
             case brokerEBSVolumeInfo = "brokerEBSVolumeInfo"
             case configurationInfo = "configurationInfo"
             case enhancedMonitoring = "enhancedMonitoring"
+            case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
         }
@@ -1340,7 +1519,7 @@ extension Kafka {
             AWSShapeMember(label: "EnabledInBroker", location: .body(locationName: "enabledInBroker"), required: true, type: .boolean)
         ]
 
-        /// Indicates whether you want to enable or disable the Node Exporter.
+        /// Node Exporter being enabled in broker.
         public let enabledInBroker: Bool
 
         public init(enabledInBroker: Bool) {
@@ -1469,6 +1648,33 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case jmxExporter = "jmxExporter"
             case nodeExporter = "nodeExporter"
+        }
+    }
+
+    public struct S3: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .body(locationName: "bucket"), required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", location: .body(locationName: "enabled"), required: true, type: .boolean), 
+            AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix"), required: false, type: .string)
+        ]
+
+        /// The name of the S3 bucket that is the destination for broker logs.
+        public let bucket: String?
+        /// Specifies whether broker logs get sent to the specified Amazon S3 destination.
+        public let enabled: Bool
+        /// The S3 prefix that is the destination for broker logs.
+        public let prefix: String?
+
+        public init(bucket: String? = nil, enabled: Bool, prefix: String? = nil) {
+            self.bucket = bucket
+            self.enabled = enabled
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case enabled = "enabled"
+            case prefix = "prefix"
         }
     }
 
@@ -1705,6 +1911,7 @@ extension Kafka {
             AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
             AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: true, type: .string), 
             AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
+            AWSShapeMember(label: "LoggingInfo", location: .body(locationName: "loggingInfo"), required: false, type: .structure), 
             AWSShapeMember(label: "OpenMonitoring", location: .body(locationName: "openMonitoring"), required: false, type: .structure)
         ]
 
@@ -1713,13 +1920,16 @@ extension Kafka {
         public let currentVersion: String
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
         public let enhancedMonitoring: EnhancedMonitoring?
+        /// LoggingInfo details.
+        public let loggingInfo: LoggingInfo?
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
 
-        public init(clusterArn: String, currentVersion: String, enhancedMonitoring: EnhancedMonitoring? = nil, openMonitoring: OpenMonitoringInfo? = nil) {
+        public init(clusterArn: String, currentVersion: String, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, openMonitoring: OpenMonitoringInfo? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.enhancedMonitoring = enhancedMonitoring
+            self.loggingInfo = loggingInfo
             self.openMonitoring = openMonitoring
         }
 
@@ -1727,6 +1937,7 @@ extension Kafka {
             case clusterArn = "clusterArn"
             case currentVersion = "currentVersion"
             case enhancedMonitoring = "enhancedMonitoring"
+            case loggingInfo = "loggingInfo"
             case openMonitoring = "openMonitoring"
         }
     }

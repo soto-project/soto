@@ -228,6 +228,81 @@ extension ElasticsearchService {
         }
     }
 
+    public struct AdvancedSecurityOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "InternalUserDatabaseEnabled", required: false, type: .boolean)
+        ]
+
+        /// True if advanced security is enabled.
+        public let enabled: Bool?
+        /// True if the internal user database is enabled.
+        public let internalUserDatabaseEnabled: Bool?
+
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil) {
+            self.enabled = enabled
+            self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
+        }
+    }
+
+    public struct AdvancedSecurityOptionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "InternalUserDatabaseEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "MasterUserOptions", required: false, type: .structure)
+        ]
+
+        /// True if advanced security is enabled.
+        public let enabled: Bool?
+        /// True if the internal user database is enabled.
+        public let internalUserDatabaseEnabled: Bool?
+        /// Credentials for the master user: username and password, ARN, or both.
+        public let masterUserOptions: MasterUserOptions?
+
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil) {
+            self.enabled = enabled
+            self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.masterUserOptions = masterUserOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
+            case masterUserOptions = "MasterUserOptions"
+        }
+    }
+
+    public struct AdvancedSecurityOptionsStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+
+        ///  Specifies advanced security options for the specified Elasticsearch domain.
+        public let options: AdvancedSecurityOptions
+        ///  Status of the advanced security options for the specified Elasticsearch domain.
+        public let status: OptionStatus
+
+        public init(options: AdvancedSecurityOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct CancelElasticsearchServiceSoftwareUpdateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
@@ -358,6 +433,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
+            AWSShapeMember(label: "AdvancedSecurityOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -375,6 +451,8 @@ extension ElasticsearchService {
         public let accessPolicies: String?
         ///  Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
         public let advancedOptions: [String: String]?
+        /// Specifies advanced security options.
+        public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
         /// Options to specify configuration that will be applied to the domain endpoint.
@@ -398,9 +476,10 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
+            self.advancedSecurityOptions = advancedSecurityOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
@@ -415,6 +494,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
             try validate(self.domainName, name:"domainName", parent: name, max: 28)
             try validate(self.domainName, name:"domainName", parent: name, min: 3)
@@ -425,6 +505,7 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
+            case advancedSecurityOptions = "AdvancedSecurityOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
@@ -978,6 +1059,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: false, type: .structure), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "AdvancedSecurityOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
@@ -994,6 +1076,8 @@ extension ElasticsearchService {
         public let accessPolicies: AccessPoliciesStatus?
         /// Specifies the AdvancedOptions for the domain. See Configuring Advanced Options for more information.
         public let advancedOptions: AdvancedOptionsStatus?
+        /// Specifies AdvancedSecurityOptions for the domain. 
+        public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
         /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptionsStatus?
         /// Specifies the DomainEndpointOptions for the Elasticsearch domain.
@@ -1015,9 +1099,10 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
+            self.advancedSecurityOptions = advancedSecurityOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.eBSOptions = eBSOptions
@@ -1033,6 +1118,7 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
+            case advancedSecurityOptions = "AdvancedSecurityOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case eBSOptions = "EBSOptions"
@@ -1050,6 +1136,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
+            AWSShapeMember(label: "AdvancedSecurityOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "Created", required: false, type: .boolean), 
@@ -1076,6 +1163,8 @@ extension ElasticsearchService {
         public let accessPolicies: String?
         /// Specifies the status of the AdvancedOptions
         public let advancedOptions: [String: String]?
+        /// The current status of the Elasticsearch domain's advanced security options.
+        public let advancedSecurityOptions: AdvancedSecurityOptions?
         /// The Amazon resource name (ARN) of an Elasticsearch domain. See Identifiers for IAM Entities in Using AWS Identity and Access Management for more information.
         public let arn: String
         /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
@@ -1116,9 +1205,10 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, arn: String, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
+            self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
             self.cognitoOptions = cognitoOptions
             self.created = created
@@ -1144,6 +1234,7 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
+            case advancedSecurityOptions = "AdvancedSecurityOptions"
             case arn = "ARN"
             case cognitoOptions = "CognitoOptions"
             case created = "Created"
@@ -1638,6 +1729,38 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
+        }
+    }
+
+    public struct MasterUserOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MasterUserARN", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUserName", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string)
+        ]
+
+        /// ARN for the master user (if IAM is enabled).
+        public let masterUserARN: String?
+        /// The master user's username, which is stored in the Amazon Elasticsearch Service domain's internal database.
+        public let masterUserName: String?
+        /// The master user's password, which is stored in the Amazon Elasticsearch Service domain's internal database.
+        public let masterUserPassword: String?
+
+        public init(masterUserARN: String? = nil, masterUserName: String? = nil, masterUserPassword: String? = nil) {
+            self.masterUserARN = masterUserARN
+            self.masterUserName = masterUserName
+            self.masterUserPassword = masterUserPassword
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.masterUserName, name:"masterUserName", parent: name, min: 1)
+            try validate(self.masterUserPassword, name:"masterUserPassword", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case masterUserARN = "MasterUserARN"
+            case masterUserName = "MasterUserName"
+            case masterUserPassword = "MasterUserPassword"
         }
     }
 
@@ -2152,6 +2275,7 @@ extension ElasticsearchService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
+            AWSShapeMember(label: "AdvancedSecurityOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
@@ -2166,6 +2290,8 @@ extension ElasticsearchService {
         public let accessPolicies: String?
         /// Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
         public let advancedOptions: [String: String]?
+        /// Specifies advanced security options.
+        public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
         /// Options to specify configuration that will be applied to the domain endpoint.
@@ -2183,9 +2309,10 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
+            self.advancedSecurityOptions = advancedSecurityOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
@@ -2197,6 +2324,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
             try validate(self.domainName, name:"domainName", parent: name, max: 28)
             try validate(self.domainName, name:"domainName", parent: name, min: 3)
@@ -2206,6 +2334,7 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
+            case advancedSecurityOptions = "AdvancedSecurityOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"

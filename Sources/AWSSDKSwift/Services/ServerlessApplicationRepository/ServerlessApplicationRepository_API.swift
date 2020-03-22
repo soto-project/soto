@@ -126,6 +126,11 @@ public struct ServerlessApplicationRepository {
         return client.send(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "PUT", input: input)
     }
 
+    ///  Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
+    @discardableResult public func unshareApplication(_ input: UnshareApplicationRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UnshareApplication", path: "/applications/{applicationId}/unshare", httpMethod: "POST", input: input)
+    }
+
     ///  Updates the specified application.
     public func updateApplication(_ input: UpdateApplicationRequest) -> EventLoopFuture<UpdateApplicationResponse> {
         return client.send(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: "PATCH", input: input)

@@ -9,6 +9,7 @@ extension Redshift {
     public enum ActionType: String, CustomStringConvertible, Codable {
         case restoreCluster = "restore-cluster"
         case recommendNodeConfig = "recommend-node-config"
+        case resizeCluster = "resize-cluster"
         public var description: String { return self.rawValue }
     }
 
@@ -70,6 +71,8 @@ extension Redshift {
 
     public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
         case resizecluster = "ResizeCluster"
+        case pausecluster = "PauseCluster"
+        case resumecluster = "ResumeCluster"
         public var description: String { return self.rawValue }
     }
 
@@ -513,7 +516,7 @@ extension Redshift {
         public let clusterSecurityGroups: [ClusterSecurityGroupMembership]?
         /// A value that returns the destination region and retention period that are configured for cross-region snapshot copy.
         public let clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus?
-        ///  The current state of the cluster. Possible values are the following:    available     available, prep-for-resize     available, resize-cleanup     cancelling-resize     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
+        ///  The current state of the cluster. Possible values are the following:    available     available, prep-for-resize     available, resize-cleanup     cancelling-resize     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     paused     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
         public let clusterStatus: String?
         /// The name of the subnet group that is associated with the cluster. This parameter is valid only when the cluster is in a VPC.
         public let clusterSubnetGroupName: String?
@@ -2948,7 +2951,7 @@ extension Redshift {
             AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string)
         ]
 
-        /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. 
+        /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. Specify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. 
         public let actionType: ActionType
         /// The identifier of the cluster to evaluate for possible node configurations.
         public let clusterIdentifier: String?
@@ -4855,6 +4858,39 @@ extension Redshift {
         }
     }
 
+    public struct PauseClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
+        ]
+
+        /// The identifier of the cluster to be paused.
+        public let clusterIdentifier: String
+
+        public init(clusterIdentifier: String) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
+    public struct PauseClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
     public struct PendingModifiedValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
@@ -5224,7 +5260,7 @@ extension Redshift {
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "ClusterType", required: false, type: .string), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfNodes", required: true, type: .integer)
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer)
         ]
 
         /// A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic. 
@@ -5236,9 +5272,9 @@ extension Redshift {
         /// The new node type for the nodes you are adding. If not specified, the cluster's current node type is used.
         public let nodeType: String?
         /// The new number of nodes for the cluster.
-        public let numberOfNodes: Int
+        public let numberOfNodes: Int?
 
-        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int) {
+        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -5653,6 +5689,39 @@ extension Redshift {
         }
     }
 
+    public struct ResumeClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
+        ]
+
+        /// The identifier of the cluster to be resumed.
+        public let clusterIdentifier: String
+
+        public init(clusterIdentifier: String) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
+    public struct ResumeClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
     public struct RevisionTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseRevision", required: false, type: .string), 
@@ -5823,7 +5892,7 @@ extension Redshift {
         public let iamRole: String?
         /// List of times when the scheduled action will run. 
         public let nextInvocations: [TimeStamp]?
-        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0, 10, *, *, MON, *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: String?
         /// The description of the scheduled action. 
         public let scheduledActionDescription: String?
@@ -5885,18 +5954,28 @@ extension Redshift {
 
     public struct ScheduledActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResizeCluster", required: false, type: .structure)
+            AWSShapeMember(label: "PauseCluster", required: false, type: .structure), 
+            AWSShapeMember(label: "ResizeCluster", required: false, type: .structure), 
+            AWSShapeMember(label: "ResumeCluster", required: false, type: .structure)
         ]
 
+        /// An action that runs a PauseCluster API operation. 
+        public let pauseCluster: PauseClusterMessage?
         /// An action that runs a ResizeCluster API operation. 
         public let resizeCluster: ResizeClusterMessage?
+        /// An action that runs a ResumeCluster API operation. 
+        public let resumeCluster: ResumeClusterMessage?
 
-        public init(resizeCluster: ResizeClusterMessage? = nil) {
+        public init(pauseCluster: PauseClusterMessage? = nil, resizeCluster: ResizeClusterMessage? = nil, resumeCluster: ResumeClusterMessage? = nil) {
+            self.pauseCluster = pauseCluster
             self.resizeCluster = resizeCluster
+            self.resumeCluster = resumeCluster
         }
 
         private enum CodingKeys: String, CodingKey {
+            case pauseCluster = "PauseCluster"
             case resizeCluster = "ResizeCluster"
+            case resumeCluster = "ResumeCluster"
         }
     }
 

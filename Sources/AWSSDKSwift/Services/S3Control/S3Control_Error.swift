@@ -13,6 +13,7 @@ public enum S3ControlErrorType: AWSErrorType {
     case noSuchPublicAccessBlockConfiguration(message: String?)
     case notFoundException(message: String?)
     case tooManyRequestsException(message: String?)
+    case tooManyTagsException(message: String?)
 }
 
 extension S3ControlErrorType {
@@ -40,6 +41,8 @@ extension S3ControlErrorType {
             self = .notFoundException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         default:
             return nil
         }
@@ -67,6 +70,8 @@ extension S3ControlErrorType : CustomStringConvertible {
             return "NotFoundException: \(message ?? "")"
         case .tooManyRequestsException(let message):
             return "TooManyRequestsException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
         }
     }
 }

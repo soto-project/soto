@@ -46,6 +46,11 @@ extension Rekognition {
         return client.paginate(input: input, command: getPersonTracking, tokenKey: \GetPersonTrackingResponse.nextToken, onPage: onPage)
     }
 
+    ///  Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by calling StartTextDetection which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection.  GetTextDetection returns an array of detected text (TextDetections) sorted by the time the text was detected, up to 50 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous call to GetTextDetection.
+    public func getTextDetectionPaginator(_ input: GetTextDetectionRequest, onPage: @escaping (GetTextDetectionResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTextDetection, tokenKey: \GetTextDetectionResponse.nextToken, onPage: onPage)
+    }
+
     ///  Returns list of collection IDs in your account. If the result is truncated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see Listing Collections in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListCollections action.
     public func listCollectionsPaginator(_ input: ListCollectionsRequest, onPage: @escaping (ListCollectionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listCollections, tokenKey: \ListCollectionsResponse.nextToken, onPage: onPage)
@@ -151,6 +156,17 @@ extension Rekognition.GetPersonTrackingRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             sortBy: self.sortBy
+        )
+
+    }
+}
+
+extension Rekognition.GetTextDetectionRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Rekognition.GetTextDetectionRequest {
+        return .init(
+            jobId: self.jobId, 
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }

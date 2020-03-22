@@ -95,7 +95,12 @@ public struct ElastiCache {
         return client.send(operation: "CreateCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. A Redis (cluster mode disabled) replication group is a collection of clusters, where one of the clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis (cluster mode enabled) replication group is a collection of 1 to 90 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards). When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide.  This operation is valid for Redis only. 
+    ///  Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis, you can create cross-region read replica clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupId is the name of the Global Datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.  
+    public func createGlobalReplicationGroup(_ input: CreateGlobalReplicationGroupMessage) -> EventLoopFuture<CreateGlobalReplicationGroupResult> {
+        return client.send(operation: "CreateGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global Datastore. A Redis (cluster mode disabled) replication group is a collection of clusters, where one of the clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis (cluster mode enabled) replication group is a collection of 1 to 90 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards). When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide.  This operation is valid for Redis only. 
     public func createReplicationGroup(_ input: CreateReplicationGroupMessage) -> EventLoopFuture<CreateReplicationGroupResult> {
         return client.send(operation: "CreateReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -105,7 +110,12 @@ public struct ElastiCache {
         return client.send(operation: "CreateSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Dynamically decreases the number of replics in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    ///  Decreases the number of node groups in a Global Datastore
+    public func decreaseNodeGroupsInGlobalReplicationGroup(_ input: DecreaseNodeGroupsInGlobalReplicationGroupMessage) -> EventLoopFuture<DecreaseNodeGroupsInGlobalReplicationGroupResult> {
+        return client.send(operation: "DecreaseNodeGroupsInGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     public func decreaseReplicaCount(_ input: DecreaseReplicaCountMessage) -> EventLoopFuture<DecreaseReplicaCountResult> {
         return client.send(operation: "DecreaseReplicaCount", path: "/", httpMethod: "POST", input: input)
     }
@@ -128,6 +138,11 @@ public struct ElastiCache {
     ///  Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any clusters. 
     @discardableResult public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deleting a Global Datastore is a two-step process:    First, you must DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global Datastore.   Once the Global Datastore contains only the primary cluster, you can use DeleteGlobalReplicationGroup API to delete the Global Datastore while retainining the primary cluster using Retain…= true.   Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.  This operation is valid for Redis only. 
+    public func deleteGlobalReplicationGroup(_ input: DeleteGlobalReplicationGroupMessage) -> EventLoopFuture<DeleteGlobalReplicationGroupResult> {
+        return client.send(operation: "DeleteGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.  This operation is valid for Redis only. 
@@ -180,6 +195,11 @@ public struct ElastiCache {
         return client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about a particular global replication group. If no identifier is specified, returns information about all Global Datastores. 
+    public func describeGlobalReplicationGroups(_ input: DescribeGlobalReplicationGroupsMessage) -> EventLoopFuture<DescribeGlobalReplicationGroupsResult> {
+        return client.send(operation: "DescribeGlobalReplicationGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only. 
     public func describeReplicationGroups(_ input: DescribeReplicationGroupsMessage) -> EventLoopFuture<ReplicationGroupMessage> {
         return client.send(operation: "DescribeReplicationGroups", path: "/", httpMethod: "POST", input: input)
@@ -208,6 +228,21 @@ public struct ElastiCache {
     ///  Returns details of the update actions 
     public func describeUpdateActions(_ input: DescribeUpdateActionsMessage) -> EventLoopFuture<UpdateActionsMessage> {
         return client.send(operation: "DescribeUpdateActions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Remove a secondary cluster from the Global Datastore using the Global Datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that AWS region.
+    public func disassociateGlobalReplicationGroup(_ input: DisassociateGlobalReplicationGroupMessage) -> EventLoopFuture<DisassociateGlobalReplicationGroupResult> {
+        return client.send(operation: "DisassociateGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Used to failover the primary region to a selected secondary region.
+    public func failoverGlobalReplicationGroup(_ input: FailoverGlobalReplicationGroupMessage) -> EventLoopFuture<FailoverGlobalReplicationGroupResult> {
+        return client.send(operation: "FailoverGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Increase the number of node groups in the Global Datastore
+    public func increaseNodeGroupsInGlobalReplicationGroup(_ input: IncreaseNodeGroupsInGlobalReplicationGroupMessage) -> EventLoopFuture<IncreaseNodeGroupsInGlobalReplicationGroupResult> {
+        return client.send(operation: "IncreaseNodeGroupsInGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Dynamically increases the number of replics in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
@@ -240,6 +275,11 @@ public struct ElastiCache {
         return client.send(operation: "ModifyCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Modifies the settings for a Global Datastore.
+    public func modifyGlobalReplicationGroup(_ input: ModifyGlobalReplicationGroupMessage) -> EventLoopFuture<ModifyGlobalReplicationGroupResult> {
+        return client.send(operation: "ModifyGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Modifies the settings for a replication group. For Redis (cluster mode enabled) clusters, this operation cannot be used to change a cluster's node type or engine version. For more information, see:    Scaling for Amazon ElastiCache for Redis (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis only. 
     public func modifyReplicationGroup(_ input: ModifyReplicationGroupMessage) -> EventLoopFuture<ModifyReplicationGroupResult> {
         return client.send(operation: "ModifyReplicationGroup", path: "/", httpMethod: "POST", input: input)
@@ -253,6 +293,11 @@ public struct ElastiCache {
     ///  Allows you to purchase a reserved cache node offering.
     public func purchaseReservedCacheNodesOffering(_ input: PurchaseReservedCacheNodesOfferingMessage) -> EventLoopFuture<PurchaseReservedCacheNodesOfferingResult> {
         return client.send(operation: "PurchaseReservedCacheNodesOffering", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Redistribute slots to ensure unifirom distribution across existing shards in the cluster.
+    public func rebalanceSlotsInGlobalReplicationGroup(_ input: RebalanceSlotsInGlobalReplicationGroupMessage) -> EventLoopFuture<RebalanceSlotsInGlobalReplicationGroupResult> {
+        return client.send(operation: "RebalanceSlotsInGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled) clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters. If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.

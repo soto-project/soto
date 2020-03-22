@@ -1411,41 +1411,115 @@ extension Rekognition {
         }
     }
 
+    public struct DetectTextFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegionsOfInterest", required: false, type: .list), 
+            AWSShapeMember(label: "WordFilter", required: false, type: .structure)
+        ]
+
+        ///  A Filter focusing on a certain area of the image. Uses a BoundingBox object to set the region of the image.
+        public let regionsOfInterest: [RegionOfInterest]?
+        public let wordFilter: DetectionFilter?
+
+        public init(regionsOfInterest: [RegionOfInterest]? = nil, wordFilter: DetectionFilter? = nil) {
+            self.regionsOfInterest = regionsOfInterest
+            self.wordFilter = wordFilter
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.regionsOfInterest, name:"regionsOfInterest", parent: name, max: 10)
+            try validate(self.regionsOfInterest, name:"regionsOfInterest", parent: name, min: 0)
+            try self.wordFilter?.validate(name: "\(name).wordFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionsOfInterest = "RegionsOfInterest"
+            case wordFilter = "WordFilter"
+        }
+    }
+
     public struct DetectTextRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
 
+        /// Optional parameters that let you set the criteria that the text must meet to be included in your response.
+        public let filters: DetectTextFilters?
         /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
-        public init(image: Image) {
+        public init(filters: DetectTextFilters? = nil, image: Image) {
+            self.filters = filters
             self.image = image
         }
 
         public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
             try self.image.validate(name: "\(name).image")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case image = "Image"
         }
     }
 
     public struct DetectTextResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TextDetections", required: false, type: .list)
+            AWSShapeMember(label: "TextDetections", required: false, type: .list), 
+            AWSShapeMember(label: "TextModelVersion", required: false, type: .string)
         ]
 
         /// An array of text that was detected in the input image.
         public let textDetections: [TextDetection]?
+        /// The model version used to detect text.
+        public let textModelVersion: String?
 
-        public init(textDetections: [TextDetection]? = nil) {
+        public init(textDetections: [TextDetection]? = nil, textModelVersion: String? = nil) {
             self.textDetections = textDetections
+            self.textModelVersion = textModelVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case textDetections = "TextDetections"
+            case textModelVersion = "TextModelVersion"
+        }
+    }
+
+    public struct DetectionFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinBoundingBoxHeight", required: false, type: .float), 
+            AWSShapeMember(label: "MinBoundingBoxWidth", required: false, type: .float), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float)
+        ]
+
+        /// Sets the minimum height of the word bounding box. Words with bounding box heights lesser than this value will be excluded from the result. Value is relative to the video frame height.
+        public let minBoundingBoxHeight: Float?
+        /// Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.
+        public let minBoundingBoxWidth: Float?
+        /// Sets confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 0.5 and 1 as Text in Video will not return any result below 0.5.
+        public let minConfidence: Float?
+
+        public init(minBoundingBoxHeight: Float? = nil, minBoundingBoxWidth: Float? = nil, minConfidence: Float? = nil) {
+            self.minBoundingBoxHeight = minBoundingBoxHeight
+            self.minBoundingBoxWidth = minBoundingBoxWidth
+            self.minConfidence = minConfidence
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minBoundingBoxHeight, name:"minBoundingBoxHeight", parent: name, max: 1)
+            try validate(self.minBoundingBoxHeight, name:"minBoundingBoxHeight", parent: name, min: 0)
+            try validate(self.minBoundingBoxWidth, name:"minBoundingBoxWidth", parent: name, max: 1)
+            try validate(self.minBoundingBoxWidth, name:"minBoundingBoxWidth", parent: name, min: 0)
+            try validate(self.minConfidence, name:"minConfidence", parent: name, max: 100)
+            try validate(self.minConfidence, name:"minConfidence", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minBoundingBoxHeight = "MinBoundingBoxHeight"
+            case minBoundingBoxWidth = "MinBoundingBoxWidth"
+            case minConfidence = "MinConfidence"
         }
     }
 
@@ -1735,7 +1809,7 @@ extension Rekognition {
 
         /// The ID of a collection that contains faces that you want to search for.
         public let collectionId: String?
-        /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 70. 0 is the lowest confidence. 100 is the highest confidence.
+        /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 80. 0 is the lowest confidence. 100 is the highest confidence.
         public let faceMatchThreshold: Float?
 
         public init(collectionId: String? = nil, faceMatchThreshold: Float? = nil) {
@@ -2307,6 +2381,82 @@ extension Rekognition {
             case nextToken = "NextToken"
             case persons = "Persons"
             case statusMessage = "StatusMessage"
+            case videoMetadata = "VideoMetadata"
+        }
+    }
+
+    public struct GetTextDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection.
+        public let jobId: String
+        /// Maximum number of results to return per paginated call. The largest value you can specify is 1000.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of text.
+        public let nextToken: String?
+
+        public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.jobId = jobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 64)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetTextDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "TextDetections", required: false, type: .list), 
+            AWSShapeMember(label: "TextModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure)
+        ]
+
+        /// Current status of the text detection job.
+        public let jobStatus: VideoJobStatus?
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text.
+        public let nextToken: String?
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+        /// An array of text detected in the video. Each element contains the detected text, the time in milliseconds from the start of the video that the text was detected, and where it was detected on the screen.
+        public let textDetections: [TextDetectionResult]?
+        /// Version number of the text detection model that was used to detect text.
+        public let textModelVersion: String?
+        public let videoMetadata: VideoMetadata?
+
+        public init(jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, textDetections: [TextDetectionResult]? = nil, textModelVersion: String? = nil, videoMetadata: VideoMetadata? = nil) {
+            self.jobStatus = jobStatus
+            self.nextToken = nextToken
+            self.statusMessage = statusMessage
+            self.textDetections = textDetections
+            self.textModelVersion = textModelVersion
+            self.videoMetadata = videoMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case nextToken = "NextToken"
+            case statusMessage = "StatusMessage"
+            case textDetections = "TextDetections"
+            case textModelVersion = "TextModelVersion"
             case videoMetadata = "VideoMetadata"
         }
     }
@@ -3272,6 +3422,23 @@ extension Rekognition {
         }
     }
 
+    public struct RegionOfInterest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure)
+        ]
+
+        /// The box representing a region of interest on screen.
+        public let boundingBox: BoundingBox?
+
+        public init(boundingBox: BoundingBox? = nil) {
+            self.boundingBox = boundingBox
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+        }
+    }
+
     public struct S3Object: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
@@ -3952,6 +4119,98 @@ extension Rekognition {
 
     }
 
+    public struct StartTextDetectionFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegionsOfInterest", required: false, type: .list), 
+            AWSShapeMember(label: "WordFilter", required: false, type: .structure)
+        ]
+
+        /// Filter focusing on a certain area of the frame. Uses a BoundingBox object to set the region of the screen.
+        public let regionsOfInterest: [RegionOfInterest]?
+        /// Filters focusing on qualities of the text, such as confidence or size.
+        public let wordFilter: DetectionFilter?
+
+        public init(regionsOfInterest: [RegionOfInterest]? = nil, wordFilter: DetectionFilter? = nil) {
+            self.regionsOfInterest = regionsOfInterest
+            self.wordFilter = wordFilter
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.regionsOfInterest, name:"regionsOfInterest", parent: name, max: 10)
+            try validate(self.regionsOfInterest, name:"regionsOfInterest", parent: name, min: 0)
+            try self.wordFilter?.validate(name: "\(name).wordFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionsOfInterest = "RegionsOfInterest"
+            case wordFilter = "WordFilter"
+        }
+    }
+
+    public struct StartTextDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
+        ]
+
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentaly started more than once.
+        public let clientRequestToken: String?
+        /// Optional parameters that let you set criteria the text must meet to be included in your response.
+        public let filters: StartTextDetectionFilters?
+        /// An identifier returned in the completion status published by your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
+        public let jobTag: String?
+        public let notificationChannel: NotificationChannel?
+        public let video: Video
+
+        public init(clientRequestToken: String? = nil, filters: StartTextDetectionFilters? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.clientRequestToken = clientRequestToken
+            self.filters = filters
+            self.jobTag = jobTag
+            self.notificationChannel = notificationChannel
+            self.video = video
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.jobTag, name:"jobTag", parent: name, max: 256)
+            try validate(self.jobTag, name:"jobTag", parent: name, min: 1)
+            try validate(self.jobTag, name:"jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.video.validate(name: "\(name).video")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case filters = "Filters"
+            case jobTag = "JobTag"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
+        }
+    }
+
+    public struct StartTextDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// Identifier for the text detection job. Use JobId to identify the job in a subsequent call to GetTextDetection.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct StopProjectVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProjectVersionArn", required: true, type: .string)
@@ -4235,6 +4494,28 @@ extension Rekognition {
             case id = "Id"
             case parentId = "ParentId"
             case `type` = "Type"
+        }
+    }
+
+    public struct TextDetectionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TextDetection", required: false, type: .structure), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .long)
+        ]
+
+        /// Details about text detected in a video.
+        public let textDetection: TextDetection?
+        /// The time, in milliseconds from the start of the video, that the text was detected.
+        public let timestamp: Int64?
+
+        public init(textDetection: TextDetection? = nil, timestamp: Int64? = nil) {
+            self.textDetection = textDetection
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textDetection = "TextDetection"
+            case timestamp = "Timestamp"
         }
     }
 

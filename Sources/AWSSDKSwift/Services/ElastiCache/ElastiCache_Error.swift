@@ -21,11 +21,14 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case cacheSubnetGroupQuotaExceededFault(message: String?)
     case cacheSubnetQuotaExceededFault(message: String?)
     case clusterQuotaForCustomerExceededFault(message: String?)
+    case globalReplicationGroupAlreadyExistsFault(message: String?)
+    case globalReplicationGroupNotFoundFault(message: String?)
     case insufficientCacheClusterCapacityFault(message: String?)
     case invalidARNFault(message: String?)
     case invalidCacheClusterStateFault(message: String?)
     case invalidCacheParameterGroupStateFault(message: String?)
     case invalidCacheSecurityGroupStateFault(message: String?)
+    case invalidGlobalReplicationGroupStateFault(message: String?)
     case invalidKMSKeyFault(message: String?)
     case invalidParameterCombinationException(message: String?)
     case invalidParameterValueException(message: String?)
@@ -99,6 +102,10 @@ extension ElastiCacheErrorType {
             self = .cacheSubnetQuotaExceededFault(message: message)
         case "ClusterQuotaForCustomerExceeded":
             self = .clusterQuotaForCustomerExceededFault(message: message)
+        case "GlobalReplicationGroupAlreadyExistsFault":
+            self = .globalReplicationGroupAlreadyExistsFault(message: message)
+        case "GlobalReplicationGroupNotFoundFault":
+            self = .globalReplicationGroupNotFoundFault(message: message)
         case "InsufficientCacheClusterCapacity":
             self = .insufficientCacheClusterCapacityFault(message: message)
         case "InvalidARN":
@@ -109,6 +116,8 @@ extension ElastiCacheErrorType {
             self = .invalidCacheParameterGroupStateFault(message: message)
         case "InvalidCacheSecurityGroupState":
             self = .invalidCacheSecurityGroupStateFault(message: message)
+        case "InvalidGlobalReplicationGroupState":
+            self = .invalidGlobalReplicationGroupStateFault(message: message)
         case "InvalidKMSKeyFault":
             self = .invalidKMSKeyFault(message: message)
         case "InvalidParameterCombination":
@@ -212,6 +221,10 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "CacheSubnetQuotaExceededFault: \(message ?? "")"
         case .clusterQuotaForCustomerExceededFault(let message):
             return "ClusterQuotaForCustomerExceeded: \(message ?? "")"
+        case .globalReplicationGroupAlreadyExistsFault(let message):
+            return "GlobalReplicationGroupAlreadyExistsFault: \(message ?? "")"
+        case .globalReplicationGroupNotFoundFault(let message):
+            return "GlobalReplicationGroupNotFoundFault: \(message ?? "")"
         case .insufficientCacheClusterCapacityFault(let message):
             return "InsufficientCacheClusterCapacity: \(message ?? "")"
         case .invalidARNFault(let message):
@@ -222,6 +235,8 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "InvalidCacheParameterGroupState: \(message ?? "")"
         case .invalidCacheSecurityGroupStateFault(let message):
             return "InvalidCacheSecurityGroupState: \(message ?? "")"
+        case .invalidGlobalReplicationGroupStateFault(let message):
+            return "InvalidGlobalReplicationGroupState: \(message ?? "")"
         case .invalidKMSKeyFault(let message):
             return "InvalidKMSKeyFault: \(message ?? "")"
         case .invalidParameterCombinationException(let message):

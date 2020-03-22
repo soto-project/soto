@@ -2475,6 +2475,7 @@ extension Glue {
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NonOverridableArguments", required: false, type: .map), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Role", required: true, type: .string), 
@@ -2504,6 +2505,8 @@ extension Glue {
         public let maxRetries: Int?
         /// The name you assign to this job definition. It must be unique in your account.
         public let name: String
+        /// Non-overridable arguments for this job, specified as name-value pairs.
+        public let nonOverridableArguments: [String: String]?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -2519,7 +2522,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -2530,6 +2533,7 @@ extension Glue {
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
+            self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -2574,6 +2578,7 @@ extension Glue {
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
+            case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -2640,6 +2645,7 @@ extension Glue {
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Parameters", required: true, type: .structure), 
             AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
@@ -2662,12 +2668,14 @@ extension Glue {
         public let parameters: TransformParameters
         /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.  
         public let role: String
+        /// The tags to use with this machine learning transform. You may use tags to limit access to the machine learning transform. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
+        public let tags: [String: String]?
         /// The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
         public let workerType: WorkerType?
 
-        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.description = description
             self.glueVersion = glueVersion
             self.inputRecordTables = inputRecordTables
@@ -2677,6 +2685,7 @@ extension Glue {
             self.numberOfWorkers = numberOfWorkers
             self.parameters = parameters
             self.role = role
+            self.tags = tags
             self.timeout = timeout
             self.workerType = workerType
         }
@@ -2697,6 +2706,12 @@ extension Glue {
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.parameters.validate(name: "\(name).parameters")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
             try validate(self.timeout, name:"timeout", parent: name, min: 1)
         }
 
@@ -2710,6 +2725,7 @@ extension Glue {
             case numberOfWorkers = "NumberOfWorkers"
             case parameters = "Parameters"
             case role = "Role"
+            case tags = "Tags"
             case timeout = "Timeout"
             case workerType = "WorkerType"
         }
@@ -7035,6 +7051,7 @@ extension Glue {
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NonOverridableArguments", required: false, type: .map), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
@@ -7067,6 +7084,8 @@ extension Glue {
         public let maxRetries: Int?
         /// The name you assign to this job definition.
         public let name: String?
+        /// Non-overridable arguments for this job, specified as name-value pairs.
+        public let nonOverridableArguments: [String: String]?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -7080,7 +7099,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -7093,6 +7112,7 @@ extension Glue {
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
+            self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -7114,6 +7134,7 @@ extension Glue {
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
+            case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -7372,6 +7393,7 @@ extension Glue {
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "NonOverridableArguments", required: false, type: .map), 
             AWSShapeMember(label: "NotificationProperty", required: false, type: .structure), 
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
@@ -7398,6 +7420,8 @@ extension Glue {
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
+        /// Non-overridable arguments for this job, specified as name-value pairs.
+        public let nonOverridableArguments: [String: String]?
         /// Specifies the configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -7411,7 +7435,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -7421,6 +7445,7 @@ extension Glue {
             self.logUri = logUri
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
+            self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -7454,6 +7479,7 @@ extension Glue {
             case logUri = "LogUri"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
+            case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -7736,6 +7762,77 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case jobNames = "JobNames"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMLTransformsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Sort", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+
+        /// A TransformFilterCriteria used to filter the machine learning transforms.
+        public let filter: TransformFilterCriteria?
+        /// The maximum size of a list to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// A TransformSortCriteria used to sort the machine learning transforms.
+        public let sort: TransformSortCriteria?
+        /// Specifies to return only these tagged resources.
+        public let tags: [String: String]?
+
+        public init(filter: TransformFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TransformSortCriteria? = nil, tags: [String: String]? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sort = sort
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sort = "Sort"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListMLTransformsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TransformIds", required: true, type: .list)
+        ]
+
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+        /// The identifiers of all the machine learning transforms in the account, or the machine learning transforms with the specified tags.
+        public let transformIds: [String]
+
+        public init(nextToken: String? = nil, transformIds: [String]) {
+            self.nextToken = nextToken
+            self.transformIds = transformIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case transformIds = "TransformIds"
         }
     }
 

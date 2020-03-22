@@ -65,7 +65,7 @@ extension AugmentedAIRuntime {
             AWSShapeMember(label: "HumanLoopName", location: .uri(locationName: "HumanLoopName"), required: true, type: .string)
         ]
 
-        /// The name of the human loop.
+        /// The unique name of the human loop.
         public let humanLoopName: String
 
         public init(humanLoopName: String) {
@@ -85,19 +85,18 @@ extension AugmentedAIRuntime {
 
     public struct DescribeHumanLoopResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "FailureCode", required: false, type: .string), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
             AWSShapeMember(label: "HumanLoopArn", required: true, type: .string), 
-            AWSShapeMember(label: "HumanLoopInput", required: true, type: .structure), 
             AWSShapeMember(label: "HumanLoopName", required: true, type: .string), 
             AWSShapeMember(label: "HumanLoopOutput", required: false, type: .structure), 
             AWSShapeMember(label: "HumanLoopStatus", required: true, type: .enum)
         ]
 
-        /// The timestamp when Amazon Augmented AI created the human loop.
-        public let creationTimestamp: TimeStamp
+        /// The creation time when Amazon Augmented AI created the human loop.
+        public let creationTime: TimeStamp
         /// A failure code denoting a specific type of failure.
         public let failureCode: String?
         /// The reason why a human loop has failed. The failure reason is returned when the human loop status is Failed.
@@ -106,85 +105,63 @@ extension AugmentedAIRuntime {
         public let flowDefinitionArn: String
         /// The Amazon Resource Name (ARN) of the human loop.
         public let humanLoopArn: String
-        /// An object containing information about the human loop input.
-        public let humanLoopInput: HumanLoopInputContent
         /// The name of the human loop.
         public let humanLoopName: String
         /// An object containing information about the output of the human loop.
-        public let humanLoopOutput: HumanLoopOutputContent?
+        public let humanLoopOutput: HumanLoopOutput?
         /// The status of the human loop. Valid values:
         public let humanLoopStatus: HumanLoopStatus
 
-        public init(creationTimestamp: TimeStamp, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String, humanLoopArn: String, humanLoopInput: HumanLoopInputContent, humanLoopName: String, humanLoopOutput: HumanLoopOutputContent? = nil, humanLoopStatus: HumanLoopStatus) {
-            self.creationTimestamp = creationTimestamp
+        public init(creationTime: TimeStamp, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String, humanLoopArn: String, humanLoopName: String, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus) {
+            self.creationTime = creationTime
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
             self.humanLoopArn = humanLoopArn
-            self.humanLoopInput = humanLoopInput
             self.humanLoopName = humanLoopName
             self.humanLoopOutput = humanLoopOutput
             self.humanLoopStatus = humanLoopStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp = "CreationTimestamp"
+            case creationTime = "CreationTime"
             case failureCode = "FailureCode"
             case failureReason = "FailureReason"
             case flowDefinitionArn = "FlowDefinitionArn"
             case humanLoopArn = "HumanLoopArn"
-            case humanLoopInput = "HumanLoopInput"
             case humanLoopName = "HumanLoopName"
             case humanLoopOutput = "HumanLoopOutput"
             case humanLoopStatus = "HumanLoopStatus"
         }
     }
 
-    public struct HumanLoopActivationReason: AWSShape {
+    public struct HumanLoopDataAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConditionsMatched", required: false, type: .boolean)
+            AWSShapeMember(label: "ContentClassifiers", required: true, type: .list)
         ]
 
-        /// True if the specified conditions were matched to trigger the human loop.
-        public let conditionsMatched: Bool?
+        /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can view your task based on this information.
+        public let contentClassifiers: [ContentClassifier]
 
-        public init(conditionsMatched: Bool? = nil) {
-            self.conditionsMatched = conditionsMatched
+        public init(contentClassifiers: [ContentClassifier]) {
+            self.contentClassifiers = contentClassifiers
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contentClassifiers, name:"contentClassifiers", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conditionsMatched = "ConditionsMatched"
+            case contentClassifiers = "ContentClassifiers"
         }
     }
 
-    public struct HumanLoopActivationResults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationConditionsEvaluationResults", required: false, type: .string), 
-            AWSShapeMember(label: "HumanLoopActivationReason", required: false, type: .structure)
-        ]
-
-        /// A copy of the human loop activation conditions of the flow definition, augmented with the results of evaluating those conditions on the input provided to the StartHumanLoop operation.
-        public let humanLoopActivationConditionsEvaluationResults: String?
-        /// An object containing information about why a human loop was triggered.
-        public let humanLoopActivationReason: HumanLoopActivationReason?
-
-        public init(humanLoopActivationConditionsEvaluationResults: String? = nil, humanLoopActivationReason: HumanLoopActivationReason? = nil) {
-            self.humanLoopActivationConditionsEvaluationResults = humanLoopActivationConditionsEvaluationResults
-            self.humanLoopActivationReason = humanLoopActivationReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case humanLoopActivationConditionsEvaluationResults = "HumanLoopActivationConditionsEvaluationResults"
-            case humanLoopActivationReason = "HumanLoopActivationReason"
-        }
-    }
-
-    public struct HumanLoopInputContent: AWSShape {
+    public struct HumanLoopInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputContent", required: true, type: .string)
         ]
 
-        /// Serialized input from the human loop.
+        /// Serialized input from the human loop. The input must be a string representation of a file in JSON format.
         public let inputContent: String
 
         public init(inputContent: String) {
@@ -200,12 +177,12 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct HumanLoopOutputContent: AWSShape {
+    public struct HumanLoopOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputS3Uri", required: true, type: .string)
         ]
 
-        /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output. The output is stored at the following location: s3://S3OutputPath/HumanLoopName/CreationTime/output.json.
+        /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output.
         public let outputS3Uri: String
 
         public init(outputS3Uri: String) {
@@ -254,40 +231,22 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct HumanReviewDataAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentClassifiers", required: true, type: .list)
-        ]
-
-        /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker may restrict the Amazon Mechanical Turk workers that can view your task based on this information.
-        public let contentClassifiers: [ContentClassifier]
-
-        public init(contentClassifiers: [ContentClassifier]) {
-            self.contentClassifiers = contentClassifiers
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.contentClassifiers, name:"contentClassifiers", parent: name, max: 256)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentClassifiers = "ContentClassifiers"
-        }
-    }
-
     public struct ListHumanLoopsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTimeAfter", location: .querystring(locationName: "CreationTimeAfter"), required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationTimeBefore", location: .querystring(locationName: "CreationTimeBefore"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "FlowDefinitionArn", location: .querystring(locationName: "FlowDefinitionArn"), required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
             AWSShapeMember(label: "SortOrder", location: .querystring(locationName: "SortOrder"), required: false, type: .enum)
         ]
 
-        /// (Optional) The timestamp of the date when you want the human loops to begin. For example, 1551000000.
+        /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
         public let creationTimeAfter: TimeStamp?
-        /// (Optional) The timestamp of the date before which you want the human loops to begin. For example, 1550000000.
+        /// (Optional) The timestamp of the date before which you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
         public let creationTimeBefore: TimeStamp?
+        /// The Amazon Resource Name (ARN) of a flow definition.
+        public let flowDefinitionArn: String
         /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
         public let maxResults: Int?
         /// A token to resume pagination.
@@ -295,15 +254,18 @@ extension AugmentedAIRuntime {
         /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, flowDefinitionArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
+            self.flowDefinitionArn = flowDefinitionArn
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortOrder = sortOrder
         }
 
         public func validate(name: String) throws {
+            try validate(self.flowDefinitionArn, name:"flowDefinitionArn", parent: name, max: 1024)
+            try validate(self.flowDefinitionArn, name:"flowDefinitionArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/.*")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
@@ -313,6 +275,7 @@ extension AugmentedAIRuntime {
         private enum CodingKeys: String, CodingKey {
             case creationTimeAfter = "CreationTimeAfter"
             case creationTimeBefore = "CreationTimeBefore"
+            case flowDefinitionArn = "FlowDefinitionArn"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case sortOrder = "SortOrder"
@@ -350,15 +313,15 @@ extension AugmentedAIRuntime {
         ]
 
         /// Attributes of the data specified by the customer.
-        public let dataAttributes: HumanReviewDataAttributes?
+        public let dataAttributes: HumanLoopDataAttributes?
         /// The Amazon Resource Name (ARN) of the flow definition.
         public let flowDefinitionArn: String
         /// An object containing information about the human loop.
-        public let humanLoopInput: HumanLoopInputContent
+        public let humanLoopInput: HumanLoopInput
         /// The name of the human loop.
         public let humanLoopName: String
 
-        public init(dataAttributes: HumanReviewDataAttributes? = nil, flowDefinitionArn: String, humanLoopInput: HumanLoopInputContent, humanLoopName: String) {
+        public init(dataAttributes: HumanLoopDataAttributes? = nil, flowDefinitionArn: String, humanLoopInput: HumanLoopInput, humanLoopName: String) {
             self.dataAttributes = dataAttributes
             self.flowDefinitionArn = flowDefinitionArn
             self.humanLoopInput = humanLoopInput
@@ -385,22 +348,17 @@ extension AugmentedAIRuntime {
 
     public struct StartHumanLoopResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HumanLoopActivationResults", required: false, type: .structure), 
             AWSShapeMember(label: "HumanLoopArn", required: false, type: .string)
         ]
 
-        /// An object containing information about the human loop activation.
-        public let humanLoopActivationResults: HumanLoopActivationResults?
         /// The Amazon Resource Name (ARN) of the human loop.
         public let humanLoopArn: String?
 
-        public init(humanLoopActivationResults: HumanLoopActivationResults? = nil, humanLoopArn: String? = nil) {
-            self.humanLoopActivationResults = humanLoopActivationResults
+        public init(humanLoopArn: String? = nil) {
             self.humanLoopArn = humanLoopArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case humanLoopActivationResults = "HumanLoopActivationResults"
             case humanLoopArn = "HumanLoopArn"
         }
     }

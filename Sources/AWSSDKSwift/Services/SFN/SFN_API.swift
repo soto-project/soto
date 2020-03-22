@@ -50,7 +50,7 @@ public struct SFN {
         return client.send(operation: "CreateActivity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.    CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name and definition. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different. 
+    ///  Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the AWS Step Functions User Guide.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.    CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, and LoggingConfiguration. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different. 
     public func createStateMachine(_ input: CreateStateMachineInput) -> EventLoopFuture<CreateStateMachineOutput> {
         return client.send(operation: "CreateStateMachine", path: "/", httpMethod: "POST", input: input)
     }
@@ -60,7 +60,7 @@ public struct SFN {
         return client.send(operation: "DeleteActivity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a state machine. This is an asynchronous operation: It sets the state machine's status to DELETING and begins the deletion process. Each state machine execution is deleted the next time it makes a state transition.  The state machine itself is deleted after all executions are completed or deleted. 
+    ///  Deletes a state machine. This is an asynchronous operation: It sets the state machine's status to DELETING and begins the deletion process.   For EXPRESSstate machines, the deletion will happen eventually (usually less than a minute). Running executions may emit logs after DeleteStateMachine API is called. 
     public func deleteStateMachine(_ input: DeleteStateMachineInput) -> EventLoopFuture<DeleteStateMachineOutput> {
         return client.send(operation: "DeleteStateMachine", path: "/", httpMethod: "POST", input: input)
     }
@@ -70,7 +70,7 @@ public struct SFN {
         return client.send(operation: "DescribeActivity", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes an execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    ///  Describes an execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.  This API action is not supported by EXPRESS state machines.
     public func describeExecution(_ input: DescribeExecutionInput) -> EventLoopFuture<DescribeExecutionOutput> {
         return client.send(operation: "DescribeExecution", path: "/", httpMethod: "POST", input: input)
     }
@@ -80,7 +80,7 @@ public struct SFN {
         return client.send(operation: "DescribeStateMachine", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the state machine associated with a specific execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    ///  Describes the state machine associated with a specific execution.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.  This API action is not supported by EXPRESS state machines.
     public func describeStateMachineForExecution(_ input: DescribeStateMachineForExecutionInput) -> EventLoopFuture<DescribeStateMachineForExecutionOutput> {
         return client.send(operation: "DescribeStateMachineForExecution", path: "/", httpMethod: "POST", input: input)
     }
@@ -90,7 +90,7 @@ public struct SFN {
         return client.send(operation: "GetActivityTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///  Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This API action is not supported by EXPRESS state machines.
     public func getExecutionHistory(_ input: GetExecutionHistoryInput) -> EventLoopFuture<GetExecutionHistoryOutput> {
         return client.send(operation: "GetExecutionHistory", path: "/", httpMethod: "POST", input: input)
     }
@@ -100,7 +100,7 @@ public struct SFN {
         return client.send(operation: "ListActivities", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the executions of a state machine that meet the filtering criteria. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. 
+    ///  Lists the executions of a state machine that meet the filtering criteria. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.  This API action is not supported by EXPRESS state machines.
     public func listExecutions(_ input: ListExecutionsInput) -> EventLoopFuture<ListExecutionsOutput> {
         return client.send(operation: "ListExecutions", path: "/", httpMethod: "POST", input: input)
     }
@@ -135,7 +135,7 @@ public struct SFN {
         return client.send(operation: "StartExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops an execution.
+    ///  Stops an execution. This API action is not supported by EXPRESS state machines.
     public func stopExecution(_ input: StopExecutionInput) -> EventLoopFuture<StopExecutionOutput> {
         return client.send(operation: "StopExecution", path: "/", httpMethod: "POST", input: input)
     }
@@ -150,7 +150,7 @@ public struct SFN {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing state machine by modifying its definition and/or roleArn. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error.  All StartExecution calls within a few seconds will use the updated definition and roleArn. Executions started immediately after calling UpdateStateMachine may use the previous state machine definition and roleArn.  
+    ///  Updates an existing state machine by modifying its definition, roleArn, or loggingConfiguration. Running executions will continue to use the previous definition and roleArn. You must include at least one of definition or roleArn or you will receive a MissingRequiredParameter error.  All StartExecution calls within a few seconds will use the updated definition and roleArn. Executions started immediately after calling UpdateStateMachine may use the previous state machine definition and roleArn.  
     public func updateStateMachine(_ input: UpdateStateMachineInput) -> EventLoopFuture<UpdateStateMachineOutput> {
         return client.send(operation: "UpdateStateMachine", path: "/", httpMethod: "POST", input: input)
     }

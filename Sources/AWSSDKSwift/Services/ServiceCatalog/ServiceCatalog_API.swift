@@ -236,6 +236,7 @@ public struct ServiceCatalog {
         return client.send(operation: "DescribeServiceAction", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
     public func describeServiceActionExecutionParameters(_ input: DescribeServiceActionExecutionParametersInput) -> EventLoopFuture<DescribeServiceActionExecutionParametersOutput> {
         return client.send(operation: "DescribeServiceActionExecutionParameters", path: "/", httpMethod: "POST", input: input)
     }

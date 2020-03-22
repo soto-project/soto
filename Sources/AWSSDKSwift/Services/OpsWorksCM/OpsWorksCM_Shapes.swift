@@ -1298,10 +1298,10 @@ extension OpsWorksCM {
         public func validate(name: String) throws {
             try validate(self.key, name:"key", parent: name, max: 128)
             try validate(self.key, name:"key", parent: name, min: 1)
-            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\\\\\-@]*)$")
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, min: 0)
-            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\\\\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1370,7 +1370,7 @@ extension OpsWorksCM {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\\\\\-@]*)$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)

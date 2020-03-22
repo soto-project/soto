@@ -26,6 +26,7 @@ extension AppConfig {
 
     public enum GrowthType: String, CustomStringConvertible, Codable {
         case linear = "LINEAR"
+        case exponential = "EXPONENTIAL"
         public var description: String { return self.rawValue }
     }
 
@@ -281,7 +282,7 @@ extension AppConfig {
         public let applicationId: String
         /// A description of the configuration profile.
         public let description: String?
-        /// A URI to locate the configuration. You can specify either a Systems Manager (SSM) document or an SSM Parameter Store parameter. For an SSM document, specify either the document name in the format ssm-document://&lt;Document name&gt; or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter://&lt;Parameter name&gt; or the ARN.
+        /// A URI to locate the configuration. You can specify a Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For an SSM document, specify either the document name in the format ssm-document://&lt;Document_name&gt; or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter://&lt;Parameter_name&gt; or the ARN. For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
@@ -356,7 +357,7 @@ extension AppConfig {
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float
-        /// The algorithm used to define how percentage grows over time.
+        /// The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
         /// A name for the deployment strategy.
         public let name: String
@@ -938,15 +939,15 @@ extension AppConfig {
             AWSShapeMember(label: "Environment", location: .uri(locationName: "Environment"), required: true, type: .string)
         ]
 
-        /// The application to get.
+        /// The application to get. Specify either the application name or the application ID.
         public let application: String
         /// The configuration version returned in the most recent GetConfiguration response.
         public let clientConfigurationVersion: String?
         /// A unique ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
         public let clientId: String
-        /// The configuration to get.
+        /// The configuration to get. Specify either the configuration name or the configuration ID.
         public let configuration: String
-        /// The environment to get.
+        /// The environment to get. Specify either the environment name or the environment ID.
         public let environment: String
 
         public init(application: String, clientConfigurationVersion: String? = nil, clientId: String, configuration: String, environment: String) {
@@ -1575,7 +1576,7 @@ extension AppConfig {
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float?
-        /// The algorithm used to define how percentage grows over time.
+        /// The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
 
         public init(deploymentDurationInMinutes: Int? = nil, deploymentStrategyId: String, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil) {
@@ -1700,7 +1701,7 @@ extension AppConfig {
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// Either the JSON Schema content or an AWS Lambda function name.
+        /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS Lambda function.
         public let content: String
         /// AppConfig supports validators of type JSON_SCHEMA and LAMBDA 
         public let `type`: ValidatorType

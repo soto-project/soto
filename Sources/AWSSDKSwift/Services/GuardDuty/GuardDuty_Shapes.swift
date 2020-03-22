@@ -2062,6 +2062,7 @@ extension GuardDuty {
             AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
             AWSShapeMember(label: "LaunchTime", location: .body(locationName: "launchTime"), required: false, type: .string), 
             AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaces"), required: false, type: .list), 
+            AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn"), required: false, type: .string), 
             AWSShapeMember(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
             AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list)
@@ -2085,6 +2086,8 @@ extension GuardDuty {
         public let launchTime: String?
         /// The network interface information of the EC2 instance.
         public let networkInterfaces: [NetworkInterface]?
+        /// The Amazon Resource Name (ARN) of the AWS Outpost. Only applicable to AWS Outposts instances.
+        public let outpostArn: String?
         /// The platform of the EC2 instance.
         public let platform: String?
         /// The product code of the EC2 instance.
@@ -2092,7 +2095,7 @@ extension GuardDuty {
         /// The tags of the EC2 instance.
         public let tags: [Tag]?
 
-        public init(availabilityZone: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageDescription: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceState: String? = nil, instanceType: String? = nil, launchTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, platform: String? = nil, productCodes: [ProductCode]? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZone: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageDescription: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceState: String? = nil, instanceType: String? = nil, launchTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, outpostArn: String? = nil, platform: String? = nil, productCodes: [ProductCode]? = nil, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.iamInstanceProfile = iamInstanceProfile
             self.imageDescription = imageDescription
@@ -2102,6 +2105,7 @@ extension GuardDuty {
             self.instanceType = instanceType
             self.launchTime = launchTime
             self.networkInterfaces = networkInterfaces
+            self.outpostArn = outpostArn
             self.platform = platform
             self.productCodes = productCodes
             self.tags = tags
@@ -2117,6 +2121,7 @@ extension GuardDuty {
             case instanceType = "instanceType"
             case launchTime = "launchTime"
             case networkInterfaces = "networkInterfaces"
+            case outpostArn = "outpostArn"
             case platform = "platform"
             case productCodes = "productCodes"
             case tags = "tags"
@@ -2331,7 +2336,7 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
-        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
+        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -2702,6 +2707,23 @@ extension GuardDuty {
         }
     }
 
+    public struct LocalIpDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IpAddressV4", location: .body(locationName: "ipAddressV4"), required: false, type: .string)
+        ]
+
+        /// IPV4 remote address of the connection.
+        public let ipAddressV4: String?
+
+        public init(ipAddressV4: String? = nil) {
+            self.ipAddressV4 = ipAddressV4
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddressV4 = "ipAddressV4"
+        }
+    }
+
     public struct LocalPortDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
@@ -2807,6 +2829,7 @@ extension GuardDuty {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean), 
             AWSShapeMember(label: "ConnectionDirection", location: .body(locationName: "connectionDirection"), required: false, type: .string), 
+            AWSShapeMember(label: "LocalIpDetails", location: .body(locationName: "localIpDetails"), required: false, type: .structure), 
             AWSShapeMember(label: "LocalPortDetails", location: .body(locationName: "localPortDetails"), required: false, type: .structure), 
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .string), 
             AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure), 
@@ -2817,6 +2840,8 @@ extension GuardDuty {
         public let blocked: Bool?
         /// Network connection direction.
         public let connectionDirection: String?
+        /// Local IP information of the connection.
+        public let localIpDetails: LocalIpDetails?
         /// Local port information of the connection.
         public let localPortDetails: LocalPortDetails?
         /// Network connection protocol.
@@ -2826,9 +2851,10 @@ extension GuardDuty {
         /// Remote port information of the connection.
         public let remotePortDetails: RemotePortDetails?
 
-        public init(blocked: Bool? = nil, connectionDirection: String? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
+        public init(blocked: Bool? = nil, connectionDirection: String? = nil, localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
+            self.localIpDetails = localIpDetails
             self.localPortDetails = localPortDetails
             self.`protocol` = `protocol`
             self.remoteIpDetails = remoteIpDetails
@@ -2838,6 +2864,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case blocked = "blocked"
             case connectionDirection = "connectionDirection"
+            case localIpDetails = "localIpDetails"
             case localPortDetails = "localPortDetails"
             case `protocol` = "protocol"
             case remoteIpDetails = "remoteIpDetails"
@@ -2963,21 +2990,26 @@ extension GuardDuty {
 
     public struct PortProbeDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalIpDetails", location: .body(locationName: "localIpDetails"), required: false, type: .structure), 
             AWSShapeMember(label: "LocalPortDetails", location: .body(locationName: "localPortDetails"), required: false, type: .structure), 
             AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure)
         ]
 
+        /// Local IP information of the connection.
+        public let localIpDetails: LocalIpDetails?
         /// Local port information of the connection.
         public let localPortDetails: LocalPortDetails?
         /// Remote IP information of the connection.
         public let remoteIpDetails: RemoteIpDetails?
 
-        public init(localPortDetails: LocalPortDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
+        public init(localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
+            self.localIpDetails = localIpDetails
             self.localPortDetails = localPortDetails
             self.remoteIpDetails = remoteIpDetails
         }
 
         private enum CodingKeys: String, CodingKey {
+            case localIpDetails = "localIpDetails"
             case localPortDetails = "localPortDetails"
             case remoteIpDetails = "remoteIpDetails"
         }

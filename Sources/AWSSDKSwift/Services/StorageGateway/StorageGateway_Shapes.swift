@@ -34,6 +34,7 @@ extension StorageGateway {
         case vmware = "VMWARE"
         case hyperV = "HYPER-V"
         case ec2 = "EC2"
+        case kvm = "KVM"
         case other = "OTHER"
         public var description: String { return self.rawValue }
     }

@@ -55,7 +55,7 @@ public struct AugmentedAIRuntime {
         return client.send(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns information about human loops, given the specified parameters.
+    ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     public func listHumanLoops(_ input: ListHumanLoopsRequest) -> EventLoopFuture<ListHumanLoopsResponse> {
         return client.send(operation: "ListHumanLoops", path: "/human-loops", httpMethod: "GET", input: input)
     }

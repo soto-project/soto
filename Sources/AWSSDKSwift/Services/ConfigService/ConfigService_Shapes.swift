@@ -222,6 +222,7 @@ extension ConfigService {
         case awsEc2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
         case awsEc2Flowlog = "AWS::EC2::FlowLog"
         case awsEc2Vpcpeeringconnection = "AWS::EC2::VPCPeeringConnection"
+        case awsElasticsearchDomain = "AWS::Elasticsearch::Domain"
         case awsIamGroup = "AWS::IAM::Group"
         case awsIamPolicy = "AWS::IAM::Policy"
         case awsIamRole = "AWS::IAM::Role"
@@ -229,13 +230,10 @@ extension ConfigService {
         case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsAcmCertificate = "AWS::ACM::Certificate"
         case awsRdsDbinstance = "AWS::RDS::DBInstance"
-        case awsRdsDbparametergroup = "AWS::RDS::DBParameterGroup"
-        case awsRdsDboptiongroup = "AWS::RDS::DBOptionGroup"
         case awsRdsDbsubnetgroup = "AWS::RDS::DBSubnetGroup"
         case awsRdsDbsecuritygroup = "AWS::RDS::DBSecurityGroup"
         case awsRdsDbsnapshot = "AWS::RDS::DBSnapshot"
         case awsRdsDbcluster = "AWS::RDS::DBCluster"
-        case awsRdsDbclusterparametergroup = "AWS::RDS::DBClusterParameterGroup"
         case awsRdsDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
         case awsRdsEventsubscription = "AWS::RDS::EventSubscription"
         case awsS3Bucket = "AWS::S3::Bucket"
@@ -266,30 +264,32 @@ extension ConfigService {
         case awsWafregionalWebacl = "AWS::WAFRegional::WebACL"
         case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
         case awsCloudfrontStreamingdistribution = "AWS::CloudFront::StreamingDistribution"
-        case awsLambdaAlias = "AWS::Lambda::Alias"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsElasticbeanstalkApplication = "AWS::ElasticBeanstalk::Application"
         case awsElasticbeanstalkApplicationversion = "AWS::ElasticBeanstalk::ApplicationVersion"
         case awsElasticbeanstalkEnvironment = "AWS::ElasticBeanstalk::Environment"
-        case awsMobilehubProject = "AWS::MobileHub::Project"
+        case awsWafv2Webacl = "AWS::WAFv2::WebACL"
+        case awsWafv2Rulegroup = "AWS::WAFv2::RuleGroup"
+        case awsWafv2Ipset = "AWS::WAFv2::IPSet"
+        case awsWafv2Regexpatternset = "AWS::WAFv2::RegexPatternSet"
+        case awsWafv2Managedruleset = "AWS::WAFv2::ManagedRuleSet"
         case awsXrayEncryptionconfig = "AWS::XRay::EncryptionConfig"
         case awsSsmAssociationcompliance = "AWS::SSM::AssociationCompliance"
         case awsSsmPatchcompliance = "AWS::SSM::PatchCompliance"
         case awsShieldProtection = "AWS::Shield::Protection"
         case awsShieldregionalProtection = "AWS::ShieldRegional::Protection"
         case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
-        case awsLicensemanagerLicenseconfiguration = "AWS::LicenseManager::LicenseConfiguration"
-        case awsApigatewayDomainname = "AWS::ApiGateway::DomainName"
-        case awsApigatewayMethod = "AWS::ApiGateway::Method"
         case awsApigatewayStage = "AWS::ApiGateway::Stage"
         case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
-        case awsApigatewayv2Domainname = "AWS::ApiGatewayV2::DomainName"
         case awsApigatewayv2Stage = "AWS::ApiGatewayV2::Stage"
         case awsApigatewayv2Api = "AWS::ApiGatewayV2::Api"
         case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
         case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
         case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
         case awsServicecatalogPortfolio = "AWS::ServiceCatalog::Portfolio"
+        case awsSqsQueue = "AWS::SQS::Queue"
+        case awsKmsKey = "AWS::KMS::Key"
+        case awsQldbLedger = "AWS::QLDB::Ledger"
         public var description: String { return self.rawValue }
     }
 
@@ -977,8 +977,13 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleArn, name:"configRuleArn", parent: name, max: 256)
+            try validate(self.configRuleArn, name:"configRuleArn", parent: name, min: 1)
+            try validate(self.configRuleId, name:"configRuleId", parent: name, max: 64)
+            try validate(self.configRuleId, name:"configRuleId", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
             try validate(self.createdBy, name:"createdBy", parent: name, max: 256)
             try validate(self.createdBy, name:"createdBy", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, max: 256)
@@ -1079,6 +1084,7 @@ extension ConfigService {
             AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
             AWSShapeMember(label: "FirstActivatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FirstEvaluationStarted", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastDeactivatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
@@ -1097,6 +1103,7 @@ extension ConfigService {
         public let firstActivatedTime: TimeStamp?
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
         public let firstEvaluationStarted: Bool?
+        public let lastDeactivatedTime: TimeStamp?
         /// The error code that AWS Config returned when the rule last failed.
         public let lastErrorCode: String?
         /// The error message that AWS Config returned when the rule last failed.
@@ -1110,12 +1117,13 @@ extension ConfigService {
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
         public let lastSuccessfulInvocationTime: TimeStamp?
 
-        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: TimeStamp? = nil, lastFailedInvocationTime: TimeStamp? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil) {
+        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, lastDeactivatedTime: TimeStamp? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: TimeStamp? = nil, lastFailedInvocationTime: TimeStamp? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
             self.configRuleName = configRuleName
             self.firstActivatedTime = firstActivatedTime
             self.firstEvaluationStarted = firstEvaluationStarted
+            self.lastDeactivatedTime = lastDeactivatedTime
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
             self.lastFailedEvaluationTime = lastFailedEvaluationTime
@@ -1130,6 +1138,7 @@ extension ConfigService {
             case configRuleName = "ConfigRuleName"
             case firstActivatedTime = "FirstActivatedTime"
             case firstEvaluationStarted = "FirstEvaluationStarted"
+            case lastDeactivatedTime = "LastDeactivatedTime"
             case lastErrorCode = "LastErrorCode"
             case lastErrorMessage = "LastErrorMessage"
             case lastFailedEvaluationTime = "LastFailedEvaluationTime"
@@ -1750,8 +1759,9 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4852,7 +4862,7 @@ extension ConfigService {
         public func validate(name: String) throws {
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
-            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1000)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
@@ -6608,6 +6618,80 @@ extension ConfigService {
         }
     }
 
+    public struct SelectAggregateResourceConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// The SQL query SELECT command. 
+        public let expression: String
+        /// The maximum number of query results returned on each page. 
+        public let limit: Int?
+        public let maxResults: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response. 
+        public let nextToken: String?
+
+        public init(configurationAggregatorName: String, expression: String, limit: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.configurationAggregatorName = configurationAggregatorName
+            self.expression = expression
+            self.limit = limit
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.configurationAggregatorName, name:"configurationAggregatorName", parent: name, max: 256)
+            try validate(self.configurationAggregatorName, name:"configurationAggregatorName", parent: name, min: 1)
+            try validate(self.configurationAggregatorName, name:"configurationAggregatorName", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.expression, name:"expression", parent: name, max: 4096)
+            try validate(self.expression, name:"expression", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case expression = "Expression"
+            case limit = "Limit"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SelectAggregateResourceConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QueryInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
+        ]
+
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response. 
+        public let nextToken: String?
+        public let queryInfo: QueryInfo?
+        /// Returns the results for the SQL query.
+        public let results: [String]?
+
+        public init(nextToken: String? = nil, queryInfo: QueryInfo? = nil, results: [String]? = nil) {
+            self.nextToken = nextToken
+            self.queryInfo = queryInfo
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case queryInfo = "QueryInfo"
+            case results = "Results"
+        }
+    }
+
     public struct SelectResourceConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Expression", required: true, type: .string), 
@@ -6773,8 +6857,9 @@ extension ConfigService {
 
         public func validate(name: String) throws {
             try self.configRuleNames?.forEach {
-                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, max: 128)
                 try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+                try validate($0, name: "configRuleNames[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 25)
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 1)
@@ -6990,7 +7075,7 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1000)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -7022,7 +7107,7 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 256)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1000)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)

@@ -74,12 +74,12 @@ public struct AutoScaling {
         return client.send(operation: "CompleteLifecycleAction", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Amazon EC2 Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide.
+    ///  Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Amazon EC2 Auto Scaling Service Quotas in the Amazon EC2 Auto Scaling User Guide.
     @discardableResult public func createAutoScalingGroup(_ input: CreateAutoScalingGroupType) -> EventLoopFuture<Void> {
         return client.send(operation: "CreateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Amazon EC2 Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide. For more information, see Launch Configurations in the Amazon EC2 Auto Scaling User Guide.
+    ///  Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. For information about viewing this limit, see DescribeAccountLimits. For information about updating this limit, see Amazon EC2 Auto Scaling Service Quotas in the Amazon EC2 Auto Scaling User Guide. For more information, see Launch Configurations in the Amazon EC2 Auto Scaling User Guide.
     @discardableResult public func createLaunchConfiguration(_ input: CreateLaunchConfigurationType) -> EventLoopFuture<Void> {
         return client.send(operation: "CreateLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
@@ -124,7 +124,7 @@ public struct AutoScaling {
         return client.send(operation: "DeleteTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the current Amazon EC2 Auto Scaling resource limits for your AWS account. For information about requesting an increase in these limits, see Amazon EC2 Auto Scaling Limits in the Amazon EC2 Auto Scaling User Guide.
+    ///  Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account. For information about requesting an increase, see Amazon EC2 Auto Scaling Service Quotas in the Amazon EC2 Auto Scaling User Guide.
     public func describeAccountLimits() -> EventLoopFuture<DescribeAccountLimitsAnswer> {
         return client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST")
     }
@@ -264,7 +264,7 @@ public struct AutoScaling {
         return client.send(operation: "PutNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates a scaling policy for an Auto Scaling group. To update an existing scaling policy, use the existing policy name and set the parameters to change. Any existing parameter not changed in an update to an existing policy is not changed in this update request. For more information about using scaling policies to scale your Auto Scaling group automatically, see Dynamic Scaling in the Amazon EC2 Auto Scaling User Guide.
+    ///  Creates or updates a scaling policy for an Auto Scaling group. For more information about using scaling policies to scale your Auto Scaling group automatically, see Dynamic Scaling in the Amazon EC2 Auto Scaling User Guide.
     public func putScalingPolicy(_ input: PutScalingPolicyType) -> EventLoopFuture<PolicyARNType> {
         return client.send(operation: "PutScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
@@ -304,7 +304,7 @@ public struct AutoScaling {
         return client.send(operation: "SuspendProcesses", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Terminates the specified instance and optionally adjusts the desired group size. This call simply makes a termination request. The instance is not terminated immediately.
+    ///  Terminates the specified instance and optionally adjusts the desired group size. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Rebalancing Activities in the Amazon EC2 Auto Scaling User Guide.
     public func terminateInstanceInAutoScalingGroup(_ input: TerminateInstanceInAutoScalingGroupType) -> EventLoopFuture<ActivityType> {
         return client.send(operation: "TerminateInstanceInAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }

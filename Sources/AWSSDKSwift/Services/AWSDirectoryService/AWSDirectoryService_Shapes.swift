@@ -423,6 +423,7 @@ extension AWSDirectoryService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateId", required: false, type: .string), 
             AWSShapeMember(label: "CommonName", required: false, type: .string), 
+            AWSShapeMember(label: "ExpiryDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
 
@@ -430,18 +431,22 @@ extension AWSDirectoryService {
         public let certificateId: String?
         /// The common name for the certificate.
         public let commonName: String?
+        /// The date and time when the certificate will expire.
+        public let expiryDateTime: TimeStamp?
         /// The state of the certificate.
         public let state: CertificateState?
 
-        public init(certificateId: String? = nil, commonName: String? = nil, state: CertificateState? = nil) {
+        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: TimeStamp? = nil, state: CertificateState? = nil) {
             self.certificateId = certificateId
             self.commonName = commonName
+            self.expiryDateTime = expiryDateTime
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateId = "CertificateId"
             case commonName = "CommonName"
+            case expiryDateTime = "ExpiryDateTime"
             case state = "State"
         }
     }
@@ -1577,7 +1582,7 @@ extension AWSDirectoryService {
         public let limit: Int?
         /// The type of next token used for pagination.
         public let nextToken: String?
-        /// The type of LDAP security the customer wants to enable, either server or client. Currently supports only Client, (the default).
+        /// The type of LDAP security to enable. Currently only the value Client is supported.
         public let `type`: LDAPSType?
 
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil, type: LDAPSType? = nil) {
@@ -2153,7 +2158,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory.
         public let directoryId: String
-        /// The type of LDAP security that the customer wants to enable. The security can be either server or client, but currently only the default Client is supported.
+        /// The type of LDAP security to enable. Currently only the value Client is supported.
         public let `type`: LDAPSType
 
         public init(directoryId: String, type: LDAPSType) {
@@ -2321,7 +2326,7 @@ extension AWSDirectoryService {
 
         /// The identifier of the directory.
         public let directoryId: String
-        /// The type of LDAP security the customer wants to enable. The security can be either server or client, but currently only the default Client is supported.
+        /// The type of LDAP security to enable. Currently only the value Client is supported.
         public let `type`: LDAPSType
 
         public init(directoryId: String, type: LDAPSType) {

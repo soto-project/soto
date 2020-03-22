@@ -99,6 +99,16 @@ public struct ApiGatewayV2 {
         return client.send(operation: "CreateStage", path: "/v2/apis/{apiId}/stages", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a VPC link.
+    public func createVpcLink(_ input: CreateVpcLinkRequest) -> EventLoopFuture<CreateVpcLinkResponse> {
+        return client.send(operation: "CreateVpcLink", path: "/v2/vpclinks", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
+    @discardableResult public func deleteAccessLogSettings(_ input: DeleteAccessLogSettingsRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteAccessLogSettings", path: "/v2/apis/{apiId}/stages/{stageName}/accesslogsettings", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes an Api resource.
     @discardableResult public func deleteApi(_ input: DeleteApiRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteApi", path: "/v2/apis/{apiId}", httpMethod: "DELETE", input: input)
@@ -149,6 +159,11 @@ public struct ApiGatewayV2 {
         return client.send(operation: "DeleteRoute", path: "/v2/apis/{apiId}/routes/{routeId}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes a route request parameter.
+    @discardableResult public func deleteRouteRequestParameter(_ input: DeleteRouteRequestParameterRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteRouteRequestParameter", path: "/v2/apis/{apiId}/routes/{routeId}/requestparameters/{requestParameterKey}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes a RouteResponse.
     @discardableResult public func deleteRouteResponse(_ input: DeleteRouteResponseRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteRouteResponse", path: "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", httpMethod: "DELETE", input: input)
@@ -162,6 +177,11 @@ public struct ApiGatewayV2 {
     ///  Deletes a Stage.
     @discardableResult public func deleteStage(_ input: DeleteStageRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a VPC link.
+    public func deleteVpcLink(_ input: DeleteVpcLinkRequest) -> EventLoopFuture<DeleteVpcLinkResponse> {
+        return client.send(operation: "DeleteVpcLink", path: "/v2/vpclinks/{vpcLinkId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets an Api resource.
@@ -284,6 +304,16 @@ public struct ApiGatewayV2 {
         return client.send(operation: "GetTags", path: "/v2/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets a VPC link.
+    public func getVpcLink(_ input: GetVpcLinkRequest) -> EventLoopFuture<GetVpcLinkResponse> {
+        return client.send(operation: "GetVpcLink", path: "/v2/vpclinks/{vpcLinkId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a collection of VPC links.
+    public func getVpcLinks(_ input: GetVpcLinksRequest) -> EventLoopFuture<GetVpcLinksResponse> {
+        return client.send(operation: "GetVpcLinks", path: "/v2/vpclinks", httpMethod: "GET", input: input)
+    }
+
     ///  Imports an API.
     public func importApi(_ input: ImportApiRequest) -> EventLoopFuture<ImportApiResponse> {
         return client.send(operation: "ImportApi", path: "/v2/apis", httpMethod: "PUT", input: input)
@@ -357,5 +387,10 @@ public struct ApiGatewayV2 {
     ///  Updates a Stage.
     public func updateStage(_ input: UpdateStageRequest) -> EventLoopFuture<UpdateStageResponse> {
         return client.send(operation: "UpdateStage", path: "/v2/apis/{apiId}/stages/{stageName}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Updates a VPC link.
+    public func updateVpcLink(_ input: UpdateVpcLinkRequest) -> EventLoopFuture<UpdateVpcLinkResponse> {
+        return client.send(operation: "UpdateVpcLink", path: "/v2/vpclinks/{vpcLinkId}", httpMethod: "PATCH", input: input)
     }
 }

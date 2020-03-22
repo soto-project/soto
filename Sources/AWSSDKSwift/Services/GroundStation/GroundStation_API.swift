@@ -7,10 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS GroundStation service.
 
-Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that
-      enables you to control satellite communications, downlink and process satellite data, and
-      scale your satellite operations efficiently and cost-effectively without having
-      to build or manage your own ground station infrastructure.
+Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
 */
 public struct GroundStation {
 
@@ -52,25 +49,17 @@ public struct GroundStation {
         return client.send(operation: "CancelContact", path: "/contact/{contactId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a Config with the specified configData parameters.
-    ///           Only one type of configData can be specified.
+    ///  Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     public func createConfig(_ input: CreateConfigRequest) -> EventLoopFuture<ConfigIdResponse> {
         return client.send(operation: "CreateConfig", path: "/config", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects.
-    ///           The name field in each endpoint is used in your mission profile DataflowEndpointConfig 
-    ///           to specify which endpoints to use during a contact. 
-    ///           When a contact uses multiple DataflowEndpointConfig objects, each Config 
-    ///           must match a DataflowEndpoint in the same group.
+    ///  Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest) -> EventLoopFuture<DataflowEndpointGroupIdResponse> {
         return client.send(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a mission profile.
-    ///           
-    ///              dataflowEdges is a list of lists of strings. Each lower level list of strings
-    ///           has two elements: a from ARN and a to ARN.
+    ///  Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     public func createMissionProfile(_ input: CreateMissionProfileRequest) -> EventLoopFuture<MissionProfileIdResponse> {
         return client.send(operation: "CreateMissionProfile", path: "/missionprofile", httpMethod: "POST", input: input)
     }
@@ -95,8 +84,7 @@ public struct GroundStation {
         return client.send(operation: "DescribeContact", path: "/contact/{contactId}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns Config information.
-    ///           Only one Config response can be returned.
+    ///  Returns Config information. Only one Config response can be returned.
     public func getConfig(_ input: GetConfigRequest) -> EventLoopFuture<GetConfigResponse> {
         return client.send(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: "GET", input: input)
     }
@@ -126,10 +114,7 @@ public struct GroundStation {
         return client.send(operation: "ListConfigs", path: "/config", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of contacts.
-    ///           If statusList contains AVAILABLE, the request must include
-    ///        groundstation, missionprofileArn, and satelliteArn.
-    ///        
+    ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
     public func listContacts(_ input: ListContactsRequest) -> EventLoopFuture<ListContactsResponse> {
         return client.send(operation: "ListContacts", path: "/contacts", httpMethod: "POST", input: input)
     }
@@ -154,7 +139,7 @@ public struct GroundStation {
         return client.send(operation: "ListSatellites", path: "/satellite", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a list of tags or a specified resource.
+    ///  Returns a list of tags for a specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
@@ -174,16 +159,12 @@ public struct GroundStation {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Updates the Config used when scheduling contacts.
-    ///           Updating a Config will not update the execution parameters
-    ///           for existing future contacts scheduled with this Config.
+    ///  Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     public func updateConfig(_ input: UpdateConfigRequest) -> EventLoopFuture<ConfigIdResponse> {
         return client.send(operation: "UpdateConfig", path: "/config/{configType}/{configId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates a mission profile.
-    ///           Updating a mission profile will not update the execution parameters
-    ///           for existing future contacts.
+    ///  Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     public func updateMissionProfile(_ input: UpdateMissionProfileRequest) -> EventLoopFuture<MissionProfileIdResponse> {
         return client.send(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: "PUT", input: input)
     }

@@ -200,13 +200,13 @@ extension DocDB {
             AWSShapeMember(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string)
         ]
 
-        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier; for example, my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
+        /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints:   Must specify a valid cluster parameter group.   If the source cluster parameter group is in the same AWS Region as the copy, specify a valid parameter group identifier; for example, my-db-cluster-param-group, or a valid ARN.   If the source parameter group is in a different AWS Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
         public let sourceDBClusterParameterGroupIdentifier: String
         /// The tags that are to be assigned to the parameter group.
         public let tags: [Tag]?
-        /// A description for the copied DB cluster parameter group.
+        /// A description for the copied cluster parameter group.
         public let targetDBClusterParameterGroupDescription: String
-        /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-param-group1 
+        /// The identifier for the copied cluster parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-param-group1 
         public let targetDBClusterParameterGroupIdentifier: String
 
         public init(sourceDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String) {
@@ -250,17 +250,17 @@ extension DocDB {
             AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string)
         ]
 
-        /// Set to true to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
+        /// Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
-        /// The AWS KMS key ID for an encrypted DB cluster snapshot. The AWS KMS key ID is the Amazon Resource Name (ARN), AWS KMS key identifier, or the AWS KMS key alias for the AWS KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new AWS KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same AWS KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, set KmsKeyId to the AWS KMS key ID that you want to use to encrypt the copy of the DB cluster snapshot in the destination Region. AWS KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one Region in another Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+        /// The AWS KMS key ID for an encrypted cluster snapshot. The AWS KMS key ID is the Amazon Resource Name (ARN), AWS KMS key identifier, or the AWS KMS key alias for the AWS KMS encryption key.  If you copy an encrypted cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new AWS KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the cluster snapshot is encrypted with the same AWS KMS key as the source cluster snapshot.  If you copy an encrypted cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted cluster snapshot to another AWS Region, set KmsKeyId to the AWS KMS key ID that you want to use to encrypt the copy of the cluster snapshot in the destination Region. AWS KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one Region in another Region. If you copy an unencrypted cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. You must use the PreSignedUrl parameter when copying an encrypted DB cluster snapshot from another AWS Region. The presigned URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:my-cluster-snapshot-20161115.  
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying an encrypted cluster snapshot from another AWS Region. The presigned URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The cluster snapshot identifier for the encrypted cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:my-cluster-snapshot-20161115.  
         public let preSignedUrl: String?
-        /// The identifier of the DB cluster snapshot to copy. This parameter is not case sensitive. You can't copy an encrypted, shared DB cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid DB cluster snapshot ARN.   Example: my-cluster-snapshot1 
+        /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. You can't copy an encrypted, shared cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1 
         public let sourceDBClusterSnapshotIdentifier: String
-        /// The tags to be assigned to the DB cluster snapshot.
+        /// The tags to be assigned to the cluster snapshot.
         public let tags: [Tag]?
-        /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
+        /// The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
         public let targetDBClusterSnapshotIdentifier: String
 
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
@@ -320,41 +320,41 @@ extension DocDB {
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        /// A list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
+        /// A list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
         public let availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.  
         public let backupRetentionPeriod: Int?
-        /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster 
+        /// The cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster 
         public let dBClusterIdentifier: String
-        ///  The name of the DB cluster parameter group to associate with this DB cluster.
+        ///  The name of the cluster parameter group to associate with this cluster.
         public let dBClusterParameterGroupName: String?
-        /// A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        /// A subnet group to associate with this cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
-        /// The name of the database engine to be used for this DB cluster. Valid values: docdb 
+        /// The name of the database engine to be used for this cluster. Valid values: docdb 
         public let engine: String
         /// The version number of the database engine to use.
         public let engineVersion: String?
-        /// The AWS KMS key identifier for an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are creating a DB cluster using the same AWS account that owns the AWS KMS encryption key that is used to encrypt the new DB cluster, you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon DocumentDB uses the encryption key that is used to encrypt the source. Otherwise, Amazon DocumentDB uses your default encryption key.    If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, Amazon DocumentDB uses your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the replica in that AWS Region.
+        /// The AWS KMS key identifier for an encrypted cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are creating a cluster using the same AWS account that owns the AWS KMS encryption key that is used to encrypt the new cluster, you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon DocumentDB uses the encryption key that is used to encrypt the source. Otherwise, Amazon DocumentDB uses your default encryption key.    If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, Amazon DocumentDB uses your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a replica of an encrypted cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the replica in that AWS Region.
         public let kmsKeyId: String?
-        /// The name of the master user for the DB cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.  
+        /// The name of the master user for the cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.  
         public let masterUsername: String
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String
-        /// The port number on which the instances in the DB cluster accept connections.
+        /// The port number on which the instances in the cluster accept connections.
         public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// Specifies whether the DB cluster is encrypted.
+        /// Specifies whether the cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// The tags to be assigned to the DB cluster.
+        /// The tags to be assigned to the cluster.
         public let tags: [Tag]?
-        /// A list of EC2 VPC security groups to associate with this DB cluster.
+        /// A list of EC2 VPC security groups to associate with this cluster.
         public let vpcSecurityGroupIds: [String]?
 
         public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String, masterUserPassword: String, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
@@ -408,13 +408,13 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
 
-        /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
+        /// The name of the cluster parameter group. Constraints:   Must not match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String
-        /// The DB cluster parameter group family name.
+        /// The cluster parameter group family name.
         public let dBParameterGroupFamily: String
-        /// The description for the DB cluster parameter group.
+        /// The description for the cluster parameter group.
         public let description: String
-        /// The tags to be assigned to the DB cluster parameter group.
+        /// The tags to be assigned to the cluster parameter group.
         public let tags: [Tag]?
 
         public init(dBClusterParameterGroupName: String, dBParameterGroupFamily: String, description: String, tags: [Tag]? = nil) {
@@ -471,11 +471,11 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
 
-        /// The identifier of the DB cluster to create a snapshot for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster 
+        /// The identifier of the cluster to create a snapshot for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster 
         public let dBClusterIdentifier: String
-        /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
+        /// The identifier of the cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
         public let dBClusterSnapshotIdentifier: String
-        /// The tags to be assigned to the DB cluster snapshot.
+        /// The tags to be assigned to the cluster snapshot.
         public let tags: [Tag]?
 
         public init(dBClusterIdentifier: String, dBClusterSnapshotIdentifier: String, tags: [Tag]? = nil) {
@@ -520,15 +520,15 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
 
-        /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true 
+        /// Indicates that minor engine upgrades are applied automatically to the instance during the maintenance window. Default: true 
         public let autoMinorVersionUpgrade: Bool?
-        ///  The Amazon EC2 Availability Zone that the DB instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint. 
+        ///  The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint. 
         public let availabilityZone: String?
-        /// The identifier of the DB cluster that the instance will belong to.
+        /// The identifier of the cluster that the instance will belong to.
         public let dBClusterIdentifier: String
-        /// The compute and memory capacity of the DB instance; for example, db.r5.large. 
+        /// The compute and memory capacity of the instance; for example, db.r5.large. 
         public let dBInstanceClass: String
-        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        /// The instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
         public let dBInstanceIdentifier: String
         /// The name of the database engine to be used for this instance. Valid value: docdb 
         public let engine: String
@@ -536,7 +536,7 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
-        /// The tags to be assigned to the DB instance. You can assign up to 10 tags to an instance.
+        /// The tags to be assigned to the instance. You can assign up to 10 tags to an instance.
         public let tags: [Tag]?
 
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dBClusterIdentifier: String, dBInstanceClass: String, dBInstanceIdentifier: String, engine: String, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
@@ -588,13 +588,13 @@ extension DocDB {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
 
-        /// The description for the DB subnet group.
+        /// The description for the subnet group.
         public let dBSubnetGroupDescription: String
-        /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
+        /// The name for the subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
-        /// The Amazon EC2 subnet IDs for the DB subnet group.
+        /// The Amazon EC2 subnet IDs for the subnet group.
         public let subnetIds: [String]
-        /// The tags to be assigned to the DB subnet group.
+        /// The tags to be assigned to the subnet group.
         public let tags: [Tag]?
 
         public init(dBSubnetGroupDescription: String, dBSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
@@ -661,47 +661,47 @@ extension DocDB {
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
-        /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
+        /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the cluster. IAM roles that are associated with a cluster grant permission for the cluster to access other AWS services on your behalf.
         public let associatedRoles: [DBClusterRole]?
-        /// Provides the list of Amazon EC2 Availability Zones that instances in the DB cluster can be created in.
+        /// Provides the list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
         public let availabilityZones: [String]?
-        /// Specifies the number of days for which automatic DB snapshots are retained.
+        /// Specifies the number of days for which automatic snapshots are retained.
         public let backupRetentionPeriod: Int?
-        /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
+        /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) for the DB cluster.
+        /// The Amazon Resource Name (ARN) for the cluster.
         public let dBClusterArn: String?
-        /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
+        /// Contains a user-supplied cluster identifier. This identifier is the unique key that identifies a cluster.
         public let dBClusterIdentifier: String?
-        /// Provides the list of instances that make up the DB cluster.
+        /// Provides the list of instances that make up the cluster.
         public let dBClusterMembers: [DBClusterMember]?
-        /// Specifies the name of the DB cluster parameter group for the DB cluster.
+        /// Specifies the name of the cluster parameter group for the cluster.
         public let dBClusterParameterGroup: String?
-        /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
+        /// The AWS Region-unique, immutable identifier for the cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the cluster is accessed.
         public let dbClusterResourceId: String?
-        /// Specifies information on the subnet group that is associated with the DB cluster, including the name, description, and subnets in the subnet group.
+        /// Specifies information on the subnet group that is associated with the cluster, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: TimeStamp?
-        /// A list of log types that this DB cluster is configured to export to Amazon CloudWatch Logs.
+        /// A list of log types that this cluster is configured to export to Amazon CloudWatch Logs.
         public let enabledCloudwatchLogsExports: [String]?
-        /// Specifies the connection endpoint for the primary instance of the DB cluster.
+        /// Specifies the connection endpoint for the primary instance of the cluster.
         public let endpoint: String?
-        /// Provides the name of the database engine to be used for this DB cluster.
+        /// Provides the name of the database engine to be used for this cluster.
         public let engine: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
-        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster.
+        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: TimeStamp?
-        /// Contains the master user name for the DB cluster.
+        /// Contains the master user name for the cluster.
         public let masterUsername: String?
-        /// Specifies whether the DB cluster has instances in multiple Availability Zones.
+        /// Specifies whether the cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
         /// Specifies the progress of the operation as a percentage.
         public let percentProgress: String?
@@ -711,13 +711,13 @@ extension DocDB {
         public let preferredBackupWindow: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
         public let preferredMaintenanceWindow: String?
-        /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load balances connections across the Amazon DocumentDB replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Amazon DocumentDB distributes the connection requests among the Amazon DocumentDB replicas in the DB cluster. This functionality can help balance your read workload across multiple Amazon DocumentDB replicas in your DB cluster.  If a failover occurs, and the Amazon DocumentDB replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Amazon DocumentDB replicas in the cluster, you can then reconnect to the reader endpoint.
+        /// The reader endpoint for the cluster. The reader endpoint for a cluster load balances connections across the Amazon DocumentDB replicas that are available in a cluster. As clients request new connections to the reader endpoint, Amazon DocumentDB distributes the connection requests among the Amazon DocumentDB replicas in the cluster. This functionality can help balance your read workload across multiple Amazon DocumentDB replicas in your cluster.  If a failover occurs, and the Amazon DocumentDB replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Amazon DocumentDB replicas in the cluster, you can then reconnect to the reader endpoint.
         public let readerEndpoint: String?
-        /// Specifies the current state of this DB cluster.
+        /// Specifies the current state of this cluster.
         public let status: String?
-        /// Specifies whether the DB cluster is encrypted.
+        /// Specifies whether the cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// Provides a list of virtual private cloud (VPC) security groups that the DB cluster belongs to.
+        /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
@@ -793,11 +793,11 @@ extension DocDB {
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
         ]
 
-        /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
+        /// Specifies the status of the cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
-        /// Specifies the instance identifier for this member of the DB cluster.
+        /// Specifies the instance identifier for this member of the cluster.
         public let dBInstanceIdentifier: String?
-        /// A value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
+        /// A value that is true if the cluster member is the primary instance for the cluster and false otherwise.
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. 
         public let promotionTier: Int?
@@ -823,7 +823,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
 
-        /// A list of DB clusters.
+        /// A list of clusters.
         public let dBClusters: [DBCluster]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -847,13 +847,13 @@ extension DocDB {
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
+        /// The Amazon Resource Name (ARN) for the cluster parameter group.
         public let dBClusterParameterGroupArn: String?
-        /// Provides the name of the DB cluster parameter group.
+        /// Provides the name of the cluster parameter group.
         public let dBClusterParameterGroupName: String?
-        /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
+        /// Provides the name of the parameter group family that this cluster parameter group is compatible with.
         public let dBParameterGroupFamily: String?
-        /// Provides the customer-specified description for this DB cluster parameter group.
+        /// Provides the customer-specified description for this cluster parameter group.
         public let description: String?
 
         public init(dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, dBParameterGroupFamily: String? = nil, description: String? = nil) {
@@ -879,7 +879,7 @@ extension DocDB {
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// Provides a list of parameters for the DB cluster parameter group.
+        /// Provides a list of parameters for the cluster parameter group.
         public let parameters: [Parameter]?
 
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
@@ -898,7 +898,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
         ]
 
-        /// The name of a DB cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string. 
+        /// The name of a cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
 
         public init(dBClusterParameterGroupName: String? = nil) {
@@ -916,7 +916,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
 
-        /// A list of DB cluster parameter groups.
+        /// A list of cluster parameter groups.
         public let dBClusterParameterGroups: [DBClusterParameterGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -940,7 +940,7 @@ extension DocDB {
 
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
-        /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB cluster.    INVALID - The IAM role ARN is associated with the DB cluster, but the DB cluster cannot assume the IAM role to access other AWS services on your behalf.  
+        /// Describes the state of association between the IAM role and the cluster. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the cluster and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB cluster.    INVALID - The IAM role ARN is associated with the cluster, but the cluster cannot assume the IAM role to access other AWS services on your behalf.  
         public let status: String?
 
         public init(roleArn: String? = nil, status: String? = nil) {
@@ -975,39 +975,39 @@ extension DocDB {
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
-        /// Provides the list of Amazon EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
+        /// Provides the list of Amazon EC2 Availability Zones that instances in the cluster snapshot can be restored in.
         public let availabilityZones: [String]?
-        /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
+        /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: TimeStamp?
-        /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
+        /// Specifies the cluster identifier of the cluster that this cluster snapshot was created from.
         public let dBClusterIdentifier: String?
-        /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
+        /// The Amazon Resource Name (ARN) for the cluster snapshot.
         public let dBClusterSnapshotArn: String?
-        /// Specifies the identifier for the DB cluster snapshot.
+        /// Specifies the identifier for the cluster snapshot.
         public let dBClusterSnapshotIdentifier: String?
         /// Specifies the name of the database engine.
         public let engine: String?
-        /// Provides the version of the database engine for this DB cluster snapshot.
+        /// Provides the version of the database engine for this cluster snapshot.
         public let engineVersion: String?
-        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster snapshot.
+        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted cluster snapshot.
         public let kmsKeyId: String?
-        /// Provides the master user name for the DB cluster snapshot.
+        /// Provides the master user name for the cluster snapshot.
         public let masterUsername: String?
         /// Specifies the percentage of the estimated data that has been transferred.
         public let percentProgress: Int?
-        /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
+        /// Specifies the port that the cluster was listening on at the time of the snapshot.
         public let port: Int?
         /// Provides the time when the snapshot was taken, in UTC.
         public let snapshotCreateTime: TimeStamp?
-        /// Provides the type of the DB cluster snapshot.
+        /// Provides the type of the cluster snapshot.
         public let snapshotType: String?
-        /// If the DB cluster snapshot was copied from a source DB cluster snapshot, the ARN for the source DB cluster snapshot; otherwise, a null value.
+        /// If the cluster snapshot was copied from a source cluster snapshot, the ARN for the source cluster snapshot; otherwise, a null value.
         public let sourceDBClusterSnapshotArn: String?
-        /// Specifies the status of this DB cluster snapshot.
+        /// Specifies the status of this cluster snapshot.
         public let status: String?
-        /// Specifies whether the DB cluster snapshot is encrypted.
+        /// Specifies whether the cluster snapshot is encrypted.
         public let storageEncrypted: Bool?
-        /// Provides the virtual private cloud (VPC) ID that is associated with the DB cluster snapshot.
+        /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public let vpcId: String?
 
         public init(availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
@@ -1057,9 +1057,9 @@ extension DocDB {
             AWSShapeMember(label: "AttributeValues", required: false, type: .list, encoding: .list(member:"AttributeValue"))
         ]
 
-        /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot.
+        /// The name of the manual cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual cluster snapshot.
         public let attributeName: String?
-        /// The values for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
+        /// The values for the manual cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual cluster snapshot. If a value of all is in the list, then the manual cluster snapshot is public and available for any AWS account to copy or restore.
         public let attributeValues: [String]?
 
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
@@ -1079,9 +1079,9 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string)
         ]
 
-        /// The list of attributes and values for the DB cluster snapshot.
+        /// The list of attributes and values for the cluster snapshot.
         public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
-        /// The identifier of the DB cluster snapshot that the attributes apply to.
+        /// The identifier of the cluster snapshot that the attributes apply to.
         public let dBClusterSnapshotIdentifier: String?
 
         public init(dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dBClusterSnapshotIdentifier: String? = nil) {
@@ -1101,7 +1101,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
 
-        /// Provides a list of DB cluster snapshots.
+        /// Provides a list of cluster snapshots.
         public let dBClusterSnapshots: [DBClusterSnapshot]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1133,7 +1133,7 @@ extension DocDB {
         public let dBEngineDescription: String?
         /// The description of the database engine version.
         public let dBEngineVersionDescription: String?
-        /// The name of the DB parameter group family for the database engine.
+        /// The name of the parameter group family for the database engine.
         public let dBParameterGroupFamily: String?
         /// The name of the database engine.
         public let engine: String?
@@ -1175,7 +1175,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
 
-        /// Detailed information about one or more DB engine versions.
+        /// Detailed information about one or more engine versions.
         public let dBEngineVersions: [DBEngineVersion]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1223,41 +1223,41 @@ extension DocDB {
 
         /// Indicates that minor version patches are applied automatically.
         public let autoMinorVersionUpgrade: Bool?
-        /// Specifies the name of the Availability Zone that the DB instance is located in.
+        /// Specifies the name of the Availability Zone that the instance is located in.
         public let availabilityZone: String?
-        /// Specifies the number of days for which automatic DB snapshots are retained.
+        /// Specifies the number of days for which automatic snapshots are retained.
         public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for this DB instance.
         public let cACertificateIdentifier: String?
-        /// Contains the name of the DB cluster that the DB instance is a member of if the DB instance is a member of a DB cluster.
+        /// Contains the name of the cluster that the instance is a member of if the instance is a member of a cluster.
         public let dBClusterIdentifier: String?
-        /// The Amazon Resource Name (ARN) for the DB instance.
+        /// The Amazon Resource Name (ARN) for the instance.
         public let dBInstanceArn: String?
-        /// Contains the name of the compute and memory capacity class of the DB instance.
+        /// Contains the name of the compute and memory capacity class of the instance.
         public let dBInstanceClass: String?
-        /// Contains a user-provided database identifier. This identifier is the unique key that identifies a DB instance.
+        /// Contains a user-provided database identifier. This identifier is the unique key that identifies an instance.
         public let dBInstanceIdentifier: String?
         /// Specifies the current state of this database.
         public let dBInstanceStatus: String?
-        /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed.
+        /// The AWS Region-unique, immutable identifier for the instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the instance is accessed.
         public let dbiResourceId: String?
-        /// Specifies information on the subnet group that is associated with the DB instance, including the name, description, and subnets in the subnet group.
+        /// Specifies information on the subnet group that is associated with the instance, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: DBSubnetGroup?
-        /// A list of log types that this DB instance is configured to export to Amazon CloudWatch Logs.
+        /// A list of log types that this instance is configured to export to Amazon CloudWatch Logs.
         public let enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
-        /// Provides the name of the database engine to be used for this DB instance.
+        /// Provides the name of the database engine to be used for this instance.
         public let engine: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
-        /// Provides the date and time that the DB instance was created.
+        /// Provides the date and time that the instance was created.
         public let instanceCreateTime: TimeStamp?
-        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance. 
+        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted instance. 
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: TimeStamp?
-        /// Specifies that changes to the DB instance are pending. This element is included only when changes are pending. Specific changes are identified by subelements.
+        /// Specifies that changes to the instance are pending. This element is included only when changes are pending. Specific changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
         public let preferredBackupWindow: String?
@@ -1269,9 +1269,9 @@ extension DocDB {
         public let publiclyAccessible: Bool?
         /// The status of a read replica. If the instance is not a read replica, this is blank.
         public let statusInfos: [DBInstanceStatusInfo]?
-        /// Specifies whether or not the DB instance is encrypted.
+        /// Specifies whether or not the instance is encrypted.
         public let storageEncrypted: Bool?
-        /// Provides a list of VPC security group elements that the DB instance belongs to.
+        /// Provides a list of VPC security group elements that the instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
@@ -1339,7 +1339,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
 
-        /// Detailed information about one or more DB instances. 
+        /// Detailed information about one or more instances. 
         public let dBInstances: [DBInstance]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1367,7 +1367,7 @@ extension DocDB {
         public let message: String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
         public let normal: Bool?
-        /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
+        /// Status of the instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
         public let status: String?
         /// This value is currently "read replication."
         public let statusType: String?
@@ -1399,15 +1399,15 @@ extension DocDB {
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
-        /// Provides the description of the DB subnet group.
+        /// Provides the description of the subnet group.
         public let dBSubnetGroupDescription: String?
-        /// The name of the DB subnet group.
+        /// The name of the subnet group.
         public let dBSubnetGroupName: String?
-        /// Provides the status of the DB subnet group.
+        /// Provides the status of the subnet group.
         public let subnetGroupStatus: String?
-        /// Detailed information about one or more subnets within a DB subnet group.
+        /// Detailed information about one or more subnets within a subnet group.
         public let subnets: [Subnet]?
-        /// Provides the virtual private cloud (VPC) ID of the DB subnet group.
+        /// Provides the virtual private cloud (VPC) ID of the subnet group.
         public let vpcId: String?
 
         public init(dBSubnetGroupArn: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
@@ -1435,7 +1435,7 @@ extension DocDB {
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
 
-        /// Detailed information about one or more DB subnet groups.
+        /// Detailed information about one or more subnet groups.
         public let dBSubnetGroups: [DBSubnetGroup]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1458,11 +1458,11 @@ extension DocDB {
             AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean)
         ]
 
-        /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
+        /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
-        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        ///  The cluster snapshot identifier of the new cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let finalDBSnapshotIdentifier: String?
-        ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.   If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.  Default: false 
+        ///  Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted.   If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.  Default: false 
         public let skipFinalSnapshot: Bool?
 
         public init(dBClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
@@ -1483,7 +1483,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
 
-        /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
+        /// The name of the cluster parameter group. Constraints:   Must be the name of an existing cluster parameter group.   You can't delete a default cluster parameter group.   Cannot be associated with any clusters.  
         public let dBClusterParameterGroupName: String
 
         public init(dBClusterParameterGroupName: String) {
@@ -1516,7 +1516,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
 
-        /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
+        /// The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
 
         public init(dBClusterSnapshotIdentifier: String) {
@@ -1549,7 +1549,7 @@ extension DocDB {
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
 
-        /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing DB instance.  
+        /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing instance.  
         public let dBInstanceIdentifier: String
 
         public init(dBInstanceIdentifier: String) {
@@ -1634,7 +1634,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
 
-        /// The name of a specific DB cluster parameter group to return details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.  
+        /// The name of a specific cluster parameter group to return details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         /// This parameter is not currently supported.
         public let filters: [Filter]?
@@ -1667,7 +1667,7 @@ extension DocDB {
             AWSShapeMember(label: "Source", required: false, type: .string)
         ]
 
-        /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.  
+        /// The name of a specific cluster parameter group to return parameter details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String
         /// This parameter is not currently supported.
         public let filters: [Filter]?
@@ -1700,7 +1700,7 @@ extension DocDB {
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
 
-        /// The identifier for the DB cluster snapshot to describe the attributes for.
+        /// The identifier for the cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
 
         public init(dBClusterSnapshotIdentifier: String) {
@@ -1740,21 +1740,21 @@ extension DocDB {
             AWSShapeMember(label: "SnapshotType", required: false, type: .string)
         ]
 
-        /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used with the DBClusterSnapshotIdentifier parameter. This parameter is not case sensitive.  Constraints:   If provided, must match the identifier of an existing DBCluster.  
+        /// The ID of the cluster to retrieve the list of cluster snapshots for. This parameter can't be used with the DBClusterSnapshotIdentifier parameter. This parameter is not case sensitive.  Constraints:   If provided, must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
-        /// A specific DB cluster snapshot identifier to describe. This parameter can't be used with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If provided, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
+        /// A specific cluster snapshot identifier to describe. This parameter can't be used with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If provided, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
         public let dBClusterSnapshotIdentifier: String?
         /// This parameter is not currently supported.
         public let filters: [Filter]?
-        /// Set to true to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, and otherwise false. The default is false.
+        /// Set to true to include manual cluster snapshots that are public and can be copied or restored by any AWS account, and otherwise false. The default is false.
         public let includePublic: Bool?
-        /// Set to true to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false.
+        /// Set to true to include shared manual cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false.
         public let includeShared: Bool?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all DB cluster snapshots that you have manually created for your AWS account.    shared - Return all manual DB cluster snapshots that have been shared to your AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
+        /// The type of cluster snapshots to be returned. You can specify one of the following values:    automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all cluster snapshots that you have manually created for your AWS account.    shared - Return all manual cluster snapshots that have been shared to your AWS account.    public - Return all cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual cluster snapshots are returned. You can include shared cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
         public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
@@ -1788,9 +1788,9 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
 
-        /// The user-provided DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case sensitive. Constraints:   If provided, must match an existing DBClusterIdentifier.  
+        /// The user-provided cluster identifier. If this parameter is specified, information from only the specific cluster is returned. This parameter isn't case sensitive. Constraints:   If provided, must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String?
-        /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list only includes information about the DB clusters identified by these ARNs.  
+        /// A filter that specifies one or more clusters to describe. Supported filters:    db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list only includes information about the clusters identified by these ARNs.  
         public let filters: [Filter]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1825,7 +1825,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
 
-        /// The name of a specific DB parameter group family to return details for. Constraints:   If provided, must match an existing DBParameterGroupFamily.  
+        /// The name of a specific parameter group family to return details for. Constraints:   If provided, must match an existing DBParameterGroupFamily.  
         public let dBParameterGroupFamily: String?
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
         public let defaultOnly: Bool?
@@ -1877,9 +1877,9 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
 
-        /// The user-provided instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case sensitive. Constraints:   If provided, must match the identifier of an existing DBInstance.  
+        /// The user-provided instance identifier. If this parameter is specified, information from only the specific instance is returned. This parameter isn't case sensitive. Constraints:   If provided, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
-        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list includes only the information about the DB instances that are associated with the DB clusters that are identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list includes only the information about the DB instances that are identified by these ARNs.  
+        /// A filter that specifies one or more instances to describe. Supported filters:    db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list includes only the information about the instances that are associated with the clusters that are identified by these ARNs.    db-instance-id - Accepts instance identifiers and instance ARNs. The results list includes only the information about the instances that are identified by these ARNs.  
         public let filters: [Filter]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1909,7 +1909,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
 
-        /// The name of the DB subnet group to return details for.
+        /// The name of the subnet group to return details for.
         public let dBSubnetGroupName: String?
         /// This parameter is not currently supported.
         public let filters: [Filter]?
@@ -1941,7 +1941,7 @@ extension DocDB {
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
 
-        /// The name of the DB cluster parameter group family to return the engine parameter information for.
+        /// The name of the cluster parameter group family to return the engine parameter information for.
         public let dBParameterGroupFamily: String
         /// This parameter is not currently supported.
         public let filters: [Filter]?
@@ -2072,9 +2072,9 @@ extension DocDB {
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
 
-        /// The DB instance class filter value. Specify this parameter to show only the available offerings that match the specified DB instance class.
+        /// The instance class filter value. Specify this parameter to show only the available offerings that match the specified instance class.
         public let dBInstanceClass: String?
-        /// The name of the engine to retrieve DB instance options for.
+        /// The name of the engine to retrieve instance options for.
         public let engine: String
         /// The engine version filter value. Specify this parameter to show only the available offerings that match the specified engine version.
         public let engineVersion: String?
@@ -2120,7 +2120,7 @@ extension DocDB {
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string)
         ]
 
-        /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list includes only pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list includes only pending maintenance actions for the DB instances identified by these ARNs.  
+        /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list includes only pending maintenance actions for the clusters identified by these ARNs.    db-instance-id - Accepts instance identifiers and instance ARNs. The results list includes only pending maintenance actions for the DB instances identified by these ARNs.  
         public let filters: [Filter]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -2151,7 +2151,7 @@ extension DocDB {
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
 
-        /// Specifies the DNS address of the DB instance.
+        /// Specifies the DNS address of the instance.
         public let address: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
@@ -2178,11 +2178,11 @@ extension DocDB {
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"Parameter"))
         ]
 
-        /// The name of the DB cluster parameter group family to return the engine parameter information for.
+        /// The name of the cluster parameter group family to return the engine parameter information for.
         public let dBParameterGroupFamily: String?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The parameters of a particular DB cluster parameter group family.
+        /// The parameters of a particular cluster parameter group family.
         public let parameters: [Parameter]?
 
         public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
@@ -2307,9 +2307,9 @@ extension DocDB {
             AWSShapeMember(label: "TargetDBInstanceIdentifier", required: false, type: .string)
         ]
 
-        /// A DB cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
+        /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
-        /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the DB cluster. For example, mydbcluster-replica1.
+        /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
 
         public init(dBClusterIdentifier: String? = nil, targetDBInstanceIdentifier: String? = nil) {
@@ -2400,15 +2400,15 @@ extension DocDB {
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
+        /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.  
         public let backupRetentionPeriod: Int?
-        /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
+        /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
-        /// The DB cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
+        /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String
-        /// The name of the DB cluster parameter group to use for the DB cluster.
+        /// The name of the cluster parameter group to use for the cluster.
         public let dBClusterParameterGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
@@ -2416,15 +2416,15 @@ extension DocDB {
         public let engineVersion: String?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
-        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2 
+        /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2 
         public let newDBClusterIdentifier: String?
-        /// The port number on which the DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original DB cluster.
+        /// The port number on which the cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original cluster.
         public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// A list of virtual private cloud (VPC) security groups that the DB cluster will belong to.
+        /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
         public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
@@ -2466,9 +2466,9 @@ extension DocDB {
             AWSShapeMember(label: "Parameters", required: true, type: .list, encoding: .list(member:"Parameter"))
         ]
 
-        /// The name of the DB cluster parameter group to modify.
+        /// The name of the cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
-        /// A list of parameters in the DB cluster parameter group to modify.
+        /// A list of parameters in the cluster parameter group to modify.
         public let parameters: [Parameter]
 
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]) {
@@ -2506,13 +2506,13 @@ extension DocDB {
             AWSShapeMember(label: "ValuesToRemove", required: false, type: .list, encoding: .list(member:"AttributeValue"))
         ]
 
-        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
+        /// The name of the cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual cluster snapshot, set this value to restore.
         public let attributeName: String
-        /// The identifier for the DB cluster snapshot to modify the attributes for.
+        /// The identifier for the cluster snapshot to modify the attributes for.
         public let dBClusterSnapshotIdentifier: String
-        /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs. To make the manual DB cluster snapshot restorable by any AWS account, set it to all. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want to be available to all AWS accounts.
+        /// A list of cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual cluster snapshot, set this list to include one or more AWS account IDs. To make the manual cluster snapshot restorable by any AWS account, set it to all. Do not add the all value for any manual cluster snapshots that contain private information that you don't want to be available to all AWS accounts.
         public let valuesToAdd: [String]?
-        /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers. To remove authorization for any AWS account to copy or restore the DB cluster snapshot, set it to all . If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
+        /// A list of cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual cluster snapshot, set this list to include one or more AWS account identifiers. To remove authorization for any AWS account to copy or restore the cluster snapshot, set it to all . If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual cluster snapshot.
         public let valuesToRemove: [String]?
 
         public init(attributeName: String, dBClusterSnapshotIdentifier: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
@@ -2558,19 +2558,19 @@ extension DocDB {
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer)
         ]
 
-        /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false 
+        /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the instance.   If this parameter is set to false, changes to the instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false 
         public let applyImmediately: Bool?
-        /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case, and the change is asynchronously applied as soon as possible. An outage results if this parameter is set to true during the maintenance window, and a newer minor version is available, and Amazon DocumentDB has enabled automatic patching for that engine version. 
+        /// Indicates that minor version upgrades are applied automatically to the instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case, and the change is asynchronously applied as soon as possible. An outage results if this parameter is set to true during the maintenance window, and a newer minor version is available, and Amazon DocumentDB has enabled automatic patching for that engine version. 
         public let autoMinorVersionUpgrade: Bool?
         /// Indicates the certificate that needs to be associated with the instance.
         public let cACertificateIdentifier: String?
-        /// The new compute and memory capacity of the DB instance; for example, db.r5.large. Not all DB instance classes are available in all AWS Regions.  If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
+        /// The new compute and memory capacity of the instance; for example, db.r5.large. Not all instance classes are available in all AWS Regions.  If you modify the instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
         public let dBInstanceClass: String?
-        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
-        ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot occurs immediately if you set Apply Immediately to true. It occurs during the next maintenance window if you set Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        ///  The new instance identifier for the instance when renaming an instance. When you change the instance identifier, an instance reboot occurs immediately if you set Apply Immediately to true. It occurs during the next maintenance window if you set Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
         public let newDBInstanceIdentifier: String?
-        /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, changing this parameter causes a reboot of the DB instance. If you are moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
+        /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, changing this parameter causes a reboot of the instance. If you are moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
@@ -2621,11 +2621,11 @@ extension DocDB {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list, encoding: .list(member:"SubnetIdentifier"))
         ]
 
-        /// The description for the DB subnet group.
+        /// The description for the subnet group.
         public let dBSubnetGroupDescription: String?
-        /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        /// The name for the subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
-        /// The Amazon EC2 subnet IDs for the DB subnet group.
+        /// The Amazon EC2 subnet IDs for the subnet group.
         public let subnetIds: [String]
 
         public init(dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String, subnetIds: [String]) {
@@ -2667,17 +2667,17 @@ extension DocDB {
             AWSShapeMember(label: "Vpc", required: false, type: .boolean)
         ]
 
-        /// A list of Availability Zones for a DB instance.
+        /// A list of Availability Zones for an instance.
         public let availabilityZones: [AvailabilityZone]?
-        /// The DB instance class for a DB instance.
+        /// The instance class for an instance.
         public let dBInstanceClass: String?
-        /// The engine type of a DB instance.
+        /// The engine type of an instance.
         public let engine: String?
-        /// The engine version of a DB instance.
+        /// The engine version of an instance.
         public let engineVersion: String?
-        /// The license model for a DB instance.
+        /// The license model for an instance.
         public let licenseModel: String?
-        /// Indicates whether a DB instance is in a virtual private cloud (VPC).
+        /// Indicates whether an instance is in a virtual private cloud (VPC).
         public let vpc: Bool?
 
         public init(availabilityZones: [AvailabilityZone]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, vpc: Bool? = nil) {
@@ -2707,7 +2707,7 @@ extension DocDB {
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The options that are available for a particular orderable DB instance.
+        /// The options that are available for a particular orderable instance.
         public let orderableDBInstanceOptions: [OrderableDBInstanceOption]?
 
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
@@ -2887,33 +2887,33 @@ extension DocDB {
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
 
-        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
+        ///  Contains the new AllocatedStorage size for then instance that will be applied or is currently being applied. 
         public let allocatedStorage: Int?
         /// Specifies the pending number of days for which automated backups are retained.
         public let backupRetentionPeriod: Int?
         /// Specifies the identifier of the certificate authority (CA) certificate for the DB instance.
         public let cACertificateIdentifier: String?
-        ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied. 
+        ///  Contains the new DBInstanceClass for the instance that will be applied or is currently being applied. 
         public let dBInstanceClass: String?
-        ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is currently being applied. 
+        ///  Contains the new DBInstanceIdentifier for the instance that will be applied or is currently being applied. 
         public let dBInstanceIdentifier: String?
-        /// The new DB subnet group for the DB instance. 
+        /// The new subnet group for the instance. 
         public let dBSubnetGroupName: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
-        /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
+        /// Specifies the new Provisioned IOPS value for the instance that will be applied or is currently being applied.
         public let iops: Int?
-        /// The license model for the DB instance. Valid values: license-included, bring-your-own-license, general-public-license 
+        /// The license model for the instance. Valid values: license-included, bring-your-own-license, general-public-license 
         public let licenseModel: String?
-        /// Contains the pending or currently in-progress change of the master credentials for the DB instance.
+        /// Contains the pending or currently in-progress change of the master credentials for the instance.
         public let masterUserPassword: String?
-        /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
+        /// Indicates that the Single-AZ instance is to change to a Multi-AZ deployment.
         public let multiAZ: Bool?
         /// A list of the log types whose configuration is still pending. These log types are in the process of being activated or deactivated.
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
-        /// Specifies the pending port for the DB instance.
+        /// Specifies the pending port for the instance.
         public let port: Int?
-        /// Specifies the storage type to be associated with the DB instance.
+        /// Specifies the storage type to be associated with the instance.
         public let storageType: String?
 
         public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, storageType: String? = nil) {
@@ -2957,7 +2957,7 @@ extension DocDB {
             AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
         ]
 
-        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
         ///  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
         public let forceFailover: Bool?
@@ -3018,11 +3018,11 @@ extension DocDB {
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
 
-        /// The name of the DB cluster parameter group to reset.
+        /// The name of the cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
-        /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
+        /// A list of parameter names in the cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
         public let parameters: [Parameter]?
-        /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
+        /// A value that is set to true to reset all parameters in the cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
 
         public init(dBClusterParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
@@ -3078,27 +3078,27 @@ extension DocDB {
 
         /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
         public let availabilityZones: [String]?
-        /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id 
+        /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id 
         public let dBClusterIdentifier: String
-        /// The name of the DB subnet group to use for the new DB cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        /// The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
-        /// The database engine to use for the new DB cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
+        /// The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
         public let engine: String
-        /// The version of the database engine to use for the new DB cluster.
+        /// The version of the database engine to use for the new cluster.
         public let engineVersion: String?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new DB cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the AWS KMS key that was used to encrypt the DB snapshot or the DB cluster snapshot.   If the DB snapshot or the DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.  
+        /// The AWS KMS key identifier to use when restoring an encrypted cluster from a DB snapshot or cluster snapshot. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the snapshot or cluster snapshot in SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the AWS KMS key that was used to encrypt the snapshot or the cluster snapshot.   If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.  
         public let kmsKeyId: String?
-        /// The port number on which the new DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original DB cluster.
+        /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
         public let port: Int?
-        /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing snapshot.  
+        /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints:   Must match the identifier of an existing snapshot.  
         public let snapshotIdentifier: String
-        /// The tags to be assigned to the restored DB cluster.
+        /// The tags to be assigned to the restored cluster.
         public let tags: [Tag]?
-        /// A list of virtual private cloud (VPC) security groups that the new DB cluster will belong to.
+        /// A list of virtual private cloud (VPC) security groups that the new cluster will belong to.
         public let vpcSecurityGroupIds: [String]?
 
         public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
@@ -3163,27 +3163,27 @@ extension DocDB {
             AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupId"))
         ]
 
-        /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the new cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let dBClusterIdentifier: String
-        /// The DB subnet group name to use for the new DB cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        /// The subnet group name to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new DB cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with an AWS KMS key that is different from the AWS KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the AWS KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the AWS KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
+        /// The AWS KMS key identifier to use when restoring an encrypted cluster from an encrypted cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are restoring a cluster with the same AWS account that owns the AWS KMS encryption key used to encrypt the new cluster, then you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. You can restore to a new cluster and encrypt the new cluster with an AWS KMS key that is different from the AWS KMS key used to encrypt the source cluster. The new DB cluster is encrypted with the AWS KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the cluster is encrypted, then the restored cluster is encrypted using the AWS KMS key that was used to encrypt the source cluster.   If the cluster is not encrypted, then the restored cluster is not encrypted.   If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
-        /// The port number on which the new DB cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.
+        /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The default port for the engine.
         public let port: Int?
-        /// The date and time to restore the DB cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the DB instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z 
+        /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z 
         public let restoreToTime: TimeStamp?
-        /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
+        /// The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
         public let sourceDBClusterIdentifier: String
-        /// The tags to be assigned to the restored DB cluster.
+        /// The tags to be assigned to the restored cluster.
         public let tags: [Tag]?
-        /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if the RestoreToTime parameter is provided.
+        /// A value that is set to true to restore the cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if the RestoreToTime parameter is provided.
         public let useLatestRestorableTime: Bool?
-        /// A list of VPC security groups that the new DB cluster belongs to.
+        /// A list of VPC security groups that the new cluster belongs to.
         public let vpcSecurityGroupIds: [String]?
 
         public init(dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: TimeStamp? = nil, sourceDBClusterIdentifier: String, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
@@ -3374,7 +3374,7 @@ extension DocDB {
 
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
-        /// The version of the database engine that a DB instance can be upgraded to.
+        /// The version of the database engine that an instance can be upgraded to.
         public let description: String?
         /// The name of the upgrade target database engine.
         public let engine: String?

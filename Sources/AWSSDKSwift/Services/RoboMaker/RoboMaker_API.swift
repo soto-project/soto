@@ -59,6 +59,11 @@ public struct RoboMaker {
         return client.send(operation: "CancelSimulationJob", path: "/cancelSimulationJob", httpMethod: "POST", input: input)
     }
 
+    ///  Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch. 
+    public func cancelSimulationJobBatch(_ input: CancelSimulationJobBatchRequest) -> EventLoopFuture<CancelSimulationJobBatchResponse> {
+        return client.send(operation: "CancelSimulationJobBatch", path: "/cancelSimulationJobBatch", httpMethod: "POST", input: input)
+    }
+
     ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
     public func createDeploymentJob(_ input: CreateDeploymentJobRequest) -> EventLoopFuture<CreateDeploymentJobResponse> {
         return client.send(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: "POST", input: input)
@@ -154,7 +159,12 @@ public struct RoboMaker {
         return client.send(operation: "DescribeSimulationJob", path: "/describeSimulationJob", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
+    ///  Describes a simulation job batch.
+    public func describeSimulationJobBatch(_ input: DescribeSimulationJobBatchRequest) -> EventLoopFuture<DescribeSimulationJobBatchResponse> {
+        return client.send(operation: "DescribeSimulationJobBatch", path: "/describeSimulationJobBatch", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
     public func listDeploymentJobs(_ input: ListDeploymentJobsRequest) -> EventLoopFuture<ListDeploymentJobsResponse> {
         return client.send(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: "POST", input: input)
     }
@@ -179,6 +189,11 @@ public struct RoboMaker {
         return client.send(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
+    public func listSimulationJobBatches(_ input: ListSimulationJobBatchesRequest) -> EventLoopFuture<ListSimulationJobBatchesResponse> {
+        return client.send(operation: "ListSimulationJobBatches", path: "/listSimulationJobBatches", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
     public func listSimulationJobs(_ input: ListSimulationJobsRequest) -> EventLoopFuture<ListSimulationJobsResponse> {
         return client.send(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: "POST", input: input)
@@ -197,6 +212,11 @@ public struct RoboMaker {
     ///  Restarts a running simulation job.
     public func restartSimulationJob(_ input: RestartSimulationJobRequest) -> EventLoopFuture<RestartSimulationJobResponse> {
         return client.send(operation: "RestartSimulationJob", path: "/restartSimulationJob", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects. 
+    public func startSimulationJobBatch(_ input: StartSimulationJobBatchRequest) -> EventLoopFuture<StartSimulationJobBatchResponse> {
+        return client.send(operation: "StartSimulationJobBatch", path: "/startSimulationJobBatch", httpMethod: "POST", input: input)
     }
 
     ///  Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
