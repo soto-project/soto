@@ -6,8 +6,8 @@ on:
     branches: "master"
 
 jobs:
-  # Split the generation of the sourcekitten json across 8 jobs to speed up the process.
-  # At the end of each job the results are uploaded as an artifact. This is required because 
+  # Split the generation of the sourcekitten json across 9 jobs to speed up the process.
+  # At the end of each job the results are uploaded as an artifact. This is required because
   # if the process is done in one job it takes over an hour to generate the help files
   # and the GITHUB_TOKEN expires and it is not possible to commit the changes.
   build-json:
@@ -15,7 +15,7 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        chunk: [0,1,2,3,4,5,6,7]
+        chunk: [0,1,2,3,4,5,6,7,8]
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -24,7 +24,7 @@ jobs:
       - name: Install
         run: brew install sourcekitten
       - name: Build
-        run: ./scripts/build-json-doc.sh ${{ matrix.chunk }} 8
+        run: ./scripts/build-json-doc.sh ${{ matrix.chunk }} 9
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
@@ -85,6 +85,11 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: sourcekitten-7
+        path: ./sourcekitten/
+    - name: Chunk 9
+      uses: actions/download-artifact@v1
+      with:
+        name: sourcekitten-8
         path: ./sourcekitten/
     - name: Build
       run: |
