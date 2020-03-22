@@ -136,7 +136,7 @@ extension ElastiCache {
             AWSShapeMember(label: "ScaleUpModifications", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down on a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
+        /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter. 
         public let scaleDownModifications: [String]?
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
         public let scaleUpModifications: [String]?
@@ -322,7 +322,7 @@ extension ElastiCache {
         public let cacheClusterStatus: String?
         /// A list of cache nodes that are members of the cluster.
         public let cacheNodes: [CacheNode]?
-        /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The name of the compute and memory capacity node type for the cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// Status of the cache parameter group.
         public let cacheParameterGroup: CacheParameterGroupStatus?
@@ -513,7 +513,7 @@ extension ElastiCache {
         public let cacheNodeCreateTime: TimeStamp?
         /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's AWS account.
         public let cacheNodeId: String?
-        /// The current state of this cache node.
+        /// The current state of this cache node, one of the following values: available, creating, rebooting, or deleting.
         public let cacheNodeStatus: String?
         /// The Availability Zone where this node was created and now resides.
         public let customerAvailabilityZone: String?
@@ -680,7 +680,8 @@ extension ElastiCache {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
             AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IsGlobal", required: false, type: .boolean)
         ]
 
         /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | 
@@ -689,17 +690,21 @@ extension ElastiCache {
         public let cacheParameterGroupName: String?
         /// The description for this cache parameter group.
         public let description: String?
+        /// Indicates whether the parameter group is associated with a Global Datastore
+        public let isGlobal: Bool?
 
-        public init(cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil, description: String? = nil) {
+        public init(cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil, description: String? = nil, isGlobal: Bool? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.cacheParameterGroupName = cacheParameterGroupName
             self.description = description
+            self.isGlobal = isGlobal
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheParameterGroupFamily = "CacheParameterGroupFamily"
             case cacheParameterGroupName = "CacheParameterGroupName"
             case description = "Description"
+            case isGlobal = "IsGlobal"
         }
     }
 
@@ -1080,7 +1085,7 @@ extension ElastiCache {
         public let aZMode: AZMode?
         /// The node group (shard) identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 50 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
         public let cacheClusterId: String
-        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
         public let cacheParameterGroupName: String?
@@ -1312,6 +1317,49 @@ extension ElastiCache {
         }
     }
 
+    public struct CreateGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupIdSuffix", required: true, type: .string), 
+            AWSShapeMember(label: "PrimaryReplicationGroupId", required: true, type: .string)
+        ]
+
+        /// Provides details of the Global Datastore
+        public let globalReplicationGroupDescription: String?
+        /// The suffix for name of a Global Datastore. The suffix guarantees uniqueness of the Global Datastore name across multiple regions.
+        public let globalReplicationGroupIdSuffix: String
+        /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+        public let primaryReplicationGroupId: String
+
+        public init(globalReplicationGroupDescription: String? = nil, globalReplicationGroupIdSuffix: String, primaryReplicationGroupId: String) {
+            self.globalReplicationGroupDescription = globalReplicationGroupDescription
+            self.globalReplicationGroupIdSuffix = globalReplicationGroupIdSuffix
+            self.primaryReplicationGroupId = primaryReplicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroupDescription = "GlobalReplicationGroupDescription"
+            case globalReplicationGroupIdSuffix = "GlobalReplicationGroupIdSuffix"
+            case primaryReplicationGroupId = "PrimaryReplicationGroupId"
+        }
+    }
+
+    public struct CreateGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
+        }
+    }
+
     public struct CreateReplicationGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
@@ -1324,6 +1372,7 @@ extension ElastiCache {
             AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: false, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .list, encoding: .list(member:"NodeGroupConfiguration")), 
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
@@ -1353,7 +1402,7 @@ extension ElastiCache {
         public let automaticFailoverEnabled: Bool?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
-        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used.  If you are restoring to an engine version that is different than the original, you must specify the default version of that version. For example, CacheParameterGroupName=default.redis4.0.  If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.  
         public let cacheParameterGroupName: String?
@@ -1365,7 +1414,9 @@ extension ElastiCache {
         public let engine: String?
         /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version. 
         public let engineVersion: String?
-        /// The ID of the KMS key used to encrypt the disk on the cluster.
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String?
+        /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
         /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file, you must configure each node group (shard) using this parameter because you must specify the slots for each node group.
         public let nodeGroupConfiguration: [NodeGroupConfiguration]?
@@ -1404,7 +1455,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1415,6 +1466,7 @@ extension ElastiCache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.engine = engine
             self.engineVersion = engineVersion
+            self.globalReplicationGroupId = globalReplicationGroupId
             self.kmsKeyId = kmsKeyId
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.notificationTopicArn = notificationTopicArn
@@ -1453,6 +1505,7 @@ extension ElastiCache {
             case cacheSubnetGroupName = "CacheSubnetGroupName"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
             case kmsKeyId = "KmsKeyId"
             case nodeGroupConfiguration = "NodeGroupConfiguration"
             case notificationTopicArn = "NotificationTopicArn"
@@ -1558,6 +1611,59 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case port = "Port"
+        }
+    }
+
+    public struct DecreaseNodeGroupsInGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "GlobalNodeGroupsToRemove", required: false, type: .list, encoding: .list(member:"GlobalNodeGroupId")), 
+            AWSShapeMember(label: "GlobalNodeGroupsToRetain", required: false, type: .list, encoding: .list(member:"GlobalNodeGroupId")), 
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "NodeGroupCount", required: true, type: .integer)
+        ]
+
+        /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. 
+        public let applyImmediately: Bool
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster. 
+        public let globalNodeGroupsToRemove: [String]?
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster. 
+        public let globalNodeGroupsToRetain: [String]?
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+        /// The number of node groups (shards) that results from the modification of the shard configuration
+        public let nodeGroupCount: Int
+
+        public init(applyImmediately: Bool, globalNodeGroupsToRemove: [String]? = nil, globalNodeGroupsToRetain: [String]? = nil, globalReplicationGroupId: String, nodeGroupCount: Int) {
+            self.applyImmediately = applyImmediately
+            self.globalNodeGroupsToRemove = globalNodeGroupsToRemove
+            self.globalNodeGroupsToRetain = globalNodeGroupsToRetain
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.nodeGroupCount = nodeGroupCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyImmediately = "ApplyImmediately"
+            case globalNodeGroupsToRemove = "GlobalNodeGroupsToRemove"
+            case globalNodeGroupsToRetain = "GlobalNodeGroupsToRetain"
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case nodeGroupCount = "NodeGroupCount"
+        }
+    }
+
+    public struct DecreaseNodeGroupsInGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
         }
     }
 
@@ -1706,6 +1812,44 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case cacheSubnetGroupName = "CacheSubnetGroupName"
+        }
+    }
+
+    public struct DeleteGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "RetainPrimaryReplicationGroup", required: true, type: .boolean)
+        ]
+
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+        /// If set to true, the primary replication is retained as a standalone replication group. 
+        public let retainPrimaryReplicationGroup: Bool
+
+        public init(globalReplicationGroupId: String, retainPrimaryReplicationGroup: Bool) {
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.retainPrimaryReplicationGroup = retainPrimaryReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case retainPrimaryReplicationGroup = "RetainPrimaryReplicationGroup"
+        }
+    }
+
+    public struct DeleteGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
         }
     }
 
@@ -2067,6 +2211,60 @@ extension ElastiCache {
         }
     }
 
+    public struct DescribeGlobalReplicationGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ShowMemberInfo", required: false, type: .boolean)
+        ]
+
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. 
+        public let maxRecords: Int?
+        /// Returns the list of members that comprise the Global Datastore.
+        public let showMemberInfo: Bool?
+
+        public init(globalReplicationGroupId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, showMemberInfo: Bool? = nil) {
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.showMemberInfo = showMemberInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case showMemberInfo = "ShowMemberInfo"
+        }
+    }
+
+    public struct DescribeGlobalReplicationGroupsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroups", required: false, type: .list, encoding: .list(member:"GlobalReplicationGroup")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+
+        /// Indicates the slot configuration and global identifier for each slice group.
+        public let globalReplicationGroups: [GlobalReplicationGroup]?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. &gt;
+        public let marker: String?
+
+        public init(globalReplicationGroups: [GlobalReplicationGroup]? = nil, marker: String? = nil) {
+            self.globalReplicationGroups = globalReplicationGroups
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroups = "GlobalReplicationGroups"
+            case marker = "Marker"
+        }
+    }
+
     public struct DescribeReplicationGroupsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -2106,7 +2304,7 @@ extension ElastiCache {
             AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string)
         ]
 
-        /// The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
         public let duration: String?
@@ -2157,7 +2355,7 @@ extension ElastiCache {
             AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string)
         ]
 
-        /// The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000 
         public let duration: String?
@@ -2367,6 +2565,49 @@ extension ElastiCache {
         }
     }
 
+    public struct DisassociateGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupRegion", required: true, type: .string)
+        ]
+
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+        /// The name of the secondary cluster you wish to remove from the Global Datastore
+        public let replicationGroupId: String
+        /// The AWS region of secondary cluster you wish to remove from the Global Datastore
+        public let replicationGroupRegion: String
+
+        public init(globalReplicationGroupId: String, replicationGroupId: String, replicationGroupRegion: String) {
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.replicationGroupId = replicationGroupId
+            self.replicationGroupRegion = replicationGroupRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case replicationGroupId = "ReplicationGroupId"
+            case replicationGroupRegion = "ReplicationGroupRegion"
+        }
+    }
+
+    public struct DisassociateGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
+        }
+    }
+
     public struct EC2SecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
@@ -2499,6 +2740,256 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
             case marker = "Marker"
+        }
+    }
+
+    public struct FailoverGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "PrimaryRegion", required: true, type: .string), 
+            AWSShapeMember(label: "PrimaryReplicationGroupId", required: true, type: .string)
+        ]
+
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+        /// The AWS region of the primary cluster of the Global Datastore
+        public let primaryRegion: String
+        /// The name of the primary replication group
+        public let primaryReplicationGroupId: String
+
+        public init(globalReplicationGroupId: String, primaryRegion: String, primaryReplicationGroupId: String) {
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.primaryRegion = primaryRegion
+            self.primaryReplicationGroupId = primaryReplicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case primaryRegion = "PrimaryRegion"
+            case primaryReplicationGroupId = "PrimaryReplicationGroupId"
+        }
+    }
+
+    public struct FailoverGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
+        }
+    }
+
+    public struct GlobalNodeGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalNodeGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Slots", required: false, type: .string)
+        ]
+
+        /// The name of the global node group
+        public let globalNodeGroupId: String?
+        /// The keyspace for this node group
+        public let slots: String?
+
+        public init(globalNodeGroupId: String? = nil, slots: String? = nil) {
+            self.globalNodeGroupId = globalNodeGroupId
+            self.slots = slots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalNodeGroupId = "GlobalNodeGroupId"
+            case slots = "Slots"
+        }
+    }
+
+    public struct GlobalReplicationGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalNodeGroups", required: false, type: .list, encoding: .list(member:"GlobalNodeGroup")), 
+            AWSShapeMember(label: "GlobalReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Members", required: false, type: .list, encoding: .list(member:"GlobalReplicationGroupMember")), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "TransitEncryptionEnabled", required: false, type: .boolean)
+        ]
+
+        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
+        public let atRestEncryptionEnabled: Bool?
+        /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
+        public let authTokenEnabled: Bool?
+        /// The cache node type of the Global Datastore
+        public let cacheNodeType: String?
+        /// A flag that indicates whether the Global Datastore is cluster enabled.
+        public let clusterEnabled: Bool?
+        /// The Elasticache engine. For preview, it is Redis only.
+        public let engine: String?
+        /// The Elasticache Redis engine version. For preview, it is Redis version 5.0.5 only.
+        public let engineVersion: String?
+        /// Indicates the slot configuration and global identifier for each slice group.
+        public let globalNodeGroups: [GlobalNodeGroup]?
+        /// The optional description of the Global Datastore
+        public let globalReplicationGroupDescription: String?
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String?
+        /// The replication groups that comprise the Global Datastore.
+        public let members: [GlobalReplicationGroupMember]?
+        /// The status of the Global Datastore
+        public let status: String?
+        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. 
+        public let transitEncryptionEnabled: Bool?
+
+        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalNodeGroups: [GlobalNodeGroup]? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String? = nil, members: [GlobalReplicationGroupMember]? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+            self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.authTokenEnabled = authTokenEnabled
+            self.cacheNodeType = cacheNodeType
+            self.clusterEnabled = clusterEnabled
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.globalNodeGroups = globalNodeGroups
+            self.globalReplicationGroupDescription = globalReplicationGroupDescription
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.members = members
+            self.status = status
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
+            case authTokenEnabled = "AuthTokenEnabled"
+            case cacheNodeType = "CacheNodeType"
+            case clusterEnabled = "ClusterEnabled"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case globalNodeGroups = "GlobalNodeGroups"
+            case globalReplicationGroupDescription = "GlobalReplicationGroupDescription"
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case members = "Members"
+            case status = "Status"
+            case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        }
+    }
+
+    public struct GlobalReplicationGroupInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupMemberRole", required: false, type: .string)
+        ]
+
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String?
+        /// The role of the replication group in a Global Datastore. Can be primary or secondary.
+        public let globalReplicationGroupMemberRole: String?
+
+        public init(globalReplicationGroupId: String? = nil, globalReplicationGroupMemberRole: String? = nil) {
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.globalReplicationGroupMemberRole = globalReplicationGroupMemberRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case globalReplicationGroupMemberRole = "GlobalReplicationGroupMemberRole"
+        }
+    }
+
+    public struct GlobalReplicationGroupMember: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupRegion", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// Indicates whether automatic failover is enabled for the replication group.
+        public let automaticFailover: AutomaticFailoverStatus?
+        /// The replication group id of the Global Datastore member.
+        public let replicationGroupId: String?
+        /// The AWS region of the Global Datastore member.
+        public let replicationGroupRegion: String?
+        /// Indicates the role of the replication group, primary or secondary.
+        public let role: String?
+        /// The status of the membership of the replication group.
+        public let status: String?
+
+        public init(automaticFailover: AutomaticFailoverStatus? = nil, replicationGroupId: String? = nil, replicationGroupRegion: String? = nil, role: String? = nil, status: String? = nil) {
+            self.automaticFailover = automaticFailover
+            self.replicationGroupId = replicationGroupId
+            self.replicationGroupRegion = replicationGroupRegion
+            self.role = role
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticFailover = "AutomaticFailover"
+            case replicationGroupId = "ReplicationGroupId"
+            case replicationGroupRegion = "ReplicationGroupRegion"
+            case role = "Role"
+            case status = "Status"
+        }
+    }
+
+    public struct IncreaseNodeGroupsInGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "NodeGroupCount", required: true, type: .integer), 
+            AWSShapeMember(label: "RegionalConfigurations", required: false, type: .list, encoding: .list(member:"RegionalConfiguration"))
+        ]
+
+        /// Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.
+        public let applyImmediately: Bool
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+        /// The number of node groups you wish to add
+        public let nodeGroupCount: Int
+        /// Describes the replication group IDs, the AWS regions where they are stored and the shard configuration for each that comprise the Global Datastore
+        public let regionalConfigurations: [RegionalConfiguration]?
+
+        public init(applyImmediately: Bool, globalReplicationGroupId: String, nodeGroupCount: Int, regionalConfigurations: [RegionalConfiguration]? = nil) {
+            self.applyImmediately = applyImmediately
+            self.globalReplicationGroupId = globalReplicationGroupId
+            self.nodeGroupCount = nodeGroupCount
+            self.regionalConfigurations = regionalConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.regionalConfigurations?.forEach {
+                try $0.validate(name: "\(name).regionalConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyImmediately = "ApplyImmediately"
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+            case nodeGroupCount = "NodeGroupCount"
+            case regionalConfigurations = "RegionalConfigurations"
+        }
+    }
+
+    public struct IncreaseNodeGroupsInGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
         }
     }
 
@@ -2780,6 +3271,64 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case cacheSubnetGroup = "CacheSubnetGroup"
+        }
+    }
+
+    public struct ModifyGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string)
+        ]
+
+        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. 
+        public let applyImmediately: Bool
+        /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. 
+        public let automaticFailoverEnabled: Bool?
+        /// A valid cache node type that you want to scale this Global Datastore to.
+        public let cacheNodeType: String?
+        /// The upgraded version of the cache engine to be run on the clusters in the Global Datastore. 
+        public let engineVersion: String?
+        /// A description of the Global Datastore
+        public let globalReplicationGroupDescription: String?
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+
+        public init(applyImmediately: Bool, automaticFailoverEnabled: Bool? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String) {
+            self.applyImmediately = applyImmediately
+            self.automaticFailoverEnabled = automaticFailoverEnabled
+            self.cacheNodeType = cacheNodeType
+            self.engineVersion = engineVersion
+            self.globalReplicationGroupDescription = globalReplicationGroupDescription
+            self.globalReplicationGroupId = globalReplicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyImmediately = "ApplyImmediately"
+            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
+            case cacheNodeType = "CacheNodeType"
+            case engineVersion = "EngineVersion"
+            case globalReplicationGroupDescription = "GlobalReplicationGroupDescription"
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+        }
+    }
+
+    public struct ModifyGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
         }
     }
 
@@ -3441,6 +3990,44 @@ extension ElastiCache {
         }
     }
 
+    public struct RebalanceSlotsInGlobalReplicationGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyImmediately", required: true, type: .boolean), 
+            AWSShapeMember(label: "GlobalReplicationGroupId", required: true, type: .string)
+        ]
+
+        /// If True, redistribution is applied immediately.
+        public let applyImmediately: Bool
+        /// The name of the Global Datastore
+        public let globalReplicationGroupId: String
+
+        public init(applyImmediately: Bool, globalReplicationGroupId: String) {
+            self.applyImmediately = applyImmediately
+            self.globalReplicationGroupId = globalReplicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyImmediately = "ApplyImmediately"
+            case globalReplicationGroupId = "GlobalReplicationGroupId"
+        }
+    }
+
+    public struct RebalanceSlotsInGlobalReplicationGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let globalReplicationGroup: GlobalReplicationGroup?
+
+        public init(globalReplicationGroup: GlobalReplicationGroup? = nil) {
+            self.globalReplicationGroup = globalReplicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalReplicationGroup = "GlobalReplicationGroup"
+        }
+    }
+
     public struct RebootCacheClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
@@ -3501,6 +4088,39 @@ extension ElastiCache {
         }
     }
 
+    public struct RegionalConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupRegion", required: true, type: .string), 
+            AWSShapeMember(label: "ReshardingConfiguration", required: true, type: .list, encoding: .list(member:"ReshardingConfiguration"))
+        ]
+
+        /// The name of the secondary cluster
+        public let replicationGroupId: String
+        /// The AWS region where the cluster is stored
+        public let replicationGroupRegion: String
+        /// A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. 
+        public let reshardingConfiguration: [ReshardingConfiguration]
+
+        public init(replicationGroupId: String, replicationGroupRegion: String, reshardingConfiguration: [ReshardingConfiguration]) {
+            self.replicationGroupId = replicationGroupId
+            self.replicationGroupRegion = replicationGroupRegion
+            self.reshardingConfiguration = reshardingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.reshardingConfiguration.forEach {
+                try $0.validate(name: "\(name).reshardingConfiguration[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroupId = "ReplicationGroupId"
+            case replicationGroupRegion = "ReplicationGroupRegion"
+            case reshardingConfiguration = "ReshardingConfiguration"
+        }
+    }
+
     public struct RemoveTagsFromResourceMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
@@ -3533,6 +4153,7 @@ extension ElastiCache {
             AWSShapeMember(label: "ClusterEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalReplicationGroupInfo", required: false, type: .structure), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "MemberClusters", required: false, type: .list, encoding: .list(member:"ClusterId")), 
             AWSShapeMember(label: "NodeGroups", required: false, type: .list, encoding: .list(member:"NodeGroup")), 
@@ -3561,6 +4182,8 @@ extension ElastiCache {
         public let configurationEndpoint: Endpoint?
         /// The user supplied description of the replication group.
         public let description: String?
+        /// The name of the Global Datastore and role of this replication group in the Global Datastore.
+        public let globalReplicationGroupInfo: GlobalReplicationGroupInfo?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
         /// The names of all the cache clusters that are part of this replication group.
@@ -3582,7 +4205,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.authTokenLastModifiedDate = authTokenLastModifiedDate
@@ -3591,6 +4214,7 @@ extension ElastiCache {
             self.clusterEnabled = clusterEnabled
             self.configurationEndpoint = configurationEndpoint
             self.description = description
+            self.globalReplicationGroupInfo = globalReplicationGroupInfo
             self.kmsKeyId = kmsKeyId
             self.memberClusters = memberClusters
             self.nodeGroups = nodeGroups
@@ -3612,6 +4236,7 @@ extension ElastiCache {
             case clusterEnabled = "ClusterEnabled"
             case configurationEndpoint = "ConfigurationEndpoint"
             case description = "Description"
+            case globalReplicationGroupInfo = "GlobalReplicationGroupInfo"
             case kmsKeyId = "KmsKeyId"
             case memberClusters = "MemberClusters"
             case nodeGroups = "NodeGroups"
@@ -3698,7 +4323,7 @@ extension ElastiCache {
 
         /// The number of cache nodes that have been reserved.
         public let cacheNodeCount: Int?
-        /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The duration of the reservation in seconds.
         public let duration: Int?
@@ -3790,7 +4415,7 @@ extension ElastiCache {
             AWSShapeMember(label: "UsagePrice", required: false, type: .double)
         ]
 
-        /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The duration of the offering. in seconds.
         public let duration: Int?
@@ -4137,7 +4762,7 @@ extension ElastiCache {
         public let cacheClusterCreateTime: TimeStamp?
         /// The user-supplied identifier of the source cluster.
         public let cacheClusterId: String?
-        /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+        /// The name of the compute and memory capacity node type for the source cluster. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The cache parameter group that is associated with the source cluster.
         public let cacheParameterGroupName: String?

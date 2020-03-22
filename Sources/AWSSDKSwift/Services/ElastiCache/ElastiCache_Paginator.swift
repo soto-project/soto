@@ -46,6 +46,11 @@ extension ElastiCache {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }
 
+    ///  Returns information about a particular global replication group. If no identifier is specified, returns information about all Global Datastores. 
+    public func describeGlobalReplicationGroupsPaginator(_ input: DescribeGlobalReplicationGroupsMessage, onPage: @escaping (DescribeGlobalReplicationGroupsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeGlobalReplicationGroups, tokenKey: \DescribeGlobalReplicationGroupsResult.marker, onPage: onPage)
+    }
+
     ///  Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only. 
     public func describeReplicationGroupsPaginator(_ input: DescribeReplicationGroupsMessage, onPage: @escaping (ReplicationGroupMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeReplicationGroups, tokenKey: \ReplicationGroupMessage.marker, onPage: onPage)
@@ -171,6 +176,18 @@ extension ElastiCache.DescribeEventsMessage: AWSPaginateStringToken {
             sourceIdentifier: self.sourceIdentifier, 
             sourceType: self.sourceType, 
             startTime: self.startTime
+        )
+
+    }
+}
+
+extension ElastiCache.DescribeGlobalReplicationGroupsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeGlobalReplicationGroupsMessage {
+        return .init(
+            globalReplicationGroupId: self.globalReplicationGroupId, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            showMemberInfo: self.showMemberInfo
         )
 
     }

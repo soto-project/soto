@@ -11,9 +11,24 @@ extension SecurityHub {
         return client.paginate(input: input, command: describeActionTargets, tokenKey: \DescribeActionTargetsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Returns information about the products available that you can subscribe to and integrate with Security Hub to consolidate findings.
+    ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
     public func describeProductsPaginator(_ input: DescribeProductsRequest, onPage: @escaping (DescribeProductsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeProducts, tokenKey: \DescribeProductsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
+    public func describeStandardsPaginator(_ input: DescribeStandardsRequest, onPage: @escaping (DescribeStandardsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeStandards, tokenKey: \DescribeStandardsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    public func describeStandardsControlsPaginator(_ input: DescribeStandardsControlsRequest, onPage: @escaping (DescribeStandardsControlsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeStandardsControls, tokenKey: \DescribeStandardsControlsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list of the standards that are currently enabled.
+    public func getEnabledStandardsPaginator(_ input: GetEnabledStandardsRequest, onPage: @escaping (GetEnabledStandardsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getEnabledStandards, tokenKey: \GetEnabledStandardsResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of findings that match the specified criteria.
@@ -21,14 +36,24 @@ extension SecurityHub {
         return client.paginate(input: input, command: getFindings, tokenKey: \GetFindingsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists and describes insights that insight ARNs specify.
+    ///  Lists and describes insights for the specified insight ARNs.
     public func getInsightsPaginator(_ input: GetInsightsRequest, onPage: @escaping (GetInsightsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getInsights, tokenKey: \GetInsightsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists all findings-generating solutions (products) whose findings you have subscribed to receive in Security Hub.
+    ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     public func listEnabledProductsForImportPaginator(_ input: ListEnabledProductsForImportRequest, onPage: @escaping (ListEnabledProductsForImportResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listEnabledProductsForImport, tokenKey: \ListEnabledProductsForImportResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists all Security Hub membership invitations that were sent to the current AWS account. 
+    public func listInvitationsPaginator(_ input: ListInvitationsRequest, onPage: @escaping (ListInvitationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists details about all member accounts for the current Security Hub master account.
+    public func listMembersPaginator(_ input: ListMembersRequest, onPage: @escaping (ListMembersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, onPage: onPage)
     }
 
 }
@@ -49,6 +74,38 @@ extension SecurityHub.DescribeProductsRequest: AWSPaginateStringToken {
         return .init(
             maxResults: self.maxResults, 
             nextToken: token
+        )
+
+    }
+}
+
+extension SecurityHub.DescribeStandardsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension SecurityHub.DescribeStandardsControlsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsControlsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            standardsSubscriptionArn: self.standardsSubscriptionArn
+        )
+
+    }
+}
+
+extension SecurityHub.GetEnabledStandardsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetEnabledStandardsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            standardsSubscriptionArns: self.standardsSubscriptionArns
         )
 
     }
@@ -82,6 +139,27 @@ extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateStringToke
         return .init(
             maxResults: self.maxResults, 
             nextToken: token
+        )
+
+    }
+}
+
+extension SecurityHub.ListInvitationsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListInvitationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension SecurityHub.ListMembersRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListMembersRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            onlyAssociated: self.onlyAssociated
         )
 
     }

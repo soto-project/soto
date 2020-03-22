@@ -65,7 +65,7 @@ extension CloudWatchEvents {
 
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public let assignPublicIp: AssignPublicIp?
-        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you don't specify a security group, the default security group for the VPC is used.
+        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
         public let securityGroups: [String]?
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
@@ -114,7 +114,7 @@ extension CloudWatchEvents {
         public let jobDefinition: String
         /// The name to use for this execution of the job, if the target is an AWS Batch job.
         public let jobName: String
-        /// The retry strategy to use for failed jobs if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
+        /// The retry strategy to use for failed jobs, if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
 
         public init(arrayProperties: BatchArrayProperties? = nil, jobDefinition: String, jobName: String, retryStrategy: BatchRetryStrategy? = nil) {
@@ -156,11 +156,11 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// The key for the condition. Currently, the only supported key is aws:PrincipalOrgID.
+        /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
         public let key: String
-        /// The type of condition. Currently, the only supported value is StringEquals.
+        /// Specifies the type of condition. Currently the only supported value is StringEquals.
         public let `type`: String
-        /// The value for the key. Currently, this must be the ID of the organization.
+        /// Specifies the value for the key. Currently, this must be the ID of the organization.
         public let value: String
 
         public init(key: String, type: String, value: String) {
@@ -179,17 +179,21 @@ extension CloudWatchEvents {
     public struct CreateEventBusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// If you're creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
+        /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
-        /// The name of the new event bus.  The names of custom event buses can't contain the / character. You can't use the name default for a custom event bus because this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to. This name will include the / character.
+        /// The name of the new event bus.  Event bus names cannot contain the / character. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to.
         public let name: String
+        /// Tags to associate with the event bus.
+        public let tags: [Tag]?
 
-        public init(eventSourceName: String? = nil, name: String) {
+        public init(eventSourceName: String? = nil, name: String, tags: [Tag]? = nil) {
             self.eventSourceName = eventSourceName
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -199,11 +203,15 @@ extension CloudWatchEvents {
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventSourceName = "EventSourceName"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -230,7 +238,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The AWS account ID of the customer who is permitted to create a matching partner event bus for this partner event source.
+        /// The AWS account ID that is permitted to create a matching partner event bus for this partner event source.
         public let account: String
         /// The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
         public let name: String
@@ -474,11 +482,11 @@ extension CloudWatchEvents {
         public let createdBy: String?
         /// The date and time that the event source was created.
         public let creationTime: TimeStamp?
-        /// The date and time that the event source will expire if you don't create a matching event bus.
+        /// The date and time that the event source will expire if you do not create a matching event bus.
         public let expirationTime: TimeStamp?
         /// The name of the partner event source.
         public let name: String?
-        /// The state of the event source. If it's ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it's PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it's DELETED, you have created a matching event bus, but the event source has since been deleted.
+        /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
         public init(arn: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, name: String? = nil, state: EventSourceState? = nil) {
@@ -595,7 +603,7 @@ extension CloudWatchEvents {
         public let description: String?
         /// The event bus associated with the rule.
         public let eventBusName: String?
-        /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
         /// If this is a managed rule, created by an AWS service on your behalf, this field displays the principal name of the AWS service that created the rule.
         public let managedBy: String?
@@ -603,7 +611,7 @@ extension CloudWatchEvents {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
-        /// The scheduling expression: for example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
         public let scheduleExpression: String?
         /// Specifies whether the rule is enabled or disabled.
         public let state: RuleState?
@@ -678,7 +686,7 @@ extension CloudWatchEvents {
         public let group: String?
         /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where AWS Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
-        /// Use this structure if the ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task doesn't use the awsvpc network mode, the task fails.
+        /// Use this structure if the ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
         public let networkConfiguration: NetworkConfiguration?
         /// Specifies the platform version for the task. Specify only the numeric portion of the platform version, such as 1.1.0. This structure is used only if LaunchType is FARGATE. For more information about valid platform versions, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
@@ -784,13 +792,13 @@ extension CloudWatchEvents {
         public let arn: String?
         /// The name of the partner that created the event source.
         public let createdBy: String?
-        /// The date and time when the event source was created.
+        /// The date and time the event source was created.
         public let creationTime: TimeStamp?
-        /// The date and time when the event source will expire if the AWS account doesn't create a matching event bus for it.
+        /// The date and time that the event source will expire, if the AWS account doesn't create a matching event bus for it.
         public let expirationTime: TimeStamp?
         /// The name of the event source.
         public let name: String?
-        /// The state of the event source. If it's ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it's PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it's DELETED, you have created a matching event bus, but the event source has since been deleted.
+        /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
         public init(arn: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, name: String? = nil, state: EventSourceState? = nil) {
@@ -818,9 +826,9 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "InputTemplate", required: true, type: .string)
         ]
 
-        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys can't start with "AWS".
+        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS." 
         public let inputPathsMap: [String: String]?
-        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt;. The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder can't be used as an object key   Object values can't include quote marks   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
         public let inputTemplate: String
 
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
@@ -873,7 +881,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// Specifying this limits the results to only those event buses with names that start with the specified prefix.
         public let namePrefix: String?
@@ -932,7 +940,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
         public let namePrefix: String?
@@ -993,7 +1001,7 @@ extension CloudWatchEvents {
 
         /// The name of the partner event source to display account information about.
         public let eventSourceName: String
-        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
         public let nextToken: String?
@@ -1050,7 +1058,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// If you specify this, the results are limited to only those partner event sources that start with the string you specify.
         public let namePrefix: String
@@ -1240,7 +1248,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
 
-        /// The ARN of the rule for which you want to view tags.
+        /// The ARN of the EventBridge resource for which you want to view tags.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -1262,7 +1270,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The list of tag keys and values associated with the rule that you specified.
+        /// The list of tag keys and values associated with the resource you specified
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -1346,7 +1354,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
         ]
 
-        /// Use this structure to specify the VPC subnets and security groups for the task and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
+        /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
@@ -1390,11 +1398,11 @@ extension CloudWatchEvents {
 
         /// The AWS account ID that the partner event source was offered to.
         public let account: String?
-        /// The date and time when the event source was created.
+        /// The date and time the event source was created.
         public let creationTime: TimeStamp?
-        /// The date and time when the event source will expire if the AWS account doesn't create a matching event bus for it.
+        /// The date and time that the event source will expire, if the AWS account doesn't create a matching event bus for it.
         public let expirationTime: TimeStamp?
-        /// The state of the event source. If it's ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it's PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it's DELETED, you have created a matching event bus, but the event source has since been deleted.
+        /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
         public init(account: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, state: EventSourceState? = nil) {
@@ -1447,17 +1455,17 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
 
-        /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
+        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public let detail: String?
-        /// Free-form string used to decide which fields to expect in the event detail.
+        /// Free-form string used to decide what fields to expect in the event detail.
         public let detailType: String?
-        /// The event bus that will receive the event. Only the rules that are associated with this event bus can match the event.
+        /// The event bus that will receive the event. Only the rules that are associated with this event bus will be able to match the event.
         public let eventBusName: String?
-        /// AWS resources, identified by Amazon Resource Name (ARN), that the event primarily concerns. Any number, including zero, can be present.
+        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
-        /// The source of the event. This field is required.
+        /// The source of the event.
         public let source: String?
-        /// The timestamp of the event, per RFC3339. If no timestamp is provided, the timestamp of the PutEvents call is used.
+        /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: TimeStamp?
 
         public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
@@ -1547,6 +1555,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
             try validate(self.entries, name:"entries", parent: name, max: 20)
             try validate(self.entries, name:"entries", parent: name, min: 1)
         }
@@ -1565,11 +1576,11 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
 
-        /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
+        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public let detail: String?
-        /// A free-form string used to decide which fields to expect in the event detail.
+        /// A free-form string used to decide what fields to expect in the event detail.
         public let detailType: String?
-        /// AWS resources, identified by Amazon Resource Name (ARN), that the event primarily concerns. Any number, including zero, can be present.
+        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
         /// The event source that is generating the evntry.
         public let source: String?
@@ -1582,6 +1593,12 @@ extension CloudWatchEvents {
             self.resources = resources
             self.source = source
             self.time = time
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.source, name:"source", parent: name, max: 256)
+            try validate(self.source, name:"source", parent: name, min: 1)
+            try validate(self.source, name:"source", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1601,7 +1618,7 @@ extension CloudWatchEvents {
 
         /// The list of events from this operation that were successfully written to the partner event bus.
         public let entries: [PutPartnerEventsResultEntry]?
-        /// The number of events from this operation that couldn't be written to the partner event bus.
+        /// The number of events from this operation that could not be written to the partner event bus.
         public let failedEntryCount: Int?
 
         public init(entries: [PutPartnerEventsResultEntry]? = nil, failedEntryCount: Int? = nil) {
@@ -1651,15 +1668,15 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
 
-        /// The action that you're enabling the other account to perform. Currently, this must be events:PutEvents.
+        /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
         public let action: String
-        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations? in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string that must contain Type, Key, and Value fields.
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
         public let condition: Condition?
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that might match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID to receive events from. Rules with an account field don't match any events sent from other accounts.
+        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
         public let principal: String
-        /// An identifier string for the external account that you're granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
         public let statementId: String
 
         public init(action: String, condition: Condition? = nil, eventBusName: String? = nil, principal: String, statementId: String) {
@@ -1710,13 +1727,13 @@ extension CloudWatchEvents {
         public let description: String?
         /// The event bus to associate with this rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// The name of the rule that you're creating or updating.
+        /// The name of the rule that you are creating or updating.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
-        /// The scheduling expression: for example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
         /// Indicates whether the rule is enabled or disabled.
         public let state: RuleState?
@@ -1910,7 +1927,7 @@ extension CloudWatchEvents {
 
         /// The name of the event bus associated with the rule.
         public let eventBusName: String?
-        /// If this is a managed rule created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that aren't managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+        /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The IDs of the targets to remove from the rule.
         public let ids: [String]
@@ -2016,15 +2033,15 @@ extension CloudWatchEvents {
         public let description: String?
         /// The event bus associated with the rule.
         public let eventBusName: String?
-        /// The event pattern of the rule. For more information, see Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// If an AWS service created the rule on behalf of your account, this field displays the principal name of the service that created the rule.
+        /// If the rule was created on behalf of your account by an AWS service, this field displays the principal name of the service that created the rule.
         public let managedBy: String?
         /// The name of the rule.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
         public let roleArn: String?
-        /// The scheduling expression: for example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
         public let scheduleExpression: String?
         /// The state of the rule.
         public let state: RuleState?
@@ -2136,7 +2153,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
+        /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
         /// The value for the specified tag key.
         public let value: String
@@ -2165,9 +2182,9 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
 
-        /// The ARN of the rule that you're adding tags to.
+        /// The ARN of the EventBridge resource that you're adding tags to.
         public let resourceARN: String
-        /// The list of key-value pairs to associate with the rule.
+        /// The list of key-value pairs to associate with the resource.
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
@@ -2216,7 +2233,7 @@ extension CloudWatchEvents {
         public let arn: String
         /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
         public let batchParameters: BatchParameters?
-        /// Contains the Amazon ECS task definition and task count to be used if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
+        /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
         /// The ID of the target.
         public let id: String
@@ -2226,7 +2243,7 @@ extension CloudWatchEvents {
         public let inputPath: String?
         /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
         public let inputTransformer: InputTransformer?
-        /// The custom parameter that you can use to control the shard assignment when the target is a Kinesis data stream. If you don't include this parameter, the default is to use the eventId as the partition key.
+        /// The custom parameter you can use to control the shard assignment, when the target is a Kinesis data stream. If you do not include this parameter, the default is to use the eventId as the partition key.
         public let kinesisParameters: KinesisParameters?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
         public let roleArn: String?
@@ -2288,7 +2305,7 @@ extension CloudWatchEvents {
 
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
-        /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String
 
         public init(event: String, eventPattern: String) {
@@ -2325,7 +2342,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// The ARN of the rule that you're removing tags from.
+        /// The ARN of the EventBridge resource from which you are removing tags.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]

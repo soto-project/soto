@@ -75,6 +75,7 @@ extension Lambda {
         case nodejs43Edge = "nodejs4.3-edge"
         case go1X = "go1.x"
         case ruby25 = "ruby2.5"
+        case ruby27 = "ruby2.7"
         case provided = "provided"
         public var description: String { return self.rawValue }
     }
@@ -2338,7 +2339,7 @@ extension Lambda {
         public let marker: String?
         /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
         public let masterRegion: String?
-        /// Specify a value between 1 and 50 to limit the number of functions in the response.
+        /// The maximum number of functions to return.
         public let maxItems: Int?
 
         public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: String? = nil, maxItems: Int? = nil) {
@@ -2606,7 +2607,7 @@ extension Lambda {
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
-        /// Limit the number of versions that are returned.
+        /// The maximum number of versions to return.
         public let maxItems: Int?
 
         public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {

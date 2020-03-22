@@ -274,7 +274,8 @@ extension Snowball {
             AWSShapeMember(label: "Resources", required: false, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum)
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "TaxDocuments", required: false, type: .structure)
         ]
 
         /// The automatically generated ID for a specific address.
@@ -301,10 +302,12 @@ extension Snowball {
         public let roleARN: String?
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
-        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE.
+        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
         public let snowballType: SnowballType?
+        /// The tax documents required in your AWS Region.
+        public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.clusterState = clusterState
@@ -318,6 +321,7 @@ extension Snowball {
             self.roleARN = roleARN
             self.shippingOption = shippingOption
             self.snowballType = snowballType
+            self.taxDocuments = taxDocuments
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -334,6 +338,7 @@ extension Snowball {
             case roleARN = "RoleARN"
             case shippingOption = "ShippingOption"
             case snowballType = "SnowballType"
+            case taxDocuments = "TaxDocuments"
         }
     }
 
@@ -408,7 +413,8 @@ extension Snowball {
             AWSShapeMember(label: "Resources", required: true, type: .structure), 
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
             AWSShapeMember(label: "ShippingOption", required: true, type: .enum), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum)
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "TaxDocuments", required: false, type: .structure)
         ]
 
         /// The ID for the address that you want the cluster shipped to.
@@ -429,10 +435,12 @@ extension Snowball {
         public let roleARN: String
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption
-        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE.
+        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
         public let snowballType: SnowballType?
+        /// The tax documents required in your AWS Region.
+        public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType? = nil) {
+        public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.description = description
             self.forwardingAddressId = forwardingAddressId
@@ -443,6 +451,7 @@ extension Snowball {
             self.roleARN = roleARN
             self.shippingOption = shippingOption
             self.snowballType = snowballType
+            self.taxDocuments = taxDocuments
         }
 
         public func validate(name: String) throws {
@@ -459,6 +468,7 @@ extension Snowball {
             try self.resources.validate(name: "\(name).resources")
             try validate(self.roleARN, name:"roleARN", parent: name, max: 255)
             try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:aws.*:iam::[0-9]{12}:role/.*")
+            try self.taxDocuments?.validate(name: "\(name).taxDocuments")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -472,6 +482,7 @@ extension Snowball {
             case roleARN = "RoleARN"
             case shippingOption = "ShippingOption"
             case snowballType = "SnowballType"
+            case taxDocuments = "TaxDocuments"
         }
     }
 
@@ -505,7 +516,8 @@ extension Snowball {
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum)
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "TaxDocuments", required: false, type: .structure)
         ]
 
         /// The ID for the address that you want the Snowball shipped to.
@@ -530,10 +542,12 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE.
+        /// The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
         public let snowballType: SnowballType?
+        /// The tax documents required in your AWS Region.
+        public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.description = description
@@ -546,6 +560,7 @@ extension Snowball {
             self.shippingOption = shippingOption
             self.snowballCapacityPreference = snowballCapacityPreference
             self.snowballType = snowballType
+            self.taxDocuments = taxDocuments
         }
 
         public func validate(name: String) throws {
@@ -565,6 +580,7 @@ extension Snowball {
             try self.resources?.validate(name: "\(name).resources")
             try validate(self.roleARN, name:"roleARN", parent: name, max: 255)
             try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:aws.*:iam::[0-9]{12}:role/.*")
+            try self.taxDocuments?.validate(name: "\(name).taxDocuments")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -580,6 +596,7 @@ extension Snowball {
             case shippingOption = "ShippingOption"
             case snowballCapacityPreference = "SnowballCapacityPreference"
             case snowballType = "SnowballType"
+            case taxDocuments = "TaxDocuments"
         }
     }
 
@@ -1007,6 +1024,27 @@ extension Snowball {
         }
     }
 
+    public struct INDTaxDocuments: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GSTIN", required: false, type: .string)
+        ]
+
+        /// The Goods and Services Tax (GST) documents required in AWS Regions in India.
+        public let gstin: String?
+
+        public init(gstin: String? = nil) {
+            self.gstin = gstin
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gstin, name:"gstin", parent: name, pattern: "\\d{2}[A-Z]{5}\\d{4}[A-Z]{1}[A-Z\\d]{1}[Z]{1}[A-Z\\d]{1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gstin = "GSTIN"
+        }
+    }
+
     public struct JobListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
@@ -1099,7 +1137,8 @@ extension Snowball {
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "ShippingDetails", required: false, type: .structure), 
             AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum)
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "TaxDocuments", required: false, type: .structure)
         ]
 
         /// The ID for the address that you want the Snowball shipped to.
@@ -1136,8 +1175,10 @@ extension Snowball {
         public let snowballCapacityPreference: SnowballCapacity?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
+        /// The metadata associated with the tax documents required in your AWS Region.
+        public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.creationDate = creationDate
@@ -1155,6 +1196,7 @@ extension Snowball {
             self.shippingDetails = shippingDetails
             self.snowballCapacityPreference = snowballCapacityPreference
             self.snowballType = snowballType
+            self.taxDocuments = taxDocuments
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1175,6 +1217,7 @@ extension Snowball {
             case shippingDetails = "ShippingDetails"
             case snowballCapacityPreference = "SnowballCapacityPreference"
             case snowballType = "SnowballType"
+            case taxDocuments = "TaxDocuments"
         }
     }
 
@@ -1586,6 +1629,27 @@ extension Snowball {
             case inboundShipment = "InboundShipment"
             case outboundShipment = "OutboundShipment"
             case shippingOption = "ShippingOption"
+        }
+    }
+
+    public struct TaxDocuments: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IND", required: false, type: .structure)
+        ]
+
+        /// The tax documents required in AWS Regions in India.
+        public let ind: INDTaxDocuments?
+
+        public init(ind: INDTaxDocuments? = nil) {
+            self.ind = ind
+        }
+
+        public func validate(name: String) throws {
+            try self.ind?.validate(name: "\(name).ind")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ind = "IND"
         }
     }
 

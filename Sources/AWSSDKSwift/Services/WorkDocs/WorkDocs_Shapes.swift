@@ -224,7 +224,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -261,7 +261,7 @@ extension WorkDocs {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
@@ -367,7 +367,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The notification options.
         public let notificationOptions: NotificationOptions?
@@ -526,7 +526,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -610,7 +610,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// Custom metadata in the form of name-value pairs.
         public let customMetadata: [String: String]
@@ -668,7 +668,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The name of the new folder.
         public let name: String?
@@ -723,7 +723,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// List of labels to add to the resource.
         public let labels: [String]
@@ -835,7 +835,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The email address of the user.
         public let emailAddress: String?
@@ -926,7 +926,7 @@ extension WorkDocs {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
@@ -958,7 +958,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the comment.
         public let commentId: String
@@ -1005,7 +1005,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// Flag to indicate removal of all custom metadata properties from the specified resource.
         public let deleteAll: Bool?
@@ -1064,7 +1064,7 @@ extension WorkDocs {
             AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -1094,7 +1094,7 @@ extension WorkDocs {
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -1124,7 +1124,7 @@ extension WorkDocs {
             AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -1156,7 +1156,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// Flag to request removal of all labels from the specified resource.
         public let deleteAll: Bool?
@@ -1279,7 +1279,7 @@ extension WorkDocs {
 
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
         public let activityTypes: String?
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
         public let endTime: TimeStamp?
@@ -1378,7 +1378,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -1454,7 +1454,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -1538,7 +1538,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -1629,7 +1629,7 @@ extension WorkDocs {
             AWSShapeMember(label: "SearchQuery", location: .querystring(locationName: "searchQuery"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
         public let limit: Int?
@@ -1762,7 +1762,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
         public let limit: Int?
@@ -1834,7 +1834,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token.
         public let authenticationToken: String
         /// The maximum number of items to return.
         public let limit: Int?
@@ -1899,7 +1899,7 @@ extension WorkDocs {
             AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
         public let fields: String?
@@ -2191,7 +2191,7 @@ extension WorkDocs {
             AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token.
         public let authenticationToken: String
 
         public init(authenticationToken: String) {
@@ -2234,7 +2234,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2301,7 +2301,7 @@ extension WorkDocs {
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2360,7 +2360,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2433,7 +2433,7 @@ extension WorkDocs {
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
         public let fields: String?
@@ -2500,7 +2500,7 @@ extension WorkDocs {
             AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -2559,7 +2559,7 @@ extension WorkDocs {
             AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string)
         ]
 
-        /// The Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API operation using AWS credentials.
+        /// The Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The collection type.
         public let collectionType: ResourceCollectionType?
@@ -2660,7 +2660,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ParentFolderId", required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: TimeStamp?
@@ -2842,7 +2842,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the resource.
         public let resourceId: String
@@ -2874,7 +2874,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The principal ID of the resource.
         public let principalId: String
@@ -3132,7 +3132,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -3182,7 +3182,7 @@ extension WorkDocs {
             AWSShapeMember(label: "VersionStatus", required: false, type: .enum)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -3226,7 +3226,7 @@ extension WorkDocs {
             AWSShapeMember(label: "ResourceState", required: false, type: .enum)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -3281,7 +3281,7 @@ extension WorkDocs {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
         public let authenticationToken: String?
         /// The given name of the user.
         public let givenName: String?

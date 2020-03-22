@@ -189,7 +189,7 @@ extension RDSErrorType {
             self = .dBParameterGroupNotFoundFault(message: message)
         case "DBParameterGroupQuotaExceeded":
             self = .dBParameterGroupQuotaExceededFault(message: message)
-        case "DBProxyAlreadyExistsFault":
+        case "DBProxyTargetExistsFault":
             self = .dBProxyAlreadyExistsFault(message: message)
         case "DBProxyNotFoundFault":
             self = .dBProxyNotFoundFault(message: message)
@@ -423,7 +423,7 @@ extension RDSErrorType : CustomStringConvertible {
         case .dBParameterGroupQuotaExceededFault(let message):
             return "DBParameterGroupQuotaExceeded: \(message ?? "")"
         case .dBProxyAlreadyExistsFault(let message):
-            return "DBProxyAlreadyExistsFault: \(message ?? "")"
+            return "DBProxyTargetExistsFault: \(message ?? "")"
         case .dBProxyNotFoundFault(let message):
             return "DBProxyNotFoundFault: \(message ?? "")"
         case .dBProxyQuotaExceededFault(let message):

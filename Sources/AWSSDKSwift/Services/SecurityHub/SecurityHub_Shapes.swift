@@ -31,6 +31,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum IntegrationType: String, CustomStringConvertible, Codable {
+        case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
+        case receiveFindingsFromSecurityHub = "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MalwareState: String, CustomStringConvertible, Codable {
         case observed = "OBSERVED"
         case removalFailed = "REMOVAL_FAILED"
@@ -78,6 +84,15 @@ extension SecurityHub {
     public enum RecordState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SeverityLabel: String, CustomStringConvertible, Codable {
+        case informational = "INFORMATIONAL"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case critical = "CRITICAL"
         public var description: String { return self.rawValue }
     }
 
@@ -149,6 +164,14 @@ extension SecurityHub {
         case inProgress = "IN_PROGRESS"
         case deferred = "DEFERRED"
         case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkflowStatus: String, CustomStringConvertible, Codable {
+        case new = "NEW"
+        case notified = "NOTIFIED"
+        case resolved = "RESOLVED"
+        case suppressed = "SUPPRESSED"
         public var description: String { return self.rawValue }
     }
 
@@ -340,7 +363,7 @@ extension SecurityHub {
         public let enabled: Bool?
         /// Specifies whether you want CloudFront to include cookies in access logs.
         public let includeCookies: Bool?
-        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution.
+        /// An optional string that you want CloudFront to use as a prefix to the access log filenames for this distribution.
         public let prefix: String?
 
         public init(bucket: String? = nil, enabled: Bool? = nil, includeCookies: Bool? = nil, prefix: String? = nil) {
@@ -419,6 +442,197 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsCodeBuildProjectDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
+        ]
+
+        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) used to encrypt the build output artifacts. You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK alias (using the format alias/alias-name). 
+        public let encryptionKey: String?
+        /// Information about the build environment for this build project.
+        public let environment: AwsCodeBuildProjectEnvironment?
+        /// The name of the build project.
+        public let name: String?
+        /// The ARN of the IAM role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+        public let serviceRole: String?
+        /// Information about the build input source code for this build project.
+        public let source: AwsCodeBuildProjectSource?
+        /// Information about the VPC configuration that AWS CodeBuild accesses.
+        public let vpcConfig: AwsCodeBuildProjectVpcConfig?
+
+        public init(encryptionKey: String? = nil, environment: AwsCodeBuildProjectEnvironment? = nil, name: String? = nil, serviceRole: String? = nil, source: AwsCodeBuildProjectSource? = nil, vpcConfig: AwsCodeBuildProjectVpcConfig? = nil) {
+            self.encryptionKey = encryptionKey
+            self.environment = environment
+            self.name = name
+            self.serviceRole = serviceRole
+            self.source = source
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.encryptionKey, name:"encryptionKey", parent: name, pattern: ".*\\S.*")
+            try self.environment?.validate(name: "\(name).environment")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.serviceRole, name:"serviceRole", parent: name, pattern: ".*\\S.*")
+            try self.source?.validate(name: "\(name).source")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionKey = "EncryptionKey"
+            case environment = "Environment"
+            case name = "Name"
+            case serviceRole = "ServiceRole"
+            case source = "Source"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct AwsCodeBuildProjectEnvironment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "ImagePullCredentialsType", required: false, type: .string), 
+            AWSShapeMember(label: "RegistryCredential", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        /// The certificate to use with this build project.
+        public let certificate: String?
+        /// The type of credentials AWS CodeBuild uses to pull images in your build. Valid values:    CODEBUILD specifies that AWS CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust the AWS CodeBuild service principal.    SERVICE_ROLE specifies that AWS CodeBuild uses your build project's service role.   When you use a cross-account or private registry image, you must use SERVICE_ROLE credentials. When you use an AWS CodeBuild curated image, you must use CODEBUILD credentials.
+        public let imagePullCredentialsType: String?
+        /// The credentials for access to a private registry.
+        public let registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential?
+        /// The type of build environment to use for related builds. The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and Europe (Frankfurt). The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia). Valid values: WINDOWS_CONTAINER | LINUX_CONTAINER | LINUX_GPU_CONTAINER | ARM_CONTAINER 
+        public let `type`: String?
+
+        public init(certificate: String? = nil, imagePullCredentialsType: String? = nil, registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential? = nil, type: String? = nil) {
+            self.certificate = certificate
+            self.imagePullCredentialsType = imagePullCredentialsType
+            self.registryCredential = registryCredential
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificate, name:"certificate", parent: name, pattern: ".*\\S.*")
+            try validate(self.imagePullCredentialsType, name:"imagePullCredentialsType", parent: name, pattern: ".*\\S.*")
+            try self.registryCredential?.validate(name: "\(name).registryCredential")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case imagePullCredentialsType = "ImagePullCredentialsType"
+            case registryCredential = "RegistryCredential"
+            case `type` = "Type"
+        }
+    }
+
+    public struct AwsCodeBuildProjectEnvironmentRegistryCredential: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Credential", required: false, type: .string), 
+            AWSShapeMember(label: "CredentialProvider", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.  The credential can use the name of the credentials only if they exist in your current AWS Region.  
+        public let credential: String?
+        /// The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager.
+        public let credentialProvider: String?
+
+        public init(credential: String? = nil, credentialProvider: String? = nil) {
+            self.credential = credential
+            self.credentialProvider = credentialProvider
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.credential, name:"credential", parent: name, pattern: ".*\\S.*")
+            try validate(self.credentialProvider, name:"credentialProvider", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credential = "Credential"
+            case credentialProvider = "CredentialProvider"
+        }
+    }
+
+    public struct AwsCodeBuildProjectSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GitCloneDepth", required: false, type: .integer), 
+            AWSShapeMember(label: "InsecureSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Location", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        /// Information about the Git clone depth for the build project.
+        public let gitCloneDepth: Int?
+        /// Whether to ignore SSL warnings while connecting to the project source code.
+        public let insecureSsl: Bool?
+        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the buildspec file (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an S3 input bucket, one of the following.   The path to the ZIP file that contains the source code (for example, bucket-name/path/to/object-name.zip).    The path to the folder that contains the source code (for example, bucket-name/path/to/source-code/folder/).     For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file.   
+        public let location: String?
+        /// The type of repository that contains the source code to be built. Valid values are:    BITBUCKET - The source code is in a Bitbucket repository.    CODECOMMIT - The source code is in an AWS CodeCommit repository.    CODEPIPELINE - The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB - The source code is in a GitHub repository.    GITHUB_ENTERPRISE - The source code is in a GitHub Enterprise repository.    NO_SOURCE - The project does not have input source code.    S3 - The source code is in an S3 input bucket.   
+        public let `type`: String?
+
+        public init(gitCloneDepth: Int? = nil, insecureSsl: Bool? = nil, location: String? = nil, type: String? = nil) {
+            self.gitCloneDepth = gitCloneDepth
+            self.insecureSsl = insecureSsl
+            self.location = location
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.location, name:"location", parent: name, pattern: ".*\\S.*")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gitCloneDepth = "GitCloneDepth"
+            case insecureSsl = "InsecureSsl"
+            case location = "Location"
+            case `type` = "Type"
+        }
+    }
+
+    public struct AwsCodeBuildProjectVpcConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+
+        /// A list of one or more security group IDs in your Amazon VPC.
+        public let securityGroupIds: [String]?
+        /// A list of one or more subnet IDs in your Amazon VPC.
+        public let subnets: [String]?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.subnets?.forEach {
+                try validate($0, name: "subnets[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnets = "Subnets"
+            case vpcId = "VpcId"
+        }
+    }
+
     public struct AwsEc2InstanceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamInstanceProfileArn", required: false, type: .string), 
@@ -489,6 +703,551 @@ extension SecurityHub {
             case subnetId = "SubnetId"
             case `type` = "Type"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsEc2NetworkInterfaceAttachment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachmentId", required: false, type: .string), 
+            AWSShapeMember(label: "AttachTime", required: false, type: .string), 
+            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeMember(label: "DeviceIndex", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The identifier of the network interface attachment
+        public let attachmentId: String?
+        /// The timestamp indicating when the attachment initiated.
+        public let attachTime: String?
+        /// Indicates whether the network interface is deleted when the instance is terminated.
+        public let deleteOnTermination: Bool?
+        /// The device index of the network interface attachment on the instance.
+        public let deviceIndex: Int?
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The AWS account ID of the owner of the instance.
+        public let instanceOwnerId: String?
+        /// The attachment state. Valid values: attaching | attached | detaching | detached 
+        public let status: String?
+
+        public init(attachmentId: String? = nil, attachTime: String? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, status: String? = nil) {
+            self.attachmentId = attachmentId
+            self.attachTime = attachTime
+            self.deleteOnTermination = deleteOnTermination
+            self.deviceIndex = deviceIndex
+            self.instanceId = instanceId
+            self.instanceOwnerId = instanceOwnerId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attachmentId, name:"attachmentId", parent: name, pattern: ".*\\S.*")
+            try validate(self.attachTime, name:"attachTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: ".*\\S.*")
+            try validate(self.instanceOwnerId, name:"instanceOwnerId", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case attachTime = "AttachTime"
+            case deleteOnTermination = "DeleteOnTermination"
+            case deviceIndex = "DeviceIndex"
+            case instanceId = "InstanceId"
+            case instanceOwnerId = "InstanceOwnerId"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsEc2NetworkInterfaceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attachment", required: false, type: .structure), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SourceDestCheck", required: false, type: .boolean)
+        ]
+
+        /// The network interface attachment.
+        public let attachment: AwsEc2NetworkInterfaceAttachment?
+        /// The ID of the network interface.
+        public let networkInterfaceId: String?
+        /// Security groups for the network interface.
+        public let securityGroups: [AwsEc2NetworkInterfaceSecurityGroup]?
+        /// Indicates whether traffic to or from the instance is validated.
+        public let sourceDestCheck: Bool?
+
+        public init(attachment: AwsEc2NetworkInterfaceAttachment? = nil, networkInterfaceId: String? = nil, securityGroups: [AwsEc2NetworkInterfaceSecurityGroup]? = nil, sourceDestCheck: Bool? = nil) {
+            self.attachment = attachment
+            self.networkInterfaceId = networkInterfaceId
+            self.securityGroups = securityGroups
+            self.sourceDestCheck = sourceDestCheck
+        }
+
+        public func validate(name: String) throws {
+            try self.attachment?.validate(name: "\(name).attachment")
+            try validate(self.networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: ".*\\S.*")
+            try self.securityGroups?.forEach {
+                try $0.validate(name: "\(name).securityGroups[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case securityGroups = "SecurityGroups"
+            case sourceDestCheck = "SourceDestCheck"
+        }
+    }
+
+    public struct AwsEc2NetworkInterfaceSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
+        ]
+
+        /// The ID of the security group.
+        public let groupId: String?
+        /// The name of the security group.
+        public let groupName: String?
+
+        public init(groupId: String? = nil, groupName: String? = nil) {
+            self.groupId = groupId
+            self.groupName = groupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.groupId, name:"groupId", parent: name, pattern: ".*\\S.*")
+            try validate(self.groupName, name:"groupName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct AwsEc2SecurityGroupDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "IpPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "IpPermissionsEgress", required: false, type: .list), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+
+        /// The ID of the security group.
+        public let groupId: String?
+        /// The name of the security group.
+        public let groupName: String?
+        /// The inbound rules associated with the security group.
+        public let ipPermissions: [AwsEc2SecurityGroupIpPermission]?
+        /// [VPC only] The outbound rules associated with the security group.
+        public let ipPermissionsEgress: [AwsEc2SecurityGroupIpPermission]?
+        /// The AWS account ID of the owner of the security group.
+        public let ownerId: String?
+        /// [VPC only] The ID of the VPC for the security group.
+        public let vpcId: String?
+
+        public init(groupId: String? = nil, groupName: String? = nil, ipPermissions: [AwsEc2SecurityGroupIpPermission]? = nil, ipPermissionsEgress: [AwsEc2SecurityGroupIpPermission]? = nil, ownerId: String? = nil, vpcId: String? = nil) {
+            self.groupId = groupId
+            self.groupName = groupName
+            self.ipPermissions = ipPermissions
+            self.ipPermissionsEgress = ipPermissionsEgress
+            self.ownerId = ownerId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.groupId, name:"groupId", parent: name, pattern: ".*\\S.*")
+            try validate(self.groupName, name:"groupName", parent: name, pattern: ".*\\S.*")
+            try self.ipPermissions?.forEach {
+                try $0.validate(name: "\(name).ipPermissions[]")
+            }
+            try self.ipPermissionsEgress?.forEach {
+                try $0.validate(name: "\(name).ipPermissionsEgress[]")
+            }
+            try validate(self.ownerId, name:"ownerId", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case groupName = "GroupName"
+            case ipPermissions = "IpPermissions"
+            case ipPermissionsEgress = "IpPermissionsEgress"
+            case ownerId = "OwnerId"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsEc2SecurityGroupIpPermission: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "IpProtocol", required: false, type: .string), 
+            AWSShapeMember(label: "IpRanges", required: false, type: .list), 
+            AWSShapeMember(label: "Ipv6Ranges", required: false, type: .list), 
+            AWSShapeMember(label: "PrefixListIds", required: false, type: .list), 
+            AWSShapeMember(label: "ToPort", required: false, type: .integer), 
+            AWSShapeMember(label: "UserIdGroupPairs", required: false, type: .list)
+        ]
+
+        /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types. If you specify all ICMP/ICMPv6 types, you must specify all codes. 
+        public let fromPort: Int?
+        /// The IP protocol name (tcp, udp, icmp, icmpv6) or number. [VPC only] Use -1 to specify all protocols. When authorizing security group rules, specifying -1 or a protocol number other than tcp, udp, icmp, or icmpv6 allows traffic on all ports, regardless of any port range you specify. For tcp, udp, and icmp, you must specify a port range. For icmpv6, the port range is optional. If you omit the port range, traffic for all types and codes is allowed. 
+        public let ipProtocol: String?
+        /// The IPv4 ranges.
+        public let ipRanges: [AwsEc2SecurityGroupIpRange]?
+        /// The IPv6 ranges.
+        public let ipv6Ranges: [AwsEc2SecurityGroupIpv6Range]?
+        /// [VPC only] The prefix list IDs for an AWS service. With outbound rules, this is the AWS service to access through a VPC endpoint from instances associated with the security group.
+        public let prefixListIds: [AwsEc2SecurityGroupPrefixListId]?
+        /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code. A value of -1 indicates all ICMP/ICMPv6 codes. If you specify all ICMP/ICMPv6 types, you must specify all codes.
+        public let toPort: Int?
+        /// The security group and AWS account ID pairs.
+        public let userIdGroupPairs: [AwsEc2SecurityGroupUserIdGroupPair]?
+
+        public init(fromPort: Int? = nil, ipProtocol: String? = nil, ipRanges: [AwsEc2SecurityGroupIpRange]? = nil, ipv6Ranges: [AwsEc2SecurityGroupIpv6Range]? = nil, prefixListIds: [AwsEc2SecurityGroupPrefixListId]? = nil, toPort: Int? = nil, userIdGroupPairs: [AwsEc2SecurityGroupUserIdGroupPair]? = nil) {
+            self.fromPort = fromPort
+            self.ipProtocol = ipProtocol
+            self.ipRanges = ipRanges
+            self.ipv6Ranges = ipv6Ranges
+            self.prefixListIds = prefixListIds
+            self.toPort = toPort
+            self.userIdGroupPairs = userIdGroupPairs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ipProtocol, name:"ipProtocol", parent: name, pattern: ".*\\S.*")
+            try self.ipRanges?.forEach {
+                try $0.validate(name: "\(name).ipRanges[]")
+            }
+            try self.ipv6Ranges?.forEach {
+                try $0.validate(name: "\(name).ipv6Ranges[]")
+            }
+            try self.prefixListIds?.forEach {
+                try $0.validate(name: "\(name).prefixListIds[]")
+            }
+            try self.userIdGroupPairs?.forEach {
+                try $0.validate(name: "\(name).userIdGroupPairs[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case ipProtocol = "IpProtocol"
+            case ipRanges = "IpRanges"
+            case ipv6Ranges = "Ipv6Ranges"
+            case prefixListIds = "PrefixListIds"
+            case toPort = "ToPort"
+            case userIdGroupPairs = "UserIdGroupPairs"
+        }
+    }
+
+    public struct AwsEc2SecurityGroupIpRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrIp", required: false, type: .string)
+        ]
+
+        /// The IPv4 CIDR range. You can either specify either a CIDR range or a source security group, but not both. To specify a single IPv4 address, use the /32 prefix length.
+        public let cidrIp: String?
+
+        public init(cidrIp: String? = nil) {
+            self.cidrIp = cidrIp
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.cidrIp, name:"cidrIp", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrIp = "CidrIp"
+        }
+    }
+
+    public struct AwsEc2SecurityGroupIpv6Range: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrIpv6", required: false, type: .string)
+        ]
+
+        /// The IPv6 CIDR range. You can either specify either a CIDR range or a source security group, but not both. To specify a single IPv6 address, use the /128 prefix length.
+        public let cidrIpv6: String?
+
+        public init(cidrIpv6: String? = nil) {
+            self.cidrIpv6 = cidrIpv6
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.cidrIpv6, name:"cidrIpv6", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrIpv6 = "CidrIpv6"
+        }
+    }
+
+    public struct AwsEc2SecurityGroupPrefixListId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrefixListId", required: false, type: .string)
+        ]
+
+        /// The ID of the prefix.
+        public let prefixListId: String?
+
+        public init(prefixListId: String? = nil) {
+            self.prefixListId = prefixListId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.prefixListId, name:"prefixListId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefixListId = "PrefixListId"
+        }
+    }
+
+    public struct AwsEc2SecurityGroupUserIdGroupPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PeeringStatus", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcPeeringConnectionId", required: false, type: .string)
+        ]
+
+        /// The ID of the security group.
+        public let groupId: String?
+        /// The name of the security group.
+        public let groupName: String?
+        /// The status of a VPC peering connection, if applicable.
+        public let peeringStatus: String?
+        /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned in the response. If the referenced security group is deleted, this value is not returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS. 
+        public let userId: String?
+        /// The ID of the VPC for the referenced security group, if applicable.
+        public let vpcId: String?
+        /// The ID of the VPC peering connection, if applicable.
+        public let vpcPeeringConnectionId: String?
+
+        public init(groupId: String? = nil, groupName: String? = nil, peeringStatus: String? = nil, userId: String? = nil, vpcId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+            self.groupId = groupId
+            self.groupName = groupName
+            self.peeringStatus = peeringStatus
+            self.userId = userId
+            self.vpcId = vpcId
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.groupId, name:"groupId", parent: name, pattern: ".*\\S.*")
+            try validate(self.groupName, name:"groupName", parent: name, pattern: ".*\\S.*")
+            try validate(self.peeringStatus, name:"peeringStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcPeeringConnectionId, name:"vpcPeeringConnectionId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case groupName = "GroupName"
+            case peeringStatus = "PeeringStatus"
+            case userId = "UserId"
+            case vpcId = "VpcId"
+            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
+        }
+    }
+
+    public struct AwsElasticsearchDomainDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionAtRestOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoints", required: false, type: .map), 
+            AWSShapeMember(label: "NodeToNodeEncryptionOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "VPCOptions", required: false, type: .structure)
+        ]
+
+        /// IAM policy document specifying the access policies for the new Amazon ES domain.
+        public let accessPolicies: String?
+        /// Additional options for the domain endpoint.
+        public let domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions?
+        /// Unique identifier for an Amazon ES domain.
+        public let domainId: String?
+        /// Name of an Amazon ES domain. Domain names are unique across all domains owned by the same account within an AWS Region. Domain names must start with a lowercase letter and must be between 3 and 28 characters. Valid characters are a-z (lowercase only), 0-9, and – (hyphen). 
+        public let domainName: String?
+        /// Elasticsearch version.
+        public let elasticsearchVersion: String?
+        /// Details about the configuration for encryption at rest.
+        public let encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions?
+        /// Domain-specific endpoint used to submit index, search, and data upload requests to an Amazon ES domain. The endpoint is a service URL. 
+        public let endpoint: String?
+        /// The key-value pair that exists if the Amazon ES domain uses VPC endpoints.
+        public let endpoints: [String: String]?
+        /// Details about the configuration for node-to-node encryption.
+        public let nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions?
+        /// Information that Amazon ES derives based on VPCOptions for the domain.
+        public let vPCOptions: AwsElasticsearchDomainVPCOptions?
+
+        public init(accessPolicies: String? = nil, domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions? = nil, domainId: String? = nil, domainName: String? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil, vPCOptions: AwsElasticsearchDomainVPCOptions? = nil) {
+            self.accessPolicies = accessPolicies
+            self.domainEndpointOptions = domainEndpointOptions
+            self.domainId = domainId
+            self.domainName = domainName
+            self.elasticsearchVersion = elasticsearchVersion
+            self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.endpoint = endpoint
+            self.endpoints = endpoints
+            self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.vPCOptions = vPCOptions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accessPolicies, name:"accessPolicies", parent: name, pattern: ".*\\S.*")
+            try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
+            try validate(self.domainId, name:"domainId", parent: name, pattern: ".*\\S.*")
+            try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
+            try validate(self.elasticsearchVersion, name:"elasticsearchVersion", parent: name, pattern: ".*\\S.*")
+            try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
+            try validate(self.endpoint, name:"endpoint", parent: name, pattern: ".*\\S.*")
+            try self.endpoints?.forEach {
+                try validate($0.key, name:"endpoints.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name:"endpoints[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.vPCOptions?.validate(name: "\(name).vPCOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicies = "AccessPolicies"
+            case domainEndpointOptions = "DomainEndpointOptions"
+            case domainId = "DomainId"
+            case domainName = "DomainName"
+            case elasticsearchVersion = "ElasticsearchVersion"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case endpoint = "Endpoint"
+            case endpoints = "Endpoints"
+            case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+            case vPCOptions = "VPCOptions"
+        }
+    }
+
+    public struct AwsElasticsearchDomainDomainEndpointOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnforceHTTPS", required: false, type: .boolean), 
+            AWSShapeMember(label: "TLSSecurityPolicy", required: false, type: .string)
+        ]
+
+        /// Whether to require that all traffic to the domain arrive over HTTPS.
+        public let enforceHTTPS: Bool?
+        /// The TLS security policy to apply to the HTTPS endpoint of the Elasticsearch domain. Valid values:    Policy-Min-TLS-1-0-2019-07, which supports TLSv1.0 and higher    Policy-Min-TLS-1-2-2019-07, which only supports TLSv1.2  
+        public let tLSSecurityPolicy: String?
+
+        public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: String? = nil) {
+            self.enforceHTTPS = enforceHTTPS
+            self.tLSSecurityPolicy = tLSSecurityPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.tLSSecurityPolicy, name:"tLSSecurityPolicy", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforceHTTPS = "EnforceHTTPS"
+            case tLSSecurityPolicy = "TLSSecurityPolicy"
+        }
+    }
+
+    public struct AwsElasticsearchDomainEncryptionAtRestOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+
+        /// Whether encryption at rest is enabled.
+        public let enabled: Bool?
+        /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
+        public let kmsKeyId: String?
+
+        public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
+            self.enabled = enabled
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct AwsElasticsearchDomainNodeToNodeEncryptionOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+
+        /// Whether node-to-node encryption is enabled.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AwsElasticsearchDomainVPCOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "VPCId", required: false, type: .string)
+        ]
+
+        /// The list of Availability Zones associated with the VPC subnets.
+        public let availabilityZones: [String]?
+        /// The list of security group IDs associated with the VPC endpoints for the domain.
+        public let securityGroupIds: [String]?
+        /// A list of subnet IDs associated with the VPC endpoints for the domain.
+        public let subnetIds: [String]?
+        /// ID for the VPC.
+        public let vPCId: String?
+
+        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vPCId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vPCId = vPCId
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityZones?.forEach {
+                try validate($0, name: "availabilityZones[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.vPCId, name:"vPCId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case vPCId = "VPCId"
         }
     }
 
@@ -1041,30 +1800,418 @@ extension SecurityHub {
         }
     }
 
-    public struct AwsS3BucketDetails: AWSShape {
+    public struct AwsLambdaLayerVersionDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerName", required: false, type: .string)
+            AWSShapeMember(label: "CompatibleRuntimes", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .long)
         ]
 
+        /// The layer's compatible runtimes. Maximum number of 5 items. Valid values: nodejs10.x | nodejs12.x | java8 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | dotnetcore1.0 | dotnetcore2.1 | go1.x | ruby2.5 | provided 
+        public let compatibleRuntimes: [String]?
+        /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000. 
+        public let createdDate: String?
+        /// The version number.
+        public let version: Int64?
+
+        public init(compatibleRuntimes: [String]? = nil, createdDate: String? = nil, version: Int64? = nil) {
+            self.compatibleRuntimes = compatibleRuntimes
+            self.createdDate = createdDate
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.compatibleRuntimes?.forEach {
+                try validate($0, name: "compatibleRuntimes[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.createdDate, name:"createdDate", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibleRuntimes = "CompatibleRuntimes"
+            case createdDate = "CreatedDate"
+            case version = "Version"
+        }
+    }
+
+    public struct AwsRdsDbInstanceAssociatedRole: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The name of the feature associated with the IAM)role.
+        public let featureName: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB instance.
+        public let roleArn: String?
+        /// Describes the state of the association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB instance.    INVALID - the IAM role ARN is associated with the DB instance, but the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.   
+        public let status: String?
+
+        public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
+            self.featureName = featureName
+            self.roleArn = roleArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.featureName, name:"featureName", parent: name, pattern: ".*\\S.*")
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureName = "FeatureName"
+            case roleArn = "RoleArn"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsRdsDbInstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedRoles", required: false, type: .list), 
+            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DbInstancePort", required: false, type: .integer), 
+            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list)
+        ]
+
+        /// The AWS Identity and Access Management (IAM) roles associated with the DB instance.
+        public let associatedRoles: [AwsRdsDbInstanceAssociatedRole]?
+        /// The identifier of the CA certificate for this DB instance.
+        public let cACertificateIdentifier: String?
+        /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
+        public let dBClusterIdentifier: String?
+        /// Contains the name of the compute and memory capacity class of the DB instance.
+        public let dBInstanceClass: String?
+        /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
+        public let dBInstanceIdentifier: String?
+        /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
+        public let dbInstancePort: Int?
+        /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed. 
+        public let dbiResourceId: String?
+        /// The meaning of this parameter differs according to the database engine you use.  MySQL, MariaDB, SQL Server, PostgreSQL  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance.  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance. 
+        public let dBName: String?
+        /// Indicates whether the DB instance has deletion protection enabled. When deletion protection is enabled, the database cannot be deleted.
+        public let deletionProtection: Bool?
+        /// Specifies the connection endpoint.
+        public let endpoint: AwsRdsDbInstanceEndpoint?
+        /// Provides the name of the database engine to use for this DB instance.
+        public let engine: String?
+        /// Indicates the database engine version.
+        public let engineVersion: String?
+        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines.   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher  
+        public let iAMDatabaseAuthenticationEnabled: Bool?
+        /// Provides the date and time the DB instance was created.
+        public let instanceCreateTime: String?
+        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance.
+        public let kmsKeyId: String?
+        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. 
+        public let publiclyAccessible: Bool?
+        /// Specifies whether the DB instance is encrypted.
+        public let storageEncrypted: Bool?
+        /// The ARN from the key store with which the instance is associated for TDE encryption.
+        public let tdeCredentialArn: String?
+        /// A list of VPC security groups that the DB instance belongs to.
+        public let vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]?
+
+        public init(associatedRoles: [AwsRdsDbInstanceAssociatedRole]? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbiResourceId: String? = nil, dBName: String? = nil, deletionProtection: Bool? = nil, endpoint: AwsRdsDbInstanceEndpoint? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: String? = nil, kmsKeyId: String? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, tdeCredentialArn: String? = nil, vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]? = nil) {
+            self.associatedRoles = associatedRoles
+            self.cACertificateIdentifier = cACertificateIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dBInstanceClass = dBInstanceClass
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dbInstancePort = dbInstancePort
+            self.dbiResourceId = dbiResourceId
+            self.dBName = dBName
+            self.deletionProtection = deletionProtection
+            self.endpoint = endpoint
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.instanceCreateTime = instanceCreateTime
+            self.kmsKeyId = kmsKeyId
+            self.publiclyAccessible = publiclyAccessible
+            self.storageEncrypted = storageEncrypted
+            self.tdeCredentialArn = tdeCredentialArn
+            self.vpcSecurityGroups = vpcSecurityGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.associatedRoles?.forEach {
+                try $0.validate(name: "\(name).associatedRoles[]")
+            }
+            try validate(self.cACertificateIdentifier, name:"cACertificateIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.dBClusterIdentifier, name:"dBClusterIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.dBInstanceClass, name:"dBInstanceClass", parent: name, pattern: ".*\\S.*")
+            try validate(self.dBInstanceIdentifier, name:"dBInstanceIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.dbiResourceId, name:"dbiResourceId", parent: name, pattern: ".*\\S.*")
+            try validate(self.dBName, name:"dBName", parent: name, pattern: ".*\\S.*")
+            try self.endpoint?.validate(name: "\(name).endpoint")
+            try validate(self.engine, name:"engine", parent: name, pattern: ".*\\S.*")
+            try validate(self.engineVersion, name:"engineVersion", parent: name, pattern: ".*\\S.*")
+            try validate(self.instanceCreateTime, name:"instanceCreateTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.tdeCredentialArn, name:"tdeCredentialArn", parent: name, pattern: ".*\\S.*")
+            try self.vpcSecurityGroups?.forEach {
+                try $0.validate(name: "\(name).vpcSecurityGroups[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedRoles = "AssociatedRoles"
+            case cACertificateIdentifier = "CACertificateIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dBInstanceClass = "DBInstanceClass"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dbInstancePort = "DbInstancePort"
+            case dbiResourceId = "DbiResourceId"
+            case dBName = "DBName"
+            case deletionProtection = "DeletionProtection"
+            case endpoint = "Endpoint"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case instanceCreateTime = "InstanceCreateTime"
+            case kmsKeyId = "KmsKeyId"
+            case publiclyAccessible = "PubliclyAccessible"
+            case storageEncrypted = "StorageEncrypted"
+            case tdeCredentialArn = "TdeCredentialArn"
+            case vpcSecurityGroups = "VpcSecurityGroups"
+        }
+    }
+
+    public struct AwsRdsDbInstanceEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+
+        /// Specifies the DNS address of the DB instance.
+        public let address: String?
+        /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
+        public let hostedZoneId: String?
+        /// Specifies the port that the database engine is listening on.
+        public let port: Int?
+
+        public init(address: String? = nil, hostedZoneId: String? = nil, port: Int? = nil) {
+            self.address = address
+            self.hostedZoneId = hostedZoneId
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.address, name:"address", parent: name, pattern: ".*\\S.*")
+            try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case hostedZoneId = "HostedZoneId"
+            case port = "Port"
+        }
+    }
+
+    public struct AwsRdsDbInstanceVpcSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
+        ]
+
+        /// The status of the VPC security group.
+        public let status: String?
+        /// The name of the VPC security group.
+        public let vpcSecurityGroupId: String?
+
+        public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
+            self.status = status
+            self.vpcSecurityGroupId = vpcSecurityGroupId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcSecurityGroupId, name:"vpcSecurityGroupId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
+        }
+    }
+
+    public struct AwsS3BucketDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerName", required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
+        ]
+
+        /// The date and time when the S3 bucket was created.
+        public let createdAt: String?
         /// The canonical user ID of the owner of the S3 bucket.
         public let ownerId: String?
         /// The display name of the owner of the S3 bucket.
         public let ownerName: String?
+        /// The encryption rules that are applied to the S3 bucket.
+        public let serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration?
 
-        public init(ownerId: String? = nil, ownerName: String? = nil) {
+        public init(createdAt: String? = nil, ownerId: String? = nil, ownerName: String? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
+            self.createdAt = createdAt
             self.ownerId = ownerId
             self.ownerName = ownerName
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
         public func validate(name: String) throws {
+            try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
             try validate(self.ownerId, name:"ownerId", parent: name, pattern: ".*\\S.*")
             try validate(self.ownerName, name:"ownerName", parent: name, pattern: ".*\\S.*")
+            try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
             case ownerId = "OwnerId"
             case ownerName = "OwnerName"
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        }
+    }
+
+    public struct AwsS3BucketServerSideEncryptionByDefault: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSMasterKeyID", required: false, type: .string), 
+            AWSShapeMember(label: "SSEAlgorithm", required: false, type: .string)
+        ]
+
+        /// AWS KMS customer master key (CMK) ID to use for the default encryption.
+        public let kMSMasterKeyID: String?
+        /// Server-side encryption algorithm to use for the default encryption.
+        public let sSEAlgorithm: String?
+
+        public init(kMSMasterKeyID: String? = nil, sSEAlgorithm: String? = nil) {
+            self.kMSMasterKeyID = kMSMasterKeyID
+            self.sSEAlgorithm = sSEAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kMSMasterKeyID, name:"kMSMasterKeyID", parent: name, pattern: ".*\\S.*")
+            try validate(self.sSEAlgorithm, name:"sSEAlgorithm", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSMasterKeyID = "KMSMasterKeyID"
+            case sSEAlgorithm = "SSEAlgorithm"
+        }
+    }
+
+    public struct AwsS3BucketServerSideEncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: false, type: .list)
+        ]
+
+        /// The encryption rules that are applied to the S3 bucket.
+        public let rules: [AwsS3BucketServerSideEncryptionRule]?
+
+        public init(rules: [AwsS3BucketServerSideEncryptionRule]? = nil) {
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct AwsS3BucketServerSideEncryptionRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyServerSideEncryptionByDefault", required: false, type: .structure)
+        ]
+
+        /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption is applied.
+        public let applyServerSideEncryptionByDefault: AwsS3BucketServerSideEncryptionByDefault?
+
+        public init(applyServerSideEncryptionByDefault: AwsS3BucketServerSideEncryptionByDefault? = nil) {
+            self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
+        }
+
+        public func validate(name: String) throws {
+            try self.applyServerSideEncryptionByDefault?.validate(name: "\(name).applyServerSideEncryptionByDefault")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyServerSideEncryptionByDefault = "ApplyServerSideEncryptionByDefault"
+        }
+    }
+
+    public struct AwsS3ObjectDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "ETag", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryption", required: false, type: .string), 
+            AWSShapeMember(label: "SSEKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string)
+        ]
+
+        /// A standard MIME type describing the format of the object data.
+        public let contentType: String?
+        /// The opaque identifier assigned by a web server to a specific version of a resource found at a URL.
+        public let eTag: String?
+        /// The date and time when the object was last modified.
+        public let lastModified: String?
+        /// If the object is stored using server-side encryption, the value of the server-side encryption algorithm used when storing this object in Amazon S3.
+        public let serverSideEncryption: String?
+        /// The identifier of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
+        public let sSEKMSKeyId: String?
+        /// The version of the object.
+        public let versionId: String?
+
+        public init(contentType: String? = nil, eTag: String? = nil, lastModified: String? = nil, serverSideEncryption: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+            self.contentType = contentType
+            self.eTag = eTag
+            self.lastModified = lastModified
+            self.serverSideEncryption = serverSideEncryption
+            self.sSEKMSKeyId = sSEKMSKeyId
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contentType, name:"contentType", parent: name, pattern: ".*\\S.*")
+            try validate(self.eTag, name:"eTag", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastModified, name:"lastModified", parent: name, pattern: ".*\\S.*")
+            try validate(self.serverSideEncryption, name:"serverSideEncryption", parent: name, pattern: ".*\\S.*")
+            try validate(self.sSEKMSKeyId, name:"sSEKMSKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.versionId, name:"versionId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case eTag = "ETag"
+            case lastModified = "LastModified"
+            case serverSideEncryption = "ServerSideEncryption"
+            case sSEKMSKeyId = "SSEKMSKeyId"
+            case versionId = "VersionId"
         }
     }
 
@@ -1099,12 +2246,13 @@ extension SecurityHub {
             AWSShapeMember(label: "UpdatedAt", required: true, type: .string), 
             AWSShapeMember(label: "UserDefinedFields", required: false, type: .map), 
             AWSShapeMember(label: "VerificationState", required: false, type: .enum), 
+            AWSShapeMember(label: "Workflow", required: false, type: .structure), 
             AWSShapeMember(label: "WorkflowState", required: false, type: .enum)
         ]
 
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: String
-        /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, CIS AWS Foundations). Contains compliance-related finding details.
+        /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported security standard, such as CIS AWS Foundations. Contains security standard-related finding details.
         public let compliance: Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public let confidence: Int?
@@ -1130,7 +2278,7 @@ extension SecurityHub {
         public let note: Note?
         /// The details of process-related information about a finding.
         public let process: ProcessDetails?
-        /// The ARN generated by Security Hub that uniquely identifies a third-party company (security-findings provider) after this provider's product (solution that generates findings) is registered with Security Hub. 
+        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration.
         public let productArn: String
         /// A data type where security-findings providers can include additional solution-specific details that aren't part of the defined AwsSecurityFinding format.
         public let productFields: [String: String]?
@@ -1148,7 +2296,7 @@ extension SecurityHub {
         public let severity: Severity
         /// A URL that links to a page about the current finding in the security-findings provider's solution.
         public let sourceUrl: String?
-        /// Threat intel details related to a finding.
+        /// Threat intelligence details related to a finding.
         public let threatIntelIndicators: [ThreatIntelIndicator]?
         /// A finding's title.  In this release, Title is a required property. 
         public let title: String
@@ -1160,10 +2308,12 @@ extension SecurityHub {
         public let userDefinedFields: [String: String]?
         /// Indicates the veracity of a finding. 
         public let verificationState: VerificationState?
+        /// Provides information about the status of the investigation into a finding.
+        public let workflow: Workflow?
         /// The workflow state of a finding. 
         public let workflowState: WorkflowState?
 
-        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflowState: WorkflowState? = nil) {
+        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.awsAccountId = awsAccountId
             self.compliance = compliance
             self.confidence = confidence
@@ -1193,11 +2343,13 @@ extension SecurityHub {
             self.updatedAt = updatedAt
             self.userDefinedFields = userDefinedFields
             self.verificationState = verificationState
+            self.workflow = workflow
             self.workflowState = workflowState
         }
 
         public func validate(name: String) throws {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: ".*\\S.*")
+            try self.compliance?.validate(name: "\(name).compliance")
             try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
             try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
             try validate(self.firstObservedAt, name:"firstObservedAt", parent: name, pattern: ".*\\S.*")
@@ -1268,6 +2420,7 @@ extension SecurityHub {
             case updatedAt = "UpdatedAt"
             case userDefinedFields = "UserDefinedFields"
             case verificationState = "VerificationState"
+            case workflow = "Workflow"
             case workflowState = "WorkflowState"
         }
     }
@@ -1356,14 +2509,15 @@ extension SecurityHub {
             AWSShapeMember(label: "UpdatedAt", required: false, type: .list), 
             AWSShapeMember(label: "UserDefinedFields", required: false, type: .list), 
             AWSShapeMember(label: "VerificationState", required: false, type: .list), 
-            AWSShapeMember(label: "WorkflowState", required: false, type: .list)
+            AWSShapeMember(label: "WorkflowState", required: false, type: .list), 
+            AWSShapeMember(label: "WorkflowStatus", required: false, type: .list)
         ]
 
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: [StringFilter]?
         /// The name of the findings provider (company) that owns the solution (product) that generates findings.
         public let companyName: [StringFilter]?
-        /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, CIS AWS Foundations). Contains compliance-related finding details.
+        /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard, such as CIS AWS Foundations. Contains security standard-related finding details.
         public let complianceStatus: [StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public let confidence: [NumberFilter]?
@@ -1455,7 +2609,7 @@ extension SecurityHub {
         public let resourceAwsEc2InstanceIpV6Addresses: [IpFilter]?
         /// The key name associated with the instance.
         public let resourceAwsEc2InstanceKeyName: [StringFilter]?
-        /// The date/time the instance was launched.
+        /// The date and time the instance was launched.
         public let resourceAwsEc2InstanceLaunchedAt: [DateFilter]?
         /// The identifier of the subnet that the instance was launched in.
         public let resourceAwsEc2InstanceSubnetId: [StringFilter]?
@@ -1501,17 +2655,17 @@ extension SecurityHub {
         public let severityProduct: [NumberFilter]?
         /// A URL that links to a page about the current finding in the security-findings provider's solution.
         public let sourceUrl: [StringFilter]?
-        /// The category of a threat intel indicator.
+        /// The category of a threat intelligence indicator.
         public let threatIntelIndicatorCategory: [StringFilter]?
-        /// The date/time of the last observation of a threat intel indicator.
+        /// The date/time of the last observation of a threat intelligence indicator.
         public let threatIntelIndicatorLastObservedAt: [DateFilter]?
-        /// The source of the threat intel.
+        /// The source of the threat intelligence.
         public let threatIntelIndicatorSource: [StringFilter]?
-        /// The URL for more details from the source of the threat intel.
+        /// The URL for more details from the source of the threat intelligence.
         public let threatIntelIndicatorSourceUrl: [StringFilter]?
-        /// The type of a threat intel indicator.
+        /// The type of a threat intelligence indicator.
         public let threatIntelIndicatorType: [StringFilter]?
-        /// The value of a threat intel indicator.
+        /// The value of a threat intelligence indicator.
         public let threatIntelIndicatorValue: [StringFilter]?
         /// A finding's title.
         public let title: [StringFilter]?
@@ -1525,8 +2679,10 @@ extension SecurityHub {
         public let verificationState: [StringFilter]?
         /// The workflow state of a finding.
         public let workflowState: [StringFilter]?
+        /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed.    NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.   
+        public let workflowStatus: [StringFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
             self.complianceStatus = complianceStatus
@@ -1610,6 +2766,7 @@ extension SecurityHub {
             self.userDefinedFields = userDefinedFields
             self.verificationState = verificationState
             self.workflowState = workflowState
+            self.workflowStatus = workflowStatus
         }
 
         public func validate(name: String) throws {
@@ -1838,6 +2995,9 @@ extension SecurityHub {
             try self.workflowState?.forEach {
                 try $0.validate(name: "\(name).workflowState[]")
             }
+            try self.workflowStatus?.forEach {
+                try $0.validate(name: "\(name).workflowStatus[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1924,6 +3084,7 @@ extension SecurityHub {
             case userDefinedFields = "UserDefinedFields"
             case verificationState = "VerificationState"
             case workflowState = "WorkflowState"
+            case workflowStatus = "WorkflowStatus"
         }
     }
 
@@ -2033,6 +3194,99 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsWafWebAclDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultAction", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Rules", required: false, type: .list), 
+            AWSShapeMember(label: "WebAclId", required: false, type: .string)
+        ]
+
+        /// The action to perform if none of the Rules contained in the WebACL match.
+        public let defaultAction: String?
+        /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
+        public let name: String?
+        /// An array that contains the action for each rule in a WebACL, the priority of the rule, and the ID of the rule.
+        public let rules: [AwsWafWebAclRule]?
+        /// A unique identifier for a WebACL.
+        public let webAclId: String?
+
+        public init(defaultAction: String? = nil, name: String? = nil, rules: [AwsWafWebAclRule]? = nil, webAclId: String? = nil) {
+            self.defaultAction = defaultAction
+            self.name = name
+            self.rules = rules
+            self.webAclId = webAclId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.defaultAction, name:"defaultAction", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try validate(self.webAclId, name:"webAclId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultAction = "DefaultAction"
+            case name = "Name"
+            case rules = "Rules"
+            case webAclId = "WebAclId"
+        }
+    }
+
+    public struct AwsWafWebAclRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: false, type: .structure), 
+            AWSShapeMember(label: "ExcludedRules", required: false, type: .list), 
+            AWSShapeMember(label: "OverrideAction", required: false, type: .structure), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "RuleId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. 
+        public let action: WafAction?
+        /// Rules to exclude from a rule group.
+        public let excludedRules: [WafExcludedRule]?
+        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction. 
+        public let overrideAction: WafOverrideAction?
+        /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values do not need to be consecutive.
+        public let priority: Int?
+        /// The identifier for a Rule.
+        public let ruleId: String?
+        /// The rule type. Valid values: REGULAR | RATE_BASED | GROUP  The default is REGULAR.
+        public let `type`: String?
+
+        public init(action: WafAction? = nil, excludedRules: [WafExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
+            self.action = action
+            self.excludedRules = excludedRules
+            self.overrideAction = overrideAction
+            self.priority = priority
+            self.ruleId = ruleId
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.excludedRules?.forEach {
+                try $0.validate(name: "\(name).excludedRules[]")
+            }
+            try self.overrideAction?.validate(name: "\(name).overrideAction")
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case excludedRules = "ExcludedRules"
+            case overrideAction = "OverrideAction"
+            case priority = "Priority"
+            case ruleId = "RuleId"
+            case `type` = "Type"
+        }
+    }
+
     public struct BatchDisableStandardsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StandardsSubscriptionArns", required: true, type: .list)
@@ -2080,7 +3334,7 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsSubscriptionRequests", required: true, type: .list)
         ]
 
-        /// The list of standards compliance checks to enable.  In this release, Security Hub supports only the CIS AWS Foundations standard. The ARN for the standard is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
+        /// The list of standards checks to enable.
         public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]
 
         public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]) {
@@ -2149,7 +3403,7 @@ extension SecurityHub {
 
         /// The number of findings that failed to import.
         public let failedCount: Int
-        /// The list of the findings that failed to import.
+        /// The list of findings that failed to import.
         public let failedFindings: [ImportFindingsError]?
         /// The number of findings that were successfully imported.
         public let successCount: Int
@@ -2169,17 +3423,28 @@ extension SecurityHub {
 
     public struct Compliance: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RelatedRequirements", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
-        /// The result of a compliance check.
+        /// List of requirements that are related to a standards control.
+        public let relatedRequirements: [String]?
+        /// The result of a standards check.
         public let status: ComplianceStatus?
 
-        public init(status: ComplianceStatus? = nil) {
+        public init(relatedRequirements: [String]? = nil, status: ComplianceStatus? = nil) {
+            self.relatedRequirements = relatedRequirements
             self.status = status
         }
 
+        public func validate(name: String) throws {
+            try self.relatedRequirements?.forEach {
+                try validate($0, name: "relatedRequirements[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case relatedRequirements = "RelatedRequirements"
             case status = "Status"
         }
     }
@@ -2280,7 +3545,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
+        /// One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
         public let filters: AwsSecurityFindingFilters
         /// The attribute used as the aggregator to group related findings for the insight.
         public let groupByAttribute: String
@@ -2328,7 +3593,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountDetails", required: false, type: .list)
         ]
 
-        /// A list of account ID and email address pairs of the accounts to associate with the Security Hub master account.
+        /// The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and the email address.
         public let accountDetails: [AccountDetails]?
 
         public init(accountDetails: [AccountDetails]? = nil) {
@@ -2351,7 +3616,7 @@ extension SecurityHub {
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
 
-        /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
+        /// The list of AWS accounts that were not processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -2422,7 +3687,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountIds", required: true, type: .list)
         ]
 
-        /// A list of account IDs that specify the accounts that invitations to Security Hub are declined from.
+        /// The list of account IDs for the accounts from which to decline the invitations to Security Hub.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -2445,7 +3710,7 @@ extension SecurityHub {
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
 
-        /// A list of account ID and email address pairs of the AWS accounts that weren't processed.
+        /// The list of AWS accounts that were not processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -2538,7 +3803,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountIds", required: true, type: .list)
         ]
 
-        /// A list of the account IDs that sent the invitations to delete.
+        /// The list of the account IDs that sent the invitations to delete.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -2561,7 +3826,7 @@ extension SecurityHub {
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
 
-        /// A list of account ID and email address pairs of the AWS accounts that invitations weren't deleted for.
+        /// The list of AWS accounts for which the invitations were not deleted. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -2578,7 +3843,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
 
-        /// A list of account IDs of the member accounts to delete.
+        /// The list of account IDs for the member accounts to delete.
         public let accountIds: [String]?
 
         public init(accountIds: [String]? = nil) {
@@ -2601,7 +3866,7 @@ extension SecurityHub {
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
 
-        /// A list of account ID and email address pairs of the AWS accounts that weren't deleted.
+        /// The list of AWS accounts that were not deleted. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -2624,7 +3889,7 @@ extension SecurityHub {
         public let actionTargetArns: [String]?
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// The token that is required for pagination.
+        /// The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
         public init(actionTargetArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2656,7 +3921,7 @@ extension SecurityHub {
 
         /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub.
         public let actionTargets: [ActionTarget]
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         public init(actionTargets: [ActionTarget], nextToken: String? = nil) {
@@ -2697,7 +3962,7 @@ extension SecurityHub {
             AWSShapeMember(label: "SubscribedAt", required: false, type: .string)
         ]
 
-        /// The ARN of the Hub resource retrieved.
+        /// The ARN of the Hub resource that was retrieved.
         public let hubArn: String?
         /// The date and time when Security Hub was enabled in the account.
         public let subscribedAt: String?
@@ -2721,7 +3986,7 @@ extension SecurityHub {
 
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// The token that is required for pagination.
+        /// The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2746,7 +4011,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Products", required: true, type: .list)
         ]
 
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
         /// A list of products, including details for each product.
         public let products: [Product]
@@ -2769,9 +4034,9 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsSubscriptionArn", location: .uri(locationName: "StandardsSubscriptionArn"), required: true, type: .string)
         ]
 
-        /// The maximum number of compliance standard controls to return.
+        /// The maximum number of security standard controls to return.
         public let maxResults: Int?
-        /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
+        /// The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
         /// The ARN of a resource that represents your subscription to a supported standard.
         public let standardsSubscriptionArn: String
@@ -2801,9 +4066,9 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// A list of compliance standards controls.
+        /// A list of security standards controls.
         public let controls: [StandardsControl]?
-        /// If there are more compliance standards control remaining in the results, then this is the pagination token to use to request the next page of compliance standard controls.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         public init(controls: [StandardsControl]? = nil, nextToken: String? = nil) {
@@ -2814,6 +4079,55 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case controls = "Controls"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeStandardsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        ]
+
+        /// The maximum number of standards to return.
+        public let maxResults: Int?
+        /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeStandardsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Standards", required: false, type: .list)
+        ]
+
+        /// The pagination token to use to request the next page of results.
+        public let nextToken: String?
+        /// A list of available standards.
+        public let standards: [Standard]?
+
+        public init(nextToken: String? = nil, standards: [Standard]? = nil) {
+            self.nextToken = nextToken
+            self.standards = standards
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case standards = "Standards"
         }
     }
 
@@ -2990,9 +4304,9 @@ extension SecurityHub {
 
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
-        /// Paginates results. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
-        /// A list of the standards subscription ARNs for the standards to retrieve.
+        /// The list of the standards subscription ARNs for the standards to retrieve.
         public let standardsSubscriptionArns: [String]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
@@ -3024,9 +4338,9 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsSubscriptions", required: false, type: .list)
         ]
 
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
-        /// A list of StandardsSubscriptions objects that include information about the enabled standards.
+        /// The list of StandardsSubscriptions objects that include information about the enabled standards.
         public let standardsSubscriptions: [StandardsSubscription]?
 
         public init(nextToken: String? = nil, standardsSubscriptions: [StandardsSubscription]? = nil) {
@@ -3048,13 +4362,13 @@ extension SecurityHub {
             AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
 
-        /// The findings attributes used to define a condition to filter the findings returned.
+        /// The finding attributes used to define a condition to filter the returned findings.
         public let filters: AwsSecurityFindingFilters?
         /// The maximum number of findings to return.
         public let maxResults: Int?
-        /// Paginates results. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        /// The token that is required for pagination. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
-        /// Findings attributes used to sort the list of findings returned.
+        /// The finding attributes used to sort the list of returned findings.
         public let sortCriteria: [SortCriterion]?
 
         public init(filters: AwsSecurityFindingFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
@@ -3089,7 +4403,7 @@ extension SecurityHub {
 
         /// The findings that matched the filters specified in the request.
         public let findings: [AwsSecurityFinding]
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         public init(findings: [AwsSecurityFinding], nextToken: String? = nil) {
@@ -3108,7 +4422,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InsightArn", location: .uri(locationName: "InsightArn"), required: true, type: .string)
         ]
 
-        /// The ARN of the insight whose results you want to see.
+        /// The ARN of the insight for which to return results.
         public let insightArn: String
 
         public init(insightArn: String) {
@@ -3148,11 +4462,11 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The ARNs of the insights that you want to describe.
+        /// The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
         public let insightArns: [String]?
-        /// The maximum number of items that you want in the response.
+        /// The maximum number of items to return in the response.
         public let maxResults: Int?
-        /// Paginates results. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        /// The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
         public init(insightArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3184,7 +4498,7 @@ extension SecurityHub {
 
         /// The insights returned by the operation.
         public let insights: [Insight]
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         public init(insights: [Insight], nextToken: String? = nil) {
@@ -3211,7 +4525,7 @@ extension SecurityHub {
             AWSShapeMember(label: "InvitationsCount", required: false, type: .integer)
         ]
 
-        /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation. 
+        /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation.
         public let invitationsCount: Int?
 
         public init(invitationsCount: Int? = nil) {
@@ -3253,7 +4567,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountIds", required: true, type: .list)
         ]
 
-        /// A list of account IDs for the Security Hub member accounts that you want to return the details for. 
+        /// The list of account IDs for the Security Hub member accounts to return the details for. 
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -3277,9 +4591,9 @@ extension SecurityHub {
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
 
-        /// A list of details about the Security Hub member accounts.
+        /// The list of details about the Security Hub member accounts.
         public let members: [Member]?
-        /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed.
+        /// The list of AWS accounts that could not be processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
         public init(members: [Member]? = nil, unprocessedAccounts: [Result]? = nil) {
@@ -3328,7 +4642,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// One or more attributes used to filter the findings included in the insight. Only findings that match the criteria defined in the filters are included in the insight.
+        /// One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
         public let filters: AwsSecurityFindingFilters
         /// The attribute that the insight's findings are grouped by. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
         public let groupByAttribute: String
@@ -3415,7 +4729,7 @@ extension SecurityHub {
         public let invitationId: String?
         /// The timestamp of when the invitation was sent.
         public let invitedAt: TimeStamp?
-        /// The current status of the association between member and master accounts.
+        /// The current status of the association between the member and master accounts.
         public let memberStatus: String?
 
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: TimeStamp? = nil, memberStatus: String? = nil) {
@@ -3438,7 +4752,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
 
-        /// A list of IDs of the AWS accounts that you want to invite to Security Hub as members. 
+        /// The list of account IDs of the AWS accounts to invite to Security Hub as members. 
         public let accountIds: [String]?
 
         public init(accountIds: [String]? = nil) {
@@ -3461,7 +4775,7 @@ extension SecurityHub {
             AWSShapeMember(label: "UnprocessedAccounts", required: false, type: .list)
         ]
 
-        /// A list of account ID and email address pairs of the AWS accounts that couldn't be processed. 
+        /// The list of AWS accounts that could not be processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
         public init(unprocessedAccounts: [Result]? = nil) {
@@ -3521,9 +4835,9 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
 
-        /// The maximum number of items that you want in the response.
+        /// The maximum number of items to return in the response.
         public let maxResults: Int?
-        /// Paginates results. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        /// The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3548,9 +4862,9 @@ extension SecurityHub {
             AWSShapeMember(label: "ProductSubscriptions", required: false, type: .list)
         ]
 
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
-        /// A list of ARNs for the resources that represent your subscriptions to products. 
+        /// The list of ARNs for the resources that represent your subscriptions to products. 
         public let productSubscriptions: [String]?
 
         public init(nextToken: String? = nil, productSubscriptions: [String]? = nil) {
@@ -3570,9 +4884,9 @@ extension SecurityHub {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
 
-        /// The maximum number of items that you want in the response. 
+        /// The maximum number of items to return in the response. 
         public let maxResults: Int?
-        /// Paginates results. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
+        /// The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3599,7 +4913,7 @@ extension SecurityHub {
 
         /// The details of the invitations returned by the operation.
         public let invitations: [Invitation]?
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
@@ -3620,11 +4934,11 @@ extension SecurityHub {
             AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "OnlyAssociated"), required: false, type: .boolean)
         ]
 
-        /// The maximum number of items that you want in the response. 
+        /// The maximum number of items to return in the response. 
         public let maxResults: Int?
-        /// Paginates results. Set the value of this parameter to NULL on your first call to the ListMembers operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
+        /// The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
-        /// Specifies which member accounts the response includes based on their relationship status with the master account. The default value is TRUE. If onlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If onlyAssociated is set to FALSE, the response includes all existing member accounts. 
+        /// Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts. 
         public let onlyAssociated: Bool?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
@@ -3653,7 +4967,7 @@ extension SecurityHub {
 
         /// Member details returned by the operation.
         public let members: [Member]?
-        /// The token that is required for pagination.
+        /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
         public init(members: [Member]? = nil, nextToken: String? = nil) {
@@ -4063,6 +5377,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Categories", required: false, type: .list), 
             AWSShapeMember(label: "CompanyName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IntegrationTypes", required: false, type: .list), 
             AWSShapeMember(label: "MarketplaceUrl", required: false, type: .string), 
             AWSShapeMember(label: "ProductArn", required: true, type: .string), 
             AWSShapeMember(label: "ProductName", required: false, type: .string), 
@@ -4077,6 +5392,8 @@ extension SecurityHub {
         public let companyName: String?
         /// A description of the product.
         public let description: String?
+        /// The types of integration that the product supports. Available values are the following.    SEND_FINDINGS_TO_SECURITY_HUB - Indicates that the integration sends findings to Security Hub.    RECEIVE_FINDINGS_FROM_SECURITY_HUB - Indicates that the integration receives findings from Security Hub.  
+        public let integrationTypes: [IntegrationType]?
         /// The URL for the page that contains more information about the product.
         public let marketplaceUrl: String?
         /// The ARN assigned to the product.
@@ -4086,11 +5403,12 @@ extension SecurityHub {
         /// The resource policy associated with the product.
         public let productSubscriptionResourcePolicy: String?
 
-        public init(activationUrl: String? = nil, categories: [String]? = nil, companyName: String? = nil, description: String? = nil, marketplaceUrl: String? = nil, productArn: String, productName: String? = nil, productSubscriptionResourcePolicy: String? = nil) {
+        public init(activationUrl: String? = nil, categories: [String]? = nil, companyName: String? = nil, description: String? = nil, integrationTypes: [IntegrationType]? = nil, marketplaceUrl: String? = nil, productArn: String, productName: String? = nil, productSubscriptionResourcePolicy: String? = nil) {
             self.activationUrl = activationUrl
             self.categories = categories
             self.companyName = companyName
             self.description = description
+            self.integrationTypes = integrationTypes
             self.marketplaceUrl = marketplaceUrl
             self.productArn = productArn
             self.productName = productName
@@ -4102,6 +5420,7 @@ extension SecurityHub {
             case categories = "Categories"
             case companyName = "CompanyName"
             case description = "Description"
+            case integrationTypes = "IntegrationTypes"
             case marketplaceUrl = "MarketplaceUrl"
             case productArn = "ProductArn"
             case productName = "ProductName"
@@ -4204,7 +5523,7 @@ extension SecurityHub {
         public let region: String?
         /// A list of AWS tags associated with a resource at the time the finding was processed.
         public let tags: [String: String]?
-        /// The type of the resource that details are provided for.
+        /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other. 
         public let `type`: String
 
         public init(details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, tags: [String: String]? = nil, type: String) {
@@ -4240,23 +5559,39 @@ extension SecurityHub {
     public struct ResourceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsCloudFrontDistribution", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsCodeBuildProject", required: false, type: .structure), 
             AWSShapeMember(label: "AwsEc2Instance", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsEc2NetworkInterface", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsEc2SecurityGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsElasticsearchDomain", required: false, type: .structure), 
             AWSShapeMember(label: "AwsElbv2LoadBalancer", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamAccessKey", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamRole", required: false, type: .structure), 
             AWSShapeMember(label: "AwsKmsKey", required: false, type: .structure), 
             AWSShapeMember(label: "AwsLambdaFunction", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsLambdaLayerVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsRdsDbInstance", required: false, type: .structure), 
             AWSShapeMember(label: "AwsS3Bucket", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsS3Object", required: false, type: .structure), 
             AWSShapeMember(label: "AwsSnsTopic", required: false, type: .structure), 
             AWSShapeMember(label: "AwsSqsQueue", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsWafWebAcl", required: false, type: .structure), 
             AWSShapeMember(label: "Container", required: false, type: .structure), 
             AWSShapeMember(label: "Other", required: false, type: .map)
         ]
 
         /// Details about a CloudFront distribution.
         public let awsCloudFrontDistribution: AwsCloudFrontDistributionDetails?
+        /// Details for an AWS CodeBuild project.
+        public let awsCodeBuildProject: AwsCodeBuildProjectDetails?
         /// Details about an Amazon EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
+        /// Details for an AWS EC2 network interface.
+        public let awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails?
+        /// Details for an EC2 security group.
+        public let awsEc2SecurityGroup: AwsEc2SecurityGroupDetails?
+        /// Details for an Elasticsearch domain.
+        public let awsElasticsearchDomain: AwsElasticsearchDomainDetails?
         /// Details about a load balancer.
         public let awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails?
         /// Details about an IAM access key related to a finding.
@@ -4267,43 +5602,67 @@ extension SecurityHub {
         public let awsKmsKey: AwsKmsKeyDetails?
         /// Details about a Lambda function.
         public let awsLambdaFunction: AwsLambdaFunctionDetails?
+        /// Details for a Lambda layer version.
+        public let awsLambdaLayerVersion: AwsLambdaLayerVersionDetails?
+        /// Details for an RDS database instance.
+        public let awsRdsDbInstance: AwsRdsDbInstanceDetails?
         /// Details about an Amazon S3 Bucket related to a finding.
         public let awsS3Bucket: AwsS3BucketDetails?
+        /// Details about an Amazon S3 object related to a finding.
+        public let awsS3Object: AwsS3ObjectDetails?
         /// Details about an SNS topic.
         public let awsSnsTopic: AwsSnsTopicDetails?
         /// Details about an SQS queue.
         public let awsSqsQueue: AwsSqsQueueDetails?
+        /// Details for a WAF WebACL.
+        public let awsWafWebAcl: AwsWafWebAclDetails?
         /// Details about a container resource related to a finding.
         public let container: ContainerDetails?
-        /// Details about a resource that doesn't have a specific type defined.
+        /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.   
         public let other: [String: String]?
 
-        public init(awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsCloudFrontDistribution = awsCloudFrontDistribution
+            self.awsCodeBuildProject = awsCodeBuildProject
             self.awsEc2Instance = awsEc2Instance
+            self.awsEc2NetworkInterface = awsEc2NetworkInterface
+            self.awsEc2SecurityGroup = awsEc2SecurityGroup
+            self.awsElasticsearchDomain = awsElasticsearchDomain
             self.awsElbv2LoadBalancer = awsElbv2LoadBalancer
             self.awsIamAccessKey = awsIamAccessKey
             self.awsIamRole = awsIamRole
             self.awsKmsKey = awsKmsKey
             self.awsLambdaFunction = awsLambdaFunction
+            self.awsLambdaLayerVersion = awsLambdaLayerVersion
+            self.awsRdsDbInstance = awsRdsDbInstance
             self.awsS3Bucket = awsS3Bucket
+            self.awsS3Object = awsS3Object
             self.awsSnsTopic = awsSnsTopic
             self.awsSqsQueue = awsSqsQueue
+            self.awsWafWebAcl = awsWafWebAcl
             self.container = container
             self.other = other
         }
 
         public func validate(name: String) throws {
             try self.awsCloudFrontDistribution?.validate(name: "\(name).awsCloudFrontDistribution")
+            try self.awsCodeBuildProject?.validate(name: "\(name).awsCodeBuildProject")
             try self.awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
+            try self.awsEc2NetworkInterface?.validate(name: "\(name).awsEc2NetworkInterface")
+            try self.awsEc2SecurityGroup?.validate(name: "\(name).awsEc2SecurityGroup")
+            try self.awsElasticsearchDomain?.validate(name: "\(name).awsElasticsearchDomain")
             try self.awsElbv2LoadBalancer?.validate(name: "\(name).awsElbv2LoadBalancer")
             try self.awsIamAccessKey?.validate(name: "\(name).awsIamAccessKey")
             try self.awsIamRole?.validate(name: "\(name).awsIamRole")
             try self.awsKmsKey?.validate(name: "\(name).awsKmsKey")
             try self.awsLambdaFunction?.validate(name: "\(name).awsLambdaFunction")
+            try self.awsLambdaLayerVersion?.validate(name: "\(name).awsLambdaLayerVersion")
+            try self.awsRdsDbInstance?.validate(name: "\(name).awsRdsDbInstance")
             try self.awsS3Bucket?.validate(name: "\(name).awsS3Bucket")
+            try self.awsS3Object?.validate(name: "\(name).awsS3Object")
             try self.awsSnsTopic?.validate(name: "\(name).awsSnsTopic")
             try self.awsSqsQueue?.validate(name: "\(name).awsSqsQueue")
+            try self.awsWafWebAcl?.validate(name: "\(name).awsWafWebAcl")
             try self.container?.validate(name: "\(name).container")
             try self.other?.forEach {
                 try validate($0.key, name:"other.key", parent: name, pattern: ".*\\S.*")
@@ -4313,15 +5672,23 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case awsCloudFrontDistribution = "AwsCloudFrontDistribution"
+            case awsCodeBuildProject = "AwsCodeBuildProject"
             case awsEc2Instance = "AwsEc2Instance"
+            case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
+            case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
+            case awsElasticsearchDomain = "AwsElasticsearchDomain"
             case awsElbv2LoadBalancer = "AwsElbv2LoadBalancer"
             case awsIamAccessKey = "AwsIamAccessKey"
             case awsIamRole = "AwsIamRole"
             case awsKmsKey = "AwsKmsKey"
             case awsLambdaFunction = "AwsLambdaFunction"
+            case awsLambdaLayerVersion = "AwsLambdaLayerVersion"
+            case awsRdsDbInstance = "AwsRdsDbInstance"
             case awsS3Bucket = "AwsS3Bucket"
+            case awsS3Object = "AwsS3Object"
             case awsSnsTopic = "AwsSnsTopic"
             case awsSqsQueue = "AwsSqsQueue"
+            case awsWafWebAcl = "AwsWafWebAcl"
             case container = "Container"
             case other = "Other"
         }
@@ -4333,9 +5700,9 @@ extension SecurityHub {
             AWSShapeMember(label: "ProcessingResult", required: false, type: .string)
         ]
 
-        /// An AWS account ID of the account that wasn't be processed.
+        /// An AWS account ID of the account that was not processed.
         public let accountId: String?
-        /// The reason that the account wasn't be processed.
+        /// The reason that the account was not processed.
         public let processingResult: String?
 
         public init(accountId: String? = nil, processingResult: String? = nil) {
@@ -4351,21 +5718,26 @@ extension SecurityHub {
 
     public struct Severity: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Normalized", required: true, type: .integer), 
+            AWSShapeMember(label: "Label", required: false, type: .enum), 
+            AWSShapeMember(label: "Normalized", required: false, type: .integer), 
             AWSShapeMember(label: "Product", required: false, type: .double)
         ]
 
-        /// The normalized severity of a finding.
-        public let normalized: Int
+        /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.  
+        public let label: SeverityLabel?
+        /// Deprecated. This attribute is being deprecated. Instead of providing Normalized, provide Label. If you provide Normalized and do not provide Label, Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL   
+        public let normalized: Int?
         /// The native severity as defined by the AWS service or integrated partner product that generated the finding.
         public let product: Double?
 
-        public init(normalized: Int, product: Double? = nil) {
+        public init(label: SeverityLabel? = nil, normalized: Int? = nil, product: Double? = nil) {
+            self.label = label
             self.normalized = normalized
             self.product = product
         }
 
         private enum CodingKeys: String, CodingKey {
+            case label = "Label"
             case normalized = "Normalized"
             case product = "Product"
         }
@@ -4397,6 +5769,33 @@ extension SecurityHub {
         }
     }
 
+    public struct Standard: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StandardsArn", required: false, type: .string)
+        ]
+
+        /// A description of the standard.
+        public let description: String?
+        /// The name of the standard.
+        public let name: String?
+        /// The ARN of a standard.
+        public let standardsArn: String?
+
+        public init(description: String? = nil, name: String? = nil, standardsArn: String? = nil) {
+            self.description = description
+            self.name = name
+            self.standardsArn = standardsArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case standardsArn = "StandardsArn"
+        }
+    }
+
     public struct StandardsControl: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ControlId", required: false, type: .string), 
@@ -4404,37 +5803,41 @@ extension SecurityHub {
             AWSShapeMember(label: "ControlStatusUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "DisabledReason", required: false, type: .string), 
+            AWSShapeMember(label: "RelatedRequirements", required: false, type: .list), 
             AWSShapeMember(label: "RemediationUrl", required: false, type: .string), 
             AWSShapeMember(label: "SeverityRating", required: false, type: .enum), 
             AWSShapeMember(label: "StandardsControlArn", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: false, type: .string)
         ]
 
-        /// The identifier of the compliance standard control.
+        /// The identifier of the security standard control.
         public let controlId: String?
-        /// The current status of the compliance standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
+        /// The current status of the security standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
         public let controlStatus: ControlStatus?
-        /// The date and time that the status of the compliance standard control was most recently updated.
+        /// The date and time that the status of the security standard control was most recently updated.
         public let controlStatusUpdatedAt: TimeStamp?
-        /// The longer description of the compliance standard control. Provides information about what the control is checking for.
+        /// The longer description of the security standard control. Provides information about what the control is checking for.
         public let description: String?
         /// The reason provided for the most recent change in status for the control.
         public let disabledReason: String?
-        /// A link to remediation information for the control in the Security Hub user documentation
+        /// The list of requirements that are related to this control.
+        public let relatedRequirements: [String]?
+        /// A link to remediation information for the control in the Security Hub user documentation.
         public let remediationUrl: String?
-        /// The severity of findings generated from this compliance standard control. The finding severity is based on an assessment of how easy it would be to compromise AWS resources if the compliance issue is detected.
+        /// The severity of findings generated from this security standard control. The finding severity is based on an assessment of how easy it would be to compromise AWS resources if the issue is detected.
         public let severityRating: SeverityRating?
-        /// The ARN of the compliance standard control.
+        /// The ARN of the security standard control.
         public let standardsControlArn: String?
-        /// The title of the compliance standard control.
+        /// The title of the security standard control.
         public let title: String?
 
-        public init(controlId: String? = nil, controlStatus: ControlStatus? = nil, controlStatusUpdatedAt: TimeStamp? = nil, description: String? = nil, disabledReason: String? = nil, remediationUrl: String? = nil, severityRating: SeverityRating? = nil, standardsControlArn: String? = nil, title: String? = nil) {
+        public init(controlId: String? = nil, controlStatus: ControlStatus? = nil, controlStatusUpdatedAt: TimeStamp? = nil, description: String? = nil, disabledReason: String? = nil, relatedRequirements: [String]? = nil, remediationUrl: String? = nil, severityRating: SeverityRating? = nil, standardsControlArn: String? = nil, title: String? = nil) {
             self.controlId = controlId
             self.controlStatus = controlStatus
             self.controlStatusUpdatedAt = controlStatusUpdatedAt
             self.description = description
             self.disabledReason = disabledReason
+            self.relatedRequirements = relatedRequirements
             self.remediationUrl = remediationUrl
             self.severityRating = severityRating
             self.standardsControlArn = standardsControlArn
@@ -4447,6 +5850,7 @@ extension SecurityHub {
             case controlStatusUpdatedAt = "ControlStatusUpdatedAt"
             case description = "Description"
             case disabledReason = "DisabledReason"
+            case relatedRequirements = "RelatedRequirements"
             case remediationUrl = "RemediationUrl"
             case severityRating = "SeverityRating"
             case standardsControlArn = "StandardsControlArn"
@@ -4462,7 +5866,7 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsSubscriptionArn", required: true, type: .string)
         ]
 
-        /// The ARN of a standard. In this release, Security Hub supports only the CIS AWS Foundations standard, which uses the following ARN: arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
+        /// The ARN of a standard.
         public let standardsArn: String
         /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]
@@ -4492,7 +5896,7 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsInput", required: false, type: .map)
         ]
 
-        /// The ARN of the standard that you want to enable.  In this release, Security Hub only supports the CIS AWS Foundations standard.  Its ARN is arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0. 
+        /// The ARN of the standard that you want to enable. To view the list of available standards and their ARNs, use the  DescribeStandards  operation.
         public let standardsArn: String
         /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]?
@@ -4592,17 +5996,17 @@ extension SecurityHub {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// The category of a threat intel indicator.
+        /// The category of a threat intelligence indicator.
         public let category: ThreatIntelIndicatorCategory?
-        /// The date and time when the most recent instance of a threat intel indicator was observed.
+        /// The date and time when the most recent instance of a threat intelligence indicator was observed.
         public let lastObservedAt: String?
-        /// The source of the threat intel indicator.
+        /// The source of the threat intelligence indicator.
         public let source: String?
-        /// The URL to the page or site where you can get more information about the threat intel indicator.
+        /// The URL to the page or site where you can get more information about the threat intelligence indicator.
         public let sourceUrl: String?
-        /// The type of a threat intel indicator.
+        /// The type of threat intelligence indicator.
         public let `type`: ThreatIntelIndicatorType?
-        /// The value of a threat intel indicator.
+        /// The value of a threat intelligence indicator.
         public let value: String?
 
         public init(category: ThreatIntelIndicatorCategory? = nil, lastObservedAt: String? = nil, source: String? = nil, sourceUrl: String? = nil, type: ThreatIntelIndicatorType? = nil, value: String? = nil) {
@@ -4807,11 +6211,11 @@ extension SecurityHub {
             AWSShapeMember(label: "StandardsControlArn", location: .uri(locationName: "StandardsControlArn"), required: true, type: .string)
         ]
 
-        /// The updated status of the compliance standard control.
+        /// The updated status of the security standard control.
         public let controlStatus: ControlStatus?
-        /// A description of the reason why you are disabling a compliance standard control.
+        /// A description of the reason why you are disabling a security standard control.
         public let disabledReason: String?
-        /// The ARN of the compliance standard control to enable or disable.
+        /// The ARN of the security standard control to enable or disable.
         public let standardsControlArn: String
 
         public init(controlStatus: ControlStatus? = nil, disabledReason: String? = nil, standardsControlArn: String) {
@@ -4838,5 +6242,85 @@ extension SecurityHub {
         public init() {
         }
 
+    }
+
+    public struct WafAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW - AWS WAF allows requests    BLOCK - AWS WAF blocks requests    COUNT - AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
+        public let `type`: String?
+
+        public init(type: String? = nil) {
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
+    }
+
+    public struct WafExcludedRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleId", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the rule to exclude from the rule group.
+        public let ruleId: String?
+
+        public init(ruleId: String? = nil) {
+            self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.ruleId, name:"ruleId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleId = "RuleId"
+        }
+    }
+
+    public struct WafOverrideAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action takes place.
+        public let `type`: String?
+
+        public init(type: String? = nil) {
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
+    }
+
+    public struct Workflow: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The status of the investigation into the finding. The allowed values are the following.    NEW - The initial state of a finding, before it is reviewed.    NOTIFIED - Indicates that you notified the resource owner about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.   
+        public let status: WorkflowStatus?
+
+        public init(status: WorkflowStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
     }
 }

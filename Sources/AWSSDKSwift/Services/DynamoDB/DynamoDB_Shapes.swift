@@ -2853,7 +2853,7 @@ extension DynamoDB {
 
         /// The first global table name that this operation will evaluate.
         public let exclusiveStartGlobalTableName: String?
-        /// The maximum number of table names to return.
+        /// The maximum number of table names to return, if the parameter is not specified DynamoDB defaults to 100. If the number of global tables DynamoDB finds reaches this limit, it stops the operation and returns the table names collected up to that point, with a table name in the LastEvaluatedGlobalTableName to apply in a subsequent operation to the ExclusiveStartGlobalTableName parameter.
         public let limit: Int?
         /// Lists the global tables in a specific Region.
         public let regionName: String?
@@ -4129,6 +4129,7 @@ extension DynamoDB {
             AWSShapeMember(label: "GlobalSecondaryIndexOverride", required: false, type: .list), 
             AWSShapeMember(label: "LocalSecondaryIndexOverride", required: false, type: .list), 
             AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "SSESpecificationOverride", required: false, type: .structure), 
             AWSShapeMember(label: "TargetTableName", required: true, type: .string)
         ]
 
@@ -4142,15 +4143,18 @@ extension DynamoDB {
         public let localSecondaryIndexOverride: [LocalSecondaryIndex]?
         /// Provisioned throughput settings for the restored table.
         public let provisionedThroughputOverride: ProvisionedThroughput?
+        /// The new server-side encryption settings for the restored table.
+        public let sSESpecificationOverride: SSESpecification?
         /// The name of the new table to which the backup must be restored.
         public let targetTableName: String
 
-        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, targetTableName: String) {
+        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sSESpecificationOverride: SSESpecification? = nil, targetTableName: String) {
             self.backupArn = backupArn
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
+            self.sSESpecificationOverride = sSESpecificationOverride
             self.targetTableName = targetTableName
         }
 
@@ -4175,6 +4179,7 @@ extension DynamoDB {
             case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
             case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+            case sSESpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
         }
     }
@@ -4203,7 +4208,9 @@ extension DynamoDB {
             AWSShapeMember(label: "LocalSecondaryIndexOverride", required: false, type: .list), 
             AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
             AWSShapeMember(label: "RestoreDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SourceTableName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceTableArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceTableName", required: false, type: .string), 
+            AWSShapeMember(label: "SSESpecificationOverride", required: false, type: .structure), 
             AWSShapeMember(label: "TargetTableName", required: true, type: .string), 
             AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean)
         ]
@@ -4218,20 +4225,26 @@ extension DynamoDB {
         public let provisionedThroughputOverride: ProvisionedThroughput?
         /// Time in the past to restore the table to.
         public let restoreDateTime: TimeStamp?
+        /// The DynamoDB table that will be restored. This value is an Amazon Resource Name (ARN).
+        public let sourceTableArn: String?
         /// Name of the source table that is being restored.
-        public let sourceTableName: String
+        public let sourceTableName: String?
+        /// The new server-side encryption settings for the restored table.
+        public let sSESpecificationOverride: SSESpecification?
         /// The name of the new table to which it must be restored to.
         public let targetTableName: String
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time. 
         public let useLatestRestorableTime: Bool?
 
-        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: TimeStamp? = nil, sourceTableName: String, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: TimeStamp? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sSESpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.restoreDateTime = restoreDateTime
+            self.sourceTableArn = sourceTableArn
             self.sourceTableName = sourceTableName
+            self.sSESpecificationOverride = sSESpecificationOverride
             self.targetTableName = targetTableName
             self.useLatestRestorableTime = useLatestRestorableTime
         }
@@ -4258,7 +4271,9 @@ extension DynamoDB {
             case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case restoreDateTime = "RestoreDateTime"
+            case sourceTableArn = "SourceTableArn"
             case sourceTableName = "SourceTableName"
+            case sSESpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
             case useLatestRestorableTime = "UseLatestRestorableTime"
         }

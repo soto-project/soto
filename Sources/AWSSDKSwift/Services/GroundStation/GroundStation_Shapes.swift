@@ -33,6 +33,7 @@ extension GroundStation {
         case available = "AVAILABLE"
         case awsCancelled = "AWS_CANCELLED"
         case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
         case completed = "COMPLETED"
         case failed = "FAILED"
         case failedToSchedule = "FAILED_TO_SCHEDULE"
@@ -248,8 +249,7 @@ extension GroundStation {
         public let dataflowEndpointConfig: DataflowEndpointConfig?
         /// Object that determines whether tracking should be used during a contact executed with this Config in the mission profile. 
         public let trackingConfig: TrackingConfig?
-        /// Information about an uplink echo Config.
-        ///          Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
+        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
         public let uplinkEchoConfig: UplinkEchoConfig?
 
         public init(antennaDownlinkConfig: AntennaDownlinkConfig? = nil, antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig? = nil, antennaUplinkConfig: AntennaUplinkConfig? = nil, dataflowEndpointConfig: DataflowEndpointConfig? = nil, trackingConfig: TrackingConfig? = nil, uplinkEchoConfig: UplinkEchoConfig? = nil) {
@@ -286,6 +286,7 @@ extension GroundStation {
             AWSShapeMember(label: "missionProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "postPassEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "prePassStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "satelliteArn", required: false, type: .string), 
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "tags", required: false, type: .map)
@@ -309,6 +310,8 @@ extension GroundStation {
         public let postPassEndTime: TimeStamp?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let prePassStartTime: TimeStamp?
+        /// Region of a contact.
+        public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// Start time of a contact.
@@ -316,7 +319,7 @@ extension GroundStation {
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
@@ -326,6 +329,7 @@ extension GroundStation {
             self.missionProfileArn = missionProfileArn
             self.postPassEndTime = postPassEndTime
             self.prePassStartTime = prePassStartTime
+            self.region = region
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
@@ -341,6 +345,7 @@ extension GroundStation {
             case missionProfileArn = "missionProfileArn"
             case postPassEndTime = "postPassEndTime"
             case prePassStartTime = "prePassStartTime"
+            case region = "region"
             case satelliteArn = "satelliteArn"
             case startTime = "startTime"
             case tags = "tags"
@@ -388,7 +393,7 @@ extension GroundStation {
             try self.configData.validate(name: "\(name).configData")
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -441,8 +446,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to 
-        ///          Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
         public let dataflowEdges: [[String]]
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int
@@ -476,7 +480,7 @@ extension GroundStation {
             try validate(self.minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -513,7 +517,7 @@ extension GroundStation {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -525,18 +529,23 @@ extension GroundStation {
 
     public struct DataflowEndpointConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataflowEndpointName", required: true, type: .string)
+            AWSShapeMember(label: "dataflowEndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "dataflowEndpointRegion", required: false, type: .string)
         ]
 
         /// Name of a dataflow endpoint.
         public let dataflowEndpointName: String
+        /// Region of a dataflow endpoint.
+        public let dataflowEndpointRegion: String?
 
-        public init(dataflowEndpointName: String) {
+        public init(dataflowEndpointName: String, dataflowEndpointRegion: String? = nil) {
             self.dataflowEndpointName = dataflowEndpointName
+            self.dataflowEndpointRegion = dataflowEndpointRegion
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataflowEndpointName = "dataflowEndpointName"
+            case dataflowEndpointRegion = "dataflowEndpointRegion"
         }
     }
 
@@ -545,7 +554,7 @@ extension GroundStation {
             AWSShapeMember(label: "dataflowEndpointGroupId", required: false, type: .string)
         ]
 
-        /// ID of a dataflow endpoint group.
+        /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
 
         public init(dataflowEndpointGroupId: String? = nil) {
@@ -594,6 +603,7 @@ extension GroundStation {
         public func validate(name: String) throws {
             try validate(self.unvalidatedJSON, name:"unvalidatedJSON", parent: name, max: 8192)
             try validate(self.unvalidatedJSON, name:"unvalidatedJSON", parent: name, min: 2)
+            try validate(self.unvalidatedJSON, name:"unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -628,7 +638,7 @@ extension GroundStation {
             AWSShapeMember(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"), required: true, type: .string)
         ]
 
-        /// ID of a dataflow endpoint group.
+        /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
 
         public init(dataflowEndpointGroupId: String) {
@@ -672,6 +682,7 @@ extension GroundStation {
         public func validate(name: String) throws {
             try validate(self.unvalidatedJSON, name:"unvalidatedJSON", parent: name, max: 8192)
             try validate(self.unvalidatedJSON, name:"unvalidatedJSON", parent: name, min: 2)
+            try validate(self.unvalidatedJSON, name:"unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,6 +718,7 @@ extension GroundStation {
             AWSShapeMember(label: "missionProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "postPassEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "prePassStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "satelliteArn", required: false, type: .string), 
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "tags", required: false, type: .map)
@@ -730,6 +742,8 @@ extension GroundStation {
         public let postPassEndTime: TimeStamp?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let prePassStartTime: TimeStamp?
+        /// Region of a contact.
+        public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// Start time of a contact.
@@ -737,7 +751,7 @@ extension GroundStation {
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: TimeStamp? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: TimeStamp? = nil, prePassStartTime: TimeStamp? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp? = nil, tags: [String: String]? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
@@ -747,6 +761,7 @@ extension GroundStation {
             self.missionProfileArn = missionProfileArn
             self.postPassEndTime = postPassEndTime
             self.prePassStartTime = prePassStartTime
+            self.region = region
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
@@ -762,6 +777,7 @@ extension GroundStation {
             case missionProfileArn = "missionProfileArn"
             case postPassEndTime = "postPassEndTime"
             case prePassStartTime = "prePassStartTime"
+            case region = "region"
             case satelliteArn = "satelliteArn"
             case startTime = "startTime"
             case tags = "tags"
@@ -914,8 +930,7 @@ extension GroundStation {
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
-        /// ARN of a Config
-        ///          
+        /// ARN of a Config 
         public let configArn: String
         /// Data elements in a Config.
         public let configData: ConfigTypeData
@@ -1090,14 +1105,13 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to 
-        ///          Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
         /// ARN of a mission profile.
         public let missionProfileArn: String?
-        /// ID of a mission profile.
+        /// UUID of a mission profile.
         public let missionProfileId: String?
         /// Name of a mission profile.
         public let name: String?
@@ -1154,43 +1168,33 @@ extension GroundStation {
 
     public struct GetSatelliteResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "groundStations", required: false, type: .list), 
             AWSShapeMember(label: "noradSatelliteID", required: false, type: .integer), 
             AWSShapeMember(label: "satelliteArn", required: false, type: .string), 
-            AWSShapeMember(label: "satelliteId", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
+            AWSShapeMember(label: "satelliteId", required: false, type: .string)
         ]
 
-        /// When a satellite was created.
-        public let dateCreated: TimeStamp?
-        /// When a satellite was last updated.
-        public let lastUpdated: TimeStamp?
+        /// A list of ground stations to which the satellite is on-boarded.
+        public let groundStations: [String]?
         /// NORAD satellite ID number.
         public let noradSatelliteID: Int?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// UUID of a satellite.
         public let satelliteId: String?
-        /// Tags assigned to a satellite.
-        public let tags: [String: String]?
 
-        public init(dateCreated: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil, tags: [String: String]? = nil) {
-            self.dateCreated = dateCreated
-            self.lastUpdated = lastUpdated
+        public init(groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+            self.groundStations = groundStations
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
             self.satelliteId = satelliteId
-            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dateCreated = "dateCreated"
-            case lastUpdated = "lastUpdated"
+            case groundStations = "groundStations"
             case noradSatelliteID = "noradSatelliteID"
             case satelliteArn = "satelliteArn"
             case satelliteId = "satelliteId"
-            case tags = "tags"
         }
     }
 
@@ -1201,7 +1205,7 @@ extension GroundStation {
             AWSShapeMember(label: "region", required: false, type: .string)
         ]
 
-        /// ID of a ground station.
+        /// UUID of a ground station.
         public let groundStationId: String?
         /// Name of a ground station.
         public let groundStationName: String?
@@ -1386,22 +1390,27 @@ extension GroundStation {
     public struct ListGroundStationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "satelliteId", location: .querystring(locationName: "satelliteId"), required: false, type: .string)
         ]
 
         /// Maximum number of ground stations returned.
         public let maxResults: Int?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
         public let nextToken: String?
+        /// Satellite ID to retrieve on-boarded ground stations.
+        public let satelliteId: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, satelliteId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.satelliteId = satelliteId
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case satelliteId = "satelliteId"
         }
     }
 
@@ -1455,7 +1464,7 @@ extension GroundStation {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        /// List of mission profiles
+        /// List of mission profiles.
         public let missionProfileList: [MissionProfileListItem]?
         /// Next token returned in the response of a previous ListMissionProfiles call. Used to get the next page of results.
         public let nextToken: String?
@@ -1554,7 +1563,7 @@ extension GroundStation {
             AWSShapeMember(label: "missionProfileId", required: false, type: .string)
         ]
 
-        /// ID of a mission profile.
+        /// UUID of a mission profile.
         public let missionProfileId: String?
 
         public init(missionProfileId: String? = nil) {
@@ -1576,7 +1585,7 @@ extension GroundStation {
 
         /// ARN of a mission profile.
         public let missionProfileArn: String?
-        /// ID of a mission profile.
+        /// UUID of a mission profile.
         public let missionProfileId: String?
         /// Name of a mission profile.
         public let name: String?
@@ -1642,25 +1651,30 @@ extension GroundStation {
 
     public struct SatelliteListItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "groundStations", required: false, type: .list), 
             AWSShapeMember(label: "noradSatelliteID", required: false, type: .integer), 
             AWSShapeMember(label: "satelliteArn", required: false, type: .string), 
             AWSShapeMember(label: "satelliteId", required: false, type: .string)
         ]
 
+        /// A list of ground stations to which the satellite is on-boarded.
+        public let groundStations: [String]?
         /// NORAD satellite ID number.
         public let noradSatelliteID: Int?
         /// ARN of a satellite.
         public let satelliteArn: String?
-        /// ID of a satellite.
+        /// UUID of a satellite.
         public let satelliteId: String?
 
-        public init(noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+        public init(groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+            self.groundStations = groundStations
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
             self.satelliteId = satelliteId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case groundStations = "groundStations"
             case noradSatelliteID = "noradSatelliteID"
             case satelliteArn = "satelliteArn"
             case satelliteId = "satelliteId"
@@ -1746,15 +1760,15 @@ extension GroundStation {
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map)
+            AWSShapeMember(label: "tags", required: true, type: .map)
         ]
 
         /// ARN of a resource tag.
         public let resourceArn: String
         /// Tags assigned to a resource.
-        public let tags: [String: String]?
+        public let tags: [String: String]
 
-        public init(resourceArn: String, tags: [String: String]? = nil) {
+        public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1828,7 +1842,7 @@ extension GroundStation {
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
 
-        /// Parameters for a Config.
+        /// Parameters of a Config.
         public let configData: ConfigTypeData
         /// UUID of a Config.
         public let configId: String
@@ -1848,7 +1862,7 @@ extension GroundStation {
             try self.configData.validate(name: "\(name).configData")
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1874,12 +1888,11 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to 
-        ///          Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
-        /// ID of a mission profile.
+        /// UUID of a mission profile.
         public let missionProfileId: String
         /// Name of a mission profile.
         public let name: String?
@@ -1909,7 +1922,7 @@ extension GroundStation {
             try validate(self.minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {

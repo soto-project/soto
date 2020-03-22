@@ -27,9 +27,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "shouldProfile", required: true, type: .boolean)
         ]
 
-        /// Specifies the period to follow the configuration (to profile or not) and call back to get a new configuration.
         public let periodInSeconds: Int
-        /// Specifies if the profiling should be enabled by the agent.
         public let shouldProfile: Bool
 
         public init(periodInSeconds: Int, shouldProfile: Bool) {
@@ -48,7 +46,6 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingEnabled", required: true, type: .boolean)
         ]
 
-        /// If the agents should be enabled to create and report profiles.
         public let profilingEnabled: Bool
 
         public init(profilingEnabled: Bool) {
@@ -66,9 +63,9 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "start", required: false, type: .timestamp)
         ]
 
-        /// The aggregation period of the aggregated profile.
+        /// The time period.
         public let period: AggregationPeriod?
-        /// The start time of the aggregated profile.
+        /// The start time.
         public let start: TimeStamp?
 
         public init(period: AggregationPeriod? = nil, start: TimeStamp? = nil) {
@@ -118,7 +115,6 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
 
-        /// The configuration for the agent to use.
         public let configuration: AgentConfiguration
 
         public init(configuration: AgentConfiguration) {
@@ -137,8 +133,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", required: true, type: .string)
         ]
 
+        /// The agent orchestration configuration.
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This parameter specifies a unique identifier for the new profiling group that helps ensure idempotency.
         public let clientToken: String
+        /// The name of the profiling group.
         public let profilingGroupName: String
 
         public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, clientToken: String = CreateProfilingGroupRequest.idempotencyToken(), profilingGroupName: String) {
@@ -170,6 +169,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroup", required: true, type: .structure)
         ]
 
+        /// Information about the new profiling group
         public let profilingGroup: ProfilingGroupDescription
 
         public init(profilingGroup: ProfilingGroupDescription) {
@@ -186,6 +186,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
+        /// The profiling group name to delete.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
@@ -216,6 +217,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
+        /// The profiling group name.
         public let profilingGroupName: String
 
         public init(profilingGroupName: String) {
@@ -240,6 +242,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroup", required: true, type: .structure)
         ]
 
+        /// Information about a profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
         public init(profilingGroup: ProfilingGroupDescription) {
@@ -261,15 +264,17 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp)
         ]
 
-        /// The format of the profile to return. Supports application/json or application/x-amzn-ion. Defaults to application/x-amzn-ion.
+        /// The format of the profile to return. You can choose application/json or the default application/x-amzn-ion. 
         public let accept: String?
-        /// The end time of the profile to get. Either period or endTime must be specified. Must be greater than start and the overall time range to be in the past and not larger than a week.
+        ///  You must specify exactly two of the following parameters: startTime, period, and endTime. 
         public let endTime: TimeStamp?
+        /// The maximum depth of the graph.
         public let maxDepth: Int?
-        /// The period of the profile to get. Exactly two of startTime, period and endTime must be specified. Must be positive and the overall time range to be in the past and not larger than a week.
+        /// The period of the profile to get. The time range must be in the past and not longer than one week.  You must specify exactly two of the following parameters: startTime, period, and endTime. 
         public let period: String?
+        /// The name of the profiling group to get.
         public let profilingGroupName: String
-        /// The start time of the profile to get.
+        /// The start time of the profile to get. You must specify exactly two of the following parameters: startTime, period, and endTime. 
         public let startTime: TimeStamp?
 
         public init(accept: String? = nil, endTime: TimeStamp? = nil, maxDepth: Int? = nil, period: String? = nil, profilingGroupName: String, startTime: TimeStamp? = nil) {
@@ -310,10 +315,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profile", required: true, type: .blob)
         ]
 
-        /// The content encoding of the profile in the payload.
+        /// The content encoding of the profile.
         public let contentEncoding: String?
-        /// The content type of the profile in the payload. Will be application/json or application/x-amzn-ion based on Accept header in the request.
+        /// The content type of the profile in the payload. It is either application/json or the default application/x-amzn-ion.
         public let contentType: String
+        /// Information about the profile.
         public let profile: Data
 
         public init(contentEncoding: String? = nil, contentType: String, profile: Data) {
@@ -340,16 +346,19 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp)
         ]
 
-        /// The end time of the time range to list profiles until.
+        /// The end time of the time range from which to list the profiles.
         public let endTime: TimeStamp
+        /// The maximum number of profile time results returned by ListProfileTimes in paginated output. When this parameter is used, ListProfileTimes only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfileTimes request with the returned nextToken value. 
         public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListProfileTimes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
-        /// The order (ascending or descending by start time of the profile) to list the profiles by. Defaults to TIMESTAMP_DESCENDING.
+        /// The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING. 
         public let orderBy: OrderBy?
-        /// The aggregation period to list the profiles for.
+        /// The aggregation period.
         public let period: AggregationPeriod
+        /// The name of the profiling group.
         public let profilingGroupName: String
-        /// The start time of the time range to list the profiles from.
+        /// The start time of the time range from which to list the profiles.
         public let startTime: TimeStamp
 
         public init(endTime: TimeStamp, maxResults: Int? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil, period: AggregationPeriod, profilingGroupName: String, startTime: TimeStamp) {
@@ -390,8 +399,9 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profileTimes", required: true, type: .list)
         ]
 
+        /// The nextToken value to include in a future ListProfileTimes request. When the results of a ListProfileTimes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
-        /// List of start times of the available profiles for the aggregation period in the specified time range.
+        /// The list of start times of the available profiles for the aggregation period in the specified time range. 
         public let profileTimes: [ProfileTime]
 
         public init(nextToken: String? = nil, profileTimes: [ProfileTime]) {
@@ -412,9 +422,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        /// If set to true, returns the full description of the profiling groups instead of the names. Defaults to false.
+        /// A Boolean value indicating whether to include a description.
         public let includeDescription: Bool?
+        /// The maximum number of profiling groups results returned by ListProfilingGroups in paginated output. When this parameter is used, ListProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfilingGroups request with the returned nextToken value. 
         public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListProfilingGroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
         public init(includeDescription: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -445,8 +457,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroups", required: false, type: .list)
         ]
 
+        /// The nextToken value to include in a future ListProfilingGroups request. When the results of a ListProfilingGroups request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
         public let nextToken: String?
+        /// Information about profiling group names.
         public let profilingGroupNames: [String]
+        /// Information about profiling groups.
         public let profilingGroups: [ProfilingGroupDescription]?
 
         public init(nextToken: String? = nil, profilingGroupNames: [String], profilingGroups: [ProfilingGroupDescription]? = nil) {
@@ -473,9 +488,7 @@ extension CodeGuruProfiler {
         ]
 
         public let agentProfile: Data
-        /// The content type of the agent profile in the payload. Recommended to send the profile gzipped with content-type application/octet-stream. Other accepted values are application/x-amzn-ion and application/json for unzipped Ion and JSON respectively.
         public let contentType: String
-        /// Client generated token to deduplicate the agent profile during aggregation.
         public let profileToken: String?
         public let profilingGroupName: String
 
@@ -539,12 +552,15 @@ extension CodeGuruProfiler {
         ]
 
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
+        /// The Amazon Resource Name (ARN) identifying the profiling group.
         public let arn: String?
-        /// The timestamp of when the profiling group was created.
+        /// The time, in milliseconds since the epoch, when the profiling group was created.
         public let createdAt: TimeStamp?
+        /// The name of the profiling group.
         public let name: String?
+        /// The status of the profiling group.
         public let profilingStatus: ProfilingStatus?
-        /// The timestamp of when the profiling group was last updated.
+        /// The time, in milliseconds since the epoch, when the profiling group was last updated.
         public let updatedAt: TimeStamp?
 
         public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, updatedAt: TimeStamp? = nil) {
@@ -573,11 +589,11 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "latestAggregatedProfile", required: false, type: .structure)
         ]
 
-        /// Timestamp of when the last interaction of the agent with configureAgent API for orchestration.
+        /// The time, in milliseconds since the epoch, when the latest agent was orchestrated.
         public let latestAgentOrchestratedAt: TimeStamp?
-        /// Timestamp of when the latest agent profile was successfully reported.
+        /// The time, in milliseconds since the epoch, when the latest agent was reported..
         public let latestAgentProfileReportedAt: TimeStamp?
-        /// The time range of latest aggregated profile available.
+        /// The latest aggregated profile
         public let latestAggregatedProfile: AggregatedProfileTime?
 
         public init(latestAgentOrchestratedAt: TimeStamp? = nil, latestAgentProfileReportedAt: TimeStamp? = nil, latestAggregatedProfile: AggregatedProfileTime? = nil) {
@@ -599,8 +615,8 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
         ]
 
-        /// Remote configuration to configure the agents of the profiling group.
         public let agentOrchestrationConfig: AgentOrchestrationConfig
+        /// The name of the profiling group to update.
         public let profilingGroupName: String
 
         public init(agentOrchestrationConfig: AgentOrchestrationConfig, profilingGroupName: String) {
@@ -627,6 +643,7 @@ extension CodeGuruProfiler {
             AWSShapeMember(label: "profilingGroup", required: true, type: .structure)
         ]
 
+        /// Updated information about the profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
         public init(profilingGroup: ProfilingGroupDescription) {

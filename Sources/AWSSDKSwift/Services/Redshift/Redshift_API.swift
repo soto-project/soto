@@ -429,6 +429,11 @@ public struct Redshift {
         return client.send(operation: "ModifySnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Pauses a cluster.
+    public func pauseCluster(_ input: PauseClusterMessage) -> EventLoopFuture<PauseClusterResult> {
+        return client.send(operation: "PauseCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve.   For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide.
     public func purchaseReservedNodeOffering(_ input: PurchaseReservedNodeOfferingMessage) -> EventLoopFuture<PurchaseReservedNodeOfferingResult> {
         return client.send(operation: "PurchaseReservedNodeOffering", path: "/", httpMethod: "POST", input: input)
@@ -457,6 +462,11 @@ public struct Redshift {
     ///  Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original table before you call RestoreTableFromClusterSnapshot. When you have renamed your original table, then you can pass the original name of the table as the NewTableName parameter value in the call to RestoreTableFromClusterSnapshot. This way, you can replace the original table with the table created from the snapshot.
     public func restoreTableFromClusterSnapshot(_ input: RestoreTableFromClusterSnapshotMessage) -> EventLoopFuture<RestoreTableFromClusterSnapshotResult> {
         return client.send(operation: "RestoreTableFromClusterSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Resumes a paused cluster.
+    public func resumeCluster(_ input: ResumeClusterMessage) -> EventLoopFuture<ResumeClusterResult> {
+        return client.send(operation: "ResumeCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see AuthorizeClusterSecurityGroupIngress. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide. 

@@ -693,6 +693,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "parentSlotTypeSignature", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypeConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
@@ -709,18 +711,24 @@ extension LexModelBuildingService {
         public let lastUpdatedDate: TimeStamp?
         /// The name of the slot type.
         public let name: String?
+        /// The built-in slot type used a the parent of the slot type.
+        public let parentSlotTypeSignature: String?
+        /// Configuration information that extends the parent built-in slot type.
+        public let slotTypeConfigurations: [SlotTypeConfiguration]?
         /// The strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
         public let valueSelectionStrategy: SlotValueSelectionStrategy?
         /// The version assigned to the new slot type version. 
         public let version: String?
 
-        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
             self.description = description
             self.enumerationValues = enumerationValues
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.parentSlotTypeSignature = parentSlotTypeSignature
+            self.slotTypeConfigurations = slotTypeConfigurations
             self.valueSelectionStrategy = valueSelectionStrategy
             self.version = version
         }
@@ -732,6 +740,8 @@ extension LexModelBuildingService {
             case enumerationValues = "enumerationValues"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeConfigurations = "slotTypeConfigurations"
             case valueSelectionStrategy = "valueSelectionStrategy"
             case version = "version"
         }
@@ -2219,6 +2229,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "parentSlotTypeSignature", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypeConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
@@ -2235,18 +2247,24 @@ extension LexModelBuildingService {
         public let lastUpdatedDate: TimeStamp?
         /// The name of the slot type.
         public let name: String?
+        /// The built-in slot type used as a parent for the slot type.
+        public let parentSlotTypeSignature: String?
+        /// Configuration information that extends the parent built-in slot type.
+        public let slotTypeConfigurations: [SlotTypeConfiguration]?
         /// The strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
         public let valueSelectionStrategy: SlotValueSelectionStrategy?
         /// The version of the slot type.
         public let version: String?
 
-        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
             self.description = description
             self.enumerationValues = enumerationValues
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.parentSlotTypeSignature = parentSlotTypeSignature
+            self.slotTypeConfigurations = slotTypeConfigurations
             self.valueSelectionStrategy = valueSelectionStrategy
             self.version = version
         }
@@ -2258,6 +2276,8 @@ extension LexModelBuildingService {
             case enumerationValues = "enumerationValues"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeConfigurations = "slotTypeConfigurations"
             case valueSelectionStrategy = "valueSelectionStrategy"
             case version = "version"
         }
@@ -2507,6 +2527,45 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1011)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+
+        /// The tags associated with a resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct LogSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destination", required: true, type: .enum), 
@@ -2665,7 +2724,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "checksum", required: false, type: .string), 
             AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
             AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
         /// The name of the bot.
@@ -2680,14 +2740,17 @@ extension LexModelBuildingService {
         public let description: String?
         /// The name of the alias. The name is not case sensitive.
         public let name: String
+        /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation.
+        public let tags: [Tag]?
 
-        public init(botName: String, botVersion: String, checksum: String? = nil, conversationLogs: ConversationLogsRequest? = nil, description: String? = nil, name: String) {
+        public init(botName: String, botVersion: String, checksum: String? = nil, conversationLogs: ConversationLogsRequest? = nil, description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
             self.conversationLogs = conversationLogs
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2703,6 +2766,11 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, max: 100)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2712,6 +2780,7 @@ extension LexModelBuildingService {
             case conversationLogs = "conversationLogs"
             case description = "description"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -2724,7 +2793,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string)
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
         /// The name of the bot that the alias points to.
@@ -2743,8 +2813,10 @@ extension LexModelBuildingService {
         public let lastUpdatedDate: TimeStamp?
         /// The name of the alias.
         public let name: String?
+        /// A list of tags associated with a bot.
+        public let tags: [Tag]?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
@@ -2753,6 +2825,7 @@ extension LexModelBuildingService {
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2764,6 +2837,7 @@ extension LexModelBuildingService {
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -2781,6 +2855,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "locale", required: true, type: .enum), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "processBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
 
@@ -2808,10 +2883,12 @@ extension LexModelBuildingService {
         public let name: String
         /// If you set the processBehavior element to BUILD, Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.  If you don't specify this value, the default value is BUILD.
         public let processBehavior: ProcessBehavior?
+        /// A list of tags to add to the bot. You can only add tags when you create a bot, you can't use the PutBot operation to update the tags on a bot. To update tags, use the TagResource operation.
+        public let tags: [Tag]?
         /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, tags: [Tag]? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2824,6 +2901,7 @@ extension LexModelBuildingService {
             self.locale = locale
             self.name = name
             self.processBehavior = processBehavior
+            self.tags = tags
             self.voiceId = voiceId
         }
 
@@ -2840,6 +2918,11 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, max: 50)
             try validate(self.name, name:"name", parent: name, min: 2)
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2855,6 +2938,7 @@ extension LexModelBuildingService {
             case locale = "locale"
             case name = "name"
             case processBehavior = "processBehavior"
+            case tags = "tags"
             case voiceId = "voiceId"
         }
     }
@@ -2876,6 +2960,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "locale", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
@@ -2910,12 +2995,14 @@ extension LexModelBuildingService {
         public let name: String?
         ///  When you send a request to create a bot with processBehavior set to BUILD, Amazon Lex sets the status response element to BUILDING. In the READY_BASIC_TESTING state you can test the bot with user inputs that exactly match the utterances configured for the bot's intents and values in the slot types. If Amazon Lex can't build the bot, Amazon Lex sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element.  When you set processBehavior to SAVE, Amazon Lex sets the status code to NOT BUILT. When the bot is in the READY state you can test and publish the bot.
         public let status: Status?
+        /// A list of tags associated with the bot.
+        public let tags: [Tag]?
         /// The version of the bot. For a new bot, the version is always $LATEST.
         public let version: String?
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, tags: [Tag]? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2931,6 +3018,7 @@ extension LexModelBuildingService {
             self.locale = locale
             self.name = name
             self.status = status
+            self.tags = tags
             self.version = version
             self.voiceId = voiceId
         }
@@ -2951,6 +3039,7 @@ extension LexModelBuildingService {
             case locale = "locale"
             case name = "name"
             case status = "status"
+            case tags = "tags"
             case version = "version"
             case voiceId = "voiceId"
         }
@@ -3157,6 +3246,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "parentSlotTypeSignature", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypeConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum)
         ]
 
@@ -3170,15 +3261,21 @@ extension LexModelBuildingService {
         public let enumerationValues: [EnumerationValue]?
         /// The name of the slot type. The name is not case sensitive.  The name can't match a built-in slot type name, or a built-in slot type name with "AMAZON." removed. For example, because there is a built-in slot type called AMAZON.DATE, you can't create a custom slot type called DATE. For a list of built-in slot types, see Slot Type Reference in the Alexa Skills Kit.
         public let name: String
+        /// The built-in slot type used as the parent of the slot type. When you define a parent slot type, the new slot type has all of the same configuration as the parent. Only AMAZON.AlphaNumeric is supported.
+        public let parentSlotTypeSignature: String?
+        /// Configuration information that extends the parent built-in slot type. The configuration is added to the settings for the parent slot type.
+        public let slotTypeConfigurations: [SlotTypeConfiguration]?
         /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
         public let valueSelectionStrategy: SlotValueSelectionStrategy?
 
-        public init(checksum: String? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, name: String, valueSelectionStrategy: SlotValueSelectionStrategy? = nil) {
+        public init(checksum: String? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, name: String, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil) {
             self.checksum = checksum
             self.createVersion = createVersion
             self.description = description
             self.enumerationValues = enumerationValues
             self.name = name
+            self.parentSlotTypeSignature = parentSlotTypeSignature
+            self.slotTypeConfigurations = slotTypeConfigurations
             self.valueSelectionStrategy = valueSelectionStrategy
         }
 
@@ -3189,10 +3286,18 @@ extension LexModelBuildingService {
                 try $0.validate(name: "\(name).enumerationValues[]")
             }
             try validate(self.enumerationValues, name:"enumerationValues", parent: name, max: 10000)
-            try validate(self.enumerationValues, name:"enumerationValues", parent: name, min: 1)
+            try validate(self.enumerationValues, name:"enumerationValues", parent: name, min: 0)
             try validate(self.name, name:"name", parent: name, max: 100)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.parentSlotTypeSignature, name:"parentSlotTypeSignature", parent: name, max: 100)
+            try validate(self.parentSlotTypeSignature, name:"parentSlotTypeSignature", parent: name, min: 1)
+            try validate(self.parentSlotTypeSignature, name:"parentSlotTypeSignature", parent: name, pattern: "^((AMAZON\\.)_?|[A-Za-z]_?)+")
+            try self.slotTypeConfigurations?.forEach {
+                try $0.validate(name: "\(name).slotTypeConfigurations[]")
+            }
+            try validate(self.slotTypeConfigurations, name:"slotTypeConfigurations", parent: name, max: 10)
+            try validate(self.slotTypeConfigurations, name:"slotTypeConfigurations", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3201,6 +3306,8 @@ extension LexModelBuildingService {
             case description = "description"
             case enumerationValues = "enumerationValues"
             case name = "name"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeConfigurations = "slotTypeConfigurations"
             case valueSelectionStrategy = "valueSelectionStrategy"
         }
     }
@@ -3214,6 +3321,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "parentSlotTypeSignature", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypeConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
@@ -3232,12 +3341,16 @@ extension LexModelBuildingService {
         public let lastUpdatedDate: TimeStamp?
         /// The name of the slot type.
         public let name: String?
+        /// The built-in slot type used as the parent of the slot type.
+        public let parentSlotTypeSignature: String?
+        /// Configuration information that extends the parent built-in slot type.
+        public let slotTypeConfigurations: [SlotTypeConfiguration]?
         /// The slot resolution strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
         public let valueSelectionStrategy: SlotValueSelectionStrategy?
         /// The version of the slot type. For a new slot type, the version is always $LATEST. 
         public let version: String?
 
-        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
             self.createVersion = createVersion
@@ -3245,6 +3358,8 @@ extension LexModelBuildingService {
             self.enumerationValues = enumerationValues
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.parentSlotTypeSignature = parentSlotTypeSignature
+            self.slotTypeConfigurations = slotTypeConfigurations
             self.valueSelectionStrategy = valueSelectionStrategy
             self.version = version
         }
@@ -3257,6 +3372,8 @@ extension LexModelBuildingService {
             case enumerationValues = "enumerationValues"
             case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeConfigurations = "slotTypeConfigurations"
             case valueSelectionStrategy = "valueSelectionStrategy"
             case version = "version"
         }
@@ -3349,6 +3466,27 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct SlotTypeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "regexConfiguration", required: false, type: .structure)
+        ]
+
+        /// A regular expression used to validate the value of a slot.
+        public let regexConfiguration: SlotTypeRegexConfiguration?
+
+        public init(regexConfiguration: SlotTypeRegexConfiguration? = nil) {
+            self.regexConfiguration = regexConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.regexConfiguration?.validate(name: "\(name).regexConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regexConfiguration = "regexConfiguration"
+        }
+    }
+
     public struct SlotTypeMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
@@ -3386,11 +3524,34 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct SlotTypeRegexConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pattern", required: true, type: .string)
+        ]
+
+        /// A regular expression used to validate the value of a slot.  Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:   A-Z, a-z   0-9   Unicode characters ("\ u&lt;Unicode&gt;")   Represent Unicode characters with four digits, for example "\u0041" or "\u005A". The following regular expression operators are not supported:   Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)  
+        public let pattern: String
+
+        public init(pattern: String) {
+            self.pattern = pattern
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pattern, name:"pattern", parent: name, max: 100)
+            try validate(self.pattern, name:"pattern", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "pattern"
+        }
+    }
+
     public struct StartImportRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "mergeStrategy", required: true, type: .enum), 
             AWSShapeMember(label: "payload", required: true, type: .blob), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum)
+            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
         /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.  
@@ -3399,17 +3560,29 @@ extension LexModelBuildingService {
         public let payload: Data
         /// Specifies the type of resource to export. Each resource also exports any resources that it depends on.    A bot exports dependent intents.   An intent exports dependent slot types.  
         public let resourceType: ResourceType
+        /// A list of tags to add to the imported bot. You can only add tags when you import a bot, you can't add tags to an intent or slot type.
+        public let tags: [Tag]?
 
-        public init(mergeStrategy: MergeStrategy, payload: Data, resourceType: ResourceType) {
+        public init(mergeStrategy: MergeStrategy, payload: Data, resourceType: ResourceType, tags: [Tag]? = nil) {
             self.mergeStrategy = mergeStrategy
             self.payload = payload
             self.resourceType = resourceType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case mergeStrategy = "mergeStrategy"
             case payload = "payload"
             case resourceType = "resourceType"
+            case tags = "tags"
         }
     }
 
@@ -3420,7 +3593,8 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "importStatus", required: false, type: .enum), 
             AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
         /// A timestamp for the date and time that the import job was requested.
@@ -3435,14 +3609,17 @@ extension LexModelBuildingService {
         public let name: String?
         /// The type of resource to import.
         public let resourceType: ResourceType?
+        /// A list of tags added to the imported bot.
+        public let tags: [Tag]?
 
-        public init(createdDate: TimeStamp? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil) {
+        public init(createdDate: TimeStamp? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.createdDate = createdDate
             self.importId = importId
             self.importStatus = importStatus
             self.mergeStrategy = mergeStrategy
             self.name = name
             self.resourceType = resourceType
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3452,6 +3629,7 @@ extension LexModelBuildingService {
             case mergeStrategy = "mergeStrategy"
             case name = "name"
             case resourceType = "resourceType"
+            case tags = "tags"
         }
     }
 
@@ -3485,6 +3663,116 @@ extension LexModelBuildingService {
             case messages = "messages"
             case responseCard = "responseCard"
         }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+
+        /// The key for the tag. Keys are not case-sensitive and must be unique.
+        public let key: String
+        /// The value associated with a key. The value may be an empty string but it can't be null.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
+        public let resourceArn: String
+        /// A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1011)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
+        public let resourceArn: String
+        /// A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1011)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UtteranceData: AWSShape {

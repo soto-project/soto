@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS Imagebuilder service.
 
- Amazon Elastic Compute Cloud Image Builder provides a one-stop-shop to automate the image management processes. You configure an automated pipeline that creates images for use on AWS. As software updates become available, Image Builder automatically produces a new image based on a customizable schedule and distributes it to stipulated AWS Regions after running tests on it. With the Image Builder, organizations can capture their internal or industry-specific compliance policies as a vetted template that can be consistently applied to every new image. Built-in integration with AWS Organizations provides customers with a centralized way to enforce image distribution and access policies across their AWS accounts and Regions. Image Builder supports multiple image format AMIs on AWS.
+EC2 Image Builder is a fully managed AWS service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date “golden” server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
 */
 public struct Imagebuilder {
 
@@ -44,17 +44,17 @@ public struct Imagebuilder {
     
     //MARK: API Calls
 
-    ///  CancelImageCreation cancels the creation of Image. This operation may only be used on images in a non-terminal state.
+    ///  CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
     public func cancelImageCreation(_ input: CancelImageCreationRequest) -> EventLoopFuture<CancelImageCreationResponse> {
         return client.send(operation: "CancelImageCreation", path: "/CancelImageCreation", httpMethod: "PUT", input: input)
     }
 
-    ///  Creates a new component that can be used to build, validate, test and assess your image.
+    ///  Creates a new component that can be used to build, validate, test, and assess your image.
     public func createComponent(_ input: CreateComponentRequest) -> EventLoopFuture<CreateComponentResponse> {
         return client.send(operation: "CreateComponent", path: "/CreateComponent", httpMethod: "PUT", input: input)
     }
 
-    ///   Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
+    ///  Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
     public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest) -> EventLoopFuture<CreateDistributionConfigurationResponse> {
         return client.send(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: "PUT", input: input)
     }
@@ -69,7 +69,7 @@ public struct Imagebuilder {
         return client.send(operation: "CreateImagePipeline", path: "/CreateImagePipeline", httpMethod: "PUT", input: input)
     }
 
-    ///   Creates a new image recipe. Image Recipes defines how images are configured, tested and assessed. 
+    ///   Creates a new image recipe. Image recipes define how images are configured, tested, and assessed. 
     public func createImageRecipe(_ input: CreateImageRecipeRequest) -> EventLoopFuture<CreateImageRecipeResponse> {
         return client.send(operation: "CreateImageRecipe", path: "/CreateImageRecipe", httpMethod: "PUT", input: input)
     }
@@ -149,12 +149,12 @@ public struct Imagebuilder {
         return client.send(operation: "GetImageRecipePolicy", path: "/GetImageRecipePolicy", httpMethod: "GET", input: input)
     }
 
-    ///   Gets a infrastructure configuration. 
+    ///   Gets an infrastructure configuration. 
     public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest) -> EventLoopFuture<GetInfrastructureConfigurationResponse> {
         return client.send(operation: "GetInfrastructureConfiguration", path: "/GetInfrastructureConfiguration", httpMethod: "GET", input: input)
     }
 
-    ///   Imports a component and transforms its data into a component document. 
+    ///  Imports a component and transforms its data into a component document. 
     public func importComponent(_ input: ImportComponentRequest) -> EventLoopFuture<ImportComponentResponse> {
         return client.send(operation: "ImportComponent", path: "/ImportComponent", httpMethod: "PUT", input: input)
     }
@@ -164,7 +164,7 @@ public struct Imagebuilder {
         return client.send(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: "POST", input: input)
     }
 
-    ///   Returns the list of component build versions for the specified semantic version. 
+    ///  Returns the list of component build versions for the specified semantic version. 
     public func listComponents(_ input: ListComponentsRequest) -> EventLoopFuture<ListComponentsResponse> {
         return client.send(operation: "ListComponents", path: "/ListComponents", httpMethod: "POST", input: input)
     }

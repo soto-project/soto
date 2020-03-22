@@ -55,6 +55,17 @@ extension TranscribeService {
         public var description: String { return self.rawValue }
     }
 
+    public enum RedactionOutput: String, CustomStringConvertible, Codable {
+        case redacted = "redacted"
+        case redactedAndUnredacted = "redacted_and_unredacted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedactionType: String, CustomStringConvertible, Codable {
+        case pii = "PII"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable {
         case queued = "QUEUED"
         case inProgress = "IN_PROGRESS"
@@ -77,6 +88,28 @@ extension TranscribeService {
     }
 
     //MARK: Shapes
+
+    public struct ContentRedaction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RedactionOutput", required: true, type: .enum), 
+            AWSShapeMember(label: "RedactionType", required: true, type: .enum)
+        ]
+
+        /// Request parameter where you choose whether to output only the redacted transcript or generate an additional unredacted transcript. When you choose redacted Amazon Transcribe outputs a JSON file with only the redacted transcript and related information. When you choose redacted_and_unredacted Amazon Transcribe outputs a JSON file with the unredacted transcript and related information in addition to the JSON file with the redacted transcript.
+        public let redactionOutput: RedactionOutput
+        /// Request parameter that defines the entities to be redacted. The only accepted value is PII.
+        public let redactionType: RedactionType
+
+        public init(redactionOutput: RedactionOutput, redactionType: RedactionType) {
+            self.redactionOutput = redactionOutput
+            self.redactionType = redactionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redactionOutput = "RedactionOutput"
+            case redactionType = "RedactionType"
+        }
+    }
 
     public struct CreateVocabularyFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -691,7 +724,7 @@ extension TranscribeService {
             AWSShapeMember(label: "MediaFileUri", required: false, type: .string)
         ]
 
-        /// The S3 location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3.us-east-1.amazonaws.com/examplebucket/example.mp4   https://s3.us-east-1.amazonaws.com/examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
+        /// The S3 object location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   s3://&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  s3://examplebucket/example.mp4   s3://examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
         public let mediaFileUri: String?
 
         public init(mediaFileUri: String? = nil) {
@@ -776,6 +809,7 @@ extension TranscribeService {
 
     public struct StartTranscriptionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentRedaction", required: false, type: .structure), 
             AWSShapeMember(label: "JobExecutionSettings", required: false, type: .structure), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
             AWSShapeMember(label: "Media", required: true, type: .structure), 
@@ -787,6 +821,8 @@ extension TranscribeService {
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
         ]
 
+        /// An object that contains the request parameters for content redaction.
+        public let contentRedaction: ContentRedaction?
         /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run the job.
         public let jobExecutionSettings: JobExecutionSettings?
         /// The language code for the language used in the input media file.
@@ -797,7 +833,7 @@ extension TranscribeService {
         public let mediaFormat: MediaFormat?
         /// The sample rate, in Hertz, of the audio track in the input media file.  If you do not specify the media sample rate, Amazon Transcribe determines the sample rate. If you specify the sample rate, it must match the sample rate detected by Amazon Transcribe. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe determine the sample rate.
         public let mediaSampleRateHertz: Int?
-        /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. You can specify an AWS Key Management Service (KMS) key to encrypt the output of your transcription using the OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
+        /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcript in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. If you enable content redaction, the redacted transcript appears in RedactedTranscriptFileUri. If you enable content redaction and choose to output an unredacted transcript, that transcript's location still appears in the TranscriptFileUri. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. You can specify an AWS Key Management Service (KMS) key to encrypt the output of your transcription using the OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
         public let outputBucketName: String?
         /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartTranscriptionJob operation must have permission to use the specified KMS key. You can use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the transcription job is encrypted with the default Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
         public let outputEncryptionKMSKeyId: String?
@@ -806,7 +842,8 @@ extension TranscribeService {
         /// The name of the job. Note that you can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account.
         public let transcriptionJobName: String
 
-        public init(jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+            self.contentRedaction = contentRedaction
             self.jobExecutionSettings = jobExecutionSettings
             self.languageCode = languageCode
             self.media = media
@@ -835,6 +872,7 @@ extension TranscribeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contentRedaction = "ContentRedaction"
             case jobExecutionSettings = "JobExecutionSettings"
             case languageCode = "LanguageCode"
             case media = "Media"
@@ -866,17 +904,22 @@ extension TranscribeService {
 
     public struct Transcript: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RedactedTranscriptFileUri", required: false, type: .string), 
             AWSShapeMember(label: "TranscriptFileUri", required: false, type: .string)
         ]
 
-        /// The location where the transcription is stored. Use this URI to access the transcription. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcription in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
+        /// The S3 object location of the redacted transcript. Use this URI to access the redacated transcript. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
+        public let redactedTranscriptFileUri: String?
+        /// The S3 object location of the the transcript. Use this URI to access the transcript. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
         public let transcriptFileUri: String?
 
-        public init(transcriptFileUri: String? = nil) {
+        public init(redactedTranscriptFileUri: String? = nil, transcriptFileUri: String? = nil) {
+            self.redactedTranscriptFileUri = redactedTranscriptFileUri
             self.transcriptFileUri = transcriptFileUri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case redactedTranscriptFileUri = "RedactedTranscriptFileUri"
             case transcriptFileUri = "TranscriptFileUri"
         }
     }
@@ -884,6 +927,7 @@ extension TranscribeService {
     public struct TranscriptionJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ContentRedaction", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "JobExecutionSettings", required: false, type: .structure), 
@@ -900,6 +944,8 @@ extension TranscribeService {
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
+        /// An object that describes content redaction settings for the transcription job.
+        public let contentRedaction: ContentRedaction?
         /// A timestamp that shows when the job was created.
         public let creationTime: TimeStamp?
         /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format - The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format - The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure that the two values match.    Invalid sample rate for audio file - The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate - The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large - The size of your audio file is larger than Amazon Transcribe can process. For more information, see Limits in the Amazon Transcribe Developer Guide.    Invalid number of channels: number of channels too large - Your audio contains more channels than Amazon Transcribe is configured to process. To request additional channels, see Amazon Transcribe Limits in the Amazon Web Services General Reference.  
@@ -925,8 +971,9 @@ extension TranscribeService {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: Settings? = nil, startTime: TimeStamp? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: Settings? = nil, startTime: TimeStamp? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
+            self.contentRedaction = contentRedaction
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.jobExecutionSettings = jobExecutionSettings
@@ -943,6 +990,7 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
+            case contentRedaction = "ContentRedaction"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
             case jobExecutionSettings = "JobExecutionSettings"
@@ -961,6 +1009,7 @@ extension TranscribeService {
     public struct TranscriptionJobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ContentRedaction", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
@@ -972,6 +1021,8 @@ extension TranscribeService {
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
+        /// The content redaction settings of the transcription job.
+        public let contentRedaction: ContentRedaction?
         /// A timestamp that shows when the job was created.
         public let creationTime: TimeStamp?
         /// If the TranscriptionJobStatus field is FAILED, a description of the error.
@@ -987,8 +1038,9 @@ extension TranscribeService {
         /// The status of the transcription job. When the status is COMPLETED, use the GetTranscriptionJob operation to get the results of the transcription.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, outputLocationType: OutputLocationType? = nil, startTime: TimeStamp? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, outputLocationType: OutputLocationType? = nil, startTime: TimeStamp? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
+            self.contentRedaction = contentRedaction
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -1000,6 +1052,7 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
+            case contentRedaction = "ContentRedaction"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
             case languageCode = "LanguageCode"

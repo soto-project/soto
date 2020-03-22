@@ -19,9 +19,22 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManifestLayout: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case compact = "COMPACT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Profile: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case hbbtv15 = "HBBTV_1_5"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
+        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
+        case timeWithTimeline = "TIME_WITH_TIMELINE"
+        case numberWithDuration = "NUMBER_WITH_DURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -29,6 +42,11 @@ extension MediaPackageVod {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Periodtriggerselement: String, CustomStringConvertible, Codable {
+        case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 
@@ -334,12 +352,15 @@ extension MediaPackageVod {
 
     public struct DashManifest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestLayout", location: .body(locationName: "manifestLayout"), required: false, type: .enum), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MinBufferTimeSeconds", location: .body(locationName: "minBufferTimeSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum), 
             AWSShapeMember(label: "StreamSelection", location: .body(locationName: "streamSelection"), required: false, type: .structure)
         ]
 
+        /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level.
+        public let manifestLayout: ManifestLayout?
         /// An optional string to include in the name of the manifest.
         public let manifestName: String?
         /// Minimum duration (in seconds) that a player will buffer media before starting the presentation.
@@ -348,7 +369,8 @@ extension MediaPackageVod {
         public let profile: Profile?
         public let streamSelection: StreamSelection?
 
-        public init(manifestName: String? = nil, minBufferTimeSeconds: Int? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
+        public init(manifestLayout: ManifestLayout? = nil, manifestName: String? = nil, minBufferTimeSeconds: Int? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
+            self.manifestLayout = manifestLayout
             self.manifestName = manifestName
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.profile = profile
@@ -356,6 +378,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case manifestLayout = "manifestLayout"
             case manifestName = "manifestName"
             case minBufferTimeSeconds = "minBufferTimeSeconds"
             case profile = "profile"
@@ -367,26 +390,39 @@ extension MediaPackageVod {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DashManifests", location: .body(locationName: "dashManifests"), required: true, type: .list), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
-            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer)
+            AWSShapeMember(label: "PeriodTriggers", location: .body(locationName: "periodTriggers"), required: false, type: .list), 
+            AWSShapeMember(label: "SegmentDurationSeconds", location: .body(locationName: "segmentDurationSeconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentTemplateFormat", location: .body(locationName: "segmentTemplateFormat"), required: false, type: .enum)
         ]
 
         /// A list of DASH manifest configurations.
         public let dashManifests: [DashManifest]
         public let encryption: DashEncryption?
+        /// A list of triggers that controls when the outgoing Dynamic Adaptive Streaming over HTTP (DASH)
+        /// Media Presentation Description (MPD) will be partitioned into multiple periods. If empty, the content will not
+        /// be partitioned into more than one period. If the list contains "ADS", new periods will be created where
+        /// the Asset contains SCTE-35 ad markers.
+        public let periodTriggers: [Periodtriggerselement]?
         /// Duration (in seconds) of each segment. Actual segments will be
         /// rounded to the nearest multiple of the source segment duration.
         public let segmentDurationSeconds: Int?
+        /// Determines the type of SegmentTemplate included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in each SegmentTemplate, with $Number$ media URLs.
+        public let segmentTemplateFormat: SegmentTemplateFormat?
 
-        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, segmentDurationSeconds: Int? = nil) {
+        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, periodTriggers: [Periodtriggerselement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
+            self.periodTriggers = periodTriggers
             self.segmentDurationSeconds = segmentDurationSeconds
+            self.segmentTemplateFormat = segmentTemplateFormat
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashManifests = "dashManifests"
             case encryption = "encryption"
+            case periodTriggers = "periodTriggers"
             case segmentDurationSeconds = "segmentDurationSeconds"
+            case segmentTemplateFormat = "segmentTemplateFormat"
         }
     }
 

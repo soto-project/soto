@@ -13,6 +13,7 @@ public enum WAFV2ErrorType: AWSErrorType {
     case wAFNonexistentItemException(message: String?)
     case wAFOptimisticLockException(message: String?)
     case wAFServiceLinkedRoleErrorException(message: String?)
+    case wAFSubscriptionNotFoundException(message: String?)
     case wAFTagOperationException(message: String?)
     case wAFTagOperationInternalErrorException(message: String?)
     case wAFUnavailableEntityException(message: String?)
@@ -43,6 +44,8 @@ extension WAFV2ErrorType {
             self = .wAFOptimisticLockException(message: message)
         case "WAFServiceLinkedRoleErrorException":
             self = .wAFServiceLinkedRoleErrorException(message: message)
+        case "WAFSubscriptionNotFoundException":
+            self = .wAFSubscriptionNotFoundException(message: message)
         case "WAFTagOperationException":
             self = .wAFTagOperationException(message: message)
         case "WAFTagOperationInternalErrorException":
@@ -76,6 +79,8 @@ extension WAFV2ErrorType : CustomStringConvertible {
             return "WAFOptimisticLockException: \(message ?? "")"
         case .wAFServiceLinkedRoleErrorException(let message):
             return "WAFServiceLinkedRoleErrorException: \(message ?? "")"
+        case .wAFSubscriptionNotFoundException(let message):
+            return "WAFSubscriptionNotFoundException: \(message ?? "")"
         case .wAFTagOperationException(let message):
             return "WAFTagOperationException: \(message ?? "")"
         case .wAFTagOperationInternalErrorException(let message):

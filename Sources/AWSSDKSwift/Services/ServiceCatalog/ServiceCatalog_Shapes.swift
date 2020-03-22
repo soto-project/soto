@@ -662,6 +662,8 @@ extension ServiceCatalog {
             AWSShapeMember(label: "ConstraintId", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
 
@@ -671,13 +673,19 @@ extension ServiceCatalog {
         public let description: String?
         /// The owner of the constraint.
         public let owner: String?
+        /// The identifier of the portfolio the product resides in. The constraint applies only to the instance of the product that lives within this portfolio.
+        public let portfolioId: String?
+        /// The identifier of the product the constraint applies to. Note that a constraint applies to a specific instance of a product within a certain portfolio.
+        public let productId: String?
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
         public let `type`: String?
 
-        public init(constraintId: String? = nil, description: String? = nil, owner: String? = nil, type: String? = nil) {
+        public init(constraintId: String? = nil, description: String? = nil, owner: String? = nil, portfolioId: String? = nil, productId: String? = nil, type: String? = nil) {
             self.constraintId = constraintId
             self.description = description
             self.owner = owner
+            self.portfolioId = portfolioId
+            self.productId = productId
             self.`type` = `type`
         }
 
@@ -685,6 +693,8 @@ extension ServiceCatalog {
             case constraintId = "ConstraintId"
             case description = "Description"
             case owner = "Owner"
+            case portfolioId = "PortfolioId"
+            case productId = "ProductId"
             case `type` = "Type"
         }
     }
@@ -1351,7 +1361,7 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}].  
+        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
         public let definition: [ServiceActionDefinitionKey: String]
         /// The service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType
@@ -2539,8 +2549,11 @@ extension ServiceCatalog {
             AWSShapeMember(label: "ServiceActionId", required: true, type: .string)
         ]
 
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
+        /// The identifier of the provisioned product.
         public let provisionedProductId: String
+        /// The self-service action identifier.
         public let serviceActionId: String
 
         public init(acceptLanguage: String? = nil, provisionedProductId: String, serviceActionId: String) {
@@ -2571,6 +2584,7 @@ extension ServiceCatalog {
             AWSShapeMember(label: "ServiceActionParameters", required: false, type: .list)
         ]
 
+        /// The parameters of the self-service action.
         public let serviceActionParameters: [ExecutionParameter]?
 
         public init(serviceActionParameters: [ExecutionParameter]? = nil) {
@@ -2981,6 +2995,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the execute request.
         public let executeToken: String
+        /// A map of all self-service action parameters and their values. If a provided parameter is of a special type, such as TARGET, the provided value will override the default value generated by AWS Service Catalog. If the parameters field is not provided, no additional parameters are passed and default values will be used for any special parameters such as TARGET.
         public let parameters: [String: [String]]?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
@@ -3047,8 +3062,11 @@ extension ServiceCatalog {
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
 
+        /// The default values for the execution parameter.
         public let defaultValues: [String]?
+        /// The name of the execution parameter.
         public let name: String?
+        /// The execution parameter type.
         public let `type`: String?
 
         public init(defaultValues: [String]? = nil, name: String? = nil, type: String? = nil) {
@@ -3496,21 +3514,40 @@ extension ServiceCatalog {
     public struct ListPortfolioAccessInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationParentId", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string)
         ]
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
+        /// The ID of an organization node the portfolio is shared with. All children of this node with an inherited portfolio share will be returned.
+        public let organizationParentId: String?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
         /// The portfolio identifier.
         public let portfolioId: String
 
-        public init(acceptLanguage: String? = nil, portfolioId: String) {
+        public init(acceptLanguage: String? = nil, organizationParentId: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
+            self.organizationParentId = organizationParentId
+            self.pageSize = pageSize
+            self.pageToken = pageToken
             self.portfolioId = portfolioId
         }
 
         public func validate(name: String) throws {
             try validate(self.acceptLanguage, name:"acceptLanguage", parent: name, max: 100)
+            try validate(self.organizationParentId, name:"organizationParentId", parent: name, max: 100)
+            try validate(self.organizationParentId, name:"organizationParentId", parent: name, min: 1)
+            try validate(self.organizationParentId, name:"organizationParentId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.pageSize, name:"pageSize", parent: name, max: 20)
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
+            try validate(self.pageToken, name:"pageToken", parent: name, max: 2024)
+            try validate(self.pageToken, name:"pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
             try validate(self.portfolioId, name:"portfolioId", parent: name, max: 100)
             try validate(self.portfolioId, name:"portfolioId", parent: name, min: 1)
             try validate(self.portfolioId, name:"portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3518,6 +3555,9 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
+            case organizationParentId = "OrganizationParentId"
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
             case portfolioId = "PortfolioId"
         }
     }
@@ -6730,7 +6770,7 @@ extension ServiceCatalog {
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// Indicates whether the product version is active.
+        /// Indicates whether the product version is active. Inactive provisioning artifacts are invisible to end users. End users cannot launch or update a provisioned product from an inactive provisioning artifact.
         public let active: Bool?
         /// The updated description of the provisioning artifact.
         public let description: String?

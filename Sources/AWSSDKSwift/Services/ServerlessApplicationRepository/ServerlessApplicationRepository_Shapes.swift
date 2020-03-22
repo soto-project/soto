@@ -48,6 +48,7 @@ extension ServerlessApplicationRepository {
     public struct ApplicationPolicyStatement: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Actions", location: .body(locationName: "actions"), required: true, type: .list), 
+            AWSShapeMember(label: "PrincipalOrgIDs", location: .body(locationName: "principalOrgIDs"), required: false, type: .list), 
             AWSShapeMember(label: "Principals", location: .body(locationName: "principals"), required: true, type: .list), 
             AWSShapeMember(label: "StatementId", location: .body(locationName: "statementId"), required: false, type: .string)
         ]
@@ -55,19 +56,23 @@ extension ServerlessApplicationRepository {
         /// For the list of actions supported for this operation, see Application 
         ///  Permissions.
         public let actions: [String]
+        /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM aws:PrincipalOrgID global condition key.
+        public let principalOrgIDs: [String]?
         /// An array of AWS account IDs, or * to make the application public.
         public let principals: [String]
         /// A unique ID for the statement.
         public let statementId: String?
 
-        public init(actions: [String], principals: [String], statementId: String? = nil) {
+        public init(actions: [String], principalOrgIDs: [String]? = nil, principals: [String], statementId: String? = nil) {
             self.actions = actions
+            self.principalOrgIDs = principalOrgIDs
             self.principals = principals
             self.statementId = statementId
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
+            case principalOrgIDs = "principalOrgIDs"
             case principals = "principals"
             case statementId = "statementId"
         }
@@ -1060,6 +1065,26 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct UnshareApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "applicationId"), required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", location: .body(locationName: "organizationId"), required: true, type: .string)
+        ]
+
+        public let applicationId: String
+        public let organizationId: String
+
+        public init(applicationId: String, organizationId: String) {
+            self.applicationId = applicationId
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case organizationId = "organizationId"
         }
     }
 

@@ -46,6 +46,13 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListenerTlsMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case permissive = "PERMISSIVE"
+        case strict = "STRICT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MeshStatusCode: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleted = "DELETED"
@@ -203,8 +210,89 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
+        public func validate(name: String) throws {
+            try self.virtualService?.validate(name: "\(name).virtualService")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case virtualService = "virtualService"
+        }
+    }
+
+    public struct BackendDefaults: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientPolicy", required: false, type: .structure)
+        ]
+
+        /// A reference to an object that represents a client policy.
+        public let clientPolicy: ClientPolicy?
+
+        public init(clientPolicy: ClientPolicy? = nil) {
+            self.clientPolicy = clientPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.clientPolicy?.validate(name: "\(name).clientPolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientPolicy = "clientPolicy"
+        }
+    }
+
+    public struct ClientPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tls", required: false, type: .structure)
+        ]
+
+        /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
+        public let tls: ClientPolicyTls?
+
+        public init(tls: ClientPolicyTls? = nil) {
+            self.tls = tls
+        }
+
+        public func validate(name: String) throws {
+            try self.tls?.validate(name: "\(name).tls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tls = "tls"
+        }
+    }
+
+    public struct ClientPolicyTls: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enforce", required: false, type: .boolean), 
+            AWSShapeMember(label: "ports", required: false, type: .list), 
+            AWSShapeMember(label: "validation", required: true, type: .structure)
+        ]
+
+        /// Whether the policy is enforced. The default is True, if a value isn't specified.
+        public let enforce: Bool?
+        /// The range of ports that the policy is enforced for.
+        public let ports: [Int]?
+        /// A reference to an object that represents a TLS validation context.
+        public let validation: TlsValidationContext
+
+        public init(enforce: Bool? = nil, ports: [Int]? = nil, validation: TlsValidationContext) {
+            self.enforce = enforce
+            self.ports = ports
+            self.validation = validation
+        }
+
+        public func validate(name: String) throws {
+            try self.ports?.forEach {
+                try validate($0, name: "ports[]", parent: name, max: 65535)
+                try validate($0, name: "ports[]", parent: name, min: 1)
+            }
+            try self.validation.validate(name: "\(name).validation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforce = "enforce"
+            case ports = "ports"
+            case validation = "validation"
         }
     }
 
@@ -277,6 +365,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "routeName", required: true, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
@@ -288,6 +377,10 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the route in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
+        ///                the account that you specify must share the mesh with your account before you can create 
+        ///              the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name to use for the route.
         public let routeName: String
         /// The route specification to apply.
@@ -297,12 +390,14 @@ extension AppMesh {
         ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
         ///             a maximum length of 256 characters.
         public let tags: [TagRef]?
-        /// The name of the virtual router in which to create the route.
+        /// The name of the virtual router in which to create the route. If the virtual router is in a shared mesh,
+        ///          then you must be the owner of the virtual router resource.
         public let virtualRouterName: String
 
-        public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
+        public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.routeName = routeName
             self.spec = spec
             self.tags = tags
@@ -312,6 +407,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.routeName, name:"routeName", parent: name, max: 255)
             try validate(self.routeName, name:"routeName", parent: name, min: 1)
             try self.spec.validate(name: "\(name).spec")
@@ -327,6 +424,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case routeName = "routeName"
             case spec = "spec"
             case tags = "tags"
@@ -357,6 +455,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "virtualNodeName", required: true, type: .string)
@@ -367,6 +466,10 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual node in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
+        ///                the account that you specify must share the mesh with your account before you can create 
+        ///              the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The virtual node specification to apply.
         public let spec: VirtualNodeSpec
         /// Optional metadata that you can apply to the virtual node to assist with categorization
@@ -377,9 +480,10 @@ extension AppMesh {
         /// The name to use for the virtual node.
         public let virtualNodeName: String
 
-        public init(clientToken: String? = CreateVirtualNodeInput.idempotencyToken(), meshName: String, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
+        public init(clientToken: String? = CreateVirtualNodeInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.spec = spec
             self.tags = tags
             self.virtualNodeName = virtualNodeName
@@ -388,6 +492,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try self.spec.validate(name: "\(name).spec")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -401,6 +507,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case spec = "spec"
             case tags = "tags"
             case virtualNodeName = "virtualNodeName"
@@ -430,6 +537,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
@@ -440,6 +548,10 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual router in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
+        ///                the account that you specify must share the mesh with your account before you can create 
+        ///              the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The virtual router specification to apply.
         public let spec: VirtualRouterSpec
         /// Optional metadata that you can apply to the virtual router to assist with categorization
@@ -450,9 +562,10 @@ extension AppMesh {
         /// The name to use for the virtual router.
         public let virtualRouterName: String
 
-        public init(clientToken: String? = CreateVirtualRouterInput.idempotencyToken(), meshName: String, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
+        public init(clientToken: String? = CreateVirtualRouterInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.spec = spec
             self.tags = tags
             self.virtualRouterName = virtualRouterName
@@ -461,6 +574,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try self.spec.validate(name: "\(name).spec")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -474,6 +589,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case spec = "spec"
             case tags = "tags"
             case virtualRouterName = "virtualRouterName"
@@ -503,6 +619,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
@@ -513,6 +630,10 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual service in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
+        ///                the account that you specify must share the mesh with your account before you can create 
+        ///              the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The virtual service specification to apply.
         public let spec: VirtualServiceSpec
         /// Optional metadata that you can apply to the virtual service to assist with
@@ -523,9 +644,10 @@ extension AppMesh {
         /// The name to use for the virtual service.
         public let virtualServiceName: String
 
-        public init(clientToken: String? = CreateVirtualServiceInput.idempotencyToken(), meshName: String, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
+        public init(clientToken: String? = CreateVirtualServiceInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.spec = spec
             self.tags = tags
             self.virtualServiceName = virtualServiceName
@@ -534,6 +656,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try self.spec.validate(name: "\(name).spec")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -545,6 +669,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case spec = "spec"
             case tags = "tags"
             case virtualServiceName = "virtualServiceName"
@@ -614,19 +739,24 @@ extension AppMesh {
     public struct DeleteRouteInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh to delete the route in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the route to delete.
         public let routeName: String
         /// The name of the virtual router to delete the route in.
         public let virtualRouterName: String
 
-        public init(meshName: String, routeName: String, virtualRouterName: String) {
+        public init(meshName: String, meshOwner: String? = nil, routeName: String, virtualRouterName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.routeName = routeName
             self.virtualRouterName = virtualRouterName
         }
@@ -634,6 +764,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.routeName, name:"routeName", parent: name, max: 255)
             try validate(self.routeName, name:"routeName", parent: name, min: 1)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, max: 255)
@@ -642,6 +774,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case routeName = "routeName"
             case virtualRouterName = "virtualRouterName"
         }
@@ -669,28 +802,36 @@ extension AppMesh {
     public struct DeleteVirtualNodeInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh to delete the virtual node in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the virtual node to delete.
         public let virtualNodeName: String
 
-        public init(meshName: String, virtualNodeName: String) {
+        public init(meshName: String, meshOwner: String? = nil, virtualNodeName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.virtualNodeName = virtualNodeName
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, max: 255)
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case virtualNodeName = "virtualNodeName"
         }
     }
@@ -717,28 +858,36 @@ extension AppMesh {
     public struct DeleteVirtualRouterInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh to delete the virtual router in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the virtual router to delete.
         public let virtualRouterName: String
 
-        public init(meshName: String, virtualRouterName: String) {
+        public init(meshName: String, meshOwner: String? = nil, virtualRouterName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.virtualRouterName = virtualRouterName
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, max: 255)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -765,26 +914,34 @@ extension AppMesh {
     public struct DeleteVirtualServiceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh to delete the virtual service in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the virtual service to delete.
         public let virtualServiceName: String
 
-        public init(meshName: String, virtualServiceName: String) {
+        public init(meshName: String, meshOwner: String? = nil, virtualServiceName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.virtualServiceName = virtualServiceName
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case virtualServiceName = "virtualServiceName"
         }
     }
@@ -810,23 +967,31 @@ extension AppMesh {
 
     public struct DescribeMeshInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string)
+            AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string)
         ]
 
         /// The name of the service mesh to describe.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
 
-        public init(meshName: String) {
+        public init(meshName: String, meshOwner: String? = nil) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
         }
     }
 
@@ -852,19 +1017,24 @@ extension AppMesh {
     public struct DescribeRouteInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName"), required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh that the route resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the route to describe.
         public let routeName: String
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
 
-        public init(meshName: String, routeName: String, virtualRouterName: String) {
+        public init(meshName: String, meshOwner: String? = nil, routeName: String, virtualRouterName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.routeName = routeName
             self.virtualRouterName = virtualRouterName
         }
@@ -872,6 +1042,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.routeName, name:"routeName", parent: name, max: 255)
             try validate(self.routeName, name:"routeName", parent: name, min: 1)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, max: 255)
@@ -880,6 +1052,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case routeName = "routeName"
             case virtualRouterName = "virtualRouterName"
         }
@@ -907,28 +1080,36 @@ extension AppMesh {
     public struct DescribeVirtualNodeInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the virtual node to describe.
         public let virtualNodeName: String
 
-        public init(meshName: String, virtualNodeName: String) {
+        public init(meshName: String, meshOwner: String? = nil, virtualNodeName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.virtualNodeName = virtualNodeName
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, max: 255)
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case virtualNodeName = "virtualNodeName"
         }
     }
@@ -955,28 +1136,36 @@ extension AppMesh {
     public struct DescribeVirtualRouterInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the virtual router to describe.
         public let virtualRouterName: String
 
-        public init(meshName: String, virtualRouterName: String) {
+        public init(meshName: String, meshOwner: String? = nil, virtualRouterName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.virtualRouterName = virtualRouterName
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, max: 255)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -1003,26 +1192,34 @@ extension AppMesh {
     public struct DescribeVirtualServiceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"), required: true, type: .string)
         ]
 
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the virtual service to describe.
         public let virtualServiceName: String
 
-        public init(meshName: String, virtualServiceName: String) {
+        public init(meshName: String, meshOwner: String? = nil, virtualServiceName: String) {
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.virtualServiceName = virtualServiceName
         }
 
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case virtualServiceName = "virtualServiceName"
         }
     }
@@ -1453,13 +1650,13 @@ extension AppMesh {
         public let healthyThreshold: Int
         /// The time period in milliseconds between each health check execution.
         public let intervalMillis: Int64
-        /// The destination path for the health check request. This is required only if the
-        ///          specified protocol is HTTP. If the protocol is TCP, this parameter is ignored.
+        /// The destination path for the health check request. This value is only used if the specified 
+        ///          protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
         public let path: String?
         /// The destination port for the health check request. This port must match the port defined
         ///          in the PortMapping for the listener.
         public let port: Int?
-        /// The protocol for the health check request.
+        /// The protocol for the health check request. If you specify grpc, then your service must conform to the GRPC Health Checking Protocol.
         public let `protocol`: PortProtocol
         /// The amount of time to wait when receiving a response from the health check, in
         ///          milliseconds.
@@ -1774,6 +1971,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
@@ -1789,6 +1987,9 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list routes in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The nextToken value returned from a previous paginated
         ///             ListRoutes request where limit was used and the results
         ///          exceeded the value of that parameter. Pagination continues from the end of the previous
@@ -1797,9 +1998,10 @@ extension AppMesh {
         /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
 
-        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil, virtualRouterName: String) {
+        public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil, virtualRouterName: String) {
             self.limit = limit
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.nextToken = nextToken
             self.virtualRouterName = virtualRouterName
         }
@@ -1809,6 +2011,8 @@ extension AppMesh {
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, max: 255)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
         }
@@ -1816,6 +2020,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case nextToken = "nextToken"
             case virtualRouterName = "virtualRouterName"
         }
@@ -1917,6 +2122,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -1931,15 +2137,19 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual nodes in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The nextToken value returned from a previous paginated
         ///             ListVirtualNodes request where limit was used and the results
         ///          exceeded the value of that parameter. Pagination continues from the end of the previous
         ///          results that returned the nextToken value.
         public let nextToken: String?
 
-        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil) {
+        public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.nextToken = nextToken
         }
 
@@ -1948,11 +2158,14 @@ extension AppMesh {
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case nextToken = "nextToken"
         }
     }
@@ -1986,6 +2199,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -2000,15 +2214,19 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual routers in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The nextToken value returned from a previous paginated
         ///             ListVirtualRouters request where limit was used and the
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
 
-        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil) {
+        public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.nextToken = nextToken
         }
 
@@ -2017,11 +2235,14 @@ extension AppMesh {
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case nextToken = "nextToken"
         }
     }
@@ -2055,6 +2276,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -2069,15 +2291,19 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual services in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The nextToken value returned from a previous paginated
         ///             ListVirtualServices request where limit was used and the
         ///          results exceeded the value of that parameter. Pagination continues from the end of the
         ///          previous results that returned the nextToken value.
         public let nextToken: String?
 
-        public init(limit: Int? = nil, meshName: String, nextToken: String? = nil) {
+        public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.nextToken = nextToken
         }
 
@@ -2086,11 +2312,14 @@ extension AppMesh {
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case nextToken = "nextToken"
         }
     }
@@ -2123,27 +2352,145 @@ extension AppMesh {
     public struct Listener: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "healthCheck", required: false, type: .structure), 
-            AWSShapeMember(label: "portMapping", required: true, type: .structure)
+            AWSShapeMember(label: "portMapping", required: true, type: .structure), 
+            AWSShapeMember(label: "tls", required: false, type: .structure)
         ]
 
         /// The health check information for the listener.
         public let healthCheck: HealthCheckPolicy?
         /// The port mapping information for the listener.
         public let portMapping: PortMapping
+        /// A reference to an object that represents the Transport Layer Security (TLS) properties for a listener.
+        public let tls: ListenerTls?
 
-        public init(healthCheck: HealthCheckPolicy? = nil, portMapping: PortMapping) {
+        public init(healthCheck: HealthCheckPolicy? = nil, portMapping: PortMapping, tls: ListenerTls? = nil) {
             self.healthCheck = healthCheck
             self.portMapping = portMapping
+            self.tls = tls
         }
 
         public func validate(name: String) throws {
             try self.healthCheck?.validate(name: "\(name).healthCheck")
             try self.portMapping.validate(name: "\(name).portMapping")
+            try self.tls?.validate(name: "\(name).tls")
         }
 
         private enum CodingKeys: String, CodingKey {
             case healthCheck = "healthCheck"
             case portMapping = "portMapping"
+            case tls = "tls"
+        }
+    }
+
+    public struct ListenerTls: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificate", required: true, type: .structure), 
+            AWSShapeMember(label: "mode", required: true, type: .enum)
+        ]
+
+        /// A reference to an object that represents a listener's TLS certificate.
+        public let certificate: ListenerTlsCertificate
+        /// Specify one of the following modes.
+        ///          
+        ///             
+        ///                
+        ///                   STRICT – Listener only accepts connections with TLS enabled. 
+        ///             
+        ///             
+        ///                
+        ///                   PERMISSIVE – Listener accepts connections with or without TLS enabled.
+        ///             
+        ///             
+        ///                
+        ///                   DISABLED –  Listener only accepts connections without TLS. 
+        ///             
+        ///          
+        public let mode: ListenerTlsMode
+
+        public init(certificate: ListenerTlsCertificate, mode: ListenerTlsMode) {
+            self.certificate = certificate
+            self.mode = mode
+        }
+
+        public func validate(name: String) throws {
+            try self.certificate.validate(name: "\(name).certificate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "certificate"
+            case mode = "mode"
+        }
+    }
+
+    public struct ListenerTlsAcmCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+        }
+    }
+
+    public struct ListenerTlsCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "acm", required: false, type: .structure), 
+            AWSShapeMember(label: "file", required: false, type: .structure)
+        ]
+
+        /// A reference to an object that represents an AWS Certicate Manager (ACM) certificate.
+        public let acm: ListenerTlsAcmCertificate?
+        /// A reference to an object that represents a local file certificate.
+        public let file: ListenerTlsFileCertificate?
+
+        public init(acm: ListenerTlsAcmCertificate? = nil, file: ListenerTlsFileCertificate? = nil) {
+            self.acm = acm
+            self.file = file
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acm = "acm"
+            case file = "file"
+        }
+    }
+
+    public struct ListenerTlsFileCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateChain", required: true, type: .string), 
+            AWSShapeMember(label: "privateKey", required: true, type: .string)
+        ]
+
+        /// The certificate chain for the certificate.
+        public let certificateChain: String
+        /// The private key for a certificate stored on the file system of the virtual node that the proxy is running on.
+        public let privateKey: String
+
+        public init(certificateChain: String, privateKey: String) {
+            self.certificateChain = certificateChain
+            self.privateKey = privateKey
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateChain, name:"certificateChain", parent: name, max: 255)
+            try validate(self.certificateChain, name:"certificateChain", parent: name, min: 1)
+            try validate(self.privateKey, name:"privateKey", parent: name, max: 255)
+            try validate(self.privateKey, name:"privateKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateChain = "certificateChain"
+            case privateKey = "privateKey"
         }
     }
 
@@ -2225,22 +2572,34 @@ extension AppMesh {
     public struct MeshRef: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string), 
-            AWSShapeMember(label: "meshName", required: true, type: .string)
+            AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", required: true, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .string)
         ]
 
         /// The full Amazon Resource Name (ARN) of the service mesh.
         public let arn: String
         /// The name of the service mesh.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        public let resourceOwner: String
 
-        public init(arn: String, meshName: String) {
+        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String) {
             self.arn = arn
             self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
         }
     }
 
@@ -2310,6 +2669,8 @@ extension AppMesh {
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
             AWSShapeMember(label: "lastUpdatedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "meshOwner", required: true, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .string), 
             AWSShapeMember(label: "uid", required: true, type: .string), 
             AWSShapeMember(label: "version", required: true, type: .long)
         ]
@@ -2320,16 +2681,24 @@ extension AppMesh {
         public let createdAt: TimeStamp
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         public let lastUpdatedAt: TimeStamp
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        public let resourceOwner: String
         /// The unique identifier for the resource.
         public let uid: String
         /// The version of the resource. Resources are created at version 1, and this version is
         ///          incremented each time that they're updated.
         public let version: Int64
 
-        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, uid: String, version: Int64) {
+        public init(arn: String, createdAt: TimeStamp, lastUpdatedAt: TimeStamp, meshOwner: String, resourceOwner: String, uid: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
             self.uid = uid
             self.version = version
         }
@@ -2338,6 +2707,8 @@ extension AppMesh {
             case arn = "arn"
             case createdAt = "createdAt"
             case lastUpdatedAt = "lastUpdatedAt"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
             case uid = "uid"
             case version = "version"
         }
@@ -2389,6 +2760,8 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", required: true, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .string), 
             AWSShapeMember(label: "routeName", required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
@@ -2397,14 +2770,22 @@ extension AppMesh {
         public let arn: String
         /// The name of the service mesh that the route resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        public let resourceOwner: String
         /// The name of the route.
         public let routeName: String
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
 
-        public init(arn: String, meshName: String, routeName: String, virtualRouterName: String) {
+        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, routeName: String, virtualRouterName: String) {
             self.arn = arn
             self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
             self.routeName = routeName
             self.virtualRouterName = virtualRouterName
         }
@@ -2412,6 +2793,8 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
             case routeName = "routeName"
             case virtualRouterName = "virtualRouterName"
         }
@@ -2426,9 +2809,9 @@ extension AppMesh {
             AWSShapeMember(label: "tcpRoute", required: false, type: .structure)
         ]
 
-        /// An object that represents the specification of a GRPC route.
+        /// An object that represents the specification of a gRPC route.
         public let grpcRoute: GrpcRoute?
-        /// An object that represents the specification of an HTTP2 route.
+        /// An object that represents the specification of an HTTP/2 route.
         public let http2Route: HttpRoute?
         /// An object that represents the specification of an HTTP route.
         public let httpRoute: HttpRoute?
@@ -2624,6 +3007,98 @@ extension AppMesh {
         }
     }
 
+    public struct TlsValidationContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "trust", required: true, type: .structure)
+        ]
+
+        /// A reference to an object that represents a TLS validation context trust.
+        public let trust: TlsValidationContextTrust
+
+        public init(trust: TlsValidationContextTrust) {
+            self.trust = trust
+        }
+
+        public func validate(name: String) throws {
+            try self.trust.validate(name: "\(name).trust")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trust = "trust"
+        }
+    }
+
+    public struct TlsValidationContextAcmTrust: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateAuthorityArns", required: true, type: .list)
+        ]
+
+        /// One or more ACM Amazon Resource Name (ARN)s.
+        public let certificateAuthorityArns: [String]
+
+        public init(certificateAuthorityArns: [String]) {
+            self.certificateAuthorityArns = certificateAuthorityArns
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateAuthorityArns, name:"certificateAuthorityArns", parent: name, max: 3)
+            try validate(self.certificateAuthorityArns, name:"certificateAuthorityArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArns = "certificateAuthorityArns"
+        }
+    }
+
+    public struct TlsValidationContextFileTrust: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateChain", required: true, type: .string)
+        ]
+
+        /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
+        public let certificateChain: String
+
+        public init(certificateChain: String) {
+            self.certificateChain = certificateChain
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateChain, name:"certificateChain", parent: name, max: 255)
+            try validate(self.certificateChain, name:"certificateChain", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateChain = "certificateChain"
+        }
+    }
+
+    public struct TlsValidationContextTrust: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "acm", required: false, type: .structure), 
+            AWSShapeMember(label: "file", required: false, type: .structure)
+        ]
+
+        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
+        public let acm: TlsValidationContextAcmTrust?
+        /// An object that represents a TLS validation context trust for a local file.
+        public let file: TlsValidationContextFileTrust?
+
+        public init(acm: TlsValidationContextAcmTrust? = nil, file: TlsValidationContextFileTrust? = nil) {
+            self.acm = acm
+            self.file = file
+        }
+
+        public func validate(name: String) throws {
+            try self.acm?.validate(name: "\(name).acm")
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acm = "acm"
+            case file = "file"
+        }
+    }
+
     public struct UntagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string), 
@@ -2718,6 +3193,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "routeName", location: .uri(locationName: "routeName"), required: true, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
@@ -2728,6 +3204,9 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the route resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The name of the route to update.
         public let routeName: String
         /// The new route specification to apply. This overwrites the existing data.
@@ -2735,9 +3214,10 @@ extension AppMesh {
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
 
-        public init(clientToken: String? = UpdateRouteInput.idempotencyToken(), meshName: String, routeName: String, spec: RouteSpec, virtualRouterName: String) {
+        public init(clientToken: String? = UpdateRouteInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, routeName: String, spec: RouteSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.routeName = routeName
             self.spec = spec
             self.virtualRouterName = virtualRouterName
@@ -2746,6 +3226,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try validate(self.routeName, name:"routeName", parent: name, max: 255)
             try validate(self.routeName, name:"routeName", parent: name, min: 1)
             try self.spec.validate(name: "\(name).spec")
@@ -2756,6 +3238,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case routeName = "routeName"
             case spec = "spec"
             case virtualRouterName = "virtualRouterName"
@@ -2785,6 +3268,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"), required: true, type: .string)
         ]
@@ -2794,14 +3278,18 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The new virtual node specification to apply. This overwrites the existing data.
         public let spec: VirtualNodeSpec
         /// The name of the virtual node to update.
         public let virtualNodeName: String
 
-        public init(clientToken: String? = UpdateVirtualNodeInput.idempotencyToken(), meshName: String, spec: VirtualNodeSpec, virtualNodeName: String) {
+        public init(clientToken: String? = UpdateVirtualNodeInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualNodeSpec, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.spec = spec
             self.virtualNodeName = virtualNodeName
         }
@@ -2809,6 +3297,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try self.spec.validate(name: "\(name).spec")
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, max: 255)
             try validate(self.virtualNodeName, name:"virtualNodeName", parent: name, min: 1)
@@ -2817,6 +3307,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case spec = "spec"
             case virtualNodeName = "virtualNodeName"
         }
@@ -2845,6 +3336,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"), required: true, type: .string)
         ]
@@ -2854,14 +3346,18 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The new virtual router specification to apply. This overwrites the existing data.
         public let spec: VirtualRouterSpec
         /// The name of the virtual router to update.
         public let virtualRouterName: String
 
-        public init(clientToken: String? = UpdateVirtualRouterInput.idempotencyToken(), meshName: String, spec: VirtualRouterSpec, virtualRouterName: String) {
+        public init(clientToken: String? = UpdateVirtualRouterInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualRouterSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.spec = spec
             self.virtualRouterName = virtualRouterName
         }
@@ -2869,6 +3365,8 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try self.spec.validate(name: "\(name).spec")
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, max: 255)
             try validate(self.virtualRouterName, name:"virtualRouterName", parent: name, min: 1)
@@ -2877,6 +3375,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case spec = "spec"
             case virtualRouterName = "virtualRouterName"
         }
@@ -2905,6 +3404,7 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "meshName", location: .uri(locationName: "meshName"), required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", location: .querystring(locationName: "meshOwner"), required: false, type: .string), 
             AWSShapeMember(label: "spec", required: true, type: .structure), 
             AWSShapeMember(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"), required: true, type: .string)
         ]
@@ -2914,15 +3414,19 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String?
         /// The new virtual service specification to apply. This overwrites the existing
         ///          data.
         public let spec: VirtualServiceSpec
         /// The name of the virtual service to update.
         public let virtualServiceName: String
 
-        public init(clientToken: String? = UpdateVirtualServiceInput.idempotencyToken(), meshName: String, spec: VirtualServiceSpec, virtualServiceName: String) {
+        public init(clientToken: String? = UpdateVirtualServiceInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualServiceSpec, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
+            self.meshOwner = meshOwner
             self.spec = spec
             self.virtualServiceName = virtualServiceName
         }
@@ -2930,12 +3434,15 @@ extension AppMesh {
         public func validate(name: String) throws {
             try validate(self.meshName, name:"meshName", parent: name, max: 255)
             try validate(self.meshName, name:"meshName", parent: name, min: 1)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, max: 12)
+            try validate(self.meshOwner, name:"meshOwner", parent: name, min: 12)
             try self.spec.validate(name: "\(name).spec")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
             case spec = "spec"
             case virtualServiceName = "virtualServiceName"
         }
@@ -3001,6 +3508,8 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", required: true, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .string), 
             AWSShapeMember(label: "virtualNodeName", required: true, type: .string)
         ]
 
@@ -3008,18 +3517,28 @@ extension AppMesh {
         public let arn: String
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        public let resourceOwner: String
         /// The name of the virtual node.
         public let virtualNodeName: String
 
-        public init(arn: String, meshName: String, virtualNodeName: String) {
+        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, virtualNodeName: String) {
             self.arn = arn
             self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
             self.virtualNodeName = virtualNodeName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
             case virtualNodeName = "virtualNodeName"
         }
     }
@@ -3048,24 +3567,29 @@ extension AppMesh {
 
     public struct VirtualNodeSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "backendDefaults", required: false, type: .structure), 
             AWSShapeMember(label: "backends", required: false, type: .list), 
             AWSShapeMember(label: "listeners", required: false, type: .list), 
             AWSShapeMember(label: "logging", required: false, type: .structure), 
             AWSShapeMember(label: "serviceDiscovery", required: false, type: .structure)
         ]
 
+        /// A reference to an object that represents the defaults for backends.
+        public let backendDefaults: BackendDefaults?
         /// The backends that the virtual node is expected to send outbound traffic to.
         public let backends: [Backend]?
-        /// The listeners that the virtual node is expected to receive inbound traffic from.
+        /// The listener that the virtual node is expected to receive inbound traffic from.
         ///          You can specify one listener.
         public let listeners: [Listener]?
         /// The inbound and outbound access logging information for the virtual node.
         public let logging: Logging?
         /// The service discovery information for the virtual node. If your virtual node does not
-        ///          expect ingress traffic, you can omit this parameter.
+        ///          expect ingress traffic, you can omit this parameter. If you specify a listener,
+        ///          then you must specify service discovery information.
         public let serviceDiscovery: ServiceDiscovery?
 
-        public init(backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
+        public init(backendDefaults: BackendDefaults? = nil, backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
+            self.backendDefaults = backendDefaults
             self.backends = backends
             self.listeners = listeners
             self.logging = logging
@@ -3073,8 +3597,10 @@ extension AppMesh {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backends, name:"backends", parent: name, max: 25)
-            try validate(self.backends, name:"backends", parent: name, min: 0)
+            try self.backendDefaults?.validate(name: "\(name).backendDefaults")
+            try self.backends?.forEach {
+                try $0.validate(name: "\(name).backends[]")
+            }
             try self.listeners?.forEach {
                 try $0.validate(name: "\(name).listeners[]")
             }
@@ -3085,6 +3611,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backendDefaults = "backendDefaults"
             case backends = "backends"
             case listeners = "listeners"
             case logging = "logging"
@@ -3170,6 +3697,8 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", required: true, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .string), 
             AWSShapeMember(label: "virtualRouterName", required: true, type: .string)
         ]
 
@@ -3177,18 +3706,28 @@ extension AppMesh {
         public let arn: String
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        public let resourceOwner: String
         /// The name of the virtual router.
         public let virtualRouterName: String
 
-        public init(arn: String, meshName: String, virtualRouterName: String) {
+        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, virtualRouterName: String) {
             self.arn = arn
             self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
             self.virtualRouterName = virtualRouterName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
             case virtualRouterName = "virtualRouterName"
         }
     }
@@ -3260,17 +3799,26 @@ extension AppMesh {
 
     public struct VirtualServiceBackend: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
         ]
 
+        /// A reference to an object that represents the client policy for a backend.
+        public let clientPolicy: ClientPolicy?
         /// The name of the virtual service that is acting as a virtual node backend.
         public let virtualServiceName: String
 
-        public init(virtualServiceName: String) {
+        public init(clientPolicy: ClientPolicy? = nil, virtualServiceName: String) {
+            self.clientPolicy = clientPolicy
             self.virtualServiceName = virtualServiceName
         }
 
+        public func validate(name: String) throws {
+            try self.clientPolicy?.validate(name: "\(name).clientPolicy")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case clientPolicy = "clientPolicy"
             case virtualServiceName = "virtualServiceName"
         }
     }
@@ -3342,6 +3890,8 @@ extension AppMesh {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string), 
             AWSShapeMember(label: "meshName", required: true, type: .string), 
+            AWSShapeMember(label: "meshOwner", required: true, type: .string), 
+            AWSShapeMember(label: "resourceOwner", required: true, type: .string), 
             AWSShapeMember(label: "virtualServiceName", required: true, type: .string)
         ]
 
@@ -3349,18 +3899,28 @@ extension AppMesh {
         public let arn: String
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
+        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.
+        public let meshOwner: String
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
+        ///                the ID of the mesh owner, or another account that the mesh is shared with. For more information about mesh sharing, see Working with Shared Meshes.
+        public let resourceOwner: String
         /// The name of the virtual service.
         public let virtualServiceName: String
 
-        public init(arn: String, meshName: String, virtualServiceName: String) {
+        public init(arn: String, meshName: String, meshOwner: String, resourceOwner: String, virtualServiceName: String) {
             self.arn = arn
             self.meshName = meshName
+            self.meshOwner = meshOwner
+            self.resourceOwner = resourceOwner
             self.virtualServiceName = virtualServiceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
             case virtualServiceName = "virtualServiceName"
         }
     }

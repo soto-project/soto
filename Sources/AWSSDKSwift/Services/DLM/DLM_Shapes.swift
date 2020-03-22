@@ -79,7 +79,7 @@ extension DLM {
             try validate(self.description, name:"description", parent: name, pattern: "[0-9A-Za-z _-]+")
             try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
             try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 0)
-            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:aws(-[a-z]{1,3}){0,2}:iam::\\d+:role/.*")
             try self.policyDetails.validate(name: "\(name).policyDetails")
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
@@ -529,7 +529,7 @@ extension DLM {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 0)
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -559,7 +559,7 @@ extension DLM {
             AWSShapeMember(label: "ExcludeBootVolume", required: false, type: .boolean)
         ]
 
-        /// When executing an EBS Snapshot Management – Instance policy, execute all CreateSnapshots calls with the excludeBootVolume set to the supplied field. Defaults to false. Only valid for EBS Snapshot Management – Instance policies.
+        /// [EBS Snapshot Management – Instance policies only] Indicates whether to exclude the root volume from snapshots created using CreateSnapshots. The default is false.
         public let excludeBootVolume: Bool?
 
         public init(excludeBootVolume: Bool? = nil) {
@@ -580,9 +580,9 @@ extension DLM {
             AWSShapeMember(label: "TargetTags", required: false, type: .list)
         ]
 
-        /// A set of optional parameters that can be provided by the policy. 
+        /// A set of optional parameters for the policy. 
         public let parameters: Parameters?
-        /// This field determines the valid target resource types and actions a policy can manage. This field defaults to EBS_SNAPSHOT_MANAGEMENT if not present.
+        /// The valid target resource types and actions a policy can manage. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
         /// The resource type.
         public let resourceTypes: [ResourceTypeValues]?
@@ -711,12 +711,12 @@ extension DLM {
             try self.tagsToAdd?.forEach {
                 try $0.validate(name: "\(name).tagsToAdd[]")
             }
-            try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
+            try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, max: 45)
             try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
             try self.variableTags?.forEach {
                 try $0.validate(name: "\(name).variableTags[]")
             }
-            try validate(self.variableTags, name:"variableTags", parent: name, max: 50)
+            try validate(self.variableTags, name:"variableTags", parent: name, max: 45)
             try validate(self.variableTags, name:"variableTags", parent: name, min: 0)
         }
 
@@ -782,7 +782,7 @@ extension DLM {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 0)
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
             try self.tags.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -825,7 +825,7 @@ extension DLM {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 0)
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -883,7 +883,7 @@ extension DLM {
             try validate(self.description, name:"description", parent: name, pattern: "[0-9A-Za-z _-]+")
             try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
             try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 0)
-            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:aws(-[a-z]{1,3}){0,2}:iam::\\d+:role/.*")
             try self.policyDetails?.validate(name: "\(name).policyDetails")
             try validate(self.policyId, name:"policyId", parent: name, max: 64)
             try validate(self.policyId, name:"policyId", parent: name, min: 0)

@@ -225,7 +225,8 @@ extension S3Control {
             AWSShapeMember(label: "Operation", required: true, type: .structure), 
             AWSShapeMember(label: "Priority", required: true, type: .integer), 
             AWSShapeMember(label: "Report", required: true, type: .structure), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string)
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
         public let accountId: String
@@ -245,8 +246,10 @@ extension S3Control {
         public let report: JobReport
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
+        /// An optional set of tags to associate with the job when it is created.
+        public let tags: [S3Tag]?
 
-        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String) {
+        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
             self.confirmationRequired = confirmationRequired
@@ -256,6 +259,7 @@ extension S3Control {
             self.priority = priority
             self.report = report
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -271,6 +275,9 @@ extension S3Control {
             try self.report.validate(name: "\(name).report")
             try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -283,6 +290,7 @@ extension S3Control {
             case priority = "Priority"
             case report = "Report"
             case roleArn = "RoleArn"
+            case tags = "Tags"
         }
     }
 
@@ -357,6 +365,42 @@ extension S3Control {
             case accountId = "x-amz-account-id"
             case name = "name"
         }
+    }
+
+    public struct DeleteJobTaggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+
+        /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to remove tags from.
+        public let accountId: String
+        /// The ID for the job whose tags you want to delete.
+        public let jobId: String
+
+        public init(accountId: String, jobId: String) {
+            self.accountId = accountId
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.jobId, name:"jobId", parent: name, max: 36)
+            try validate(self.jobId, name:"jobId", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobId = "id"
+        }
+    }
+
+    public struct DeleteJobTaggingResult: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePublicAccessBlockRequest: AWSShape {
@@ -580,6 +624,51 @@ extension S3Control {
             case networkOrigin = "NetworkOrigin"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct GetJobTaggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+
+        /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to retrieve tags for.
+        public let accountId: String
+        /// The ID for the job whose tags you want to retrieve.
+        public let jobId: String
+
+        public init(accountId: String, jobId: String) {
+            self.accountId = accountId
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.jobId, name:"jobId", parent: name, max: 36)
+            try validate(self.jobId, name:"jobId", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobId = "id"
+        }
+    }
+
+    public struct GetJobTaggingResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The set of tags associated with the job.
+        public let tags: [S3Tag]?
+
+        public init(tags: [S3Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -1216,6 +1305,50 @@ extension S3Control {
             case name = "name"
             case policy = "Policy"
         }
+    }
+
+    public struct PutJobTaggingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .header(locationName: "x-amz-account-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The account ID for the Amazon Web Services account associated with the Amazon S3 batch operations job you want to replace tags on.
+        public let accountId: String
+        /// The ID for the job whose tags you want to replace.
+        public let jobId: String
+        /// The set of tags to associate with the job.
+        public let tags: [S3Tag]
+
+        public init(accountId: String, jobId: String, tags: [S3Tag]) {
+            self.accountId = accountId
+            self.jobId = jobId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 64)
+            try validate(self.jobId, name:"jobId", parent: name, max: 36)
+            try validate(self.jobId, name:"jobId", parent: name, min: 5)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "x-amz-account-id"
+            case jobId = "id"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutJobTaggingResult: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct PutPublicAccessBlockRequest: AWSShape {

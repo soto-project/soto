@@ -22,12 +22,13 @@ class IAMTests: XCTestCase {
     class TestData {
         let userName: String
         let client: IAM
-        
+
         init(_ testName: String, client: IAM) throws {
             let testName = testName.lowercased().filter { return $0.isLetter }
             self.client = client
             self.userName = "\(testName)-user"
 
+            print("CreateUserRequest")
             let request = IAM.CreateUserRequest(userName: self.userName)
             do {
                 let response = try client.createUser(request).wait()
@@ -36,7 +37,7 @@ class IAMTests: XCTestCase {
                 print("User (\(self.userName)) already exists")
             }
         }
-        
+
         deinit {
             attempt {
                 let request = IAM.DeleteUserRequest(userName: self.userName)
@@ -46,7 +47,7 @@ class IAMTests: XCTestCase {
     }
 
     //MARK: TESTS
-    
+
     func testCreateDeleteUser() {
         attempt {
             let testData = try TestData(#function, client: client)
@@ -79,20 +80,22 @@ class IAMTests: XCTestCase {
                         }
                         """
             policyDocument = policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            print("GetUser")
             let getUserRequest = IAM.GetUserRequest(userName: testData.userName)
             let getUserResponse = try client.getUser(getUserRequest).wait()
-            
+            print("PutUserPolicy")
             let putRequest = IAM.PutUserPolicyRequest(policyDocument: policyDocument, policyName: "testSimulatePolicy", userName: getUserResponse.user.userName)
             _ = try client.putUserPolicy(putRequest).wait()
-            
+
+            print("GetUserPolicy")
             let getRequest = IAM.GetUserPolicyRequest(policyName: "testSimulatePolicy", userName: getUserResponse.user.userName)
             let getResponse = try client.getUserPolicy(getRequest).wait()
-            
+
             XCTAssertEqual(getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
         }
 
     }
-    
+
     static var allTests : [(String, (IAMTests) -> () throws -> Void)] {
         return [
             ("testCreateDeleteUser", testCreateDeleteUser),

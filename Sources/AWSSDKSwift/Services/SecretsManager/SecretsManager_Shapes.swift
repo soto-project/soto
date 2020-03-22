@@ -101,9 +101,9 @@ extension SecretsManager {
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 0)
             try validate(self.name, name:"name", parent: name, max: 512)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 10240)
+            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 65536)
             try validate(self.secretBinary, name:"secretBinary", parent: name, min: 0)
-            try validate(self.secretString, name:"secretString", parent: name, max: 10240)
+            try validate(self.secretString, name:"secretString", parent: name, max: 65536)
             try validate(self.secretString, name:"secretString", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -307,6 +307,7 @@ extension SecretsManager {
         public let lastRotatedDate: TimeStamp?
         /// The user-provided friendly name of the secret.
         public let name: String?
+        /// Returns the name of the service that created this secret.
         public let owningService: String?
         /// Specifies whether automatic rotation is enabled for this secret. To enable rotation, use RotateSecret with AutomaticallyRotateAfterDays set to a value greater than 0. To disable rotation, use CancelRotateSecret.
         public let rotationEnabled: Bool?
@@ -768,11 +769,11 @@ extension SecretsManager {
         public func validate(name: String) throws {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 32)
-            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 10240)
+            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 65536)
             try validate(self.secretBinary, name:"secretBinary", parent: name, min: 0)
             try validate(self.secretId, name:"secretId", parent: name, max: 2048)
             try validate(self.secretId, name:"secretId", parent: name, min: 1)
-            try validate(self.secretString, name:"secretString", parent: name, max: 10240)
+            try validate(self.secretString, name:"secretString", parent: name, max: 65536)
             try validate(self.secretString, name:"secretString", parent: name, min: 0)
             try self.versionStages?.forEach {
                 try validate($0, name: "versionStages[]", parent: name, max: 256)
@@ -992,8 +993,9 @@ extension SecretsManager {
         public let lastRotatedDate: TimeStamp?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod. 
         public let name: String?
+        /// Returns the name of the service that created the secret.
         public let owningService: String?
-        /// Indicated whether automatic, scheduled rotation is enabled for this secret.
+        /// Indicates whether automatic, scheduled rotation is enabled for this secret.
         public let rotationEnabled: Bool?
         /// The ARN of an AWS Lambda function that's invoked by Secrets Manager to rotate and expire the secret either automatically per the schedule or manually by a call to RotateSecret.
         public let rotationLambdaARN: String?
@@ -1199,11 +1201,11 @@ extension SecretsManager {
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 0)
-            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 10240)
+            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 65536)
             try validate(self.secretBinary, name:"secretBinary", parent: name, min: 0)
             try validate(self.secretId, name:"secretId", parent: name, max: 2048)
             try validate(self.secretId, name:"secretId", parent: name, min: 1)
-            try validate(self.secretString, name:"secretString", parent: name, max: 10240)
+            try validate(self.secretString, name:"secretString", parent: name, max: 65536)
             try validate(self.secretString, name:"secretString", parent: name, min: 0)
         }
 

@@ -129,7 +129,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: TimeStamp
-        /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
 
         public init(activityArn: String, creationDate: TimeStamp, name: String) {
@@ -283,7 +283,7 @@ extension SFN {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
@@ -341,15 +341,15 @@ extension SFN {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
-        /// Defines what execution history events are logged and where they are logged.
+        /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the AWS Step Functions User Guide. 
         public let loggingConfiguration: LoggingConfiguration?
-        /// The name of the state machine.  A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state machine.  A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
         public let roleArn: String
         /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
-        /// Determines whether a Standard or Express state machine is created. If not set, Standard is created.
+        /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
         public let `type`: StateMachineType?
 
         public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, tags: [Tag]? = nil, type: StateMachineType? = nil) {
@@ -499,7 +499,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: TimeStamp
-        /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
 
         public init(activityArn: String, creationDate: TimeStamp, name: String) {
@@ -549,11 +549,11 @@ extension SFN {
             AWSShapeMember(label: "stopDate", required: false, type: .timestamp)
         ]
 
-        /// The Amazon Resource Name (ARN) that identifies the execution.
+        /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
         /// The string that contains the JSON input data of the execution.
         public let input: String
-        /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The JSON output data of the execution.  This field is set only if the execution succeeds. If the execution fails, this field is null. 
         public let output: String?
@@ -614,6 +614,7 @@ extension SFN {
     public struct DescribeStateMachineForExecutionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "loggingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
@@ -622,6 +623,7 @@ extension SFN {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine associated with the execution.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the execution. 
@@ -631,8 +633,9 @@ extension SFN {
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: TimeStamp
 
-        public init(definition: String, name: String, roleArn: String, stateMachineArn: String, updateDate: TimeStamp) {
+        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, updateDate: TimeStamp) {
             self.definition = definition
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
@@ -641,6 +644,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case roleArn = "roleArn"
             case stateMachineArn = "stateMachineArn"
@@ -687,7 +691,7 @@ extension SFN {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
         public let loggingConfiguration: LoggingConfiguration?
-        /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
         public let roleArn: String
@@ -695,6 +699,7 @@ extension SFN {
         public let stateMachineArn: String
         /// The current status of the state machine.
         public let status: StateMachineStatus?
+        /// The type of the state machine (STANDARD or EXPRESS).
         public let `type`: StateMachineType
 
         public init(creationDate: TimeStamp, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, type: StateMachineType) {
@@ -774,9 +779,9 @@ extension SFN {
             AWSShapeMember(label: "stopDate", required: false, type: .timestamp)
         ]
 
-        /// The Amazon Resource Name (ARN) that identifies the execution.
+        /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
-        /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The date the execution started.
         public let startDate: TimeStamp
@@ -1520,9 +1525,9 @@ extension SFN {
             AWSShapeMember(label: "level", required: false, type: .enum)
         ]
 
-        /// An object that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
+        /// An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
         public let destinations: [LogDestination]?
-        /// Determines whether execution history data is included in your log. When set to FALSE, data is excluded.
+        /// Determines whether execution data is included in your log. When set to FALSE, data is excluded.
         public let includeExecutionData: Bool?
         /// Defines which category of execution history events are logged.
         public let level: LogLevel?
@@ -1704,7 +1709,7 @@ extension SFN {
 
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
         public let input: String?
-        /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
@@ -1736,7 +1741,7 @@ extension SFN {
             AWSShapeMember(label: "startDate", required: true, type: .timestamp)
         ]
 
-        /// The Amazon Resource Name (ARN) that identifies the execution.
+        /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
         /// The date the execution is started.
         public let startDate: TimeStamp
@@ -1780,7 +1785,7 @@ extension SFN {
             AWSShapeMember(label: "output", required: false, type: .string)
         ]
 
-        /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The JSON output data of the state.
         public let output: String?
@@ -1806,7 +1811,7 @@ extension SFN {
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
-        /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
@@ -2237,6 +2242,7 @@ extension SFN {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
+        /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
         public let loggingConfiguration: LoggingConfiguration?
         /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
         public let roleArn: String?

@@ -9,8 +9,10 @@ public enum GlobalAcceleratorErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case associatedEndpointGroupFoundException(message: String?)
     case associatedListenerFoundException(message: String?)
+    case byoipCidrNotFoundException(message: String?)
     case endpointGroupAlreadyExistsException(message: String?)
     case endpointGroupNotFoundException(message: String?)
+    case incorrectCidrStateException(message: String?)
     case internalServiceErrorException(message: String?)
     case invalidArgumentException(message: String?)
     case invalidNextTokenException(message: String?)
@@ -36,10 +38,14 @@ extension GlobalAcceleratorErrorType {
             self = .associatedEndpointGroupFoundException(message: message)
         case "AssociatedListenerFoundException":
             self = .associatedListenerFoundException(message: message)
+        case "ByoipCidrNotFoundException":
+            self = .byoipCidrNotFoundException(message: message)
         case "EndpointGroupAlreadyExistsException":
             self = .endpointGroupAlreadyExistsException(message: message)
         case "EndpointGroupNotFoundException":
             self = .endpointGroupNotFoundException(message: message)
+        case "IncorrectCidrStateException":
+            self = .incorrectCidrStateException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
         case "InvalidArgumentException":
@@ -71,10 +77,14 @@ extension GlobalAcceleratorErrorType : CustomStringConvertible {
             return "AssociatedEndpointGroupFoundException: \(message ?? "")"
         case .associatedListenerFoundException(let message):
             return "AssociatedListenerFoundException: \(message ?? "")"
+        case .byoipCidrNotFoundException(let message):
+            return "ByoipCidrNotFoundException: \(message ?? "")"
         case .endpointGroupAlreadyExistsException(let message):
             return "EndpointGroupAlreadyExistsException: \(message ?? "")"
         case .endpointGroupNotFoundException(let message):
             return "EndpointGroupNotFoundException: \(message ?? "")"
+        case .incorrectCidrStateException(let message):
+            return "IncorrectCidrStateException: \(message ?? "")"
         case .internalServiceErrorException(let message):
             return "InternalServiceErrorException: \(message ?? "")"
         case .invalidArgumentException(let message):

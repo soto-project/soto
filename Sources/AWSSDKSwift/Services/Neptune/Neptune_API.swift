@@ -69,7 +69,7 @@ public struct Neptune {
         return client.send(operation: "CopyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can't copy from one AWS Region to another.
+    ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot.
     public func copyDBClusterSnapshot(_ input: CopyDBClusterSnapshotMessage) -> EventLoopFuture<CopyDBClusterSnapshotResult> {
         return client.send(operation: "CopyDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -79,7 +79,7 @@ public struct Neptune {
         return client.send(operation: "CopyDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance.
+    ///  Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new production cluster in the console, deletion protection is enabled by default). You can only delete a DB cluster if its DeletionProtection field is set to false.
     public func createDBCluster(_ input: CreateDBClusterMessage) -> EventLoopFuture<CreateDBClusterResult> {
         return client.send(operation: "CreateDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -114,7 +114,7 @@ public struct Neptune {
         return client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.
+    ///  The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. Note that the DB Cluster cannot be deleted if deletion protection is enabled. To delete it, you must first set its DeletionProtection field to False.
     public func deleteDBCluster(_ input: DeleteDBClusterMessage) -> EventLoopFuture<DeleteDBClusterResult> {
         return client.send(operation: "DeleteDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -129,7 +129,7 @@ public struct Neptune {
         return client.send(operation: "DeleteDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted. Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when the SkipFinalSnapshot parameter is set to true. You can't delete a DB instance if it is the only instance in the DB cluster.
+    ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted. Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when the SkipFinalSnapshot parameter is set to true. You can't delete a DB instance if it is the only instance in the DB cluster, or if it has deletion protection enabled.
     public func deleteDBInstance(_ input: DeleteDBInstanceMessage) -> EventLoopFuture<DeleteDBInstanceResult> {
         return client.send(operation: "DeleteDBInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -169,7 +169,7 @@ public struct Neptune {
         return client.send(operation: "DescribeDBClusterSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about provisioned DB clusters. This API supports pagination.
+    ///  Returns information about provisioned DB clusters, and supports pagination.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters. 
     public func describeDBClusters(_ input: DescribeDBClustersMessage) -> EventLoopFuture<DBClusterMessage> {
         return client.send(operation: "DescribeDBClusters", path: "/", httpMethod: "POST", input: input)
     }
@@ -179,7 +179,7 @@ public struct Neptune {
         return client.send(operation: "DescribeDBEngineVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about provisioned instances. This API supports pagination.
+    ///  Returns information about provisioned instances, and supports pagination.  This operation can also return information for Amazon RDS instances and Amazon DocDB instances. 
     public func describeDBInstances(_ input: DescribeDBInstancesMessage) -> EventLoopFuture<DBInstanceMessage> {
         return client.send(operation: "DescribeDBInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -327,5 +327,15 @@ public struct Neptune {
     ///  Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available. 
     public func restoreDBClusterToPointInTime(_ input: RestoreDBClusterToPointInTimeMessage) -> EventLoopFuture<RestoreDBClusterToPointInTimeResult> {
         return client.send(operation: "RestoreDBClusterToPointInTime", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an Amazon Neptune DB cluster that was stopped using the AWS console, the AWS CLI stop-db-cluster command, or the StopDBCluster API.
+    public func startDBCluster(_ input: StartDBClusterMessage) -> EventLoopFuture<StartDBClusterResult> {
+        return client.send(operation: "StartDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops an Amazon Neptune DB cluster. When you stop a DB cluster, Neptune retains the DB cluster's metadata, including its endpoints and DB parameter groups. Neptune also retains the transaction logs so you can do a point-in-time restore if necessary.
+    public func stopDBCluster(_ input: StopDBClusterMessage) -> EventLoopFuture<StopDBClusterResult> {
+        return client.send(operation: "StopDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 }

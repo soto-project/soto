@@ -6,6 +6,12 @@ import AWSSDKSwiftCore
 extension CloudWatch {
     //MARK: Enums
 
+    public enum AlarmType: String, CustomStringConvertible, Codable {
+        case compositealarm = "CompositeAlarm"
+        case metricalarm = "MetricAlarm"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable {
         case pendingTraining = "PENDING_TRAINING"
         case trainedInsufficientData = "TRAINED_INSUFFICIENT_DATA"
@@ -96,6 +102,7 @@ extension CloudWatch {
     public struct AlarmHistoryItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmType", required: false, type: .enum), 
             AWSShapeMember(label: "HistoryData", required: false, type: .string), 
             AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
             AWSShapeMember(label: "HistorySummary", required: false, type: .string), 
@@ -104,6 +111,8 @@ extension CloudWatch {
 
         /// The descriptive name for the alarm.
         public let alarmName: String?
+        /// The type of alarm, either metric alarm or composite alarm.
+        public let alarmType: AlarmType?
         /// Data about the alarm, in JSON format.
         public let historyData: String?
         /// The type of alarm history item.
@@ -113,8 +122,9 @@ extension CloudWatch {
         /// The time stamp for the alarm history item.
         public let timestamp: TimeStamp?
 
-        public init(alarmName: String? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: TimeStamp? = nil) {
+        public init(alarmName: String? = nil, alarmType: AlarmType? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: TimeStamp? = nil) {
             self.alarmName = alarmName
+            self.alarmType = alarmType
             self.historyData = historyData
             self.historyItemType = historyItemType
             self.historySummary = historySummary
@@ -123,6 +133,7 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case alarmName = "AlarmName"
+            case alarmType = "AlarmType"
             case historyData = "HistoryData"
             case historyItemType = "HistoryItemType"
             case historySummary = "HistorySummary"
@@ -191,6 +202,83 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case excludedTimeRanges = "ExcludedTimeRanges"
             case metricTimezone = "MetricTimezone"
+        }
+    }
+
+    public struct CompositeAlarm: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmActions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "AlarmArn", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmRule", required: false, type: .string), 
+            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OKActions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StateReason", required: false, type: .string), 
+            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
+            AWSShapeMember(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum)
+        ]
+
+        /// Indicates whether actions should be executed during any changes to the alarm state.
+        public let actionsEnabled: Bool?
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public let alarmActions: [String]?
+        /// The Amazon Resource Name (ARN) of the alarm.
+        public let alarmArn: String?
+        /// The time stamp of the last update to the alarm configuration.
+        public let alarmConfigurationUpdatedTimestamp: TimeStamp?
+        /// The description of the alarm.
+        public let alarmDescription: String?
+        /// The name of the alarm.
+        public let alarmName: String?
+        /// The rule that this alarm uses to evaluate its alarm state.
+        public let alarmRule: String?
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public let insufficientDataActions: [String]?
+        /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+        public let oKActions: [String]?
+        /// An explanation for the alarm state, in text format.
+        public let stateReason: String?
+        /// An explanation for the alarm state, in JSON format.
+        public let stateReasonData: String?
+        /// The time stamp of the last update to the alarm state.
+        public let stateUpdatedTimestamp: TimeStamp?
+        /// The state value for the alarm.
+        public let stateValue: StateValue?
+
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, oKActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateUpdatedTimestamp: TimeStamp? = nil, stateValue: StateValue? = nil) {
+            self.actionsEnabled = actionsEnabled
+            self.alarmActions = alarmActions
+            self.alarmArn = alarmArn
+            self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
+            self.alarmDescription = alarmDescription
+            self.alarmName = alarmName
+            self.alarmRule = alarmRule
+            self.insufficientDataActions = insufficientDataActions
+            self.oKActions = oKActions
+            self.stateReason = stateReason
+            self.stateReasonData = stateReasonData
+            self.stateUpdatedTimestamp = stateUpdatedTimestamp
+            self.stateValue = stateValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsEnabled = "ActionsEnabled"
+            case alarmActions = "AlarmActions"
+            case alarmArn = "AlarmArn"
+            case alarmConfigurationUpdatedTimestamp = "AlarmConfigurationUpdatedTimestamp"
+            case alarmDescription = "AlarmDescription"
+            case alarmName = "AlarmName"
+            case alarmRule = "AlarmRule"
+            case insufficientDataActions = "InsufficientDataActions"
+            case oKActions = "OKActions"
+            case stateReason = "StateReason"
+            case stateReasonData = "StateReasonData"
+            case stateUpdatedTimestamp = "StateUpdatedTimestamp"
+            case stateValue = "StateValue"
         }
     }
 
@@ -447,15 +535,19 @@ extension CloudWatch {
     public struct DescribeAlarmHistoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EndDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScanBy", required: false, type: .enum), 
             AWSShapeMember(label: "StartDate", required: false, type: .timestamp)
         ]
 
         /// The name of the alarm.
         public let alarmName: String?
+        /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
+        public let alarmTypes: [AlarmType]?
         /// The ending date to retrieve alarm history.
         public let endDate: TimeStamp?
         /// The type of alarm histories to retrieve.
@@ -464,15 +556,19 @@ extension CloudWatch {
         public let maxRecords: Int?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
+        /// Specified whether to return the newest or oldest alarm history first. Specify TimestampDescending to have the newest event history returned first, and specify TimestampAscending to have the oldest history returned first.
+        public let scanBy: ScanBy?
         /// The starting date to retrieve alarm history.
         public let startDate: TimeStamp?
 
-        public init(alarmName: String? = nil, endDate: TimeStamp? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, startDate: TimeStamp? = nil) {
+        public init(alarmName: String? = nil, alarmTypes: [AlarmType]? = nil, endDate: TimeStamp? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startDate: TimeStamp? = nil) {
             self.alarmName = alarmName
+            self.alarmTypes = alarmTypes
             self.endDate = endDate
             self.historyItemType = historyItemType
             self.maxRecords = maxRecords
             self.nextToken = nextToken
+            self.scanBy = scanBy
             self.startDate = startDate
         }
 
@@ -485,10 +581,12 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case alarmName = "AlarmName"
+            case alarmTypes = "AlarmTypes"
             case endDate = "EndDate"
             case historyItemType = "HistoryItemType"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
+            case scanBy = "ScanBy"
             case startDate = "StartDate"
         }
     }
@@ -598,30 +696,42 @@ extension CloudWatch {
             AWSShapeMember(label: "ActionPrefix", required: false, type: .string), 
             AWSShapeMember(label: "AlarmNamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "AlarmNames", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "AlarmTypes", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ChildrenOfAlarmName", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ParentsOfAlarmName", required: false, type: .string), 
             AWSShapeMember(label: "StateValue", required: false, type: .enum)
         ]
 
-        /// The action name prefix.
+        /// Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
         public let actionPrefix: String?
-        /// The alarm name prefix. If this parameter is specified, you cannot specify AlarmNames.
+        /// An alarm name prefix. If you specify this parameter, you receive information about all alarms that have names that start with this prefix. If this parameter is specified, you cannot specify AlarmNames.
         public let alarmNamePrefix: String?
-        /// The names of the alarms.
+        /// The names of the alarms to retrieve information about.
         public let alarmNames: [String]?
+        /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
+        public let alarmTypes: [AlarmType]?
+        /// If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you will receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter. 
+        public let childrenOfAlarmName: String?
         /// The maximum number of alarm descriptions to retrieve.
         public let maxRecords: Int?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
-        /// The state value to be used in matching alarms.
+        /// If you use this parameter and specify the name of a metric or composite alarm, the operation returns information about the "parent" alarms of the alarm you specify. These are the composite alarms that have AlarmRule parameters that reference the alarm named in ParentsOfAlarmName. Information about the alarm that you specify in ParentsOfAlarmName is not returned. If you specify ParentsOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you will receive a validation error.  Only the Alarm Name and ARN are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter. 
+        public let parentsOfAlarmName: String?
+        /// Specify this parameter to receive information only about alarms that are currently in the state that you specify.
         public let stateValue: StateValue?
 
-        public init(actionPrefix: String? = nil, alarmNamePrefix: String? = nil, alarmNames: [String]? = nil, maxRecords: Int? = nil, nextToken: String? = nil, stateValue: StateValue? = nil) {
+        public init(actionPrefix: String? = nil, alarmNamePrefix: String? = nil, alarmNames: [String]? = nil, alarmTypes: [AlarmType]? = nil, childrenOfAlarmName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, parentsOfAlarmName: String? = nil, stateValue: StateValue? = nil) {
             self.actionPrefix = actionPrefix
             self.alarmNamePrefix = alarmNamePrefix
             self.alarmNames = alarmNames
+            self.alarmTypes = alarmTypes
+            self.childrenOfAlarmName = childrenOfAlarmName
             self.maxRecords = maxRecords
             self.nextToken = nextToken
+            self.parentsOfAlarmName = parentsOfAlarmName
             self.stateValue = stateValue
         }
 
@@ -635,37 +745,49 @@ extension CloudWatch {
                 try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
             try validate(self.alarmNames, name:"alarmNames", parent: name, max: 100)
+            try validate(self.childrenOfAlarmName, name:"childrenOfAlarmName", parent: name, max: 255)
+            try validate(self.childrenOfAlarmName, name:"childrenOfAlarmName", parent: name, min: 1)
             try validate(self.maxRecords, name:"maxRecords", parent: name, max: 100)
             try validate(self.maxRecords, name:"maxRecords", parent: name, min: 1)
+            try validate(self.parentsOfAlarmName, name:"parentsOfAlarmName", parent: name, max: 255)
+            try validate(self.parentsOfAlarmName, name:"parentsOfAlarmName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionPrefix = "ActionPrefix"
             case alarmNamePrefix = "AlarmNamePrefix"
             case alarmNames = "AlarmNames"
+            case alarmTypes = "AlarmTypes"
+            case childrenOfAlarmName = "ChildrenOfAlarmName"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
+            case parentsOfAlarmName = "ParentsOfAlarmName"
             case stateValue = "StateValue"
         }
     }
 
     public struct DescribeAlarmsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompositeAlarms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "MetricAlarms", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The information for the specified alarms.
+        /// The information about any composite alarms returned by the operation.
+        public let compositeAlarms: [CompositeAlarm]?
+        /// The information about any metric alarms returned by the operation.
         public let metricAlarms: [MetricAlarm]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
-        public init(metricAlarms: [MetricAlarm]? = nil, nextToken: String? = nil) {
+        public init(compositeAlarms: [CompositeAlarm]? = nil, metricAlarms: [MetricAlarm]? = nil, nextToken: String? = nil) {
+            self.compositeAlarms = compositeAlarms
             self.metricAlarms = metricAlarms
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compositeAlarms = "CompositeAlarms"
             case metricAlarms = "MetricAlarms"
             case nextToken = "NextToken"
         }
@@ -682,7 +804,7 @@ extension CloudWatch {
 
         /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
         public let dimensions: [Dimension]?
-        /// The maximum number of results to return in one operation. The maximum value you can specify is 10. To retrieve the remaining results, make another call with the returned NextToken value. 
+        /// The maximum number of results to return in one operation. The maximum value that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value. 
         public let maxResults: Int?
         /// Limits the results to only the anomaly detection models that are associated with the specified metric name. If there are multiple metrics with this name in different namespaces that have anomaly detection models, they're all returned.
         public let metricName: String?
@@ -1010,7 +1132,7 @@ extension CloudWatch {
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
-        /// The detailed information about the dashboard, including what widgets are included and their location on the dashboard. For more information about the DashboardBody syntax, see CloudWatch-Dashboard-Body-Structure. 
+        /// The detailed information about the dashboard, including what widgets are included and their location on the dashboard. For more information about the DashboardBody syntax, see Dashboard Body Structure and Syntax. 
         public let dashboardBody: String?
         /// The name of the dashboard.
         public let dashboardName: String?
@@ -1146,7 +1268,7 @@ extension CloudWatch {
         public let endTime: TimeStamp
         /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
         public let maxDatapoints: Int?
-        /// The metric queries to be returned. A single GetMetricData call can include as many as 100 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data. 
+        /// The metric queries to be returned. A single GetMetricData call can include as many as 500 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data. 
         public let metricDataQueries: [MetricDataQuery]
         /// Include this value, if it was returned by the previous call, to get the next set of data points.
         public let nextToken: String?
@@ -1312,7 +1434,7 @@ extension CloudWatch {
             AWSShapeMember(label: "OutputFormat", required: false, type: .string)
         ]
 
-        /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see CloudWatch-Metric-Widget-Structure. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
+        /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
         public let metricWidget: String
         /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:   &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;    &lt;GetMetricWidgetImageResult&gt;    &lt;MetricWidgetImage&gt;    iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...    &lt;/MetricWidgetImage&gt;    &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;    &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;    &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an AWS SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image. 
         public let outputFormat: String?
@@ -1853,7 +1975,7 @@ extension CloudWatch {
         public let label: String?
         /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let metricStat: MetricStat?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second. If you are performing a GetMetricData operation, use this field only if you are specifying an Expression. Do not use this field when you are specifying a MetricStat in a GetMetricData operation.
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second.
         public let period: Int?
         /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public let returnData: Bool?
@@ -2121,13 +2243,92 @@ extension CloudWatch {
 
     }
 
+    public struct PutCompositeAlarmInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmActions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
+            AWSShapeMember(label: "AlarmRule", required: true, type: .string), 
+            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "OKActions", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE.
+        public let actionsEnabled: Bool?
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name  
+        public let alarmActions: [String]?
+        /// The description for the composite alarm.
+        public let alarmDescription: String?
+        /// The name for the composite alarm. This name must be unique within your AWS account.
+        public let alarmName: String
+        /// An expression that specifies which other alarms are to be evaluated to determine this composite alarm's state. For each alarm that you reference, you designate a function that specifies whether that alarm needs to be in ALARM state, OK state, or INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine multiple functions in a single expression. You can use parenthesis to logically group the functions in your expression. You can use either alarm names or ARNs to reference the other alarms that are to be evaluated. Functions can include the following:    ALARM("alarm-name or alarm-ARN") is TRUE if the named alarm is in ALARM state.    OK("alarm-name or alarm-ARN") is TRUE if the named alarm is in OK state.    INSUFFICIENT_DATA("alarm-name or alarm-ARN") is TRUE if the named alarm is in INSUFFICIENT_DATA state.    TRUE always evaluates to TRUE.    FALSE always evaluates to FALSE.   TRUE and FALSE are useful for testing a complex AlarmRule structure, and for testing your alarm actions. Alarm names specified in AlarmRule can be surrounded with double-quotes ("), but do not have to be. The following are some examples of AlarmRule:    ALARM(CPUUtilizationTooHigh) AND ALARM(DiskReadOpsTooHigh) specifies that the composite alarm goes into ALARM state only if both CPUUtilizationTooHigh and DiskReadOpsTooHigh alarms are in ALARM state.    ALARM(CPUUtilizationTooHigh) AND NOT ALARM(DeploymentInProgress) specifies that the alarm goes to ALARM state if CPUUtilizationTooHigh is in ALARM state and DeploymentInProgress is not in ALARM state. This example reduces alarm noise during a known deployment window.    (ALARM(CPUUtilizationTooHigh) OR ALARM(DiskReadOpsTooHigh)) AND OK(NetworkOutTooHigh) goes into ALARM state if CPUUtilizationTooHigh OR DiskReadOpsTooHigh is in ALARM state, and if NetworkOutTooHigh is in OK state. This provides another example of using a composite alarm to prevent noise. This rule ensures that you are not notified with an alarm action on high CPU or disk usage if a known network problem is also occurring.   The AlarmRule can specify as many as 100 "children" alarms. The AlarmRule expression can have as many as 500 elements. Elements are child alarms, TRUE or FALSE statements, and parentheses.
+        public let alarmRule: String
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name  
+        public let insufficientDataActions: [String]?
+        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name  
+        public let oKActions: [String]?
+        /// A list of key-value pairs to associate with the composite alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
+        public let tags: [Tag]?
+
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, alarmRule: String, insufficientDataActions: [String]? = nil, oKActions: [String]? = nil, tags: [Tag]? = nil) {
+            self.actionsEnabled = actionsEnabled
+            self.alarmActions = alarmActions
+            self.alarmDescription = alarmDescription
+            self.alarmName = alarmName
+            self.alarmRule = alarmRule
+            self.insufficientDataActions = insufficientDataActions
+            self.oKActions = oKActions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.alarmActions?.forEach {
+                try validate($0, name: "alarmActions[]", parent: name, max: 1024)
+                try validate($0, name: "alarmActions[]", parent: name, min: 1)
+            }
+            try validate(self.alarmActions, name:"alarmActions", parent: name, max: 5)
+            try validate(self.alarmDescription, name:"alarmDescription", parent: name, max: 1024)
+            try validate(self.alarmDescription, name:"alarmDescription", parent: name, min: 0)
+            try validate(self.alarmName, name:"alarmName", parent: name, max: 255)
+            try validate(self.alarmName, name:"alarmName", parent: name, min: 1)
+            try validate(self.alarmRule, name:"alarmRule", parent: name, max: 10240)
+            try validate(self.alarmRule, name:"alarmRule", parent: name, min: 1)
+            try self.insufficientDataActions?.forEach {
+                try validate($0, name: "insufficientDataActions[]", parent: name, max: 1024)
+                try validate($0, name: "insufficientDataActions[]", parent: name, min: 1)
+            }
+            try validate(self.insufficientDataActions, name:"insufficientDataActions", parent: name, max: 5)
+            try self.oKActions?.forEach {
+                try validate($0, name: "oKActions[]", parent: name, max: 1024)
+                try validate($0, name: "oKActions[]", parent: name, min: 1)
+            }
+            try validate(self.oKActions, name:"oKActions", parent: name, max: 5)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsEnabled = "ActionsEnabled"
+            case alarmActions = "AlarmActions"
+            case alarmDescription = "AlarmDescription"
+            case alarmName = "AlarmName"
+            case alarmRule = "AlarmRule"
+            case insufficientDataActions = "InsufficientDataActions"
+            case oKActions = "OKActions"
+            case tags = "Tags"
+        }
+    }
+
     public struct PutDashboardInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DashboardBody", required: true, type: .string), 
             AWSShapeMember(label: "DashboardName", required: true, type: .string)
         ]
 
-        /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see CloudWatch-Dashboard-Body-Structure.
+        /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see Dashboard Body Structure and Syntax.
         public let dashboardBody: String
         /// The name of the dashboard. If a dashboard with this name already exists, this call modifies that dashboard, replacing its current contents. Otherwise, a new dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, "-", and "_". This parameter is required.
         public let dashboardName: String
@@ -2235,7 +2436,7 @@ extension CloudWatch {
 
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
         public let actionsEnabled: Bool?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
         public let alarmActions: [String]?
         /// The description for the alarm.
         public let alarmDescription: String?
@@ -2253,7 +2454,7 @@ extension CloudWatch {
         public let evaluationPeriods: Int
         /// The percentile statistic for the metric specified in MetricName. Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
         public let extendedStatistic: String?
-        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
         public let insufficientDataActions: [String]?
         /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
         public let metricName: String?
@@ -2261,7 +2462,7 @@ extension CloudWatch {
         public let metrics: [MetricDataQuery]?
         /// The namespace for the metric associated specified in MetricName.
         public let namespace: String?
-        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-idautoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
+        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 
         public let oKActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm may often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
         public let period: Int?
@@ -2441,7 +2642,7 @@ extension CloudWatch {
         public let alarmName: String
         /// The reason that this alarm is set to this specific state, in text format.
         public let stateReason: String
-        /// The reason that this alarm is set to this specific state, in JSON format.
+        /// The reason that this alarm is set to this specific state, in JSON format. For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto Scaling or application Auto Scaling alarm actions, the Auto Scaling policy uses the information in this field to take the correct action.
         public let stateReasonData: String?
         /// The value of the state.
         public let stateValue: StateValue

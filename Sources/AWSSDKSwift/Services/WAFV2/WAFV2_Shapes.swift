@@ -358,7 +358,7 @@ extension WAFV2 {
             AWSShapeMember(label: "WebACLArn", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For a CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Application Load Balancer: arn:aws:elasticloadbalancing: region:account-id:loadbalancer/app/load-balancer-name /load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region ::/restapis/api-id/stages/stage-name    
+        /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name    
         public let resourceArn: String
         /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate with the resource.
         public let webACLArn: String
@@ -1134,7 +1134,7 @@ extension WAFV2 {
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For a CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Application Load Balancer: arn:aws:elasticloadbalancing: region:account-id:loadbalancer/app/load-balancer-name /load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region ::/restapis/api-id/stages/stage-name    
+        /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name    
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1196,7 +1196,7 @@ extension WAFV2 {
 
         /// Inspect all query arguments. 
         public let allQueryArguments: AllQueryArguments?
-        /// Inspect the request body, which immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to AWS WAF for inspection. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. AWS WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
+        /// Inspect the request body, which immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to AWS WAF for inspection by the underlying host service. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. AWS WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
         public let body: Body?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform. 
         public let method: Method?
@@ -1204,7 +1204,7 @@ extension WAFV2 {
         public let queryString: QueryString?
         /// Inspect a single header. Provide the name of the header to inspect, for example, User-Agent or Referer. This setting isn't case sensitive.
         public let singleHeader: SingleHeader?
-        /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive. 
+        /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive.  This is used only to indicate the web request component for AWS WAF to inspect, in the FieldToMatch specification. 
         public let singleQueryArgument: SingleQueryArgument?
         /// Inspect the request URI path. This is the part of a web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
@@ -2404,7 +2404,7 @@ extension WAFV2 {
             AWSShapeMember(label: "VendorName", required: false, type: .string)
         ]
 
-        /// The description of the managed rule group, provided by AWS or the AWS Marketplace seller who manages it.
+        /// The description of the managed rule group, provided by AWS Managed Rules or the AWS Marketplace seller who manages it.
         public let description: String?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String?

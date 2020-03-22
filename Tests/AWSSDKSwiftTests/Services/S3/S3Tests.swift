@@ -12,7 +12,10 @@ import XCTest
 @testable import S3
 @testable import AWSSDKSwiftCore
 
-// testing xml service
+// testing S3 service
+enum S3TestErrors: Error {
+    case error(String)
+}
 
 class S3Tests: XCTestCase {
 
@@ -20,8 +23,8 @@ class S3Tests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .euwest1,
-        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
-        middlewares: [AWSLoggingMiddleware()]
+        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572"/*,
+        middlewares: [AWSLoggingMiddleware()]*/
     )
 
     class TestData {
@@ -231,7 +234,7 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // uploads 100 files at the same time and then downloads them to check they uploaded correctly
-            var responses : [Future<Void>] = []
+            var responses : [EventLoopFuture<Void>] = []
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
@@ -239,15 +242,15 @@ class S3Tests: XCTestCase {
 
                 let request = S3.PutObjectRequest(body: data, bucket: testData.bucket, key: objectName)
                 let response = client.putObject(request)
-                    .flatMap { (response)->Future<S3.GetObjectOutput> in
+                    .flatMap { (response)->EventLoopFuture<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
                         print("Put \(objectName)")
                         return self.client.getObject(request)
                     }
                     .flatMapThrowing { response in
                         print("Get \(objectName)")
-                        guard let body = response.body else {throw AWSError(message: "Get \(objectName) failed", rawBody: "") }
-                        guard text == String(data: body, encoding: .utf8) else {throw AWSError(message: "Get \(objectName) contents is incorrect", rawBody: "") }
+                        guard let body = response.body else {throw S3TestErrors.error("Get \(objectName) failed") }
+                        guard text == String(data: body, encoding: .utf8) else {throw S3TestErrors.error("Get \(objectName) contents is incorrect") }
                         return
                 }
                 responses.append(response)
@@ -283,7 +286,7 @@ class S3Tests: XCTestCase {
             let testData = try TestData(#function, client: client)
 
             // uploads 16 files
-            var responses : [Future<Void>] = []
+            var responses : [EventLoopFuture<Void>] = []
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"

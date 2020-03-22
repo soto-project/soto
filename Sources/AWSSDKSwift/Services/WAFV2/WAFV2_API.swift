@@ -45,7 +45,7 @@ public struct WAFV2 {
     
     //MARK: API Calls
 
-    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Associates a Web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  For AWS CloudFront, you can associate the Web ACL by providing the Id of the WebACL to the CloudFront API call UpdateDistribution. For information, see UpdateDistribution.
+    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Associates a Web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  For AWS CloudFront, you can associate the Web ACL by providing the ARN of the WebACL to the CloudFront API call UpdateDistribution. For information, see UpdateDistribution.
     public func associateWebACL(_ input: AssociateWebACLRequest) -> EventLoopFuture<AssociateWebACLResponse> {
         return client.send(operation: "AssociateWebACL", path: "/", httpMethod: "POST", input: input)
     }
@@ -60,7 +60,7 @@ public struct WAFV2 {
         return client.send(operation: "CreateIPSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Creates a RegexPatternSet per the specifications provided.
+    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Creates a RegexPatternSet, which you reference in a RegexPatternSetReferenceStatement, to have AWS WAF inspect a web request component for the specified patterns.
     public func createRegexPatternSet(_ input: CreateRegexPatternSetRequest) -> EventLoopFuture<CreateRegexPatternSetResponse> {
         return client.send(operation: "CreateRegexPatternSet", path: "/", httpMethod: "POST", input: input)
     }
@@ -105,7 +105,7 @@ public struct WAFV2 {
         return client.send(operation: "DescribeManagedRuleGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Disassociates a Web ACL from a regional application resource. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  For AWS CloudFront, you can disassociate the Web ACL by providing an empty WebACLId in the CloudFront API call UpdateDistribution. For information, see UpdateDistribution.
+    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Disassociates a Web ACL from a regional application resource. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage.  For AWS CloudFront, you can disassociate the Web ACL by providing an empty web ACL ARN in the CloudFront API call UpdateDistribution. For information, see UpdateDistribution.
     public func disassociateWebACL(_ input: DisassociateWebACLRequest) -> EventLoopFuture<DisassociateWebACLResponse> {
         return client.send(operation: "DisassociateWebACL", path: "/", httpMethod: "POST", input: input)
     }
@@ -150,7 +150,7 @@ public struct WAFV2 {
         return client.send(operation: "GetWebACLForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of managed rule groups that are available for you to use. This list includes all AWS managed rule groups and the AWS Marketplace managed rule groups that you're subscribed to.
+    ///   This is the latest version of AWS WAF, named AWS WAFV2, released in November, 2019. For information, including how to migrate your AWS WAF resources from the prior release, see the AWS WAF Developer Guide.   Retrieves an array of managed rule groups that are available for you to use. This list includes all AWS Managed Rules rule groups and the AWS Marketplace managed rule groups that you're subscribed to.
     public func listAvailableManagedRuleGroups(_ input: ListAvailableManagedRuleGroupsRequest) -> EventLoopFuture<ListAvailableManagedRuleGroupsResponse> {
         return client.send(operation: "ListAvailableManagedRuleGroups", path: "/", httpMethod: "POST", input: input)
     }

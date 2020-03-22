@@ -866,7 +866,7 @@ extension ECR {
             AWSShapeMember(label: "registryIds", required: false, type: .list)
         ]
 
-        /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
+        /// A list of AWS account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
 
         public init(registryIds: [String]? = nil) {

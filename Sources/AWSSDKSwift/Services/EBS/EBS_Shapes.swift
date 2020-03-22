@@ -44,9 +44,9 @@ extension EBS {
 
         /// The block index.
         public let blockIndex: Int?
-        /// The block token for the block index of the first snapshot ID specified in the list changed blocks operation. This value is absent if the first snapshot does not have the changed block that is on the second snapshot.
+        /// The block token for the block index of the FirstSnapshotId specified in the ListChangedBlocks operation. This value is absent if the first snapshot does not have the changed block that is on the second snapshot.
         public let firstBlockToken: String?
-        /// The block token for the block index of the second snapshot ID specified in the list changed blocks operation.
+        /// The block token for the block index of the SecondSnapshotId specified in the ListChangedBlocks operation.
         public let secondBlockToken: String?
 
         public init(blockIndex: Int? = nil, firstBlockToken: String? = nil, secondBlockToken: String? = nil) {
@@ -69,9 +69,9 @@ extension EBS {
             AWSShapeMember(label: "SnapshotId", location: .uri(locationName: "snapshotId"), required: true, type: .string)
         ]
 
-        /// The block index of the block from which to get data. Obtain the block index by running the list changed blocks or list snapshot blocks operations.
+        /// The block index of the block from which to get data. Obtain the BlockIndex by running the ListChangedBlocks or ListSnapshotBlocks operations.
         public let blockIndex: Int
-        /// The block token of the block from which to get data. Obtain the block token by running the list changed blocks or list snapshot blocks operations.
+        /// The block token of the block from which to get data. Obtain the BlockToken by running the ListChangedBlocks or ListSnapshotBlocks operations.
         public let blockToken: String
         /// The ID of the snapshot containing the block from which to get data.
         public let snapshotId: String
@@ -109,7 +109,7 @@ extension EBS {
 
         /// The data content of the block.
         public let blockData: Data?
-        /// The checksum generated for the block.
+        /// The checksum generated for the block, which is Base64 encoded.
         public let checksum: String?
         /// The algorithm used to generate the checksum for the block, such as SHA256.
         public let checksumAlgorithm: ChecksumAlgorithm?
@@ -140,13 +140,13 @@ extension EBS {
             AWSShapeMember(label: "StartingBlockIndex", location: .querystring(locationName: "startingBlockIndex"), required: false, type: .integer)
         ]
 
-        /// The ID of the first snapshot to use for the comparison.
+        /// The ID of the first snapshot to use for the comparison.  The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs. 
         public let firstSnapshotId: String?
         /// The number of results to return.
         public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
-        /// The ID of the second snapshot to use for the comparison.
+        /// The ID of the second snapshot to use for the comparison.  The SecondSnapshotId parameter must be specified with a FirstSnapshotID parameter; otherwise, an error occurs. 
         public let secondSnapshotId: String
         /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots.
         public let startingBlockIndex: Int?
@@ -194,7 +194,7 @@ extension EBS {
         public let blockSize: Int?
         /// An array of objects containing information about the changed blocks.
         public let changedBlocks: [ChangedBlock]?
-        /// The time when the block token expires.
+        /// The time when the BlockToken expires.
         public let expiryTime: TimeStamp?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -273,7 +273,7 @@ extension EBS {
         public let blocks: [Block]?
         /// The size of the block.
         public let blockSize: Int?
-        /// The time when the block token expires.
+        /// The time when the BlockToken expires.
         public let expiryTime: TimeStamp?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?

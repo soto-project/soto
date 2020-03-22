@@ -63,7 +63,7 @@ extension ApiGatewayV2 {
     public enum LoggingLevel: String, CustomStringConvertible, Codable {
         case error = "ERROR"
         case info = "INFO"
-        case `false` = "false"
+        case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
@@ -83,6 +83,20 @@ extension ApiGatewayV2 {
     public enum SecurityPolicy: String, CustomStringConvertible, Codable {
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcLinkVersion: String, CustomStringConvertible, Codable {
+        case v2 = "V2"
         public var description: String { return self.rawValue }
     }
 
@@ -746,7 +760,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer), 
+            AWSShapeMember(label: "TlsConfig", location: .body(locationName: "tlsConfig"), required: false, type: .structure)
         ]
 
         public let apiId: String
@@ -764,8 +779,9 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
+        public let tlsConfig: TlsConfigInput?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -781,6 +797,7 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
         }
 
         public func validate(name: String) throws {
@@ -804,6 +821,7 @@ extension ApiGatewayV2 {
             case requestTemplates = "requestTemplates"
             case templateSelectionExpression = "templateSelectionExpression"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -901,7 +919,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer), 
+            AWSShapeMember(label: "TlsConfig", location: .body(locationName: "tlsConfig"), required: false, type: .structure)
         ]
 
         public let apiGatewayManaged: Bool?
@@ -921,8 +940,9 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
+        public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -940,6 +960,7 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -960,6 +981,7 @@ extension ApiGatewayV2 {
             case requestTemplates = "requestTemplates"
             case templateSelectionExpression = "templateSelectionExpression"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -1343,6 +1365,102 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct CreateVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: true, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let name: String
+        public let securityGroupIds: [String]?
+        public let subnetIds: [String]
+        public let tags: [String: String]?
+
+        public init(name: String, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [String: String]? = nil) {
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateVpcLinkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "VpcLinkId", location: .body(locationName: "vpcLinkId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkStatus", location: .body(locationName: "vpcLinkStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "VpcLinkStatusMessage", location: .body(locationName: "vpcLinkStatusMessage"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkVersion", location: .body(locationName: "vpcLinkVersion"), required: false, type: .enum)
+        ]
+
+        public let createdDate: TimeStamp?
+        public let name: String?
+        public let securityGroupIds: [String]?
+        public let subnetIds: [String]?
+        public let tags: [String: String]?
+        public let vpcLinkId: String?
+        public let vpcLinkStatus: VpcLinkStatus?
+        public let vpcLinkStatusMessage: String?
+        public let vpcLinkVersion: VpcLinkVersion?
+
+        public init(createdDate: TimeStamp? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+            self.createdDate = createdDate
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcLinkId = vpcLinkId
+            self.vpcLinkStatus = vpcLinkStatus
+            self.vpcLinkStatusMessage = vpcLinkStatusMessage
+            self.vpcLinkVersion = vpcLinkVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
+        }
+    }
+
+    public struct DeleteAccessLogSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "StageName", location: .uri(locationName: "stageName"), required: true, type: .string)
+        ]
+
+        public let apiId: String
+        public let stageName: String
+
+        public init(apiId: String, stageName: String) {
+            self.apiId = apiId
+            self.stageName = stageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case stageName = "stageName"
+        }
+    }
+
     public struct DeleteApiMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiMappingId", location: .uri(locationName: "apiMappingId"), required: true, type: .string), 
@@ -1535,6 +1653,30 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct DeleteRouteRequestParameterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestParameterKey", location: .uri(locationName: "requestParameterKey"), required: true, type: .string), 
+            AWSShapeMember(label: "RouteId", location: .uri(locationName: "routeId"), required: true, type: .string)
+        ]
+
+        public let apiId: String
+        public let requestParameterKey: String
+        public let routeId: String
+
+        public init(apiId: String, requestParameterKey: String, routeId: String) {
+            self.apiId = apiId
+            self.requestParameterKey = requestParameterKey
+            self.routeId = routeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case requestParameterKey = "requestParameterKey"
+            case routeId = "routeId"
+        }
+    }
+
     public struct DeleteRouteResponseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
@@ -1601,6 +1743,30 @@ extension ApiGatewayV2 {
             case apiId = "apiId"
             case stageName = "stageName"
         }
+    }
+
+    public struct DeleteVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcLinkId", location: .uri(locationName: "vpcLinkId"), required: true, type: .string)
+        ]
+
+        public let vpcLinkId: String
+
+        public init(vpcLinkId: String) {
+            self.vpcLinkId = vpcLinkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLinkId = "vpcLinkId"
+        }
+    }
+
+    public struct DeleteVpcLinkResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct Deployment: AWSShape {
@@ -2392,7 +2558,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer), 
+            AWSShapeMember(label: "TlsConfig", location: .body(locationName: "tlsConfig"), required: false, type: .structure)
         ]
 
         public let apiGatewayManaged: Bool?
@@ -2412,8 +2579,9 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
+        public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -2431,6 +2599,7 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2451,6 +2620,7 @@ extension ApiGatewayV2 {
             case requestTemplates = "requestTemplates"
             case templateSelectionExpression = "templateSelectionExpression"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -3012,17 +3182,121 @@ extension ApiGatewayV2 {
 
     public struct GetTagsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
-        public let tags: [String: String]
+        public let tags: [String: String]?
 
-        public init(tags: [String: String]) {
+        public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct GetVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcLinkId", location: .uri(locationName: "vpcLinkId"), required: true, type: .string)
+        ]
+
+        public let vpcLinkId: String
+
+        public init(vpcLinkId: String) {
+            self.vpcLinkId = vpcLinkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcLinkId = "vpcLinkId"
+        }
+    }
+
+    public struct GetVpcLinkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "VpcLinkId", location: .body(locationName: "vpcLinkId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkStatus", location: .body(locationName: "vpcLinkStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "VpcLinkStatusMessage", location: .body(locationName: "vpcLinkStatusMessage"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkVersion", location: .body(locationName: "vpcLinkVersion"), required: false, type: .enum)
+        ]
+
+        public let createdDate: TimeStamp?
+        public let name: String?
+        public let securityGroupIds: [String]?
+        public let subnetIds: [String]?
+        public let tags: [String: String]?
+        public let vpcLinkId: String?
+        public let vpcLinkStatus: VpcLinkStatus?
+        public let vpcLinkStatusMessage: String?
+        public let vpcLinkVersion: VpcLinkVersion?
+
+        public init(createdDate: TimeStamp? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+            self.createdDate = createdDate
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcLinkId = vpcLinkId
+            self.vpcLinkStatus = vpcLinkStatus
+            self.vpcLinkStatusMessage = vpcLinkStatusMessage
+            self.vpcLinkVersion = vpcLinkVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
+        }
+    }
+
+    public struct GetVpcLinksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let maxResults: String?
+        public let nextToken: String?
+
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetVpcLinksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", location: .body(locationName: "items"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let items: [VpcLink]?
+        public let nextToken: String?
+
+        public init(items: [VpcLink]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3136,14 +3410,15 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer), 
+            AWSShapeMember(label: "TlsConfig", location: .body(locationName: "tlsConfig"), required: false, type: .structure)
         ]
 
         /// Specifies whether an integration is managed by API Gateway. If you created an API using using quick create, the resulting integration is managed by API Gateway. You can update a managed integration, but you can't delete it.
         public let apiGatewayManaged: Bool?
-        /// The connection ID.
+        /// The ID of the VPC link for a private integration. Supported only for HTTP APIs.
         public let connectionId: String?
-        /// The type of the network connection to the integration endpoint. Currently the only valid value is INTERNET, for connections through the public routable internet.
+        /// The type of the network connection to the integration endpoint. Specify INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and resources in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
         /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification.
         public let contentHandlingStrategy: ContentHandlingStrategy?
@@ -3157,13 +3432,13 @@ extension ApiGatewayV2 {
         public let integrationMethod: String?
         /// The integration response selection expression for the integration. Supported only for WebSocket APIs. See Integration Response Selection Expressions.
         public let integrationResponseSelectionExpression: String?
-        /// The integration type of an integration. One of the following: AWS: for integrating the route or method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. Supported only for WebSocket APIs. AWS_PROXY: for integrating the route or method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as Lambda proxy integration. HTTP: for integrating the route or method request with an HTTP endpoint. This integration is also referred to as the HTTP custom integration. Supported only for WebSocket APIs. HTTP_PROXY: for integrating route or method request with an HTTP endpoint, with the client request passed through as-is. This is also referred to as HTTP proxy integration. MOCK: for integrating the route or method request with API Gateway as a "loopback" endpoint without invoking any backend. Supported only for WebSocket APIs.
+        /// The integration type of an integration. One of the following: AWS: for integrating the route or method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. Supported only for WebSocket APIs. AWS_PROXY: for integrating the route or method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as Lambda proxy integration. HTTP: for integrating the route or method request with an HTTP endpoint. This integration is also referred to as the HTTP custom integration. Supported only for WebSocket APIs. HTTP_PROXY: for integrating the route or method request with an HTTP endpoint, with the client request passed through as-is. This is also referred to as HTTP proxy integration. MOCK: for integrating the route or method request with API Gateway as a "loopback" endpoint without invoking any backend. Supported only for WebSocket APIs.
         public let integrationType: IntegrationType?
-        /// For a Lambda proxy integration, this is the URI of the Lambda function.
+        /// For a Lambda integration, specify the URI of a Lambda function. For an HTTP integration, specify a fully-qualified URL. For an HTTP API private integration, specify the ARN of an Application Load Balancer listener, Network Load Balancer listener, or AWS Cloud Map service. If you specify the ARN of an AWS Cloud Map service, API Gateway uses DiscoverInstances to identify resources. You can use query parameters to target specific resources. To learn more, see DiscoverInstances. For private integrations, all resources must be owned by the same AWS account.
         public let integrationUri: String?
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
         public let passthroughBehavior: PassthroughBehavior?
-        /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Currently, the only supported value is 1.0.
+        /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
         /// A key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name}
         ///                , where 
@@ -3178,8 +3453,10 @@ extension ApiGatewayV2 {
         public let templateSelectionExpression: String?
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds for WebSocket APIs. The default value is 5,000 milliseconds, or 5 seconds for HTTP APIs.
         public let timeoutInMillis: Int?
+        /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
+        public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -3197,6 +3474,7 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3217,6 +3495,7 @@ extension ApiGatewayV2 {
             case requestTemplates = "requestTemplates"
             case templateSelectionExpression = "templateSelectionExpression"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -3564,9 +3843,9 @@ extension ApiGatewayV2 {
         public let detailedMetricsEnabled: Bool?
         /// Specifies the logging level for this route: INFO, ERROR, or OFF. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs.
         public let loggingLevel: LoggingLevel?
-        /// Specifies the throttling burst limit. Supported only for WebSocket APIs.
+        /// Specifies the throttling burst limit.
         public let throttlingBurstLimit: Int?
-        /// Specifies the throttling rate limit. Supported only for WebSocket APIs.
+        /// Specifies the throttling rate limit.
         public let throttlingRateLimit: Double?
 
         public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: LoggingLevel? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil) {
@@ -3628,7 +3907,7 @@ extension ApiGatewayV2 {
         public let routeSettings: [String: RouteSettings]?
         /// The name of the stage.
         public let stageName: String
-        /// A map that defines the stage variables for a stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+. Supported only for WebSocket APIs.
+        /// A map that defines the stage variables for a stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let stageVariables: [String: String]?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
@@ -3694,6 +3973,40 @@ extension ApiGatewayV2 {
         public init() {
         }
 
+    }
+
+    public struct TlsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerNameToVerify", location: .body(locationName: "serverNameToVerify"), required: false, type: .string)
+        ]
+
+        /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
+        public let serverNameToVerify: String?
+
+        public init(serverNameToVerify: String? = nil) {
+            self.serverNameToVerify = serverNameToVerify
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverNameToVerify = "serverNameToVerify"
+        }
+    }
+
+    public struct TlsConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerNameToVerify", location: .body(locationName: "serverNameToVerify"), required: false, type: .string)
+        ]
+
+        /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
+        public let serverNameToVerify: String?
+
+        public init(serverNameToVerify: String? = nil) {
+            self.serverNameToVerify = serverNameToVerify
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverNameToVerify = "serverNameToVerify"
+        }
     }
 
     public struct UntagResourceRequest: AWSShape {
@@ -4134,7 +4447,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer), 
+            AWSShapeMember(label: "TlsConfig", location: .body(locationName: "tlsConfig"), required: false, type: .structure)
         ]
 
         public let apiId: String
@@ -4153,8 +4467,9 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
+        public let tlsConfig: TlsConfigInput?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -4171,6 +4486,7 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
         }
 
         public func validate(name: String) throws {
@@ -4195,6 +4511,7 @@ extension ApiGatewayV2 {
             case requestTemplates = "requestTemplates"
             case templateSelectionExpression = "templateSelectionExpression"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -4296,7 +4613,8 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "RequestParameters", location: .body(locationName: "requestParameters"), required: false, type: .map), 
             AWSShapeMember(label: "RequestTemplates", location: .body(locationName: "requestTemplates"), required: false, type: .map), 
             AWSShapeMember(label: "TemplateSelectionExpression", location: .body(locationName: "templateSelectionExpression"), required: false, type: .string), 
-            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer)
+            AWSShapeMember(label: "TimeoutInMillis", location: .body(locationName: "timeoutInMillis"), required: false, type: .integer), 
+            AWSShapeMember(label: "TlsConfig", location: .body(locationName: "tlsConfig"), required: false, type: .structure)
         ]
 
         public let apiGatewayManaged: Bool?
@@ -4316,8 +4634,9 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
+        public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -4335,6 +4654,7 @@ extension ApiGatewayV2 {
             self.requestTemplates = requestTemplates
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
+            self.tlsConfig = tlsConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4355,6 +4675,7 @@ extension ApiGatewayV2 {
             case requestTemplates = "requestTemplates"
             case templateSelectionExpression = "templateSelectionExpression"
             case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -4743,6 +5064,131 @@ extension ApiGatewayV2 {
             case stageName = "stageName"
             case stageVariables = "stageVariables"
             case tags = "tags"
+        }
+    }
+
+    public struct UpdateVpcLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkId", location: .uri(locationName: "vpcLinkId"), required: true, type: .string)
+        ]
+
+        public let name: String?
+        public let vpcLinkId: String
+
+        public init(name: String? = nil, vpcLinkId: String) {
+            self.name = name
+            self.vpcLinkId = vpcLinkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case vpcLinkId = "vpcLinkId"
+        }
+    }
+
+    public struct UpdateVpcLinkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "VpcLinkId", location: .body(locationName: "vpcLinkId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkStatus", location: .body(locationName: "vpcLinkStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "VpcLinkStatusMessage", location: .body(locationName: "vpcLinkStatusMessage"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkVersion", location: .body(locationName: "vpcLinkVersion"), required: false, type: .enum)
+        ]
+
+        public let createdDate: TimeStamp?
+        public let name: String?
+        public let securityGroupIds: [String]?
+        public let subnetIds: [String]?
+        public let tags: [String: String]?
+        public let vpcLinkId: String?
+        public let vpcLinkStatus: VpcLinkStatus?
+        public let vpcLinkStatusMessage: String?
+        public let vpcLinkVersion: VpcLinkVersion?
+
+        public init(createdDate: TimeStamp? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+            self.createdDate = createdDate
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcLinkId = vpcLinkId
+            self.vpcLinkStatus = vpcLinkStatus
+            self.vpcLinkStatusMessage = vpcLinkStatusMessage
+            self.vpcLinkVersion = vpcLinkVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
+        }
+    }
+
+    public struct VpcLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: true, type: .list), 
+            AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: true, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "VpcLinkId", location: .body(locationName: "vpcLinkId"), required: true, type: .string), 
+            AWSShapeMember(label: "VpcLinkStatus", location: .body(locationName: "vpcLinkStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "VpcLinkStatusMessage", location: .body(locationName: "vpcLinkStatusMessage"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcLinkVersion", location: .body(locationName: "vpcLinkVersion"), required: false, type: .enum)
+        ]
+
+        /// The timestamp when the VPC link was created.
+        public let createdDate: TimeStamp?
+        /// The name of the VPC link.
+        public let name: String
+        /// A list of security group IDs for the VPC link.
+        public let securityGroupIds: [String]
+        /// A list of subnet IDs to include in the VPC link.
+        public let subnetIds: [String]
+        /// Tags for the VPC link.
+        public let tags: [String: String]?
+        /// The ID of the VPC link.
+        public let vpcLinkId: String
+        /// The status of the VPC link.
+        public let vpcLinkStatus: VpcLinkStatus?
+        /// A message summarizing the cause of the status of the VPC link.
+        public let vpcLinkStatusMessage: String?
+        /// The version of the VPC link.
+        public let vpcLinkVersion: VpcLinkVersion?
+
+        public init(createdDate: TimeStamp? = nil, name: String, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, vpcLinkId: String, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
+            self.createdDate = createdDate
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcLinkId = vpcLinkId
+            self.vpcLinkStatus = vpcLinkStatus
+            self.vpcLinkStatusMessage = vpcLinkStatusMessage
+            self.vpcLinkVersion = vpcLinkVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 }

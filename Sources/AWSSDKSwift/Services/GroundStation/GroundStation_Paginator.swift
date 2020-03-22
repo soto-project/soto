@@ -11,10 +11,7 @@ extension GroundStation {
         return client.paginate(input: input, command: listConfigs, tokenKey: \ListConfigsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Returns a list of contacts.
-    ///           If statusList contains AVAILABLE, the request must include
-    ///        groundstation, missionprofileArn, and satelliteArn.
-    ///        
+    ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
     public func listContactsPaginator(_ input: ListContactsRequest, onPage: @escaping (ListContactsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listContacts, tokenKey: \ListContactsResponse.nextToken, onPage: onPage)
     }
@@ -81,7 +78,8 @@ extension GroundStation.ListGroundStationsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListGroundStationsRequest {
         return .init(
             maxResults: self.maxResults, 
-            nextToken: token
+            nextToken: token, 
+            satelliteId: self.satelliteId
         )
 
     }

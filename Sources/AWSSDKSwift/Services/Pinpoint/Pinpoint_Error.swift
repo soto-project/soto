@@ -9,6 +9,7 @@ public enum PinpointErrorType: AWSErrorType {
     case internalServerErrorException(message: String?)
     case methodNotAllowedException(message: String?)
     case notFoundException(message: String?)
+    case payloadTooLargeException(message: String?)
     case tooManyRequestsException(message: String?)
 }
 
@@ -29,6 +30,8 @@ extension PinpointErrorType {
             self = .methodNotAllowedException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "PayloadTooLargeException":
+            self = .payloadTooLargeException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         default:
@@ -50,6 +53,8 @@ extension PinpointErrorType : CustomStringConvertible {
             return "MethodNotAllowedException: \(message ?? "")"
         case .notFoundException(let message):
             return "NotFoundException: \(message ?? "")"
+        case .payloadTooLargeException(let message):
+            return "PayloadTooLargeException: \(message ?? "")"
         case .tooManyRequestsException(let message):
             return "TooManyRequestsException: \(message ?? "")"
         }

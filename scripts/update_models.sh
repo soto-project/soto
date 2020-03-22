@@ -24,8 +24,8 @@ get_aws_sdk_go()
     fi
     git checkout "$BRANCH_NAME"
     cd "$CURRENT_FOLDER"
-    
-    return $BRANCH_NAME
+
+    echo $BRANCH_NAME
 }
 
 copy_model_files()

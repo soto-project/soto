@@ -1180,6 +1180,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum PreferredChannelPipeline: String, CustomStringConvertible, Codable {
+        case currentlyActive = "CURRENTLY_ACTIVE"
+        case pipeline0 = "PIPELINE_0"
+        case pipeline1 = "PIPELINE_1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReservationCodec: String, CustomStringConvertible, Codable {
         case mpeg2 = "MPEG2"
         case avc = "AVC"
@@ -7696,11 +7703,14 @@ extension MediaLive {
 
     public struct MultiplexProgramSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredChannelPipeline", location: .body(locationName: "preferredChannelPipeline"), required: false, type: .enum), 
             AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: true, type: .integer), 
             AWSShapeMember(label: "ServiceDescriptor", location: .body(locationName: "serviceDescriptor"), required: false, type: .structure), 
             AWSShapeMember(label: "VideoSettings", location: .body(locationName: "videoSettings"), required: false, type: .structure)
         ]
 
+        /// Indicates which pipeline is preferred by the multiplex for program ingest.
+        public let preferredChannelPipeline: PreferredChannelPipeline?
         /// Unique program number.
         public let programNumber: Int
         /// Transport stream service descriptor configuration for the Multiplex program.
@@ -7708,7 +7718,8 @@ extension MediaLive {
         /// Program video settings configuration.
         public let videoSettings: MultiplexVideoSettings?
 
-        public init(programNumber: Int, serviceDescriptor: MultiplexProgramServiceDescriptor? = nil, videoSettings: MultiplexVideoSettings? = nil) {
+        public init(preferredChannelPipeline: PreferredChannelPipeline? = nil, programNumber: Int, serviceDescriptor: MultiplexProgramServiceDescriptor? = nil, videoSettings: MultiplexVideoSettings? = nil) {
+            self.preferredChannelPipeline = preferredChannelPipeline
             self.programNumber = programNumber
             self.serviceDescriptor = serviceDescriptor
             self.videoSettings = videoSettings
@@ -7722,6 +7733,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case preferredChannelPipeline = "preferredChannelPipeline"
             case programNumber = "programNumber"
             case serviceDescriptor = "serviceDescriptor"
             case videoSettings = "videoSettings"
