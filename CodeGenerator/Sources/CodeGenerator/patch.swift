@@ -48,6 +48,9 @@ let servicePatches : [String: [Patch]] = [
     "ElasticLoadBalancingv2" : [
         Patch(.replace, entry:["serviceName"], value:"ELBV2", originalValue:"ElasticLoadBalancingv2")
     ],
+    "IAM" : [
+        .init(.add, entry:["shapes", "PolicySourceType", "enum"], value:"IAM Policy")
+    ],
     "Route53": [
         Patch(.remove, entry:["shapes", "ListHealthChecksResponse", "required"], value:"Marker"),
         Patch(.remove, entry:["shapes", "ListHostedZonesResponse", "required"], value:"Marker"),
