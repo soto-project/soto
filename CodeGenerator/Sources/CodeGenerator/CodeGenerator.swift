@@ -294,10 +294,12 @@ extension AWSService {
         switch serviceName {
         case "APIGateway":
             return "APIGatewayMiddleware()"
-        case "S3":
-            return "S3RequestMiddleware()"
         case "Glacier":
             return "GlacierRequestMiddleware(apiVersion: \"\(version)\")"
+        case "S3":
+            return "S3RequestMiddleware()"
+        case "S3Control":
+            return "S3ControlMiddleware()"
         default:
             return nil
         }
