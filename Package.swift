@@ -233,7 +233,7 @@ let package = Package(
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
         .target(name: "AWSACMPCA", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACMPCA"),
-        .target(name: "AWSAPIGateway", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/APIGateway"),
+        .target(name: "AWSAPIGateway", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/APIGateway", "Extensions/APIGateway"]),
         .target(name: "AWSAccessAnalyzer", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AccessAnalyzer"),
         .target(name: "AWSAlexaForBusiness", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AlexaForBusiness"),
         .target(name: "AWSAmplify", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Amplify"),
