@@ -1,6 +1,7 @@
 import NIO
 import AWSSDKSwiftCore
 import AWSCrypto
+import AWSSignerV4
 
 let MEGA_BYTE = 1024 * 1024
 
@@ -24,7 +25,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
         if request.httpHeaders[treeHashHeader] == nil {
             if let byteBuffer = request.body.asByteBuffer() {
-                let treeHash = try computeTreeHash(byteBuffer).hexdigest()
+                let treeHash = try computeTreeHash(byteBuffer).hexDigest()
                 request.addValue(treeHash, forHTTPHeaderField: treeHashHeader)
             }
         }
