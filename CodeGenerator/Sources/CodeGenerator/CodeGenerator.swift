@@ -290,6 +290,21 @@ extension AWSService {
         )
     }
     
+    func getMiddleware() -> String? {
+        switch serviceName {
+        case "APIGateway":
+            return "APIGatewayMiddleware()"
+        case "Glacier":
+            return "GlacierRequestMiddleware(apiVersion: \"\(version)\")"
+        case "S3":
+            return "S3RequestMiddleware()"
+        case "S3Control":
+            return "S3ControlMiddleware()"
+        default:
+            return nil
+        }
+    }
+    
     /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -309,14 +324,8 @@ extension AWSService {
             context["serviceEndpoints"] = endpoints
         }
         context["partitionEndpoint"] = partitionEndpoint
-        switch endpointPrefix {
-        case "s3":
-            context["middlewareClass"] = "S3RequestMiddleware()"
-        case "glacier":
-            context["middlewareClass"] = "GlacierRequestMiddleware(apiVersion: \"\(version)\")"
-        default:
-            break
-        }
+        context["middlewareClass"] = getMiddleware()
+
         if !errors.isEmpty {
             context["errorTypes"] = serviceErrorName
         }
