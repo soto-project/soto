@@ -235,7 +235,7 @@ let package = Package(
     targets: [
         .target(name: "ACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
         .target(name: "ACMPCA", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACMPCA"),
-        .target(name: "APIGateway", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/APIGateway"),
+        .target(name: "APIGateway", dependencies: ["AWSSDKSwiftCore", "APIGatewayMiddleware"], path: "./Sources/AWSSDKSwift/Services/APIGateway"),
         .target(name: "AWSBackup", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AWSBackup"),
         .target(name: "AWSDirectoryService", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AWSDirectoryService"),
         .target(name: "AccessAnalyzer", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AccessAnalyzer"),
@@ -412,7 +412,7 @@ let package = Package(
         .target(name: "Route53Domains", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Domains"),
         .target(name: "Route53Resolver", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Resolver"),
         .target(name: "S3", dependencies: ["AWSSDKSwiftCore", "S3Middleware"], path: "./Sources/AWSSDKSwift/Services/S3"),
-        .target(name: "S3Control", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/S3Control"),
+        .target(name: "S3Control", dependencies: ["AWSSDKSwiftCore", "S3ControlMiddleware"], path: "./Sources/AWSSDKSwift/Services/S3Control"),
         .target(name: "SES", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SES"),
         .target(name: "SESV2", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SESV2"),
         .target(name: "SFN", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SFN"),
@@ -454,8 +454,11 @@ let package = Package(
         .target(name: "WorkMailMessageFlow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkMailMessageFlow"),
         .target(name: "WorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "XRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
+        
+        .target(name: "APIGatewayMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/APIGateway"),
         .target(name: "GlacierMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/Glacier"),
         .target(name: "S3Middleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/S3"),
+        .target(name: "S3ControlMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/S3Control"),
 
         .testTarget(name: "AWSSDKSwiftTests", dependencies: ["ACM", "APIGateway", "CloudFront", "EC2", "DynamoDB", "IAM", "S3", "SES", "SNS", "SQS", "SSM"])
     ]

@@ -4,6 +4,8 @@
 import Foundation
 import NIO
 
+import S3ControlMiddleware
+
 /**
 Client object for interacting with AWS S3Control service.
 
@@ -27,6 +29,7 @@ public struct S3Control {
     ///     - middlewares: Array of middlewares to apply to requests and responses
     ///     - eventLoopGroupProvider: EventLoopGroup to use. Use `useAWSClientShared` if the client shall manage its own EventLoopGroup.
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
+        let middlewares = [S3ControlMiddleware()] + middlewares
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
