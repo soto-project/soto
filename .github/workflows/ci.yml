@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ['swift:5.1.5', 'swiftlang/swift:nightly-5.2']
+        image: ['swift:5.1.5', 'swift:5.2']
     services:
       localstack:
         image: localstack/localstack
