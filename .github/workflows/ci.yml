@@ -1,11 +1,11 @@
 name: CI
 
-on: 
+on:
   push:
-    branches: 
+    branches:
     - "*"
   pull_request:
-    branches: 
+    branches:
     - master
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['5.0', '5.1']
+        tag: ['swift:5.0', 'swift:5.1', 'swift:5.2']
     services:
       localstack:
         image: localstack/localstack
@@ -38,7 +38,7 @@ jobs:
           --health-retries 5
           --workdir /opt/code/localstack/
     container:
-      image: swift:${{ matrix.tag }}
+      image: ${{ matrix.tag }}
       volumes:
       - $GITHUB_WORKSPACE:/src
       options: --workdir /src
