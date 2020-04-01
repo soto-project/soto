@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "AWSSDKSwift",
+    name: "aws-sdk-swift",
     platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
     products: [
         .library(name: "AWSACM", targets: ["AWSACM"]),
