@@ -37,6 +37,7 @@ public struct CognitoIdentity {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-06-30",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "cognito-identity-fips.us-east-1.amazonaws.com", "fips-us-east-2": "cognito-identity-fips.us-east-2.amazonaws.com", "fips-us-west-2": "cognito-identity-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [CognitoIdentityErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

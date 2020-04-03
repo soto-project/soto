@@ -50,6 +50,11 @@ public struct ElasticsearchService {
         return client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
     }
 
+    ///  Associates a package with an Amazon ES domain.
+    public func associatePackage(_ input: AssociatePackageRequest) -> EventLoopFuture<AssociatePackageResponse> {
+        return client.send(operation: "AssociatePackage", path: "/2015-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: "POST", input: input)
+    }
+
     ///  Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest) -> EventLoopFuture<CancelElasticsearchServiceSoftwareUpdateResponse> {
         return client.send(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: "POST", input: input)
@@ -60,6 +65,11 @@ public struct ElasticsearchService {
         return client.send(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: "POST", input: input)
     }
 
+    ///  Create a package for use with Amazon ES domains.
+    public func createPackage(_ input: CreatePackageRequest) -> EventLoopFuture<CreatePackageResponse> {
+        return client.send(operation: "CreatePackage", path: "/2015-01-01/packages", httpMethod: "POST", input: input)
+    }
+
     ///  Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest) -> EventLoopFuture<DeleteElasticsearchDomainResponse> {
         return client.send(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "DELETE", input: input)
@@ -68,6 +78,11 @@ public struct ElasticsearchService {
     ///  Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
     @discardableResult public func deleteElasticsearchServiceRole() -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
+    }
+
+    ///  Delete the package.
+    public func deletePackage(_ input: DeletePackageRequest) -> EventLoopFuture<DeletePackageResponse> {
+        return client.send(operation: "DeletePackage", path: "/2015-01-01/packages/{PackageID}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
@@ -90,6 +105,11 @@ public struct ElasticsearchService {
         return client.send(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: "GET", input: input)
     }
 
+    ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
+    public func describePackages(_ input: DescribePackagesRequest) -> EventLoopFuture<DescribePackagesResponse> {
+        return client.send(operation: "DescribePackages", path: "/2015-01-01/packages/describe", httpMethod: "POST", input: input)
+    }
+
     ///  Lists available reserved Elasticsearch instance offerings.
     public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest) -> EventLoopFuture<DescribeReservedElasticsearchInstanceOfferingsResponse> {
         return client.send(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: "GET", input: input)
@@ -98,6 +118,11 @@ public struct ElasticsearchService {
     ///  Returns information about reserved Elasticsearch instances for this account.
     public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest) -> EventLoopFuture<DescribeReservedElasticsearchInstancesResponse> {
         return client.send(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: "GET", input: input)
+    }
+
+    ///  Dissociates a package from the Amazon ES domain.
+    public func dissociatePackage(_ input: DissociatePackageRequest) -> EventLoopFuture<DissociatePackageResponse> {
+        return client.send(operation: "DissociatePackage", path: "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a  DomainName  to get all upgrade compatible Elasticsearch versions for that specific domain. 
@@ -120,6 +145,11 @@ public struct ElasticsearchService {
         return client.send(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: "GET")
     }
 
+    ///  Lists all Amazon ES domains associated with the package.
+    public func listDomainsForPackage(_ input: ListDomainsForPackageRequest) -> EventLoopFuture<ListDomainsForPackageResponse> {
+        return client.send(operation: "ListDomainsForPackage", path: "/2015-01-01/packages/{PackageID}/domains", httpMethod: "GET", input: input)
+    }
+
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest) -> EventLoopFuture<ListElasticsearchInstanceTypesResponse> {
         return client.send(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: "GET", input: input)
@@ -128,6 +158,11 @@ public struct ElasticsearchService {
     ///  List all supported Elasticsearch versions
     public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest) -> EventLoopFuture<ListElasticsearchVersionsResponse> {
         return client.send(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists all packages associated with the Amazon ES domain.
+    public func listPackagesForDomain(_ input: ListPackagesForDomainRequest) -> EventLoopFuture<ListPackagesForDomainResponse> {
+        return client.send(operation: "ListPackagesForDomain", path: "/2015-01-01/domain/{DomainName}/packages", httpMethod: "GET", input: input)
     }
 
     ///  Returns all tags for the given Elasticsearch domain.

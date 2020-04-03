@@ -6,6 +6,12 @@ import AWSSDKSwiftCore
 extension MediaStore {
     //MARK: Enums
 
+    public enum ContainerLevelMetrics: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContainerStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -134,6 +140,8 @@ extension MediaStore {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -261,6 +269,34 @@ extension MediaStore {
     }
 
     public struct DeleteLifecyclePolicyOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteMetricPolicyInput: AWSShape {
+
+        /// The name of the container that is associated with the metric policy that you want to delete.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct DeleteMetricPolicyOutput: AWSShape {
 
 
         public init() {
@@ -404,6 +440,40 @@ extension MediaStore {
         }
     }
 
+    public struct GetMetricPolicyInput: AWSShape {
+
+        /// The name of the container that is associated with the metric policy.
+        public let containerName: String
+
+        public init(containerName: String) {
+            self.containerName = containerName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct GetMetricPolicyOutput: AWSShape {
+
+        /// The metric policy that is associated with the specific container.
+        public let metricPolicy: MetricPolicy
+
+        public init(metricPolicy: MetricPolicy) {
+            self.metricPolicy = metricPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricPolicy = "MetricPolicy"
+        }
+    }
+
     public struct ListContainersInput: AWSShape {
 
         /// Enter the maximum number of containers in the response. Use from 1 to 255 characters. 
@@ -479,6 +549,59 @@ extension MediaStore {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct MetricPolicy: AWSShape {
+
+        /// A setting to enable or disable metrics at the container level.
+        public let containerLevelMetrics: ContainerLevelMetrics
+        /// A parameter that holds an array of rules that enable metrics at the object level. This parameter is optional, but if you choose to include it, you must also include at least one rule. By default, you can include up to five rules. You can also request a quota increase to allow up to 300 rules per policy.
+        public let metricPolicyRules: [MetricPolicyRule]?
+
+        public init(containerLevelMetrics: ContainerLevelMetrics, metricPolicyRules: [MetricPolicyRule]? = nil) {
+            self.containerLevelMetrics = containerLevelMetrics
+            self.metricPolicyRules = metricPolicyRules
+        }
+
+        public func validate(name: String) throws {
+            try self.metricPolicyRules?.forEach {
+                try $0.validate(name: "\(name).metricPolicyRules[]")
+            }
+            try validate(self.metricPolicyRules, name:"metricPolicyRules", parent: name, max: 300)
+            try validate(self.metricPolicyRules, name:"metricPolicyRules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerLevelMetrics = "ContainerLevelMetrics"
+            case metricPolicyRules = "MetricPolicyRules"
+        }
+    }
+
+    public struct MetricPolicyRule: AWSShape {
+
+        /// A path or file name that defines which objects to include in the group. Wildcards (*) are acceptable.
+        public let objectGroup: String
+        /// A name that allows you to refer to the object group.
+        public let objectGroupName: String
+
+        public init(objectGroup: String, objectGroupName: String) {
+            self.objectGroup = objectGroup
+            self.objectGroupName = objectGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.objectGroup, name:"objectGroup", parent: name, max: 900)
+            try validate(self.objectGroup, name:"objectGroup", parent: name, min: 1)
+            try validate(self.objectGroup, name:"objectGroup", parent: name, pattern: "/?(?:[A-Za-z0-9_=:\\.\\-\\~\\*]+/){0,10}(?:[A-Za-z0-9_=:\\.\\-\\~\\*]+)?/?")
+            try validate(self.objectGroupName, name:"objectGroupName", parent: name, max: 30)
+            try validate(self.objectGroupName, name:"objectGroupName", parent: name, min: 1)
+            try validate(self.objectGroupName, name:"objectGroupName", parent: name, pattern: "[a-zA-Z0-9_]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectGroup = "ObjectGroup"
+            case objectGroupName = "ObjectGroupName"
         }
     }
 
@@ -589,6 +712,39 @@ extension MediaStore {
 
     }
 
+    public struct PutMetricPolicyInput: AWSShape {
+
+        /// The name of the container that you want to add the metric policy to.
+        public let containerName: String
+        /// The metric policy that you want to associate with the container. In the policy, you must indicate whether you want MediaStore to send container-level metrics. You can also include up to five rules to define groups of objects that you want MediaStore to send object-level metrics for. If you include rules in the policy, construct each rule with both of the following:   An object group that defines which objects to include in the group. The definition can be a path or a file name, but it can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are acceptable.   An object group name that allows you to refer to the object group. The name can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore).  
+        public let metricPolicy: MetricPolicy
+
+        public init(containerName: String, metricPolicy: MetricPolicy) {
+            self.containerName = containerName
+            self.metricPolicy = metricPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try self.metricPolicy.validate(name: "\(name).metricPolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case metricPolicy = "MetricPolicy"
+        }
+    }
+
+    public struct PutMetricPolicyOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct StartAccessLoggingInput: AWSShape {
 
         /// The name of the container that you want to start access logging on.
@@ -660,8 +816,10 @@ extension MediaStore {
         public func validate(name: String) throws {
             try validate(self.key, name:"key", parent: name, max: 128)
             try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -689,6 +847,8 @@ extension MediaStore {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -724,6 +884,7 @@ extension MediaStore {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
             }
         }
 

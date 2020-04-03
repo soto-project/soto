@@ -25,6 +25,8 @@ extension Signer {
 
     public enum ImageFormat: String, CustomStringConvertible, Codable {
         case json = "JSON"
+        case jsonembedded = "JSONEmbedded"
+        case jsondetached = "JSONDetached"
         public var description: String { return self.rawValue }
     }
 
@@ -56,7 +58,7 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try validate(self.profileName, name:"profileName", parent: name, max: 20)
+            try validate(self.profileName, name:"profileName", parent: name, max: 64)
             try validate(self.profileName, name:"profileName", parent: name, min: 2)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
         }
@@ -101,7 +103,7 @@ extension Signer {
         public let requestedBy: String?
         /// Name of the S3 bucket where the signed code image is saved by code signing.
         public let signedObject: SignedObject?
-        /// Amazon Resource Name (ARN) of your code signing certificate.
+        /// The Amazon Resource Name (ARN) of your code signing certificate.
         public let signingMaterial: SigningMaterial?
         /// Map of user-assigned key-value pairs used during signing. These values contain any information that you specified for use in your signing job. 
         public let signingParameters: [String: String]?
@@ -249,7 +251,7 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try validate(self.profileName, name:"profileName", parent: name, max: 20)
+            try validate(self.profileName, name:"profileName", parent: name, max: 64)
             try validate(self.profileName, name:"profileName", parent: name, min: 2)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
         }
@@ -527,7 +529,7 @@ extension Signer {
 
         /// A subfield of platform. This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm).
         public let overrides: SigningPlatformOverrides?
-        /// The ID of the signing profile to be created.
+        /// The ID of the signing platform to be created.
         public let platformId: String
         /// The name of the signing profile to be created.
         public let profileName: String
@@ -535,7 +537,7 @@ extension Signer {
         public let signingMaterial: SigningMaterial
         /// Map of key-value pairs for signing. These can include any information that you want to use during signing.
         public let signingParameters: [String: String]?
-        /// Tags to be associated with the signing profile being created.
+        /// Tags to be associated with the signing profile that is being created.
         public let tags: [String: String]?
 
         public init(overrides: SigningPlatformOverrides? = nil, platformId: String, profileName: String, signingMaterial: SigningMaterial, signingParameters: [String: String]? = nil, tags: [String: String]? = nil) {
@@ -548,7 +550,7 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try validate(self.profileName, name:"profileName", parent: name, max: 20)
+            try validate(self.profileName, name:"profileName", parent: name, max: 64)
             try validate(self.profileName, name:"profileName", parent: name, min: 2)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
             try self.tags?.forEach {
@@ -659,7 +661,7 @@ extension Signer {
 
         /// The encryption algorithm options that are available for a code signing job.
         public let encryptionAlgorithmOptions: EncryptionAlgorithmOptions
-        /// The hash algorithm options that are available for a a code signing job.
+        /// The hash algorithm options that are available for a code signing job.
         public let hashAlgorithmOptions: HashAlgorithmOptions
 
         public init(encryptionAlgorithmOptions: EncryptionAlgorithmOptions, hashAlgorithmOptions: HashAlgorithmOptions) {
@@ -693,9 +695,9 @@ extension Signer {
 
     public struct SigningImageFormat: AWSShape {
 
-        /// The default format of a code signing signing image.
+        /// The default format of a code signing image.
         public let defaultFormat: ImageFormat
-        /// The supported formats of a code signing signing image.
+        /// The supported formats of a code signing image.
         public let supportedFormats: [ImageFormat]
 
         public init(defaultFormat: ImageFormat, supportedFormats: [ImageFormat]) {
@@ -802,19 +804,23 @@ extension Signer {
 
         /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
         public let signingConfiguration: SigningConfigurationOverrides?
+        /// A signed image is a JSON object. When overriding the default signing platform configuration, a customer can select either of two signing formats, JSONEmbedded or JSONDetached. (A third format value, JSON, is reserved for future use.) With JSONEmbedded, the signing image has the payload embedded in it. With JSONDetached, the payload is not be embedded in the signing image.
+        public let signingImageFormat: ImageFormat?
 
-        public init(signingConfiguration: SigningConfigurationOverrides? = nil) {
+        public init(signingConfiguration: SigningConfigurationOverrides? = nil, signingImageFormat: ImageFormat? = nil) {
             self.signingConfiguration = signingConfiguration
+            self.signingImageFormat = signingImageFormat
         }
 
         private enum CodingKeys: String, CodingKey {
             case signingConfiguration = "signingConfiguration"
+            case signingImageFormat = "signingImageFormat"
         }
     }
 
     public struct SigningProfile: AWSShape {
 
-        /// Amazon Resource Name (ARN) for the signing profile.
+        /// The Amazon Resource Name (ARN) for the signing profile.
         public let arn: String?
         /// The ID of a platform that is available for use by a signing profile.
         public let platformId: String?
@@ -883,7 +889,7 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try validate(self.profileName, name:"profileName", parent: name, max: 20)
+            try validate(self.profileName, name:"profileName", parent: name, max: 64)
             try validate(self.profileName, name:"profileName", parent: name, min: 2)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
         }
@@ -915,7 +921,7 @@ extension Signer {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// Amazon Resource Name (ARN) for the signing profile.
+        /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
         /// One or more tags to be associated with the signing profile.
         public let tags: [String: String]
@@ -954,9 +960,9 @@ extension Signer {
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        /// Amazon Resource Name (ARN) for the signing profile .
+        /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
-        /// A list of tag keys to be removed from the signing profile .
+        /// A list of tag keys to be removed from the signing profile.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

@@ -18,6 +18,7 @@ public enum FSxErrorType: AWSErrorType {
     case invalidExportPath(message: String?)
     case invalidImportPath(message: String?)
     case invalidNetworkSettings(message: String?)
+    case invalidPerUnitStorageThroughput(message: String?)
     case missingFileSystemConfiguration(message: String?)
     case notServiceResourceError(message: String?)
     case resourceDoesNotSupportTagging(message: String?)
@@ -61,6 +62,8 @@ extension FSxErrorType {
             self = .invalidImportPath(message: message)
         case "InvalidNetworkSettings":
             self = .invalidNetworkSettings(message: message)
+        case "InvalidPerUnitStorageThroughput":
+            self = .invalidPerUnitStorageThroughput(message: message)
         case "MissingFileSystemConfiguration":
             self = .missingFileSystemConfiguration(message: message)
         case "NotServiceResourceError":
@@ -110,6 +113,8 @@ extension FSxErrorType : CustomStringConvertible {
             return "InvalidImportPath: \(message ?? "")"
         case .invalidNetworkSettings(let message):
             return "InvalidNetworkSettings: \(message ?? "")"
+        case .invalidPerUnitStorageThroughput(let message):
+            return "InvalidPerUnitStorageThroughput: \(message ?? "")"
         case .missingFileSystemConfiguration(let message):
             return "MissingFileSystemConfiguration: \(message ?? "")"
         case .notServiceResourceError(let message):

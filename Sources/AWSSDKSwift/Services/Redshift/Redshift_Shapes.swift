@@ -9,6 +9,7 @@ extension Redshift {
     public enum ActionType: String, CustomStringConvertible, Codable {
         case restoreCluster = "restore-cluster"
         case recommendNodeConfig = "recommend-node-config"
+        case resizeCluster = "resize-cluster"
         public var description: String { return self.rawValue }
     }
 
@@ -70,6 +71,8 @@ extension Redshift {
 
     public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
         case resizecluster = "ResizeCluster"
+        case pausecluster = "PauseCluster"
+        case resumecluster = "ResumeCluster"
         public var description: String { return self.rawValue }
     }
 
@@ -437,7 +440,7 @@ extension Redshift {
         public let clusterSecurityGroups: [ClusterSecurityGroupMembership]?
         /// A value that returns the destination region and retention period that are configured for cross-region snapshot copy.
         public let clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus?
-        ///  The current state of the cluster. Possible values are the following:    available     available, prep-for-resize     available, resize-cleanup     cancelling-resize     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
+        ///  The current state of the cluster. Possible values are the following:    available     available, prep-for-resize     available, resize-cleanup     cancelling-resize     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     paused     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
         public let clusterStatus: String?
         /// The name of the subnet group that is associated with the cluster. This parameter is valid only when the cluster is in a VPC.
         public let clusterSubnetGroupName: String?
@@ -1182,7 +1185,7 @@ extension Redshift {
         public let masterUsername: String
         /// The password associated with the master user account for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.  
         public let masterUserPassword: String
-        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.16xlarge 
+        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.4xlarge | ra3.16xlarge 
         public let nodeType: String
         /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
         public let numberOfNodes: Int?
@@ -2564,7 +2567,7 @@ extension Redshift {
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filter"), encoding: .list(member:"NodeConfigurationOptionsFilter"))
         ]
 
-        /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. 
+        /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. Specify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. 
         public let actionType: ActionType
         /// The identifier of the cluster to evaluate for possible node configurations.
         public let clusterIdentifier: String?
@@ -3709,7 +3712,7 @@ extension Redshift {
         public let masterUserPassword: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
         public let newClusterIdentifier: String?
-        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.  For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.16xlarge 
+        /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.  For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.4xlarge | ra3.16xlarge 
         public let nodeType: String?
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter.  For more information about resizing clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
         public let numberOfNodes: Int?
@@ -4221,6 +4224,33 @@ extension Redshift {
         }
     }
 
+    public struct PauseClusterMessage: AWSShape {
+
+        /// The identifier of the cluster to be paused.
+        public let clusterIdentifier: String
+
+        public init(clusterIdentifier: String) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
+    public struct PauseClusterResult: AWSShape {
+
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
     public struct PendingModifiedValues: AWSShape {
 
         /// The pending or in-progress change of the automated snapshot retention period.
@@ -4541,9 +4571,9 @@ extension Redshift {
         /// The new node type for the nodes you are adding. If not specified, the cluster's current node type is used.
         public let nodeType: String?
         /// The new number of nodes for the cluster.
-        public let numberOfNodes: Int
+        public let numberOfNodes: Int?
 
-        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int) {
+        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -4891,6 +4921,33 @@ extension Redshift {
         }
     }
 
+    public struct ResumeClusterMessage: AWSShape {
+
+        /// The identifier of the cluster to be resumed.
+        public let clusterIdentifier: String
+
+        public init(clusterIdentifier: String) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
+    public struct ResumeClusterResult: AWSShape {
+
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
     public struct RevisionTarget: AWSShape {
 
         /// A unique string that identifies the version to update the cluster to. You can use this value in ModifyClusterDbRevision.
@@ -5025,7 +5082,7 @@ extension Redshift {
         public let iamRole: String?
         /// List of times when the scheduled action will run. 
         public let nextInvocations: [TimeStamp]?
-        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0, 10, *, *, MON, *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: String?
         /// The description of the scheduled action. 
         public let scheduledActionDescription: String?
@@ -5086,15 +5143,23 @@ extension Redshift {
 
     public struct ScheduledActionType: AWSShape {
 
+        /// An action that runs a PauseCluster API operation. 
+        public let pauseCluster: PauseClusterMessage?
         /// An action that runs a ResizeCluster API operation. 
         public let resizeCluster: ResizeClusterMessage?
+        /// An action that runs a ResumeCluster API operation. 
+        public let resumeCluster: ResumeClusterMessage?
 
-        public init(resizeCluster: ResizeClusterMessage? = nil) {
+        public init(pauseCluster: PauseClusterMessage? = nil, resizeCluster: ResizeClusterMessage? = nil, resumeCluster: ResumeClusterMessage? = nil) {
+            self.pauseCluster = pauseCluster
             self.resizeCluster = resizeCluster
+            self.resumeCluster = resumeCluster
         }
 
         private enum CodingKeys: String, CodingKey {
+            case pauseCluster = "PauseCluster"
             case resizeCluster = "ResizeCluster"
+            case resumeCluster = "ResumeCluster"
         }
     }
 

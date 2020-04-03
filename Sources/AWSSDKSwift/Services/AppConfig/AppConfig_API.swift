@@ -49,7 +49,7 @@ public struct AppConfig {
         return client.send(operation: "CreateApplication", path: "/applications", httpMethod: "POST", input: input)
     }
 
-    ///  Information that enables AppConfig to access the configuration source. Valid configuration sources include Systems Manager (SSM) documents and SSM Parameter Store parameters. A configuration profile includes the following information.   The Uri location of the configuration data.   The AWS Identity and Access Management (IAM) role that provides access to the configuration data.   A validator for the configuration data. Available validators include either a JSON Schema or an AWS Lambda function.  
+    ///  Information that enables AppConfig to access the configuration source. Valid configuration sources include Systems Manager (SSM) documents, SSM Parameter Store parameters, and Amazon S3 objects. A configuration profile includes the following information.   The Uri location of the configuration data.   The AWS Identity and Access Management (IAM) role that provides access to the configuration data.   A validator for the configuration data. Available validators include either a JSON Schema or an AWS Lambda function.   For more information, see Create a Configuration and a Configuration Profile in the AWS AppConfig User Guide.
     public func createConfigurationProfile(_ input: CreateConfigurationProfileRequest) -> EventLoopFuture<ConfigurationProfile> {
         return client.send(operation: "CreateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: "POST", input: input)
     }

@@ -46,6 +46,11 @@ extension QuickSight {
         return client.paginate(input: input, command: listTemplates, tokenKey: \ListTemplatesResponse.nextToken, onPage: onPage)
     }
 
+    ///  Searchs for dashboards that belong to a user. 
+    public func searchDashboardsPaginator(_ input: SearchDashboardsRequest, onPage: @escaping (SearchDashboardsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchDashboards, tokenKey: \SearchDashboardsResponse.nextToken, onPage: onPage)
+    }
+
 }
 
 extension QuickSight.ListDashboardVersionsRequest: AWSPaginateStringToken {
@@ -133,6 +138,18 @@ extension QuickSight.ListTemplatesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplatesRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension QuickSight.SearchDashboardsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchDashboardsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId, 
+            filters: self.filters, 
             maxResults: self.maxResults, 
             nextToken: token
         )

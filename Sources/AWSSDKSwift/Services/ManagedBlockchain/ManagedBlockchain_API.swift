@@ -129,6 +129,16 @@ public struct ManagedBlockchain {
         return client.send(operation: "RejectInvitation", path: "/invitations/{invitationId}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Updates a member configuration with new parameters.
+    public func updateMember(_ input: UpdateMemberInput) -> EventLoopFuture<UpdateMemberOutput> {
+        return client.send(operation: "UpdateMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Updates a node configuration with new parameters.
+    public func updateNode(_ input: UpdateNodeInput) -> EventLoopFuture<UpdateNodeOutput> {
+        return client.send(operation: "UpdateNode", path: "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", httpMethod: "PATCH", input: input)
+    }
+
     ///  Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same AWS account as the principal that calls the action.
     public func voteOnProposal(_ input: VoteOnProposalInput) -> EventLoopFuture<VoteOnProposalOutput> {
         return client.send(operation: "VoteOnProposal", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: "POST", input: input)

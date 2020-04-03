@@ -31,6 +31,11 @@ extension ServiceCatalog {
         return client.paginate(input: input, command: listOrganizationPortfolioAccess, tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, onPage: onPage)
     }
 
+    ///  Lists the account IDs that have access to the specified portfolio.
+    public func listPortfolioAccessPaginator(_ input: ListPortfolioAccessInput, onPage: @escaping (ListPortfolioAccessOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPortfolioAccess, tokenKey: \ListPortfolioAccessOutput.nextPageToken, onPage: onPage)
+    }
+
     ///  Lists all portfolios in the catalog.
     public func listPortfoliosPaginator(_ input: ListPortfoliosInput, onPage: @escaping (ListPortfoliosOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listPortfolios, tokenKey: \ListPortfoliosOutput.nextPageToken, onPage: onPage)
@@ -142,6 +147,19 @@ extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateString
         return .init(
             acceptLanguage: self.acceptLanguage, 
             organizationNodeType: self.organizationNodeType, 
+            pageSize: self.pageSize, 
+            pageToken: token, 
+            portfolioId: self.portfolioId
+        )
+
+    }
+}
+
+extension ServiceCatalog.ListPortfolioAccessInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfolioAccessInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            organizationParentId: self.organizationParentId, 
             pageSize: self.pageSize, 
             pageToken: token, 
             portfolioId: self.portfolioId

@@ -6,6 +6,12 @@ import AWSSDKSwiftCore
 extension WorkMail {
     //MARK: Enums
 
+    public enum AccessControlRuleEffect: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntityState: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
@@ -40,6 +46,60 @@ extension WorkMail {
     }
 
     //MARK: Shapes
+
+    public struct AccessControlRule: AWSShape {
+
+        /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+        public let actions: [String]?
+        /// The date that the rule was created.
+        public let dateCreated: TimeStamp?
+        /// The date that the rule was modified.
+        public let dateModified: TimeStamp?
+        /// The rule description.
+        public let description: String?
+        /// The rule effect.
+        public let effect: AccessControlRuleEffect?
+        /// IPv4 CIDR ranges to include in the rule.
+        public let ipRanges: [String]?
+        /// The rule name.
+        public let name: String?
+        /// Access protocol actions to exclude from the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+        public let notActions: [String]?
+        /// IPv4 CIDR ranges to exclude from the rule.
+        public let notIpRanges: [String]?
+        /// User IDs to exclude from the rule.
+        public let notUserIds: [String]?
+        /// User IDs to include in the rule.
+        public let userIds: [String]?
+
+        public init(actions: [String]? = nil, dateCreated: TimeStamp? = nil, dateModified: TimeStamp? = nil, description: String? = nil, effect: AccessControlRuleEffect? = nil, ipRanges: [String]? = nil, name: String? = nil, notActions: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, userIds: [String]? = nil) {
+            self.actions = actions
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.description = description
+            self.effect = effect
+            self.ipRanges = ipRanges
+            self.name = name
+            self.notActions = notActions
+            self.notIpRanges = notIpRanges
+            self.notUserIds = notUserIds
+            self.userIds = userIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case description = "Description"
+            case effect = "Effect"
+            case ipRanges = "IpRanges"
+            case name = "Name"
+            case notActions = "NotActions"
+            case notIpRanges = "NotIpRanges"
+            case notUserIds = "NotUserIds"
+            case userIds = "UserIds"
+        }
+    }
 
     public struct AssociateDelegateToResourceRequest: AWSShape {
 
@@ -327,6 +387,39 @@ extension WorkMail {
         }
     }
 
+    public struct DeleteAccessControlRuleRequest: AWSShape {
+
+        /// The name of the access control rule.
+        public let name: String
+        /// The identifier for the organization.
+        public let organizationId: String?
+
+        public init(name: String, organizationId: String? = nil) {
+            self.name = name
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteAccessControlRuleResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteAliasRequest: AWSShape {
 
         /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set).
@@ -611,6 +704,8 @@ extension WorkMail {
 
         /// The alias for an organization.
         public let alias: String?
+        /// The Amazon Resource Name (ARN) of the organization.
+        public let arn: String?
         /// The date at which the organization became usable in the WorkMail context, in UNIX epoch time format.
         public let completedDate: TimeStamp?
         /// The default mail domain associated with the organization.
@@ -626,8 +721,9 @@ extension WorkMail {
         /// The state of an organization.
         public let state: String?
 
-        public init(alias: String? = nil, completedDate: TimeStamp? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
+        public init(alias: String? = nil, arn: String? = nil, completedDate: TimeStamp? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
+            self.arn = arn
             self.completedDate = completedDate
             self.defaultMailDomain = defaultMailDomain
             self.directoryId = directoryId
@@ -639,6 +735,7 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case alias = "Alias"
+            case arn = "ARN"
             case completedDate = "CompletedDate"
             case defaultMailDomain = "DefaultMailDomain"
             case directoryId = "DirectoryId"
@@ -686,7 +783,7 @@ extension WorkMail {
         public let name: String?
         /// The identifier of the described resource.
         public let resourceId: String?
-        /// The state of the resource: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to WorkMail).
+        /// The state of the resource: enabled (registered to Amazon WorkMail), disabled (deregistered or never registered to WorkMail), or deleted.
         public let state: EntityState?
         /// The type of the described resource.
         public let `type`: ResourceType?
@@ -855,6 +952,62 @@ extension WorkMail {
 
     }
 
+    public struct GetAccessControlEffectRequest: AWSShape {
+
+        /// The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+        public let action: String
+        /// The IPv4 address.
+        public let ipAddress: String
+        /// The identifier for the organization.
+        public let organizationId: String
+        /// The user ID.
+        public let userId: String
+
+        public init(action: String, ipAddress: String, organizationId: String, userId: String) {
+            self.action = action
+            self.ipAddress = ipAddress
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.action, name:"action", parent: name, max: 64)
+            try validate(self.action, name:"action", parent: name, min: 1)
+            try validate(self.action, name:"action", parent: name, pattern: "[a-zA-Z]+")
+            try validate(self.ipAddress, name:"ipAddress", parent: name, max: 15)
+            try validate(self.ipAddress, name:"ipAddress", parent: name, min: 1)
+            try validate(self.ipAddress, name:"ipAddress", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.userId, name:"userId", parent: name, max: 256)
+            try validate(self.userId, name:"userId", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case ipAddress = "IpAddress"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct GetAccessControlEffectResponse: AWSShape {
+
+        /// The rule effect.
+        public let effect: AccessControlRuleEffect?
+        /// The rules that match the given parameters, resulting in an effect.
+        public let matchedRules: [String]?
+
+        public init(effect: AccessControlRuleEffect? = nil, matchedRules: [String]? = nil) {
+            self.effect = effect
+            self.matchedRules = matchedRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effect = "Effect"
+            case matchedRules = "MatchedRules"
+        }
+    }
+
     public struct GetMailboxDetailsRequest: AWSShape {
 
         /// The identifier for the organization that contains the user whose mailbox details are being requested.
@@ -928,6 +1081,38 @@ extension WorkMail {
             case id = "Id"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct ListAccessControlRulesRequest: AWSShape {
+
+        /// The identifier for the organization.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListAccessControlRulesResponse: AWSShape {
+
+        /// The access control rules.
+        public let rules: [AccessControlRule]?
+
+        public init(rules: [AccessControlRule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
         }
     }
 
@@ -1286,6 +1471,39 @@ extension WorkMail {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+
+        /// The resource ARN.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+
+        /// A list of tag key-value pairs.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListUsersRequest: AWSShape {
 
         /// The maximum number of results to return in a single call.
@@ -1414,6 +1632,114 @@ extension WorkMail {
             case granteeType = "GranteeType"
             case permissionValues = "PermissionValues"
         }
+    }
+
+    public struct PutAccessControlRuleRequest: AWSShape {
+
+        /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+        public let actions: [String]?
+        /// The rule description.
+        public let description: String
+        /// The rule effect.
+        public let effect: AccessControlRuleEffect
+        /// IPv4 CIDR ranges to include in the rule.
+        public let ipRanges: [String]?
+        /// The rule name.
+        public let name: String
+        /// Access protocol actions to exclude from the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+        public let notActions: [String]?
+        /// IPv4 CIDR ranges to exclude from the rule.
+        public let notIpRanges: [String]?
+        /// User IDs to exclude from the rule.
+        public let notUserIds: [String]?
+        /// The identifier of the organization.
+        public let organizationId: String
+        /// User IDs to include in the rule.
+        public let userIds: [String]?
+
+        public init(actions: [String]? = nil, description: String, effect: AccessControlRuleEffect, ipRanges: [String]? = nil, name: String, notActions: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, organizationId: String, userIds: [String]? = nil) {
+            self.actions = actions
+            self.description = description
+            self.effect = effect
+            self.ipRanges = ipRanges
+            self.name = name
+            self.notActions = notActions
+            self.notIpRanges = notIpRanges
+            self.notUserIds = notUserIds
+            self.organizationId = organizationId
+            self.userIds = userIds
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try validate($0, name: "actions[]", parent: name, max: 64)
+                try validate($0, name: "actions[]", parent: name, min: 1)
+                try validate($0, name: "actions[]", parent: name, pattern: "[a-zA-Z]+")
+            }
+            try validate(self.actions, name:"actions", parent: name, max: 10)
+            try validate(self.actions, name:"actions", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 255)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.ipRanges?.forEach {
+                try validate($0, name: "ipRanges[]", parent: name, max: 18)
+                try validate($0, name: "ipRanges[]", parent: name, min: 1)
+                try validate($0, name: "ipRanges[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$")
+            }
+            try validate(self.ipRanges, name:"ipRanges", parent: name, max: 10)
+            try validate(self.ipRanges, name:"ipRanges", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.notActions?.forEach {
+                try validate($0, name: "notActions[]", parent: name, max: 64)
+                try validate($0, name: "notActions[]", parent: name, min: 1)
+                try validate($0, name: "notActions[]", parent: name, pattern: "[a-zA-Z]+")
+            }
+            try validate(self.notActions, name:"notActions", parent: name, max: 10)
+            try validate(self.notActions, name:"notActions", parent: name, min: 0)
+            try self.notIpRanges?.forEach {
+                try validate($0, name: "notIpRanges[]", parent: name, max: 18)
+                try validate($0, name: "notIpRanges[]", parent: name, min: 1)
+                try validate($0, name: "notIpRanges[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$")
+            }
+            try validate(self.notIpRanges, name:"notIpRanges", parent: name, max: 10)
+            try validate(self.notIpRanges, name:"notIpRanges", parent: name, min: 0)
+            try self.notUserIds?.forEach {
+                try validate($0, name: "notUserIds[]", parent: name, max: 256)
+                try validate($0, name: "notUserIds[]", parent: name, min: 12)
+            }
+            try validate(self.notUserIds, name:"notUserIds", parent: name, max: 10)
+            try validate(self.notUserIds, name:"notUserIds", parent: name, min: 0)
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.userIds?.forEach {
+                try validate($0, name: "userIds[]", parent: name, max: 256)
+                try validate($0, name: "userIds[]", parent: name, min: 12)
+            }
+            try validate(self.userIds, name:"userIds", parent: name, max: 10)
+            try validate(self.userIds, name:"userIds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case description = "Description"
+            case effect = "Effect"
+            case ipRanges = "IpRanges"
+            case name = "Name"
+            case notActions = "NotActions"
+            case notIpRanges = "NotIpRanges"
+            case notUserIds = "NotUserIds"
+            case organizationId = "OrganizationId"
+            case userIds = "UserIds"
+        }
+    }
+
+    public struct PutAccessControlRuleResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct PutMailboxPermissionsRequest: AWSShape {
@@ -1571,6 +1897,104 @@ extension WorkMail {
             case state = "State"
             case `type` = "Type"
         }
+    }
+
+    public struct Tag: AWSShape {
+
+        /// The key of the tag.
+        public let key: String
+        /// The value of the tag.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+
+        /// The resource ARN.
+        public let resourceARN: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateMailboxQuotaRequest: AWSShape {

@@ -17,6 +17,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum AlarmState: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case alarm = "ALARM"
+        case insufficientData = "INSUFFICIENT_DATA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable {
         case success = "Success"
         case failed = "Failed"
@@ -33,6 +40,32 @@ extension Lightsail {
 
     public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable {
         case exportsnapshotrecord = "ExportSnapshotRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactMethodStatus: String, CustomStringConvertible, Codable {
+        case pendingverification = "PendingVerification"
+        case valid = "Valid"
+        case invalid = "Invalid"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactMethodVerificationProtocol: String, CustomStringConvertible, Codable {
+        case email = "Email"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactProtocol: String, CustomStringConvertible, Codable {
+        case email = "Email"
+        case sms = "SMS"
         public var description: String { return self.rawValue }
     }
 
@@ -201,6 +234,33 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetricName: String, CustomStringConvertible, Codable {
+        case cpuutilization = "CPUUtilization"
+        case networkin = "NetworkIn"
+        case networkout = "NetworkOut"
+        case statuscheckfailed = "StatusCheckFailed"
+        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
+        case statuscheckfailedSystem = "StatusCheckFailed_System"
+        case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
+        case healthyhostcount = "HealthyHostCount"
+        case unhealthyhostcount = "UnhealthyHostCount"
+        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
+        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
+        case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
+        case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
+        case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
+        case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
+        case instanceresponsetime = "InstanceResponseTime"
+        case rejectedconnectioncount = "RejectedConnectionCount"
+        case requestcount = "RequestCount"
+        case databaseconnections = "DatabaseConnections"
+        case diskqueuedepth = "DiskQueueDepth"
+        case freestoragespace = "FreeStorageSpace"
+        case networkreceivethroughput = "NetworkReceiveThroughput"
+        case networktransmitthroughput = "NetworkTransmitThroughput"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetricStatistic: String, CustomStringConvertible, Codable {
         case minimum = "Minimum"
         case maximum = "Maximum"
@@ -305,6 +365,14 @@ extension Lightsail {
         case stoprelationaldatabase = "StopRelationalDatabase"
         case enableaddon = "EnableAddOn"
         case disableaddon = "DisableAddOn"
+        case putalarm = "PutAlarm"
+        case getalarms = "GetAlarms"
+        case deletealarm = "DeleteAlarm"
+        case testalarm = "TestAlarm"
+        case createcontactmethod = "CreateContactMethod"
+        case getcontactmethods = "GetContactMethods"
+        case sendcontactmethodverification = "SendContactMethodVerification"
+        case deletecontactmethod = "DeleteContactMethod"
         public var description: String { return self.rawValue }
     }
 
@@ -390,6 +458,16 @@ extension Lightsail {
         case relationaldatabasesnapshot = "RelationalDatabaseSnapshot"
         case exportsnapshotrecord = "ExportSnapshotRecord"
         case cloudformationstackrecord = "CloudFormationStackRecord"
+        case alarm = "Alarm"
+        case contactmethod = "ContactMethod"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TreatMissingData: String, CustomStringConvertible, Codable {
+        case breaching = "breaching"
+        case notbreaching = "notBreaching"
+        case ignore = "ignore"
+        case missing = "missing"
         public var description: String { return self.rawValue }
     }
 
@@ -443,6 +521,96 @@ extension Lightsail {
         }
     }
 
+    public struct Alarm: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the alarm.
+        public let arn: String?
+        /// The arithmetic operation used when comparing the specified statistic and threshold.
+        public let comparisonOperator: ComparisonOperator?
+        /// The contact protocols for the alarm, such as Email, SMS (text messaging), or both.
+        public let contactProtocols: [ContactProtocol]?
+        /// The timestamp when the alarm was created.
+        public let createdAt: TimeStamp?
+        /// The number of data points that must not within the specified threshold to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// An object that lists information about the location of the alarm.
+        public let location: ResourceLocation?
+        /// The name of the metric associated with the alarm.
+        public let metricName: MetricName?
+        /// An object that lists information about the resource monitored by the alarm.
+        public let monitoredResourceInfo: MonitoredResourceInfo?
+        /// The name of the alarm.
+        public let name: String?
+        /// Indicates whether the alarm is enabled.
+        public let notificationEnabled: Bool?
+        /// The alarm states that trigger a notification.
+        public let notificationTriggers: [AlarmState]?
+        /// The period, in seconds, over which the statistic is applied.
+        public let period: Int?
+        /// The Lightsail resource type (e.g., Alarm).
+        public let resourceType: ResourceType?
+        /// The current state of the alarm. An alarm has the following possible states:    ALARM — The metric is outside of the defined threshold.    INSUFFICIENT_DATA — The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK — The metric is within the defined threshold.  
+        public let state: AlarmState?
+        /// The statistic for the metric associated with the alarm. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
+        public let statistic: MetricStatistic?
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail alarm. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The value against which the specified statistic is compared.
+        public let threshold: Double?
+        /// Specifies how the alarm handles missing data points. An alarm can treat missing data in the following ways:    breaching — Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching — Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore — Ignore the missing data. Maintains the current alarm state.    missing — Missing data is treated as missing.  
+        public let treatMissingData: TreatMissingData?
+        /// The unit of the metric associated with the alarm.
+        public let unit: MetricUnit?
+
+        public init(arn: String? = nil, comparisonOperator: ComparisonOperator? = nil, contactProtocols: [ContactProtocol]? = nil, createdAt: TimeStamp? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int? = nil, location: ResourceLocation? = nil, metricName: MetricName? = nil, monitoredResourceInfo: MonitoredResourceInfo? = nil, name: String? = nil, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, period: Int? = nil, resourceType: ResourceType? = nil, state: AlarmState? = nil, statistic: MetricStatistic? = nil, supportCode: String? = nil, threshold: Double? = nil, treatMissingData: TreatMissingData? = nil, unit: MetricUnit? = nil) {
+            self.arn = arn
+            self.comparisonOperator = comparisonOperator
+            self.contactProtocols = contactProtocols
+            self.createdAt = createdAt
+            self.datapointsToAlarm = datapointsToAlarm
+            self.evaluationPeriods = evaluationPeriods
+            self.location = location
+            self.metricName = metricName
+            self.monitoredResourceInfo = monitoredResourceInfo
+            self.name = name
+            self.notificationEnabled = notificationEnabled
+            self.notificationTriggers = notificationTriggers
+            self.period = period
+            self.resourceType = resourceType
+            self.state = state
+            self.statistic = statistic
+            self.supportCode = supportCode
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case contactProtocols = "contactProtocols"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case evaluationPeriods = "evaluationPeriods"
+            case location = "location"
+            case metricName = "metricName"
+            case monitoredResourceInfo = "monitoredResourceInfo"
+            case name = "name"
+            case notificationEnabled = "notificationEnabled"
+            case notificationTriggers = "notificationTriggers"
+            case period = "period"
+            case resourceType = "resourceType"
+            case state = "state"
+            case statistic = "statistic"
+            case supportCode = "supportCode"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+            case unit = "unit"
+        }
+    }
+
     public struct AllocateStaticIpRequest: AWSShape {
 
         /// The name of the static IP address.
@@ -463,7 +631,7 @@ extension Lightsail {
 
     public struct AllocateStaticIpResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the static IP address you allocated.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -505,7 +673,7 @@ extension Lightsail {
 
     public struct AttachDiskResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -544,7 +712,7 @@ extension Lightsail {
 
     public struct AttachInstancesToLoadBalancerResult: AWSShape {
 
-        /// An object representing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -581,7 +749,7 @@ extension Lightsail {
 
     public struct AttachLoadBalancerTlsCertificateResult: AWSShape {
 
-        /// An object representing the API operations. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -618,7 +786,7 @@ extension Lightsail {
 
     public struct AttachStaticIpResult: AWSShape {
 
-        /// An array of key-value pairs containing information about your API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -847,7 +1015,7 @@ extension Lightsail {
 
     public struct CloseInstancePublicPortsResult: AWSShape {
 
-        /// An array of key-value pairs that contains information about the operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -923,6 +1091,51 @@ extension Lightsail {
         }
     }
 
+    public struct ContactMethod: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the contact method.
+        public let arn: String?
+        /// The destination of the contact method, such as an email address or a mobile phone number.
+        public let contactEndpoint: String?
+        /// The timestamp when the contact method was created.
+        public let createdAt: TimeStamp?
+        public let location: ResourceLocation?
+        /// The name of the contact method.
+        public let name: String?
+        /// The protocol of the contact method, such as email or SMS (text messaging).
+        public let `protocol`: ContactProtocol?
+        /// The Lightsail resource type (e.g., ContactMethod).
+        public let resourceType: ResourceType?
+        /// The current status of the contact method. A contact method has the following possible status:    PendingVerification — The contact method has not yet been verified, and the verification has not yet expired.    Valid — The contact method has been verified.    InValid — An attempt was made to verify the contact method, but the verification has expired.  
+        public let status: ContactMethodStatus?
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail contact method. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+
+        public init(arn: String? = nil, contactEndpoint: String? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: ContactProtocol? = nil, resourceType: ResourceType? = nil, status: ContactMethodStatus? = nil, supportCode: String? = nil) {
+            self.arn = arn
+            self.contactEndpoint = contactEndpoint
+            self.createdAt = createdAt
+            self.location = location
+            self.name = name
+            self.`protocol` = `protocol`
+            self.resourceType = resourceType
+            self.status = status
+            self.supportCode = supportCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case contactEndpoint = "contactEndpoint"
+            case createdAt = "createdAt"
+            case location = "location"
+            case name = "name"
+            case `protocol` = "protocol"
+            case resourceType = "resourceType"
+            case status = "status"
+            case supportCode = "supportCode"
+        }
+    }
+
     public struct CopySnapshotRequest: AWSShape {
 
         /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
@@ -964,7 +1177,7 @@ extension Lightsail {
 
     public struct CopySnapshotResult: AWSShape {
 
-        /// A list of objects describing the API operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -998,7 +1211,44 @@ extension Lightsail {
 
     public struct CreateCloudFormationStackResult: AWSShape {
 
-        /// A list of objects describing the API operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateContactMethodRequest: AWSShape {
+
+        /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 in Wikipedia.
+        public let contactEndpoint: String
+        /// The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following AWS Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest AWS Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
+        public let `protocol`: ContactProtocol
+
+        public init(contactEndpoint: String, protocol: ContactProtocol) {
+            self.contactEndpoint = contactEndpoint
+            self.`protocol` = `protocol`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactEndpoint, name:"contactEndpoint", parent: name, max: 256)
+            try validate(self.contactEndpoint, name:"contactEndpoint", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactEndpoint = "contactEndpoint"
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct CreateContactMethodResult: AWSShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1067,7 +1317,7 @@ extension Lightsail {
 
     public struct CreateDiskFromSnapshotResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1119,7 +1369,7 @@ extension Lightsail {
 
     public struct CreateDiskResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1165,7 +1415,7 @@ extension Lightsail {
 
     public struct CreateDiskSnapshotResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1201,7 +1451,7 @@ extension Lightsail {
 
     public struct CreateDomainEntryResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1233,7 +1483,7 @@ extension Lightsail {
 
     public struct CreateDomainResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the domain resource you created.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1274,7 +1524,7 @@ extension Lightsail {
 
     public struct CreateInstanceSnapshotResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your create instances snapshot request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1358,7 +1608,7 @@ extension Lightsail {
 
     public struct CreateInstancesFromSnapshotResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1423,7 +1673,7 @@ extension Lightsail {
 
     public struct CreateInstancesResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your create instances request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1461,7 +1711,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
-        /// An array of key-value pairs containing information about the results of your create key pair request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
@@ -1530,7 +1780,7 @@ extension Lightsail {
 
     public struct CreateLoadBalancerResult: AWSShape {
 
-        /// An object containing information about the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1579,7 +1829,7 @@ extension Lightsail {
 
     public struct CreateLoadBalancerTlsCertificateResult: AWSShape {
 
-        /// An object containing information about the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1645,7 +1895,7 @@ extension Lightsail {
 
     public struct CreateRelationalDatabaseFromSnapshotResult: AWSShape {
 
-        /// An object describing the result of your create relational database from snapshot request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1717,7 +1967,7 @@ extension Lightsail {
 
     public struct CreateRelationalDatabaseResult: AWSShape {
 
-        /// An object describing the result of your create relational database request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1758,7 +2008,39 @@ extension Lightsail {
 
     public struct CreateRelationalDatabaseSnapshotResult: AWSShape {
 
-        /// An object describing the result of your create relational database snapshot request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DeleteAlarmRequest: AWSShape {
+
+        /// The name of the alarm to delete.
+        public let alarmName: String
+
+        public init(alarmName: String) {
+            self.alarmName = alarmName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.alarmName, name:"alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "alarmName"
+        }
+    }
+
+    public struct DeleteAlarmResult: AWSShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1795,7 +2077,35 @@ extension Lightsail {
 
     public struct DeleteAutoSnapshotResult: AWSShape {
 
-        /// An array of objects that describe the result of your request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DeleteContactMethodRequest: AWSShape {
+
+        /// The protocol that will be deleted, such as Email or SMS (text messaging).  To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol. 
+        public let `protocol`: ContactProtocol
+
+        public init(protocol: ContactProtocol) {
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct DeleteContactMethodResult: AWSShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1831,7 +2141,7 @@ extension Lightsail {
 
     public struct DeleteDiskResult: AWSShape {
 
-        /// An array of objects that describe the result of your request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1863,7 +2173,7 @@ extension Lightsail {
 
     public struct DeleteDiskSnapshotResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1899,7 +2209,7 @@ extension Lightsail {
 
     public struct DeleteDomainEntryResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your delete domain entry request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1927,7 +2237,7 @@ extension Lightsail {
 
     public struct DeleteDomainResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your delete domain request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -1963,7 +2273,7 @@ extension Lightsail {
 
     public struct DeleteInstanceResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your delete instance request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1995,7 +2305,7 @@ extension Lightsail {
 
     public struct DeleteInstanceSnapshotResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2027,7 +2337,7 @@ extension Lightsail {
 
     public struct DeleteKeyPairResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your delete key pair request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -2059,7 +2369,7 @@ extension Lightsail {
 
     public struct DeleteKnownHostKeysResult: AWSShape {
 
-        /// A list of objects describing the API operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2091,7 +2401,7 @@ extension Lightsail {
 
     public struct DeleteLoadBalancerResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2132,7 +2442,7 @@ extension Lightsail {
 
     public struct DeleteLoadBalancerTlsCertificateResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2173,7 +2483,7 @@ extension Lightsail {
 
     public struct DeleteRelationalDatabaseResult: AWSShape {
 
-        /// An object describing the result of your delete relational database request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2205,7 +2515,7 @@ extension Lightsail {
 
     public struct DeleteRelationalDatabaseSnapshotResult: AWSShape {
 
-        /// An object describing the result of your delete relational database snapshot request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2255,7 +2565,7 @@ extension Lightsail {
 
     public struct DetachDiskResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2294,7 +2604,7 @@ extension Lightsail {
 
     public struct DetachInstancesFromLoadBalancerResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2326,7 +2636,7 @@ extension Lightsail {
 
     public struct DetachStaticIpResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your detach static IP request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2362,7 +2672,7 @@ extension Lightsail {
 
     public struct DisableAddOnResult: AWSShape {
 
-        /// An array of objects that describe the result of your request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2704,7 +3014,7 @@ extension Lightsail {
 
     public struct EnableAddOnResult: AWSShape {
 
-        /// An array of objects that describe the result of your request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2820,7 +3130,7 @@ extension Lightsail {
 
     public struct ExportSnapshotResult: AWSShape {
 
-        /// A list of objects describing the API operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -2834,7 +3144,7 @@ extension Lightsail {
 
     public struct GetActiveNamesRequest: AWSShape {
 
-        /// A token used for paginating results from your get active names request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetActiveNames request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -2850,7 +3160,7 @@ extension Lightsail {
 
         /// The list of active names returned by the get active names request.
         public let activeNames: [String]?
-        /// A token used for advancing to the next page of results from your get active names request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetActiveNames request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(activeNames: [String]? = nil, nextPageToken: String? = nil) {
@@ -2860,6 +3170,51 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case activeNames = "activeNames"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct GetAlarmsRequest: AWSShape {
+
+        /// The name of the alarm. Specify an alarm name to return information about a specific alarm.
+        public let alarmName: String?
+        /// The name of the Lightsail resource being monitored by the alarm. Specify a monitored resource name to return information about all alarms for a specific resource.
+        public let monitoredResourceName: String?
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetAlarms request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
+
+        public init(alarmName: String? = nil, monitoredResourceName: String? = nil, pageToken: String? = nil) {
+            self.alarmName = alarmName
+            self.monitoredResourceName = monitoredResourceName
+            self.pageToken = pageToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.alarmName, name:"alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(self.monitoredResourceName, name:"monitoredResourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "alarmName"
+            case monitoredResourceName = "monitoredResourceName"
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetAlarmsResult: AWSShape {
+
+        /// An array of objects that describe the alarms.
+        public let alarms: [Alarm]?
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetAlarms request and specify the next page token using the pageToken parameter.
+        public let nextPageToken: String?
+
+        public init(alarms: [Alarm]? = nil, nextPageToken: String? = nil) {
+            self.alarms = alarms
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
             case nextPageToken = "nextPageToken"
         }
     }
@@ -2908,7 +3263,7 @@ extension Lightsail {
 
         /// A Boolean value indicating whether to include inactive results in your request.
         public let includeInactive: Bool?
-        /// A token used for advancing to the next page of results from your get blueprints request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
@@ -2926,7 +3281,7 @@ extension Lightsail {
 
         /// An array of key-value pairs that contains information about the available blueprints.
         public let blueprints: [Blueprint]?
-        /// A token used for advancing to the next page of results from your get blueprints request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBlueprints request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(blueprints: [Blueprint]? = nil, nextPageToken: String? = nil) {
@@ -2944,7 +3299,7 @@ extension Lightsail {
 
         /// A Boolean value that indicates whether to include inactive bundle results in your request.
         public let includeInactive: Bool?
-        /// A token used for advancing to the next page of results from your get bundles request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
@@ -2962,7 +3317,7 @@ extension Lightsail {
 
         /// An array of key-value pairs that contains information about the available bundles.
         public let bundles: [Bundle]?
-        /// A token used for advancing to the next page of results from your get active names request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBundles request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(bundles: [Bundle]? = nil, nextPageToken: String? = nil) {
@@ -2978,7 +3333,7 @@ extension Lightsail {
 
     public struct GetCloudFormationStackRecordsRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get cloud formation stack records request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetClouFormationStackRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -2994,7 +3349,7 @@ extension Lightsail {
 
         /// A list of objects describing the CloudFormation stack records.
         public let cloudFormationStackRecords: [CloudFormationStackRecord]?
-        /// A token used for advancing to the next page of results of your get relational database bundles request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetCloudFormationStackRecords request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(cloudFormationStackRecords: [CloudFormationStackRecord]? = nil, nextPageToken: String? = nil) {
@@ -3005,6 +3360,34 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case cloudFormationStackRecords = "cloudFormationStackRecords"
             case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct GetContactMethodsRequest: AWSShape {
+
+        /// The protocols used to send notifications, such as Email, or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol.
+        public let protocols: [ContactProtocol]?
+
+        public init(protocols: [ContactProtocol]? = nil) {
+            self.protocols = protocols
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protocols = "protocols"
+        }
+    }
+
+    public struct GetContactMethodsResult: AWSShape {
+
+        /// An array of objects that describe the contact methods.
+        public let contactMethods: [ContactMethod]?
+
+        public init(contactMethods: [ContactMethod]? = nil) {
+            self.contactMethods = contactMethods
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactMethods = "contactMethods"
         }
     }
 
@@ -3074,7 +3457,7 @@ extension Lightsail {
 
     public struct GetDiskSnapshotsRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDiskSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3090,7 +3473,7 @@ extension Lightsail {
 
         /// An array of objects containing information about all block storage disk snapshots.
         public let diskSnapshots: [DiskSnapshot]?
-        /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDiskSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(diskSnapshots: [DiskSnapshot]? = nil, nextPageToken: String? = nil) {
@@ -3106,7 +3489,7 @@ extension Lightsail {
 
     public struct GetDisksRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your GetDisks request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDisks request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3122,7 +3505,7 @@ extension Lightsail {
 
         /// An array of objects containing information about all block storage disks.
         public let disks: [Disk]?
-        /// A token used for advancing to the next page of results from your GetDisks request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDisks request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(disks: [Disk]? = nil, nextPageToken: String? = nil) {
@@ -3166,7 +3549,7 @@ extension Lightsail {
 
     public struct GetDomainsRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get domains request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDomains request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3182,7 +3565,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
-        /// A token used for advancing to the next page of results from your get active names request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDomains request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(domains: [Domain]? = nil, nextPageToken: String? = nil) {
@@ -3198,7 +3581,7 @@ extension Lightsail {
 
     public struct GetExportSnapshotRecordsRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get export snapshot records request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetExportSnapshotRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3214,7 +3597,7 @@ extension Lightsail {
 
         /// A list of objects describing the export snapshot records.
         public let exportSnapshotRecords: [ExportSnapshotRecord]?
-        /// A token used for advancing to the next page of results of your get relational database bundles request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetExportSnapshotRecords request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(exportSnapshotRecords: [ExportSnapshotRecord]? = nil, nextPageToken: String? = nil) {
@@ -3270,15 +3653,15 @@ extension Lightsail {
         public let endTime: TimeStamp
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
-        /// The metric name to get data about. 
+        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     CPUUtilization  — The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn  — The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut  — The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed  — Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance  — Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System  — Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.  
         public let metricName: InstanceMetricName
-        /// The granularity, in seconds, of the returned data points.
+        /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
         /// The start time of the time period.
         public let startTime: TimeStamp
-        /// The instance statistics. 
+        /// The statistic for the metric. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
         public let statistics: [MetricStatistic]
-        /// The unit. The list of valid values is below.
+        /// The unit for the metric data request. Valid units depend on the metric data being required. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
         public init(endTime: TimeStamp, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
@@ -3424,7 +3807,7 @@ extension Lightsail {
 
     public struct GetInstanceSnapshotsRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get instance snapshots request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstanceSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3440,7 +3823,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
         public let instanceSnapshots: [InstanceSnapshot]?
-        /// A token used for advancing to the next page of results from your get instance snapshots request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstanceSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(instanceSnapshots: [InstanceSnapshot]? = nil, nextPageToken: String? = nil) {
@@ -3488,7 +3871,7 @@ extension Lightsail {
 
     public struct GetInstancesRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get instances request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3504,7 +3887,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about your instances.
         public let instances: [Instance]?
-        /// A token used for advancing to the next page of results from your get instances request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstances request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(instances: [Instance]? = nil, nextPageToken: String? = nil) {
@@ -3552,7 +3935,7 @@ extension Lightsail {
 
     public struct GetKeyPairsRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get key pairs request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetKeyPairs request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3568,7 +3951,7 @@ extension Lightsail {
 
         /// An array of key-value pairs containing information about the key pairs.
         public let keyPairs: [KeyPair]?
-        /// A token used for advancing to the next page of results from your get key pairs request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetKeyPairs request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(keyPairs: [KeyPair]? = nil, nextPageToken: String? = nil) {
@@ -3588,15 +3971,15 @@ extension Lightsail {
         public let endTime: TimeStamp
         /// The name of the load balancer.
         public let loadBalancerName: String
-        /// The metric about which you want to return information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
+        /// The metric for which you want to return information. Valid load balancer metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     ClientTLSNegotiationErrorCount  — The number of TLS connections initiated by the client that did not establish a session with the load balancer due to a TLS error generated by the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     HealthyHostCount  — The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.     HTTPCode_Instance_2XX_Count  — The number of HTTP 2XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_3XX_Count  — The number of HTTP 3XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_4XX_Count  — The number of HTTP 4XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_Instance_5XX_Count  — The number of HTTP 5XX response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_4XX_Count  — The number of HTTP 4XX client error codes that originated from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests were not received by the target instance. This count does not include response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     HTTPCode_LB_5XX_Count  — The number of HTTP 5XX server error codes that originated from the load balancer. This does not include any response codes generated by the target instance. This metric is reported if there are no healthy instances attached to the load balancer, or if the request rate exceeds the capacity of the instances (spillover) or the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     InstanceResponseTime  — The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     RejectedConnectionCount  — The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     RequestCount  — The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  Unit: The published unit is Count.     UnhealthyHostCount  — The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.  Unit: The published unit is Count.  
         public let metricName: LoadBalancerMetricName
         /// The granularity, in seconds, of the returned data points.
         public let period: Int
         /// The start time of the period.
         public let startTime: TimeStamp
-        /// An array of statistics that you want to request metrics for. Valid values are listed below.     SampleCount  - The count (number) of data points used for the statistical calculation.     Average  - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum. This comparison helps you to know when to increase or decrease your resources as needed.     Sum  - All values submitted for the matching metric added together. This statistic can be useful for determining the total volume of a metric.     Minimum  - The lowest value observed during the specified period. You can use this value to determine low volumes of activity for your application.     Maximum  - The highest value observed during the specified period. You can use this value to determine high volumes of activity for your application.  
+        /// The statistic for the metric. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
         public let statistics: [MetricStatistic]
-        /// The unit for the time period request. Valid values are listed below.
+        /// The unit for the metric data request. Valid units depend on the metric data being required. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
         public init(endTime: TimeStamp, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
@@ -3710,7 +4093,7 @@ extension Lightsail {
 
     public struct GetLoadBalancersRequest: AWSShape {
 
-        /// A token used for paginating the results from your GetLoadBalancers request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancers request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3726,7 +4109,7 @@ extension Lightsail {
 
         /// An array of LoadBalancer objects describing your load balancers.
         public let loadBalancers: [LoadBalancer]?
-        /// A token used for advancing to the next page of results from your GetLoadBalancers request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancers request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(loadBalancers: [LoadBalancer]? = nil, nextPageToken: String? = nil) {
@@ -3760,7 +4143,7 @@ extension Lightsail {
 
     public struct GetOperationResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the results of your get operation request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -3774,7 +4157,7 @@ extension Lightsail {
 
     public struct GetOperationsForResourceRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get operations for resource request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperationsForResource request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of the resource for which you are requesting information.
         public let resourceName: String
@@ -3796,9 +4179,9 @@ extension Lightsail {
 
     public struct GetOperationsForResourceResult: AWSShape {
 
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
-        /// An array of key-value pairs containing information about the results of your get operations for resource request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
@@ -3814,7 +4197,7 @@ extension Lightsail {
 
     public struct GetOperationsRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get operations request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperations request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3828,9 +4211,9 @@ extension Lightsail {
 
     public struct GetOperationsResult: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get operations request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
-        /// An array of key-value pairs containing information about the results of your get operations request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
@@ -3878,7 +4261,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseBlueprintsRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get relational database blueprints request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3894,7 +4277,7 @@ extension Lightsail {
 
         /// An object describing the result of your get relational database blueprints request.
         public let blueprints: [RelationalDatabaseBlueprint]?
-        /// A token used for advancing to the next page of results of your get relational database blueprints request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBlueprints request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(blueprints: [RelationalDatabaseBlueprint]? = nil, nextPageToken: String? = nil) {
@@ -3910,7 +4293,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseBundlesRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get relational database bundles request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -3926,7 +4309,7 @@ extension Lightsail {
 
         /// An object describing the result of your get relational database bundles request.
         public let bundles: [RelationalDatabaseBundle]?
-        /// A token used for advancing to the next page of results of your get relational database bundles request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBundles request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(bundles: [RelationalDatabaseBundle]? = nil, nextPageToken: String? = nil) {
@@ -3944,7 +4327,7 @@ extension Lightsail {
 
         /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
         public let durationInMinutes: Int?
-        /// A token used for advancing to a specific page of results from for get relational database events request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseEvents request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of the database from which to get events.
         public let relationalDatabaseName: String
@@ -3968,7 +4351,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseEventsResult: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get relational database events request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseEvents request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database events request.
         public let relationalDatabaseEvents: [RelationalDatabaseEvent]?
@@ -3990,7 +4373,7 @@ extension Lightsail {
         public let endTime: TimeStamp?
         /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
         public let logStreamName: String
-        /// A token used for advancing to a specific page of results for your get relational database log events request.
+        /// The token to advance to the next or previous page of results from your request. To get a page token, perform an initial GetRelationalDatabaseLogEvents request. If your results are paginated, the response will return a next forward token and/or next backward token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of your database for which to get log events.
         public let relationalDatabaseName: String
@@ -4120,17 +4503,17 @@ extension Lightsail {
 
         /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp
-        /// The name of the metric data to return.
+        /// The metric for which you want to return information. Valid relational database metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. All relational database metric data is available in 1-minute (60 seconds) granularity.     CPUUtilization  — The percentage of CPU utilization currently in use on the database.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     DatabaseConnections  — The number of database connections in use.  Statistics: The most useful statistics are Maximum and Sum.  Unit: The published unit is Count.     DiskQueueDepth  — The number of outstanding IOs (read/write requests) that are waiting to access the disk.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     FreeStorageSpace  — The amount of available storage space.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkReceiveThroughput  — The incoming (Receive) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.     NetworkTransmitThroughput  — The outgoing (Transmit) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.  
         public let metricName: RelationalDatabaseMetricName
-        /// The granularity, in seconds, of the returned data points.
+        /// The granularity, in seconds, of the returned data points. All relational database metric data is available in 1-minute (60 seconds) granularity.
         public let period: Int
         /// The name of your database from which to get metric data.
         public let relationalDatabaseName: String
         /// The start of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
         public let startTime: TimeStamp
-        /// The array of statistics for your metric data request.
+        /// The statistic for the metric. The following statistics are available:    Minimum — The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum — The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum — All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average — The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount — The count, or number, of data points used for the statistical calculation.  
         public let statistics: [MetricStatistic]
-        /// The unit for the metric data request.
+        /// The unit for the metric data request. Valid units depend on the metric data being required. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
 
         public init(endTime: TimeStamp, metricName: RelationalDatabaseMetricName, period: Int, relationalDatabaseName: String, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
@@ -4180,7 +4563,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseParametersRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get relational database parameters request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseParameters request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of your database for which to get parameters.
         public let relationalDatabaseName: String
@@ -4202,7 +4585,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseParametersResult: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get static IPs request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseParameters request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database parameters request.
         public let parameters: [RelationalDatabaseParameter]?
@@ -4284,7 +4667,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseSnapshotsRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get relational database snapshots request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -4298,7 +4681,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabaseSnapshotsResult: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get relational database snapshots request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database snapshots request.
         public let relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]?
@@ -4316,7 +4699,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabasesRequest: AWSShape {
 
-        /// A token used for advancing to a specific page of results for your get relational database request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabases request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -4330,7 +4713,7 @@ extension Lightsail {
 
     public struct GetRelationalDatabasesResult: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get relational databases request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabases request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational databases request.
         public let relationalDatabases: [RelationalDatabase]?
@@ -4380,7 +4763,7 @@ extension Lightsail {
 
     public struct GetStaticIpsRequest: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get static IPs request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetStaticIps request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -4394,7 +4777,7 @@ extension Lightsail {
 
     public struct GetStaticIpsResult: AWSShape {
 
-        /// A token used for advancing to the next page of results from your get static IPs request.
+        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetStaticIps request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about your get static IPs request.
         public let staticIps: [StaticIp]?
@@ -4472,7 +4855,7 @@ extension Lightsail {
 
     public struct ImportKeyPairResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5287,6 +5670,28 @@ extension Lightsail {
         }
     }
 
+    public struct MonitoredResourceInfo: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the resource being monitored.
+        public let arn: String?
+        /// The name of the Lightsail resource being monitored.
+        public let name: String?
+        /// The Lightsail resource type of the resource being monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms.
+        public let resourceType: ResourceType?
+
+        public init(arn: String? = nil, name: String? = nil, resourceType: ResourceType? = nil) {
+            self.arn = arn
+            self.name = name
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct MonthlyTransfer: AWSShape {
 
         /// The amount allocated per month (in GB).
@@ -5326,7 +5731,7 @@ extension Lightsail {
 
     public struct OpenInstancePublicPortsResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5424,7 +5829,7 @@ extension Lightsail {
 
     public struct PeerVpcResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5509,6 +5914,79 @@ extension Lightsail {
         }
     }
 
+    public struct PutAlarmRequest: AWSShape {
+
+        /// The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm.
+        public let alarmName: String
+        /// The arithmetic operation to use when comparing the specified statistic to the threshold. The specified statistic value is used as the first operand.
+        public let comparisonOperator: ComparisonOperator
+        /// The contact protocols to use for the alarm, such as Email, SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifications are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the AWS Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an AWS Region.
+        public let contactProtocols: [ContactProtocol]?
+        /// The number of data points that must be not within the specified threshold to trigger the alarm. If you are setting an "M out of N" alarm, this value (datapointsToAlarm) is the M.
+        public let datapointsToAlarm: Int?
+        /// The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods) is the N. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).
+        public let evaluationPeriods: Int
+        /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:    Instances: CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System.    Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.    Relational databases: CPUUtilization, DatabaseConnections, DiskQueueDepth, FreeStorageSpace, NetworkReceiveThroughput, and NetworkTransmitThroughput.  
+        public let metricName: MetricName
+        /// The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms.
+        public let monitoredResourceName: String
+        /// Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this parameter.
+        public let notificationEnabled: Bool?
+        /// The alarm states that trigger a notification. An alarm has the following possible states:    ALARM — The metric is outside of the defined threshold.    INSUFFICIENT_DATA — The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK — The metric is within the defined threshold.   When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state.   If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification.   If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't specify this parameter.
+        public let notificationTriggers: [AlarmState]?
+        /// The value against which the specified statistic is compared.
+        public let threshold: Double
+        /// Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways:    breaching — Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching — Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore — Ignore the missing data. Maintains the current alarm state.    missing — Missing data is treated as missing.   If treatMissingData is not specified, the default behavior of missing is used.
+        public let treatMissingData: TreatMissingData?
+
+        public init(alarmName: String, comparisonOperator: ComparisonOperator, contactProtocols: [ContactProtocol]? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int, metricName: MetricName, monitoredResourceName: String, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, threshold: Double, treatMissingData: TreatMissingData? = nil) {
+            self.alarmName = alarmName
+            self.comparisonOperator = comparisonOperator
+            self.contactProtocols = contactProtocols
+            self.datapointsToAlarm = datapointsToAlarm
+            self.evaluationPeriods = evaluationPeriods
+            self.metricName = metricName
+            self.monitoredResourceName = monitoredResourceName
+            self.notificationEnabled = notificationEnabled
+            self.notificationTriggers = notificationTriggers
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.alarmName, name:"alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+            try validate(self.monitoredResourceName, name:"monitoredResourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "alarmName"
+            case comparisonOperator = "comparisonOperator"
+            case contactProtocols = "contactProtocols"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case evaluationPeriods = "evaluationPeriods"
+            case metricName = "metricName"
+            case monitoredResourceName = "monitoredResourceName"
+            case notificationEnabled = "notificationEnabled"
+            case notificationTriggers = "notificationTriggers"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
+    public struct PutAlarmResult: AWSShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
     public struct PutInstancePublicPortsRequest: AWSShape {
 
         /// The Lightsail instance name of the public port(s) you are setting.
@@ -5536,7 +6014,7 @@ extension Lightsail {
 
     public struct PutInstancePublicPortsResult: AWSShape {
 
-        /// Describes metadata about the operation you just executed.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -5568,7 +6046,7 @@ extension Lightsail {
 
     public struct RebootInstanceResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -5600,7 +6078,7 @@ extension Lightsail {
 
     public struct RebootRelationalDatabaseResult: AWSShape {
 
-        /// An object describing the result of your reboot relational database request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6038,7 +6516,7 @@ extension Lightsail {
 
     public struct ReleaseStaticIpResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6068,6 +6546,34 @@ extension Lightsail {
         }
     }
 
+    public struct SendContactMethodVerificationRequest: AWSShape {
+
+        /// The protocol to verify, such as Email or SMS (text messaging).
+        public let `protocol`: ContactMethodVerificationProtocol
+
+        public init(protocol: ContactMethodVerificationProtocol) {
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct SendContactMethodVerificationResult: AWSShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
     public struct StartInstanceRequest: AWSShape {
 
         /// The name of the instance (a virtual private server) to start.
@@ -6088,7 +6594,7 @@ extension Lightsail {
 
     public struct StartInstanceResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6120,7 +6626,7 @@ extension Lightsail {
 
     public struct StartRelationalDatabaseResult: AWSShape {
 
-        /// An object describing the result of your start relational database request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6202,7 +6708,7 @@ extension Lightsail {
 
     public struct StopInstanceResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6239,7 +6745,7 @@ extension Lightsail {
 
     public struct StopRelationalDatabaseResult: AWSShape {
 
-        /// An object describing the result of your stop relational database request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6298,7 +6804,43 @@ extension Lightsail {
 
     public struct TagResourceResult: AWSShape {
 
-        /// A list of objects describing the API operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct TestAlarmRequest: AWSShape {
+
+        /// The name of the alarm to test.
+        public let alarmName: String
+        /// The alarm state to test. An alarm has the following possible states that can be tested:    ALARM — The metric is outside of the defined threshold.    INSUFFICIENT_DATA — The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK — The metric is within the defined threshold.  
+        public let state: AlarmState
+
+        public init(alarmName: String, state: AlarmState) {
+            self.alarmName = alarmName
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.alarmName, name:"alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "alarmName"
+            case state = "state"
+        }
+    }
+
+    public struct TestAlarmResult: AWSShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6320,7 +6862,7 @@ extension Lightsail {
 
     public struct UnpeerVpcResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -6361,7 +6903,7 @@ extension Lightsail {
 
     public struct UntagResourceResult: AWSShape {
 
-        /// A list of objects describing the API operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6397,7 +6939,7 @@ extension Lightsail {
 
     public struct UpdateDomainEntryResult: AWSShape {
 
-        /// An array of key-value pairs containing information about the request operation.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6439,7 +6981,7 @@ extension Lightsail {
 
     public struct UpdateLoadBalancerAttributeResult: AWSShape {
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6475,7 +7017,7 @@ extension Lightsail {
 
     public struct UpdateRelationalDatabaseParametersResult: AWSShape {
 
-        /// An object describing the result of your update relational database parameters request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6543,7 +7085,7 @@ extension Lightsail {
 
     public struct UpdateRelationalDatabaseResult: AWSShape {
 
-        /// An object describing the result of your update relational database request.
+        /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {

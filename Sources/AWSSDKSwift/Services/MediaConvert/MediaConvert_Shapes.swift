@@ -202,6 +202,39 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum Av1AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case higher = "HIGHER"
+        case max = "MAX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1FramerateControl: String, CustomStringConvertible, Codable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1FramerateConversionAlgorithm: String, CustomStringConvertible, Codable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1RateControlMode: String, CustomStringConvertible, Codable {
+        case qvbr = "QVBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BillingTagsSource: String, CustomStringConvertible, Codable {
         case queue = "QUEUE"
         case preset = "PRESET"
@@ -2016,6 +2049,7 @@ extension MediaConvert {
 
     public enum VideoCodec: String, CustomStringConvertible, Codable {
         case frameCapture = "FRAME_CAPTURE"
+        case av1 = "AV1"
         case h264 = "H_264"
         case h265 = "H_265"
         case mpeg2 = "MPEG2"
@@ -2358,7 +2392,7 @@ extension MediaConvert {
         public let algorithm: AudioNormalizationAlgorithm?
         /// When enabled the output audio is corrected using the chosen algorithm. If disabled, the audio will be measured but not adjusted.
         public let algorithmControl: AudioNormalizationAlgorithmControl?
-        /// Content measuring above this level will be corrected to the target level. Content measuring below this level will not be corrected. Gating only applies when not using real_time_correction.
+        /// Content measuring above this level will be corrected to the target level. Content measuring below this level will not be corrected.
         public let correctionGateLevel: Int?
         /// If set to LOG, log each output's audio track loudness to a CSV file.
         public let loudnessLogging: AudioNormalizationLoudnessLogging?
@@ -2431,7 +2465,7 @@ extension MediaConvert {
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
-            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
+            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.offset, name:"offset", parent: name, max: 2147483647)
             try validate(self.offset, name:"offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
@@ -2481,6 +2515,101 @@ extension MediaConvert {
         }
     }
 
+    public struct Av1QvbrSettings: AWSShape {
+
+        /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within av1Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
+        public let qvbrQualityLevel: Int?
+        /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
+        public let qvbrQualityLevelFineTune: Double?
+
+        public init(qvbrQualityLevel: Int? = nil, qvbrQualityLevelFineTune: Double? = nil) {
+            self.qvbrQualityLevel = qvbrQualityLevel
+            self.qvbrQualityLevelFineTune = qvbrQualityLevelFineTune
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, max: 10)
+            try validate(self.qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
+        }
+    }
+
+    public struct Av1Settings: AWSShape {
+
+        /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
+        public let adaptiveQuantization: Av1AdaptiveQuantization?
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        public let framerateControl: Av1FramerateControl?
+        /// When set to INTERPOLATE, produces smoother motion during frame rate conversion.
+        public let framerateConversionAlgorithm: Av1FramerateConversionAlgorithm?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateDenominator: Int?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateNumerator: Int?
+        /// Specify the GOP length (keyframe interval) in frames. With AV1, MediaConvert doesn't support GOP length in seconds. This value must be greater than zero and preferably equal to 1 + ((numberBFrames + 1) * x), where x is an integer value.
+        public let gopSize: Double?
+        /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
+        public let maxBitrate: Int?
+        /// Specify the number of B-frames. With AV1, MediaConvert supports only 7 or 15.
+        public let numberBFramesBetweenReferenceFrames: Int?
+        /// Settings for quality-defined variable bitrate encoding with the AV1 codec. Required when you set Rate control mode to QVBR. Not valid when you set Rate control mode to a value other than QVBR, or when you don't define Rate control mode.
+        public let qvbrSettings: Av1QvbrSettings?
+        /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
+        public let rateControlMode: Av1RateControlMode?
+        /// Specify the number of slices per picture. This value must be 1, 2, 4, 8, 16, or 32. For progressive pictures, this value must be less than or equal to the number of macroblock rows. For interlaced pictures, this value must be less than or equal to half the number of macroblock rows.
+        public let slices: Int?
+        /// Adjust quantization within each frame based on spatial variation of content complexity.
+        public let spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization?
+
+        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, slices: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
+            self.adaptiveQuantization = adaptiveQuantization
+            self.framerateControl = framerateControl
+            self.framerateConversionAlgorithm = framerateConversionAlgorithm
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.gopSize = gopSize
+            self.maxBitrate = maxBitrate
+            self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
+            self.qvbrSettings = qvbrSettings
+            self.rateControlMode = rateControlMode
+            self.slices = slices
+            self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, max: 2147483647)
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name:"framerateNumerator", parent: name, max: 2147483647)
+            try validate(self.framerateNumerator, name:"framerateNumerator", parent: name, min: 1)
+            try validate(self.maxBitrate, name:"maxBitrate", parent: name, max: 1152000000)
+            try validate(self.maxBitrate, name:"maxBitrate", parent: name, min: 1000)
+            try validate(self.numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", parent: name, max: 15)
+            try validate(self.numberBFramesBetweenReferenceFrames, name:"numberBFramesBetweenReferenceFrames", parent: name, min: 7)
+            try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
+            try validate(self.slices, name:"slices", parent: name, max: 32)
+            try validate(self.slices, name:"slices", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adaptiveQuantization = "adaptiveQuantization"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case maxBitrate = "maxBitrate"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case slices = "slices"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+        }
+    }
+
     public struct AvailBlanking: AWSShape {
 
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
@@ -2492,7 +2621,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try validate(self.availBlankingImage, name:"availBlankingImage", parent: name, min: 14)
-            try validate(self.availBlankingImage, name:"availBlankingImage", parent: name, pattern: "^(http|https|s3)://(.*?)\\.(bmp|BMP|png|PNG)$")
+            try validate(self.availBlankingImage, name:"availBlankingImage", parent: name, pattern: "^((s3://(.*?)\\.(bmp|BMP|png|PNG))|(https?://(.*?)\\.(bmp|BMP|png|PNG)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3032,7 +3161,7 @@ extension MediaConvert {
 
         /// Brightness level.
         public let brightness: Int?
-        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, and from SDR to HDR. The service doesn't support conversion from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output.
+        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR.
         public let colorSpaceConversion: ColorSpaceConversion?
         /// Contrast level.
         public let contrast: Int?
@@ -4303,7 +4432,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try validate(self.sourceFile, name:"sourceFile", parent: name, min: 14)
-            try validate(self.sourceFile, name:"sourceFile", parent: name, pattern: "^(http|https|s3)://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)$")
+            try validate(self.sourceFile, name:"sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.timeDelta, name:"timeDelta", parent: name, max: 2147483647)
             try validate(self.timeDelta, name:"timeDelta", parent: name, min: -2147483648)
         }
@@ -4480,12 +4609,15 @@ extension MediaConvert {
 
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
-        /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h264Settings. Specify the target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9.
+        /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h264Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
+        /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
+        public let qvbrQualityLevelFineTune: Double?
 
-        public init(maxAverageBitrate: Int? = nil, qvbrQualityLevel: Int? = nil) {
+        public init(maxAverageBitrate: Int? = nil, qvbrQualityLevel: Int? = nil, qvbrQualityLevelFineTune: Double? = nil) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
+            self.qvbrQualityLevelFineTune = qvbrQualityLevelFineTune
         }
 
         public func validate(name: String) throws {
@@ -4498,6 +4630,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case maxAverageBitrate = "maxAverageBitrate"
             case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
@@ -4705,12 +4838,15 @@ extension MediaConvert {
 
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
-        /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h265Settings. Specify the target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9.
+        /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h265Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
+        /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
+        public let qvbrQualityLevelFineTune: Double?
 
-        public init(maxAverageBitrate: Int? = nil, qvbrQualityLevel: Int? = nil) {
+        public init(maxAverageBitrate: Int? = nil, qvbrQualityLevel: Int? = nil, qvbrQualityLevelFineTune: Double? = nil) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
+            self.qvbrQualityLevelFineTune = qvbrQualityLevelFineTune
         }
 
         public func validate(name: String) throws {
@@ -4723,6 +4859,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case maxAverageBitrate = "maxAverageBitrate"
             case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
@@ -5258,7 +5395,7 @@ extension MediaConvert {
         public let audioTrackType: HlsAudioTrackType?
         /// When set to INCLUDE, writes I-Frame Only Manifest in addition to the HLS manifest
         public let iFrameOnlyManifest: HlsIFrameOnlyManifest?
-        /// String concatenated to end of segment filenames. Accepts "Format Identifiers":#format_identifier_parameters.
+        /// Use this setting to add an identifying string to the filename of each segment. The service adds this string between the name modifier and segment index number. You can use format identifiers in the string. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html
         public let segmentModifier: String?
 
         public init(audioGroupId: String? = nil, audioOnlyContainer: HlsAudioOnlyContainer? = nil, audioRenditionSets: String? = nil, audioTrackType: HlsAudioTrackType? = nil, iFrameOnlyManifest: HlsIFrameOnlyManifest? = nil, segmentModifier: String? = nil) {
@@ -5412,7 +5549,7 @@ extension MediaConvert {
             }
             try self.crop?.validate(name: "\(name).crop")
             try self.decryptionSettings?.validate(name: "\(name).decryptionSettings")
-            try validate(self.fileInput, name:"fileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
+            try validate(self.fileInput, name:"fileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.filterStrength, name:"filterStrength", parent: name, max: 5)
             try validate(self.filterStrength, name:"filterStrength", parent: name, min: -5)
             try self.imageInserter?.validate(name: "\(name).imageInserter")
@@ -5664,7 +5801,7 @@ extension MediaConvert {
             try validate(self.height, name:"height", parent: name, max: 2147483647)
             try validate(self.height, name:"height", parent: name, min: 0)
             try validate(self.imageInserterInput, name:"imageInserterInput", parent: name, min: 14)
-            try validate(self.imageInserterInput, name:"imageInserterInput", parent: name, pattern: "^(http|https|s3)://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)$")
+            try validate(self.imageInserterInput, name:"imageInserterInput", parent: name, pattern: "^((s3://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA))|(https?://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try validate(self.imageX, name:"imageX", parent: name, max: 2147483647)
             try validate(self.imageX, name:"imageX", parent: name, min: 0)
             try validate(self.imageY, name:"imageY", parent: name, max: 2147483647)
@@ -6612,7 +6749,7 @@ extension MediaConvert {
             try self.framerate?.validate(name: "\(name).framerate")
             try validate(self.input, name:"input", parent: name, max: 1285)
             try validate(self.input, name:"input", parent: name, min: 14)
-            try validate(self.input, name:"input", parent: name, pattern: "^(http|https|s3)://(.*)(\\.mov|[0-9]+\\.png)$")
+            try validate(self.input, name:"input", parent: name, pattern: "^((s3://(.*)(\\.mov|[0-9]+\\.png))|(https?://(.*)(\\.mov|[0-9]+\\.png)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try self.offset?.validate(name: "\(name).offset")
             try validate(self.startTime, name:"startTime", parent: name, max: 11)
             try validate(self.startTime, name:"startTime", parent: name, min: 11)
@@ -8343,6 +8480,8 @@ extension MediaConvert {
 
     public struct VideoCodecSettings: AWSShape {
 
+        /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
+        public let av1Settings: Av1Settings?
         /// Specifies the video codec. This must be equal to one of the enum values defined by the object  VideoCodec.
         public let codec: VideoCodec?
         /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value FRAME_CAPTURE.
@@ -8356,7 +8495,8 @@ extension MediaConvert {
         /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value PRORES.
         public let proresSettings: ProresSettings?
 
-        public init(codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil) {
+        public init(av1Settings: Av1Settings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil) {
+            self.av1Settings = av1Settings
             self.codec = codec
             self.frameCaptureSettings = frameCaptureSettings
             self.h264Settings = h264Settings
@@ -8366,6 +8506,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.av1Settings?.validate(name: "\(name).av1Settings")
             try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
             try self.h264Settings?.validate(name: "\(name).h264Settings")
             try self.h265Settings?.validate(name: "\(name).h265Settings")
@@ -8374,6 +8515,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case av1Settings = "av1Settings"
             case codec = "codec"
             case frameCaptureSettings = "frameCaptureSettings"
             case h264Settings = "h264Settings"
@@ -8389,7 +8531,7 @@ extension MediaConvert {
         public let afdSignaling: AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public let antiAlias: AntiAlias?
-        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
+        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * FRAME_CAPTURE, FrameCaptureSettings * AV1, Av1Settings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
         public let codecSettings: VideoCodecSettings?
         /// Choose Insert (INSERT) for this setting to include color metadata in this output. Choose Ignore (IGNORE) to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public let colorMetadata: ColorMetadata?

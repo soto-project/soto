@@ -108,6 +108,41 @@ extension Shield {
 
     }
 
+    public struct AssociateHealthCheckRequest: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the health check to associate with the protection.
+        public let healthCheckArn: String
+        /// The unique identifier (ID) for the Protection object to add the health check association to. 
+        public let protectionId: String
+
+        public init(healthCheckArn: String, protectionId: String) {
+            self.healthCheckArn = healthCheckArn
+            self.protectionId = protectionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.healthCheckArn, name:"healthCheckArn", parent: name, max: 2048)
+            try validate(self.healthCheckArn, name:"healthCheckArn", parent: name, min: 1)
+            try validate(self.healthCheckArn, name:"healthCheckArn", parent: name, pattern: "^arn:aws:route53:::healthcheck/\\S{36}$")
+            try validate(self.protectionId, name:"protectionId", parent: name, max: 36)
+            try validate(self.protectionId, name:"protectionId", parent: name, min: 1)
+            try validate(self.protectionId, name:"protectionId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckArn = "HealthCheckArn"
+            case protectionId = "ProtectionId"
+        }
+    }
+
+    public struct AssociateHealthCheckResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct AttackDetail: AWSShape {
 
         /// List of counters that describe the attack for the specified time period.
@@ -532,6 +567,41 @@ extension Shield {
 
     }
 
+    public struct DisassociateHealthCheckRequest: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the health check that is associated with the protection.
+        public let healthCheckArn: String
+        /// The unique identifier (ID) for the Protection object to remove the health check association from. 
+        public let protectionId: String
+
+        public init(healthCheckArn: String, protectionId: String) {
+            self.healthCheckArn = healthCheckArn
+            self.protectionId = protectionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.healthCheckArn, name:"healthCheckArn", parent: name, max: 2048)
+            try validate(self.healthCheckArn, name:"healthCheckArn", parent: name, min: 1)
+            try validate(self.healthCheckArn, name:"healthCheckArn", parent: name, pattern: "^arn:aws:route53:::healthcheck/\\S{36}$")
+            try validate(self.protectionId, name:"protectionId", parent: name, max: 36)
+            try validate(self.protectionId, name:"protectionId", parent: name, min: 1)
+            try validate(self.protectionId, name:"protectionId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckArn = "HealthCheckArn"
+            case protectionId = "ProtectionId"
+        }
+    }
+
+    public struct DisassociateHealthCheckResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct EmergencyContact: AWSShape {
 
         /// An email address that the DRT can use to contact you during a suspected attack.
@@ -713,6 +783,8 @@ extension Shield {
 
     public struct Protection: AWSShape {
 
+        /// The unique identifier (ID) for the Route 53 health check that's associated with the protection. 
+        public let healthCheckIds: [String]?
         /// The unique identifier (ID) of the protection.
         public let id: String?
         /// The friendly name of the protection. For example, My CloudFront distributions.
@@ -720,13 +792,15 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
         public let resourceArn: String?
 
-        public init(id: String? = nil, name: String? = nil, resourceArn: String? = nil) {
+        public init(healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, resourceArn: String? = nil) {
+            self.healthCheckIds = healthCheckIds
             self.id = id
             self.name = name
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case healthCheckIds = "HealthCheckIds"
             case id = "Id"
             case name = "Name"
             case resourceArn = "ResourceArn"

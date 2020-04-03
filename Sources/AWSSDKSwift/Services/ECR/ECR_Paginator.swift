@@ -6,12 +6,12 @@ import NIO
 
 extension ECR {
 
-    ///  Describes the image scan findings for the specified image.
+    ///  Returns the scan findings for the specified image.
     public func describeImageScanFindingsPaginator(_ input: DescribeImageScanFindingsRequest, onPage: @escaping (DescribeImageScanFindingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImageScanFindings, tokenKey: \DescribeImageScanFindingsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Returns metadata about the images in a repository, including image size, image tags, and creation date.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
+    ///  Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
     public func describeImagesPaginator(_ input: DescribeImagesRequest, onPage: @escaping (DescribeImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeImages, tokenKey: \DescribeImagesResponse.nextToken, onPage: onPage)
     }
@@ -21,12 +21,12 @@ extension ECR {
         return client.paginate(input: input, command: describeRepositories, tokenKey: \DescribeRepositoriesResponse.nextToken, onPage: onPage)
     }
 
-    ///  Retrieves the results of the specified lifecycle policy preview request.
+    ///  Retrieves the results of the lifecycle policy preview request for the specified repository.
     public func getLifecyclePolicyPreviewPaginator(_ input: GetLifecyclePolicyPreviewRequest, onPage: @escaping (GetLifecyclePolicyPreviewResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getLifecyclePolicyPreview, tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists all the image IDs for a given repository. You can filter images based on whether or not they are tagged by setting the tagStatus parameter to TAGGED or UNTAGGED. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
+    ///  Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     public func listImagesPaginator(_ input: ListImagesRequest, onPage: @escaping (ListImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, onPage: onPage)
     }

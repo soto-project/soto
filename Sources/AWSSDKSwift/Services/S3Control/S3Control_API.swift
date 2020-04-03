@@ -67,6 +67,11 @@ public struct S3Control {
         return client.send(operation: "DeleteAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "DELETE", input: input)
     }
 
+    ///  Delete the tags on a Amazon S3 batch operations job, if any.
+    public func deleteJobTagging(_ input: DeleteJobTaggingRequest) -> EventLoopFuture<DeleteJobTaggingResult> {
+        return client.send(operation: "DeleteJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "DELETE", input: input)
+    }
+
     ///  Removes the PublicAccessBlock configuration for an Amazon Web Services account.
     @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
@@ -92,6 +97,11 @@ public struct S3Control {
         return client.send(operation: "GetAccessPointPolicyStatus", path: "/v20180820/accesspoint/{name}/policyStatus", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieve the tags on a Amazon S3 batch operations job.
+    public func getJobTagging(_ input: GetJobTaggingRequest) -> EventLoopFuture<GetJobTaggingResult> {
+        return client.send(operation: "GetJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves the PublicAccessBlock configuration for an Amazon Web Services account.
     public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) -> EventLoopFuture<GetPublicAccessBlockOutput> {
         return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
@@ -110,6 +120,11 @@ public struct S3Control {
     ///  Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.
     @discardableResult public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutAccessPointPolicy", path: "/v20180820/accesspoint/{name}/policy", httpMethod: "PUT", input: input)
+    }
+
+    ///  Replace the set of tags on a Amazon S3 batch operations job.
+    public func putJobTagging(_ input: PutJobTaggingRequest) -> EventLoopFuture<PutJobTaggingResult> {
+        return client.send(operation: "PutJobTagging", path: "/v20180820/jobs/{id}/tagging", httpMethod: "PUT", input: input)
     }
 
     ///  Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.

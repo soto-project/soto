@@ -4552,7 +4552,7 @@ extension SSM {
 
     public struct DescribeParametersResult: AWSShape {
 
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        /// The token to use when requesting the next set of items.
         public let nextToken: String?
         /// Parameters returned by the request.
         public let parameters: [ParameterMetadata]?
@@ -9470,7 +9470,9 @@ extension SSM {
     public struct PatchRule: AWSShape {
 
         /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. 
-        public let approveAfterDays: Int
+        public let approveAfterDays: Int?
+        /// Example API
+        public let approveUntilDate: String?
         /// A compliance severity level for all approved patches in a patch baseline. Valid compliance severity levels include the following: Unspecified, Critical, High, Medium, Low, and Informational.
         public let complianceLevel: PatchComplianceLevel?
         /// For instances identified by the approval rule filters, enables a patch baseline to apply non-security updates available in the specified repository. The default value is 'false'. Applies to Linux instances only.
@@ -9478,8 +9480,9 @@ extension SSM {
         /// The patch filter group that defines the criteria for the rule.
         public let patchFilterGroup: PatchFilterGroup
 
-        public init(approveAfterDays: Int, complianceLevel: PatchComplianceLevel? = nil, enableNonSecurity: Bool? = nil, patchFilterGroup: PatchFilterGroup) {
+        public init(approveAfterDays: Int? = nil, approveUntilDate: String? = nil, complianceLevel: PatchComplianceLevel? = nil, enableNonSecurity: Bool? = nil, patchFilterGroup: PatchFilterGroup) {
             self.approveAfterDays = approveAfterDays
+            self.approveUntilDate = approveUntilDate
             self.complianceLevel = complianceLevel
             self.enableNonSecurity = enableNonSecurity
             self.patchFilterGroup = patchFilterGroup
@@ -9488,11 +9491,14 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.approveAfterDays, name:"approveAfterDays", parent: name, max: 100)
             try validate(self.approveAfterDays, name:"approveAfterDays", parent: name, min: 0)
+            try validate(self.approveUntilDate, name:"approveUntilDate", parent: name, max: 10)
+            try validate(self.approveUntilDate, name:"approveUntilDate", parent: name, min: 1)
             try self.patchFilterGroup.validate(name: "\(name).patchFilterGroup")
         }
 
         private enum CodingKeys: String, CodingKey {
             case approveAfterDays = "ApproveAfterDays"
+            case approveUntilDate = "ApproveUntilDate"
             case complianceLevel = "ComplianceLevel"
             case enableNonSecurity = "EnableNonSecurity"
             case patchFilterGroup = "PatchFilterGroup"
@@ -9715,7 +9721,7 @@ extension SSM {
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.  
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Requirements and Constraints for Parameter Names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for the fully qualified parameter name is 1011 characters, including the full length of the parameter ARN. For example, the following fully qualified parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName  
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Requirements and Constraints for Parameter Names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName  
         public let name: String
         /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
@@ -10231,6 +10237,25 @@ extension SSM {
         }
     }
 
+    public struct ResourceDataSyncDestinationDataSharing: AWSShape {
+
+        /// The sharing data type. Only Organization is supported.
+        public let destinationDataSharingType: String?
+
+        public init(destinationDataSharingType: String? = nil) {
+            self.destinationDataSharingType = destinationDataSharingType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.destinationDataSharingType, name:"destinationDataSharingType", parent: name, max: 64)
+            try validate(self.destinationDataSharingType, name:"destinationDataSharingType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDataSharingType = "DestinationDataSharingType"
+        }
+    }
+
     public struct ResourceDataSyncItem: AWSShape {
 
         /// The status reported by the last sync.
@@ -10307,6 +10332,8 @@ extension SSM {
         public let aWSKMSKeyARN: String?
         /// The name of the Amazon S3 bucket where the aggregated data is stored.
         public let bucketName: String
+        /// Enables destination data sharing. By default, this field is null.
+        public let destinationDataSharing: ResourceDataSyncDestinationDataSharing?
         /// An Amazon S3 prefix for the bucket.
         public let prefix: String?
         /// The AWS Region with the Amazon S3 bucket targeted by the Resource Data Sync.
@@ -10314,9 +10341,10 @@ extension SSM {
         /// A supported sync format. The following format is currently supported: JsonSerDe
         public let syncFormat: ResourceDataSyncS3Format
 
-        public init(aWSKMSKeyARN: String? = nil, bucketName: String, prefix: String? = nil, region: String, syncFormat: ResourceDataSyncS3Format) {
+        public init(aWSKMSKeyARN: String? = nil, bucketName: String, destinationDataSharing: ResourceDataSyncDestinationDataSharing? = nil, prefix: String? = nil, region: String, syncFormat: ResourceDataSyncS3Format) {
             self.aWSKMSKeyARN = aWSKMSKeyARN
             self.bucketName = bucketName
+            self.destinationDataSharing = destinationDataSharing
             self.prefix = prefix
             self.region = region
             self.syncFormat = syncFormat
@@ -10328,6 +10356,7 @@ extension SSM {
             try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, pattern: "arn:.*")
             try validate(self.bucketName, name:"bucketName", parent: name, max: 2048)
             try validate(self.bucketName, name:"bucketName", parent: name, min: 1)
+            try self.destinationDataSharing?.validate(name: "\(name).destinationDataSharing")
             try validate(self.prefix, name:"prefix", parent: name, max: 256)
             try validate(self.prefix, name:"prefix", parent: name, min: 1)
             try validate(self.region, name:"region", parent: name, max: 64)
@@ -10337,6 +10366,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case aWSKMSKeyARN = "AWSKMSKeyARN"
             case bucketName = "BucketName"
+            case destinationDataSharing = "DestinationDataSharing"
             case prefix = "Prefix"
             case region = "Region"
             case syncFormat = "SyncFormat"
@@ -10345,7 +10375,7 @@ extension SSM {
 
     public struct ResourceDataSyncSource: AWSShape {
 
-        /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
+        /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from AWS Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
         /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
         public let includeFutureRegions: Bool?

@@ -34,6 +34,7 @@ extension SavingsPlans {
     public enum SavingsPlanProductType: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
         case fargate = "Fargate"
+        case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
 
@@ -71,11 +72,14 @@ extension SavingsPlans {
     public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable {
         case amazonec2 = "AmazonEC2"
         case amazonecs = "AmazonECS"
+        case awslambda = "AWSLambda"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable {
         case hrs = "Hrs"
+        case lambdaGbSecond = "Lambda-GB-Second"
+        case request = "Request"
         public var description: String { return self.rawValue }
     }
 

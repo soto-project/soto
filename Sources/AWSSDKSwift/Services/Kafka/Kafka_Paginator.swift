@@ -26,6 +26,11 @@ extension Kafka {
         return client.paginate(input: input, command: listConfigurations, tokenKey: \ListConfigurationsResponse.nextToken, onPage: onPage)
     }
 
+    ///  Returns a list of Kafka versions.
+    public func listKafkaVersionsPaginator(_ input: ListKafkaVersionsRequest, onPage: @escaping (ListKafkaVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listKafkaVersions, tokenKey: \ListKafkaVersionsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Returns a list of the broker nodes in the cluster.
     public func listNodesPaginator(_ input: ListNodesRequest, onPage: @escaping (ListNodesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesResponse.nextToken, onPage: onPage)
@@ -68,6 +73,16 @@ extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateStringToken {
 
 extension Kafka.ListConfigurationsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension Kafka.ListKafkaVersionsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListKafkaVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
             nextToken: token

@@ -95,12 +95,12 @@ public struct Athena {
         return client.send(operation: "GetWorkGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listNamedQueries(_ input: ListNamedQueriesInput) -> EventLoopFuture<ListNamedQueriesOutput> {
         return client.send(operation: "ListNamedQueries", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides a list of available query execution IDs for the queries in the specified workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    ///  Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listQueryExecutions(_ input: ListQueryExecutionsInput) -> EventLoopFuture<ListQueryExecutionsOutput> {
         return client.send(operation: "ListQueryExecutions", path: "/", httpMethod: "POST", input: input)
     }

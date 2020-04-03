@@ -137,7 +137,7 @@ public struct EFS {
         return client.send(operation: "ModifyMountTargetSecurityGroups", path: "/2015-02-01/mount-targets/{MountTargetId}/security-groups", httpMethod: "PUT", input: input)
     }
 
-    ///  Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see Using Resource-based Policies with EFS.  This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.
+    ///  Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see Default EFS File System Policy.  This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.
     public func putFileSystemPolicy(_ input: PutFileSystemPolicyRequest) -> EventLoopFuture<FileSystemPolicyDescription> {
         return client.send(operation: "PutFileSystemPolicy", path: "/2015-02-01/file-systems/{FileSystemId}/policy", httpMethod: "PUT", input: input)
     }

@@ -60,7 +60,7 @@ public struct Lightsail {
         return client.send(operation: "AttachInstancesToLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the attach load balancer tls certificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate. The attach load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
+    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func attachLoadBalancerTlsCertificate(_ input: AttachLoadBalancerTlsCertificateRequest) -> EventLoopFuture<AttachLoadBalancerTlsCertificateResult> {
         return client.send(operation: "AttachLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -83,6 +83,11 @@ public struct Lightsail {
     ///  Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created.  Wait until after your new Amazon EC2 instance is created before running the create cloud formation stack operation again with the same export snapshot record. 
     public func createCloudFormationStack(_ input: CreateCloudFormationStackRequest) -> EventLoopFuture<CreateCloudFormationStackResult> {
         return client.send(operation: "CreateCloudFormationStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    public func createContactMethod(_ input: CreateContactMethodRequest) -> EventLoopFuture<CreateContactMethodResult> {
+        return client.send(operation: "CreateContactMethod", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
@@ -135,7 +140,7 @@ public struct Lightsail {
         return client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Lightsail load balancer TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The create load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
+    ///  Creates a Lightsail load balancer TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func createLoadBalancerTlsCertificate(_ input: CreateLoadBalancerTlsCertificateRequest) -> EventLoopFuture<CreateLoadBalancerTlsCertificateResult> {
         return client.send(operation: "CreateLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -155,9 +160,19 @@ public struct Lightsail {
         return client.send(operation: "CreateRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail.
+    public func deleteAlarm(_ input: DeleteAlarmRequest) -> EventLoopFuture<DeleteAlarmResult> {
+        return client.send(operation: "DeleteAlarm", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes an automatic snapshot of an instance or disk. For more information, see the Lightsail Dev Guide.
     public func deleteAutoSnapshot(_ input: DeleteAutoSnapshotRequest) -> EventLoopFuture<DeleteAutoSnapshotResult> {
         return client.send(operation: "DeleteAutoSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    public func deleteContactMethod(_ input: DeleteContactMethodRequest) -> EventLoopFuture<DeleteContactMethodResult> {
+        return client.send(operation: "DeleteContactMethod", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance).  The disk may remain in the deleting state for several minutes.  The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the Lightsail Dev Guide.
@@ -205,7 +220,7 @@ public struct Lightsail {
         return client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The delete load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
+    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func deleteLoadBalancerTlsCertificate(_ input: DeleteLoadBalancerTlsCertificateRequest) -> EventLoopFuture<DeleteLoadBalancerTlsCertificateResult> {
         return client.send(operation: "DeleteLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -260,6 +275,11 @@ public struct Lightsail {
         return client.send(operation: "GetActiveNames", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or specify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail.
+    public func getAlarms(_ input: GetAlarmsRequest) -> EventLoopFuture<GetAlarmsResult> {
+        return client.send(operation: "GetAlarms", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the available automatic snapshots for an instance or disk. For more information, see the Lightsail Dev Guide.
     public func getAutoSnapshots(_ input: GetAutoSnapshotsRequest) -> EventLoopFuture<GetAutoSnapshotsResult> {
         return client.send(operation: "GetAutoSnapshots", path: "/", httpMethod: "POST", input: input)
@@ -280,6 +300,11 @@ public struct Lightsail {
         return client.send(operation: "GetCloudFormationStackRecords", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    public func getContactMethods(_ input: GetContactMethodsRequest) -> EventLoopFuture<GetContactMethodsResult> {
+        return client.send(operation: "GetContactMethods", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about a specific block storage disk.
     public func getDisk(_ input: GetDiskRequest) -> EventLoopFuture<GetDiskResult> {
         return client.send(operation: "GetDisk", path: "/", httpMethod: "POST", input: input)
@@ -290,12 +315,12 @@ public struct Lightsail {
         return client.send(operation: "GetDiskSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all block storage disk snapshots in your AWS account and region. If you are describing a long list of disk snapshots, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    ///  Returns information about all block storage disk snapshots in your AWS account and region.
     public func getDiskSnapshots(_ input: GetDiskSnapshotsRequest) -> EventLoopFuture<GetDiskSnapshotsResult> {
         return client.send(operation: "GetDiskSnapshots", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all block storage disks in your AWS account and region. If you are describing a long list of disks, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    ///  Returns information about all block storage disks in your AWS account and region.
     public func getDisks(_ input: GetDisksRequest) -> EventLoopFuture<GetDisksResult> {
         return client.send(operation: "GetDisks", path: "/", httpMethod: "POST", input: input)
     }
@@ -380,7 +405,7 @@ public struct Lightsail {
         return client.send(operation: "GetLoadBalancerTlsCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all load balancers in an account. If you are describing a long list of load balancers, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    ///  Returns information about all load balancers in an account.
     public func getLoadBalancers(_ input: GetLoadBalancersRequest) -> EventLoopFuture<GetLoadBalancersResult> {
         return client.send(operation: "GetLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
@@ -495,6 +520,11 @@ public struct Lightsail {
         return client.send(operation: "PeerVpc", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail. When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
+    public func putAlarm(_ input: PutAlarmRequest) -> EventLoopFuture<PutAlarmResult> {
+        return client.send(operation: "PutAlarm", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest) -> EventLoopFuture<PutInstancePublicPortsResult> {
         return client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
@@ -513,6 +543,11 @@ public struct Lightsail {
     ///  Deletes a specific static IP from your account.
     public func releaseStaticIp(_ input: ReleaseStaticIpRequest) -> EventLoopFuture<ReleaseStaticIpResult> {
         return client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sends a verification request to an email contact method to ensure it’s owned by the requester. SMS contact methods don’t need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid. 
+    public func sendContactMethodVerification(_ input: SendContactMethodVerificationRequest) -> EventLoopFuture<SendContactMethodVerificationResult> {
+        return client.send(operation: "SendContactMethodVerification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
@@ -538,6 +573,11 @@ public struct Lightsail {
     ///  Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the Lightsail Dev Guide.
     public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResult> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail.
+    public func testAlarm(_ input: TestAlarmRequest) -> EventLoopFuture<TestAlarmResult> {
+        return client.send(operation: "TestAlarm", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to unpeer the Lightsail VPC from the user's default VPC.

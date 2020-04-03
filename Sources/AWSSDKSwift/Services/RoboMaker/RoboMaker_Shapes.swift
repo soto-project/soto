@@ -22,10 +22,12 @@ extension RoboMaker {
         case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
         case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
         case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
+        case invalidgreengrassgroup = "InvalidGreengrassGroup"
         case missingrobotarchitecture = "MissingRobotArchitecture"
         case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
         case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
         case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
+        case lambdadeleted = "LambdaDeleted"
         case extractingbundlefailure = "ExtractingBundleFailure"
         case prelaunchfilefailure = "PreLaunchFileFailure"
         case postlaunchfilefailure = "PostLaunchFileFailure"
@@ -91,6 +93,24 @@ extension RoboMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SimulationJobBatchErrorCode: String, CustomStringConvertible, Codable {
+        case internalserviceerror = "InternalServiceError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimulationJobBatchStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case completed = "Completed"
+        case canceled = "Canceled"
+        case canceling = "Canceling"
+        case completing = "Completing"
+        case timingout = "TimingOut"
+        case timedout = "TimedOut"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable {
         case internalserviceerror = "InternalServiceError"
         case robotapplicationcrash = "RobotApplicationCrash"
@@ -106,10 +126,14 @@ extension RoboMaker {
         case invalidbundlerobotapplication = "InvalidBundleRobotApplication"
         case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
         case invalids3resource = "InvalidS3Resource"
+        case limitexceeded = "LimitExceeded"
         case mismatchedetag = "MismatchedEtag"
         case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
         case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
         case resourcenotfound = "ResourceNotFound"
+        case requestthrottled = "RequestThrottled"
+        case batchtimedout = "BatchTimedOut"
+        case batchcanceled = "BatchCanceled"
         case invalidinput = "InvalidInput"
         case wrongregions3bucket = "WrongRegionS3Bucket"
         case wrongregions3output = "WrongRegionS3Output"
@@ -182,6 +206,24 @@ extension RoboMaker {
         }
     }
 
+    public struct BatchPolicy: AWSShape {
+
+        /// The number of active simulation jobs create as part of the batch that can be in an active state at the same time.  Active states include: Pending,Preparing, Running, Restarting, RunningFailed and Terminating. All other states are terminal states. 
+        public let maxConcurrency: Int?
+        /// The amount of time, in seconds, to wait for the batch to complete.  If a batch times out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), they will be moved to the failed list and the batch status will be Failed. If the pending requests were failing for any other reason, the failed pending requests will be moved to the failed list and the batch status will be TimedOut. 
+        public let timeoutInSeconds: Int64?
+
+        public init(maxConcurrency: Int? = nil, timeoutInSeconds: Int64? = nil) {
+            self.maxConcurrency = maxConcurrency
+            self.timeoutInSeconds = timeoutInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrency = "maxConcurrency"
+            case timeoutInSeconds = "timeoutInSeconds"
+        }
+    }
+
     public struct CancelDeploymentJobRequest: AWSShape {
 
         /// The deployment job ARN to cancel.
@@ -203,6 +245,34 @@ extension RoboMaker {
     }
 
     public struct CancelDeploymentJobResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct CancelSimulationJobBatchRequest: AWSShape {
+
+        /// The id of the batch to cancel.
+        public let batch: String
+
+        public init(batch: String) {
+            self.batch = batch
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.batch, name:"batch", parent: name, max: 1224)
+            try validate(self.batch, name:"batch", parent: name, min: 1)
+            try validate(self.batch, name:"batch", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batch = "batch"
+        }
+    }
+
+    public struct CancelSimulationJobBatchResponse: AWSShape {
 
 
         public init() {
@@ -399,7 +469,7 @@ extension RoboMaker {
 
         /// The name of the robot application.
         public let name: String
-        /// The robot software suite used by the robot application.
+        /// The robot software suite (ROS distribuition) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
         public let sources: [SourceConfig]
@@ -448,7 +518,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite used by the robot application.
+        /// The robot software suite (ROS distribution) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -517,7 +587,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite used by the robot application.
+        /// The robot software suite (ROS distribution) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -628,7 +698,7 @@ extension RoboMaker {
         public let name: String
         /// The rendering engine for the simulation application.
         public let renderingEngine: RenderingEngine?
-        /// The robot software suite of the simulation application.
+        /// The robot software suite (ROS distribution) used by the simulation application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite
@@ -687,7 +757,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision id of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite.
+        /// Information about the robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -764,7 +834,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision ID of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite.
+        /// Information about the robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -802,7 +872,7 @@ extension RoboMaker {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
-        /// The data sources for the simulation job.  There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
+        /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
         public let dataSources: [DataSourceConfig]?
         /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
         public let failureBehavior: FailureBehavior?
@@ -1525,7 +1595,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite used by the robot application.
+        /// The robot software suite (ROS distribution) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -1666,7 +1736,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision id of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite.
+        /// Information about the robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -1701,6 +1771,84 @@ extension RoboMaker {
             case sources = "sources"
             case tags = "tags"
             case version = "version"
+        }
+    }
+
+    public struct DescribeSimulationJobBatchRequest: AWSShape {
+
+        /// The id of the batch to describe.
+        public let batch: String
+
+        public init(batch: String) {
+            self.batch = batch
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.batch, name:"batch", parent: name, max: 1224)
+            try validate(self.batch, name:"batch", parent: name, min: 1)
+            try validate(self.batch, name:"batch", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batch = "batch"
+        }
+    }
+
+    public struct DescribeSimulationJobBatchResponse: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the batch.
+        public let arn: String?
+        /// The batch policy.
+        public let batchPolicy: BatchPolicy?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the simulation job batch was created.
+        public let createdAt: TimeStamp?
+        /// A list of created simulation job summaries.
+        public let createdRequests: [SimulationJobSummary]?
+        /// A list of failed create simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID. 
+        public let failedRequests: [FailedCreateSimulationJobRequest]?
+        /// The failure code of the simulation job batch.
+        public let failureCode: SimulationJobBatchErrorCode?
+        /// The reason the simulation job batch failed.
+        public let failureReason: String?
+        /// The time, in milliseconds since the epoch, when the simulation job batch was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// A list of pending simulation job requests. These requests have not yet been created into simulation jobs.
+        public let pendingRequests: [SimulationJobRequest]?
+        /// The status of the batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.  
+        public let status: SimulationJobBatchStatus?
+        /// A map that contains tag keys and tag values that are attached to the simulation job batch.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, createdRequests: [SimulationJobSummary]? = nil, failedRequests: [FailedCreateSimulationJobRequest]? = nil, failureCode: SimulationJobBatchErrorCode? = nil, failureReason: String? = nil, lastUpdatedAt: TimeStamp? = nil, pendingRequests: [SimulationJobRequest]? = nil, status: SimulationJobBatchStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.batchPolicy = batchPolicy
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.createdRequests = createdRequests
+            self.failedRequests = failedRequests
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.lastUpdatedAt = lastUpdatedAt
+            self.pendingRequests = pendingRequests
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case createdRequests = "createdRequests"
+            case failedRequests = "failedRequests"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingRequests = "pendingRequests"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1814,6 +1962,32 @@ extension RoboMaker {
         }
     }
 
+    public struct FailedCreateSimulationJobRequest: AWSShape {
+
+        /// The time, in milliseconds since the epoch, when the simulation job batch failed.
+        public let failedAt: TimeStamp?
+        /// The failure code.
+        public let failureCode: SimulationJobErrorCode?
+        /// The failure reason of the simulation job request.
+        public let failureReason: String?
+        /// The simulation job request.
+        public let request: SimulationJobRequest?
+
+        public init(failedAt: TimeStamp? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, request: SimulationJobRequest? = nil) {
+            self.failedAt = failedAt
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.request = request
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedAt = "failedAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case request = "request"
+        }
+    }
+
     public struct Filter: AWSShape {
 
         /// The name of the filter.
@@ -1889,12 +2063,15 @@ extension RoboMaker {
         public let packageName: String
         /// The port forwarding configuration.
         public let portForwardingConfig: PortForwardingConfig?
+        /// Boolean indicating whether a streaming session will be configured for the application. If True, AWS RoboMaker will configure a connection so you can interact with your application as it is running in the simulation. You must configure and luanch the component. It must have a graphical user interface. 
+        public let streamUI: Bool?
 
-        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, portForwardingConfig: PortForwardingConfig? = nil) {
+        public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, portForwardingConfig: PortForwardingConfig? = nil, streamUI: Bool? = nil) {
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
             self.packageName = packageName
             self.portForwardingConfig = portForwardingConfig
+            self.streamUI = streamUI
         }
 
         public func validate(name: String) throws {
@@ -1920,6 +2097,7 @@ extension RoboMaker {
             case launchFile = "launchFile"
             case packageName = "packageName"
             case portForwardingConfig = "portForwardingConfig"
+            case streamUI = "streamUI"
         }
     }
 
@@ -1927,9 +2105,9 @@ extension RoboMaker {
 
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListDeploymentJobs in paginated output. When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListDeploymentJobs returns up to 100 results and a nextToken value if applicable. 
+        /// When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1978,7 +2156,7 @@ extension RoboMaker {
 
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListFleets in paginated output. When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListFleets returns up to 100 results and a nextToken value if applicable. 
+        /// When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -2029,9 +2207,9 @@ extension RoboMaker {
 
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
+        /// When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
         public let nextToken: String?
         /// The version qualifier of the robot application.
         public let versionQualifier: String?
@@ -2052,6 +2230,8 @@ extension RoboMaker {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(self.versionQualifier, name:"versionQualifier", parent: name, max: 255)
+            try validate(self.versionQualifier, name:"versionQualifier", parent: name, min: 1)
             try validate(self.versionQualifier, name:"versionQualifier", parent: name, pattern: "ALL")
         }
 
@@ -2085,9 +2265,9 @@ extension RoboMaker {
 
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
+        /// When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2136,9 +2316,9 @@ extension RoboMaker {
 
         /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
+        /// When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+        /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
         public let nextToken: String?
         /// The version qualifier of the simulation application.
         public let versionQualifier: String?
@@ -2159,6 +2339,8 @@ extension RoboMaker {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try validate(self.versionQualifier, name:"versionQualifier", parent: name, max: 255)
+            try validate(self.versionQualifier, name:"versionQualifier", parent: name, min: 1)
             try validate(self.versionQualifier, name:"versionQualifier", parent: name, pattern: "ALL")
         }
 
@@ -2188,11 +2370,62 @@ extension RoboMaker {
         }
     }
 
+    public struct ListSimulationJobBatchesRequest: AWSShape {
+
+        /// Optional filters to limit results.
+        public let filters: [Filter]?
+        /// When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value. 
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListSimulationJobBatches request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.filters, name:"filters", parent: name, max: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSimulationJobBatchesResponse: AWSShape {
+
+        /// The nextToken value to include in a future ListSimulationJobBatches request. When the results of a ListSimulationJobBatches request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// A list of simulation job batch summaries.
+        public let simulationJobBatchSummaries: [SimulationJobBatchSummary]?
+
+        public init(nextToken: String? = nil, simulationJobBatchSummaries: [SimulationJobBatchSummary]? = nil) {
+            self.nextToken = nextToken
+            self.simulationJobBatchSummaries = simulationJobBatchSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case simulationJobBatchSummaries = "simulationJobBatchSummaries"
+        }
+    }
+
     public struct ListSimulationJobsRequest: AWSShape {
 
         /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
-        /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
+        /// When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable. 
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -2474,6 +2707,8 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try validate(self.version, name:"version", parent: name, max: 4)
+            try validate(self.version, name:"version", parent: name, min: 1)
             try validate(self.version, name:"version", parent: name, pattern: "1.x")
         }
 
@@ -2597,7 +2832,7 @@ extension RoboMaker {
         public let lastUpdatedAt: TimeStamp?
         /// The name of the robot application.
         public let name: String?
-        /// Information about a robot software suite.
+        /// Information about a robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The version of the robot application.
         public let version: String?
@@ -2659,9 +2894,9 @@ extension RoboMaker {
 
     public struct RobotSoftwareSuite: AWSShape {
 
-        /// The name of the robot software suite.
+        /// The name of the robot software suite (ROS distribution).
         public let name: RobotSoftwareSuiteType?
-        /// The version of the robot software suite.
+        /// The version of the robot software suite (ROS distribution).
         public let version: RobotSoftwareSuiteVersionType?
 
         public init(name: RobotSoftwareSuiteType? = nil, version: RobotSoftwareSuiteVersionType? = nil) {
@@ -2764,7 +2999,7 @@ extension RoboMaker {
         public let lastUpdatedAt: TimeStamp?
         /// The name of the simulation application.
         public let name: String?
-        /// Information about a robot software suite.
+        /// Information about a robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// Information about a simulation software suite.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -2880,6 +3115,126 @@ extension RoboMaker {
         }
     }
 
+    public struct SimulationJobBatchSummary: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the batch.
+        public let arn: String?
+        /// The time, in milliseconds since the epoch, when the simulation job batch was created.
+        public let createdAt: TimeStamp?
+        /// The number of created simulation job requests.
+        public let createdRequestCount: Int?
+        /// The number of failed simulation job requests.
+        public let failedRequestCount: Int?
+        /// The time, in milliseconds since the epoch, when the simulation job batch was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The number of pending simulation job requests.
+        public let pendingRequestCount: Int?
+        /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.  
+        public let status: SimulationJobBatchStatus?
+
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, createdRequestCount: Int? = nil, failedRequestCount: Int? = nil, lastUpdatedAt: TimeStamp? = nil, pendingRequestCount: Int? = nil, status: SimulationJobBatchStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdRequestCount = createdRequestCount
+            self.failedRequestCount = failedRequestCount
+            self.lastUpdatedAt = lastUpdatedAt
+            self.pendingRequestCount = pendingRequestCount
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdRequestCount = "createdRequestCount"
+            case failedRequestCount = "failedRequestCount"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingRequestCount = "pendingRequestCount"
+            case status = "status"
+        }
+    }
+
+    public struct SimulationJobRequest: AWSShape {
+
+        /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
+        public let dataSources: [DataSourceConfig]?
+        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
+        public let failureBehavior: FailureBehavior?
+        /// The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
+        public let iamRole: String?
+        public let loggingConfig: LoggingConfig?
+        /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
+        public let maxJobDurationInSeconds: Int64
+        public let outputLocation: OutputLocation?
+        /// The robot applications to use in the simulation job.
+        public let robotApplications: [RobotApplicationConfig]?
+        /// The simulation applications to use in the simulation job.
+        public let simulationApplications: [SimulationApplicationConfig]?
+        /// A map that contains tag keys and tag values that are attached to the simulation job request.
+        public let tags: [String: String]?
+        /// Boolean indicating whether to use default simulation tool applications.
+        public let useDefaultApplications: Bool?
+        public let vpcConfig: VPCConfig?
+
+        public init(dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, useDefaultApplications: Bool? = nil, vpcConfig: VPCConfig? = nil) {
+            self.dataSources = dataSources
+            self.failureBehavior = failureBehavior
+            self.iamRole = iamRole
+            self.loggingConfig = loggingConfig
+            self.maxJobDurationInSeconds = maxJobDurationInSeconds
+            self.outputLocation = outputLocation
+            self.robotApplications = robotApplications
+            self.simulationApplications = simulationApplications
+            self.tags = tags
+            self.useDefaultApplications = useDefaultApplications
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSources?.forEach {
+                try $0.validate(name: "\(name).dataSources[]")
+            }
+            try validate(self.dataSources, name:"dataSources", parent: name, max: 5)
+            try validate(self.dataSources, name:"dataSources", parent: name, min: 1)
+            try validate(self.iamRole, name:"iamRole", parent: name, max: 255)
+            try validate(self.iamRole, name:"iamRole", parent: name, min: 1)
+            try validate(self.iamRole, name:"iamRole", parent: name, pattern: "arn:aws:iam::\\w+:role/.*")
+            try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try self.robotApplications?.forEach {
+                try $0.validate(name: "\(name).robotApplications[]")
+            }
+            try validate(self.robotApplications, name:"robotApplications", parent: name, max: 1)
+            try validate(self.robotApplications, name:"robotApplications", parent: name, min: 1)
+            try self.simulationApplications?.forEach {
+                try $0.validate(name: "\(name).simulationApplications[]")
+            }
+            try validate(self.simulationApplications, name:"simulationApplications", parent: name, max: 1)
+            try validate(self.simulationApplications, name:"simulationApplications", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case iamRole = "iamRole"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case tags = "tags"
+            case useDefaultApplications = "useDefaultApplications"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
     public struct SimulationJobSummary: AWSShape {
 
         /// The Amazon Resource Name (ARN) of the simulation job.
@@ -2931,6 +3286,8 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try validate(self.version, name:"version", parent: name, max: 1024)
+            try validate(self.version, name:"version", parent: name, min: 0)
             try validate(self.version, name:"version", parent: name, pattern: "7|9|Kinetic|Melodic|Dashing")
         }
 
@@ -2994,6 +3351,104 @@ extension RoboMaker {
             case architecture = "architecture"
             case s3Bucket = "s3Bucket"
             case s3Key = "s3Key"
+        }
+    }
+
+    public struct StartSimulationJobBatchRequest: AWSShape {
+
+        /// The batch policy.
+        public let batchPolicy: BatchPolicy?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// A list of simulation job requests to create in the batch.
+        public let createSimulationJobRequests: [SimulationJobRequest]
+        /// A map that contains tag keys and tag values that are attached to the deployment job batch.
+        public let tags: [String: String]?
+
+        public init(batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = StartSimulationJobBatchRequest.idempotencyToken(), createSimulationJobRequests: [SimulationJobRequest], tags: [String: String]? = nil) {
+            self.batchPolicy = batchPolicy
+            self.clientRequestToken = clientRequestToken
+            self.createSimulationJobRequests = createSimulationJobRequests
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try self.createSimulationJobRequests.forEach {
+                try $0.validate(name: "\(name).createSimulationJobRequests[]")
+            }
+            try validate(self.createSimulationJobRequests, name:"createSimulationJobRequests", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createSimulationJobRequests = "createSimulationJobRequests"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartSimulationJobBatchResponse: AWSShape {
+
+        /// The Amazon Resource Name (arn) of the batch.
+        public let arn: String?
+        /// The batch policy.
+        public let batchPolicy: BatchPolicy?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The time, in milliseconds since the epoch, when the simulation job batch was created.
+        public let createdAt: TimeStamp?
+        /// A list of created simulation job request summaries.
+        public let createdRequests: [SimulationJobSummary]?
+        /// A list of failed simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID. 
+        public let failedRequests: [FailedCreateSimulationJobRequest]?
+        /// The failure code if the simulation job batch failed.
+        public let failureCode: SimulationJobBatchErrorCode?
+        /// The reason the simulation job batch failed.
+        public let failureReason: String?
+        /// A list of pending simulation job requests. These requests have not yet been created into simulation jobs.
+        public let pendingRequests: [SimulationJobRequest]?
+        /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.  
+        public let status: SimulationJobBatchStatus?
+        /// A map that contains tag keys and tag values that are attached to the deployment job batch.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, batchPolicy: BatchPolicy? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, createdRequests: [SimulationJobSummary]? = nil, failedRequests: [FailedCreateSimulationJobRequest]? = nil, failureCode: SimulationJobBatchErrorCode? = nil, failureReason: String? = nil, pendingRequests: [SimulationJobRequest]? = nil, status: SimulationJobBatchStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.batchPolicy = batchPolicy
+            self.clientRequestToken = clientRequestToken
+            self.createdAt = createdAt
+            self.createdRequests = createdRequests
+            self.failedRequests = failedRequests
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.pendingRequests = pendingRequests
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case createdRequests = "createdRequests"
+            case failedRequests = "failedRequests"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case pendingRequests = "pendingRequests"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -3156,7 +3611,7 @@ extension RoboMaker {
         public let application: String
         /// The revision id for the robot application.
         public let currentRevisionId: String?
-        /// The robot software suite used by the robot application.
+        /// The robot software suite (ROS distribution) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
         public let sources: [SourceConfig]
@@ -3198,7 +3653,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite used by the robot application.
+        /// The robot software suite (ROS distribution) used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -3234,7 +3689,7 @@ extension RoboMaker {
         public let currentRevisionId: String?
         /// The rendering engine for the simulation application.
         public let renderingEngine: RenderingEngine?
-        /// Information about the robot software suite.
+        /// Information about the robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite
@@ -3286,7 +3741,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision id of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite.
+        /// Information about the robot software suite (ROS distribution).
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -3337,12 +3792,16 @@ extension RoboMaker {
 
         public func validate(name: String) throws {
             try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, max: 255)
                 try validate($0, name: "securityGroups[]", parent: name, min: 1)
+                try validate($0, name: "securityGroups[]", parent: name, pattern: ".+")
             }
             try validate(self.securityGroups, name:"securityGroups", parent: name, max: 5)
             try validate(self.securityGroups, name:"securityGroups", parent: name, min: 1)
             try self.subnets.forEach {
+                try validate($0, name: "subnets[]", parent: name, max: 255)
                 try validate($0, name: "subnets[]", parent: name, min: 1)
+                try validate($0, name: "subnets[]", parent: name, pattern: ".+")
             }
             try validate(self.subnets, name:"subnets", parent: name, max: 16)
             try validate(self.subnets, name:"subnets", parent: name, min: 1)
