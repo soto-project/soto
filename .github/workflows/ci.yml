@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-    - main
+    - 5.x.x
     paths:
     - '**.swift'
   pull_request:
@@ -12,7 +12,7 @@ on:
     paths:
     - '**.swift'
   workflow_dispatch:
-  
+
 env:
   AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
