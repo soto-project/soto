@@ -16,18 +16,18 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Install Localstack
-      run: |
-        PATH=/Users/runner/Library/Python/3.7/bin:$PATH
-        pip3 install --user "localstack[full]"
+    #- name: Install Localstack
+    #  run: |
+    #    PATH=/Users/runner/Library/Python/3.7/bin:$PATH
+    #    pip3 install --user "localstack[full]"
     - name: SPM build
       run: swift build
-    - name: SPM test
-      run: |
-        PATH=/Users/runner/Library/Python/3.7/bin:$PATH
-        localstack start --host &
-        sleep 45
-        swift test
+    #- name: SPM test
+    #  run: |
+    #    PATH=/Users/runner/Library/Python/3.7/bin:$PATH
+    #    localstack start --host &
+    #    sleep 45
+    #    swift test
 
   linux:
     runs-on: ubuntu-latest
