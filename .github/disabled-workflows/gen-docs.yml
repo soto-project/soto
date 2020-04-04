@@ -98,7 +98,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REMOTE_BRANCH: "gh-pages"
-        FOLDER: "current"
+        FOLDER: "5.x.x"
       run: |
         REMOTE_REPO="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         git config user.name "${GITHUB_ACTOR}"
