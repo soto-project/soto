@@ -136,7 +136,6 @@ extension Kendra {
         public func validate(name: String) throws {
             try validate(self.keyPath, name:"keyPath", parent: name, max: 1024)
             try validate(self.keyPath, name:"keyPath", parent: name, min: 1)
-            try validate(self.keyPath, name:"keyPath", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -659,6 +658,8 @@ extension Kendra {
 
     public struct CreateIndexRequest: AWSShape {
 
+        /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.”
+        public let clientToken: String?
         /// A description for the index.
         public let description: String?
         /// The name for the new index.
@@ -668,7 +669,8 @@ extension Kendra {
         /// The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
 
-        public init(description: String? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+            self.clientToken = clientToken
             self.description = description
             self.name = name
             self.roleArn = roleArn
@@ -676,6 +678,8 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, max: 1000)
             try validate(self.description, name:"description", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
@@ -689,6 +693,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case description = "Description"
             case name = "Name"
             case roleArn = "RoleArn"
@@ -828,7 +833,7 @@ extension Kendra {
         public func validate(name: String) throws {
             try validate(self.dataSourceFieldName, name:"dataSourceFieldName", parent: name, max: 100)
             try validate(self.dataSourceFieldName, name:"dataSourceFieldName", parent: name, min: 1)
-            try validate(self.dataSourceFieldName, name:"dataSourceFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try validate(self.dataSourceFieldName, name:"dataSourceFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, max: 40)
             try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, min: 4)
             try validate(self.indexFieldName, name:"indexFieldName", parent: name, max: 30)
@@ -1202,7 +1207,7 @@ extension Kendra {
         public let accessControlList: [Principal]?
         /// Custom attributes to apply to the document. Use the custom attributes to provide additional information for searching, to provide facets for refining searches, and to provide additional information in the query response.
         public let attributes: [DocumentAttribute]?
-        /// The contents of the document as a base-64 encoded string.
+        /// The contents of the document.  Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an AWS SDK to call Amazon Kendra operations. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
         public let blob: Data?
         /// The file type of the document in the Blob field.
         public let contentType: ContentType?
@@ -1305,7 +1310,6 @@ extension Kendra {
             try validate(self.stringListValue, name:"stringListValue", parent: name, min: 1)
             try validate(self.stringValue, name:"stringValue", parent: name, max: 2048)
             try validate(self.stringValue, name:"stringValue", parent: name, min: 1)
-            try validate(self.stringValue, name:"stringValue", parent: name, pattern: "^\\P{C}*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1378,7 +1382,6 @@ extension Kendra {
         public func validate(name: String) throws {
             try validate(self.s3Prefix, name:"s3Prefix", parent: name, max: 1024)
             try validate(self.s3Prefix, name:"s3Prefix", parent: name, min: 1)
-            try validate(self.s3Prefix, name:"s3Prefix", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1999,14 +2002,12 @@ extension Kendra {
             try self.exclusionPatterns?.forEach {
                 try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
-                try validate($0, name: "exclusionPatterns[]", parent: name, pattern: "^\\P{C}*$")
             }
             try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
             try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, min: 0)
             try self.inclusionPrefixes?.forEach {
                 try validate($0, name: "inclusionPrefixes[]", parent: name, max: 50)
                 try validate($0, name: "inclusionPrefixes[]", parent: name, min: 1)
-                try validate($0, name: "inclusionPrefixes[]", parent: name, pattern: "^\\P{C}*$")
             }
             try validate(self.inclusionPrefixes, name:"inclusionPrefixes", parent: name, max: 100)
             try validate(self.inclusionPrefixes, name:"inclusionPrefixes", parent: name, min: 0)
@@ -2039,7 +2040,6 @@ extension Kendra {
             try validate(self.bucket, name:"bucket", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
             try validate(self.key, name:"key", parent: name, max: 1024)
             try validate(self.key, name:"key", parent: name, min: 1)
-            try validate(self.key, name:"key", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2095,35 +2095,56 @@ extension Kendra {
         public let crawlAttachments: Bool?
         /// The Microsoft SharePoint attribute field that contains the title of the document.
         public let documentTitleFieldName: String?
+        /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
+        public let exclusionPatterns: [String]?
         /// A list of DataSourceToIndexFieldMapping objects that map Microsoft SharePoint attributes to custom fields in the Amazon Kendra index. You must first create the index fields using the operation before you map SharePoint attributes. For more information, see Mapping Data Source Fields.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
+        public let inclusionPatterns: [String]?
         /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Microsoft SharePoint Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the AWS Secrets Manager user guide.
         public let secretArn: String
         /// The version of Microsoft SharePoint that you are using as a data source.
         public let sharePointVersion: SharePointVersion
         /// The URLs of the Microsoft SharePoint site that contains the documents that should be indexed.
         public let urls: [String]
+        /// Set to TRUE to use the Microsoft SharePoint change log to determine the documents that need to be updated in the index. Depending on the size of the SharePoint change log, it may take longer for Amazon Kendra to use the change log than it takes it to determine the changed documents using the Amazon Kendra document crawler.
+        public let useChangeLog: Bool?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
-        public init(crawlAttachments: Bool? = nil, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, secretArn: String, sharePointVersion: SharePointVersion, urls: [String], vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(crawlAttachments: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.crawlAttachments = crawlAttachments
             self.documentTitleFieldName = documentTitleFieldName
+            self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
+            self.inclusionPatterns = inclusionPatterns
             self.secretArn = secretArn
             self.sharePointVersion = sharePointVersion
             self.urls = urls
+            self.useChangeLog = useChangeLog
             self.vpcConfiguration = vpcConfiguration
         }
 
         public func validate(name: String) throws {
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, max: 100)
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
-            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
+            try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, min: 0)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, max: 100)
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, min: 0)
             try validate(self.secretArn, name:"secretArn", parent: name, max: 1284)
             try validate(self.secretArn, name:"secretArn", parent: name, min: 1)
             try validate(self.secretArn, name:"secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2140,10 +2161,13 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case crawlAttachments = "CrawlAttachments"
             case documentTitleFieldName = "DocumentTitleFieldName"
+            case exclusionPatterns = "ExclusionPatterns"
             case fieldMappings = "FieldMappings"
+            case inclusionPatterns = "InclusionPatterns"
             case secretArn = "SecretArn"
             case sharePointVersion = "SharePointVersion"
             case urls = "Urls"
+            case useChangeLog = "UseChangeLog"
             case vpcConfiguration = "VpcConfiguration"
         }
     }

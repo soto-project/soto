@@ -36,6 +36,7 @@ public struct ELBV2 {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2015-12-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "elasticloadbalancing-fips.us-east-1.amazonaws.com", "fips-us-east-2": "elasticloadbalancing-fips.us-east-2.amazonaws.com", "fips-us-west-1": "elasticloadbalancing-fips.us-west-1.amazonaws.com", "fips-us-west-2": "elasticloadbalancing-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ELBV2ErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

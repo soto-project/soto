@@ -6,11 +6,18 @@ import AWSSDKSwiftCore
 extension Detective {
     //MARK: Enums
 
+    public enum MemberDisabledReason: String, CustomStringConvertible, Codable {
+        case volumeTooHigh = "VOLUME_TOO_HIGH"
+        case volumeUnknown = "VOLUME_UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberStatus: String, CustomStringConvertible, Codable {
         case invited = "INVITED"
         case verificationInProgress = "VERIFICATION_IN_PROGRESS"
         case verificationFailed = "VERIFICATION_FAILED"
         case enabled = "ENABLED"
+        case acceptedButDisabled = "ACCEPTED_BUT_DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -412,6 +419,8 @@ extension Detective {
 
         /// The AWS account identifier for the member account.
         public let accountId: String?
+        /// For member accounts with a status of ACCEPTED_BUT_DISABLED, the reason that the member account is not enabled. The reason can have one of the following values:    VOLUME_TOO_HIGH - Indicates that adding the member account would cause the data volume for the behavior graph to be too high.    VOLUME_UNKNOWN - Indicates that Detective is unable to verify the data volume for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.   
+        public let disabledReason: MemberDisabledReason?
         /// The AWS account root user email address for the member account.
         public let emailAddress: String?
         /// The ARN of the behavior graph that the member account was invited to.
@@ -420,27 +429,37 @@ extension Detective {
         public let invitedTime: TimeStamp?
         /// The AWS account identifier of the master account for the behavior graph.
         public let masterId: String?
-        /// The current membership status of the member account. The status can have one of the following values:    INVITED - Indicates that the member was sent an invitation but has not yet responded.    VERIFICATION_IN_PROGRESS - Indicates that Detective is verifying that the account identifier and email address provided for the member account match. If they do match, then Detective sends the invitation. If the email address and account identifier don't match, then the member cannot be added to the behavior graph.    VERIFICATION_FAILED - Indicates that the account and email address provided for the member account do not match, and Detective did not send an invitation to the account.    ENABLED - Indicates that the member account accepted the invitation to contribute to the behavior graph.   Member accounts that declined an invitation or that were removed from the behavior graph are not included.
+        /// The member account data volume as a percentage of the maximum allowed data volume. 0 indicates 0 percent, and 100 indicates 100 percent. Note that this is not the percentage of the behavior graph data volume. For example, the data volume for the behavior graph is 80 GB per day. The maximum data volume is 160 GB per day. If the data volume for the member account is 40 GB per day, then PercentOfGraphUtilization is 25. It represents 25% of the maximum allowed data volume. 
+        public let percentOfGraphUtilization: Double?
+        /// The date and time when the graph utilization percentage was last updated.
+        public let percentOfGraphUtilizationUpdatedTime: TimeStamp?
+        /// The current membership status of the member account. The status can have one of the following values:    INVITED - Indicates that the member was sent an invitation but has not yet responded.    VERIFICATION_IN_PROGRESS - Indicates that Detective is verifying that the account identifier and email address provided for the member account match. If they do match, then Detective sends the invitation. If the email address and account identifier don't match, then the member cannot be added to the behavior graph.    VERIFICATION_FAILED - Indicates that the account and email address provided for the member account do not match, and Detective did not send an invitation to the account.    ENABLED - Indicates that the member account accepted the invitation to contribute to the behavior graph.    ACCEPTED_BUT_DISABLED - Indicates that the member account accepted the invitation but is prevented from contributing data to the behavior graph. DisabledReason provides the reason why the member account is not enabled.   Member accounts that declined an invitation or that were removed from the behavior graph are not included.
         public let status: MemberStatus?
         /// The date and time that the member account was last updated. The value is in milliseconds since the epoch.
         public let updatedTime: TimeStamp?
 
-        public init(accountId: String? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: TimeStamp? = nil, masterId: String? = nil, status: MemberStatus? = nil, updatedTime: TimeStamp? = nil) {
+        public init(accountId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: TimeStamp? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: TimeStamp? = nil, status: MemberStatus? = nil, updatedTime: TimeStamp? = nil) {
             self.accountId = accountId
+            self.disabledReason = disabledReason
             self.emailAddress = emailAddress
             self.graphArn = graphArn
             self.invitedTime = invitedTime
             self.masterId = masterId
+            self.percentOfGraphUtilization = percentOfGraphUtilization
+            self.percentOfGraphUtilizationUpdatedTime = percentOfGraphUtilizationUpdatedTime
             self.status = status
             self.updatedTime = updatedTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case disabledReason = "DisabledReason"
             case emailAddress = "EmailAddress"
             case graphArn = "GraphArn"
             case invitedTime = "InvitedTime"
             case masterId = "MasterId"
+            case percentOfGraphUtilization = "PercentOfGraphUtilization"
+            case percentOfGraphUtilizationUpdatedTime = "PercentOfGraphUtilizationUpdatedTime"
             case status = "Status"
             case updatedTime = "UpdatedTime"
         }
@@ -460,6 +479,31 @@ extension Detective {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case graphArn = "GraphArn"
+        }
+    }
+
+    public struct StartMonitoringMemberRequest: AWSShape {
+
+        /// The account ID of the member account to try to enable. The account must be an invited member account with a status of ACCEPTED_BUT_DISABLED. 
+        public let accountId: String
+        /// The ARN of the behavior graph.
+        public let graphArn: String
+
+        public init(accountId: String, graphArn: String) {
+            self.accountId = accountId
+            self.graphArn = graphArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "^[0-9]+$")
+            try validate(self.graphArn, name:"graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case graphArn = "GraphArn"
         }
     }

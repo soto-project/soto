@@ -41,7 +41,7 @@ extension CloudFormation {
         return client.paginate(input: input, command: listStacks, tokenKey: \ListStacksOutput.nextToken, onPage: onPage)
     }
 
-    ///  Returns a list of registration tokens for the specified type.
+    ///  Returns a list of registration tokens for the specified type(s).
     public func listTypeRegistrationsPaginator(_ input: ListTypeRegistrationsInput, onPage: @escaping (ListTypeRegistrationsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTypeRegistrations, tokenKey: \ListTypeRegistrationsOutput.nextToken, onPage: onPage)
     }

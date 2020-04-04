@@ -44,12 +44,14 @@ extension Glue {
         case customJdbcCert = "CUSTOM_JDBC_CERT"
         case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
         case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
+        case connectionUrl = "CONNECTION_URL"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionType: String, CustomStringConvertible, Codable {
         case jdbc = "JDBC"
         case sftp = "SFTP"
+        case mongodb = "MONGODB"
         public var description: String { return self.rawValue }
     }
 
@@ -1329,7 +1331,7 @@ extension Glue {
 
     public struct Connection: AWSShape {
 
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1377,7 +1379,7 @@ extension Glue {
 
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    MONGODB - Designates a connection to a MongoDB document database.   SFTP is not supported.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -2151,6 +2153,8 @@ extension Glue {
         public let maxRetries: Int?
         /// The name you assign to this job definition. It must be unique in your account.
         public let name: String
+        /// Non-overridable arguments for this job, specified as name-value pairs.
+        public let nonOverridableArguments: [String: String]?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -2166,7 +2170,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -2177,6 +2181,7 @@ extension Glue {
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
+            self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -2221,6 +2226,7 @@ extension Glue {
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
+            case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -2289,12 +2295,14 @@ extension Glue {
         public let parameters: TransformParameters
         /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.  
         public let role: String
+        /// The tags to use with this machine learning transform. You may use tags to limit access to the machine learning transform. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
+        public let tags: [String: String]?
         /// The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
         public let workerType: WorkerType?
 
-        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.description = description
             self.glueVersion = glueVersion
             self.inputRecordTables = inputRecordTables
@@ -2304,6 +2312,7 @@ extension Glue {
             self.numberOfWorkers = numberOfWorkers
             self.parameters = parameters
             self.role = role
+            self.tags = tags
             self.timeout = timeout
             self.workerType = workerType
         }
@@ -2324,6 +2333,12 @@ extension Glue {
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.parameters.validate(name: "\(name).parameters")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
             try validate(self.timeout, name:"timeout", parent: name, min: 1)
         }
 
@@ -2337,6 +2352,7 @@ extension Glue {
             case numberOfWorkers = "NumberOfWorkers"
             case parameters = "Parameters"
             case role = "Role"
+            case tags = "Tags"
             case timeout = "Timeout"
             case workerType = "WorkerType"
         }
@@ -6022,6 +6038,8 @@ extension Glue {
         public let maxRetries: Int?
         /// The name you assign to this job definition.
         public let name: String?
+        /// Non-overridable arguments for this job, specified as name-value pairs.
+        public let nonOverridableArguments: [String: String]?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -6035,7 +6053,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -6048,6 +6066,7 @@ extension Glue {
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
+            self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -6069,6 +6088,7 @@ extension Glue {
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
+            case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -6292,6 +6312,8 @@ extension Glue {
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
+        /// Non-overridable arguments for this job, specified as name-value pairs.
+        public let nonOverridableArguments: [String: String]?
         /// Specifies the configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -6305,7 +6327,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -6315,6 +6337,7 @@ extension Glue {
             self.logUri = logUri
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
+            self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -6348,6 +6371,7 @@ extension Glue {
             case logUri = "LogUri"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
+            case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -6585,6 +6609,66 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case jobNames = "JobNames"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMLTransformsRequest: AWSShape {
+
+        /// A TransformFilterCriteria used to filter the machine learning transforms.
+        public let filter: TransformFilterCriteria?
+        /// The maximum size of a list to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation request.
+        public let nextToken: String?
+        /// A TransformSortCriteria used to sort the machine learning transforms.
+        public let sort: TransformSortCriteria?
+        /// Specifies to return only these tagged resources.
+        public let tags: [String: String]?
+
+        public init(filter: TransformFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TransformSortCriteria? = nil, tags: [String: String]? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sort = sort
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sort = "Sort"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListMLTransformsResponse: AWSShape {
+
+        /// A continuation token, if the returned list does not contain the last metric available.
+        public let nextToken: String?
+        /// The identifiers of all the machine learning transforms in the account, or the machine learning transforms with the specified tags.
+        public let transformIds: [String]
+
+        public init(nextToken: String? = nil, transformIds: [String]) {
+            self.nextToken = nextToken
+            self.transformIds = transformIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case transformIds = "TransformIds"
         }
     }
 

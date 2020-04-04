@@ -126,6 +126,8 @@ extension MediaTailor {
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The identifier for the playback configuration.
         public let name: String?
+        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
+        public let personalizationThresholdSeconds: Int?
         /// The Amazon Resource Name (ARN) for the playback configuration. 
         public let playbackConfigurationArn: String?
         /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor. This session will use server-side reporting. 
@@ -141,13 +143,14 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
             self.name = name
+            self.personalizationThresholdSeconds = personalizationThresholdSeconds
             self.playbackConfigurationArn = playbackConfigurationArn
             self.playbackEndpointPrefix = playbackEndpointPrefix
             self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
@@ -164,6 +167,7 @@ extension MediaTailor {
             case hlsConfiguration = "HlsConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case name = "Name"
+            case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case playbackConfigurationArn = "PlaybackConfigurationArn"
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
@@ -285,6 +289,7 @@ extension MediaTailor {
         public let dashConfiguration: DashConfiguration?
         public let hlsConfiguration: HlsConfiguration?
         public let name: String?
+        public let personalizationThresholdSeconds: Int?
         public let playbackConfigurationArn: String?
         public let playbackEndpointPrefix: String?
         public let sessionInitializationEndpointPrefix: String?
@@ -293,12 +298,13 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.name = name
+            self.personalizationThresholdSeconds = personalizationThresholdSeconds
             self.playbackConfigurationArn = playbackConfigurationArn
             self.playbackEndpointPrefix = playbackEndpointPrefix
             self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
@@ -314,6 +320,7 @@ extension MediaTailor {
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case name = "Name"
+            case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case playbackConfigurationArn = "PlaybackConfigurationArn"
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
@@ -336,6 +343,8 @@ extension MediaTailor {
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The identifier for the playback configuration.
         public let name: String?
+        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
+        public let personalizationThresholdSeconds: Int?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
         public let slateAdUrl: String?
         /// The tags to assign to the playback configuration. 
@@ -345,16 +354,21 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
             self.dashConfiguration = dashConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
             self.name = name
+            self.personalizationThresholdSeconds = personalizationThresholdSeconds
             self.slateAdUrl = slateAdUrl
             self.tags = tags
             self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.personalizationThresholdSeconds, name:"personalizationThresholdSeconds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -363,6 +377,7 @@ extension MediaTailor {
             case dashConfiguration = "DashConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case name = "Name"
+            case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case slateAdUrl = "SlateAdUrl"
             case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"

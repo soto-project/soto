@@ -16,7 +16,7 @@ extension EKS {
         return client.paginate(input: input, command: listFargateProfiles, tokenKey: \ListFargateProfilesResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the Amazon EKS node groups associated with the specified cluster in your AWS account in the specified Region.
+    ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS account in the specified Region. Self-managed node groups are not listed.
     public func listNodegroupsPaginator(_ input: ListNodegroupsRequest, onPage: @escaping (ListNodegroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listNodegroups, tokenKey: \ListNodegroupsResponse.nextToken, onPage: onPage)
     }

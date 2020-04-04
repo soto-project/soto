@@ -1353,6 +1353,21 @@
         {"shape":"OperationTimeoutException"}
       ]
     },
+    "ListMLTransforms":{
+      "name":"ListMLTransforms",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListMLTransformsRequest"},
+      "output":{"shape":"ListMLTransformsResponse"},
+      "errors":[
+        {"shape":"EntityNotFoundException"},
+        {"shape":"InvalidInputException"},
+        {"shape":"OperationTimeoutException"},
+        {"shape":"InternalServiceException"}
+      ]
+    },
     "ListTriggers":{
       "name":"ListTriggers",
       "http":{
@@ -2505,14 +2520,16 @@
         "JDBC_ENFORCE_SSL",
         "CUSTOM_JDBC_CERT",
         "SKIP_CUSTOM_JDBC_CERT_VALIDATION",
-        "CUSTOM_JDBC_CERT_STRING"
+        "CUSTOM_JDBC_CERT_STRING",
+        "CONNECTION_URL"
       ]
     },
     "ConnectionType":{
       "type":"string",
       "enum":[
         "JDBC",
-        "SFTP"
+        "SFTP",
+        "MONGODB"
       ]
     },
     "ConnectionsList":{
@@ -2801,6 +2818,7 @@
         "ExecutionProperty":{"shape":"ExecutionProperty"},
         "Command":{"shape":"JobCommand"},
         "DefaultArguments":{"shape":"GenericMap"},
+        "NonOverridableArguments":{"shape":"GenericMap"},
         "Connections":{"shape":"ConnectionsList"},
         "MaxRetries":{"shape":"MaxRetries"},
         "AllocatedCapacity":{
@@ -2854,7 +2872,8 @@
         "WorkerType":{"shape":"WorkerType"},
         "NumberOfWorkers":{"shape":"NullableInteger"},
         "Timeout":{"shape":"Timeout"},
-        "MaxRetries":{"shape":"NullableInteger"}
+        "MaxRetries":{"shape":"NullableInteger"},
+        "Tags":{"shape":"TagsMap"}
       }
     },
     "CreateMLTransformResponse":{
@@ -4385,6 +4404,7 @@
         "ExecutionProperty":{"shape":"ExecutionProperty"},
         "Command":{"shape":"JobCommand"},
         "DefaultArguments":{"shape":"GenericMap"},
+        "NonOverridableArguments":{"shape":"GenericMap"},
         "Connections":{"shape":"ConnectionsList"},
         "MaxRetries":{"shape":"MaxRetries"},
         "AllocatedCapacity":{
@@ -4506,6 +4526,7 @@
         "ExecutionProperty":{"shape":"ExecutionProperty"},
         "Command":{"shape":"JobCommand"},
         "DefaultArguments":{"shape":"GenericMap"},
+        "NonOverridableArguments":{"shape":"GenericMap"},
         "Connections":{"shape":"ConnectionsList"},
         "MaxRetries":{"shape":"MaxRetries"},
         "AllocatedCapacity":{
@@ -4624,6 +4645,24 @@
       "members":{
         "JobNames":{"shape":"JobNameList"},
         "NextToken":{"shape":"GenericString"}
+      }
+    },
+    "ListMLTransformsRequest":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"PaginationToken"},
+        "MaxResults":{"shape":"PageSize"},
+        "Filter":{"shape":"TransformFilterCriteria"},
+        "Sort":{"shape":"TransformSortCriteria"},
+        "Tags":{"shape":"TagsMap"}
+      }
+    },
+    "ListMLTransformsResponse":{
+      "type":"structure",
+      "required":["TransformIds"],
+      "members":{
+        "TransformIds":{"shape":"TransformIdList"},
+        "NextToken":{"shape":"PaginationToken"}
       }
     },
     "ListTriggersRequest":{
@@ -5732,6 +5771,10 @@
         "LastModifiedAfter":{"shape":"Timestamp"},
         "Schema":{"shape":"TransformSchema"}
       }
+    },
+    "TransformIdList":{
+      "type":"list",
+      "member":{"shape":"HashString"}
     },
     "TransformList":{
       "type":"list",

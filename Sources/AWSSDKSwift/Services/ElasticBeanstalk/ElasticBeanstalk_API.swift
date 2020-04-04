@@ -36,6 +36,7 @@ public struct ElasticBeanstalk {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-12-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "elasticbeanstalk-fips.us-east-1.amazonaws.com", "fips-us-east-2": "elasticbeanstalk-fips.us-east-2.amazonaws.com", "fips-us-west-1": "elasticbeanstalk-fips.us-west-1.amazonaws.com", "fips-us-west-2": "elasticbeanstalk-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ElasticBeanstalkErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

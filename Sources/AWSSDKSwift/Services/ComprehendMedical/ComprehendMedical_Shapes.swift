@@ -43,6 +43,12 @@ extension ComprehendMedical {
         case direction = "DIRECTION"
         case quality = "QUALITY"
         case quantity = "QUANTITY"
+        case timeExpression = "TIME_EXPRESSION"
+        case timeToMedicationName = "TIME_TO_MEDICATION_NAME"
+        case timeToDxName = "TIME_TO_DX_NAME"
+        case timeToTestName = "TIME_TO_TEST_NAME"
+        case timeToProcedureName = "TIME_TO_PROCEDURE_NAME"
+        case timeToTreatmentName = "TIME_TO_TREATMENT_NAME"
         case dxName = "DX_NAME"
         public var description: String { return self.rawValue }
     }
@@ -53,6 +59,7 @@ extension ComprehendMedical {
         case protectedHealthInformation = "PROTECTED_HEALTH_INFORMATION"
         case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
         case anatomy = "ANATOMY"
+        case timeExpression = "TIME_EXPRESSION"
         public var description: String { return self.rawValue }
     }
 
@@ -99,6 +106,27 @@ extension ComprehendMedical {
         public var description: String { return self.rawValue }
     }
 
+    public enum RelationshipType: String, CustomStringConvertible, Codable {
+        case every = "EVERY"
+        case withDosage = "WITH_DOSAGE"
+        case administeredVia = "ADMINISTERED_VIA"
+        case `for` = "FOR"
+        case negative = "NEGATIVE"
+        case overlap = "OVERLAP"
+        case dosage = "DOSAGE"
+        case routeOrMode = "ROUTE_OR_MODE"
+        case form = "FORM"
+        case frequency = "FREQUENCY"
+        case duration = "DURATION"
+        case strength = "STRENGTH"
+        case rate = "RATE"
+        case acuity = "ACUITY"
+        case testValue = "TEST_VALUE"
+        case testUnits = "TEST_UNITS"
+        case direction = "DIRECTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RxNormAttributeType: String, CustomStringConvertible, Codable {
         case dosage = "DOSAGE"
         case duration = "DURATION"
@@ -132,12 +160,16 @@ extension ComprehendMedical {
 
         ///  The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string. 
         public let beginOffset: Int?
+        ///  The category of attribute. 
+        public let category: EntityType?
         ///  The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
         public let endOffset: Int?
         ///  The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier. 
         public let id: Int?
         ///  The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity. 
         public let relationshipScore: Float?
+        /// The type of relationship between the entity and attribute. Type for the relationship is OVERLAP, indicating that the entity occurred at the same time as the Date_Expression. 
+        public let relationshipType: RelationshipType?
         ///  The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute. 
         public let score: Float?
         ///  The segment of input text extracted as this attribute.
@@ -147,11 +179,13 @@ extension ComprehendMedical {
         ///  The type of attribute. 
         public let `type`: EntitySubType?
 
-        public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
+        public init(beginOffset: Int? = nil, category: EntityType? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: RelationshipType? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.beginOffset = beginOffset
+            self.category = category
             self.endOffset = endOffset
             self.id = id
             self.relationshipScore = relationshipScore
+            self.relationshipType = relationshipType
             self.score = score
             self.text = text
             self.traits = traits
@@ -160,9 +194,11 @@ extension ComprehendMedical {
 
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "BeginOffset"
+            case category = "Category"
             case endOffset = "EndOffset"
             case id = "Id"
             case relationshipScore = "RelationshipScore"
+            case relationshipType = "RelationshipType"
             case score = "Score"
             case text = "Text"
             case traits = "Traits"

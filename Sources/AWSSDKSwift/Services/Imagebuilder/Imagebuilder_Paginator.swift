@@ -11,7 +11,7 @@ extension Imagebuilder {
         return client.paginate(input: input, command: listComponentBuildVersions, tokenKey: \ListComponentBuildVersionsResponse.nextToken, onPage: onPage)
     }
 
-    ///   Returns the list of component build versions for the specified semantic version. 
+    ///  Returns the list of component build versions for the specified semantic version. 
     public func listComponentsPaginator(_ input: ListComponentsRequest, onPage: @escaping (ListComponentsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listComponents, tokenKey: \ListComponentsResponse.nextToken, onPage: onPage)
     }

@@ -53,6 +53,7 @@ extension AppMesh.ListRoutesInput: AWSPaginateStringToken {
         return .init(
             limit: self.limit, 
             meshName: self.meshName, 
+            meshOwner: self.meshOwner, 
             nextToken: token, 
             virtualRouterName: self.virtualRouterName
         )
@@ -76,6 +77,7 @@ extension AppMesh.ListVirtualNodesInput: AWSPaginateStringToken {
         return .init(
             limit: self.limit, 
             meshName: self.meshName, 
+            meshOwner: self.meshOwner, 
             nextToken: token
         )
 
@@ -87,6 +89,7 @@ extension AppMesh.ListVirtualRoutersInput: AWSPaginateStringToken {
         return .init(
             limit: self.limit, 
             meshName: self.meshName, 
+            meshOwner: self.meshOwner, 
             nextToken: token
         )
 
@@ -98,6 +101,7 @@ extension AppMesh.ListVirtualServicesInput: AWSPaginateStringToken {
         return .init(
             limit: self.limit, 
             meshName: self.meshName, 
+            meshOwner: self.meshOwner, 
             nextToken: token
         )
 

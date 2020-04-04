@@ -230,15 +230,18 @@ extension Personalize {
         public let jobName: String?
         /// The time at which the batch inference job was last updated.
         public let lastUpdatedDateTime: TimeStamp?
+        /// The ARN of the solution version used by the batch inference job.
+        public let solutionVersionArn: String?
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
 
-        public init(batchInferenceJobArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, status: String? = nil) {
+        public init(batchInferenceJobArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.jobName = jobName
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.solutionVersionArn = solutionVersionArn
             self.status = status
         }
 
@@ -248,6 +251,7 @@ extension Personalize {
             case failureReason = "failureReason"
             case jobName = "jobName"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case solutionVersionArn = "solutionVersionArn"
             case status = "status"
         }
     }
@@ -1943,7 +1947,7 @@ extension Personalize {
         public let metricName: String?
         /// A regular expression for finding the metric in the training job logs.
         public let metricRegex: String?
-        /// The data type of the metric.
+        /// The type of the metric. Valid values are Maximize and Minimize.
         public let `type`: String?
 
         public init(metricName: String? = nil, metricRegex: String? = nil, type: String? = nil) {
@@ -2783,8 +2787,10 @@ extension Personalize {
         public let trainingHours: Double?
         /// The scope of training used to create the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the training data that has changed since the creation of the last solution version. Choose UPDATE when you want to start recommending items added to the dataset without retraining the model.  The UPDATE option can only be used after you've created a solution version with the FULL option and the training solution uses the native-recipe-hrnn-coldstart. 
         public let trainingMode: TrainingMode?
+        /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
+        public let tunedHPOParams: TunedHPOParams?
 
-        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil) {
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, tunedHPOParams: TunedHPOParams? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -2799,6 +2805,7 @@ extension Personalize {
             self.status = status
             self.trainingHours = trainingHours
             self.trainingMode = trainingMode
+            self.tunedHPOParams = tunedHPOParams
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2816,6 +2823,7 @@ extension Personalize {
             case status = "status"
             case trainingHours = "trainingHours"
             case trainingMode = "trainingMode"
+            case tunedHPOParams = "tunedHPOParams"
         }
     }
 
@@ -2846,6 +2854,20 @@ extension Personalize {
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+        }
+    }
+
+    public struct TunedHPOParams: AWSShape {
+
+        /// A list of the hyperparameter values of the best performing model.
+        public let algorithmHyperParameters: [String: String]?
+
+        public init(algorithmHyperParameters: [String: String]? = nil) {
+            self.algorithmHyperParameters = algorithmHyperParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithmHyperParameters = "algorithmHyperParameters"
         }
     }
 

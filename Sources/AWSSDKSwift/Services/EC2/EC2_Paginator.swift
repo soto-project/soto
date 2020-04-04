@@ -46,6 +46,11 @@ extension EC2 {
         return client.paginate(input: input, command: describeClientVpnTargetNetworks, tokenKey: \DescribeClientVpnTargetNetworksResult.nextToken, onPage: onPage)
     }
 
+    ///  Describes the specified customer-owned address pools or all of your customer-owned address pools.
+    public func describeCoipPoolsPaginator(_ input: DescribeCoipPoolsRequest, onPage: @escaping (DescribeCoipPoolsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCoipPools, tokenKey: \DescribeCoipPoolsResult.nextToken, onPage: onPage)
+    }
+
     ///  Describes one or more of your DHCP options sets. For more information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
     public func describeDhcpOptionsPaginator(_ input: DescribeDhcpOptionsRequest, onPage: @escaping (DescribeDhcpOptionsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDhcpOptions, tokenKey: \DescribeDhcpOptionsResult.nextToken, onPage: onPage)
@@ -121,6 +126,16 @@ extension EC2 {
         return client.paginate(input: input, command: describeInstanceStatus, tokenKey: \DescribeInstanceStatusResult.nextToken, onPage: onPage)
     }
 
+    ///  Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
+    public func describeInstanceTypeOfferingsPaginator(_ input: DescribeInstanceTypeOfferingsRequest, onPage: @escaping (DescribeInstanceTypeOfferingsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeInstanceTypeOfferings, tokenKey: \DescribeInstanceTypeOfferingsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list of all instance types offered in your current AWS Region. The results can be filtered by the attributes of the instance types.
+    public func describeInstanceTypesPaginator(_ input: DescribeInstanceTypesRequest, onPage: @escaping (DescribeInstanceTypesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeInstanceTypes, tokenKey: \DescribeInstanceTypesResult.nextToken, onPage: onPage)
+    }
+
     ///  Describes the specified instances or all of AWS account's instances. If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2 returns information for all relevant instances. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the returned results. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     public func describeInstancesPaginator(_ input: DescribeInstancesRequest, onPage: @escaping (DescribeInstancesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeInstances, tokenKey: \DescribeInstancesResult.nextToken, onPage: onPage)
@@ -144,6 +159,36 @@ extension EC2 {
     ///  Describes one or more launch templates.
     public func describeLaunchTemplatesPaginator(_ input: DescribeLaunchTemplatesRequest, onPage: @escaping (DescribeLaunchTemplatesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeLaunchTemplates, tokenKey: \DescribeLaunchTemplatesResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes the associations between virtual interface groups and local gateway route tables.
+    public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsPaginator(_ input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest, onPage: @escaping (DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations, tokenKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes the specified associations between VPCs and local gateway route tables.
+    public func describeLocalGatewayRouteTableVpcAssociationsPaginator(_ input: DescribeLocalGatewayRouteTableVpcAssociationsRequest, onPage: @escaping (DescribeLocalGatewayRouteTableVpcAssociationsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLocalGatewayRouteTableVpcAssociations, tokenKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results.
+    public func describeLocalGatewayRouteTablesPaginator(_ input: DescribeLocalGatewayRouteTablesRequest, onPage: @escaping (DescribeLocalGatewayRouteTablesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLocalGatewayRouteTables, tokenKey: \DescribeLocalGatewayRouteTablesResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes the specified local gateway virtual interface groups.
+    public func describeLocalGatewayVirtualInterfaceGroupsPaginator(_ input: DescribeLocalGatewayVirtualInterfaceGroupsRequest, onPage: @escaping (DescribeLocalGatewayVirtualInterfaceGroupsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLocalGatewayVirtualInterfaceGroups, tokenKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes the specified local gateway virtual interfaces.
+    public func describeLocalGatewayVirtualInterfacesPaginator(_ input: DescribeLocalGatewayVirtualInterfacesRequest, onPage: @escaping (DescribeLocalGatewayVirtualInterfacesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLocalGatewayVirtualInterfaces, tokenKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results.
+    public func describeLocalGatewaysPaginator(_ input: DescribeLocalGatewaysRequest, onPage: @escaping (DescribeLocalGatewaysResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeLocalGateways, tokenKey: \DescribeLocalGatewaysResult.nextToken, onPage: onPage)
     }
 
     ///  Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
@@ -216,7 +261,7 @@ extension EC2 {
         return client.paginate(input: input, command: describeSecurityGroups, tokenKey: \DescribeSecurityGroupsResult.nextToken, onPage: onPage)
     }
 
-    ///  Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All AWS accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific AWS account.    implicit: An AWS account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be modified by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the AWS account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All AWS accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific AWS account.    implicit: An AWS account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the AWS account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, you can paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS Snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func describeSnapshotsPaginator(_ input: DescribeSnapshotsRequest, onPage: @escaping (DescribeSnapshotsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeSnapshots, tokenKey: \DescribeSnapshotsResult.nextToken, onPage: onPage)
     }
@@ -269,6 +314,16 @@ extension EC2 {
     ///  Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     public func describeTransitGatewayAttachmentsPaginator(_ input: DescribeTransitGatewayAttachmentsRequest, onPage: @escaping (DescribeTransitGatewayAttachmentsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeTransitGatewayAttachments, tokenKey: \DescribeTransitGatewayAttachmentsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes one or more transit gateway multicast domains.
+    public func describeTransitGatewayMulticastDomainsPaginator(_ input: DescribeTransitGatewayMulticastDomainsRequest, onPage: @escaping (DescribeTransitGatewayMulticastDomainsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeTransitGatewayMulticastDomains, tokenKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Describes your transit gateway peering attachments.
+    public func describeTransitGatewayPeeringAttachmentsPaginator(_ input: DescribeTransitGatewayPeeringAttachmentsRequest, onPage: @escaping (DescribeTransitGatewayPeeringAttachmentsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeTransitGatewayPeeringAttachments, tokenKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken, onPage: onPage)
     }
 
     ///  Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
@@ -351,6 +406,11 @@ extension EC2 {
         return client.paginate(input: input, command: getTransitGatewayAttachmentPropagations, tokenKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken, onPage: onPage)
     }
 
+    ///  Gets information about the associations for the transit gateway multicast domain.
+    public func getTransitGatewayMulticastDomainAssociationsPaginator(_ input: GetTransitGatewayMulticastDomainAssociationsRequest, onPage: @escaping (GetTransitGatewayMulticastDomainAssociationsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getTransitGatewayMulticastDomainAssociations, tokenKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken, onPage: onPage)
+    }
+
     ///  Gets information about the associations for the specified transit gateway route table.
     public func getTransitGatewayRouteTableAssociationsPaginator(_ input: GetTransitGatewayRouteTableAssociationsRequest, onPage: @escaping (GetTransitGatewayRouteTableAssociationsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayRouteTableAssociations, tokenKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken, onPage: onPage)
@@ -359,6 +419,16 @@ extension EC2 {
     ///  Gets information about the route table propagations for the specified transit gateway route table.
     public func getTransitGatewayRouteTablePropagationsPaginator(_ input: GetTransitGatewayRouteTablePropagationsRequest, onPage: @escaping (GetTransitGatewayRouteTablePropagationsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getTransitGatewayRouteTablePropagations, tokenKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Searches for routes in the specified local gateway route table.
+    public func searchLocalGatewayRoutesPaginator(_ input: SearchLocalGatewayRoutesRequest, onPage: @escaping (SearchLocalGatewayRoutesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchLocalGatewayRoutes, tokenKey: \SearchLocalGatewayRoutesResult.nextToken, onPage: onPage)
+    }
+
+    ///  Searches one or more transit gateway multicast groups and returns the group membership information.
+    public func searchTransitGatewayMulticastGroupsPaginator(_ input: SearchTransitGatewayMulticastGroupsRequest, onPage: @escaping (SearchTransitGatewayMulticastGroupsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: searchTransitGatewayMulticastGroups, tokenKey: \SearchTransitGatewayMulticastGroupsResult.nextToken, onPage: onPage)
     }
 
 }
@@ -461,6 +531,19 @@ extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateStringToken {
             filters: self.filters, 
             maxResults: self.maxResults, 
             nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeCoipPoolsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeCoipPoolsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            poolIds: self.poolIds
         )
 
     }
@@ -660,6 +743,32 @@ extension EC2.DescribeInstanceStatusRequest: AWSPaginateStringToken {
     }
 }
 
+extension EC2.DescribeInstanceTypeOfferingsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceTypeOfferingsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            locationType: self.locationType, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeInstanceTypesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceTypesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            instanceTypes: self.instanceTypes, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
 extension EC2.DescribeInstancesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstancesRequest {
         return .init(
@@ -730,6 +839,84 @@ extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
+extension EC2.DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayRouteTableVirtualInterfaceGroupAssociationIds: self.localGatewayRouteTableVirtualInterfaceGroupAssociationIds, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayRouteTableVpcAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayRouteTableVpcAssociationIds: self.localGatewayRouteTableVpcAssociationIds, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeLocalGatewayRouteTablesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayRouteTablesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayRouteTableIds: self.localGatewayRouteTableIds, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayVirtualInterfaceGroupsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayVirtualInterfaceGroupIds: self.localGatewayVirtualInterfaceGroupIds, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeLocalGatewayVirtualInterfacesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayVirtualInterfacesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayVirtualInterfaceIds: self.localGatewayVirtualInterfaceIds, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.DescribeLocalGatewaysRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewaysRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayIds: self.localGatewayIds, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
 extension EC2.DescribeMovingAddressesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeMovingAddressesRequest {
         return .init(
@@ -746,6 +933,7 @@ extension EC2.DescribeMovingAddressesRequest: AWSPaginateStringToken {
 extension EC2.DescribeNatGatewaysRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeNatGatewaysRequest {
         return .init(
+            dryRun: self.dryRun, 
             filter: self.filter, 
             maxResults: self.maxResults, 
             natGatewayIds: self.natGatewayIds, 
@@ -821,6 +1009,7 @@ extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateStringToken {
 extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribePublicIpv4PoolsRequest {
         return .init(
+            filters: self.filters, 
             maxResults: self.maxResults, 
             nextToken: token, 
             poolIds: self.poolIds
@@ -1066,6 +1255,32 @@ extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateStringToken {
     }
 }
 
+extension EC2.DescribeTransitGatewayMulticastDomainsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayMulticastDomainsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            transitGatewayMulticastDomainIds: self.transitGatewayMulticastDomainIds
+        )
+
+    }
+}
+
+extension EC2.DescribeTransitGatewayPeeringAttachmentsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayPeeringAttachmentsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            transitGatewayAttachmentIds: self.transitGatewayAttachmentIds
+        )
+
+    }
+}
+
 extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayRouteTablesRequest {
         return .init(
@@ -1270,6 +1485,19 @@ extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateStringT
     }
 }
 
+extension EC2.GetTransitGatewayMulticastDomainAssociationsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayMulticastDomainAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            transitGatewayMulticastDomainId: self.transitGatewayMulticastDomainId
+        )
+
+    }
+}
+
 extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayRouteTableAssociationsRequest {
         return .init(
@@ -1291,6 +1519,32 @@ extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateStringT
             maxResults: self.maxResults, 
             nextToken: token, 
             transitGatewayRouteTableId: self.transitGatewayRouteTableId
+        )
+
+    }
+}
+
+extension EC2.SearchLocalGatewayRoutesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.SearchLocalGatewayRoutesRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            localGatewayRouteTableId: self.localGatewayRouteTableId, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension EC2.SearchTransitGatewayMulticastGroupsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> EC2.SearchTransitGatewayMulticastGroupsRequest {
+        return .init(
+            dryRun: self.dryRun, 
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            transitGatewayMulticastDomainId: self.transitGatewayMulticastDomainId
         )
 
     }

@@ -146,7 +146,7 @@ extension SageMaker {
         return client.paginate(input: input, command: listTrialComponents, tokenKey: \ListTrialComponentsResponse.nextToken, onPage: onPage)
     }
 
-    ///  Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
+    ///  Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
     public func listTrialsPaginator(_ input: ListTrialsRequest, onPage: @escaping (ListTrialsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listTrials, tokenKey: \ListTrialsResponse.nextToken, onPage: onPage)
     }
@@ -624,7 +624,8 @@ extension SageMaker.ListTrialsRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             sortBy: self.sortBy, 
-            sortOrder: self.sortOrder
+            sortOrder: self.sortOrder, 
+            trialComponentName: self.trialComponentName
         )
 
     }

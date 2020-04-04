@@ -81,6 +81,11 @@ public struct Pinpoint {
         return client.send(operation: "CreatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "POST", input: input)
     }
 
+    ///  Creates an Amazon Pinpoint configuration for a recommender model.
+    public func createRecommenderConfiguration(_ input: CreateRecommenderConfigurationRequest) -> EventLoopFuture<CreateRecommenderConfigurationResponse> {
+        return client.send(operation: "CreateRecommenderConfiguration", path: "/v1/recommenders", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     public func createSegment(_ input: CreateSegmentRequest) -> EventLoopFuture<CreateSegmentResponse> {
         return client.send(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: "POST", input: input)
@@ -169,6 +174,11 @@ public struct Pinpoint {
     ///  Deletes a message template for messages that were sent through a push notification channel.
     public func deletePushTemplate(_ input: DeletePushTemplateRequest) -> EventLoopFuture<DeletePushTemplateResponse> {
         return client.send(operation: "DeletePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes an Amazon Pinpoint configuration for a recommender model.
+    public func deleteRecommenderConfiguration(_ input: DeleteRecommenderConfigurationRequest) -> EventLoopFuture<DeleteRecommenderConfigurationResponse> {
+        return client.send(operation: "DeleteRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a segment from an application.
@@ -356,6 +366,16 @@ public struct Pinpoint {
         return client.send(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves information about an Amazon Pinpoint configuration for a recommender model.
+    public func getRecommenderConfiguration(_ input: GetRecommenderConfigurationRequest) -> EventLoopFuture<GetRecommenderConfigurationResponse> {
+        return client.send(operation: "GetRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
+    public func getRecommenderConfigurations(_ input: GetRecommenderConfigurationsRequest) -> EventLoopFuture<GetRecommenderConfigurationsResponse> {
+        return client.send(operation: "GetRecommenderConfigurations", path: "/v1/recommenders", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
     public func getSegment(_ input: GetSegmentRequest) -> EventLoopFuture<GetSegmentResponse> {
         return client.send(operation: "GetSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "GET", input: input)
@@ -416,7 +436,7 @@ public struct Pinpoint {
         return client.send(operation: "ListJourneys", path: "/v1/apps/{application-id}/journeys", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, journey, message template, or segment.
+    ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
@@ -461,12 +481,12 @@ public struct Pinpoint {
         return client.send(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more tags (keys and values) to an application, campaign, journey, message template, or segment.
+    ///  Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags (keys and values) from an application, campaign, journey, message template, or segment.
+    ///  Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
@@ -549,6 +569,11 @@ public struct Pinpoint {
     ///  Updates an existing message template for messages that are sent through a push notification channel.
     public func updatePushTemplate(_ input: UpdatePushTemplateRequest) -> EventLoopFuture<UpdatePushTemplateResponse> {
         return client.send(operation: "UpdatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an Amazon Pinpoint configuration for a recommender model.
+    public func updateRecommenderConfiguration(_ input: UpdateRecommenderConfigurationRequest) -> EventLoopFuture<UpdateRecommenderConfigurationResponse> {
+        return client.send(operation: "UpdateRecommenderConfiguration", path: "/v1/recommenders/{recommender-id}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.

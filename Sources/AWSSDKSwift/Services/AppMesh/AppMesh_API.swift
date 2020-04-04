@@ -73,6 +73,7 @@ public struct AppMesh {
     ///           /metrics.
     ///           If your route matches a request, you can distribute traffic to one or more target
     ///           virtual nodes with relative weighting.
+    ///           For more information about routes, see Routes.
     public func createRoute(_ input: CreateRouteInput) -> EventLoopFuture<CreateRouteOutput> {
         return client.send(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "PUT", input: input)
     }
@@ -96,6 +97,7 @@ public struct AppMesh {
     ///                 APPMESH_VIRTUAL_NODE_NAME with the
     ///                 APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
     ///           
+    ///           For more information about virtual nodes, see Virtual Nodes.
     public func createVirtualNode(_ input: CreateVirtualNodeInput) -> EventLoopFuture<CreateVirtualNodeOutput> {
         return client.send(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "PUT", input: input)
     }
@@ -106,6 +108,7 @@ public struct AppMesh {
     ///           Virtual routers handle traffic for one or more virtual services within your mesh. After
     ///           you create your virtual router, create and associate routes for your virtual router that
     ///           direct incoming requests to different virtual nodes.
+    ///           For more information about virtual routers, see Virtual Routers.
     public func createVirtualRouter(_ input: CreateVirtualRouterInput) -> EventLoopFuture<CreateVirtualRouterOutput> {
         return client.send(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "PUT", input: input)
     }
@@ -116,6 +119,7 @@ public struct AppMesh {
     ///           service by its virtualServiceName, and those requests are routed to the
     ///           virtual node or virtual router that is specified as the provider for the virtual
     ///           service.
+    ///           For more information about virtual services, see Virtual Services.
     public func createVirtualService(_ input: CreateVirtualServiceInput) -> EventLoopFuture<CreateVirtualServiceOutput> {
         return client.send(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "PUT", input: input)
     }

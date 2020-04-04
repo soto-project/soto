@@ -518,8 +518,10 @@ extension AppSync {
         public let tags: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
+        /// A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
+        public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.authenticationType = authenticationType
             self.logConfig = logConfig
@@ -527,6 +529,7 @@ extension AppSync {
             self.openIDConnectConfig = openIDConnectConfig
             self.tags = tags
             self.userPoolConfig = userPoolConfig
+            self.xrayEnabled = xrayEnabled
         }
 
         public func validate(name: String) throws {
@@ -546,6 +549,7 @@ extension AppSync {
             case openIDConnectConfig = "openIDConnectConfig"
             case tags = "tags"
             case userPoolConfig = "userPoolConfig"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 
@@ -1124,6 +1128,7 @@ extension AppSync {
 
     public struct GetApiCacheResponse: AWSShape {
 
+        /// The ApiCache object.
         public let apiCache: ApiCache?
 
         public init(apiCache: ApiCache? = nil) {
@@ -1450,8 +1455,10 @@ extension AppSync {
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
+        /// A flag representing whether X-Ray tracing is enabled for this GraphqlApi.
+        public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.arn = arn
@@ -1462,6 +1469,7 @@ extension AppSync {
             self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
+            self.xrayEnabled = xrayEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1475,6 +1483,7 @@ extension AppSync {
             case tags = "tags"
             case uris = "uris"
             case userPoolConfig = "userPoolConfig"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 
@@ -2529,8 +2538,10 @@ extension AppSync {
         public let openIDConnectConfig: OpenIDConnectConfig?
         /// The new Amazon Cognito user pool configuration for the GraphqlApi object.
         public let userPoolConfig: UserPoolConfig?
+        /// A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
+        public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.authenticationType = authenticationType
@@ -2538,6 +2549,7 @@ extension AppSync {
             self.name = name
             self.openIDConnectConfig = openIDConnectConfig
             self.userPoolConfig = userPoolConfig
+            self.xrayEnabled = xrayEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2548,6 +2560,7 @@ extension AppSync {
             case name = "name"
             case openIDConnectConfig = "openIDConnectConfig"
             case userPoolConfig = "userPoolConfig"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 

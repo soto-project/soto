@@ -503,7 +503,7 @@ extension Athena {
         public let maxResults: Int?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
-        /// The name of the workgroup from which the named queries are being returned.
+        /// The name of the workgroup from which the named queries are returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned.
         public let workGroup: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
@@ -551,7 +551,7 @@ extension Athena {
         public let maxResults: Int?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
-        /// The name of the workgroup from which queries are being returned.
+        /// The name of the workgroup from which queries are returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned.
         public let workGroup: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
@@ -730,7 +730,7 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
         /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE &lt;table&gt;.
         public let statementType: StatementType?
-        /// The amount of data scanned during the query execution and the amount of time that it took to execute, and the type of statement that was run.
+        /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public let statistics: QueryExecutionStatistics?
         /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
         public let status: QueryExecutionStatus?
@@ -821,7 +821,7 @@ extension Athena {
 
         /// The date and time that the query completed.
         public let completionDateTime: TimeStamp?
-        /// The state of query execution. QUEUED state is listed but is not used by Athena and is reserved for future use. RUNNING indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution. 
+        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution. 
         public let state: QueryExecutionState?
         /// Further detail about the status of the query.
         public let stateChangeReason: String?

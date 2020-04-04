@@ -64,6 +64,66 @@ extension Outposts {
         }
     }
 
+    public struct DeleteOutpostInput: AWSShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
+        ]
+
+        public let outpostId: String
+
+        public init(outpostId: String) {
+            self.outpostId = outpostId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.outpostId, name:"outpostId", parent: name, max: 180)
+            try validate(self.outpostId, name:"outpostId", parent: name, min: 1)
+            try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostId = "OutpostId"
+        }
+    }
+
+    public struct DeleteOutpostOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteSiteInput: AWSShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "siteId", location: .uri(locationName: "SiteId"))
+        ]
+
+        public let siteId: String
+
+        public init(siteId: String) {
+            self.siteId = siteId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.siteId, name:"siteId", parent: name, max: 255)
+            try validate(self.siteId, name:"siteId", parent: name, min: 1)
+            try validate(self.siteId, name:"siteId", parent: name, pattern: "os-[a-f0-9]{17}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteId = "SiteId"
+        }
+    }
+
+    public struct DeleteSiteOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct GetOutpostInput: AWSShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))

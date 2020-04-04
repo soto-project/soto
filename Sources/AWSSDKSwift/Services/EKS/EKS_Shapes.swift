@@ -62,8 +62,11 @@ extension EKS {
         case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
         case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
         case ec2subnetnotfound = "Ec2SubnetNotFound"
+        case ec2subnetinvalidconfiguration = "Ec2SubnetInvalidConfiguration"
         case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
+        case iamlimitexceeded = "IamLimitExceeded"
         case iamnoderolenotfound = "IamNodeRoleNotFound"
+        case nodecreationfailure = "NodeCreationFailure"
         case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
         case instancelimitexceeded = "InstanceLimitExceeded"
         case insufficientfreeaddresses = "InsufficientFreeAddresses"
@@ -155,6 +158,8 @@ extension EKS {
         public let clientRequestToken: String?
         /// The Unix epoch timestamp in seconds for when the cluster was created.
         public let createdAt: TimeStamp?
+        /// The encryption configuration for the cluster.
+        public let encryptionConfig: [EncryptionConfig]?
         /// The endpoint for your Kubernetes API server.
         public let endpoint: String?
         /// The identity provider information for the cluster.
@@ -176,11 +181,12 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
+            self.encryptionConfig = encryptionConfig
             self.endpoint = endpoint
             self.identity = identity
             self.logging = logging
@@ -198,6 +204,7 @@ extension EKS {
             case certificateAuthority = "certificateAuthority"
             case clientRequestToken = "clientRequestToken"
             case createdAt = "createdAt"
+            case encryptionConfig = "encryptionConfig"
             case endpoint = "endpoint"
             case identity = "identity"
             case logging = "logging"
@@ -215,6 +222,8 @@ extension EKS {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
+        /// The encryption configuration for the cluster.
+        public let encryptionConfig: [EncryptionConfig]?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing. 
         public let logging: Logging?
         /// The unique name to give to your cluster.
@@ -228,8 +237,9 @@ extension EKS {
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
 
-        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
+        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.encryptionConfig = encryptionConfig
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
@@ -239,6 +249,7 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
+            try validate(self.encryptionConfig, name:"encryptionConfig", parent: name, max: 1)
             try validate(self.name, name:"name", parent: name, max: 100)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
@@ -251,6 +262,7 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
+            case encryptionConfig = "encryptionConfig"
             case logging = "logging"
             case name = "name"
             case resourcesVpcConfig = "resourcesVpcConfig"
@@ -356,7 +368,7 @@ extension EKS {
         public let labels: [String: String]?
         /// The unique name to give your node group.
         public let nodegroupName: String
-        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
         public let nodeRole: String
         /// The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide.
         public let releaseVersion: String?
@@ -679,6 +691,24 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case update = "update"
+        }
+    }
+
+    public struct EncryptionConfig: AWSShape {
+
+        /// AWS Key Management Service (AWS KMS) customer master key (CMK). Either the ARN or the alias can be used.
+        public let provider: Provider?
+        /// Specifies the resources to be encrypted. The only supported value is "secrets".
+        public let resources: [String]?
+
+        public init(provider: Provider? = nil, resources: [String]? = nil) {
+            self.provider = provider
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provider = "provider"
+            case resources = "resources"
         }
     }
 
@@ -1224,6 +1254,20 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case issuer = "issuer"
+        }
+    }
+
+    public struct Provider: AWSShape {
+
+        /// Amazon Resource Name (ARN) or alias of the customer master key (CMK). The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK. For more information, see Allowing Users in Other Accounts to Use a CMK in the AWS Key Management Service Developer Guide.
+        public let keyArn: String?
+
+        public init(keyArn: String? = nil) {
+            self.keyArn = keyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyArn = "keyArn"
         }
     }
 

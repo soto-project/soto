@@ -24,8 +24,8 @@ get_aws_sdk_go()
     fi
     git checkout "$BRANCH_NAME"
     cd "$CURRENT_FOLDER"
-    
-    return $BRANCH_NAME
+
+    echo $BRANCH_NAME
 }
 
 copy_model_files()
@@ -60,8 +60,11 @@ check_for_local_changes()
 {
     LOCAL_CHANGES=$(git status --porcelain)
     if [ -n "$LOCAL_CHANGES" ]; then
-        printf "You have local changes.\nPlease stash your local changes before continuing."
-        usage
+        echo "You have local changes."
+        read -p "Are you sure you want to continue [y/n]? " answer
+        if [ "$answer" != "y" ]; then
+            exit
+        fi
     fi
 }
 

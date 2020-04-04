@@ -1134,7 +1134,7 @@ extension CostExplorer {
 
         /// The account ID that is associated with the recommendation. 
         public let accountId: String?
-        /// The account scope that you want recommendations for. PAYER means that AWS includes the master account and any member accounts when it calculates its recommendations. LINKED means that AWS includes only member accounts when it calculates its recommendations. Valid values are PAYER and LINKED.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
         public let accountScope: AccountScope?
         /// The number of previous days that you want AWS to consider when it calculates your recommendations.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -1379,6 +1379,10 @@ extension CostExplorer {
 
     public struct GetSavingsPlansPurchaseRecommendationRequest: AWSShape {
 
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
+        public let accountScope: AccountScope?
+        /// You can filter your recommendations by Account ID with the LINKED_ACCOUNT dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and Value as the comma-separated Acount ID(s) for which you want to see Savings Plans purchase recommendations. For GetSavingsPlansPurchaseRecommendation, the Filter does not include CostCategories or Tags. It only includes Dimensions. With Dimensions, Key must be LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs for which you want to see Savings Plans Purchase Recommendations. AND and OR operators are not supported.
+        public let filter: Expression?
         /// The lookback period used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
@@ -1392,7 +1396,9 @@ extension CostExplorer {
         /// The savings plan recommendation term used to generated these recommendations.
         public let termInYears: TermInYears
 
-        public init(lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
+        public init(accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
+            self.accountScope = accountScope
+            self.filter = filter
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.nextPageToken = nextPageToken
             self.pageSize = pageSize
@@ -1402,10 +1408,13 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountScope = "AccountScope"
+            case filter = "Filter"
             case lookbackPeriodInDays = "LookbackPeriodInDays"
             case nextPageToken = "NextPageToken"
             case pageSize = "PageSize"
@@ -2365,6 +2374,8 @@ extension CostExplorer {
 
     public struct SavingsPlansPurchaseRecommendation: AWSShape {
 
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
+        public let accountScope: AccountScope?
         /// The lookback period in days, used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
         /// The payment option used to generate the recommendation.
@@ -2378,7 +2389,8 @@ extension CostExplorer {
         /// The Savings Plans recommendation term in years, used to generate the recommendation.
         public let termInYears: TermInYears?
 
-        public init(lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]? = nil, savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil) {
+        public init(accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]? = nil, savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil) {
+            self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.paymentOption = paymentOption
             self.savingsPlansPurchaseRecommendationDetails = savingsPlansPurchaseRecommendationDetails
@@ -2388,6 +2400,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountScope = "AccountScope"
             case lookbackPeriodInDays = "LookbackPeriodInDays"
             case paymentOption = "PaymentOption"
             case savingsPlansPurchaseRecommendationDetails = "SavingsPlansPurchaseRecommendationDetails"

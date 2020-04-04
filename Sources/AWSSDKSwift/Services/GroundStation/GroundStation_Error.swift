@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum GroundStationErrorType: AWSErrorType {
     case dependencyException(message: String?)
     case invalidParameterException(message: String?)
+    case resourceLimitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
 }
 
@@ -20,6 +21,8 @@ extension GroundStationErrorType {
             self = .dependencyException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "ResourceLimitExceededException":
+            self = .resourceLimitExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         default:
@@ -35,6 +38,8 @@ extension GroundStationErrorType : CustomStringConvertible {
             return "DependencyException: \(message ?? "")"
         case .invalidParameterException(let message):
             return "InvalidParameterException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
         }

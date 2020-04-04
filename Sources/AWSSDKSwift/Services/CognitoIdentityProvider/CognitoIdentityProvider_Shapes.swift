@@ -2195,7 +2195,7 @@ extension CognitoIdentityProvider {
         public let attributeMapping: [String: String]?
         /// A list of identity provider identifiers.
         public let idpIdentifiers: [String]?
-        /// The identity provider details, such as MetadataURL and MetadataFile.
+        /// The identity provider details. The following list describes the provider detail keys for each identity provider type.   For Google, Facebook and Login with Amazon:   client_id   client_secret   authorize_scopes     For Sign in with Apple:   client_id   team_id   key_id   private_key   authorize_scopes     For OIDC providers:   client_id   client_secret   attributes_request_method   oidc_issuer   authorize_scopes   authorize_url if not available from discovery URL specified by oidc_issuer key    token_url if not available from discovery URL specified by oidc_issuer key    attributes_url if not available from discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL specified by oidc_issuer key    authorize_scopes     For SAML providers:   MetadataFile OR MetadataURL   IDPSignout optional     
         public let providerDetails: [String: String]
         /// The identity provider name.
         public let providerName: String
@@ -2363,13 +2363,13 @@ extension CognitoIdentityProvider {
 
     public struct CreateUserPoolClientRequest: AWSShape {
 
-        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
+        /// The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
-        /// Set to True if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
+        /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
         public let allowedOAuthFlowsUserPoolClient: Bool?
-        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito". In addition to these values, custom scopes created in Resource Servers are also supported.
+        /// The allowed OAuth scopes. Possible values provided by OAuth are: phone, email, openid, and profile. Possible values provided by AWS are: aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
         public let allowedOAuthScopes: [String]?
-        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
+        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.  Cognito User Pools only supports sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the region in which the user pool resides. 
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
@@ -2383,7 +2383,7 @@ extension CognitoIdentityProvider {
         public let generateSecret: Bool?
         /// A list of allowed logout URLs for the identity providers.
         public let logoutURLs: [String]?
-        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After January 1st 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After February 15th 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The read attributes.
         public let readAttributes: [String]?
@@ -2581,6 +2581,8 @@ extension CognitoIdentityProvider {
         public let smsVerificationMessage: String?
         /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
         public let usernameAttributes: [UsernameAttributeType]?
+        /// You can choose to set case sensitivity on the username input for the selected sign-in option. For example, when this is set to False, users will be able to sign in using either "username" or "Username". This configuration is immutable once it has been set. For more information, see .
+        public let usernameConfiguration: UsernameConfigurationType?
         /// Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
         public let userPoolAddOns: UserPoolAddOnsType?
         /// The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
@@ -2588,7 +2590,7 @@ extension CognitoIdentityProvider {
         /// The template for the verification message that the user sees when the app requests permission to access the user's information.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -2606,6 +2608,7 @@ extension CognitoIdentityProvider {
             self.smsConfiguration = smsConfiguration
             self.smsVerificationMessage = smsVerificationMessage
             self.usernameAttributes = usernameAttributes
+            self.usernameConfiguration = usernameConfiguration
             self.userPoolAddOns = userPoolAddOns
             self.userPoolTags = userPoolTags
             self.verificationMessageTemplate = verificationMessageTemplate
@@ -2665,6 +2668,7 @@ extension CognitoIdentityProvider {
             case smsConfiguration = "SmsConfiguration"
             case smsVerificationMessage = "SmsVerificationMessage"
             case usernameAttributes = "UsernameAttributes"
+            case usernameConfiguration = "UsernameConfiguration"
             case userPoolAddOns = "UserPoolAddOns"
             case userPoolTags = "UserPoolTags"
             case verificationMessageTemplate = "VerificationMessageTemplate"
@@ -3396,17 +3400,21 @@ extension CognitoIdentityProvider {
 
     public struct EventRiskType: AWSShape {
 
+        /// Indicates whether compromised credentials were detected during an authentication event.
+        public let compromisedCredentialsDetected: Bool?
         /// The risk decision.
         public let riskDecision: RiskDecisionType?
         /// The risk level.
         public let riskLevel: RiskLevelType?
 
-        public init(riskDecision: RiskDecisionType? = nil, riskLevel: RiskLevelType? = nil) {
+        public init(compromisedCredentialsDetected: Bool? = nil, riskDecision: RiskDecisionType? = nil, riskLevel: RiskLevelType? = nil) {
+            self.compromisedCredentialsDetected = compromisedCredentialsDetected
             self.riskDecision = riskDecision
             self.riskLevel = riskLevel
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compromisedCredentialsDetected = "CompromisedCredentialsDetected"
             case riskDecision = "RiskDecision"
             case riskLevel = "RiskLevel"
         }
@@ -3956,7 +3964,7 @@ extension CognitoIdentityProvider {
         public let idpIdentifiers: [String]?
         /// The date the identity provider was last modified.
         public let lastModifiedDate: TimeStamp?
-        /// The identity provider details, such as MetadataURL and MetadataFile.
+        /// The identity provider details. The following list describes the provider detail keys for each identity provider type.   For Google, Facebook and Login with Amazon:   client_id   client_secret   authorize_scopes     For Sign in with Apple:   client_id   team_id   key_id   private_key   authorize_scopes     For OIDC providers:   client_id   client_secret   attributes_request_method   oidc_issuer   authorize_scopes   authorize_url if not available from discovery URL specified by oidc_issuer key    token_url if not available from discovery URL specified by oidc_issuer key    attributes_url if not available from discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL specified by oidc_issuer key    authorize_scopes     For SAML providers:   MetadataFile OR MetadataURL   IDPSignOut optional     
         public let providerDetails: [String: String]?
         /// The identity provider name.
         public let providerName: String?
@@ -5185,7 +5193,7 @@ extension CognitoIdentityProvider {
 
         /// The attribute data type.
         public let attributeDataType: AttributeDataType?
-        /// Specifies whether the attribute type is developer only.
+        ///  We recommend that you use WriteAttributes in the user pool client to control how attributes can be mutated for new use cases instead of using DeveloperOnlyAttribute.  Specifies whether the attribute type is developer only. This attribute can only be modified by an administrator. Users will not be able to modify this attribute using their access token. For example, DeveloperOnlyAttribute can be modified using the API but cannot be updated using the API.
         public let developerOnlyAttribute: Bool?
         /// Specifies whether the value of the attribute can be changed. For any user pool attribute that's mapped to an identity provider attribute, you must set this parameter to true. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If an attribute is immutable, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
         public let mutable: Bool?
@@ -6144,13 +6152,13 @@ extension CognitoIdentityProvider {
 
     public struct UpdateUserPoolClientRequest: AWSShape {
 
-        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint.
+        /// The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
-        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
+        /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
         public let allowedOAuthFlowsUserPoolClient: Bool?
-        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito". In addition to these values, custom scopes created in Resource Servers are also supported.
+        /// The allowed OAuth scopes. Possible values provided by OAuth are: phone, email, openid, and profile. Possible values provided by AWS are: aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
         public let allowedOAuthScopes: [String]?
-        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
+        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.  Cognito User Pools only supports sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the region in which the user pool resides. 
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
@@ -6164,7 +6172,7 @@ extension CognitoIdentityProvider {
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// A list of allowed logout URLs for the identity providers.
         public let logoutURLs: [String]?
-        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After January 1st 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After February 15th 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The read-only attributes of the user pool.
         public let readAttributes: [String]?
@@ -6560,13 +6568,13 @@ extension CognitoIdentityProvider {
 
     public struct UserPoolClientType: AWSShape {
 
-        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
+        /// The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
-        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
+        /// Set to true if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
         public let allowedOAuthFlowsUserPoolClient: Bool?
-        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito". In addition to these values, custom scopes created in Resource Servers are also supported.
+        /// The allowed OAuth scopes. Possible values provided by OAuth are: phone, email, openid, and profile. Possible values provided by AWS are: aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
         public let allowedOAuthScopes: [String]?
-        /// The Amazon Pinpoint analytics configuration for the user pool client.
+        /// The Amazon Pinpoint analytics configuration for the user pool client.  Cognito User Pools only supports sending events to Amazon Pinpoint projects in the US East (N. Virginia) us-east-1 Region, regardless of the region in which the user pool resides. 
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
@@ -6586,7 +6594,7 @@ extension CognitoIdentityProvider {
         public let lastModifiedDate: TimeStamp?
         /// A list of allowed logout URLs for the identity providers.
         public let logoutURLs: [String]?
-        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After January 1st 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.   This setting affects the behavior of following APIs:    AdminInitiateAuth     AdminRespondToAuthChallenge     InitiateAuth     RespondToAuthChallenge     ForgotPassword     ConfirmForgotPassword     ConfirmSignUp     ResendConfirmationCode     After February 15th 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
         /// The Read-only attributes.
         public let readAttributes: [String]?
@@ -6752,6 +6760,8 @@ extension CognitoIdentityProvider {
         public let status: StatusType?
         /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
         public let usernameAttributes: [UsernameAttributeType]?
+        /// You can choose to enable case sensitivity on the username input for the selected sign-in option. For example, when this is set to False, users will be able to sign in using either "username" or "Username". This configuration is immutable once it has been set. For more information, see .
+        public let usernameConfiguration: UsernameConfigurationType?
         /// The user pool add-ons.
         public let userPoolAddOns: UserPoolAddOnsType?
         /// The tags that are assigned to the user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
@@ -6759,7 +6769,7 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: TimeStamp? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: TimeStamp? = nil, customDomain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: TimeStamp? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -6787,6 +6797,7 @@ extension CognitoIdentityProvider {
             self.smsVerificationMessage = smsVerificationMessage
             self.status = status
             self.usernameAttributes = usernameAttributes
+            self.usernameConfiguration = usernameConfiguration
             self.userPoolAddOns = userPoolAddOns
             self.userPoolTags = userPoolTags
             self.verificationMessageTemplate = verificationMessageTemplate
@@ -6820,6 +6831,7 @@ extension CognitoIdentityProvider {
             case smsVerificationMessage = "SmsVerificationMessage"
             case status = "Status"
             case usernameAttributes = "UsernameAttributes"
+            case usernameConfiguration = "UsernameConfiguration"
             case userPoolAddOns = "UserPoolAddOns"
             case userPoolTags = "UserPoolTags"
             case verificationMessageTemplate = "VerificationMessageTemplate"
@@ -6861,6 +6873,20 @@ extension CognitoIdentityProvider {
             case userLastModifiedDate = "UserLastModifiedDate"
             case username = "Username"
             case userStatus = "UserStatus"
+        }
+    }
+
+    public struct UsernameConfigurationType: AWSShape {
+
+        /// Specifies whether username case sensitivity will be applied for all users in the user pool through Cognito APIs. Valid values include:     True : Enables case sensitivity for all username input. When this option is set to True, users must sign in using the exact capitalization of their given username. For example, “UserName”. This is the default value.     False : Enables case insensitivity for all username input. For example, when this option is set to False, users will be able to sign in using either "username" or "Username". This option also enables both preferred_username and email alias to be case insensitive, in addition to the username attribute.  
+        public let caseSensitive: Bool
+
+        public init(caseSensitive: Bool) {
+            self.caseSensitive = caseSensitive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseSensitive = "CaseSensitive"
         }
     }
 

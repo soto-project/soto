@@ -11,7 +11,7 @@ extension CodeGuruProfiler {
         return client.paginate(input: input, command: listProfileTimes, tokenKey: \ListProfileTimesResponse.nextToken, onPage: onPage)
     }
 
-    ///  List profiling groups in the account.
+    ///  Lists profiling groups.
     public func listProfilingGroupsPaginator(_ input: ListProfilingGroupsRequest, onPage: @escaping (ListProfilingGroupsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listProfilingGroups, tokenKey: \ListProfilingGroupsResponse.nextToken, onPage: onPage)
     }

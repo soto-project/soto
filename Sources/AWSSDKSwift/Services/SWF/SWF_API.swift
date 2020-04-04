@@ -37,6 +37,7 @@ public struct SWF {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
             apiVersion: "2012-01-25",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "swf-fips.us-east-1.amazonaws.com", "fips-us-east-2": "swf-fips.us-east-2.amazonaws.com", "fips-us-west-1": "swf-fips.us-west-1.amazonaws.com", "fips-us-west-2": "swf-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SWFErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

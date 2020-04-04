@@ -65,7 +65,7 @@ public struct RDSDataService {
         return client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
     }
 
-    ///  Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically.  The response size limit is 1 MB or 1,000 records. If the call returns more than 1 MB of response data or over 1,000 records, the call is terminated.
+    ///  Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically.  The response size limit is 1 MB. If the call returns more than 1 MB of response data, the call is terminated.
     public func executeStatement(_ input: ExecuteStatementRequest) -> EventLoopFuture<ExecuteStatementResponse> {
         return client.send(operation: "ExecuteStatement", path: "/Execute", httpMethod: "POST", input: input)
     }

@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for AugmentedAIRuntime
 public enum AugmentedAIRuntimeErrorType: AWSErrorType {
+    case conflictException(message: String?)
     case internalServerException(message: String?)
     case resourceNotFoundException(message: String?)
     case serviceQuotaExceededException(message: String?)
@@ -18,6 +19,8 @@ extension AugmentedAIRuntimeErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
         case "ResourceNotFoundException":
@@ -37,6 +40,8 @@ extension AugmentedAIRuntimeErrorType {
 extension AugmentedAIRuntimeErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .internalServerException(let message):
             return "InternalServerException: \(message ?? "")"
         case .resourceNotFoundException(let message):

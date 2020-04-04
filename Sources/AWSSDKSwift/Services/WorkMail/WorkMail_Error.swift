@@ -13,12 +13,15 @@ public enum WorkMailErrorType: AWSErrorType {
     case invalidConfigurationException(message: String?)
     case invalidParameterException(message: String?)
     case invalidPasswordException(message: String?)
+    case limitExceededException(message: String?)
     case mailDomainNotFoundException(message: String?)
     case mailDomainStateException(message: String?)
     case nameAvailabilityException(message: String?)
     case organizationNotFoundException(message: String?)
     case organizationStateException(message: String?)
     case reservedNameException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case tooManyTagsException(message: String?)
     case unsupportedOperationException(message: String?)
 }
 
@@ -47,6 +50,8 @@ extension WorkMailErrorType {
             self = .invalidParameterException(message: message)
         case "InvalidPasswordException":
             self = .invalidPasswordException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "MailDomainNotFoundException":
             self = .mailDomainNotFoundException(message: message)
         case "MailDomainStateException":
@@ -59,6 +64,10 @@ extension WorkMailErrorType {
             self = .organizationStateException(message: message)
         case "ReservedNameException":
             self = .reservedNameException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "UnsupportedOperationException":
             self = .unsupportedOperationException(message: message)
         default:
@@ -88,6 +97,8 @@ extension WorkMailErrorType : CustomStringConvertible {
             return "InvalidParameterException: \(message ?? "")"
         case .invalidPasswordException(let message):
             return "InvalidPasswordException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
         case .mailDomainNotFoundException(let message):
             return "MailDomainNotFoundException: \(message ?? "")"
         case .mailDomainStateException(let message):
@@ -100,6 +111,10 @@ extension WorkMailErrorType : CustomStringConvertible {
             return "OrganizationStateException: \(message ?? "")"
         case .reservedNameException(let message):
             return "ReservedNameException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
         case .unsupportedOperationException(let message):
             return "UnsupportedOperationException: \(message ?? "")"
         }

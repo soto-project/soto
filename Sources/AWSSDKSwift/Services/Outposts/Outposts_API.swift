@@ -49,6 +49,16 @@ public struct Outposts {
         return client.send(operation: "CreateOutpost", path: "/outposts", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the Outpost.
+    public func deleteOutpost(_ input: DeleteOutpostInput) -> EventLoopFuture<DeleteOutpostOutput> {
+        return client.send(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes the site.
+    public func deleteSite(_ input: DeleteSiteInput) -> EventLoopFuture<DeleteSiteOutput> {
+        return client.send(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Gets information about the specified Outpost.
     public func getOutpost(_ input: GetOutpostInput) -> EventLoopFuture<GetOutpostOutput> {
         return client.send(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: "GET", input: input)

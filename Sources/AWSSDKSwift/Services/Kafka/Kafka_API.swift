@@ -104,6 +104,11 @@ public struct Kafka {
         return client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
     }
 
+    ///  Returns a list of Kafka versions.
+    public func listKafkaVersions(_ input: ListKafkaVersionsRequest) -> EventLoopFuture<ListKafkaVersionsResponse> {
+        return client.send(operation: "ListKafkaVersions", path: "/v1/kafka-versions", httpMethod: "GET", input: input)
+    }
+
     ///  Returns a list of the broker nodes in the cluster.
     public func listNodes(_ input: ListNodesRequest) -> EventLoopFuture<ListNodesResponse> {
         return client.send(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: "GET", input: input)

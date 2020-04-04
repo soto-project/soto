@@ -32,11 +32,11 @@ public struct ElasticInference {
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,
             region: region,
-            service: "api.elastic-inference",
-            signingName: "elastic-inference",
+            service: "elastic-inference",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-25",
             endpoint: endpoint,
+            serviceEndpoints: ["ap-northeast-1": "api.elastic-inference.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.elastic-inference.ap-northeast-2.amazonaws.com", "eu-west-1": "api.elastic-inference.eu-west-1.amazonaws.com", "us-east-1": "api.elastic-inference.us-east-1.amazonaws.com", "us-east-2": "api.elastic-inference.us-east-2.amazonaws.com", "us-west-2": "api.elastic-inference.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ElasticInferenceErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

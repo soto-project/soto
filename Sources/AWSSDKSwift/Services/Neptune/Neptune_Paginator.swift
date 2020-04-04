@@ -11,7 +11,7 @@ extension Neptune {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
     }
 
-    ///  Returns information about provisioned instances. This API supports pagination.
+    ///  Returns information about provisioned instances, and supports pagination.  This operation can also return information for Amazon RDS instances and Amazon DocDB instances. 
     public func describeDBInstancesPaginator(_ input: DescribeDBInstancesMessage, onPage: @escaping (DBInstanceMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBInstances, tokenKey: \DBInstanceMessage.marker, onPage: onPage)
     }

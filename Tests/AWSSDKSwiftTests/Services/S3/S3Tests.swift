@@ -24,7 +24,7 @@ class S3Tests: XCTestCase {
         secretAccessKey: "secret",
         region: .euwest1,
         endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
-        middlewares: [AWSLoggingMiddleware()]
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     )
 
     class TestData {
@@ -309,11 +309,9 @@ class S3Tests: XCTestCase {
                 let response = client.putObject(request)
                     .flatMap { (response)->EventLoopFuture<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
-                        print("Put \(objectName)")
                         return self.client.getObject(request)
                     }
                     .flatMapThrowing { response in
-                        print("Get \(objectName)")
                         guard let body = response.body else {throw S3TestErrors.error("Get \(objectName) failed") }
                         guard text == String(data: body, encoding: .utf8) else {throw S3TestErrors.error("Get \(objectName) contents is incorrect") }
                         return

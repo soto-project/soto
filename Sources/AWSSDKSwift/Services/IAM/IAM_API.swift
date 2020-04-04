@@ -36,7 +36,7 @@ public struct IAM {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-05-08",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "iam.amazonaws.com"],
+            serviceEndpoints: ["aws-global": "iam.amazonaws.com", "iam-fips": "iam-fips.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
             possibleErrorTypes: [IAMErrorType.self],

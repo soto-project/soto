@@ -3173,6 +3173,8 @@ extension Chime {
 
     public struct MediaPlacement: AWSShape {
 
+        /// The audio fallback URL.
+        public let audioFallbackUrl: String?
         /// The audio host URL.
         public let audioHostUrl: String?
         /// The screen data URL.
@@ -3186,7 +3188,8 @@ extension Chime {
         /// The turn control URL.
         public let turnControlUrl: String?
 
-        public init(audioHostUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
+        public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
+            self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.screenDataUrl = screenDataUrl
             self.screenSharingUrl = screenSharingUrl
@@ -3196,6 +3199,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFallbackUrl = "AudioFallbackUrl"
             case audioHostUrl = "AudioHostUrl"
             case screenDataUrl = "ScreenDataUrl"
             case screenSharingUrl = "ScreenSharingUrl"
@@ -4127,7 +4131,7 @@ extension Chime {
         public let callingRegions: [String]?
         /// The IP addresses allowed to make calls, in CIDR format. Required.
         public let cidrAllowedList: [String]?
-        /// The limit on calls per second. Max value based on account service limit. Default value of 1.
+        /// The limit on calls per second. Max value based on account service quota. Default value of 1.
         public let cpsLimit: Int?
         /// The default caller ID phone number.
         public let defaultPhoneNumber: String?

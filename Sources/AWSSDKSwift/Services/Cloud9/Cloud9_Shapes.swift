@@ -63,8 +63,10 @@ extension Cloud9 {
         public let ownerArn: String?
         /// The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance.
         public let subnetId: String?
+        /// An array of key-value pairs that will be associated with the new AWS Cloud9 development environment.
+        public let tags: [Tag]?
 
-        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil) {
+        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.automaticStopTimeMinutes = automaticStopTimeMinutes
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -72,6 +74,7 @@ extension Cloud9 {
             self.name = name
             self.ownerArn = ownerArn
             self.subnetId = subnetId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -83,9 +86,14 @@ extension Cloud9 {
             try validate(self.instanceType, name:"instanceType", parent: name, pattern: "^[a-z][1-9][.][a-z0-9]+$")
             try validate(self.name, name:"name", parent: name, max: 60)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.ownerArn, name:"ownerArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
+            try validate(self.ownerArn, name:"ownerArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
             try validate(self.subnetId, name:"subnetId", parent: name, max: 30)
             try validate(self.subnetId, name:"subnetId", parent: name, min: 5)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -96,6 +104,7 @@ extension Cloud9 {
             case name = "name"
             case ownerArn = "ownerArn"
             case subnetId = "subnetId"
+            case tags = "tags"
         }
     }
 
@@ -130,7 +139,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -168,7 +177,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,7 +245,7 @@ extension Cloud9 {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -469,6 +478,134 @@ extension Cloud9 {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to get the tags for.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+
+        /// The list of tags associated with the AWS Cloud9 development environment.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct Tag: AWSShape {
+
+        /// The name part of a tag.
+        public let key: String
+        /// The value part of a tag.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to add tags to.
+        public let resourceARN: String
+        /// The list of tags to add to the given AWS Cloud9 development environment.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+
+        /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to remove tags from.
+        public let resourceARN: String
+        /// The tag names of the tags to remove from the given AWS Cloud9 development environment.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, pattern: "arn:aws:cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct UpdateEnvironmentMembershipRequest: AWSShape {
 
         /// The ID of the environment for the environment member whose settings you want to change.
@@ -486,7 +623,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {

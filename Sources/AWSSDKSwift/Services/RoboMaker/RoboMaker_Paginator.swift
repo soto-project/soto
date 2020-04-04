@@ -6,7 +6,7 @@ import NIO
 
 extension RoboMaker {
 
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.     
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
     public func listDeploymentJobsPaginator(_ input: ListDeploymentJobsRequest, onPage: @escaping (ListDeploymentJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listDeploymentJobs, tokenKey: \ListDeploymentJobsResponse.nextToken, onPage: onPage)
     }
@@ -29,6 +29,11 @@ extension RoboMaker {
     ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
     public func listSimulationApplicationsPaginator(_ input: ListSimulationApplicationsRequest, onPage: @escaping (ListSimulationApplicationsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listSimulationApplications, tokenKey: \ListSimulationApplicationsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
+    public func listSimulationJobBatchesPaginator(_ input: ListSimulationJobBatchesRequest, onPage: @escaping (ListSimulationJobBatchesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listSimulationJobBatches, tokenKey: \ListSimulationJobBatchesResponse.nextToken, onPage: onPage)
     }
 
     ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
@@ -90,6 +95,17 @@ extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateStringToken {
             maxResults: self.maxResults, 
             nextToken: token, 
             versionQualifier: self.versionQualifier
+        )
+
+    }
+}
+
+extension RoboMaker.ListSimulationJobBatchesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationJobBatchesRequest {
+        return .init(
+            filters: self.filters, 
+            maxResults: self.maxResults, 
+            nextToken: token
         )
 
     }
