@@ -2,6 +2,8 @@
 
 set -eux
 
+FOLDER=5.x.x
+
 move_docs_to_gh_pages() {
     # stash everything that isn't in docs, store result in STASH_RESULT
     STASH_RESULT=$(git stash push -- ":(exclude)docs")
@@ -15,10 +17,10 @@ move_docs_to_gh_pages() {
 
     git checkout gh-pages
     # copy contents of docs to docs/current replacing the ones that are already there
-    rm -rf current
-    mv docs/ current/
+    rm -rf "$FOLDER"
+    mv docs/ "$FOLDER"/
     # commit
-    git add --all current
+    git add --all "$FOLDER"
     git commit -m "$COMMIT_MSG"
     git push
     # return to branch
