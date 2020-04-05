@@ -1,10 +1,16 @@
+//===----------------------------------------------------------------------===//
 //
-//  CodeGenerator.swift
-//  AWSSDKSwift
+// This source file is part of the AWSSDKSwift open source project
 //
-//  Created by Yuki Takei on 2017/04/04.
-//  Edited by Adam Fowler to use Stencil (https://github.com/stencilproject/Stencil.git) templating library
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
 //
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
 
 import Foundation
 import SwiftyJSON
