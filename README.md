@@ -1,6 +1,5 @@
 # AWS SDK Swift
 
-[<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
 [<img src="https://github.com/swift-aws/aws-sdk-swift/workflows/CI/badge.svg" />](https://github.com/swift-aws/aws-sdk-swift/actions?query=workflow%3ACI)
 
