@@ -18,7 +18,7 @@ extension Cloud9 {
 
 }
 
-extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateStringToken {
+extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Cloud9.DescribeEnvironmentMembershipsRequest {
         return .init(
             environmentId: self.environmentId, 
@@ -31,7 +31,7 @@ extension Cloud9.DescribeEnvironmentMembershipsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Cloud9.ListEnvironmentsRequest: AWSPaginateStringToken {
+extension Cloud9.ListEnvironmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Cloud9.ListEnvironmentsRequest {
         return .init(
             maxResults: self.maxResults, 

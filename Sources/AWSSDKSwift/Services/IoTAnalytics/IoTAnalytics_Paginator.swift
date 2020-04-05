@@ -33,7 +33,7 @@ extension IoTAnalytics {
 
 }
 
-extension IoTAnalytics.ListChannelsRequest: AWSPaginateStringToken {
+extension IoTAnalytics.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListChannelsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -43,7 +43,7 @@ extension IoTAnalytics.ListChannelsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateStringToken {
+extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListDatasetContentsRequest {
         return .init(
             datasetName: self.datasetName, 
@@ -56,7 +56,7 @@ extension IoTAnalytics.ListDatasetContentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTAnalytics.ListDatasetsRequest: AWSPaginateStringToken {
+extension IoTAnalytics.ListDatasetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListDatasetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -66,7 +66,7 @@ extension IoTAnalytics.ListDatasetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTAnalytics.ListDatastoresRequest: AWSPaginateStringToken {
+extension IoTAnalytics.ListDatastoresRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListDatastoresRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -76,7 +76,7 @@ extension IoTAnalytics.ListDatastoresRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTAnalytics.ListPipelinesRequest: AWSPaginateStringToken {
+extension IoTAnalytics.ListPipelinesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTAnalytics.ListPipelinesRequest {
         return .init(
             maxResults: self.maxResults, 

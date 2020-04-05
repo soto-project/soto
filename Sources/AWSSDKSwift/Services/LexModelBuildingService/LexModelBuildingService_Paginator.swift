@@ -58,7 +58,7 @@ extension LexModelBuildingService {
 
 }
 
-extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotAliasesRequest {
         return .init(
             botName: self.botName, 
@@ -70,7 +70,7 @@ extension LexModelBuildingService.GetBotAliasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotChannelAssociationsRequest {
         return .init(
             botAlias: self.botAlias, 
@@ -83,7 +83,7 @@ extension LexModelBuildingService.GetBotChannelAssociationsRequest: AWSPaginateS
     }
 }
 
-extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -94,7 +94,7 @@ extension LexModelBuildingService.GetBotVersionsRequest: AWSPaginateStringToken 
     }
 }
 
-extension LexModelBuildingService.GetBotsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetBotsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBotsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -105,7 +105,7 @@ extension LexModelBuildingService.GetBotsRequest: AWSPaginateStringToken {
     }
 }
 
-extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBuiltinIntentsRequest {
         return .init(
             locale: self.locale, 
@@ -117,7 +117,7 @@ extension LexModelBuildingService.GetBuiltinIntentsRequest: AWSPaginateStringTok
     }
 }
 
-extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetBuiltinSlotTypesRequest {
         return .init(
             locale: self.locale, 
@@ -129,7 +129,7 @@ extension LexModelBuildingService.GetBuiltinSlotTypesRequest: AWSPaginateStringT
     }
 }
 
-extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetIntentVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -140,7 +140,7 @@ extension LexModelBuildingService.GetIntentVersionsRequest: AWSPaginateStringTok
     }
 }
 
-extension LexModelBuildingService.GetIntentsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetIntentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetIntentsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -151,7 +151,7 @@ extension LexModelBuildingService.GetIntentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetSlotTypeVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -162,7 +162,7 @@ extension LexModelBuildingService.GetSlotTypeVersionsRequest: AWSPaginateStringT
     }
 }
 
-extension LexModelBuildingService.GetSlotTypesRequest: AWSPaginateStringToken {
+extension LexModelBuildingService.GetSlotTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelBuildingService.GetSlotTypesRequest {
         return .init(
             maxResults: self.maxResults, 

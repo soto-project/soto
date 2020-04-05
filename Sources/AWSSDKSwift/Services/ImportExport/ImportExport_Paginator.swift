@@ -13,7 +13,7 @@ extension ImportExport {
 
 }
 
-extension ImportExport.ListJobsInput: AWSPaginateStringToken {
+extension ImportExport.ListJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ImportExport.ListJobsInput {
         return .init(
             aPIVersion: self.aPIVersion, 

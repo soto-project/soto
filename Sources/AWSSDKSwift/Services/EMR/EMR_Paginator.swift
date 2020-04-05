@@ -43,7 +43,7 @@ extension EMR {
 
 }
 
-extension EMR.ListBootstrapActionsInput: AWSPaginateStringToken {
+extension EMR.ListBootstrapActionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListBootstrapActionsInput {
         return .init(
             clusterId: self.clusterId, 
@@ -53,7 +53,7 @@ extension EMR.ListBootstrapActionsInput: AWSPaginateStringToken {
     }
 }
 
-extension EMR.ListClustersInput: AWSPaginateStringToken {
+extension EMR.ListClustersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListClustersInput {
         return .init(
             clusterStates: self.clusterStates, 
@@ -65,7 +65,7 @@ extension EMR.ListClustersInput: AWSPaginateStringToken {
     }
 }
 
-extension EMR.ListInstanceFleetsInput: AWSPaginateStringToken {
+extension EMR.ListInstanceFleetsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListInstanceFleetsInput {
         return .init(
             clusterId: self.clusterId, 
@@ -75,7 +75,7 @@ extension EMR.ListInstanceFleetsInput: AWSPaginateStringToken {
     }
 }
 
-extension EMR.ListInstanceGroupsInput: AWSPaginateStringToken {
+extension EMR.ListInstanceGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListInstanceGroupsInput {
         return .init(
             clusterId: self.clusterId, 
@@ -85,7 +85,7 @@ extension EMR.ListInstanceGroupsInput: AWSPaginateStringToken {
     }
 }
 
-extension EMR.ListInstancesInput: AWSPaginateStringToken {
+extension EMR.ListInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListInstancesInput {
         return .init(
             clusterId: self.clusterId, 
@@ -100,7 +100,7 @@ extension EMR.ListInstancesInput: AWSPaginateStringToken {
     }
 }
 
-extension EMR.ListSecurityConfigurationsInput: AWSPaginateStringToken {
+extension EMR.ListSecurityConfigurationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListSecurityConfigurationsInput {
         return .init(
             marker: token
@@ -109,7 +109,7 @@ extension EMR.ListSecurityConfigurationsInput: AWSPaginateStringToken {
     }
 }
 
-extension EMR.ListStepsInput: AWSPaginateStringToken {
+extension EMR.ListStepsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListStepsInput {
         return .init(
             clusterId: self.clusterId, 

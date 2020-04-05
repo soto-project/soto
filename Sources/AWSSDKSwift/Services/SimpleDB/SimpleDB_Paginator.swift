@@ -18,7 +18,7 @@ extension SimpleDB {
 
 }
 
-extension SimpleDB.ListDomainsRequest: AWSPaginateStringToken {
+extension SimpleDB.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SimpleDB.ListDomainsRequest {
         return .init(
             maxNumberOfDomains: self.maxNumberOfDomains, 
@@ -28,7 +28,7 @@ extension SimpleDB.ListDomainsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SimpleDB.SelectRequest: AWSPaginateStringToken {
+extension SimpleDB.SelectRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SimpleDB.SelectRequest {
         return .init(
             consistentRead: self.consistentRead, 

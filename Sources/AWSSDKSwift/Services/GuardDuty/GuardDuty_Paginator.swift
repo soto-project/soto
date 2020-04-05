@@ -48,7 +48,7 @@ extension GuardDuty {
 
 }
 
-extension GuardDuty.ListDetectorsRequest: AWSPaginateStringToken {
+extension GuardDuty.ListDetectorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListDetectorsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -58,7 +58,7 @@ extension GuardDuty.ListDetectorsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListFiltersRequest: AWSPaginateStringToken {
+extension GuardDuty.ListFiltersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListFiltersRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -69,7 +69,7 @@ extension GuardDuty.ListFiltersRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListFindingsRequest: AWSPaginateStringToken {
+extension GuardDuty.ListFindingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListFindingsRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -82,7 +82,7 @@ extension GuardDuty.ListFindingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListIPSetsRequest: AWSPaginateStringToken {
+extension GuardDuty.ListIPSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListIPSetsRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -93,7 +93,7 @@ extension GuardDuty.ListIPSetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListInvitationsRequest: AWSPaginateStringToken {
+extension GuardDuty.ListInvitationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListInvitationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -103,7 +103,7 @@ extension GuardDuty.ListInvitationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListMembersRequest: AWSPaginateStringToken {
+extension GuardDuty.ListMembersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListMembersRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -115,7 +115,7 @@ extension GuardDuty.ListMembersRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateStringToken {
+extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListPublishingDestinationsRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -126,7 +126,7 @@ extension GuardDuty.ListPublishingDestinationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateStringToken {
+extension GuardDuty.ListThreatIntelSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListThreatIntelSetsRequest {
         return .init(
             detectorId: self.detectorId, 

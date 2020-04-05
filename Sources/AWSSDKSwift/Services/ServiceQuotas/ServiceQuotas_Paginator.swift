@@ -38,7 +38,7 @@ extension ServiceQuotas {
 
 }
 
-extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateStringToken {
+extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListAWSDefaultServiceQuotasRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -49,7 +49,7 @@ extension ServiceQuotas.ListAWSDefaultServiceQuotasRequest: AWSPaginateStringTok
     }
 }
 
-extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateStringToken {
+extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -61,7 +61,7 @@ extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryRequest: AWSPagina
     }
 }
 
-extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSPaginateStringToken {
+extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -74,7 +74,7 @@ extension ServiceQuotas.ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AW
     }
 }
 
-extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPaginateStringToken {
+extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest {
         return .init(
             awsRegion: self.awsRegion, 
@@ -86,7 +86,7 @@ extension ServiceQuotas.ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSPa
     }
 }
 
-extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateStringToken {
+extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListServiceQuotasRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -97,7 +97,7 @@ extension ServiceQuotas.ListServiceQuotasRequest: AWSPaginateStringToken {
     }
 }
 
-extension ServiceQuotas.ListServicesRequest: AWSPaginateStringToken {
+extension ServiceQuotas.ListServicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceQuotas.ListServicesRequest {
         return .init(
             maxResults: self.maxResults, 

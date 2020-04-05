@@ -33,7 +33,7 @@ extension ServiceDiscovery {
 
 }
 
-extension ServiceDiscovery.GetInstancesHealthStatusRequest: AWSPaginateStringToken {
+extension ServiceDiscovery.GetInstancesHealthStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.GetInstancesHealthStatusRequest {
         return .init(
             instances: self.instances, 
@@ -45,7 +45,7 @@ extension ServiceDiscovery.GetInstancesHealthStatusRequest: AWSPaginateStringTok
     }
 }
 
-extension ServiceDiscovery.ListInstancesRequest: AWSPaginateStringToken {
+extension ServiceDiscovery.ListInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListInstancesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -56,7 +56,7 @@ extension ServiceDiscovery.ListInstancesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateStringToken {
+extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListNamespacesRequest {
         return .init(
             filters: self.filters, 
@@ -67,7 +67,7 @@ extension ServiceDiscovery.ListNamespacesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ServiceDiscovery.ListOperationsRequest: AWSPaginateStringToken {
+extension ServiceDiscovery.ListOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListOperationsRequest {
         return .init(
             filters: self.filters, 
@@ -78,7 +78,7 @@ extension ServiceDiscovery.ListOperationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ServiceDiscovery.ListServicesRequest: AWSPaginateStringToken {
+extension ServiceDiscovery.ListServicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceDiscovery.ListServicesRequest {
         return .init(
             filters: self.filters, 

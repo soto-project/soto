@@ -28,7 +28,7 @@ extension KMS {
 
 }
 
-extension KMS.ListAliasesRequest: AWSPaginateStringToken {
+extension KMS.ListAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KMS.ListAliasesRequest {
         return .init(
             keyId: self.keyId, 
@@ -39,7 +39,7 @@ extension KMS.ListAliasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension KMS.ListGrantsRequest: AWSPaginateStringToken {
+extension KMS.ListGrantsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KMS.ListGrantsRequest {
         return .init(
             keyId: self.keyId, 
@@ -50,7 +50,7 @@ extension KMS.ListGrantsRequest: AWSPaginateStringToken {
     }
 }
 
-extension KMS.ListKeyPoliciesRequest: AWSPaginateStringToken {
+extension KMS.ListKeyPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KMS.ListKeyPoliciesRequest {
         return .init(
             keyId: self.keyId, 
@@ -61,7 +61,7 @@ extension KMS.ListKeyPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension KMS.ListKeysRequest: AWSPaginateStringToken {
+extension KMS.ListKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KMS.ListKeysRequest {
         return .init(
             limit: self.limit, 

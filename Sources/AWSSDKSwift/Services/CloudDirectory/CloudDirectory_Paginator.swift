@@ -103,7 +103,7 @@ extension CloudDirectory {
 
 }
 
-extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListAppliedSchemaArnsRequest {
         return .init(
             directoryArn: self.directoryArn, 
@@ -115,7 +115,7 @@ extension CloudDirectory.ListAppliedSchemaArnsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListAttachedIndicesRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -128,7 +128,7 @@ extension CloudDirectory.ListAttachedIndicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListDevelopmentSchemaArnsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -138,7 +138,7 @@ extension CloudDirectory.ListDevelopmentSchemaArnsRequest: AWSPaginateStringToke
     }
 }
 
-extension CloudDirectory.ListDirectoriesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListDirectoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListDirectoriesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -149,7 +149,7 @@ extension CloudDirectory.ListDirectoriesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListFacetAttributesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -161,7 +161,7 @@ extension CloudDirectory.ListFacetAttributesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListFacetNamesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListFacetNamesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListFacetNamesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -172,7 +172,7 @@ extension CloudDirectory.ListFacetNamesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListIndexRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListIndexRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListIndexRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -186,7 +186,7 @@ extension CloudDirectory.ListIndexRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListManagedSchemaArnsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -197,7 +197,7 @@ extension CloudDirectory.ListManagedSchemaArnsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectAttributesRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -211,7 +211,7 @@ extension CloudDirectory.ListObjectAttributesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListObjectChildrenRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListObjectChildrenRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectChildrenRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -224,7 +224,7 @@ extension CloudDirectory.ListObjectChildrenRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectParentPathsRequest {
         return .init(
             directoryArn: self.directoryArn, 
@@ -236,7 +236,7 @@ extension CloudDirectory.ListObjectParentPathsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListObjectParentsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListObjectParentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectParentsRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -250,7 +250,7 @@ extension CloudDirectory.ListObjectParentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListObjectPoliciesRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -263,7 +263,7 @@ extension CloudDirectory.ListObjectPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListPolicyAttachmentsRequest {
         return .init(
             consistencyLevel: self.consistencyLevel, 
@@ -276,7 +276,7 @@ extension CloudDirectory.ListPolicyAttachmentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListPublishedSchemaArnsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -287,7 +287,7 @@ extension CloudDirectory.ListPublishedSchemaArnsRequest: AWSPaginateStringToken 
     }
 }
 
-extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTagsForResourceRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -298,7 +298,7 @@ extension CloudDirectory.ListTagsForResourceRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTypedLinkFacetAttributesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -310,7 +310,7 @@ extension CloudDirectory.ListTypedLinkFacetAttributesRequest: AWSPaginateStringT
     }
 }
 
-extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateStringToken {
+extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.ListTypedLinkFacetNamesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -321,7 +321,7 @@ extension CloudDirectory.ListTypedLinkFacetNamesRequest: AWSPaginateStringToken 
     }
 }
 
-extension CloudDirectory.LookupPolicyRequest: AWSPaginateStringToken {
+extension CloudDirectory.LookupPolicyRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudDirectory.LookupPolicyRequest {
         return .init(
             directoryArn: self.directoryArn, 

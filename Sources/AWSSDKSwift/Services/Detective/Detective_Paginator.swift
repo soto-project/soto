@@ -23,7 +23,7 @@ extension Detective {
 
 }
 
-extension Detective.ListGraphsRequest: AWSPaginateStringToken {
+extension Detective.ListGraphsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Detective.ListGraphsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -33,7 +33,7 @@ extension Detective.ListGraphsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Detective.ListInvitationsRequest: AWSPaginateStringToken {
+extension Detective.ListInvitationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Detective.ListInvitationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -43,7 +43,7 @@ extension Detective.ListInvitationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Detective.ListMembersRequest: AWSPaginateStringToken {
+extension Detective.ListMembersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Detective.ListMembersRequest {
         return .init(
             graphArn: self.graphArn, 

@@ -43,7 +43,7 @@ extension SESV2 {
 
 }
 
-extension SESV2.GetDedicatedIpsRequest: AWSPaginateStringToken {
+extension SESV2.GetDedicatedIpsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.GetDedicatedIpsRequest {
         return .init(
             nextToken: token, 
@@ -54,7 +54,7 @@ extension SESV2.GetDedicatedIpsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SESV2.ListConfigurationSetsRequest: AWSPaginateStringToken {
+extension SESV2.ListConfigurationSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListConfigurationSetsRequest {
         return .init(
             nextToken: token, 
@@ -64,7 +64,7 @@ extension SESV2.ListConfigurationSetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
+extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListDedicatedIpPoolsRequest {
         return .init(
             nextToken: token, 
@@ -74,7 +74,7 @@ extension SESV2.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
+extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListDeliverabilityTestReportsRequest {
         return .init(
             nextToken: token, 
@@ -84,7 +84,7 @@ extension SESV2.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken {
+extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListDomainDeliverabilityCampaignsRequest {
         return .init(
             endDate: self.endDate, 
@@ -97,7 +97,7 @@ extension SESV2.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken
     }
 }
 
-extension SESV2.ListEmailIdentitiesRequest: AWSPaginateStringToken {
+extension SESV2.ListEmailIdentitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListEmailIdentitiesRequest {
         return .init(
             nextToken: token, 
@@ -107,7 +107,7 @@ extension SESV2.ListEmailIdentitiesRequest: AWSPaginateStringToken {
     }
 }
 
-extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateStringToken {
+extension SESV2.ListSuppressedDestinationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESV2.ListSuppressedDestinationsRequest {
         return .init(
             endDate: self.endDate, 

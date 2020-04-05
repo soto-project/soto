@@ -18,7 +18,7 @@ extension EBS {
 
 }
 
-extension EBS.ListChangedBlocksRequest: AWSPaginateStringToken {
+extension EBS.ListChangedBlocksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EBS.ListChangedBlocksRequest {
         return .init(
             firstSnapshotId: self.firstSnapshotId, 
@@ -31,7 +31,7 @@ extension EBS.ListChangedBlocksRequest: AWSPaginateStringToken {
     }
 }
 
-extension EBS.ListSnapshotBlocksRequest: AWSPaginateStringToken {
+extension EBS.ListSnapshotBlocksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EBS.ListSnapshotBlocksRequest {
         return .init(
             maxResults: self.maxResults, 

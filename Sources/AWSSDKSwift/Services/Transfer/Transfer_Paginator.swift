@@ -23,7 +23,7 @@ extension Transfer {
 
 }
 
-extension Transfer.ListServersRequest: AWSPaginateStringToken {
+extension Transfer.ListServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Transfer.ListServersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -33,7 +33,7 @@ extension Transfer.ListServersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Transfer.ListTagsForResourceRequest: AWSPaginateStringToken {
+extension Transfer.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Transfer.ListTagsForResourceRequest {
         return .init(
             arn: self.arn, 
@@ -44,7 +44,7 @@ extension Transfer.ListTagsForResourceRequest: AWSPaginateStringToken {
     }
 }
 
-extension Transfer.ListUsersRequest: AWSPaginateStringToken {
+extension Transfer.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Transfer.ListUsersRequest {
         return .init(
             maxResults: self.maxResults, 

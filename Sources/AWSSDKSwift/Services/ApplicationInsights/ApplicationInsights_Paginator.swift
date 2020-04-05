@@ -38,7 +38,7 @@ extension ApplicationInsights {
 
 }
 
-extension ApplicationInsights.ListApplicationsRequest: AWSPaginateStringToken {
+extension ApplicationInsights.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListApplicationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -48,7 +48,7 @@ extension ApplicationInsights.ListApplicationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ApplicationInsights.ListComponentsRequest: AWSPaginateStringToken {
+extension ApplicationInsights.ListComponentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListComponentsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -59,7 +59,7 @@ extension ApplicationInsights.ListComponentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ApplicationInsights.ListConfigurationHistoryRequest: AWSPaginateStringToken {
+extension ApplicationInsights.ListConfigurationHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListConfigurationHistoryRequest {
         return .init(
             endTime: self.endTime, 
@@ -73,7 +73,7 @@ extension ApplicationInsights.ListConfigurationHistoryRequest: AWSPaginateString
     }
 }
 
-extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateStringToken {
+extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListLogPatternSetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -84,7 +84,7 @@ extension ApplicationInsights.ListLogPatternSetsRequest: AWSPaginateStringToken 
     }
 }
 
-extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateStringToken {
+extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListLogPatternsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -96,7 +96,7 @@ extension ApplicationInsights.ListLogPatternsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ApplicationInsights.ListProblemsRequest: AWSPaginateStringToken {
+extension ApplicationInsights.ListProblemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationInsights.ListProblemsRequest {
         return .init(
             endTime: self.endTime, 

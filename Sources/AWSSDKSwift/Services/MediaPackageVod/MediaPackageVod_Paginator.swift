@@ -23,7 +23,7 @@ extension MediaPackageVod {
 
 }
 
-extension MediaPackageVod.ListAssetsRequest: AWSPaginateStringToken {
+extension MediaPackageVod.ListAssetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListAssetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -34,7 +34,7 @@ extension MediaPackageVod.ListAssetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateStringToken {
+extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListPackagingConfigurationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -45,7 +45,7 @@ extension MediaPackageVod.ListPackagingConfigurationsRequest: AWSPaginateStringT
     }
 }
 
-extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateStringToken {
+extension MediaPackageVod.ListPackagingGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackageVod.ListPackagingGroupsRequest {
         return .init(
             maxResults: self.maxResults, 

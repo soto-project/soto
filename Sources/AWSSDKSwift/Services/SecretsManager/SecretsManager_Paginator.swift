@@ -18,7 +18,7 @@ extension SecretsManager {
 
 }
 
-extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateStringToken {
+extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecretsManager.ListSecretVersionIdsRequest {
         return .init(
             includeDeprecated: self.includeDeprecated, 
@@ -30,7 +30,7 @@ extension SecretsManager.ListSecretVersionIdsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecretsManager.ListSecretsRequest: AWSPaginateStringToken {
+extension SecretsManager.ListSecretsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecretsManager.ListSecretsRequest {
         return .init(
             maxResults: self.maxResults, 

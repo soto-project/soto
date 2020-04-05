@@ -33,7 +33,7 @@ extension SNS {
 
 }
 
-extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateStringToken {
+extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SNS.ListEndpointsByPlatformApplicationInput {
         return .init(
             nextToken: token, 
@@ -43,7 +43,7 @@ extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateStringToken {
     }
 }
 
-extension SNS.ListPlatformApplicationsInput: AWSPaginateStringToken {
+extension SNS.ListPlatformApplicationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SNS.ListPlatformApplicationsInput {
         return .init(
             nextToken: token
@@ -52,7 +52,7 @@ extension SNS.ListPlatformApplicationsInput: AWSPaginateStringToken {
     }
 }
 
-extension SNS.ListSubscriptionsInput: AWSPaginateStringToken {
+extension SNS.ListSubscriptionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SNS.ListSubscriptionsInput {
         return .init(
             nextToken: token
@@ -61,7 +61,7 @@ extension SNS.ListSubscriptionsInput: AWSPaginateStringToken {
     }
 }
 
-extension SNS.ListSubscriptionsByTopicInput: AWSPaginateStringToken {
+extension SNS.ListSubscriptionsByTopicInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SNS.ListSubscriptionsByTopicInput {
         return .init(
             nextToken: token, 
@@ -71,7 +71,7 @@ extension SNS.ListSubscriptionsByTopicInput: AWSPaginateStringToken {
     }
 }
 
-extension SNS.ListTopicsInput: AWSPaginateStringToken {
+extension SNS.ListTopicsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SNS.ListTopicsInput {
         return .init(
             nextToken: token

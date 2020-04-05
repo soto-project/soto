@@ -58,7 +58,7 @@ extension Connect {
 
 }
 
-extension Connect.GetCurrentMetricDataRequest: AWSPaginateStringToken {
+extension Connect.GetCurrentMetricDataRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.GetCurrentMetricDataRequest {
         return .init(
             currentMetrics: self.currentMetrics, 
@@ -72,7 +72,7 @@ extension Connect.GetCurrentMetricDataRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.GetMetricDataRequest: AWSPaginateStringToken {
+extension Connect.GetMetricDataRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.GetMetricDataRequest {
         return .init(
             endTime: self.endTime, 
@@ -88,7 +88,7 @@ extension Connect.GetMetricDataRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListContactFlowsRequest: AWSPaginateStringToken {
+extension Connect.ListContactFlowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListContactFlowsRequest {
         return .init(
             contactFlowTypes: self.contactFlowTypes, 
@@ -100,7 +100,7 @@ extension Connect.ListContactFlowsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListHoursOfOperationsRequest: AWSPaginateStringToken {
+extension Connect.ListHoursOfOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationsRequest {
         return .init(
             instanceId: self.instanceId, 
@@ -111,7 +111,7 @@ extension Connect.ListHoursOfOperationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListPhoneNumbersRequest: AWSPaginateStringToken {
+extension Connect.ListPhoneNumbersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListPhoneNumbersRequest {
         return .init(
             instanceId: self.instanceId, 
@@ -124,7 +124,7 @@ extension Connect.ListPhoneNumbersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListQueuesRequest: AWSPaginateStringToken {
+extension Connect.ListQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListQueuesRequest {
         return .init(
             instanceId: self.instanceId, 
@@ -136,7 +136,7 @@ extension Connect.ListQueuesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListRoutingProfilesRequest: AWSPaginateStringToken {
+extension Connect.ListRoutingProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListRoutingProfilesRequest {
         return .init(
             instanceId: self.instanceId, 
@@ -147,7 +147,7 @@ extension Connect.ListRoutingProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListSecurityProfilesRequest: AWSPaginateStringToken {
+extension Connect.ListSecurityProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilesRequest {
         return .init(
             instanceId: self.instanceId, 
@@ -158,7 +158,7 @@ extension Connect.ListSecurityProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateStringToken {
+extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListUserHierarchyGroupsRequest {
         return .init(
             instanceId: self.instanceId, 
@@ -169,7 +169,7 @@ extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Connect.ListUsersRequest: AWSPaginateStringToken {
+extension Connect.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListUsersRequest {
         return .init(
             instanceId: self.instanceId, 

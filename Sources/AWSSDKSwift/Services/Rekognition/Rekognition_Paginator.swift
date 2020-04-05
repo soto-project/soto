@@ -68,7 +68,7 @@ extension Rekognition {
 
 }
 
-extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateStringToken {
+extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.DescribeProjectVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -80,7 +80,7 @@ extension Rekognition.DescribeProjectVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.DescribeProjectsRequest: AWSPaginateStringToken {
+extension Rekognition.DescribeProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.DescribeProjectsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -90,7 +90,7 @@ extension Rekognition.DescribeProjectsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateStringToken {
+extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetCelebrityRecognitionRequest {
         return .init(
             jobId: self.jobId, 
@@ -102,7 +102,7 @@ extension Rekognition.GetCelebrityRecognitionRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetContentModerationRequest: AWSPaginateStringToken {
+extension Rekognition.GetContentModerationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetContentModerationRequest {
         return .init(
             jobId: self.jobId, 
@@ -114,7 +114,7 @@ extension Rekognition.GetContentModerationRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetFaceDetectionRequest: AWSPaginateStringToken {
+extension Rekognition.GetFaceDetectionRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetFaceDetectionRequest {
         return .init(
             jobId: self.jobId, 
@@ -125,7 +125,7 @@ extension Rekognition.GetFaceDetectionRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetFaceSearchRequest: AWSPaginateStringToken {
+extension Rekognition.GetFaceSearchRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetFaceSearchRequest {
         return .init(
             jobId: self.jobId, 
@@ -137,7 +137,7 @@ extension Rekognition.GetFaceSearchRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetLabelDetectionRequest: AWSPaginateStringToken {
+extension Rekognition.GetLabelDetectionRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetLabelDetectionRequest {
         return .init(
             jobId: self.jobId, 
@@ -149,7 +149,7 @@ extension Rekognition.GetLabelDetectionRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetPersonTrackingRequest: AWSPaginateStringToken {
+extension Rekognition.GetPersonTrackingRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetPersonTrackingRequest {
         return .init(
             jobId: self.jobId, 
@@ -161,7 +161,7 @@ extension Rekognition.GetPersonTrackingRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.GetTextDetectionRequest: AWSPaginateStringToken {
+extension Rekognition.GetTextDetectionRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.GetTextDetectionRequest {
         return .init(
             jobId: self.jobId, 
@@ -172,7 +172,7 @@ extension Rekognition.GetTextDetectionRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.ListCollectionsRequest: AWSPaginateStringToken {
+extension Rekognition.ListCollectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.ListCollectionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -182,7 +182,7 @@ extension Rekognition.ListCollectionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.ListFacesRequest: AWSPaginateStringToken {
+extension Rekognition.ListFacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.ListFacesRequest {
         return .init(
             collectionId: self.collectionId, 
@@ -193,7 +193,7 @@ extension Rekognition.ListFacesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Rekognition.ListStreamProcessorsRequest: AWSPaginateStringToken {
+extension Rekognition.ListStreamProcessorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Rekognition.ListStreamProcessorsRequest {
         return .init(
             maxResults: self.maxResults, 

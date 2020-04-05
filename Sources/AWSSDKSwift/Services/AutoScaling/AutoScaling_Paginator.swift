@@ -48,7 +48,7 @@ extension AutoScaling {
 
 }
 
-extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateStringToken {
+extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.AutoScalingGroupNamesType {
         return .init(
             autoScalingGroupNames: self.autoScalingGroupNames, 
@@ -59,7 +59,7 @@ extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateStringToken {
     }
 }
 
-extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateStringToken {
+extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeAutoScalingInstancesType {
         return .init(
             instanceIds: self.instanceIds, 
@@ -70,7 +70,7 @@ extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateStringToken {
     }
 }
 
-extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateStringToken {
+extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.LaunchConfigurationNamesType {
         return .init(
             launchConfigurationNames: self.launchConfigurationNames, 
@@ -81,7 +81,7 @@ extension AutoScaling.LaunchConfigurationNamesType: AWSPaginateStringToken {
     }
 }
 
-extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateStringToken {
+extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeNotificationConfigurationsType {
         return .init(
             autoScalingGroupNames: self.autoScalingGroupNames, 
@@ -92,7 +92,7 @@ extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateStringT
     }
 }
 
-extension AutoScaling.DescribePoliciesType: AWSPaginateStringToken {
+extension AutoScaling.DescribePoliciesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribePoliciesType {
         return .init(
             autoScalingGroupName: self.autoScalingGroupName, 
@@ -105,7 +105,7 @@ extension AutoScaling.DescribePoliciesType: AWSPaginateStringToken {
     }
 }
 
-extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateStringToken {
+extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeScalingActivitiesType {
         return .init(
             activityIds: self.activityIds, 
@@ -117,7 +117,7 @@ extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateStringToken {
     }
 }
 
-extension AutoScaling.DescribeScheduledActionsType: AWSPaginateStringToken {
+extension AutoScaling.DescribeScheduledActionsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeScheduledActionsType {
         return .init(
             autoScalingGroupName: self.autoScalingGroupName, 
@@ -131,7 +131,7 @@ extension AutoScaling.DescribeScheduledActionsType: AWSPaginateStringToken {
     }
 }
 
-extension AutoScaling.DescribeTagsType: AWSPaginateStringToken {
+extension AutoScaling.DescribeTagsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeTagsType {
         return .init(
             filters: self.filters, 

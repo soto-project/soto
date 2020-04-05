@@ -18,7 +18,7 @@ extension AppStream {
 
 }
 
-extension AppStream.DescribeImagePermissionsRequest: AWSPaginateStringToken {
+extension AppStream.DescribeImagePermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppStream.DescribeImagePermissionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -30,7 +30,7 @@ extension AppStream.DescribeImagePermissionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AppStream.DescribeImagesRequest: AWSPaginateStringToken {
+extension AppStream.DescribeImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppStream.DescribeImagesRequest {
         return .init(
             arns: self.arns, 

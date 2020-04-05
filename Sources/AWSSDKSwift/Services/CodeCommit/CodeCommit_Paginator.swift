@@ -68,7 +68,7 @@ extension CodeCommit {
 
 }
 
-extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateStringToken {
+extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.DescribeMergeConflictsInput {
         return .init(
             conflictDetailLevel: self.conflictDetailLevel, 
@@ -85,7 +85,7 @@ extension CodeCommit.DescribeMergeConflictsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateStringToken {
+extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.DescribePullRequestEventsInput {
         return .init(
             actorArn: self.actorArn, 
@@ -98,7 +98,7 @@ extension CodeCommit.DescribePullRequestEventsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateStringToken {
+extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.GetCommentsForComparedCommitInput {
         return .init(
             afterCommitId: self.afterCommitId, 
@@ -111,7 +111,7 @@ extension CodeCommit.GetCommentsForComparedCommitInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateStringToken {
+extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.GetCommentsForPullRequestInput {
         return .init(
             afterCommitId: self.afterCommitId, 
@@ -125,7 +125,7 @@ extension CodeCommit.GetCommentsForPullRequestInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.GetDifferencesInput: AWSPaginateStringToken {
+extension CodeCommit.GetDifferencesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.GetDifferencesInput {
         return .init(
             afterCommitSpecifier: self.afterCommitSpecifier, 
@@ -140,7 +140,7 @@ extension CodeCommit.GetDifferencesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.GetMergeConflictsInput: AWSPaginateStringToken {
+extension CodeCommit.GetMergeConflictsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.GetMergeConflictsInput {
         return .init(
             conflictDetailLevel: self.conflictDetailLevel, 
@@ -156,7 +156,7 @@ extension CodeCommit.GetMergeConflictsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateStringToken {
+extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListApprovalRuleTemplatesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -166,7 +166,7 @@ extension CodeCommit.ListApprovalRuleTemplatesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSPaginateStringToken {
+extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput {
         return .init(
             maxResults: self.maxResults, 
@@ -177,7 +177,7 @@ extension CodeCommit.ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSP
     }
 }
 
-extension CodeCommit.ListBranchesInput: AWSPaginateStringToken {
+extension CodeCommit.ListBranchesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListBranchesInput {
         return .init(
             nextToken: token, 
@@ -187,7 +187,7 @@ extension CodeCommit.ListBranchesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.ListPullRequestsInput: AWSPaginateStringToken {
+extension CodeCommit.ListPullRequestsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListPullRequestsInput {
         return .init(
             authorArn: self.authorArn, 
@@ -200,7 +200,7 @@ extension CodeCommit.ListPullRequestsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.ListRepositoriesInput: AWSPaginateStringToken {
+extension CodeCommit.ListRepositoriesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesInput {
         return .init(
             nextToken: token, 
@@ -211,7 +211,7 @@ extension CodeCommit.ListRepositoriesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateStringToken {
+extension CodeCommit.ListRepositoriesForApprovalRuleTemplateInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeCommit.ListRepositoriesForApprovalRuleTemplateInput {
         return .init(
             approvalRuleTemplateName: self.approvalRuleTemplateName, 

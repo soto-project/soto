@@ -28,7 +28,7 @@ extension CloudFront {
 
 }
 
-extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateStringToken {
+extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListCloudFrontOriginAccessIdentitiesRequest {
         return .init(
             marker: token, 
@@ -38,7 +38,7 @@ extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateStr
     }
 }
 
-extension CloudFront.ListDistributionsRequest: AWSPaginateStringToken {
+extension CloudFront.ListDistributionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsRequest {
         return .init(
             marker: token, 
@@ -48,7 +48,7 @@ extension CloudFront.ListDistributionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudFront.ListInvalidationsRequest: AWSPaginateStringToken {
+extension CloudFront.ListInvalidationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListInvalidationsRequest {
         return .init(
             distributionId: self.distributionId, 
@@ -59,7 +59,7 @@ extension CloudFront.ListInvalidationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateStringToken {
+extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFront.ListStreamingDistributionsRequest {
         return .init(
             marker: token, 

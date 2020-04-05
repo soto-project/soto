@@ -33,7 +33,7 @@ extension WorkLink {
 
 }
 
-extension WorkLink.ListDevicesRequest: AWSPaginateStringToken {
+extension WorkLink.ListDevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkLink.ListDevicesRequest {
         return .init(
             fleetArn: self.fleetArn, 
@@ -44,7 +44,7 @@ extension WorkLink.ListDevicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkLink.ListDomainsRequest: AWSPaginateStringToken {
+extension WorkLink.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkLink.ListDomainsRequest {
         return .init(
             fleetArn: self.fleetArn, 
@@ -55,7 +55,7 @@ extension WorkLink.ListDomainsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkLink.ListFleetsRequest: AWSPaginateStringToken {
+extension WorkLink.ListFleetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkLink.ListFleetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -65,7 +65,7 @@ extension WorkLink.ListFleetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateStringToken {
+extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkLink.ListWebsiteAuthorizationProvidersRequest {
         return .init(
             fleetArn: self.fleetArn, 
@@ -76,7 +76,7 @@ extension WorkLink.ListWebsiteAuthorizationProvidersRequest: AWSPaginateStringTo
     }
 }
 
-extension WorkLink.ListWebsiteCertificateAuthoritiesRequest: AWSPaginateStringToken {
+extension WorkLink.ListWebsiteCertificateAuthoritiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkLink.ListWebsiteCertificateAuthoritiesRequest {
         return .init(
             fleetArn: self.fleetArn, 

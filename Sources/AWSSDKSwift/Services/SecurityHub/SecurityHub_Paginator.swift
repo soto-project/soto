@@ -58,7 +58,7 @@ extension SecurityHub {
 
 }
 
-extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateStringToken {
+extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeActionTargetsRequest {
         return .init(
             actionTargetArns: self.actionTargetArns, 
@@ -69,7 +69,7 @@ extension SecurityHub.DescribeActionTargetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.DescribeProductsRequest: AWSPaginateStringToken {
+extension SecurityHub.DescribeProductsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeProductsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -79,7 +79,7 @@ extension SecurityHub.DescribeProductsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.DescribeStandardsRequest: AWSPaginateStringToken {
+extension SecurityHub.DescribeStandardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -89,7 +89,7 @@ extension SecurityHub.DescribeStandardsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.DescribeStandardsControlsRequest: AWSPaginateStringToken {
+extension SecurityHub.DescribeStandardsControlsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeStandardsControlsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -100,7 +100,7 @@ extension SecurityHub.DescribeStandardsControlsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.GetEnabledStandardsRequest: AWSPaginateStringToken {
+extension SecurityHub.GetEnabledStandardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetEnabledStandardsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -111,7 +111,7 @@ extension SecurityHub.GetEnabledStandardsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.GetFindingsRequest: AWSPaginateStringToken {
+extension SecurityHub.GetFindingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetFindingsRequest {
         return .init(
             filters: self.filters, 
@@ -123,7 +123,7 @@ extension SecurityHub.GetFindingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.GetInsightsRequest: AWSPaginateStringToken {
+extension SecurityHub.GetInsightsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetInsightsRequest {
         return .init(
             insightArns: self.insightArns, 
@@ -134,7 +134,7 @@ extension SecurityHub.GetInsightsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateStringToken {
+extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.ListEnabledProductsForImportRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -144,7 +144,7 @@ extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateStringToke
     }
 }
 
-extension SecurityHub.ListInvitationsRequest: AWSPaginateStringToken {
+extension SecurityHub.ListInvitationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.ListInvitationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -154,7 +154,7 @@ extension SecurityHub.ListInvitationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SecurityHub.ListMembersRequest: AWSPaginateStringToken {
+extension SecurityHub.ListMembersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.ListMembersRequest {
         return .init(
             maxResults: self.maxResults, 

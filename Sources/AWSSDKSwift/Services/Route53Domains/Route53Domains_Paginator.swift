@@ -18,7 +18,7 @@ extension Route53Domains {
 
 }
 
-extension Route53Domains.ListDomainsRequest: AWSPaginateStringToken {
+extension Route53Domains.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Domains.ListDomainsRequest {
         return .init(
             marker: token, 
@@ -28,7 +28,7 @@ extension Route53Domains.ListDomainsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Route53Domains.ListOperationsRequest: AWSPaginateStringToken {
+extension Route53Domains.ListOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Domains.ListOperationsRequest {
         return .init(
             marker: token, 

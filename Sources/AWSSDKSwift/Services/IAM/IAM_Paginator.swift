@@ -138,7 +138,7 @@ extension IAM {
 
 }
 
-extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateStringToken {
+extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.GetAccountAuthorizationDetailsRequest {
         return .init(
             filter: self.filter, 
@@ -149,7 +149,7 @@ extension IAM.GetAccountAuthorizationDetailsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.GetGroupRequest: AWSPaginateStringToken {
+extension IAM.GetGroupRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.GetGroupRequest {
         return .init(
             groupName: self.groupName, 
@@ -160,7 +160,7 @@ extension IAM.GetGroupRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListAccessKeysRequest: AWSPaginateStringToken {
+extension IAM.ListAccessKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListAccessKeysRequest {
         return .init(
             marker: token, 
@@ -171,7 +171,7 @@ extension IAM.ListAccessKeysRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListAccountAliasesRequest: AWSPaginateStringToken {
+extension IAM.ListAccountAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListAccountAliasesRequest {
         return .init(
             marker: token, 
@@ -181,7 +181,7 @@ extension IAM.ListAccountAliasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListAttachedGroupPoliciesRequest {
         return .init(
             groupName: self.groupName, 
@@ -193,7 +193,7 @@ extension IAM.ListAttachedGroupPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListAttachedRolePoliciesRequest {
         return .init(
             marker: token, 
@@ -205,7 +205,7 @@ extension IAM.ListAttachedRolePoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListAttachedUserPoliciesRequest {
         return .init(
             marker: token, 
@@ -217,7 +217,7 @@ extension IAM.ListAttachedUserPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListEntitiesForPolicyRequest: AWSPaginateStringToken {
+extension IAM.ListEntitiesForPolicyRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListEntitiesForPolicyRequest {
         return .init(
             entityFilter: self.entityFilter, 
@@ -231,7 +231,7 @@ extension IAM.ListEntitiesForPolicyRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListGroupPoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListGroupPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListGroupPoliciesRequest {
         return .init(
             groupName: self.groupName, 
@@ -242,7 +242,7 @@ extension IAM.ListGroupPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListGroupsRequest: AWSPaginateStringToken {
+extension IAM.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListGroupsRequest {
         return .init(
             marker: token, 
@@ -253,7 +253,7 @@ extension IAM.ListGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListGroupsForUserRequest: AWSPaginateStringToken {
+extension IAM.ListGroupsForUserRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListGroupsForUserRequest {
         return .init(
             marker: token, 
@@ -264,7 +264,7 @@ extension IAM.ListGroupsForUserRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListInstanceProfilesRequest: AWSPaginateStringToken {
+extension IAM.ListInstanceProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesRequest {
         return .init(
             marker: token, 
@@ -275,7 +275,7 @@ extension IAM.ListInstanceProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateStringToken {
+extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListInstanceProfilesForRoleRequest {
         return .init(
             marker: token, 
@@ -286,7 +286,7 @@ extension IAM.ListInstanceProfilesForRoleRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListMFADevicesRequest: AWSPaginateStringToken {
+extension IAM.ListMFADevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListMFADevicesRequest {
         return .init(
             marker: token, 
@@ -297,7 +297,7 @@ extension IAM.ListMFADevicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListPoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListPoliciesRequest {
         return .init(
             marker: token, 
@@ -311,7 +311,7 @@ extension IAM.ListPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListPolicyVersionsRequest: AWSPaginateStringToken {
+extension IAM.ListPolicyVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListPolicyVersionsRequest {
         return .init(
             marker: token, 
@@ -322,7 +322,7 @@ extension IAM.ListPolicyVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListRolePoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListRolePoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListRolePoliciesRequest {
         return .init(
             marker: token, 
@@ -333,7 +333,7 @@ extension IAM.ListRolePoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListRolesRequest: AWSPaginateStringToken {
+extension IAM.ListRolesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListRolesRequest {
         return .init(
             marker: token, 
@@ -344,7 +344,7 @@ extension IAM.ListRolesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListSSHPublicKeysRequest: AWSPaginateStringToken {
+extension IAM.ListSSHPublicKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListSSHPublicKeysRequest {
         return .init(
             marker: token, 
@@ -355,7 +355,7 @@ extension IAM.ListSSHPublicKeysRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListServerCertificatesRequest: AWSPaginateStringToken {
+extension IAM.ListServerCertificatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListServerCertificatesRequest {
         return .init(
             marker: token, 
@@ -366,7 +366,7 @@ extension IAM.ListServerCertificatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListSigningCertificatesRequest: AWSPaginateStringToken {
+extension IAM.ListSigningCertificatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListSigningCertificatesRequest {
         return .init(
             marker: token, 
@@ -377,7 +377,7 @@ extension IAM.ListSigningCertificatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListUserPoliciesRequest: AWSPaginateStringToken {
+extension IAM.ListUserPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListUserPoliciesRequest {
         return .init(
             marker: token, 
@@ -388,7 +388,7 @@ extension IAM.ListUserPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListUsersRequest: AWSPaginateStringToken {
+extension IAM.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListUsersRequest {
         return .init(
             marker: token, 
@@ -399,7 +399,7 @@ extension IAM.ListUsersRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.ListVirtualMFADevicesRequest: AWSPaginateStringToken {
+extension IAM.ListVirtualMFADevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListVirtualMFADevicesRequest {
         return .init(
             assignmentStatus: self.assignmentStatus, 
@@ -410,7 +410,7 @@ extension IAM.ListVirtualMFADevicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.SimulateCustomPolicyRequest: AWSPaginateStringToken {
+extension IAM.SimulateCustomPolicyRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.SimulateCustomPolicyRequest {
         return .init(
             actionNames: self.actionNames, 
@@ -429,7 +429,7 @@ extension IAM.SimulateCustomPolicyRequest: AWSPaginateStringToken {
     }
 }
 
-extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateStringToken {
+extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.SimulatePrincipalPolicyRequest {
         return .init(
             actionNames: self.actionNames, 

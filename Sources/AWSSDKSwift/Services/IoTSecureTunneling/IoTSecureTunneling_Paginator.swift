@@ -13,7 +13,7 @@ extension IoTSecureTunneling {
 
 }
 
-extension IoTSecureTunneling.ListTunnelsRequest: AWSPaginateStringToken {
+extension IoTSecureTunneling.ListTunnelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSecureTunneling.ListTunnelsRequest {
         return .init(
             maxResults: self.maxResults, 

@@ -38,7 +38,7 @@ extension CloudWatch {
 
 }
 
-extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateStringToken {
+extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAlarmHistoryInput {
         return .init(
             alarmName: self.alarmName, 
@@ -54,7 +54,7 @@ extension CloudWatch.DescribeAlarmHistoryInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatch.DescribeAlarmsInput: AWSPaginateStringToken {
+extension CloudWatch.DescribeAlarmsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAlarmsInput {
         return .init(
             actionPrefix: self.actionPrefix, 
@@ -71,7 +71,7 @@ extension CloudWatch.DescribeAlarmsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatch.DescribeInsightRulesInput: AWSPaginateStringToken {
+extension CloudWatch.DescribeInsightRulesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeInsightRulesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -81,7 +81,7 @@ extension CloudWatch.DescribeInsightRulesInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatch.GetMetricDataInput: AWSPaginateStringToken {
+extension CloudWatch.GetMetricDataInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.GetMetricDataInput {
         return .init(
             endTime: self.endTime, 
@@ -95,7 +95,7 @@ extension CloudWatch.GetMetricDataInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatch.ListDashboardsInput: AWSPaginateStringToken {
+extension CloudWatch.ListDashboardsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.ListDashboardsInput {
         return .init(
             dashboardNamePrefix: self.dashboardNamePrefix, 
@@ -105,7 +105,7 @@ extension CloudWatch.ListDashboardsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatch.ListMetricsInput: AWSPaginateStringToken {
+extension CloudWatch.ListMetricsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.ListMetricsInput {
         return .init(
             dimensions: self.dimensions, 

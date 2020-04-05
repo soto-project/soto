@@ -13,7 +13,7 @@ extension ConnectParticipant {
 
 }
 
-extension ConnectParticipant.GetTranscriptRequest: AWSPaginateStringToken {
+extension ConnectParticipant.GetTranscriptRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConnectParticipant.GetTranscriptRequest {
         return .init(
             connectionToken: self.connectionToken, 

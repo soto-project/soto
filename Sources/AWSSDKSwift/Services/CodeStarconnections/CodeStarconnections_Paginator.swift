@@ -13,7 +13,7 @@ extension CodeStarconnections {
 
 }
 
-extension CodeStarconnections.ListConnectionsInput: AWSPaginateStringToken {
+extension CodeStarconnections.ListConnectionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeStarconnections.ListConnectionsInput {
         return .init(
             maxResults: self.maxResults, 

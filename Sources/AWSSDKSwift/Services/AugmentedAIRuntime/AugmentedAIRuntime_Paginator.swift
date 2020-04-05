@@ -13,7 +13,7 @@ extension AugmentedAIRuntime {
 
 }
 
-extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateStringToken {
+extension AugmentedAIRuntime.ListHumanLoopsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AugmentedAIRuntime.ListHumanLoopsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 

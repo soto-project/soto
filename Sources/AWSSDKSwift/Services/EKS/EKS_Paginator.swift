@@ -28,7 +28,7 @@ extension EKS {
 
 }
 
-extension EKS.ListClustersRequest: AWSPaginateStringToken {
+extension EKS.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListClustersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -38,7 +38,7 @@ extension EKS.ListClustersRequest: AWSPaginateStringToken {
     }
 }
 
-extension EKS.ListFargateProfilesRequest: AWSPaginateStringToken {
+extension EKS.ListFargateProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListFargateProfilesRequest {
         return .init(
             clusterName: self.clusterName, 
@@ -49,7 +49,7 @@ extension EKS.ListFargateProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EKS.ListNodegroupsRequest: AWSPaginateStringToken {
+extension EKS.ListNodegroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListNodegroupsRequest {
         return .init(
             clusterName: self.clusterName, 
@@ -60,7 +60,7 @@ extension EKS.ListNodegroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EKS.ListUpdatesRequest: AWSPaginateStringToken {
+extension EKS.ListUpdatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListUpdatesRequest {
         return .init(
             maxResults: self.maxResults, 

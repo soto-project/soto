@@ -28,7 +28,7 @@ extension MachineLearning {
 
 }
 
-extension MachineLearning.DescribeBatchPredictionsInput: AWSPaginateStringToken {
+extension MachineLearning.DescribeBatchPredictionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeBatchPredictionsInput {
         return .init(
             eq: self.eq, 
@@ -47,7 +47,7 @@ extension MachineLearning.DescribeBatchPredictionsInput: AWSPaginateStringToken 
     }
 }
 
-extension MachineLearning.DescribeDataSourcesInput: AWSPaginateStringToken {
+extension MachineLearning.DescribeDataSourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeDataSourcesInput {
         return .init(
             eq: self.eq, 
@@ -66,7 +66,7 @@ extension MachineLearning.DescribeDataSourcesInput: AWSPaginateStringToken {
     }
 }
 
-extension MachineLearning.DescribeEvaluationsInput: AWSPaginateStringToken {
+extension MachineLearning.DescribeEvaluationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeEvaluationsInput {
         return .init(
             eq: self.eq, 
@@ -85,7 +85,7 @@ extension MachineLearning.DescribeEvaluationsInput: AWSPaginateStringToken {
     }
 }
 
-extension MachineLearning.DescribeMLModelsInput: AWSPaginateStringToken {
+extension MachineLearning.DescribeMLModelsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MachineLearning.DescribeMLModelsInput {
         return .init(
             eq: self.eq, 

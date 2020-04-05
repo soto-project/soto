@@ -43,7 +43,7 @@ extension CloudWatchLogs {
 
 }
 
-extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeDestinationsRequest {
         return .init(
             destinationNamePrefix: self.destinationNamePrefix, 
@@ -54,7 +54,7 @@ extension CloudWatchLogs.DescribeDestinationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeLogGroupsRequest {
         return .init(
             limit: self.limit, 
@@ -65,7 +65,7 @@ extension CloudWatchLogs.DescribeLogGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeLogStreamsRequest {
         return .init(
             descending: self.descending, 
@@ -79,7 +79,7 @@ extension CloudWatchLogs.DescribeLogStreamsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeMetricFiltersRequest {
         return .init(
             filterNamePrefix: self.filterNamePrefix, 
@@ -93,7 +93,7 @@ extension CloudWatchLogs.DescribeMetricFiltersRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeSubscriptionFiltersRequest {
         return .init(
             filterNamePrefix: self.filterNamePrefix, 
@@ -105,7 +105,7 @@ extension CloudWatchLogs.DescribeSubscriptionFiltersRequest: AWSPaginateStringTo
     }
 }
 
-extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.FilterLogEventsRequest {
         return .init(
             endTime: self.endTime, 
@@ -121,7 +121,7 @@ extension CloudWatchLogs.FilterLogEventsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateStringToken {
+extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.GetLogEventsRequest {
         return .init(
             endTime: self.endTime, 

@@ -28,7 +28,7 @@ extension SMS {
 
 }
 
-extension SMS.GetConnectorsRequest: AWSPaginateStringToken {
+extension SMS.GetConnectorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SMS.GetConnectorsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -38,7 +38,7 @@ extension SMS.GetConnectorsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SMS.GetReplicationJobsRequest: AWSPaginateStringToken {
+extension SMS.GetReplicationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SMS.GetReplicationJobsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -49,7 +49,7 @@ extension SMS.GetReplicationJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SMS.GetReplicationRunsRequest: AWSPaginateStringToken {
+extension SMS.GetReplicationRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SMS.GetReplicationRunsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -60,7 +60,7 @@ extension SMS.GetReplicationRunsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SMS.GetServersRequest: AWSPaginateStringToken {
+extension SMS.GetServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SMS.GetServersRequest {
         return .init(
             maxResults: self.maxResults, 

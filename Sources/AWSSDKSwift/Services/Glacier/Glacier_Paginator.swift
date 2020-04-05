@@ -28,7 +28,7 @@ extension Glacier {
 
 }
 
-extension Glacier.ListJobsInput: AWSPaginateStringToken {
+extension Glacier.ListJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glacier.ListJobsInput {
         return .init(
             accountId: self.accountId, 
@@ -42,7 +42,7 @@ extension Glacier.ListJobsInput: AWSPaginateStringToken {
     }
 }
 
-extension Glacier.ListMultipartUploadsInput: AWSPaginateStringToken {
+extension Glacier.ListMultipartUploadsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glacier.ListMultipartUploadsInput {
         return .init(
             accountId: self.accountId, 
@@ -54,7 +54,7 @@ extension Glacier.ListMultipartUploadsInput: AWSPaginateStringToken {
     }
 }
 
-extension Glacier.ListPartsInput: AWSPaginateStringToken {
+extension Glacier.ListPartsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glacier.ListPartsInput {
         return .init(
             accountId: self.accountId, 
@@ -67,7 +67,7 @@ extension Glacier.ListPartsInput: AWSPaginateStringToken {
     }
 }
 
-extension Glacier.ListVaultsInput: AWSPaginateStringToken {
+extension Glacier.ListVaultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glacier.ListVaultsInput {
         return .init(
             accountId: self.accountId, 

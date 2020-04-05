@@ -28,7 +28,7 @@ extension CloudTrail {
 
 }
 
-extension CloudTrail.ListPublicKeysRequest: AWSPaginateStringToken {
+extension CloudTrail.ListPublicKeysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudTrail.ListPublicKeysRequest {
         return .init(
             endTime: self.endTime, 
@@ -39,7 +39,7 @@ extension CloudTrail.ListPublicKeysRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudTrail.ListTagsRequest: AWSPaginateStringToken {
+extension CloudTrail.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudTrail.ListTagsRequest {
         return .init(
             nextToken: token, 
@@ -49,7 +49,7 @@ extension CloudTrail.ListTagsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudTrail.ListTrailsRequest: AWSPaginateStringToken {
+extension CloudTrail.ListTrailsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudTrail.ListTrailsRequest {
         return .init(
             nextToken: token
@@ -58,7 +58,7 @@ extension CloudTrail.ListTrailsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudTrail.LookupEventsRequest: AWSPaginateStringToken {
+extension CloudTrail.LookupEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudTrail.LookupEventsRequest {
         return .init(
             endTime: self.endTime, 

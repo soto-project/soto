@@ -13,7 +13,7 @@ extension ElasticBeanstalk {
 
 }
 
-extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
+extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.DescribeEventsMessage {
         return .init(
             applicationName: self.applicationName, 

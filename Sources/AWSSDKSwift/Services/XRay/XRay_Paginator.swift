@@ -48,7 +48,7 @@ extension XRay {
 
 }
 
-extension XRay.BatchGetTracesRequest: AWSPaginateStringToken {
+extension XRay.BatchGetTracesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.BatchGetTracesRequest {
         return .init(
             nextToken: token, 
@@ -58,7 +58,7 @@ extension XRay.BatchGetTracesRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetGroupsRequest: AWSPaginateStringToken {
+extension XRay.GetGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetGroupsRequest {
         return .init(
             nextToken: token
@@ -67,7 +67,7 @@ extension XRay.GetGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetSamplingRulesRequest: AWSPaginateStringToken {
+extension XRay.GetSamplingRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetSamplingRulesRequest {
         return .init(
             nextToken: token
@@ -76,7 +76,7 @@ extension XRay.GetSamplingRulesRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateStringToken {
+extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetSamplingStatisticSummariesRequest {
         return .init(
             nextToken: token
@@ -85,7 +85,7 @@ extension XRay.GetSamplingStatisticSummariesRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetServiceGraphRequest: AWSPaginateStringToken {
+extension XRay.GetServiceGraphRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetServiceGraphRequest {
         return .init(
             endTime: self.endTime, 
@@ -98,7 +98,7 @@ extension XRay.GetServiceGraphRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateStringToken {
+extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetTimeSeriesServiceStatisticsRequest {
         return .init(
             endTime: self.endTime, 
@@ -113,7 +113,7 @@ extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetTraceGraphRequest: AWSPaginateStringToken {
+extension XRay.GetTraceGraphRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetTraceGraphRequest {
         return .init(
             nextToken: token, 
@@ -123,7 +123,7 @@ extension XRay.GetTraceGraphRequest: AWSPaginateStringToken {
     }
 }
 
-extension XRay.GetTraceSummariesRequest: AWSPaginateStringToken {
+extension XRay.GetTraceSummariesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetTraceSummariesRequest {
         return .init(
             endTime: self.endTime, 

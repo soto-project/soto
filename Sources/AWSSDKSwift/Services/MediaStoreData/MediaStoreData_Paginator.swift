@@ -13,7 +13,7 @@ extension MediaStoreData {
 
 }
 
-extension MediaStoreData.ListItemsRequest: AWSPaginateStringToken {
+extension MediaStoreData.ListItemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaStoreData.ListItemsRequest {
         return .init(
             maxResults: self.maxResults, 

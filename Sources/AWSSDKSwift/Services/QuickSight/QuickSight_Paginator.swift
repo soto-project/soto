@@ -53,7 +53,7 @@ extension QuickSight {
 
 }
 
-extension QuickSight.ListDashboardVersionsRequest: AWSPaginateStringToken {
+extension QuickSight.ListDashboardVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDashboardVersionsRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -65,7 +65,7 @@ extension QuickSight.ListDashboardVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListDashboardsRequest: AWSPaginateStringToken {
+extension QuickSight.ListDashboardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDashboardsRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -76,7 +76,7 @@ extension QuickSight.ListDashboardsRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListDataSetsRequest: AWSPaginateStringToken {
+extension QuickSight.ListDataSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSetsRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -87,7 +87,7 @@ extension QuickSight.ListDataSetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListDataSourcesRequest: AWSPaginateStringToken {
+extension QuickSight.ListDataSourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSourcesRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -98,7 +98,7 @@ extension QuickSight.ListDataSourcesRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListIngestionsRequest: AWSPaginateStringToken {
+extension QuickSight.ListIngestionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListIngestionsRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -110,7 +110,7 @@ extension QuickSight.ListIngestionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListTemplateAliasesRequest: AWSPaginateStringToken {
+extension QuickSight.ListTemplateAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateAliasesRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -122,7 +122,7 @@ extension QuickSight.ListTemplateAliasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListTemplateVersionsRequest: AWSPaginateStringToken {
+extension QuickSight.ListTemplateVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplateVersionsRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -134,7 +134,7 @@ extension QuickSight.ListTemplateVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.ListTemplatesRequest: AWSPaginateStringToken {
+extension QuickSight.ListTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.ListTemplatesRequest {
         return .init(
             awsAccountId: self.awsAccountId, 
@@ -145,7 +145,7 @@ extension QuickSight.ListTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension QuickSight.SearchDashboardsRequest: AWSPaginateStringToken {
+extension QuickSight.SearchDashboardsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchDashboardsRequest {
         return .init(
             awsAccountId: self.awsAccountId, 

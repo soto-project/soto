@@ -109,9 +109,9 @@ extension ServiceProtocol {
 extension Shape {
     public var swiftTypeName: String {
         switch self.type {
-        case .string(_):
+        case .string(_, _, _):
             return "String"
-        case .integer(_):
+        case .integer(_, _):
             return "Int"
         case .structure(_):
             return name.toSwiftClassCase()
@@ -121,11 +121,11 @@ extension Shape {
             return "[\(shape.swiftTypeName)]"
         case .map(key: let keyShape, value: let valueShape):
             return "[\(keyShape.swiftTypeName): \(valueShape.swiftTypeName)]"
-        case .long(_):
+        case .long(_, _):
             return "Int64"
-        case .double(_):
+        case .double(_, _):
             return "Double"
-        case .float(_):
+        case .float(_, _):
             return "Float"
         case .blob:
             return "Data"
@@ -135,6 +135,20 @@ extension Shape {
             return name.toSwiftClassCase()
         case .unhandledType:
             return "Any"
+        }
+    }
+    
+    /// return swift type name that would compile when referenced outside of service class. You need to prefix all shapes defined in the service class with the service name
+    public func swiftTypeNameWithServiceNamePrefix(_ serviceName: String) -> String {
+        switch self.type {
+        case .structure(_), .enum(_):
+            return "\(serviceName).\(name.toSwiftClassCase())"
+        case .list(let shape,_,_):
+            return "[\(shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
+        case .map(key: let keyShape, value: let valueShape):
+            return "[\(keyShape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(valueShape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
+        default:
+            return self.swiftTypeName
         }
     }
 }
@@ -585,20 +599,8 @@ extension AWSService {
                     continue
             }
             
-            let paginatorProtocol: String
-            let tokenType: String
-            switch inputTokenMember.shape.type {
-            case .string:
-                paginatorProtocol = "AWSPaginateStringToken"
-                tokenType = "String"
-            case .integer:
-                paginatorProtocol = "AWSPaginateIntToken"
-                tokenType = "Int"
-            default:
-                // current this consists of a couple of DynamoDB calls that use dictionaries for keys !?!
-                print("Non Integer/String token \(inputTokenMember.shape.name) in \(serviceName).\(inputShape.name)")
-                continue;
-            }
+            let paginatorProtocol = "AWSPaginateToken"
+            let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(serviceName)
             
             // process output tokens
             let outputTokens = paginator.outputTokens.map { (token)->String in

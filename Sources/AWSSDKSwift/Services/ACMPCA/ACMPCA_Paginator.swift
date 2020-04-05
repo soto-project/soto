@@ -23,7 +23,7 @@ extension ACMPCA {
 
 }
 
-extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateStringToken {
+extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListCertificateAuthoritiesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -33,7 +33,7 @@ extension ACMPCA.ListCertificateAuthoritiesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ACMPCA.ListPermissionsRequest: AWSPaginateStringToken {
+extension ACMPCA.ListPermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListPermissionsRequest {
         return .init(
             certificateAuthorityArn: self.certificateAuthorityArn, 
@@ -44,7 +44,7 @@ extension ACMPCA.ListPermissionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ACMPCA.ListTagsRequest: AWSPaginateStringToken {
+extension ACMPCA.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACMPCA.ListTagsRequest {
         return .init(
             certificateAuthorityArn: self.certificateAuthorityArn, 

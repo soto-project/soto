@@ -33,7 +33,7 @@ extension ECR {
 
 }
 
-extension ECR.DescribeImageScanFindingsRequest: AWSPaginateStringToken {
+extension ECR.DescribeImageScanFindingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECR.DescribeImageScanFindingsRequest {
         return .init(
             imageId: self.imageId, 
@@ -46,7 +46,7 @@ extension ECR.DescribeImageScanFindingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECR.DescribeImagesRequest: AWSPaginateStringToken {
+extension ECR.DescribeImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECR.DescribeImagesRequest {
         return .init(
             filter: self.filter, 
@@ -60,7 +60,7 @@ extension ECR.DescribeImagesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECR.DescribeRepositoriesRequest: AWSPaginateStringToken {
+extension ECR.DescribeRepositoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECR.DescribeRepositoriesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -72,7 +72,7 @@ extension ECR.DescribeRepositoriesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateStringToken {
+extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECR.GetLifecyclePolicyPreviewRequest {
         return .init(
             filter: self.filter, 
@@ -86,7 +86,7 @@ extension ECR.GetLifecyclePolicyPreviewRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECR.ListImagesRequest: AWSPaginateStringToken {
+extension ECR.ListImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECR.ListImagesRequest {
         return .init(
             filter: self.filter, 

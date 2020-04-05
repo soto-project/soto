@@ -43,7 +43,7 @@ extension FraudDetector {
 
 }
 
-extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateStringToken {
+extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.DescribeModelVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -56,7 +56,7 @@ extension FraudDetector.DescribeModelVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension FraudDetector.GetDetectorsRequest: AWSPaginateStringToken {
+extension FraudDetector.GetDetectorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.GetDetectorsRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -67,7 +67,7 @@ extension FraudDetector.GetDetectorsRequest: AWSPaginateStringToken {
     }
 }
 
-extension FraudDetector.GetExternalModelsRequest: AWSPaginateStringToken {
+extension FraudDetector.GetExternalModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.GetExternalModelsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -78,7 +78,7 @@ extension FraudDetector.GetExternalModelsRequest: AWSPaginateStringToken {
     }
 }
 
-extension FraudDetector.GetModelsRequest: AWSPaginateStringToken {
+extension FraudDetector.GetModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.GetModelsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -90,7 +90,7 @@ extension FraudDetector.GetModelsRequest: AWSPaginateStringToken {
     }
 }
 
-extension FraudDetector.GetOutcomesRequest: AWSPaginateStringToken {
+extension FraudDetector.GetOutcomesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.GetOutcomesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -101,7 +101,7 @@ extension FraudDetector.GetOutcomesRequest: AWSPaginateStringToken {
     }
 }
 
-extension FraudDetector.GetRulesRequest: AWSPaginateStringToken {
+extension FraudDetector.GetRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.GetRulesRequest {
         return .init(
             detectorId: self.detectorId, 
@@ -114,7 +114,7 @@ extension FraudDetector.GetRulesRequest: AWSPaginateStringToken {
     }
 }
 
-extension FraudDetector.GetVariablesRequest: AWSPaginateStringToken {
+extension FraudDetector.GetVariablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FraudDetector.GetVariablesRequest {
         return .init(
             maxResults: self.maxResults, 

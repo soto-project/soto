@@ -43,7 +43,7 @@ extension Health {
 
 }
 
-extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateStringToken {
+extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedAccountsForOrganizationRequest {
         return .init(
             eventArn: self.eventArn, 
@@ -54,7 +54,7 @@ extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateStri
     }
 }
 
-extension Health.DescribeAffectedEntitiesRequest: AWSPaginateStringToken {
+extension Health.DescribeAffectedEntitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesRequest {
         return .init(
             filter: self.filter, 
@@ -66,7 +66,7 @@ extension Health.DescribeAffectedEntitiesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateStringToken {
+extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeAffectedEntitiesForOrganizationRequest {
         return .init(
             locale: self.locale, 
@@ -78,7 +78,7 @@ extension Health.DescribeAffectedEntitiesForOrganizationRequest: AWSPaginateStri
     }
 }
 
-extension Health.DescribeEventAggregatesRequest: AWSPaginateStringToken {
+extension Health.DescribeEventAggregatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeEventAggregatesRequest {
         return .init(
             aggregateField: self.aggregateField, 
@@ -90,7 +90,7 @@ extension Health.DescribeEventAggregatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Health.DescribeEventTypesRequest: AWSPaginateStringToken {
+extension Health.DescribeEventTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeEventTypesRequest {
         return .init(
             filter: self.filter, 
@@ -102,7 +102,7 @@ extension Health.DescribeEventTypesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Health.DescribeEventsRequest: AWSPaginateStringToken {
+extension Health.DescribeEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeEventsRequest {
         return .init(
             filter: self.filter, 
@@ -114,7 +114,7 @@ extension Health.DescribeEventsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Health.DescribeEventsForOrganizationRequest: AWSPaginateStringToken {
+extension Health.DescribeEventsForOrganizationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Health.DescribeEventsForOrganizationRequest {
         return .init(
             filter: self.filter, 

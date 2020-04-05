@@ -18,7 +18,7 @@ extension MarketplaceCatalog {
 
 }
 
-extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateStringToken {
+extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MarketplaceCatalog.ListChangeSetsRequest {
         return .init(
             catalog: self.catalog, 
@@ -31,7 +31,7 @@ extension MarketplaceCatalog.ListChangeSetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateStringToken {
+extension MarketplaceCatalog.ListEntitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MarketplaceCatalog.ListEntitiesRequest {
         return .init(
             catalog: self.catalog, 

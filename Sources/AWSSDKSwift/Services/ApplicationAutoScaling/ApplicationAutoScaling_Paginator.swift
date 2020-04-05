@@ -28,7 +28,7 @@ extension ApplicationAutoScaling {
 
 }
 
-extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateStringToken {
+extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalableTargetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -41,7 +41,7 @@ extension ApplicationAutoScaling.DescribeScalableTargetsRequest: AWSPaginateStri
     }
 }
 
-extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateStringToken {
+extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalingActivitiesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -54,7 +54,7 @@ extension ApplicationAutoScaling.DescribeScalingActivitiesRequest: AWSPaginateSt
     }
 }
 
-extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateStringToken {
+extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScalingPoliciesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -68,7 +68,7 @@ extension ApplicationAutoScaling.DescribeScalingPoliciesRequest: AWSPaginateStri
     }
 }
 
-extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateStringToken {
+extension ApplicationAutoScaling.DescribeScheduledActionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationAutoScaling.DescribeScheduledActionsRequest {
         return .init(
             maxResults: self.maxResults, 

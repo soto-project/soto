@@ -38,7 +38,7 @@ extension PinpointEmail {
 
 }
 
-extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateStringToken {
+extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PinpointEmail.GetDedicatedIpsRequest {
         return .init(
             nextToken: token, 
@@ -49,7 +49,7 @@ extension PinpointEmail.GetDedicatedIpsRequest: AWSPaginateStringToken {
     }
 }
 
-extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateStringToken {
+extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PinpointEmail.ListConfigurationSetsRequest {
         return .init(
             nextToken: token, 
@@ -59,7 +59,7 @@ extension PinpointEmail.ListConfigurationSetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
+extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PinpointEmail.ListDedicatedIpPoolsRequest {
         return .init(
             nextToken: token, 
@@ -69,7 +69,7 @@ extension PinpointEmail.ListDedicatedIpPoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateStringToken {
+extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PinpointEmail.ListDeliverabilityTestReportsRequest {
         return .init(
             nextToken: token, 
@@ -79,7 +79,7 @@ extension PinpointEmail.ListDeliverabilityTestReportsRequest: AWSPaginateStringT
     }
 }
 
-extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStringToken {
+extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PinpointEmail.ListDomainDeliverabilityCampaignsRequest {
         return .init(
             endDate: self.endDate, 
@@ -92,7 +92,7 @@ extension PinpointEmail.ListDomainDeliverabilityCampaignsRequest: AWSPaginateStr
     }
 }
 
-extension PinpointEmail.ListEmailIdentitiesRequest: AWSPaginateStringToken {
+extension PinpointEmail.ListEmailIdentitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PinpointEmail.ListEmailIdentitiesRequest {
         return .init(
             nextToken: token, 

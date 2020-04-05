@@ -38,7 +38,7 @@ extension DocDB {
 
 }
 
-extension DocDB.DescribeDBClustersMessage: AWSPaginateStringToken {
+extension DocDB.DescribeDBClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClustersMessage {
         return .init(
             dBClusterIdentifier: self.dBClusterIdentifier, 
@@ -50,7 +50,7 @@ extension DocDB.DescribeDBClustersMessage: AWSPaginateStringToken {
     }
 }
 
-extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
+extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBEngineVersionsMessage {
         return .init(
             dBParameterGroupFamily: self.dBParameterGroupFamily, 
@@ -67,7 +67,7 @@ extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
     }
 }
 
-extension DocDB.DescribeDBInstancesMessage: AWSPaginateStringToken {
+extension DocDB.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBInstancesMessage {
         return .init(
             dBInstanceIdentifier: self.dBInstanceIdentifier, 
@@ -79,7 +79,7 @@ extension DocDB.DescribeDBInstancesMessage: AWSPaginateStringToken {
     }
 }
 
-extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
+extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBSubnetGroupsMessage {
         return .init(
             dBSubnetGroupName: self.dBSubnetGroupName, 
@@ -91,7 +91,7 @@ extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
     }
 }
 
-extension DocDB.DescribeEventsMessage: AWSPaginateStringToken {
+extension DocDB.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeEventsMessage {
         return .init(
             duration: self.duration, 
@@ -108,7 +108,7 @@ extension DocDB.DescribeEventsMessage: AWSPaginateStringToken {
     }
 }
 
-extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
+extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
             dBInstanceClass: self.dBInstanceClass, 

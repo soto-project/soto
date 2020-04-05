@@ -23,7 +23,7 @@ extension ServerlessApplicationRepository {
 
 }
 
-extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AWSPaginateStringToken {
+extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServerlessApplicationRepository.ListApplicationDependenciesRequest {
         return .init(
             applicationId: self.applicationId, 
@@ -35,7 +35,7 @@ extension ServerlessApplicationRepository.ListApplicationDependenciesRequest: AW
     }
 }
 
-extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPaginateStringToken {
+extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServerlessApplicationRepository.ListApplicationVersionsRequest {
         return .init(
             applicationId: self.applicationId, 
@@ -46,7 +46,7 @@ extension ServerlessApplicationRepository.ListApplicationVersionsRequest: AWSPag
     }
 }
 
-extension ServerlessApplicationRepository.ListApplicationsRequest: AWSPaginateStringToken {
+extension ServerlessApplicationRepository.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServerlessApplicationRepository.ListApplicationsRequest {
         return .init(
             maxItems: self.maxItems, 

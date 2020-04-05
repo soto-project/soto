@@ -43,7 +43,7 @@ extension RAM {
 
 }
 
-extension RAM.GetResourcePoliciesRequest: AWSPaginateStringToken {
+extension RAM.GetResourcePoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourcePoliciesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -55,7 +55,7 @@ extension RAM.GetResourcePoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension RAM.GetResourceShareAssociationsRequest: AWSPaginateStringToken {
+extension RAM.GetResourceShareAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourceShareAssociationsRequest {
         return .init(
             associationStatus: self.associationStatus, 
@@ -70,7 +70,7 @@ extension RAM.GetResourceShareAssociationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RAM.GetResourceShareInvitationsRequest: AWSPaginateStringToken {
+extension RAM.GetResourceShareInvitationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourceShareInvitationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -82,7 +82,7 @@ extension RAM.GetResourceShareInvitationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RAM.GetResourceSharesRequest: AWSPaginateStringToken {
+extension RAM.GetResourceSharesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.GetResourceSharesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -97,7 +97,7 @@ extension RAM.GetResourceSharesRequest: AWSPaginateStringToken {
     }
 }
 
-extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateStringToken {
+extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListPendingInvitationResourcesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -108,7 +108,7 @@ extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateStringToken {
     }
 }
 
-extension RAM.ListPrincipalsRequest: AWSPaginateStringToken {
+extension RAM.ListPrincipalsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListPrincipalsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -123,7 +123,7 @@ extension RAM.ListPrincipalsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RAM.ListResourcesRequest: AWSPaginateStringToken {
+extension RAM.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListResourcesRequest {
         return .init(
             maxResults: self.maxResults, 

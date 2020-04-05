@@ -28,7 +28,7 @@ extension Route53Resolver {
 
 }
 
-extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateStringToken {
+extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverEndpointIpAddressesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -39,7 +39,7 @@ extension Route53Resolver.ListResolverEndpointIpAddressesRequest: AWSPaginateStr
     }
 }
 
-extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateStringToken {
+extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverEndpointsRequest {
         return .init(
             filters: self.filters, 
@@ -50,7 +50,7 @@ extension Route53Resolver.ListResolverEndpointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateStringToken {
+extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverRuleAssociationsRequest {
         return .init(
             filters: self.filters, 
@@ -61,7 +61,7 @@ extension Route53Resolver.ListResolverRuleAssociationsRequest: AWSPaginateString
     }
 }
 
-extension Route53Resolver.ListResolverRulesRequest: AWSPaginateStringToken {
+extension Route53Resolver.ListResolverRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Resolver.ListResolverRulesRequest {
         return .init(
             filters: self.filters, 

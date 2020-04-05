@@ -53,7 +53,7 @@ extension Imagebuilder {
 
 }
 
-extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListComponentBuildVersionsRequest {
         return .init(
             componentVersionArn: self.componentVersionArn, 
@@ -64,7 +64,7 @@ extension Imagebuilder.ListComponentBuildVersionsRequest: AWSPaginateStringToken
     }
 }
 
-extension Imagebuilder.ListComponentsRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListComponentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListComponentsRequest {
         return .init(
             filters: self.filters, 
@@ -76,7 +76,7 @@ extension Imagebuilder.ListComponentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListDistributionConfigurationsRequest {
         return .init(
             filters: self.filters, 
@@ -87,7 +87,7 @@ extension Imagebuilder.ListDistributionConfigurationsRequest: AWSPaginateStringT
     }
 }
 
-extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImageBuildVersionsRequest {
         return .init(
             filters: self.filters, 
@@ -99,7 +99,7 @@ extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePipelineImagesRequest {
         return .init(
             filters: self.filters, 
@@ -111,7 +111,7 @@ extension Imagebuilder.ListImagePipelineImagesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePipelinesRequest {
         return .init(
             filters: self.filters, 
@@ -122,7 +122,7 @@ extension Imagebuilder.ListImagePipelinesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Imagebuilder.ListImageRecipesRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListImageRecipesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImageRecipesRequest {
         return .init(
             filters: self.filters, 
@@ -134,7 +134,7 @@ extension Imagebuilder.ListImageRecipesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Imagebuilder.ListImagesRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagesRequest {
         return .init(
             filters: self.filters, 
@@ -146,7 +146,7 @@ extension Imagebuilder.ListImagesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateStringToken {
+extension Imagebuilder.ListInfrastructureConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListInfrastructureConfigurationsRequest {
         return .init(
             filters: self.filters, 

@@ -23,7 +23,7 @@ extension TranscribeService {
 
 }
 
-extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateStringToken {
+extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> TranscribeService.ListTranscriptionJobsRequest {
         return .init(
             jobNameContains: self.jobNameContains, 
@@ -35,7 +35,7 @@ extension TranscribeService.ListTranscriptionJobsRequest: AWSPaginateStringToken
     }
 }
 
-extension TranscribeService.ListVocabulariesRequest: AWSPaginateStringToken {
+extension TranscribeService.ListVocabulariesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> TranscribeService.ListVocabulariesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -47,7 +47,7 @@ extension TranscribeService.ListVocabulariesRequest: AWSPaginateStringToken {
     }
 }
 
-extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateStringToken {
+extension TranscribeService.ListVocabularyFiltersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> TranscribeService.ListVocabularyFiltersRequest {
         return .init(
             maxResults: self.maxResults, 

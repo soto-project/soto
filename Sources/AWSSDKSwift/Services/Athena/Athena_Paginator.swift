@@ -28,7 +28,7 @@ extension Athena {
 
 }
 
-extension Athena.GetQueryResultsInput: AWSPaginateStringToken {
+extension Athena.GetQueryResultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.GetQueryResultsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -39,7 +39,7 @@ extension Athena.GetQueryResultsInput: AWSPaginateStringToken {
     }
 }
 
-extension Athena.ListNamedQueriesInput: AWSPaginateStringToken {
+extension Athena.ListNamedQueriesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.ListNamedQueriesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -50,7 +50,7 @@ extension Athena.ListNamedQueriesInput: AWSPaginateStringToken {
     }
 }
 
-extension Athena.ListQueryExecutionsInput: AWSPaginateStringToken {
+extension Athena.ListQueryExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.ListQueryExecutionsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -61,7 +61,7 @@ extension Athena.ListQueryExecutionsInput: AWSPaginateStringToken {
     }
 }
 
-extension Athena.ListWorkGroupsInput: AWSPaginateStringToken {
+extension Athena.ListWorkGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.ListWorkGroupsInput {
         return .init(
             maxResults: self.maxResults, 

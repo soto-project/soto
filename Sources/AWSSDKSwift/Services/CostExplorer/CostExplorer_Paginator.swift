@@ -18,7 +18,7 @@ extension CostExplorer {
 
 }
 
-extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateStringToken {
+extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CostExplorer.GetSavingsPlansCoverageRequest {
         return .init(
             filter: self.filter, 
@@ -33,7 +33,7 @@ extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateStringToken {
     }
 }
 
-extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateStringToken {
+extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CostExplorer.GetSavingsPlansUtilizationDetailsRequest {
         return .init(
             filter: self.filter, 

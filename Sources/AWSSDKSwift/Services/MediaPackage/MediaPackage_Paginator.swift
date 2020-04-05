@@ -23,7 +23,7 @@ extension MediaPackage {
 
 }
 
-extension MediaPackage.ListChannelsRequest: AWSPaginateStringToken {
+extension MediaPackage.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackage.ListChannelsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -33,7 +33,7 @@ extension MediaPackage.ListChannelsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaPackage.ListHarvestJobsRequest: AWSPaginateStringToken {
+extension MediaPackage.ListHarvestJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackage.ListHarvestJobsRequest {
         return .init(
             includeChannelId: self.includeChannelId, 
@@ -45,7 +45,7 @@ extension MediaPackage.ListHarvestJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateStringToken {
+extension MediaPackage.ListOriginEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaPackage.ListOriginEndpointsRequest {
         return .init(
             channelId: self.channelId, 

@@ -53,7 +53,7 @@ extension SSM {
 
 }
 
-extension SSM.DescribeActivationsRequest: AWSPaginateStringToken {
+extension SSM.DescribeActivationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.DescribeActivationsRequest {
         return .init(
             filters: self.filters, 
@@ -64,7 +64,7 @@ extension SSM.DescribeActivationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.DescribeInstanceInformationRequest: AWSPaginateStringToken {
+extension SSM.DescribeInstanceInformationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.DescribeInstanceInformationRequest {
         return .init(
             filters: self.filters, 
@@ -76,7 +76,7 @@ extension SSM.DescribeInstanceInformationRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.DescribeParametersRequest: AWSPaginateStringToken {
+extension SSM.DescribeParametersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.DescribeParametersRequest {
         return .init(
             filters: self.filters, 
@@ -88,7 +88,7 @@ extension SSM.DescribeParametersRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.GetParameterHistoryRequest: AWSPaginateStringToken {
+extension SSM.GetParameterHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.GetParameterHistoryRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -100,7 +100,7 @@ extension SSM.GetParameterHistoryRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.GetParametersByPathRequest: AWSPaginateStringToken {
+extension SSM.GetParametersByPathRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.GetParametersByPathRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -114,7 +114,7 @@ extension SSM.GetParametersByPathRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.ListAssociationsRequest: AWSPaginateStringToken {
+extension SSM.ListAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.ListAssociationsRequest {
         return .init(
             associationFilterList: self.associationFilterList, 
@@ -125,7 +125,7 @@ extension SSM.ListAssociationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.ListCommandInvocationsRequest: AWSPaginateStringToken {
+extension SSM.ListCommandInvocationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.ListCommandInvocationsRequest {
         return .init(
             commandId: self.commandId, 
@@ -139,7 +139,7 @@ extension SSM.ListCommandInvocationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.ListCommandsRequest: AWSPaginateStringToken {
+extension SSM.ListCommandsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.ListCommandsRequest {
         return .init(
             commandId: self.commandId, 
@@ -152,7 +152,7 @@ extension SSM.ListCommandsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSM.ListDocumentsRequest: AWSPaginateStringToken {
+extension SSM.ListDocumentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSM.ListDocumentsRequest {
         return .init(
             documentFilterList: self.documentFilterList, 

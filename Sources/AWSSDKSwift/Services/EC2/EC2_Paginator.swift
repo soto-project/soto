@@ -433,7 +433,7 @@ extension EC2 {
 
 }
 
-extension EC2.DescribeByoipCidrsRequest: AWSPaginateStringToken {
+extension EC2.DescribeByoipCidrsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeByoipCidrsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -444,7 +444,7 @@ extension EC2.DescribeByoipCidrsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeCapacityReservationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeCapacityReservationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeCapacityReservationsRequest {
         return .init(
             capacityReservationIds: self.capacityReservationIds, 
@@ -457,7 +457,7 @@ extension EC2.DescribeCapacityReservationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateStringToken {
+extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeClassicLinkInstancesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -470,7 +470,7 @@ extension EC2.DescribeClassicLinkInstancesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateStringToken {
+extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnAuthorizationRulesRequest {
         return .init(
             clientVpnEndpointId: self.clientVpnEndpointId, 
@@ -483,7 +483,7 @@ extension EC2.DescribeClientVpnAuthorizationRulesRequest: AWSPaginateStringToken
     }
 }
 
-extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnConnectionsRequest {
         return .init(
             clientVpnEndpointId: self.clientVpnEndpointId, 
@@ -496,7 +496,7 @@ extension EC2.DescribeClientVpnConnectionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateStringToken {
+extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnEndpointsRequest {
         return .init(
             clientVpnEndpointIds: self.clientVpnEndpointIds, 
@@ -509,7 +509,7 @@ extension EC2.DescribeClientVpnEndpointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateStringToken {
+extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnRoutesRequest {
         return .init(
             clientVpnEndpointId: self.clientVpnEndpointId, 
@@ -522,7 +522,7 @@ extension EC2.DescribeClientVpnRoutesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateStringToken {
+extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeClientVpnTargetNetworksRequest {
         return .init(
             associationIds: self.associationIds, 
@@ -536,7 +536,7 @@ extension EC2.DescribeClientVpnTargetNetworksRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeCoipPoolsRequest: AWSPaginateStringToken {
+extension EC2.DescribeCoipPoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeCoipPoolsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -549,7 +549,7 @@ extension EC2.DescribeCoipPoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeDhcpOptionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeDhcpOptionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeDhcpOptionsRequest {
         return .init(
             dhcpOptionsIds: self.dhcpOptionsIds, 
@@ -562,7 +562,7 @@ extension EC2.DescribeDhcpOptionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateStringToken {
+extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeEgressOnlyInternetGatewaysRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -575,7 +575,7 @@ extension EC2.DescribeEgressOnlyInternetGatewaysRequest: AWSPaginateStringToken 
     }
 }
 
-extension EC2.DescribeExportImageTasksRequest: AWSPaginateStringToken {
+extension EC2.DescribeExportImageTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeExportImageTasksRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -588,7 +588,7 @@ extension EC2.DescribeExportImageTasksRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateStringToken {
+extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeFastSnapshotRestoresRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -600,7 +600,7 @@ extension EC2.DescribeFastSnapshotRestoresRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeFleetsRequest: AWSPaginateStringToken {
+extension EC2.DescribeFleetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeFleetsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -613,7 +613,7 @@ extension EC2.DescribeFleetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeFlowLogsRequest: AWSPaginateStringToken {
+extension EC2.DescribeFlowLogsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeFlowLogsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -626,7 +626,7 @@ extension EC2.DescribeFlowLogsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeFpgaImagesRequest: AWSPaginateStringToken {
+extension EC2.DescribeFpgaImagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeFpgaImagesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -640,7 +640,7 @@ extension EC2.DescribeFpgaImagesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateStringToken {
+extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeHostReservationOfferingsRequest {
         return .init(
             filter: self.filter, 
@@ -654,7 +654,7 @@ extension EC2.DescribeHostReservationOfferingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeHostReservationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeHostReservationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeHostReservationsRequest {
         return .init(
             filter: self.filter, 
@@ -666,7 +666,7 @@ extension EC2.DescribeHostReservationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeHostsRequest: AWSPaginateStringToken {
+extension EC2.DescribeHostsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeHostsRequest {
         return .init(
             filter: self.filter, 
@@ -678,7 +678,7 @@ extension EC2.DescribeHostsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeIamInstanceProfileAssociationsRequest {
         return .init(
             associationIds: self.associationIds, 
@@ -690,7 +690,7 @@ extension EC2.DescribeIamInstanceProfileAssociationsRequest: AWSPaginateStringTo
     }
 }
 
-extension EC2.DescribeImportImageTasksRequest: AWSPaginateStringToken {
+extension EC2.DescribeImportImageTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeImportImageTasksRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -703,7 +703,7 @@ extension EC2.DescribeImportImageTasksRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateStringToken {
+extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeImportSnapshotTasksRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -716,7 +716,7 @@ extension EC2.DescribeImportSnapshotTasksRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceCreditSpecificationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -729,7 +729,7 @@ extension EC2.DescribeInstanceCreditSpecificationsRequest: AWSPaginateStringToke
     }
 }
 
-extension EC2.DescribeInstanceStatusRequest: AWSPaginateStringToken {
+extension EC2.DescribeInstanceStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceStatusRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -743,7 +743,7 @@ extension EC2.DescribeInstanceStatusRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeInstanceTypeOfferingsRequest: AWSPaginateStringToken {
+extension EC2.DescribeInstanceTypeOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceTypeOfferingsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -756,7 +756,7 @@ extension EC2.DescribeInstanceTypeOfferingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeInstanceTypesRequest: AWSPaginateStringToken {
+extension EC2.DescribeInstanceTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceTypesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -769,7 +769,7 @@ extension EC2.DescribeInstanceTypesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeInstancesRequest: AWSPaginateStringToken {
+extension EC2.DescribeInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstancesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -782,7 +782,7 @@ extension EC2.DescribeInstancesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeInternetGatewaysRequest: AWSPaginateStringToken {
+extension EC2.DescribeInternetGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInternetGatewaysRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -795,7 +795,7 @@ extension EC2.DescribeInternetGatewaysRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeIpv6PoolsRequest: AWSPaginateStringToken {
+extension EC2.DescribeIpv6PoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeIpv6PoolsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -808,7 +808,7 @@ extension EC2.DescribeIpv6PoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLaunchTemplateVersionsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -825,7 +825,7 @@ extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateStringToken {
+extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLaunchTemplatesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -839,7 +839,7 @@ extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -852,7 +852,7 @@ extension EC2.DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsReq
     }
 }
 
-extension EC2.DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayRouteTableVpcAssociationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -865,7 +865,7 @@ extension EC2.DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSPaginateS
     }
 }
 
-extension EC2.DescribeLocalGatewayRouteTablesRequest: AWSPaginateStringToken {
+extension EC2.DescribeLocalGatewayRouteTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayRouteTablesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -878,7 +878,7 @@ extension EC2.DescribeLocalGatewayRouteTablesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSPaginateStringToken {
+extension EC2.DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayVirtualInterfaceGroupsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -891,7 +891,7 @@ extension EC2.DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSPaginateStri
     }
 }
 
-extension EC2.DescribeLocalGatewayVirtualInterfacesRequest: AWSPaginateStringToken {
+extension EC2.DescribeLocalGatewayVirtualInterfacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewayVirtualInterfacesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -904,7 +904,7 @@ extension EC2.DescribeLocalGatewayVirtualInterfacesRequest: AWSPaginateStringTok
     }
 }
 
-extension EC2.DescribeLocalGatewaysRequest: AWSPaginateStringToken {
+extension EC2.DescribeLocalGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeLocalGatewaysRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -917,7 +917,7 @@ extension EC2.DescribeLocalGatewaysRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeMovingAddressesRequest: AWSPaginateStringToken {
+extension EC2.DescribeMovingAddressesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeMovingAddressesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -930,7 +930,7 @@ extension EC2.DescribeMovingAddressesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeNatGatewaysRequest: AWSPaginateStringToken {
+extension EC2.DescribeNatGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeNatGatewaysRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -943,7 +943,7 @@ extension EC2.DescribeNatGatewaysRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeNetworkAclsRequest: AWSPaginateStringToken {
+extension EC2.DescribeNetworkAclsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkAclsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -956,7 +956,7 @@ extension EC2.DescribeNetworkAclsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInterfacePermissionsRequest {
         return .init(
             filters: self.filters, 
@@ -968,7 +968,7 @@ extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateStringToken
     }
 }
 
-extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateStringToken {
+extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInterfacesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -981,7 +981,7 @@ extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribePrefixListsRequest: AWSPaginateStringToken {
+extension EC2.DescribePrefixListsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribePrefixListsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -994,7 +994,7 @@ extension EC2.DescribePrefixListsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateStringToken {
+extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribePrincipalIdFormatRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1006,7 +1006,7 @@ extension EC2.DescribePrincipalIdFormatRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateStringToken {
+extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribePublicIpv4PoolsRequest {
         return .init(
             filters: self.filters, 
@@ -1018,7 +1018,7 @@ extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeReservedInstancesModificationsRequest {
         return .init(
             filters: self.filters, 
@@ -1029,7 +1029,7 @@ extension EC2.DescribeReservedInstancesModificationsRequest: AWSPaginateStringTo
     }
 }
 
-extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateStringToken {
+extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeReservedInstancesOfferingsRequest {
         return .init(
             availabilityZone: self.availabilityZone, 
@@ -1052,7 +1052,7 @@ extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateStringToken 
     }
 }
 
-extension EC2.DescribeRouteTablesRequest: AWSPaginateStringToken {
+extension EC2.DescribeRouteTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeRouteTablesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1065,7 +1065,7 @@ extension EC2.DescribeRouteTablesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateStringToken {
+extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeScheduledInstanceAvailabilityRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1081,7 +1081,7 @@ extension EC2.DescribeScheduledInstanceAvailabilityRequest: AWSPaginateStringTok
     }
 }
 
-extension EC2.DescribeScheduledInstancesRequest: AWSPaginateStringToken {
+extension EC2.DescribeScheduledInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeScheduledInstancesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1095,7 +1095,7 @@ extension EC2.DescribeScheduledInstancesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeSecurityGroupsRequest: AWSPaginateStringToken {
+extension EC2.DescribeSecurityGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeSecurityGroupsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1109,7 +1109,7 @@ extension EC2.DescribeSecurityGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeSnapshotsRequest: AWSPaginateStringToken {
+extension EC2.DescribeSnapshotsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeSnapshotsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1124,7 +1124,7 @@ extension EC2.DescribeSnapshotsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateStringToken {
+extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeSpotFleetRequestsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1136,7 +1136,7 @@ extension EC2.DescribeSpotFleetRequestsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateStringToken {
+extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeSpotInstanceRequestsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1149,7 +1149,7 @@ extension EC2.DescribeSpotInstanceRequestsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateStringToken {
+extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeSpotPriceHistoryRequest {
         return .init(
             availabilityZone: self.availabilityZone, 
@@ -1166,7 +1166,7 @@ extension EC2.DescribeSpotPriceHistoryRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateStringToken {
+extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeStaleSecurityGroupsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1178,7 +1178,7 @@ extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeSubnetsRequest: AWSPaginateStringToken {
+extension EC2.DescribeSubnetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeSubnetsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1191,7 +1191,7 @@ extension EC2.DescribeSubnetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTagsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTagsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1203,7 +1203,7 @@ extension EC2.DescribeTagsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateStringToken {
+extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTrafficMirrorFiltersRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1216,7 +1216,7 @@ extension EC2.DescribeTrafficMirrorFiltersRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTrafficMirrorSessionsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1229,7 +1229,7 @@ extension EC2.DescribeTrafficMirrorSessionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTrafficMirrorTargetsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1242,7 +1242,7 @@ extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayAttachmentsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1255,7 +1255,7 @@ extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTransitGatewayMulticastDomainsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTransitGatewayMulticastDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayMulticastDomainsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1268,7 +1268,7 @@ extension EC2.DescribeTransitGatewayMulticastDomainsRequest: AWSPaginateStringTo
     }
 }
 
-extension EC2.DescribeTransitGatewayPeeringAttachmentsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTransitGatewayPeeringAttachmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayPeeringAttachmentsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1281,7 +1281,7 @@ extension EC2.DescribeTransitGatewayPeeringAttachmentsRequest: AWSPaginateString
     }
 }
 
-extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateStringToken {
+extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayRouteTablesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1294,7 +1294,7 @@ extension EC2.DescribeTransitGatewayRouteTablesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateStringToken {
+extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayVpcAttachmentsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1307,7 +1307,7 @@ extension EC2.DescribeTransitGatewayVpcAttachmentsRequest: AWSPaginateStringToke
     }
 }
 
-extension EC2.DescribeTransitGatewaysRequest: AWSPaginateStringToken {
+extension EC2.DescribeTransitGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewaysRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1320,7 +1320,7 @@ extension EC2.DescribeTransitGatewaysRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVolumeStatusRequest: AWSPaginateStringToken {
+extension EC2.DescribeVolumeStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumeStatusRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1333,7 +1333,7 @@ extension EC2.DescribeVolumeStatusRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVolumesRequest: AWSPaginateStringToken {
+extension EC2.DescribeVolumesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1346,7 +1346,7 @@ extension EC2.DescribeVolumesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVolumesModificationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVolumesModificationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVolumesModificationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1359,7 +1359,7 @@ extension EC2.DescribeVolumesModificationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcClassicLinkDnsSupportRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -1370,7 +1370,7 @@ extension EC2.DescribeVpcClassicLinkDnsSupportRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointConnectionNotificationsRequest {
         return .init(
             connectionNotificationId: self.connectionNotificationId, 
@@ -1383,7 +1383,7 @@ extension EC2.DescribeVpcEndpointConnectionNotificationsRequest: AWSPaginateStri
     }
 }
 
-extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointConnectionsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1395,7 +1395,7 @@ extension EC2.DescribeVpcEndpointConnectionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointServiceConfigurationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1408,7 +1408,7 @@ extension EC2.DescribeVpcEndpointServiceConfigurationsRequest: AWSPaginateString
     }
 }
 
-extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointServicePermissionsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1421,7 +1421,7 @@ extension EC2.DescribeVpcEndpointServicePermissionsRequest: AWSPaginateStringTok
     }
 }
 
-extension EC2.DescribeVpcEndpointsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcEndpointsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1434,7 +1434,7 @@ extension EC2.DescribeVpcEndpointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcPeeringConnectionsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1447,7 +1447,7 @@ extension EC2.DescribeVpcPeeringConnectionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.DescribeVpcsRequest: AWSPaginateStringToken {
+extension EC2.DescribeVpcsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeVpcsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1460,7 +1460,7 @@ extension EC2.DescribeVpcsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.GetAssociatedIpv6PoolCidrsRequest: AWSPaginateStringToken {
+extension EC2.GetAssociatedIpv6PoolCidrsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetAssociatedIpv6PoolCidrsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1472,7 +1472,7 @@ extension EC2.GetAssociatedIpv6PoolCidrsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateStringToken {
+extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayAttachmentPropagationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1485,7 +1485,7 @@ extension EC2.GetTransitGatewayAttachmentPropagationsRequest: AWSPaginateStringT
     }
 }
 
-extension EC2.GetTransitGatewayMulticastDomainAssociationsRequest: AWSPaginateStringToken {
+extension EC2.GetTransitGatewayMulticastDomainAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayMulticastDomainAssociationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1498,7 +1498,7 @@ extension EC2.GetTransitGatewayMulticastDomainAssociationsRequest: AWSPaginateSt
     }
 }
 
-extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateStringToken {
+extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayRouteTableAssociationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1511,7 +1511,7 @@ extension EC2.GetTransitGatewayRouteTableAssociationsRequest: AWSPaginateStringT
     }
 }
 
-extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateStringToken {
+extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayRouteTablePropagationsRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1524,7 +1524,7 @@ extension EC2.GetTransitGatewayRouteTablePropagationsRequest: AWSPaginateStringT
     }
 }
 
-extension EC2.SearchLocalGatewayRoutesRequest: AWSPaginateStringToken {
+extension EC2.SearchLocalGatewayRoutesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.SearchLocalGatewayRoutesRequest {
         return .init(
             dryRun: self.dryRun, 
@@ -1537,7 +1537,7 @@ extension EC2.SearchLocalGatewayRoutesRequest: AWSPaginateStringToken {
     }
 }
 
-extension EC2.SearchTransitGatewayMulticastGroupsRequest: AWSPaginateStringToken {
+extension EC2.SearchTransitGatewayMulticastGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.SearchTransitGatewayMulticastGroupsRequest {
         return .init(
             dryRun: self.dryRun, 

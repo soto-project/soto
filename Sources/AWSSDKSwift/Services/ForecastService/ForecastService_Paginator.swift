@@ -38,7 +38,7 @@ extension ForecastService {
 
 }
 
-extension ForecastService.ListDatasetGroupsRequest: AWSPaginateStringToken {
+extension ForecastService.ListDatasetGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ForecastService.ListDatasetGroupsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -48,7 +48,7 @@ extension ForecastService.ListDatasetGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateStringToken {
+extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ForecastService.ListDatasetImportJobsRequest {
         return .init(
             filters: self.filters, 
@@ -59,7 +59,7 @@ extension ForecastService.ListDatasetImportJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ForecastService.ListDatasetsRequest: AWSPaginateStringToken {
+extension ForecastService.ListDatasetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ForecastService.ListDatasetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -69,7 +69,7 @@ extension ForecastService.ListDatasetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ForecastService.ListForecastExportJobsRequest: AWSPaginateStringToken {
+extension ForecastService.ListForecastExportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ForecastService.ListForecastExportJobsRequest {
         return .init(
             filters: self.filters, 
@@ -80,7 +80,7 @@ extension ForecastService.ListForecastExportJobsRequest: AWSPaginateStringToken 
     }
 }
 
-extension ForecastService.ListForecastsRequest: AWSPaginateStringToken {
+extension ForecastService.ListForecastsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ForecastService.ListForecastsRequest {
         return .init(
             filters: self.filters, 
@@ -91,7 +91,7 @@ extension ForecastService.ListForecastsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ForecastService.ListPredictorsRequest: AWSPaginateStringToken {
+extension ForecastService.ListPredictorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ForecastService.ListPredictorsRequest {
         return .init(
             filters: self.filters, 

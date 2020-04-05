@@ -18,7 +18,7 @@ extension Outposts {
 
 }
 
-extension Outposts.ListOutpostsInput: AWSPaginateStringToken {
+extension Outposts.ListOutpostsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListOutpostsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -28,7 +28,7 @@ extension Outposts.ListOutpostsInput: AWSPaginateStringToken {
     }
 }
 
-extension Outposts.ListSitesInput: AWSPaginateStringToken {
+extension Outposts.ListSitesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListSitesInput {
         return .init(
             maxResults: self.maxResults, 

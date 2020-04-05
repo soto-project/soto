@@ -48,7 +48,7 @@ extension MediaLive {
 
 }
 
-extension MediaLive.DescribeScheduleRequest: AWSPaginateStringToken {
+extension MediaLive.DescribeScheduleRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.DescribeScheduleRequest {
         return .init(
             channelId: self.channelId, 
@@ -59,7 +59,7 @@ extension MediaLive.DescribeScheduleRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListChannelsRequest: AWSPaginateStringToken {
+extension MediaLive.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListChannelsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -69,7 +69,7 @@ extension MediaLive.ListChannelsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateStringToken {
+extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListInputSecurityGroupsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -79,7 +79,7 @@ extension MediaLive.ListInputSecurityGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListInputsRequest: AWSPaginateStringToken {
+extension MediaLive.ListInputsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListInputsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -89,7 +89,7 @@ extension MediaLive.ListInputsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateStringToken {
+extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListMultiplexProgramsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -100,7 +100,7 @@ extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListMultiplexesRequest: AWSPaginateStringToken {
+extension MediaLive.ListMultiplexesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListMultiplexesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -110,7 +110,7 @@ extension MediaLive.ListMultiplexesRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListOfferingsRequest: AWSPaginateStringToken {
+extension MediaLive.ListOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListOfferingsRequest {
         return .init(
             channelClass: self.channelClass, 
@@ -130,7 +130,7 @@ extension MediaLive.ListOfferingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaLive.ListReservationsRequest: AWSPaginateStringToken {
+extension MediaLive.ListReservationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListReservationsRequest {
         return .init(
             channelClass: self.channelClass, 

@@ -18,7 +18,7 @@ extension Snowball {
 
 }
 
-extension Snowball.DescribeAddressesRequest: AWSPaginateStringToken {
+extension Snowball.DescribeAddressesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Snowball.DescribeAddressesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -28,7 +28,7 @@ extension Snowball.DescribeAddressesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Snowball.ListJobsRequest: AWSPaginateStringToken {
+extension Snowball.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Snowball.ListJobsRequest {
         return .init(
             maxResults: self.maxResults, 

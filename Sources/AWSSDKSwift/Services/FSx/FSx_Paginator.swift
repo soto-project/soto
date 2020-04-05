@@ -23,7 +23,7 @@ extension FSx {
 
 }
 
-extension FSx.DescribeBackupsRequest: AWSPaginateStringToken {
+extension FSx.DescribeBackupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FSx.DescribeBackupsRequest {
         return .init(
             backupIds: self.backupIds, 
@@ -35,7 +35,7 @@ extension FSx.DescribeBackupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateStringToken {
+extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FSx.DescribeDataRepositoryTasksRequest {
         return .init(
             filters: self.filters, 
@@ -47,7 +47,7 @@ extension FSx.DescribeDataRepositoryTasksRequest: AWSPaginateStringToken {
     }
 }
 
-extension FSx.DescribeFileSystemsRequest: AWSPaginateStringToken {
+extension FSx.DescribeFileSystemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FSx.DescribeFileSystemsRequest {
         return .init(
             fileSystemIds: self.fileSystemIds, 

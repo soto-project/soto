@@ -48,7 +48,7 @@ extension ElasticsearchService {
 
 }
 
-extension ElasticsearchService.DescribePackagesRequest: AWSPaginateStringToken {
+extension ElasticsearchService.DescribePackagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribePackagesRequest {
         return .init(
             filters: self.filters, 
@@ -59,7 +59,7 @@ extension ElasticsearchService.DescribePackagesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest: AWSPaginateStringToken {
+extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -70,7 +70,7 @@ extension ElasticsearchService.DescribeReservedElasticsearchInstanceOfferingsReq
     }
 }
 
-extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AWSPaginateStringToken {
+extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.DescribeReservedElasticsearchInstancesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -81,7 +81,7 @@ extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AW
     }
 }
 
-extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateStringToken {
+extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.GetUpgradeHistoryRequest {
         return .init(
             domainName: self.domainName, 
@@ -92,7 +92,7 @@ extension ElasticsearchService.GetUpgradeHistoryRequest: AWSPaginateStringToken 
     }
 }
 
-extension ElasticsearchService.ListDomainsForPackageRequest: AWSPaginateStringToken {
+extension ElasticsearchService.ListDomainsForPackageRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.ListDomainsForPackageRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -103,7 +103,7 @@ extension ElasticsearchService.ListDomainsForPackageRequest: AWSPaginateStringTo
     }
 }
 
-extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginateStringToken {
+extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.ListElasticsearchInstanceTypesRequest {
         return .init(
             domainName: self.domainName, 
@@ -115,7 +115,7 @@ extension ElasticsearchService.ListElasticsearchInstanceTypesRequest: AWSPaginat
     }
 }
 
-extension ElasticsearchService.ListElasticsearchVersionsRequest: AWSPaginateStringToken {
+extension ElasticsearchService.ListElasticsearchVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.ListElasticsearchVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -125,7 +125,7 @@ extension ElasticsearchService.ListElasticsearchVersionsRequest: AWSPaginateStri
     }
 }
 
-extension ElasticsearchService.ListPackagesForDomainRequest: AWSPaginateStringToken {
+extension ElasticsearchService.ListPackagesForDomainRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticsearchService.ListPackagesForDomainRequest {
         return .init(
             domainName: self.domainName, 

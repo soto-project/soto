@@ -43,7 +43,7 @@ extension RoboMaker {
 
 }
 
-extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateStringToken {
+extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListDeploymentJobsRequest {
         return .init(
             filters: self.filters, 
@@ -54,7 +54,7 @@ extension RoboMaker.ListDeploymentJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RoboMaker.ListFleetsRequest: AWSPaginateStringToken {
+extension RoboMaker.ListFleetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListFleetsRequest {
         return .init(
             filters: self.filters, 
@@ -65,7 +65,7 @@ extension RoboMaker.ListFleetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateStringToken {
+extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListRobotApplicationsRequest {
         return .init(
             filters: self.filters, 
@@ -77,7 +77,7 @@ extension RoboMaker.ListRobotApplicationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RoboMaker.ListRobotsRequest: AWSPaginateStringToken {
+extension RoboMaker.ListRobotsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListRobotsRequest {
         return .init(
             filters: self.filters, 
@@ -88,7 +88,7 @@ extension RoboMaker.ListRobotsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateStringToken {
+extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationApplicationsRequest {
         return .init(
             filters: self.filters, 
@@ -100,7 +100,7 @@ extension RoboMaker.ListSimulationApplicationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension RoboMaker.ListSimulationJobBatchesRequest: AWSPaginateStringToken {
+extension RoboMaker.ListSimulationJobBatchesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationJobBatchesRequest {
         return .init(
             filters: self.filters, 
@@ -111,7 +111,7 @@ extension RoboMaker.ListSimulationJobBatchesRequest: AWSPaginateStringToken {
     }
 }
 
-extension RoboMaker.ListSimulationJobsRequest: AWSPaginateStringToken {
+extension RoboMaker.ListSimulationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RoboMaker.ListSimulationJobsRequest {
         return .init(
             filters: self.filters, 

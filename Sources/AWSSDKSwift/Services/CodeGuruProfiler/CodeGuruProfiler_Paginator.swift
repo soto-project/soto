@@ -18,7 +18,7 @@ extension CodeGuruProfiler {
 
 }
 
-extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateStringToken {
+extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListProfileTimesRequest {
         return .init(
             endTime: self.endTime, 
@@ -33,7 +33,7 @@ extension CodeGuruProfiler.ListProfileTimesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateStringToken {
+extension CodeGuruProfiler.ListProfilingGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeGuruProfiler.ListProfilingGroupsRequest {
         return .init(
             includeDescription: self.includeDescription, 

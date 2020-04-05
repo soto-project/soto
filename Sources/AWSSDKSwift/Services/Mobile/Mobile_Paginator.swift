@@ -18,7 +18,7 @@ extension Mobile {
 
 }
 
-extension Mobile.ListBundlesRequest: AWSPaginateStringToken {
+extension Mobile.ListBundlesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mobile.ListBundlesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -28,7 +28,7 @@ extension Mobile.ListBundlesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Mobile.ListProjectsRequest: AWSPaginateStringToken {
+extension Mobile.ListProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mobile.ListProjectsRequest {
         return .init(
             maxResults: self.maxResults, 

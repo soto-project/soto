@@ -18,7 +18,7 @@ extension ApplicationDiscoveryService {
 
 }
 
-extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateStringToken {
+extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeContinuousExportsRequest {
         return .init(
             exportIds: self.exportIds, 
@@ -29,7 +29,7 @@ extension ApplicationDiscoveryService.DescribeContinuousExportsRequest: AWSPagin
     }
 }
 
-extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateStringToken {
+extension ApplicationDiscoveryService.DescribeImportTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ApplicationDiscoveryService.DescribeImportTasksRequest {
         return .init(
             filters: self.filters, 

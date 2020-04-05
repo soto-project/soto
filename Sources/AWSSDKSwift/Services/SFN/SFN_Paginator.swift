@@ -28,7 +28,7 @@ extension SFN {
 
 }
 
-extension SFN.GetExecutionHistoryInput: AWSPaginateStringToken {
+extension SFN.GetExecutionHistoryInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SFN.GetExecutionHistoryInput {
         return .init(
             executionArn: self.executionArn, 
@@ -40,7 +40,7 @@ extension SFN.GetExecutionHistoryInput: AWSPaginateStringToken {
     }
 }
 
-extension SFN.ListActivitiesInput: AWSPaginateStringToken {
+extension SFN.ListActivitiesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SFN.ListActivitiesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -50,7 +50,7 @@ extension SFN.ListActivitiesInput: AWSPaginateStringToken {
     }
 }
 
-extension SFN.ListExecutionsInput: AWSPaginateStringToken {
+extension SFN.ListExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SFN.ListExecutionsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -62,7 +62,7 @@ extension SFN.ListExecutionsInput: AWSPaginateStringToken {
     }
 }
 
-extension SFN.ListStateMachinesInput: AWSPaginateStringToken {
+extension SFN.ListStateMachinesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SFN.ListStateMachinesInput {
         return .init(
             maxResults: self.maxResults, 

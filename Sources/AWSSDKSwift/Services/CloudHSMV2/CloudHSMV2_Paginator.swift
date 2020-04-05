@@ -23,7 +23,7 @@ extension CloudHSMV2 {
 
 }
 
-extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateStringToken {
+extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudHSMV2.DescribeBackupsRequest {
         return .init(
             filters: self.filters, 
@@ -35,7 +35,7 @@ extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudHSMV2.DescribeClustersRequest: AWSPaginateStringToken {
+extension CloudHSMV2.DescribeClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudHSMV2.DescribeClustersRequest {
         return .init(
             filters: self.filters, 
@@ -46,7 +46,7 @@ extension CloudHSMV2.DescribeClustersRequest: AWSPaginateStringToken {
     }
 }
 
-extension CloudHSMV2.ListTagsRequest: AWSPaginateStringToken {
+extension CloudHSMV2.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudHSMV2.ListTagsRequest {
         return .init(
             maxResults: self.maxResults, 

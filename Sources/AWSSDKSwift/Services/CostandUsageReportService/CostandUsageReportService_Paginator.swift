@@ -13,7 +13,7 @@ extension CostandUsageReportService {
 
 }
 
-extension CostandUsageReportService.DescribeReportDefinitionsRequest: AWSPaginateStringToken {
+extension CostandUsageReportService.DescribeReportDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CostandUsageReportService.DescribeReportDefinitionsRequest {
         return .init(
             maxResults: self.maxResults, 

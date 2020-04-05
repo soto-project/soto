@@ -18,7 +18,7 @@ extension S3Control {
 
 }
 
-extension S3Control.ListAccessPointsRequest: AWSPaginateStringToken {
+extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsRequest {
         return .init(
             accountId: self.accountId, 
@@ -30,7 +30,7 @@ extension S3Control.ListAccessPointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension S3Control.ListJobsRequest: AWSPaginateStringToken {
+extension S3Control.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3Control.ListJobsRequest {
         return .init(
             accountId: self.accountId, 

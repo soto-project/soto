@@ -33,7 +33,7 @@ extension AppConfig {
 
 }
 
-extension AppConfig.ListApplicationsRequest: AWSPaginateStringToken {
+extension AppConfig.ListApplicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListApplicationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -43,7 +43,7 @@ extension AppConfig.ListApplicationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateStringToken {
+extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListConfigurationProfilesRequest {
         return .init(
             applicationId: self.applicationId, 
@@ -54,7 +54,7 @@ extension AppConfig.ListConfigurationProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateStringToken {
+extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListDeploymentStrategiesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -64,7 +64,7 @@ extension AppConfig.ListDeploymentStrategiesRequest: AWSPaginateStringToken {
     }
 }
 
-extension AppConfig.ListDeploymentsRequest: AWSPaginateStringToken {
+extension AppConfig.ListDeploymentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListDeploymentsRequest {
         return .init(
             applicationId: self.applicationId, 
@@ -76,7 +76,7 @@ extension AppConfig.ListDeploymentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AppConfig.ListEnvironmentsRequest: AWSPaginateStringToken {
+extension AppConfig.ListEnvironmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppConfig.ListEnvironmentsRequest {
         return .init(
             applicationId: self.applicationId, 
