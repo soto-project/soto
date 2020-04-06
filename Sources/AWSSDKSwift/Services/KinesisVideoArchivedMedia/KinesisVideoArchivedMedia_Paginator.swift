@@ -27,7 +27,7 @@ extension KinesisVideoArchivedMedia {
 
 }
 
-extension KinesisVideoArchivedMedia.ListFragmentsInput: AWSPaginateStringToken {
+extension KinesisVideoArchivedMedia.ListFragmentsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KinesisVideoArchivedMedia.ListFragmentsInput {
         return .init(
             fragmentSelector: self.fragmentSelector, 

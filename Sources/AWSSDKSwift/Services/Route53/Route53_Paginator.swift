@@ -37,7 +37,7 @@ extension Route53 {
 
 }
 
-extension Route53.ListHealthChecksRequest: AWSPaginateStringToken {
+extension Route53.ListHealthChecksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53.ListHealthChecksRequest {
         return .init(
             marker: token, 
@@ -47,7 +47,7 @@ extension Route53.ListHealthChecksRequest: AWSPaginateStringToken {
     }
 }
 
-extension Route53.ListHostedZonesRequest: AWSPaginateStringToken {
+extension Route53.ListHostedZonesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53.ListHostedZonesRequest {
         return .init(
             delegationSetId: self.delegationSetId, 
@@ -58,7 +58,7 @@ extension Route53.ListHostedZonesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Route53.ListResourceRecordSetsRequest: AWSPaginateStringToken {
+extension Route53.ListResourceRecordSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53.ListResourceRecordSetsRequest {
         return .init(
             hostedZoneId: self.hostedZoneId, 

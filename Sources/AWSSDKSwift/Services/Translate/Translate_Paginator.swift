@@ -32,7 +32,7 @@ extension Translate {
 
 }
 
-extension Translate.ListTerminologiesRequest: AWSPaginateStringToken {
+extension Translate.ListTerminologiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Translate.ListTerminologiesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -42,7 +42,7 @@ extension Translate.ListTerminologiesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Translate.ListTextTranslationJobsRequest: AWSPaginateStringToken {
+extension Translate.ListTextTranslationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Translate.ListTextTranslationJobsRequest {
         return .init(
             filter: self.filter, 

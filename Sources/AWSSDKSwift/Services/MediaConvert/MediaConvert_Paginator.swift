@@ -47,7 +47,7 @@ extension MediaConvert {
 
 }
 
-extension MediaConvert.DescribeEndpointsRequest: AWSPaginateStringToken {
+extension MediaConvert.DescribeEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.DescribeEndpointsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -58,7 +58,7 @@ extension MediaConvert.DescribeEndpointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaConvert.ListJobTemplatesRequest: AWSPaginateStringToken {
+extension MediaConvert.ListJobTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListJobTemplatesRequest {
         return .init(
             category: self.category, 
@@ -71,7 +71,7 @@ extension MediaConvert.ListJobTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaConvert.ListJobsRequest: AWSPaginateStringToken {
+extension MediaConvert.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListJobsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -84,7 +84,7 @@ extension MediaConvert.ListJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaConvert.ListPresetsRequest: AWSPaginateStringToken {
+extension MediaConvert.ListPresetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListPresetsRequest {
         return .init(
             category: self.category, 
@@ -97,7 +97,7 @@ extension MediaConvert.ListPresetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaConvert.ListQueuesRequest: AWSPaginateStringToken {
+extension MediaConvert.ListQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConvert.ListQueuesRequest {
         return .init(
             listBy: self.listBy, 

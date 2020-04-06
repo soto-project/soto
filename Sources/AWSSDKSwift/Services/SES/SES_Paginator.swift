@@ -32,7 +32,7 @@ extension SES {
 
 }
 
-extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateStringToken {
+extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SES.ListCustomVerificationEmailTemplatesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -42,7 +42,7 @@ extension SES.ListCustomVerificationEmailTemplatesRequest: AWSPaginateStringToke
     }
 }
 
-extension SES.ListIdentitiesRequest: AWSPaginateStringToken {
+extension SES.ListIdentitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SES.ListIdentitiesRequest {
         return .init(
             identityType: self.identityType, 

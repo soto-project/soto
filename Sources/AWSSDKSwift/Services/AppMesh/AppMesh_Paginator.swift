@@ -52,7 +52,7 @@ extension AppMesh {
 
 }
 
-extension AppMesh.ListMeshesInput: AWSPaginateStringToken {
+extension AppMesh.ListMeshesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListMeshesInput {
         return .init(
             limit: self.limit, 
@@ -62,7 +62,7 @@ extension AppMesh.ListMeshesInput: AWSPaginateStringToken {
     }
 }
 
-extension AppMesh.ListRoutesInput: AWSPaginateStringToken {
+extension AppMesh.ListRoutesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListRoutesInput {
         return .init(
             limit: self.limit, 
@@ -75,7 +75,7 @@ extension AppMesh.ListRoutesInput: AWSPaginateStringToken {
     }
 }
 
-extension AppMesh.ListTagsForResourceInput: AWSPaginateStringToken {
+extension AppMesh.ListTagsForResourceInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListTagsForResourceInput {
         return .init(
             limit: self.limit, 
@@ -86,7 +86,7 @@ extension AppMesh.ListTagsForResourceInput: AWSPaginateStringToken {
     }
 }
 
-extension AppMesh.ListVirtualNodesInput: AWSPaginateStringToken {
+extension AppMesh.ListVirtualNodesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualNodesInput {
         return .init(
             limit: self.limit, 
@@ -98,7 +98,7 @@ extension AppMesh.ListVirtualNodesInput: AWSPaginateStringToken {
     }
 }
 
-extension AppMesh.ListVirtualRoutersInput: AWSPaginateStringToken {
+extension AppMesh.ListVirtualRoutersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualRoutersInput {
         return .init(
             limit: self.limit, 
@@ -110,7 +110,7 @@ extension AppMesh.ListVirtualRoutersInput: AWSPaginateStringToken {
     }
 }
 
-extension AppMesh.ListVirtualServicesInput: AWSPaginateStringToken {
+extension AppMesh.ListVirtualServicesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AppMesh.ListVirtualServicesInput {
         return .init(
             limit: self.limit, 

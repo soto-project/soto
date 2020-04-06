@@ -67,7 +67,7 @@ extension Neptune {
 
 }
 
-extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
+extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBEngineVersionsMessage {
         return .init(
             dBParameterGroupFamily: self.dBParameterGroupFamily, 
@@ -84,7 +84,7 @@ extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeDBInstancesMessage: AWSPaginateStringToken {
+extension Neptune.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBInstancesMessage {
         return .init(
             dBInstanceIdentifier: self.dBInstanceIdentifier, 
@@ -96,7 +96,7 @@ extension Neptune.DescribeDBInstancesMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateStringToken {
+extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBParameterGroupsMessage {
         return .init(
             dBParameterGroupName: self.dBParameterGroupName, 
@@ -108,7 +108,7 @@ extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeDBParametersMessage: AWSPaginateStringToken {
+extension Neptune.DescribeDBParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBParametersMessage {
         return .init(
             dBParameterGroupName: self.dBParameterGroupName, 
@@ -121,7 +121,7 @@ extension Neptune.DescribeDBParametersMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
+extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBSubnetGroupsMessage {
         return .init(
             dBSubnetGroupName: self.dBSubnetGroupName, 
@@ -133,7 +133,7 @@ extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeEngineDefaultParametersMessage: AWSPaginateStringToken {
+extension Neptune.DescribeEngineDefaultParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeEngineDefaultParametersMessage {
         return .init(
             dBParameterGroupFamily: self.dBParameterGroupFamily, 
@@ -145,7 +145,7 @@ extension Neptune.DescribeEngineDefaultParametersMessage: AWSPaginateStringToken
     }
 }
 
-extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
+extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeEventSubscriptionsMessage {
         return .init(
             filters: self.filters, 
@@ -157,7 +157,7 @@ extension Neptune.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeEventsMessage: AWSPaginateStringToken {
+extension Neptune.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeEventsMessage {
         return .init(
             duration: self.duration, 
@@ -174,7 +174,7 @@ extension Neptune.DescribeEventsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToken {
+extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
             dBInstanceClass: self.dBInstanceClass, 

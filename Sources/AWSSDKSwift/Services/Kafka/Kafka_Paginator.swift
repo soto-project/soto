@@ -52,7 +52,7 @@ extension Kafka {
 
 }
 
-extension Kafka.ListClusterOperationsRequest: AWSPaginateStringToken {
+extension Kafka.ListClusterOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListClusterOperationsRequest {
         return .init(
             clusterArn: self.clusterArn, 
@@ -63,7 +63,7 @@ extension Kafka.ListClusterOperationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kafka.ListClustersRequest: AWSPaginateStringToken {
+extension Kafka.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListClustersRequest {
         return .init(
             clusterNameFilter: self.clusterNameFilter, 
@@ -74,7 +74,7 @@ extension Kafka.ListClustersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateStringToken {
+extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListConfigurationRevisionsRequest {
         return .init(
             arn: self.arn, 
@@ -85,7 +85,7 @@ extension Kafka.ListConfigurationRevisionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kafka.ListConfigurationsRequest: AWSPaginateStringToken {
+extension Kafka.ListConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListConfigurationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -95,7 +95,7 @@ extension Kafka.ListConfigurationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kafka.ListKafkaVersionsRequest: AWSPaginateStringToken {
+extension Kafka.ListKafkaVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListKafkaVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -105,7 +105,7 @@ extension Kafka.ListKafkaVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kafka.ListNodesRequest: AWSPaginateStringToken {
+extension Kafka.ListNodesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListNodesRequest {
         return .init(
             clusterArn: self.clusterArn, 

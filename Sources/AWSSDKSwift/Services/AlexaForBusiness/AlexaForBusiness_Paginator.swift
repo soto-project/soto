@@ -112,7 +112,7 @@ extension AlexaForBusiness {
 
 }
 
-extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListBusinessReportSchedulesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -122,7 +122,7 @@ extension AlexaForBusiness.ListBusinessReportSchedulesRequest: AWSPaginateString
     }
 }
 
-extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListConferenceProvidersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -132,7 +132,7 @@ extension AlexaForBusiness.ListConferenceProvidersRequest: AWSPaginateStringToke
     }
 }
 
-extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListDeviceEventsRequest {
         return .init(
             deviceArn: self.deviceArn, 
@@ -144,7 +144,7 @@ extension AlexaForBusiness.ListDeviceEventsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListGatewayGroupsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -154,7 +154,7 @@ extension AlexaForBusiness.ListGatewayGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListGatewaysRequest {
         return .init(
             gatewayGroupArn: self.gatewayGroupArn, 
@@ -165,7 +165,7 @@ extension AlexaForBusiness.ListGatewaysRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.ListSkillsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListSkillsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsRequest {
         return .init(
             enablementType: self.enablementType, 
@@ -178,7 +178,7 @@ extension AlexaForBusiness.ListSkillsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsStoreCategoriesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -188,7 +188,7 @@ extension AlexaForBusiness.ListSkillsStoreCategoriesRequest: AWSPaginateStringTo
     }
 }
 
-extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest {
         return .init(
             categoryId: self.categoryId, 
@@ -199,7 +199,7 @@ extension AlexaForBusiness.ListSkillsStoreSkillsByCategoryRequest: AWSPaginateSt
     }
 }
 
-extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListSmartHomeAppliancesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -210,7 +210,7 @@ extension AlexaForBusiness.ListSmartHomeAppliancesRequest: AWSPaginateStringToke
     }
 }
 
-extension AlexaForBusiness.ListTagsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.ListTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.ListTagsRequest {
         return .init(
             arn: self.arn, 
@@ -221,7 +221,7 @@ extension AlexaForBusiness.ListTagsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchAddressBooksRequest {
         return .init(
             filters: self.filters, 
@@ -233,7 +233,7 @@ extension AlexaForBusiness.SearchAddressBooksRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchContactsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchContactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchContactsRequest {
         return .init(
             filters: self.filters, 
@@ -245,7 +245,7 @@ extension AlexaForBusiness.SearchContactsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchDevicesRequest {
         return .init(
             filters: self.filters, 
@@ -257,7 +257,7 @@ extension AlexaForBusiness.SearchDevicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchNetworkProfilesRequest {
         return .init(
             filters: self.filters, 
@@ -269,7 +269,7 @@ extension AlexaForBusiness.SearchNetworkProfilesRequest: AWSPaginateStringToken 
     }
 }
 
-extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchProfilesRequest {
         return .init(
             filters: self.filters, 
@@ -281,7 +281,7 @@ extension AlexaForBusiness.SearchProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchRoomsRequest {
         return .init(
             filters: self.filters, 
@@ -293,7 +293,7 @@ extension AlexaForBusiness.SearchRoomsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchSkillGroupsRequest {
         return .init(
             filters: self.filters, 
@@ -305,7 +305,7 @@ extension AlexaForBusiness.SearchSkillGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension AlexaForBusiness.SearchUsersRequest: AWSPaginateStringToken {
+extension AlexaForBusiness.SearchUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AlexaForBusiness.SearchUsersRequest {
         return .init(
             filters: self.filters, 

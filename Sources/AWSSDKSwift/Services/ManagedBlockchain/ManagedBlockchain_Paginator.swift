@@ -52,7 +52,7 @@ extension ManagedBlockchain {
 
 }
 
-extension ManagedBlockchain.ListInvitationsInput: AWSPaginateStringToken {
+extension ManagedBlockchain.ListInvitationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListInvitationsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -62,7 +62,7 @@ extension ManagedBlockchain.ListInvitationsInput: AWSPaginateStringToken {
     }
 }
 
-extension ManagedBlockchain.ListMembersInput: AWSPaginateStringToken {
+extension ManagedBlockchain.ListMembersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListMembersInput {
         return .init(
             isOwned: self.isOwned, 
@@ -76,7 +76,7 @@ extension ManagedBlockchain.ListMembersInput: AWSPaginateStringToken {
     }
 }
 
-extension ManagedBlockchain.ListNetworksInput: AWSPaginateStringToken {
+extension ManagedBlockchain.ListNetworksInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListNetworksInput {
         return .init(
             framework: self.framework, 
@@ -89,7 +89,7 @@ extension ManagedBlockchain.ListNetworksInput: AWSPaginateStringToken {
     }
 }
 
-extension ManagedBlockchain.ListNodesInput: AWSPaginateStringToken {
+extension ManagedBlockchain.ListNodesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListNodesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -102,7 +102,7 @@ extension ManagedBlockchain.ListNodesInput: AWSPaginateStringToken {
     }
 }
 
-extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateStringToken {
+extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListProposalVotesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -114,7 +114,7 @@ extension ManagedBlockchain.ListProposalVotesInput: AWSPaginateStringToken {
     }
 }
 
-extension ManagedBlockchain.ListProposalsInput: AWSPaginateStringToken {
+extension ManagedBlockchain.ListProposalsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchain.ListProposalsInput {
         return .init(
             maxResults: self.maxResults, 

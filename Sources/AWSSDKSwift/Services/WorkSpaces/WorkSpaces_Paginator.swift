@@ -37,7 +37,7 @@ extension WorkSpaces {
 
 }
 
-extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateStringToken {
+extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceBundlesRequest {
         return .init(
             bundleIds: self.bundleIds, 
@@ -48,7 +48,7 @@ extension WorkSpaces.DescribeWorkspaceBundlesRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateStringToken {
+extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceDirectoriesRequest {
         return .init(
             directoryIds: self.directoryIds, 
@@ -59,7 +59,7 @@ extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateStringToken
     }
 }
 
-extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateStringToken {
+extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspacesRequest {
         return .init(
             bundleId: self.bundleId, 

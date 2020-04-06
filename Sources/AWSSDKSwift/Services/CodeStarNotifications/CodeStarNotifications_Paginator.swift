@@ -37,7 +37,7 @@ extension CodeStarNotifications {
 
 }
 
-extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateStringToken {
+extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeStarNotifications.ListEventTypesRequest {
         return .init(
             filters: self.filters, 
@@ -48,7 +48,7 @@ extension CodeStarNotifications.ListEventTypesRequest: AWSPaginateStringToken {
     }
 }
 
-extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateStringToken {
+extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeStarNotifications.ListNotificationRulesRequest {
         return .init(
             filters: self.filters, 
@@ -59,7 +59,7 @@ extension CodeStarNotifications.ListNotificationRulesRequest: AWSPaginateStringT
     }
 }
 
-extension CodeStarNotifications.ListTargetsRequest: AWSPaginateStringToken {
+extension CodeStarNotifications.ListTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeStarNotifications.ListTargetsRequest {
         return .init(
             filters: self.filters, 

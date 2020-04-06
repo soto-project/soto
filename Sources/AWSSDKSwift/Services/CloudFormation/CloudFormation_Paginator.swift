@@ -72,7 +72,7 @@ extension CloudFormation {
 
 }
 
-extension CloudFormation.DescribeStackEventsInput: AWSPaginateStringToken {
+extension CloudFormation.DescribeStackEventsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStackEventsInput {
         return .init(
             nextToken: token, 
@@ -82,7 +82,7 @@ extension CloudFormation.DescribeStackEventsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateStringToken {
+extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStackResourceDriftsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -94,7 +94,7 @@ extension CloudFormation.DescribeStackResourceDriftsInput: AWSPaginateStringToke
     }
 }
 
-extension CloudFormation.DescribeStacksInput: AWSPaginateStringToken {
+extension CloudFormation.DescribeStacksInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStacksInput {
         return .init(
             nextToken: token, 
@@ -104,7 +104,7 @@ extension CloudFormation.DescribeStacksInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListExportsInput: AWSPaginateStringToken {
+extension CloudFormation.ListExportsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListExportsInput {
         return .init(
             nextToken: token
@@ -113,7 +113,7 @@ extension CloudFormation.ListExportsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListImportsInput: AWSPaginateStringToken {
+extension CloudFormation.ListImportsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListImportsInput {
         return .init(
             exportName: self.exportName, 
@@ -123,7 +123,7 @@ extension CloudFormation.ListImportsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListStackResourcesInput: AWSPaginateStringToken {
+extension CloudFormation.ListStackResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackResourcesInput {
         return .init(
             nextToken: token, 
@@ -133,7 +133,7 @@ extension CloudFormation.ListStackResourcesInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListStacksInput: AWSPaginateStringToken {
+extension CloudFormation.ListStacksInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStacksInput {
         return .init(
             nextToken: token, 
@@ -143,7 +143,7 @@ extension CloudFormation.ListStacksInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateStringToken {
+extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypeRegistrationsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -157,7 +157,7 @@ extension CloudFormation.ListTypeRegistrationsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListTypeVersionsInput: AWSPaginateStringToken {
+extension CloudFormation.ListTypeVersionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypeVersionsInput {
         return .init(
             arn: self.arn, 
@@ -171,7 +171,7 @@ extension CloudFormation.ListTypeVersionsInput: AWSPaginateStringToken {
     }
 }
 
-extension CloudFormation.ListTypesInput: AWSPaginateStringToken {
+extension CloudFormation.ListTypesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypesInput {
         return .init(
             deprecatedStatus: self.deprecatedStatus, 

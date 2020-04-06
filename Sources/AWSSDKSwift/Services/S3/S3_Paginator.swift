@@ -47,7 +47,7 @@ extension S3 {
 
 }
 
-extension S3.ListMultipartUploadsRequest: AWSPaginateStringToken {
+extension S3.ListMultipartUploadsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3.ListMultipartUploadsRequest {
         return .init(
             bucket: self.bucket, 
@@ -62,7 +62,7 @@ extension S3.ListMultipartUploadsRequest: AWSPaginateStringToken {
     }
 }
 
-extension S3.ListObjectVersionsRequest: AWSPaginateStringToken {
+extension S3.ListObjectVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3.ListObjectVersionsRequest {
         return .init(
             bucket: self.bucket, 
@@ -77,7 +77,7 @@ extension S3.ListObjectVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension S3.ListObjectsRequest: AWSPaginateStringToken {
+extension S3.ListObjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3.ListObjectsRequest {
         return .init(
             bucket: self.bucket, 
@@ -92,7 +92,7 @@ extension S3.ListObjectsRequest: AWSPaginateStringToken {
     }
 }
 
-extension S3.ListObjectsV2Request: AWSPaginateStringToken {
+extension S3.ListObjectsV2Request: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> S3.ListObjectsV2Request {
         return .init(
             bucket: self.bucket, 
@@ -109,7 +109,7 @@ extension S3.ListObjectsV2Request: AWSPaginateStringToken {
     }
 }
 
-extension S3.ListPartsRequest: AWSPaginateIntToken {
+extension S3.ListPartsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: Int) -> S3.ListPartsRequest {
         return .init(
             bucket: self.bucket, 

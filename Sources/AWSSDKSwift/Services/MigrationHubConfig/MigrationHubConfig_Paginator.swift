@@ -27,7 +27,7 @@ extension MigrationHubConfig {
 
 }
 
-extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateStringToken {
+extension MigrationHubConfig.DescribeHomeRegionControlsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHubConfig.DescribeHomeRegionControlsRequest {
         return .init(
             controlId: self.controlId, 

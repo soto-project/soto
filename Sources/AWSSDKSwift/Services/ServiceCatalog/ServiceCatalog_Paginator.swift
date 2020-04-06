@@ -107,7 +107,7 @@ extension ServiceCatalog {
 
 }
 
-extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListAcceptedPortfolioSharesInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -119,7 +119,7 @@ extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateStringToke
     }
 }
 
-extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListBudgetsForResourceInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -131,7 +131,7 @@ extension ServiceCatalog.ListBudgetsForResourceInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListConstraintsForPortfolioInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -144,7 +144,7 @@ extension ServiceCatalog.ListConstraintsForPortfolioInput: AWSPaginateStringToke
     }
 }
 
-extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListLaunchPathsInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -156,7 +156,7 @@ extension ServiceCatalog.ListLaunchPathsInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListOrganizationPortfolioAccessInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -169,7 +169,7 @@ extension ServiceCatalog.ListOrganizationPortfolioAccessInput: AWSPaginateString
     }
 }
 
-extension ServiceCatalog.ListPortfolioAccessInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListPortfolioAccessInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfolioAccessInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -182,7 +182,7 @@ extension ServiceCatalog.ListPortfolioAccessInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.ListPortfoliosInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListPortfoliosInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -193,7 +193,7 @@ extension ServiceCatalog.ListPortfoliosInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPortfoliosForProductInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -205,7 +205,7 @@ extension ServiceCatalog.ListPortfoliosForProductInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListPrincipalsForPortfolioInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -217,7 +217,7 @@ extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateStringToken
     }
 }
 
-extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListProvisioningArtifactsForServiceActionInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -229,7 +229,7 @@ extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPagi
     }
 }
 
-extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListResourcesForTagOptionInput {
         return .init(
             pageSize: self.pageSize, 
@@ -241,7 +241,7 @@ extension ServiceCatalog.ListResourcesForTagOptionInput: AWSPaginateStringToken 
     }
 }
 
-extension ServiceCatalog.ListServiceActionsInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListServiceActionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -252,7 +252,7 @@ extension ServiceCatalog.ListServiceActionsInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListServiceActionsForProvisioningArtifactInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -265,7 +265,7 @@ extension ServiceCatalog.ListServiceActionsForProvisioningArtifactInput: AWSPagi
     }
 }
 
-extension ServiceCatalog.ListTagOptionsInput: AWSPaginateStringToken {
+extension ServiceCatalog.ListTagOptionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListTagOptionsInput {
         return .init(
             filters: self.filters, 
@@ -276,7 +276,7 @@ extension ServiceCatalog.ListTagOptionsInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.SearchProductsInput: AWSPaginateStringToken {
+extension ServiceCatalog.SearchProductsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -290,7 +290,7 @@ extension ServiceCatalog.SearchProductsInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateStringToken {
+extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProductsAsAdminInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 
@@ -306,7 +306,7 @@ extension ServiceCatalog.SearchProductsAsAdminInput: AWSPaginateStringToken {
     }
 }
 
-extension ServiceCatalog.SearchProvisionedProductsInput: AWSPaginateStringToken {
+extension ServiceCatalog.SearchProvisionedProductsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.SearchProvisionedProductsInput {
         return .init(
             acceptLanguage: self.acceptLanguage, 

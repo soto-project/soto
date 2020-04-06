@@ -37,7 +37,7 @@ extension WorkDocs {
 
 }
 
-extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateStringToken {
+extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeDocumentVersionsRequest {
         return .init(
             authenticationToken: self.authenticationToken, 
@@ -51,7 +51,7 @@ extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateStringToken {
+extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeFolderContentsRequest {
         return .init(
             authenticationToken: self.authenticationToken, 
@@ -67,7 +67,7 @@ extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkDocs.DescribeUsersRequest: AWSPaginateStringToken {
+extension WorkDocs.DescribeUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeUsersRequest {
         return .init(
             authenticationToken: self.authenticationToken, 

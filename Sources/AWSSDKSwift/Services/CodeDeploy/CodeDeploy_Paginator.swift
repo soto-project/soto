@@ -53,7 +53,7 @@ extension CodeDeploy {
 
 }
 
-extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateStringToken {
+extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListApplicationRevisionsInput {
         return .init(
             applicationName: self.applicationName, 
@@ -68,7 +68,7 @@ extension CodeDeploy.ListApplicationRevisionsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeDeploy.ListApplicationsInput: AWSPaginateStringToken {
+extension CodeDeploy.ListApplicationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListApplicationsInput {
         return .init(
             nextToken: token
@@ -77,7 +77,7 @@ extension CodeDeploy.ListApplicationsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateStringToken {
+extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentConfigsInput {
         return .init(
             nextToken: token
@@ -86,7 +86,7 @@ extension CodeDeploy.ListDeploymentConfigsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateStringToken {
+extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentGroupsInput {
         return .init(
             applicationName: self.applicationName, 
@@ -96,7 +96,7 @@ extension CodeDeploy.ListDeploymentGroupsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateStringToken {
+extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentInstancesInput {
         return .init(
             deploymentId: self.deploymentId, 
@@ -108,7 +108,7 @@ extension CodeDeploy.ListDeploymentInstancesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodeDeploy.ListDeploymentsInput: AWSPaginateStringToken {
+extension CodeDeploy.ListDeploymentsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeDeploy.ListDeploymentsInput {
         return .init(
             applicationName: self.applicationName, 

@@ -72,7 +72,7 @@ extension MTurk {
 
 }
 
-extension MTurk.ListAssignmentsForHITRequest: AWSPaginateStringToken {
+extension MTurk.ListAssignmentsForHITRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListAssignmentsForHITRequest {
         return .init(
             assignmentStatuses: self.assignmentStatuses, 
@@ -84,7 +84,7 @@ extension MTurk.ListAssignmentsForHITRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListBonusPaymentsRequest: AWSPaginateStringToken {
+extension MTurk.ListBonusPaymentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListBonusPaymentsRequest {
         return .init(
             assignmentId: self.assignmentId, 
@@ -96,7 +96,7 @@ extension MTurk.ListBonusPaymentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListHITsRequest: AWSPaginateStringToken {
+extension MTurk.ListHITsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListHITsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -106,7 +106,7 @@ extension MTurk.ListHITsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateStringToken {
+extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListHITsForQualificationTypeRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -117,7 +117,7 @@ extension MTurk.ListHITsForQualificationTypeRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListQualificationRequestsRequest: AWSPaginateStringToken {
+extension MTurk.ListQualificationRequestsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListQualificationRequestsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -128,7 +128,7 @@ extension MTurk.ListQualificationRequestsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListQualificationTypesRequest: AWSPaginateStringToken {
+extension MTurk.ListQualificationTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListQualificationTypesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -141,7 +141,7 @@ extension MTurk.ListQualificationTypesRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListReviewPolicyResultsForHITRequest: AWSPaginateStringToken {
+extension MTurk.ListReviewPolicyResultsForHITRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListReviewPolicyResultsForHITRequest {
         return .init(
             hITId: self.hITId, 
@@ -155,7 +155,7 @@ extension MTurk.ListReviewPolicyResultsForHITRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListReviewableHITsRequest: AWSPaginateStringToken {
+extension MTurk.ListReviewableHITsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListReviewableHITsRequest {
         return .init(
             hITTypeId: self.hITTypeId, 
@@ -167,7 +167,7 @@ extension MTurk.ListReviewableHITsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListWorkerBlocksRequest: AWSPaginateStringToken {
+extension MTurk.ListWorkerBlocksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListWorkerBlocksRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -177,7 +177,7 @@ extension MTurk.ListWorkerBlocksRequest: AWSPaginateStringToken {
     }
 }
 
-extension MTurk.ListWorkersWithQualificationTypeRequest: AWSPaginateStringToken {
+extension MTurk.ListWorkersWithQualificationTypeRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MTurk.ListWorkersWithQualificationTypeRequest {
         return .init(
             maxResults: self.maxResults, 

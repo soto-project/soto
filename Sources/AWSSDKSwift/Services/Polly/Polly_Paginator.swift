@@ -27,7 +27,7 @@ extension Polly {
 
 }
 
-extension Polly.ListSpeechSynthesisTasksInput: AWSPaginateStringToken {
+extension Polly.ListSpeechSynthesisTasksInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Polly.ListSpeechSynthesisTasksInput {
         return .init(
             maxResults: self.maxResults, 

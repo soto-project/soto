@@ -32,7 +32,7 @@ extension SSO {
 
 }
 
-extension SSO.ListAccountRolesRequest: AWSPaginateStringToken {
+extension SSO.ListAccountRolesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSO.ListAccountRolesRequest {
         return .init(
             accessToken: self.accessToken, 
@@ -44,7 +44,7 @@ extension SSO.ListAccountRolesRequest: AWSPaginateStringToken {
     }
 }
 
-extension SSO.ListAccountsRequest: AWSPaginateStringToken {
+extension SSO.ListAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSO.ListAccountsRequest {
         return .init(
             accessToken: self.accessToken, 

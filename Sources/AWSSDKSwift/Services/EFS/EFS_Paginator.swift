@@ -43,7 +43,7 @@ extension EFS {
 
 }
 
-extension EFS.DescribeAccessPointsRequest: AWSPaginateStringToken {
+extension EFS.DescribeAccessPointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EFS.DescribeAccessPointsRequest {
         return .init(
             accessPointId: self.accessPointId, 
@@ -55,7 +55,7 @@ extension EFS.DescribeAccessPointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EFS.DescribeFileSystemsRequest: AWSPaginateStringToken {
+extension EFS.DescribeFileSystemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EFS.DescribeFileSystemsRequest {
         return .init(
             creationToken: self.creationToken, 
@@ -67,7 +67,7 @@ extension EFS.DescribeFileSystemsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EFS.DescribeTagsRequest: AWSPaginateStringToken {
+extension EFS.DescribeTagsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EFS.DescribeTagsRequest {
         return .init(
             fileSystemId: self.fileSystemId, 
@@ -78,7 +78,7 @@ extension EFS.DescribeTagsRequest: AWSPaginateStringToken {
     }
 }
 
-extension EFS.ListTagsForResourceRequest: AWSPaginateStringToken {
+extension EFS.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EFS.ListTagsForResourceRequest {
         return .init(
             maxResults: self.maxResults, 

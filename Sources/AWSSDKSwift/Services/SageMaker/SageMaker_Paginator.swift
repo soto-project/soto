@@ -182,7 +182,7 @@ extension SageMaker {
 
 }
 
-extension SageMaker.ListAlgorithmsInput: AWSPaginateStringToken {
+extension SageMaker.ListAlgorithmsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListAlgorithmsInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -197,7 +197,7 @@ extension SageMaker.ListAlgorithmsInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListAppsRequest: AWSPaginateStringToken {
+extension SageMaker.ListAppsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListAppsRequest {
         return .init(
             domainIdEquals: self.domainIdEquals, 
@@ -211,7 +211,7 @@ extension SageMaker.ListAppsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListAutoMLJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListAutoMLJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListAutoMLJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -229,7 +229,7 @@ extension SageMaker.ListAutoMLJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateStringToken {
+extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListCandidatesForAutoMLJobRequest {
         return .init(
             autoMLJobName: self.autoMLJobName, 
@@ -244,7 +244,7 @@ extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListCodeRepositoriesInput: AWSPaginateStringToken {
+extension SageMaker.ListCodeRepositoriesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListCodeRepositoriesInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -261,7 +261,7 @@ extension SageMaker.ListCodeRepositoriesInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListCompilationJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListCompilationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListCompilationJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -279,7 +279,7 @@ extension SageMaker.ListCompilationJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListDomainsRequest: AWSPaginateStringToken {
+extension SageMaker.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListDomainsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -289,7 +289,7 @@ extension SageMaker.ListDomainsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListEndpointConfigsInput: AWSPaginateStringToken {
+extension SageMaker.ListEndpointConfigsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListEndpointConfigsInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -304,7 +304,7 @@ extension SageMaker.ListEndpointConfigsInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListEndpointsInput: AWSPaginateStringToken {
+extension SageMaker.ListEndpointsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListEndpointsInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -322,7 +322,7 @@ extension SageMaker.ListEndpointsInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListExperimentsRequest: AWSPaginateStringToken {
+extension SageMaker.ListExperimentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListExperimentsRequest {
         return .init(
             createdAfter: self.createdAfter, 
@@ -336,7 +336,7 @@ extension SageMaker.ListExperimentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListFlowDefinitionsRequest: AWSPaginateStringToken {
+extension SageMaker.ListFlowDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListFlowDefinitionsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -349,7 +349,7 @@ extension SageMaker.ListFlowDefinitionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListHumanTaskUisRequest: AWSPaginateStringToken {
+extension SageMaker.ListHumanTaskUisRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListHumanTaskUisRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -362,7 +362,7 @@ extension SageMaker.ListHumanTaskUisRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListHyperParameterTuningJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListHyperParameterTuningJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListHyperParameterTuningJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -380,7 +380,7 @@ extension SageMaker.ListHyperParameterTuningJobsRequest: AWSPaginateStringToken 
     }
 }
 
-extension SageMaker.ListLabelingJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListLabelingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -398,7 +398,7 @@ extension SageMaker.ListLabelingJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateStringToken {
+extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListLabelingJobsForWorkteamRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -414,7 +414,7 @@ extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListModelPackagesInput: AWSPaginateStringToken {
+extension SageMaker.ListModelPackagesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListModelPackagesInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -429,7 +429,7 @@ extension SageMaker.ListModelPackagesInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListModelsInput: AWSPaginateStringToken {
+extension SageMaker.ListModelsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListModelsInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -444,7 +444,7 @@ extension SageMaker.ListModelsInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListMonitoringExecutionsRequest: AWSPaginateStringToken {
+extension SageMaker.ListMonitoringExecutionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListMonitoringExecutionsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -465,7 +465,7 @@ extension SageMaker.ListMonitoringExecutionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListMonitoringSchedulesRequest: AWSPaginateStringToken {
+extension SageMaker.ListMonitoringSchedulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListMonitoringSchedulesRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -484,7 +484,7 @@ extension SageMaker.ListMonitoringSchedulesRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListNotebookInstanceLifecycleConfigsInput: AWSPaginateStringToken {
+extension SageMaker.ListNotebookInstanceLifecycleConfigsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListNotebookInstanceLifecycleConfigsInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -501,7 +501,7 @@ extension SageMaker.ListNotebookInstanceLifecycleConfigsInput: AWSPaginateString
     }
 }
 
-extension SageMaker.ListNotebookInstancesInput: AWSPaginateStringToken {
+extension SageMaker.ListNotebookInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListNotebookInstancesInput {
         return .init(
             additionalCodeRepositoryEquals: self.additionalCodeRepositoryEquals, 
@@ -522,7 +522,7 @@ extension SageMaker.ListNotebookInstancesInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListProcessingJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListProcessingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListProcessingJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -540,7 +540,7 @@ extension SageMaker.ListProcessingJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListSubscribedWorkteamsRequest: AWSPaginateStringToken {
+extension SageMaker.ListSubscribedWorkteamsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListSubscribedWorkteamsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -551,7 +551,7 @@ extension SageMaker.ListSubscribedWorkteamsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListTagsInput: AWSPaginateStringToken {
+extension SageMaker.ListTagsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTagsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -562,7 +562,7 @@ extension SageMaker.ListTagsInput: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListTrainingJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListTrainingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -580,7 +580,7 @@ extension SageMaker.ListTrainingJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest: AWSPaginateStringToken {
+extension SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest {
         return .init(
             hyperParameterTuningJobName: self.hyperParameterTuningJobName, 
@@ -594,7 +594,7 @@ extension SageMaker.ListTrainingJobsForHyperParameterTuningJobRequest: AWSPagina
     }
 }
 
-extension SageMaker.ListTransformJobsRequest: AWSPaginateStringToken {
+extension SageMaker.ListTransformJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTransformJobsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -612,7 +612,7 @@ extension SageMaker.ListTransformJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListTrialComponentsRequest: AWSPaginateStringToken {
+extension SageMaker.ListTrialComponentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTrialComponentsRequest {
         return .init(
             createdAfter: self.createdAfter, 
@@ -629,7 +629,7 @@ extension SageMaker.ListTrialComponentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListTrialsRequest: AWSPaginateStringToken {
+extension SageMaker.ListTrialsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListTrialsRequest {
         return .init(
             createdAfter: self.createdAfter, 
@@ -645,7 +645,7 @@ extension SageMaker.ListTrialsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListUserProfilesRequest: AWSPaginateStringToken {
+extension SageMaker.ListUserProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListUserProfilesRequest {
         return .init(
             domainIdEquals: self.domainIdEquals, 
@@ -659,7 +659,7 @@ extension SageMaker.ListUserProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.ListWorkteamsRequest: AWSPaginateStringToken {
+extension SageMaker.ListWorkteamsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListWorkteamsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -672,7 +672,7 @@ extension SageMaker.ListWorkteamsRequest: AWSPaginateStringToken {
     }
 }
 
-extension SageMaker.SearchRequest: AWSPaginateStringToken {
+extension SageMaker.SearchRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.SearchRequest {
         return .init(
             maxResults: self.maxResults, 

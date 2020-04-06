@@ -32,7 +32,7 @@ extension MediaConnect {
 
 }
 
-extension MediaConnect.ListEntitlementsRequest: AWSPaginateStringToken {
+extension MediaConnect.ListEntitlementsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListEntitlementsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -42,7 +42,7 @@ extension MediaConnect.ListEntitlementsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MediaConnect.ListFlowsRequest: AWSPaginateStringToken {
+extension MediaConnect.ListFlowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListFlowsRequest {
         return .init(
             maxResults: self.maxResults, 

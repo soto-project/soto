@@ -27,7 +27,7 @@ extension ELB {
 
 }
 
-extension ELB.DescribeAccessPointsInput: AWSPaginateStringToken {
+extension ELB.DescribeAccessPointsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELB.DescribeAccessPointsInput {
         return .init(
             loadBalancerNames: self.loadBalancerNames, 

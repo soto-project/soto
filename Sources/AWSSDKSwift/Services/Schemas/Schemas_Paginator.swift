@@ -47,7 +47,7 @@ extension Schemas {
 
 }
 
-extension Schemas.ListDiscoverersRequest: AWSPaginateStringToken {
+extension Schemas.ListDiscoverersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListDiscoverersRequest {
         return .init(
             discovererIdPrefix: self.discovererIdPrefix, 
@@ -59,7 +59,7 @@ extension Schemas.ListDiscoverersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Schemas.ListRegistriesRequest: AWSPaginateStringToken {
+extension Schemas.ListRegistriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListRegistriesRequest {
         return .init(
             limit: self.limit, 
@@ -71,7 +71,7 @@ extension Schemas.ListRegistriesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Schemas.ListSchemaVersionsRequest: AWSPaginateStringToken {
+extension Schemas.ListSchemaVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListSchemaVersionsRequest {
         return .init(
             limit: self.limit, 
@@ -83,7 +83,7 @@ extension Schemas.ListSchemaVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Schemas.ListSchemasRequest: AWSPaginateStringToken {
+extension Schemas.ListSchemasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.ListSchemasRequest {
         return .init(
             limit: self.limit, 
@@ -95,7 +95,7 @@ extension Schemas.ListSchemasRequest: AWSPaginateStringToken {
     }
 }
 
-extension Schemas.SearchSchemasRequest: AWSPaginateStringToken {
+extension Schemas.SearchSchemasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Schemas.SearchSchemasRequest {
         return .init(
             keywords: self.keywords, 

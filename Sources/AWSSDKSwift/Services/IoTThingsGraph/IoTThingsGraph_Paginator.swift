@@ -72,7 +72,7 @@ extension IoTThingsGraph {
 
 }
 
-extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.GetFlowTemplateRevisionsRequest {
         return .init(
             id: self.id, 
@@ -83,7 +83,7 @@ extension IoTThingsGraph.GetFlowTemplateRevisionsRequest: AWSPaginateStringToken
     }
 }
 
-extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.GetSystemTemplateRevisionsRequest {
         return .init(
             id: self.id, 
@@ -94,7 +94,7 @@ extension IoTThingsGraph.GetSystemTemplateRevisionsRequest: AWSPaginateStringTok
     }
 }
 
-extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.ListFlowExecutionMessagesRequest {
         return .init(
             flowExecutionId: self.flowExecutionId, 
@@ -105,7 +105,7 @@ extension IoTThingsGraph.ListFlowExecutionMessagesRequest: AWSPaginateStringToke
     }
 }
 
-extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.ListTagsForResourceRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -116,7 +116,7 @@ extension IoTThingsGraph.ListTagsForResourceRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchEntitiesRequest {
         return .init(
             entityTypes: self.entityTypes, 
@@ -129,7 +129,7 @@ extension IoTThingsGraph.SearchEntitiesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchFlowExecutionsRequest {
         return .init(
             endTime: self.endTime, 
@@ -143,7 +143,7 @@ extension IoTThingsGraph.SearchFlowExecutionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchFlowTemplatesRequest {
         return .init(
             filters: self.filters, 
@@ -154,7 +154,7 @@ extension IoTThingsGraph.SearchFlowTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchSystemInstancesRequest {
         return .init(
             filters: self.filters, 
@@ -165,7 +165,7 @@ extension IoTThingsGraph.SearchSystemInstancesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchSystemTemplatesRequest {
         return .init(
             filters: self.filters, 
@@ -176,7 +176,7 @@ extension IoTThingsGraph.SearchSystemTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoTThingsGraph.SearchThingsRequest: AWSPaginateStringToken {
+extension IoTThingsGraph.SearchThingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTThingsGraph.SearchThingsRequest {
         return .init(
             entityId: self.entityId, 

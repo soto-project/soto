@@ -32,7 +32,7 @@ extension IoT1ClickProjects {
 
 }
 
-extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateStringToken {
+extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT1ClickProjects.ListPlacementsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -43,7 +43,7 @@ extension IoT1ClickProjects.ListPlacementsRequest: AWSPaginateStringToken {
     }
 }
 
-extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateStringToken {
+extension IoT1ClickProjects.ListProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT1ClickProjects.ListProjectsRequest {
         return .init(
             maxResults: self.maxResults, 

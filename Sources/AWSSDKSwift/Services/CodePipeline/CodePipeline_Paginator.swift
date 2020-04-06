@@ -52,7 +52,7 @@ extension CodePipeline {
 
 }
 
-extension CodePipeline.ListActionExecutionsInput: AWSPaginateStringToken {
+extension CodePipeline.ListActionExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListActionExecutionsInput {
         return .init(
             filter: self.filter, 
@@ -64,7 +64,7 @@ extension CodePipeline.ListActionExecutionsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodePipeline.ListActionTypesInput: AWSPaginateStringToken {
+extension CodePipeline.ListActionTypesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListActionTypesInput {
         return .init(
             actionOwnerFilter: self.actionOwnerFilter, 
@@ -74,7 +74,7 @@ extension CodePipeline.ListActionTypesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateStringToken {
+extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListPipelineExecutionsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -85,7 +85,7 @@ extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateStringToken {
     }
 }
 
-extension CodePipeline.ListPipelinesInput: AWSPaginateStringToken {
+extension CodePipeline.ListPipelinesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListPipelinesInput {
         return .init(
             nextToken: token
@@ -94,7 +94,7 @@ extension CodePipeline.ListPipelinesInput: AWSPaginateStringToken {
     }
 }
 
-extension CodePipeline.ListTagsForResourceInput: AWSPaginateStringToken {
+extension CodePipeline.ListTagsForResourceInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListTagsForResourceInput {
         return .init(
             maxResults: self.maxResults, 
@@ -105,7 +105,7 @@ extension CodePipeline.ListTagsForResourceInput: AWSPaginateStringToken {
     }
 }
 
-extension CodePipeline.ListWebhooksInput: AWSPaginateStringToken {
+extension CodePipeline.ListWebhooksInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListWebhooksInput {
         return .init(
             maxResults: self.maxResults, 

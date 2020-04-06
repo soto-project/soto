@@ -42,7 +42,7 @@ extension DataExchange {
 
 }
 
-extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateStringToken {
+extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListDataSetRevisionsRequest {
         return .init(
             dataSetId: self.dataSetId, 
@@ -53,7 +53,7 @@ extension DataExchange.ListDataSetRevisionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataExchange.ListDataSetsRequest: AWSPaginateStringToken {
+extension DataExchange.ListDataSetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListDataSetsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -64,7 +64,7 @@ extension DataExchange.ListDataSetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataExchange.ListJobsRequest: AWSPaginateStringToken {
+extension DataExchange.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListJobsRequest {
         return .init(
             dataSetId: self.dataSetId, 
@@ -76,7 +76,7 @@ extension DataExchange.ListJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataExchange.ListRevisionAssetsRequest: AWSPaginateStringToken {
+extension DataExchange.ListRevisionAssetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataExchange.ListRevisionAssetsRequest {
         return .init(
             dataSetId: self.dataSetId, 

@@ -37,7 +37,7 @@ extension DataPipeline {
 
 }
 
-extension DataPipeline.DescribeObjectsInput: AWSPaginateStringToken {
+extension DataPipeline.DescribeObjectsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataPipeline.DescribeObjectsInput {
         return .init(
             evaluateExpressions: self.evaluateExpressions, 
@@ -49,7 +49,7 @@ extension DataPipeline.DescribeObjectsInput: AWSPaginateStringToken {
     }
 }
 
-extension DataPipeline.ListPipelinesInput: AWSPaginateStringToken {
+extension DataPipeline.ListPipelinesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataPipeline.ListPipelinesInput {
         return .init(
             marker: token
@@ -58,7 +58,7 @@ extension DataPipeline.ListPipelinesInput: AWSPaginateStringToken {
     }
 }
 
-extension DataPipeline.QueryObjectsInput: AWSPaginateStringToken {
+extension DataPipeline.QueryObjectsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataPipeline.QueryObjectsInput {
         return .init(
             limit: self.limit, 

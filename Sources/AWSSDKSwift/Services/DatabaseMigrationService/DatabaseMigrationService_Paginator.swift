@@ -97,7 +97,7 @@ extension DatabaseMigrationService {
 
 }
 
-extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeCertificatesMessage {
         return .init(
             filters: self.filters, 
@@ -108,7 +108,7 @@ extension DatabaseMigrationService.DescribeCertificatesMessage: AWSPaginateStrin
     }
 }
 
-extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeConnectionsMessage {
         return .init(
             filters: self.filters, 
@@ -119,7 +119,7 @@ extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateString
     }
 }
 
-extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointTypesMessage {
         return .init(
             filters: self.filters, 
@@ -130,7 +130,7 @@ extension DatabaseMigrationService.DescribeEndpointTypesMessage: AWSPaginateStri
     }
 }
 
-extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointsMessage {
         return .init(
             filters: self.filters, 
@@ -141,7 +141,7 @@ extension DatabaseMigrationService.DescribeEndpointsMessage: AWSPaginateStringTo
     }
 }
 
-extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEventSubscriptionsMessage {
         return .init(
             filters: self.filters, 
@@ -153,7 +153,7 @@ extension DatabaseMigrationService.DescribeEventSubscriptionsMessage: AWSPaginat
     }
 }
 
-extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEventsMessage {
         return .init(
             duration: self.duration, 
@@ -170,7 +170,7 @@ extension DatabaseMigrationService.DescribeEventsMessage: AWSPaginateStringToken
     }
 }
 
-extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage {
         return .init(
             marker: token, 
@@ -180,7 +180,7 @@ extension DatabaseMigrationService.DescribeOrderableReplicationInstancesMessage:
     }
 }
 
-extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribePendingMaintenanceActionsMessage {
         return .init(
             filters: self.filters, 
@@ -192,7 +192,7 @@ extension DatabaseMigrationService.DescribePendingMaintenanceActionsMessage: AWS
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage {
         return .init(
             marker: token, 
@@ -203,7 +203,7 @@ extension DatabaseMigrationService.DescribeReplicationInstanceTaskLogsMessage: A
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationInstancesMessage {
         return .init(
             filters: self.filters, 
@@ -214,7 +214,7 @@ extension DatabaseMigrationService.DescribeReplicationInstancesMessage: AWSPagin
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage {
         return .init(
             filters: self.filters, 
@@ -225,7 +225,7 @@ extension DatabaseMigrationService.DescribeReplicationSubnetGroupsMessage: AWSPa
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessage {
         return .init(
             marker: token, 
@@ -236,7 +236,7 @@ extension DatabaseMigrationService.DescribeReplicationTaskAssessmentResultsMessa
     }
 }
 
-extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeReplicationTasksMessage {
         return .init(
             filters: self.filters, 
@@ -248,7 +248,7 @@ extension DatabaseMigrationService.DescribeReplicationTasksMessage: AWSPaginateS
     }
 }
 
-extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeSchemasMessage {
         return .init(
             endpointArn: self.endpointArn, 
@@ -259,7 +259,7 @@ extension DatabaseMigrationService.DescribeSchemasMessage: AWSPaginateStringToke
     }
 }
 
-extension DatabaseMigrationService.DescribeTableStatisticsMessage: AWSPaginateStringToken {
+extension DatabaseMigrationService.DescribeTableStatisticsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeTableStatisticsMessage {
         return .init(
             filters: self.filters, 

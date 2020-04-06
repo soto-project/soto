@@ -42,7 +42,7 @@ extension ResourceGroupsTaggingAPI {
 
 }
 
-extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateStringToken {
+extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetComplianceSummaryInput {
         return .init(
             groupBy: self.groupBy, 
@@ -57,7 +57,7 @@ extension ResourceGroupsTaggingAPI.GetComplianceSummaryInput: AWSPaginateStringT
     }
 }
 
-extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateStringToken {
+extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetResourcesInput {
         return .init(
             excludeCompliantResources: self.excludeCompliantResources, 
@@ -72,7 +72,7 @@ extension ResourceGroupsTaggingAPI.GetResourcesInput: AWSPaginateStringToken {
     }
 }
 
-extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateStringToken {
+extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetTagKeysInput {
         return .init(
             paginationToken: token
@@ -81,7 +81,7 @@ extension ResourceGroupsTaggingAPI.GetTagKeysInput: AWSPaginateStringToken {
     }
 }
 
-extension ResourceGroupsTaggingAPI.GetTagValuesInput: AWSPaginateStringToken {
+extension ResourceGroupsTaggingAPI.GetTagValuesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroupsTaggingAPI.GetTagValuesInput {
         return .init(
             key: self.key, 

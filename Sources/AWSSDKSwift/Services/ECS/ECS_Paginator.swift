@@ -62,7 +62,7 @@ extension ECS {
 
 }
 
-extension ECS.ListAccountSettingsRequest: AWSPaginateStringToken {
+extension ECS.ListAccountSettingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListAccountSettingsRequest {
         return .init(
             effectiveSettings: self.effectiveSettings, 
@@ -76,7 +76,7 @@ extension ECS.ListAccountSettingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListAttributesRequest: AWSPaginateStringToken {
+extension ECS.ListAttributesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListAttributesRequest {
         return .init(
             attributeName: self.attributeName, 
@@ -90,7 +90,7 @@ extension ECS.ListAttributesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListClustersRequest: AWSPaginateStringToken {
+extension ECS.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListClustersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -100,7 +100,7 @@ extension ECS.ListClustersRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListContainerInstancesRequest: AWSPaginateStringToken {
+extension ECS.ListContainerInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListContainerInstancesRequest {
         return .init(
             cluster: self.cluster, 
@@ -113,7 +113,7 @@ extension ECS.ListContainerInstancesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListServicesRequest: AWSPaginateStringToken {
+extension ECS.ListServicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListServicesRequest {
         return .init(
             cluster: self.cluster, 
@@ -126,7 +126,7 @@ extension ECS.ListServicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateStringToken {
+extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListTaskDefinitionFamiliesRequest {
         return .init(
             familyPrefix: self.familyPrefix, 
@@ -138,7 +138,7 @@ extension ECS.ListTaskDefinitionFamiliesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListTaskDefinitionsRequest: AWSPaginateStringToken {
+extension ECS.ListTaskDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListTaskDefinitionsRequest {
         return .init(
             familyPrefix: self.familyPrefix, 
@@ -151,7 +151,7 @@ extension ECS.ListTaskDefinitionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension ECS.ListTasksRequest: AWSPaginateStringToken {
+extension ECS.ListTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ECS.ListTasksRequest {
         return .init(
             cluster: self.cluster, 

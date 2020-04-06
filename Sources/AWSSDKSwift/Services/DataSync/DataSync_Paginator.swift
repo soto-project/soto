@@ -47,7 +47,7 @@ extension DataSync {
 
 }
 
-extension DataSync.ListAgentsRequest: AWSPaginateStringToken {
+extension DataSync.ListAgentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListAgentsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -57,7 +57,7 @@ extension DataSync.ListAgentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataSync.ListLocationsRequest: AWSPaginateStringToken {
+extension DataSync.ListLocationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListLocationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -67,7 +67,7 @@ extension DataSync.ListLocationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataSync.ListTagsForResourceRequest: AWSPaginateStringToken {
+extension DataSync.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListTagsForResourceRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -78,7 +78,7 @@ extension DataSync.ListTagsForResourceRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataSync.ListTaskExecutionsRequest: AWSPaginateStringToken {
+extension DataSync.ListTaskExecutionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListTaskExecutionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -89,7 +89,7 @@ extension DataSync.ListTaskExecutionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DataSync.ListTasksRequest: AWSPaginateStringToken {
+extension DataSync.ListTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListTasksRequest {
         return .init(
             maxResults: self.maxResults, 

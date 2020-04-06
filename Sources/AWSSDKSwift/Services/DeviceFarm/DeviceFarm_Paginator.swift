@@ -112,7 +112,7 @@ extension DeviceFarm {
 
 }
 
-extension DeviceFarm.GetOfferingStatusRequest: AWSPaginateStringToken {
+extension DeviceFarm.GetOfferingStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.GetOfferingStatusRequest {
         return .init(
             nextToken: token
@@ -121,7 +121,7 @@ extension DeviceFarm.GetOfferingStatusRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListArtifactsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListArtifactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListArtifactsRequest {
         return .init(
             arn: self.arn, 
@@ -132,7 +132,7 @@ extension DeviceFarm.ListArtifactsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListDevicePoolsRequest {
         return .init(
             arn: self.arn, 
@@ -143,7 +143,7 @@ extension DeviceFarm.ListDevicePoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListDevicesRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListDevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListDevicesRequest {
         return .init(
             arn: self.arn, 
@@ -154,7 +154,7 @@ extension DeviceFarm.ListDevicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListJobsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListJobsRequest {
         return .init(
             arn: self.arn, 
@@ -164,7 +164,7 @@ extension DeviceFarm.ListJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListOfferingTransactionsRequest {
         return .init(
             nextToken: token
@@ -173,7 +173,7 @@ extension DeviceFarm.ListOfferingTransactionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListOfferingsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListOfferingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListOfferingsRequest {
         return .init(
             nextToken: token
@@ -182,7 +182,7 @@ extension DeviceFarm.ListOfferingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListProjectsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListProjectsRequest {
         return .init(
             arn: self.arn, 
@@ -192,7 +192,7 @@ extension DeviceFarm.ListProjectsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListRunsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListRunsRequest {
         return .init(
             arn: self.arn, 
@@ -202,7 +202,7 @@ extension DeviceFarm.ListRunsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListSamplesRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListSamplesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListSamplesRequest {
         return .init(
             arn: self.arn, 
@@ -212,7 +212,7 @@ extension DeviceFarm.ListSamplesRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListSuitesRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListSuitesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListSuitesRequest {
         return .init(
             arn: self.arn, 
@@ -222,7 +222,7 @@ extension DeviceFarm.ListSuitesRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridProjectsRequest {
         return .init(
             maxResult: self.maxResult, 
@@ -232,7 +232,7 @@ extension DeviceFarm.ListTestGridProjectsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridSessionActionsRequest {
         return .init(
             maxResult: self.maxResult, 
@@ -243,7 +243,7 @@ extension DeviceFarm.ListTestGridSessionActionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridSessionArtifactsRequest {
         return .init(
             maxResult: self.maxResult, 
@@ -255,7 +255,7 @@ extension DeviceFarm.ListTestGridSessionArtifactsRequest: AWSPaginateStringToken
     }
 }
 
-extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestGridSessionsRequest {
         return .init(
             creationTimeAfter: self.creationTimeAfter, 
@@ -271,7 +271,7 @@ extension DeviceFarm.ListTestGridSessionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListTestsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListTestsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListTestsRequest {
         return .init(
             arn: self.arn, 
@@ -281,7 +281,7 @@ extension DeviceFarm.ListTestsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListUniqueProblemsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListUniqueProblemsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListUniqueProblemsRequest {
         return .init(
             arn: self.arn, 
@@ -291,7 +291,7 @@ extension DeviceFarm.ListUniqueProblemsRequest: AWSPaginateStringToken {
     }
 }
 
-extension DeviceFarm.ListUploadsRequest: AWSPaginateStringToken {
+extension DeviceFarm.ListUploadsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DeviceFarm.ListUploadsRequest {
         return .init(
             arn: self.arn, 

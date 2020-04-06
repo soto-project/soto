@@ -102,7 +102,7 @@ extension Organizations {
 
 }
 
-extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginateStringToken {
+extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListAWSServiceAccessForOrganizationRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -112,7 +112,7 @@ extension Organizations.ListAWSServiceAccessForOrganizationRequest: AWSPaginateS
     }
 }
 
-extension Organizations.ListAccountsRequest: AWSPaginateStringToken {
+extension Organizations.ListAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListAccountsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -122,7 +122,7 @@ extension Organizations.ListAccountsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListAccountsForParentRequest: AWSPaginateStringToken {
+extension Organizations.ListAccountsForParentRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListAccountsForParentRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -133,7 +133,7 @@ extension Organizations.ListAccountsForParentRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListChildrenRequest: AWSPaginateStringToken {
+extension Organizations.ListChildrenRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListChildrenRequest {
         return .init(
             childType: self.childType, 
@@ -145,7 +145,7 @@ extension Organizations.ListChildrenRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListCreateAccountStatusRequest: AWSPaginateStringToken {
+extension Organizations.ListCreateAccountStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListCreateAccountStatusRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -156,7 +156,7 @@ extension Organizations.ListCreateAccountStatusRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListDelegatedAdministratorsRequest: AWSPaginateStringToken {
+extension Organizations.ListDelegatedAdministratorsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListDelegatedAdministratorsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -167,7 +167,7 @@ extension Organizations.ListDelegatedAdministratorsRequest: AWSPaginateStringTok
     }
 }
 
-extension Organizations.ListDelegatedServicesForAccountRequest: AWSPaginateStringToken {
+extension Organizations.ListDelegatedServicesForAccountRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListDelegatedServicesForAccountRequest {
         return .init(
             accountId: self.accountId, 
@@ -178,7 +178,7 @@ extension Organizations.ListDelegatedServicesForAccountRequest: AWSPaginateStrin
     }
 }
 
-extension Organizations.ListHandshakesForAccountRequest: AWSPaginateStringToken {
+extension Organizations.ListHandshakesForAccountRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListHandshakesForAccountRequest {
         return .init(
             filter: self.filter, 
@@ -189,7 +189,7 @@ extension Organizations.ListHandshakesForAccountRequest: AWSPaginateStringToken 
     }
 }
 
-extension Organizations.ListHandshakesForOrganizationRequest: AWSPaginateStringToken {
+extension Organizations.ListHandshakesForOrganizationRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListHandshakesForOrganizationRequest {
         return .init(
             filter: self.filter, 
@@ -200,7 +200,7 @@ extension Organizations.ListHandshakesForOrganizationRequest: AWSPaginateStringT
     }
 }
 
-extension Organizations.ListOrganizationalUnitsForParentRequest: AWSPaginateStringToken {
+extension Organizations.ListOrganizationalUnitsForParentRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListOrganizationalUnitsForParentRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -211,7 +211,7 @@ extension Organizations.ListOrganizationalUnitsForParentRequest: AWSPaginateStri
     }
 }
 
-extension Organizations.ListParentsRequest: AWSPaginateStringToken {
+extension Organizations.ListParentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListParentsRequest {
         return .init(
             childId: self.childId, 
@@ -222,7 +222,7 @@ extension Organizations.ListParentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListPoliciesRequest: AWSPaginateStringToken {
+extension Organizations.ListPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListPoliciesRequest {
         return .init(
             filter: self.filter, 
@@ -233,7 +233,7 @@ extension Organizations.ListPoliciesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListPoliciesForTargetRequest: AWSPaginateStringToken {
+extension Organizations.ListPoliciesForTargetRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListPoliciesForTargetRequest {
         return .init(
             filter: self.filter, 
@@ -245,7 +245,7 @@ extension Organizations.ListPoliciesForTargetRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListRootsRequest: AWSPaginateStringToken {
+extension Organizations.ListRootsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListRootsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -255,7 +255,7 @@ extension Organizations.ListRootsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListTagsForResourceRequest: AWSPaginateStringToken {
+extension Organizations.ListTagsForResourceRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListTagsForResourceRequest {
         return .init(
             nextToken: token, 
@@ -265,7 +265,7 @@ extension Organizations.ListTagsForResourceRequest: AWSPaginateStringToken {
     }
 }
 
-extension Organizations.ListTargetsForPolicyRequest: AWSPaginateStringToken {
+extension Organizations.ListTargetsForPolicyRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Organizations.ListTargetsForPolicyRequest {
         return .init(
             maxResults: self.maxResults, 

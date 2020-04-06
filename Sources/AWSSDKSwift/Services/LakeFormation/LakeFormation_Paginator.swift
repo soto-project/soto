@@ -37,7 +37,7 @@ extension LakeFormation {
 
 }
 
-extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateStringToken {
+extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LakeFormation.GetEffectivePermissionsForPathRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -49,7 +49,7 @@ extension LakeFormation.GetEffectivePermissionsForPathRequest: AWSPaginateString
     }
 }
 
-extension LakeFormation.ListPermissionsRequest: AWSPaginateStringToken {
+extension LakeFormation.ListPermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LakeFormation.ListPermissionsRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -63,7 +63,7 @@ extension LakeFormation.ListPermissionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension LakeFormation.ListResourcesRequest: AWSPaginateStringToken {
+extension LakeFormation.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LakeFormation.ListResourcesRequest {
         return .init(
             filterConditionList: self.filterConditionList, 

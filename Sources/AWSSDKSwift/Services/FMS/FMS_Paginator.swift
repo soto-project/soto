@@ -37,7 +37,7 @@ extension FMS {
 
 }
 
-extension FMS.ListComplianceStatusRequest: AWSPaginateStringToken {
+extension FMS.ListComplianceStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FMS.ListComplianceStatusRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -48,7 +48,7 @@ extension FMS.ListComplianceStatusRequest: AWSPaginateStringToken {
     }
 }
 
-extension FMS.ListMemberAccountsRequest: AWSPaginateStringToken {
+extension FMS.ListMemberAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FMS.ListMemberAccountsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -58,7 +58,7 @@ extension FMS.ListMemberAccountsRequest: AWSPaginateStringToken {
     }
 }
 
-extension FMS.ListPoliciesRequest: AWSPaginateStringToken {
+extension FMS.ListPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FMS.ListPoliciesRequest {
         return .init(
             maxResults: self.maxResults, 

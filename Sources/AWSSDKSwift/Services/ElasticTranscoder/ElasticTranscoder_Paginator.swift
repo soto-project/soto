@@ -42,7 +42,7 @@ extension ElasticTranscoder {
 
 }
 
-extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateStringToken {
+extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListJobsByPipelineRequest {
         return .init(
             ascending: self.ascending, 
@@ -53,7 +53,7 @@ extension ElasticTranscoder.ListJobsByPipelineRequest: AWSPaginateStringToken {
     }
 }
 
-extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateStringToken {
+extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListJobsByStatusRequest {
         return .init(
             ascending: self.ascending, 
@@ -64,7 +64,7 @@ extension ElasticTranscoder.ListJobsByStatusRequest: AWSPaginateStringToken {
     }
 }
 
-extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateStringToken {
+extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListPipelinesRequest {
         return .init(
             ascending: self.ascending, 
@@ -74,7 +74,7 @@ extension ElasticTranscoder.ListPipelinesRequest: AWSPaginateStringToken {
     }
 }
 
-extension ElasticTranscoder.ListPresetsRequest: AWSPaginateStringToken {
+extension ElasticTranscoder.ListPresetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElasticTranscoder.ListPresetsRequest {
         return .init(
             ascending: self.ascending, 

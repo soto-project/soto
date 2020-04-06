@@ -42,7 +42,7 @@ extension AccessAnalyzer {
 
 }
 
-extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateStringToken {
+extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListAnalyzedResourcesRequest {
         return .init(
             analyzerArn: self.analyzerArn, 
@@ -54,7 +54,7 @@ extension AccessAnalyzer.ListAnalyzedResourcesRequest: AWSPaginateStringToken {
     }
 }
 
-extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateStringToken {
+extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListAnalyzersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -65,7 +65,7 @@ extension AccessAnalyzer.ListAnalyzersRequest: AWSPaginateStringToken {
     }
 }
 
-extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateStringToken {
+extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListArchiveRulesRequest {
         return .init(
             analyzerName: self.analyzerName, 
@@ -76,7 +76,7 @@ extension AccessAnalyzer.ListArchiveRulesRequest: AWSPaginateStringToken {
     }
 }
 
-extension AccessAnalyzer.ListFindingsRequest: AWSPaginateStringToken {
+extension AccessAnalyzer.ListFindingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListFindingsRequest {
         return .init(
             analyzerArn: self.analyzerArn, 

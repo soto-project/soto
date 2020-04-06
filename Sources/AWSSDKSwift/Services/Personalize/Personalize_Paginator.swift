@@ -72,7 +72,7 @@ extension Personalize {
 
 }
 
-extension Personalize.ListBatchInferenceJobsRequest: AWSPaginateStringToken {
+extension Personalize.ListBatchInferenceJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListBatchInferenceJobsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -83,7 +83,7 @@ extension Personalize.ListBatchInferenceJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListCampaignsRequest: AWSPaginateStringToken {
+extension Personalize.ListCampaignsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListCampaignsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -94,7 +94,7 @@ extension Personalize.ListCampaignsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListDatasetGroupsRequest: AWSPaginateStringToken {
+extension Personalize.ListDatasetGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetGroupsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -104,7 +104,7 @@ extension Personalize.ListDatasetGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListDatasetImportJobsRequest: AWSPaginateStringToken {
+extension Personalize.ListDatasetImportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetImportJobsRequest {
         return .init(
             datasetArn: self.datasetArn, 
@@ -115,7 +115,7 @@ extension Personalize.ListDatasetImportJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListDatasetsRequest: AWSPaginateStringToken {
+extension Personalize.ListDatasetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetsRequest {
         return .init(
             datasetGroupArn: self.datasetGroupArn, 
@@ -126,7 +126,7 @@ extension Personalize.ListDatasetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListEventTrackersRequest: AWSPaginateStringToken {
+extension Personalize.ListEventTrackersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListEventTrackersRequest {
         return .init(
             datasetGroupArn: self.datasetGroupArn, 
@@ -137,7 +137,7 @@ extension Personalize.ListEventTrackersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListRecipesRequest: AWSPaginateStringToken {
+extension Personalize.ListRecipesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListRecipesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -148,7 +148,7 @@ extension Personalize.ListRecipesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListSchemasRequest: AWSPaginateStringToken {
+extension Personalize.ListSchemasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListSchemasRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -158,7 +158,7 @@ extension Personalize.ListSchemasRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListSolutionVersionsRequest: AWSPaginateStringToken {
+extension Personalize.ListSolutionVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListSolutionVersionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -169,7 +169,7 @@ extension Personalize.ListSolutionVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Personalize.ListSolutionsRequest: AWSPaginateStringToken {
+extension Personalize.ListSolutionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListSolutionsRequest {
         return .init(
             datasetGroupArn: self.datasetGroupArn, 

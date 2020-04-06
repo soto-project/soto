@@ -107,7 +107,7 @@ extension Redshift {
 
 }
 
-extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterParameterGroupsMessage {
         return .init(
             marker: token, 
@@ -120,7 +120,7 @@ extension Redshift.DescribeClusterParameterGroupsMessage: AWSPaginateStringToken
     }
 }
 
-extension Redshift.DescribeClusterParametersMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClusterParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterParametersMessage {
         return .init(
             marker: token, 
@@ -132,7 +132,7 @@ extension Redshift.DescribeClusterParametersMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterSecurityGroupsMessage {
         return .init(
             clusterSecurityGroupName: self.clusterSecurityGroupName, 
@@ -145,7 +145,7 @@ extension Redshift.DescribeClusterSecurityGroupsMessage: AWSPaginateStringToken 
     }
 }
 
-extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterSnapshotsMessage {
         return .init(
             clusterExists: self.clusterExists, 
@@ -165,7 +165,7 @@ extension Redshift.DescribeClusterSnapshotsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterSubnetGroupsMessage {
         return .init(
             clusterSubnetGroupName: self.clusterSubnetGroupName, 
@@ -178,7 +178,7 @@ extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeClusterVersionsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClusterVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterVersionsMessage {
         return .init(
             clusterParameterGroupFamily: self.clusterParameterGroupFamily, 
@@ -190,7 +190,7 @@ extension Redshift.DescribeClusterVersionsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeClustersMessage: AWSPaginateStringToken {
+extension Redshift.DescribeClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeClustersMessage {
         return .init(
             clusterIdentifier: self.clusterIdentifier, 
@@ -203,7 +203,7 @@ extension Redshift.DescribeClustersMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeDefaultClusterParametersMessage: AWSPaginateStringToken {
+extension Redshift.DescribeDefaultClusterParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeDefaultClusterParametersMessage {
         return .init(
             marker: token, 
@@ -214,7 +214,7 @@ extension Redshift.DescribeDefaultClusterParametersMessage: AWSPaginateStringTok
     }
 }
 
-extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeEventSubscriptionsMessage {
         return .init(
             marker: token, 
@@ -227,7 +227,7 @@ extension Redshift.DescribeEventSubscriptionsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeEventsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeEventsMessage {
         return .init(
             duration: self.duration, 
@@ -242,7 +242,7 @@ extension Redshift.DescribeEventsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateStringToken {
+extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeHsmClientCertificatesMessage {
         return .init(
             hsmClientCertificateIdentifier: self.hsmClientCertificateIdentifier, 
@@ -255,7 +255,7 @@ extension Redshift.DescribeHsmClientCertificatesMessage: AWSPaginateStringToken 
     }
 }
 
-extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeHsmConfigurationsMessage {
         return .init(
             hsmConfigurationIdentifier: self.hsmConfigurationIdentifier, 
@@ -268,7 +268,7 @@ extension Redshift.DescribeHsmConfigurationsMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeNodeConfigurationOptionsMessage {
         return .init(
             actionType: self.actionType, 
@@ -283,7 +283,7 @@ extension Redshift.DescribeNodeConfigurationOptionsMessage: AWSPaginateStringTok
     }
 }
 
-extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeOrderableClusterOptionsMessage {
         return .init(
             clusterVersion: self.clusterVersion, 
@@ -295,7 +295,7 @@ extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateStringToke
     }
 }
 
-extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeReservedNodeOfferingsMessage {
         return .init(
             marker: token, 
@@ -306,7 +306,7 @@ extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateStringToken 
     }
 }
 
-extension Redshift.DescribeReservedNodesMessage: AWSPaginateStringToken {
+extension Redshift.DescribeReservedNodesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeReservedNodesMessage {
         return .init(
             marker: token, 
@@ -317,7 +317,7 @@ extension Redshift.DescribeReservedNodesMessage: AWSPaginateStringToken {
     }
 }
 
-extension Redshift.DescribeScheduledActionsMessage: AWSPaginateStringToken {
+extension Redshift.DescribeScheduledActionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeScheduledActionsMessage {
         return .init(
             active: self.active, 

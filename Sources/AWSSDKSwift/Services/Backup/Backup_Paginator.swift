@@ -82,7 +82,7 @@ extension Backup {
 
 }
 
-extension Backup.ListBackupJobsInput: AWSPaginateStringToken {
+extension Backup.ListBackupJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupJobsInput {
         return .init(
             byBackupVaultName: self.byBackupVaultName, 
@@ -98,7 +98,7 @@ extension Backup.ListBackupJobsInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListBackupPlanTemplatesInput: AWSPaginateStringToken {
+extension Backup.ListBackupPlanTemplatesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupPlanTemplatesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -108,7 +108,7 @@ extension Backup.ListBackupPlanTemplatesInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListBackupPlanVersionsInput: AWSPaginateStringToken {
+extension Backup.ListBackupPlanVersionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupPlanVersionsInput {
         return .init(
             backupPlanId: self.backupPlanId, 
@@ -119,7 +119,7 @@ extension Backup.ListBackupPlanVersionsInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListBackupPlansInput: AWSPaginateStringToken {
+extension Backup.ListBackupPlansInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupPlansInput {
         return .init(
             includeDeleted: self.includeDeleted, 
@@ -130,7 +130,7 @@ extension Backup.ListBackupPlansInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListBackupSelectionsInput: AWSPaginateStringToken {
+extension Backup.ListBackupSelectionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupSelectionsInput {
         return .init(
             backupPlanId: self.backupPlanId, 
@@ -141,7 +141,7 @@ extension Backup.ListBackupSelectionsInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListBackupVaultsInput: AWSPaginateStringToken {
+extension Backup.ListBackupVaultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListBackupVaultsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -151,7 +151,7 @@ extension Backup.ListBackupVaultsInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListCopyJobsInput: AWSPaginateStringToken {
+extension Backup.ListCopyJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListCopyJobsInput {
         return .init(
             byCreatedAfter: self.byCreatedAfter, 
@@ -167,7 +167,7 @@ extension Backup.ListCopyJobsInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListProtectedResourcesInput: AWSPaginateStringToken {
+extension Backup.ListProtectedResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListProtectedResourcesInput {
         return .init(
             maxResults: self.maxResults, 
@@ -177,7 +177,7 @@ extension Backup.ListProtectedResourcesInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListRecoveryPointsByBackupVaultInput: AWSPaginateStringToken {
+extension Backup.ListRecoveryPointsByBackupVaultInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRecoveryPointsByBackupVaultInput {
         return .init(
             backupVaultName: self.backupVaultName, 
@@ -193,7 +193,7 @@ extension Backup.ListRecoveryPointsByBackupVaultInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListRecoveryPointsByResourceInput: AWSPaginateStringToken {
+extension Backup.ListRecoveryPointsByResourceInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRecoveryPointsByResourceInput {
         return .init(
             maxResults: self.maxResults, 
@@ -204,7 +204,7 @@ extension Backup.ListRecoveryPointsByResourceInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListRestoreJobsInput: AWSPaginateStringToken {
+extension Backup.ListRestoreJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRestoreJobsInput {
         return .init(
             maxResults: self.maxResults, 
@@ -214,7 +214,7 @@ extension Backup.ListRestoreJobsInput: AWSPaginateStringToken {
     }
 }
 
-extension Backup.ListTagsInput: AWSPaginateStringToken {
+extension Backup.ListTagsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListTagsInput {
         return .init(
             maxResults: self.maxResults, 

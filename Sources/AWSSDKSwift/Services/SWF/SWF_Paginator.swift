@@ -57,7 +57,7 @@ extension SWF {
 
 }
 
-extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateStringToken {
+extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.GetWorkflowExecutionHistoryInput {
         return .init(
             domain: self.domain, 
@@ -70,7 +70,7 @@ extension SWF.GetWorkflowExecutionHistoryInput: AWSPaginateStringToken {
     }
 }
 
-extension SWF.ListActivityTypesInput: AWSPaginateStringToken {
+extension SWF.ListActivityTypesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.ListActivityTypesInput {
         return .init(
             domain: self.domain, 
@@ -84,7 +84,7 @@ extension SWF.ListActivityTypesInput: AWSPaginateStringToken {
     }
 }
 
-extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateStringToken {
+extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.ListClosedWorkflowExecutionsInput {
         return .init(
             closeStatusFilter: self.closeStatusFilter, 
@@ -102,7 +102,7 @@ extension SWF.ListClosedWorkflowExecutionsInput: AWSPaginateStringToken {
     }
 }
 
-extension SWF.ListDomainsInput: AWSPaginateStringToken {
+extension SWF.ListDomainsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.ListDomainsInput {
         return .init(
             maximumPageSize: self.maximumPageSize, 
@@ -114,7 +114,7 @@ extension SWF.ListDomainsInput: AWSPaginateStringToken {
     }
 }
 
-extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateStringToken {
+extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.ListOpenWorkflowExecutionsInput {
         return .init(
             domain: self.domain, 
@@ -130,7 +130,7 @@ extension SWF.ListOpenWorkflowExecutionsInput: AWSPaginateStringToken {
     }
 }
 
-extension SWF.ListWorkflowTypesInput: AWSPaginateStringToken {
+extension SWF.ListWorkflowTypesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.ListWorkflowTypesInput {
         return .init(
             domain: self.domain, 
@@ -144,7 +144,7 @@ extension SWF.ListWorkflowTypesInput: AWSPaginateStringToken {
     }
 }
 
-extension SWF.PollForDecisionTaskInput: AWSPaginateStringToken {
+extension SWF.PollForDecisionTaskInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SWF.PollForDecisionTaskInput {
         return .init(
             domain: self.domain, 

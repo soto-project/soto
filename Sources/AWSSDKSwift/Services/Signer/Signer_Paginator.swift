@@ -37,7 +37,7 @@ extension Signer {
 
 }
 
-extension Signer.ListSigningJobsRequest: AWSPaginateStringToken {
+extension Signer.ListSigningJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Signer.ListSigningJobsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -50,7 +50,7 @@ extension Signer.ListSigningJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Signer.ListSigningPlatformsRequest: AWSPaginateStringToken {
+extension Signer.ListSigningPlatformsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Signer.ListSigningPlatformsRequest {
         return .init(
             category: self.category, 
@@ -63,7 +63,7 @@ extension Signer.ListSigningPlatformsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Signer.ListSigningProfilesRequest: AWSPaginateStringToken {
+extension Signer.ListSigningProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Signer.ListSigningProfilesRequest {
         return .init(
             includeCanceled: self.includeCanceled, 

@@ -27,7 +27,7 @@ extension CodeGuruReviewer {
 
 }
 
-extension CodeGuruReviewer.ListRepositoryAssociationsRequest: AWSPaginateStringToken {
+extension CodeGuruReviewer.ListRepositoryAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeGuruReviewer.ListRepositoryAssociationsRequest {
         return .init(
             maxResults: self.maxResults, 

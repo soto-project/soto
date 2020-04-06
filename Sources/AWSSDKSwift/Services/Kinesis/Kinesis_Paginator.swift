@@ -37,7 +37,7 @@ extension Kinesis {
 
 }
 
-extension Kinesis.DescribeStreamInput: AWSPaginateStringToken {
+extension Kinesis.DescribeStreamInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kinesis.DescribeStreamInput {
         return .init(
             exclusiveStartShardId: token, 
@@ -48,7 +48,7 @@ extension Kinesis.DescribeStreamInput: AWSPaginateStringToken {
     }
 }
 
-extension Kinesis.ListStreamConsumersInput: AWSPaginateStringToken {
+extension Kinesis.ListStreamConsumersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kinesis.ListStreamConsumersInput {
         return .init(
             maxResults: self.maxResults, 
@@ -60,7 +60,7 @@ extension Kinesis.ListStreamConsumersInput: AWSPaginateStringToken {
     }
 }
 
-extension Kinesis.ListStreamsInput: AWSPaginateStringToken {
+extension Kinesis.ListStreamsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kinesis.ListStreamsInput {
         return .init(
             exclusiveStartStreamName: token, 

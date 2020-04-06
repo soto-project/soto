@@ -32,7 +32,7 @@ extension Macie {
 
 }
 
-extension Macie.ListMemberAccountsRequest: AWSPaginateStringToken {
+extension Macie.ListMemberAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Macie.ListMemberAccountsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -42,7 +42,7 @@ extension Macie.ListMemberAccountsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Macie.ListS3ResourcesRequest: AWSPaginateStringToken {
+extension Macie.ListS3ResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Macie.ListS3ResourcesRequest {
         return .init(
             maxResults: self.maxResults, 

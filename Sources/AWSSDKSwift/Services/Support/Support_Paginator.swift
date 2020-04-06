@@ -32,7 +32,7 @@ extension Support {
 
 }
 
-extension Support.DescribeCasesRequest: AWSPaginateStringToken {
+extension Support.DescribeCasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Support.DescribeCasesRequest {
         return .init(
             afterTime: self.afterTime, 
@@ -49,7 +49,7 @@ extension Support.DescribeCasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Support.DescribeCommunicationsRequest: AWSPaginateStringToken {
+extension Support.DescribeCommunicationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Support.DescribeCommunicationsRequest {
         return .init(
             afterTime: self.afterTime, 

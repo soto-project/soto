@@ -37,7 +37,7 @@ extension Kendra {
 
 }
 
-extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateStringToken {
+extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourceSyncJobsRequest {
         return .init(
             id: self.id, 
@@ -51,7 +51,7 @@ extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kendra.ListDataSourcesRequest: AWSPaginateStringToken {
+extension Kendra.ListDataSourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourcesRequest {
         return .init(
             indexId: self.indexId, 
@@ -62,7 +62,7 @@ extension Kendra.ListDataSourcesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Kendra.ListIndicesRequest: AWSPaginateStringToken {
+extension Kendra.ListIndicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListIndicesRequest {
         return .init(
             maxResults: self.maxResults, 

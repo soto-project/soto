@@ -37,7 +37,7 @@ extension Pricing {
 
 }
 
-extension Pricing.DescribeServicesRequest: AWSPaginateStringToken {
+extension Pricing.DescribeServicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Pricing.DescribeServicesRequest {
         return .init(
             formatVersion: self.formatVersion, 
@@ -49,7 +49,7 @@ extension Pricing.DescribeServicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Pricing.GetAttributeValuesRequest: AWSPaginateStringToken {
+extension Pricing.GetAttributeValuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Pricing.GetAttributeValuesRequest {
         return .init(
             attributeName: self.attributeName, 
@@ -61,7 +61,7 @@ extension Pricing.GetAttributeValuesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Pricing.GetProductsRequest: AWSPaginateStringToken {
+extension Pricing.GetProductsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Pricing.GetProductsRequest {
         return .init(
             filters: self.filters, 

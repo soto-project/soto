@@ -67,7 +67,7 @@ extension CognitoIdentityProvider {
 
 }
 
-extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.AdminListGroupsForUserRequest {
         return .init(
             limit: self.limit, 
@@ -79,7 +79,7 @@ extension CognitoIdentityProvider.AdminListGroupsForUserRequest: AWSPaginateStri
     }
 }
 
-extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.AdminListUserAuthEventsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -91,7 +91,7 @@ extension CognitoIdentityProvider.AdminListUserAuthEventsRequest: AWSPaginateStr
     }
 }
 
-extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListGroupsRequest {
         return .init(
             limit: self.limit, 
@@ -102,7 +102,7 @@ extension CognitoIdentityProvider.ListGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListIdentityProvidersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -113,7 +113,7 @@ extension CognitoIdentityProvider.ListIdentityProvidersRequest: AWSPaginateStrin
     }
 }
 
-extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListResourceServersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -124,7 +124,7 @@ extension CognitoIdentityProvider.ListResourceServersRequest: AWSPaginateStringT
     }
 }
 
-extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUserPoolClientsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -135,7 +135,7 @@ extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateStringT
     }
 }
 
-extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUserPoolsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -145,7 +145,7 @@ extension CognitoIdentityProvider.ListUserPoolsRequest: AWSPaginateStringToken {
     }
 }
 
-extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersRequest {
         return .init(
             attributesToGet: self.attributesToGet, 
@@ -158,7 +158,7 @@ extension CognitoIdentityProvider.ListUsersRequest: AWSPaginateStringToken {
     }
 }
 
-extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateStringToken {
+extension CognitoIdentityProvider.ListUsersInGroupRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUsersInGroupRequest {
         return .init(
             groupName: self.groupName, 

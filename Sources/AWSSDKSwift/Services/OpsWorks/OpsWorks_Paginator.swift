@@ -27,7 +27,7 @@ extension OpsWorks {
 
 }
 
-extension OpsWorks.DescribeEcsClustersRequest: AWSPaginateStringToken {
+extension OpsWorks.DescribeEcsClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> OpsWorks.DescribeEcsClustersRequest {
         return .init(
             ecsClusterArns: self.ecsClusterArns, 

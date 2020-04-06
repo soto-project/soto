@@ -27,7 +27,7 @@ extension DirectoryService {
 
 }
 
-extension DirectoryService.DescribeDomainControllersRequest: AWSPaginateStringToken {
+extension DirectoryService.DescribeDomainControllersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DirectoryService.DescribeDomainControllersRequest {
         return .init(
             directoryId: self.directoryId, 

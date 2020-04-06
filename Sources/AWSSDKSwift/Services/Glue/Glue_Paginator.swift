@@ -142,7 +142,7 @@ extension Glue {
 
 }
 
-extension Glue.GetClassifiersRequest: AWSPaginateStringToken {
+extension Glue.GetClassifiersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetClassifiersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -152,7 +152,7 @@ extension Glue.GetClassifiersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetConnectionsRequest: AWSPaginateStringToken {
+extension Glue.GetConnectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetConnectionsRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -165,7 +165,7 @@ extension Glue.GetConnectionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetCrawlerMetricsRequest: AWSPaginateStringToken {
+extension Glue.GetCrawlerMetricsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetCrawlerMetricsRequest {
         return .init(
             crawlerNameList: self.crawlerNameList, 
@@ -176,7 +176,7 @@ extension Glue.GetCrawlerMetricsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetCrawlersRequest: AWSPaginateStringToken {
+extension Glue.GetCrawlersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetCrawlersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -186,7 +186,7 @@ extension Glue.GetCrawlersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetDatabasesRequest: AWSPaginateStringToken {
+extension Glue.GetDatabasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetDatabasesRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -197,7 +197,7 @@ extension Glue.GetDatabasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetDevEndpointsRequest: AWSPaginateStringToken {
+extension Glue.GetDevEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetDevEndpointsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -207,7 +207,7 @@ extension Glue.GetDevEndpointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetJobRunsRequest: AWSPaginateStringToken {
+extension Glue.GetJobRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetJobRunsRequest {
         return .init(
             jobName: self.jobName, 
@@ -218,7 +218,7 @@ extension Glue.GetJobRunsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetJobsRequest: AWSPaginateStringToken {
+extension Glue.GetJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetJobsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -228,7 +228,7 @@ extension Glue.GetJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetMLTaskRunsRequest: AWSPaginateStringToken {
+extension Glue.GetMLTaskRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetMLTaskRunsRequest {
         return .init(
             filter: self.filter, 
@@ -241,7 +241,7 @@ extension Glue.GetMLTaskRunsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetMLTransformsRequest: AWSPaginateStringToken {
+extension Glue.GetMLTransformsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetMLTransformsRequest {
         return .init(
             filter: self.filter, 
@@ -253,7 +253,7 @@ extension Glue.GetMLTransformsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetPartitionsRequest: AWSPaginateStringToken {
+extension Glue.GetPartitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetPartitionsRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -268,7 +268,7 @@ extension Glue.GetPartitionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetSecurityConfigurationsRequest: AWSPaginateStringToken {
+extension Glue.GetSecurityConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetSecurityConfigurationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -278,7 +278,7 @@ extension Glue.GetSecurityConfigurationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetTableVersionsRequest: AWSPaginateStringToken {
+extension Glue.GetTableVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetTableVersionsRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -291,7 +291,7 @@ extension Glue.GetTableVersionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetTablesRequest: AWSPaginateStringToken {
+extension Glue.GetTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetTablesRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -304,7 +304,7 @@ extension Glue.GetTablesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetTriggersRequest: AWSPaginateStringToken {
+extension Glue.GetTriggersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetTriggersRequest {
         return .init(
             dependentJobName: self.dependentJobName, 
@@ -315,7 +315,7 @@ extension Glue.GetTriggersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateStringToken {
+extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetUserDefinedFunctionsRequest {
         return .init(
             catalogId: self.catalogId, 
@@ -328,7 +328,7 @@ extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.GetWorkflowRunsRequest: AWSPaginateStringToken {
+extension Glue.GetWorkflowRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetWorkflowRunsRequest {
         return .init(
             includeGraph: self.includeGraph, 
@@ -340,7 +340,7 @@ extension Glue.GetWorkflowRunsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.ListCrawlersRequest: AWSPaginateStringToken {
+extension Glue.ListCrawlersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListCrawlersRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -351,7 +351,7 @@ extension Glue.ListCrawlersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.ListDevEndpointsRequest: AWSPaginateStringToken {
+extension Glue.ListDevEndpointsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListDevEndpointsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -362,7 +362,7 @@ extension Glue.ListDevEndpointsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.ListJobsRequest: AWSPaginateStringToken {
+extension Glue.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListJobsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -373,7 +373,7 @@ extension Glue.ListJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.ListMLTransformsRequest: AWSPaginateStringToken {
+extension Glue.ListMLTransformsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListMLTransformsRequest {
         return .init(
             filter: self.filter, 
@@ -386,7 +386,7 @@ extension Glue.ListMLTransformsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.ListTriggersRequest: AWSPaginateStringToken {
+extension Glue.ListTriggersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListTriggersRequest {
         return .init(
             dependentJobName: self.dependentJobName, 
@@ -398,7 +398,7 @@ extension Glue.ListTriggersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.ListWorkflowsRequest: AWSPaginateStringToken {
+extension Glue.ListWorkflowsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListWorkflowsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -408,7 +408,7 @@ extension Glue.ListWorkflowsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Glue.SearchTablesRequest: AWSPaginateStringToken {
+extension Glue.SearchTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.SearchTablesRequest {
         return .init(
             catalogId: self.catalogId, 

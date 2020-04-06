@@ -37,7 +37,7 @@ extension QLDB {
 
 }
 
-extension QLDB.ListJournalS3ExportsRequest: AWSPaginateStringToken {
+extension QLDB.ListJournalS3ExportsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -47,7 +47,7 @@ extension QLDB.ListJournalS3ExportsRequest: AWSPaginateStringToken {
     }
 }
 
-extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateStringToken {
+extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QLDB.ListJournalS3ExportsForLedgerRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -58,7 +58,7 @@ extension QLDB.ListJournalS3ExportsForLedgerRequest: AWSPaginateStringToken {
     }
 }
 
-extension QLDB.ListLedgersRequest: AWSPaginateStringToken {
+extension QLDB.ListLedgersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QLDB.ListLedgersRequest {
         return .init(
             maxResults: self.maxResults, 

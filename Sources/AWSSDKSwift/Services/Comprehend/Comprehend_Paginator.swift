@@ -62,7 +62,7 @@ extension Comprehend {
 
 }
 
-extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateStringToken {
+extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListDocumentClassificationJobsRequest {
         return .init(
             filter: self.filter, 
@@ -73,7 +73,7 @@ extension Comprehend.ListDocumentClassificationJobsRequest: AWSPaginateStringTok
     }
 }
 
-extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateStringToken {
+extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListDocumentClassifiersRequest {
         return .init(
             filter: self.filter, 
@@ -84,7 +84,7 @@ extension Comprehend.ListDocumentClassifiersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateStringToken {
+extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListDominantLanguageDetectionJobsRequest {
         return .init(
             filter: self.filter, 
@@ -95,7 +95,7 @@ extension Comprehend.ListDominantLanguageDetectionJobsRequest: AWSPaginateString
     }
 }
 
-extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateStringToken {
+extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListEntitiesDetectionJobsRequest {
         return .init(
             filter: self.filter, 
@@ -106,7 +106,7 @@ extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Comprehend.ListEntityRecognizersRequest: AWSPaginateStringToken {
+extension Comprehend.ListEntityRecognizersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListEntityRecognizersRequest {
         return .init(
             filter: self.filter, 
@@ -117,7 +117,7 @@ extension Comprehend.ListEntityRecognizersRequest: AWSPaginateStringToken {
     }
 }
 
-extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateStringToken {
+extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListKeyPhrasesDetectionJobsRequest {
         return .init(
             filter: self.filter, 
@@ -128,7 +128,7 @@ extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateStringToken 
     }
 }
 
-extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateStringToken {
+extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListSentimentDetectionJobsRequest {
         return .init(
             filter: self.filter, 
@@ -139,7 +139,7 @@ extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Comprehend.ListTopicsDetectionJobsRequest: AWSPaginateStringToken {
+extension Comprehend.ListTopicsDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListTopicsDetectionJobsRequest {
         return .init(
             filter: self.filter, 

@@ -52,7 +52,7 @@ extension GroundStation {
 
 }
 
-extension GroundStation.ListConfigsRequest: AWSPaginateStringToken {
+extension GroundStation.ListConfigsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListConfigsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -62,7 +62,7 @@ extension GroundStation.ListConfigsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GroundStation.ListContactsRequest: AWSPaginateStringToken {
+extension GroundStation.ListContactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListContactsRequest {
         return .init(
             endTime: self.endTime, 
@@ -78,7 +78,7 @@ extension GroundStation.ListContactsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateStringToken {
+extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListDataflowEndpointGroupsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -88,7 +88,7 @@ extension GroundStation.ListDataflowEndpointGroupsRequest: AWSPaginateStringToke
     }
 }
 
-extension GroundStation.ListGroundStationsRequest: AWSPaginateStringToken {
+extension GroundStation.ListGroundStationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListGroundStationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -99,7 +99,7 @@ extension GroundStation.ListGroundStationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension GroundStation.ListMissionProfilesRequest: AWSPaginateStringToken {
+extension GroundStation.ListMissionProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListMissionProfilesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -109,7 +109,7 @@ extension GroundStation.ListMissionProfilesRequest: AWSPaginateStringToken {
     }
 }
 
-extension GroundStation.ListSatellitesRequest: AWSPaginateStringToken {
+extension GroundStation.ListSatellitesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListSatellitesRequest {
         return .init(
             maxResults: self.maxResults, 

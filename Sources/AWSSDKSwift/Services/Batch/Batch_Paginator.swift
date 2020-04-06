@@ -42,7 +42,7 @@ extension Batch {
 
 }
 
-extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateStringToken {
+extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Batch.DescribeComputeEnvironmentsRequest {
         return .init(
             computeEnvironments: self.computeEnvironments, 
@@ -53,7 +53,7 @@ extension Batch.DescribeComputeEnvironmentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Batch.DescribeJobDefinitionsRequest: AWSPaginateStringToken {
+extension Batch.DescribeJobDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Batch.DescribeJobDefinitionsRequest {
         return .init(
             jobDefinitionName: self.jobDefinitionName, 
@@ -66,7 +66,7 @@ extension Batch.DescribeJobDefinitionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Batch.DescribeJobQueuesRequest: AWSPaginateStringToken {
+extension Batch.DescribeJobQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Batch.DescribeJobQueuesRequest {
         return .init(
             jobQueues: self.jobQueues, 
@@ -77,7 +77,7 @@ extension Batch.DescribeJobQueuesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Batch.ListJobsRequest: AWSPaginateStringToken {
+extension Batch.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Batch.ListJobsRequest {
         return .init(
             arrayJobId: self.arrayJobId, 

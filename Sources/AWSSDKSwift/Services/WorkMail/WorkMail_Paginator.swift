@@ -62,7 +62,7 @@ extension WorkMail {
 
 }
 
-extension WorkMail.ListAliasesRequest: AWSPaginateStringToken {
+extension WorkMail.ListAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListAliasesRequest {
         return .init(
             entityId: self.entityId, 
@@ -74,7 +74,7 @@ extension WorkMail.ListAliasesRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListGroupMembersRequest: AWSPaginateStringToken {
+extension WorkMail.ListGroupMembersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupMembersRequest {
         return .init(
             groupId: self.groupId, 
@@ -86,7 +86,7 @@ extension WorkMail.ListGroupMembersRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListGroupsRequest: AWSPaginateStringToken {
+extension WorkMail.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListGroupsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -97,7 +97,7 @@ extension WorkMail.ListGroupsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateStringToken {
+extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListMailboxPermissionsRequest {
         return .init(
             entityId: self.entityId, 
@@ -109,7 +109,7 @@ extension WorkMail.ListMailboxPermissionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListOrganizationsRequest: AWSPaginateStringToken {
+extension WorkMail.ListOrganizationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListOrganizationsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -119,7 +119,7 @@ extension WorkMail.ListOrganizationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListResourceDelegatesRequest: AWSPaginateStringToken {
+extension WorkMail.ListResourceDelegatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListResourceDelegatesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -131,7 +131,7 @@ extension WorkMail.ListResourceDelegatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListResourcesRequest: AWSPaginateStringToken {
+extension WorkMail.ListResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListResourcesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -142,7 +142,7 @@ extension WorkMail.ListResourcesRequest: AWSPaginateStringToken {
     }
 }
 
-extension WorkMail.ListUsersRequest: AWSPaginateStringToken {
+extension WorkMail.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkMail.ListUsersRequest {
         return .init(
             maxResults: self.maxResults, 

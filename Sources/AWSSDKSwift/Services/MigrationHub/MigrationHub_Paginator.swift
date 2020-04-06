@@ -47,7 +47,7 @@ extension MigrationHub {
 
 }
 
-extension MigrationHub.ListApplicationStatesRequest: AWSPaginateStringToken {
+extension MigrationHub.ListApplicationStatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHub.ListApplicationStatesRequest {
         return .init(
             applicationIds: self.applicationIds, 
@@ -58,7 +58,7 @@ extension MigrationHub.ListApplicationStatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateStringToken {
+extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHub.ListCreatedArtifactsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -70,7 +70,7 @@ extension MigrationHub.ListCreatedArtifactsRequest: AWSPaginateStringToken {
     }
 }
 
-extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateStringToken {
+extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHub.ListDiscoveredResourcesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -82,7 +82,7 @@ extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateStringToken {
     }
 }
 
-extension MigrationHub.ListMigrationTasksRequest: AWSPaginateStringToken {
+extension MigrationHub.ListMigrationTasksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHub.ListMigrationTasksRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -93,7 +93,7 @@ extension MigrationHub.ListMigrationTasksRequest: AWSPaginateStringToken {
     }
 }
 
-extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateStringToken {
+extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MigrationHub.ListProgressUpdateStreamsRequest {
         return .init(
             maxResults: self.maxResults, 

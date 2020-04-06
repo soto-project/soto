@@ -32,7 +32,7 @@ extension KinesisVideo {
 
 }
 
-extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateStringToken {
+extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KinesisVideo.ListSignalingChannelsInput {
         return .init(
             channelNameCondition: self.channelNameCondition, 
@@ -43,7 +43,7 @@ extension KinesisVideo.ListSignalingChannelsInput: AWSPaginateStringToken {
     }
 }
 
-extension KinesisVideo.ListStreamsInput: AWSPaginateStringToken {
+extension KinesisVideo.ListStreamsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KinesisVideo.ListStreamsInput {
         return .init(
             maxResults: self.maxResults, 

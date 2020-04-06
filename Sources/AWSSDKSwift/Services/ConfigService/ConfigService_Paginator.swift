@@ -42,7 +42,7 @@ extension ConfigService {
 
 }
 
-extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateStringToken {
+extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConfigService.DescribeRemediationExceptionsRequest {
         return .init(
             configRuleName: self.configRuleName, 
@@ -54,7 +54,7 @@ extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateStringT
     }
 }
 
-extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateStringToken {
+extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConfigService.DescribeRemediationExecutionStatusRequest {
         return .init(
             configRuleName: self.configRuleName, 
@@ -66,7 +66,7 @@ extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateSt
     }
 }
 
-extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateStringToken {
+extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConfigService.GetResourceConfigHistoryRequest {
         return .init(
             chronologicalOrder: self.chronologicalOrder, 
@@ -81,7 +81,7 @@ extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateStringToken 
     }
 }
 
-extension ConfigService.SelectAggregateResourceConfigRequest: AWSPaginateStringToken {
+extension ConfigService.SelectAggregateResourceConfigRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConfigService.SelectAggregateResourceConfigRequest {
         return .init(
             configurationAggregatorName: self.configurationAggregatorName, 

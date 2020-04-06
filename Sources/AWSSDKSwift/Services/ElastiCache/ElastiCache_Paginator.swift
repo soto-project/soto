@@ -97,7 +97,7 @@ extension ElastiCache {
 
 }
 
-extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheClustersMessage {
         return .init(
             cacheClusterId: self.cacheClusterId, 
@@ -110,7 +110,7 @@ extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheEngineVersionsMessage {
         return .init(
             cacheParameterGroupFamily: self.cacheParameterGroupFamily, 
@@ -124,7 +124,7 @@ extension ElastiCache.DescribeCacheEngineVersionsMessage: AWSPaginateStringToken
     }
 }
 
-extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheParameterGroupsMessage {
         return .init(
             cacheParameterGroupName: self.cacheParameterGroupName, 
@@ -135,7 +135,7 @@ extension ElastiCache.DescribeCacheParameterGroupsMessage: AWSPaginateStringToke
     }
 }
 
-extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheParametersMessage {
         return .init(
             cacheParameterGroupName: self.cacheParameterGroupName, 
@@ -147,7 +147,7 @@ extension ElastiCache.DescribeCacheParametersMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheSecurityGroupsMessage {
         return .init(
             cacheSecurityGroupName: self.cacheSecurityGroupName, 
@@ -158,7 +158,7 @@ extension ElastiCache.DescribeCacheSecurityGroupsMessage: AWSPaginateStringToken
     }
 }
 
-extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeCacheSubnetGroupsMessage {
         return .init(
             cacheSubnetGroupName: self.cacheSubnetGroupName, 
@@ -169,7 +169,7 @@ extension ElastiCache.DescribeCacheSubnetGroupsMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeEngineDefaultParametersMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeEngineDefaultParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeEngineDefaultParametersMessage {
         return .init(
             cacheParameterGroupFamily: self.cacheParameterGroupFamily, 
@@ -180,7 +180,7 @@ extension ElastiCache.DescribeEngineDefaultParametersMessage: AWSPaginateStringT
     }
 }
 
-extension ElastiCache.DescribeEventsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeEventsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeEventsMessage {
         return .init(
             duration: self.duration, 
@@ -195,7 +195,7 @@ extension ElastiCache.DescribeEventsMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeGlobalReplicationGroupsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeGlobalReplicationGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeGlobalReplicationGroupsMessage {
         return .init(
             globalReplicationGroupId: self.globalReplicationGroupId, 
@@ -207,7 +207,7 @@ extension ElastiCache.DescribeGlobalReplicationGroupsMessage: AWSPaginateStringT
     }
 }
 
-extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeReplicationGroupsMessage {
         return .init(
             marker: token, 
@@ -218,7 +218,7 @@ extension ElastiCache.DescribeReplicationGroupsMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeReservedCacheNodesMessage {
         return .init(
             cacheNodeType: self.cacheNodeType, 
@@ -234,7 +234,7 @@ extension ElastiCache.DescribeReservedCacheNodesMessage: AWSPaginateStringToken 
     }
 }
 
-extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeReservedCacheNodesOfferingsMessage {
         return .init(
             cacheNodeType: self.cacheNodeType, 
@@ -249,7 +249,7 @@ extension ElastiCache.DescribeReservedCacheNodesOfferingsMessage: AWSPaginateStr
     }
 }
 
-extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeServiceUpdatesMessage {
         return .init(
             marker: token, 
@@ -261,7 +261,7 @@ extension ElastiCache.DescribeServiceUpdatesMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeSnapshotsMessage {
         return .init(
             cacheClusterId: self.cacheClusterId, 
@@ -276,7 +276,7 @@ extension ElastiCache.DescribeSnapshotsMessage: AWSPaginateStringToken {
     }
 }
 
-extension ElastiCache.DescribeUpdateActionsMessage: AWSPaginateStringToken {
+extension ElastiCache.DescribeUpdateActionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeUpdateActionsMessage {
         return .init(
             cacheClusterIds: self.cacheClusterIds, 

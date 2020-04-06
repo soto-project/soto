@@ -37,7 +37,7 @@ extension ELBV2 {
 
 }
 
-extension ELBV2.DescribeListenersInput: AWSPaginateStringToken {
+extension ELBV2.DescribeListenersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELBV2.DescribeListenersInput {
         return .init(
             listenerArns: self.listenerArns, 
@@ -49,7 +49,7 @@ extension ELBV2.DescribeListenersInput: AWSPaginateStringToken {
     }
 }
 
-extension ELBV2.DescribeLoadBalancersInput: AWSPaginateStringToken {
+extension ELBV2.DescribeLoadBalancersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELBV2.DescribeLoadBalancersInput {
         return .init(
             loadBalancerArns: self.loadBalancerArns, 
@@ -61,7 +61,7 @@ extension ELBV2.DescribeLoadBalancersInput: AWSPaginateStringToken {
     }
 }
 
-extension ELBV2.DescribeTargetGroupsInput: AWSPaginateStringToken {
+extension ELBV2.DescribeTargetGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ELBV2.DescribeTargetGroupsInput {
         return .init(
             loadBalancerArn: self.loadBalancerArn, 

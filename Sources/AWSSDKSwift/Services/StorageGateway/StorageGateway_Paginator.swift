@@ -67,7 +67,7 @@ extension StorageGateway {
 
 }
 
-extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateStringToken {
+extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeTapeArchivesInput {
         return .init(
             limit: self.limit, 
@@ -78,7 +78,7 @@ extension StorageGateway.DescribeTapeArchivesInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateStringToken {
+extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeTapeRecoveryPointsInput {
         return .init(
             gatewayARN: self.gatewayARN, 
@@ -89,7 +89,7 @@ extension StorageGateway.DescribeTapeRecoveryPointsInput: AWSPaginateStringToken
     }
 }
 
-extension StorageGateway.DescribeTapesInput: AWSPaginateStringToken {
+extension StorageGateway.DescribeTapesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeTapesInput {
         return .init(
             gatewayARN: self.gatewayARN, 
@@ -101,7 +101,7 @@ extension StorageGateway.DescribeTapesInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateStringToken {
+extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.DescribeVTLDevicesInput {
         return .init(
             gatewayARN: self.gatewayARN, 
@@ -113,7 +113,7 @@ extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.ListFileSharesInput: AWSPaginateStringToken {
+extension StorageGateway.ListFileSharesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.ListFileSharesInput {
         return .init(
             gatewayARN: self.gatewayARN, 
@@ -124,7 +124,7 @@ extension StorageGateway.ListFileSharesInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.ListGatewaysInput: AWSPaginateStringToken {
+extension StorageGateway.ListGatewaysInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.ListGatewaysInput {
         return .init(
             limit: self.limit, 
@@ -134,7 +134,7 @@ extension StorageGateway.ListGatewaysInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.ListTagsForResourceInput: AWSPaginateStringToken {
+extension StorageGateway.ListTagsForResourceInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.ListTagsForResourceInput {
         return .init(
             limit: self.limit, 
@@ -145,7 +145,7 @@ extension StorageGateway.ListTagsForResourceInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.ListTapesInput: AWSPaginateStringToken {
+extension StorageGateway.ListTapesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.ListTapesInput {
         return .init(
             limit: self.limit, 
@@ -156,7 +156,7 @@ extension StorageGateway.ListTapesInput: AWSPaginateStringToken {
     }
 }
 
-extension StorageGateway.ListVolumesInput: AWSPaginateStringToken {
+extension StorageGateway.ListVolumesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.ListVolumesInput {
         return .init(
             gatewayARN: self.gatewayARN, 

@@ -37,7 +37,7 @@ extension ResourceGroups {
 
 }
 
-extension ResourceGroups.ListGroupResourcesInput: AWSPaginateStringToken {
+extension ResourceGroups.ListGroupResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupResourcesInput {
         return .init(
             filters: self.filters, 
@@ -49,7 +49,7 @@ extension ResourceGroups.ListGroupResourcesInput: AWSPaginateStringToken {
     }
 }
 
-extension ResourceGroups.ListGroupsInput: AWSPaginateStringToken {
+extension ResourceGroups.ListGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupsInput {
         return .init(
             filters: self.filters, 
@@ -60,7 +60,7 @@ extension ResourceGroups.ListGroupsInput: AWSPaginateStringToken {
     }
 }
 
-extension ResourceGroups.SearchResourcesInput: AWSPaginateStringToken {
+extension ResourceGroups.SearchResourcesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.SearchResourcesInput {
         return .init(
             maxResults: self.maxResults, 

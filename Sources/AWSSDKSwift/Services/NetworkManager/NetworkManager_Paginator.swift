@@ -57,7 +57,7 @@ extension NetworkManager {
 
 }
 
-extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateStringToken {
+extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.DescribeGlobalNetworksRequest {
         return .init(
             globalNetworkIds: self.globalNetworkIds, 
@@ -68,7 +68,7 @@ extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateStringToken {
     }
 }
 
-extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateStringToken {
+extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetCustomerGatewayAssociationsRequest {
         return .init(
             customerGatewayArns: self.customerGatewayArns, 
@@ -80,7 +80,7 @@ extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateStrin
     }
 }
 
-extension NetworkManager.GetDevicesRequest: AWSPaginateStringToken {
+extension NetworkManager.GetDevicesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetDevicesRequest {
         return .init(
             deviceIds: self.deviceIds, 
@@ -93,7 +93,7 @@ extension NetworkManager.GetDevicesRequest: AWSPaginateStringToken {
     }
 }
 
-extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateStringToken {
+extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetLinkAssociationsRequest {
         return .init(
             deviceId: self.deviceId, 
@@ -106,7 +106,7 @@ extension NetworkManager.GetLinkAssociationsRequest: AWSPaginateStringToken {
     }
 }
 
-extension NetworkManager.GetLinksRequest: AWSPaginateStringToken {
+extension NetworkManager.GetLinksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetLinksRequest {
         return .init(
             globalNetworkId: self.globalNetworkId, 
@@ -121,7 +121,7 @@ extension NetworkManager.GetLinksRequest: AWSPaginateStringToken {
     }
 }
 
-extension NetworkManager.GetSitesRequest: AWSPaginateStringToken {
+extension NetworkManager.GetSitesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetSitesRequest {
         return .init(
             globalNetworkId: self.globalNetworkId, 
@@ -133,7 +133,7 @@ extension NetworkManager.GetSitesRequest: AWSPaginateStringToken {
     }
 }
 
-extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateStringToken {
+extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetTransitGatewayRegistrationsRequest {
         return .init(
             globalNetworkId: self.globalNetworkId, 

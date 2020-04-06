@@ -27,7 +27,7 @@ extension ACM {
 
 }
 
-extension ACM.ListCertificatesRequest: AWSPaginateStringToken {
+extension ACM.ListCertificatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ACM.ListCertificatesRequest {
         return .init(
             certificateStatuses: self.certificateStatuses, 

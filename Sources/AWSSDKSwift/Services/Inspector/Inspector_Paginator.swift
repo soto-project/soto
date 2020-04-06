@@ -72,7 +72,7 @@ extension Inspector {
 
 }
 
-extension Inspector.GetExclusionsPreviewRequest: AWSPaginateStringToken {
+extension Inspector.GetExclusionsPreviewRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.GetExclusionsPreviewRequest {
         return .init(
             assessmentTemplateArn: self.assessmentTemplateArn, 
@@ -85,7 +85,7 @@ extension Inspector.GetExclusionsPreviewRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateStringToken {
+extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentRunAgentsRequest {
         return .init(
             assessmentRunArn: self.assessmentRunArn, 
@@ -97,7 +97,7 @@ extension Inspector.ListAssessmentRunAgentsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListAssessmentRunsRequest: AWSPaginateStringToken {
+extension Inspector.ListAssessmentRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentRunsRequest {
         return .init(
             assessmentTemplateArns: self.assessmentTemplateArns, 
@@ -109,7 +109,7 @@ extension Inspector.ListAssessmentRunsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListAssessmentTargetsRequest: AWSPaginateStringToken {
+extension Inspector.ListAssessmentTargetsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentTargetsRequest {
         return .init(
             filter: self.filter, 
@@ -120,7 +120,7 @@ extension Inspector.ListAssessmentTargetsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateStringToken {
+extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListAssessmentTemplatesRequest {
         return .init(
             assessmentTargetArns: self.assessmentTargetArns, 
@@ -132,7 +132,7 @@ extension Inspector.ListAssessmentTemplatesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListEventSubscriptionsRequest: AWSPaginateStringToken {
+extension Inspector.ListEventSubscriptionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListEventSubscriptionsRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -143,7 +143,7 @@ extension Inspector.ListEventSubscriptionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListExclusionsRequest: AWSPaginateStringToken {
+extension Inspector.ListExclusionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListExclusionsRequest {
         return .init(
             assessmentRunArn: self.assessmentRunArn, 
@@ -154,7 +154,7 @@ extension Inspector.ListExclusionsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListFindingsRequest: AWSPaginateStringToken {
+extension Inspector.ListFindingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListFindingsRequest {
         return .init(
             assessmentRunArns: self.assessmentRunArns, 
@@ -166,7 +166,7 @@ extension Inspector.ListFindingsRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.ListRulesPackagesRequest: AWSPaginateStringToken {
+extension Inspector.ListRulesPackagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.ListRulesPackagesRequest {
         return .init(
             maxResults: self.maxResults, 
@@ -176,7 +176,7 @@ extension Inspector.ListRulesPackagesRequest: AWSPaginateStringToken {
     }
 }
 
-extension Inspector.PreviewAgentsRequest: AWSPaginateStringToken {
+extension Inspector.PreviewAgentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector.PreviewAgentsRequest {
         return .init(
             maxResults: self.maxResults, 
