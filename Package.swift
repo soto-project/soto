@@ -228,7 +228,7 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("paginate-token-associated-type"))
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .branch("master"))
     ],
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
