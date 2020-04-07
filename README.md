@@ -17,21 +17,27 @@ The library consists of three parts
 AWSSDKSwift uses the Swift Package Manager to manage its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
+        .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
     ],
 ```
 Then add target dependencies for each of the AWSSDKSwift targets you want to use.
 ```swift
     targets: [
-      .target(name: "MyAWSApp", dependencies: ["S3", "SES", "CloudFront", "ELBV2", "IAM", "Kinesis"]),
+        .target(name: "MyAWSApp", dependencies: [
+            .product(name: "S3", package: "AWSSDKSwift"),
+            .product(name: "SES", package: "AWSSDKSwift"),
+            .product(name: "IAM", package: "AWSSDKSwift")
+        ]),
     ]
 )
 ```
+If you are using one of the v5.0.0 pre-releases then the `name` parameter in the package dependencies is unnecessary, the `package` parameter of the target dependencies is `aws-sdk-swift` instead of `AWSSDKSwift` and also all the target names are prefixed with `AWS`. 
+
 Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that.
 
 ## Compatibility
 
-AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on [swift-nio](https://github.com/apple/swift-nio) 2. Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+AWSSDKSwift works on Linux, macOS and iOS. Version 4 is dependent on version 2 of [swift-nio](https://github.com/apple/swift-nio). Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
@@ -85,7 +91,7 @@ let ec2 = EC2(
 ```
 ### Without Credentials
 
-Some services like CognitoIdentityProvider don't require credentials to access some of their functions. Explicitly set `accessKeyId` and `secretAccessKey` to "". This will disable all other credential access functions and send requests unsigned.
+Some services like CognitoIdentityProvider don't require credentials to access some of their functionality. In this case explicitly set `accessKeyId` and `secretAccessKey` to "". This will disable all other credential access functions and send requests unsigned.
 
 ## Using AWSSDKSwift
 
