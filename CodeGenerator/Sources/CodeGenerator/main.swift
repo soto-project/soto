@@ -132,11 +132,71 @@ class CodeGenerator {
 
         group.wait()
     }
+    
+    /// Generate service files from AWSService
+    /// - Parameter codeGenerator: service generated from JSON
+    func generateFiles(with codeGenerator: CodeGeneratorV2) throws {
+
+        let basePath = "\(rootPath())/Sources/AWSSDKSwift/Services/\(codeGenerator.api.serviceName)/"
+        _ = mkdirp(basePath)
+
+        let apiContext = codeGenerator.generateServiceContext()
+        if try environment.renderTemplate(name: "api.stencil", context: apiContext).writeIfChanged(
+            toFile: "\(basePath)/\(codeGenerator.api.serviceName)_API.swift",
+                atomically: true,
+                encoding: .utf8
+            ) {
+            print("Wrote: \(codeGenerator.api.serviceName)_API.swift")
+        }
+
+        /*let shapesContext = service.generateShapesContext()
+        if try environment.renderTemplate(name: "shapes.stencil", context: shapesContext).writeIfChanged(
+            toFile: "\(basePath)/\(service.serviceName)_Shapes.swift",
+            atomically: true,
+            encoding: .utf8
+            ) {
+            print("Wrote: \(service.serviceName)_Shapes.swift")
+        }*/
+
+        let errorContext = codeGenerator.generateErrorContext()
+        if errorContext["errors"] != nil {
+            if try environment.renderTemplate(name: "error.stencil", context: errorContext).writeIfChanged(
+                toFile: "\(basePath)/\(codeGenerator.api.serviceName)_Error.swift",
+                atomically: true,
+                encoding: .utf8
+                ) {
+                print("Wrote: \(codeGenerator.api.serviceName)_Error.swift")
+            }
+        }
+
+        let paginatorContext = try codeGenerator.generatePaginatorContext()
+        if paginatorContext["paginators"] != nil {
+            if try environment.renderTemplate(name: "paginator.stencil", context: paginatorContext).writeIfChanged(
+                toFile: "\(basePath)/\(codeGenerator.api.serviceName)_Paginator.swift",
+                atomically: true,
+                encoding: .utf8
+                ) {
+                print("Wrote: \(codeGenerator.api.serviceName)_Paginator.swift")
+            }
+        }
+        print("Succesfully Generated \(codeGenerator.api.serviceName)")
+    }
+    
+    func run2() throws {
+        // load JSON
+        let endpoints = try loadEndpointJSONV2()
+        let models = try loadModelJSONV2()
+        
+        try models.forEach { model in
+            let codeGenerator = try CodeGeneratorV2(api: model.api, docs: model.docs, paginators: model.paginators, endpoints: endpoints)
+            try generateFiles(with: codeGenerator)
+        }
+    }
 }
 
 let startTime = Date()
 
-try CodeGenerator().run()
+try CodeGenerator().run2()
 
 print("Code Generation took \(Int(-startTime.timeIntervalSinceNow)) seconds")
 print("Done.")

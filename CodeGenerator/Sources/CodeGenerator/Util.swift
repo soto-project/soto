@@ -32,6 +32,36 @@ func loadEndpointJSON() throws -> JSON {
     return JSON(data: data)
 }
 
+func loadEndpointJSONV2() throws -> Endpoints {
+    let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoints.json")!)
+    return try JSONDecoder().decode(Endpoints.self, from: data)
+}
+
+func loadModelJSONV2() throws -> [(api: API, docs: Docs, paginators: Paginators?)] {
+    let directories = apiDirectories()
+
+    return try directories.map {
+        let apiFile = Glob.entries(pattern: $0+"/**/api-*.json")[0]
+        let docFile = Glob.entries(pattern: $0+"/**/docs-*.json")[0]
+        let data = try Data(contentsOf: URL(fileURLWithPath: apiFile))
+        var api = try JSONDecoder().decode(API.self, from: data)
+        try api.postProcess()
+        
+        let docData = try Data(contentsOf: URL(fileURLWithPath: docFile))
+        let docs = try JSONDecoder().decode(Docs.self, from: docData)
+        
+        // a paginator file doesn't always exist
+        let paginators: Paginators?
+        if let paginatorFile = Glob.entries(pattern: $0+"/**/paginators-*.json").first {
+            let paginatorData = try Data(contentsOf: URL(string: "file://\(paginatorFile)")!)
+            paginators = try JSONDecoder().decode(Paginators.self, from: paginatorData)
+        } else {
+            paginators = nil
+        }
+        return (api:api, docs:docs, paginators:paginators)
+    }
+}
+
 func loadModelJSON() throws -> [(api:JSON, paginator:JSON, doc: JSON)] {
     let directories = apiDirectories()
 
@@ -40,8 +70,8 @@ func loadModelJSON() throws -> [(api:JSON, paginator:JSON, doc: JSON)] {
         let docFile = Glob.entries(pattern: $0+"/**/docs-*.json")[0]
         // a paginator file doesn't always exist
         let paginatorFile = Glob.entries(pattern: $0+"/**/paginators-*.json").first
-        
-        var apiJson = JSON(data: try Data(contentsOf: URL(string: "file://\(apiFile)")!))
+        let data = try Data(contentsOf: URL(fileURLWithPath: apiFile))
+        var apiJson = JSON(data: data)
         apiJson["serviceName"].stringValue = serviceNameForApi(apiJSON: apiJson)
         let docJson = JSON(data: try Data(contentsOf: URL(string: "file://\(docFile)")!))
         let paginatorJson: JSON
