@@ -396,10 +396,7 @@ extension CodeGeneratorV2 {
         } else {
             defaultValue = nil
         }
-        var memberDocs = docs.shapes[member.shape.name]?.refs["\(shape.name!)$\(name)"]?.tagStriped().split(separator: "\n")
-        if memberDocs == nil {
-            memberDocs = docs.shapes[shape.name]?.refs["\(shape.name!)$\(name)"]?.tagStriped().split(separator: "\n")
-        }
+        let memberDocs = docs.shapes[shape.name]?[name]?.tagStriped().split(separator: "\n")
         return MemberContext(
             variable: name.toSwiftVariableCase(),
             locationPath: member.getLocationName() ?? name,

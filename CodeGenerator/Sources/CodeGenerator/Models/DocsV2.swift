@@ -34,7 +34,7 @@ struct Docs: Decodable {
     var version: String
     var service: String
     var operations: [String: String]
-    var shapes: [String: Shape]
+    var shapes: [String: [String: String]]
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -42,7 +42,24 @@ struct Docs: Decodable {
         self.service = try container.decode(String.self, forKey: .service)
         let operations = try container.decode([String: String?].self, forKey: .operations)
         self.operations = operations.compactMapValues { $0 }
-        self.shapes = try container.decode([String: Shape].self, forKey: .shapes)
+        // sorted shapes by key so we get consistent results when there are key clashes
+        let tempShapes = try container.decode([String: Shape].self, forKey: .shapes)
+            .map({return (key:$0.key, value: $0.value)})
+            .sorted(by: { $0.key < $1.key })
+        
+        self.shapes = [:]
+        
+        for shape in tempShapes {
+            for ref in shape.value.refs {
+                let components = ref.key.split(separator: "$").map { String($0)}
+                guard components.count == 2 else { continue }
+                if shapes[components[0]] == nil {
+                    shapes[components[0]] = [components[1]: ref.value]
+                } else {
+                    shapes[components[0]]![components[1]] = ref.value
+                }
+            }
+        }
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -52,3 +69,4 @@ struct Docs: Decodable {
         case shapes
     }
 }
+
