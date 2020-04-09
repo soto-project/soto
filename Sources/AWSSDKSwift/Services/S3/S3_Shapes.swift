@@ -991,6 +991,14 @@ extension S3 {
         }
     }
 
+    public struct ContinuationEvent: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CopyObjectOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "copyObjectResult"
@@ -2194,6 +2202,14 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case replicaKmsKeyID = "ReplicaKmsKeyID"
         }
+    }
+
+    public struct EndEvent: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct Error: AWSShape {
@@ -5532,6 +5548,42 @@ extension S3 {
         }
     }
 
+    public struct Progress: AWSShape {
+
+        /// The current number of uncompressed object bytes processed.
+        public let bytesProcessed: Int64?
+        /// The current number of bytes of records payload data returned.
+        public let bytesReturned: Int64?
+        /// The current number of object bytes scanned.
+        public let bytesScanned: Int64?
+
+        public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
+            self.bytesProcessed = bytesProcessed
+            self.bytesReturned = bytesReturned
+            self.bytesScanned = bytesScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesProcessed = "BytesProcessed"
+            case bytesReturned = "BytesReturned"
+            case bytesScanned = "BytesScanned"
+        }
+    }
+
+    public struct ProgressEvent: AWSShape {
+
+        /// The Progress event details.
+        public let details: Progress?
+
+        public init(details: Progress? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+        }
+    }
+
     public struct PublicAccessBlockConfiguration: AWSShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
@@ -6777,6 +6829,20 @@ extension S3 {
         }
     }
 
+    public struct RecordsEvent: AWSShape {
+
+        /// The byte array of partial, one or more result records.
+        public let payload: Data?
+
+        public init(payload: Data? = nil) {
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "Payload"
+        }
+    }
+
     public struct Redirect: AWSShape {
 
         /// The host name to use in the redirect request.
@@ -7279,6 +7345,55 @@ extension S3 {
         }
     }
 
+    public struct SelectObjectContentEventStream: AWSShape {
+
+        /// The Continuation Event.
+        public let cont: ContinuationEvent?
+        /// The End Event.
+        public let end: EndEvent?
+        /// The Progress Event.
+        public let progress: ProgressEvent?
+        /// The Records Event.
+        public let records: RecordsEvent?
+        /// The Stats Event.
+        public let stats: StatsEvent?
+
+        public init(cont: ContinuationEvent? = nil, end: EndEvent? = nil, progress: ProgressEvent? = nil, records: RecordsEvent? = nil, stats: StatsEvent? = nil) {
+            self.cont = cont
+            self.end = end
+            self.progress = progress
+            self.records = records
+            self.stats = stats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cont = "Cont"
+            case end = "End"
+            case progress = "Progress"
+            case records = "Records"
+            case stats = "Stats"
+        }
+    }
+
+    public struct SelectObjectContentOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "payload"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"))
+        ]
+
+        /// The array of results.
+        public let payload: SelectObjectContentEventStream?
+
+        public init(payload: SelectObjectContentEventStream? = nil) {
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "Payload"
+        }
+    }
+
     public struct SelectObjectContentRequest: AWSShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
@@ -7446,6 +7561,42 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
+        }
+    }
+
+    public struct Stats: AWSShape {
+
+        /// The total number of uncompressed object bytes processed.
+        public let bytesProcessed: Int64?
+        /// The total number of bytes of records payload data returned.
+        public let bytesReturned: Int64?
+        /// The total number of object bytes scanned.
+        public let bytesScanned: Int64?
+
+        public init(bytesProcessed: Int64? = nil, bytesReturned: Int64? = nil, bytesScanned: Int64? = nil) {
+            self.bytesProcessed = bytesProcessed
+            self.bytesReturned = bytesReturned
+            self.bytesScanned = bytesScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesProcessed = "BytesProcessed"
+            case bytesReturned = "BytesReturned"
+            case bytesScanned = "BytesScanned"
+        }
+    }
+
+    public struct StatsEvent: AWSShape {
+
+        /// The Stats event details.
+        public let details: Stats?
+
+        public init(details: Stats? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
         }
     }
 

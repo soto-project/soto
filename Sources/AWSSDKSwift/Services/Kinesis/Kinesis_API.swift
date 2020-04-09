@@ -191,7 +191,7 @@ public struct Kinesis {
     }
 
     ///  Call this operation from your consumer after you call RegisterStreamConsumer to register the consumer with Kinesis Data Streams. If the call succeeds, your consumer starts receiving events of type SubscribeToShardEvent for up to 5 minutes, after which time you need to call SubscribeToShard again to renew the subscription if you want to continue to receive records. You can make one call to SubscribeToShard per second per ConsumerARN. If your call succeeds, and then you call the operation again less than 5 seconds later, the second call generates a ResourceInUseException. If you call the operation a second time more than 5 seconds after the first call succeeds, the second call succeeds and the first connection gets shut down.
-    @discardableResult public func subscribeToShard(_ input: SubscribeToShardInput) -> EventLoopFuture<Void> {
+    public func subscribeToShard(_ input: SubscribeToShardInput) -> EventLoopFuture<SubscribeToShardOutput> {
         return client.send(operation: "SubscribeToShard", path: "/", httpMethod: "POST", input: input)
     }
 

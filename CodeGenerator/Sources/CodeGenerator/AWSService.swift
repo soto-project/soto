@@ -135,10 +135,6 @@ struct AWSService {
             return .unhandledType
         }
 
-        if let isEventstream = json["eventstream"].bool, isEventstream {
-            throw AWSServiceError.eventStreamingCodeGenerationsAreUnsupported
-        }
-
         let type: ShapeType
         switch json["type"].stringValue {
         case "string":
@@ -345,10 +341,6 @@ struct AWSService {
             do {
                 let shape = try Shape(name: key, type: shapeType(from: json))
                 shapes.append(shape)
-            } catch AWSServiceError.eventStreamingCodeGenerationsAreUnsupported {
-                // Skip to generate code.
-                // Becase eventstream is outside the scope of existing code generation rules.
-                // It should be implemented manually.
             } catch {
                 throw error
             }
