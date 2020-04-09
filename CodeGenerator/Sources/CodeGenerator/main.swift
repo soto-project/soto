@@ -149,14 +149,14 @@ class CodeGenerator {
             print("Wrote: \(codeGenerator.api.serviceName)_API.swift")
         }
 
-        /*let shapesContext = service.generateShapesContext()
+        let shapesContext = codeGenerator.generateShapesContext()
         if try environment.renderTemplate(name: "shapes.stencil", context: shapesContext).writeIfChanged(
-            toFile: "\(basePath)/\(service.serviceName)_Shapes.swift",
+            toFile: "\(basePath)/\(codeGenerator.api.serviceName)_Shapes.swift",
             atomically: true,
             encoding: .utf8
             ) {
-            print("Wrote: \(service.serviceName)_Shapes.swift")
-        }*/
+            print("Wrote: \(codeGenerator.api.serviceName)_Shapes.swift")
+        }
 
         let errorContext = codeGenerator.generateErrorContext()
         if errorContext["errors"] != nil {

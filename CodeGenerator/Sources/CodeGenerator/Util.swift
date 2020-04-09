@@ -24,7 +24,7 @@ func rootPath() -> String {
 }
 
 func apiDirectories() -> [String] {
-    return Glob.entries(pattern: "\(rootPath())/models/apis/**")
+    return Glob.entries(pattern: "\(rootPath())/models/apis/s3")
 }
 
 func loadEndpointJSON() throws -> JSON {

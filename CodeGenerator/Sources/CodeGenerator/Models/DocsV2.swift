@@ -22,8 +22,7 @@ struct Docs: Decodable {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.base = try container.decodeIfPresent(String.self, forKey: .base)
-            let refs = try container.decode([String: String?].self, forKey: .refs)
-            self.refs = refs.compactMapValues { $0 }
+            self.refs = try container.decode([String: String?].self, forKey: .refs).compactMapValues { $0 }
         }
         
         private enum CodingKeys: String, CodingKey {

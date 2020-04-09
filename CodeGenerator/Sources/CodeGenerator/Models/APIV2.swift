@@ -124,7 +124,10 @@ struct API: Decodable {
             var locationName: String?
             var shapeName: String
             var deprecated: Bool?
+            var xmlNamespace: XMLNamespace?
+            var flattened: Bool?
             // set after decode in postProcess stage
+            var required: Bool = false
             var shape: Shape!
             
             private enum CodingKeys: String, CodingKey {
@@ -132,6 +135,8 @@ struct API: Decodable {
                 case locationName
                 case shapeName = "shape"
                 case deprecated
+                case xmlNamespace
+                case flattened
             }
         }
 
@@ -142,49 +147,97 @@ struct API: Decodable {
         }
 
         enum ShapeType {
+            class StructureType: Patchable {
+                var required: [String]?
+                var members: [String: Member]
+                init(required: [String]? = nil, members: [String : Member]) {
+                    self.required = required
+                    self.members = members
+                }
+                
+                func setupShapes(api: API) throws {
+                    // setup member shape
+                    var updatedMembers: [String: Member] = try members.mapValues {
+                        var member = $0;
+                        member.shape = try api.getShape(named: member.shapeName);
+                        // pass xmlNamespace from member to shape
+                        if let xmlNamespace = member.xmlNamespace {
+                            member.shape.xmlNamespace = xmlNamespace
+                        }
+                        return member
+                    }
+                    if let required = self.required {
+                        for require in required {
+                            updatedMembers[require]?.required = true
+                        }
+                    }
+                    // remove deprecated members
+                    members = updatedMembers.compactMapValues { if $0.deprecated == true { return nil }; return $0 }
+                }
+            }
+
+            struct ListType {
+                var member: Member
+                var min: Int?
+                var max: Int?
+                var flattened: Bool?
+            }
+            
+            struct MapType {
+                var key: Member
+                var value: Member
+                var flattened: Bool?
+            }
+            
+            class EnumType: Patchable {
+                var cases: [String]
+                init(cases: [String]) {
+                    self.cases = cases
+                }
+            }
+
             case string(min: Int? = nil, max: Int? = nil, pattern: String? = nil)
             case integer(min: Int? = nil, max: Int? = nil)
-            case structure(required: [String]?, members: [String: Member])
+            case structure(StructureType)
             case blob
-            case list(member: Member, min: Int? = nil, max: Int? = nil)
-            case map(key: Member, value: Member)
+            case list(ListType)
+            case map(MapType)
             case long(min: Int64? = nil, max: Int64? = nil)
             case double(min: Double? = nil, max: Double? = nil)
             case float(min: Float? = nil, max: Float? = nil)
             case boolean
             case timestamp
-            case `enum`([String])
+            case `enum`(EnumType)
             
             /// once everything has been loaded this is called to post process the ShapeType
             mutating func setupShapes(api: API) throws {
                 switch self {
-                case .structure(let required, let members):
-                    // setup member shape
-                    var updatedMembers: [String: Member] = try members.mapValues {
-                        var member = $0;
-                        member.shape = try api.getShape(named: member.shapeName);
-                        return member
-                    }
-                    // remove deprecated members
-                    updatedMembers = updatedMembers.compactMapValues { if $0.deprecated == true { return nil }; return $0 }
-                    self = .structure(required: required, members: updatedMembers)
+                case .structure(let structure):
+                    try structure.setupShapes(api: api)
                         
-                case .list(var member, let min, let max):
-                    member.shape = try api.getShape(named: member.shapeName)
-                    self = .list(member: member, min: min, max: max)
+                case .list(var list):
+                    list.member.shape = try api.getShape(named: list.member.shapeName)
+                    self = .list(list)
                     
-                case .map(var key, var value):
-                    key.shape = try api.getShape(named: key.shapeName)
-                    value.shape = try api.getShape(named: value.shapeName)
-                    self = .map(key: key, value: value)
+                case .map(var map):
+                    map.key.shape = try api.getShape(named: map.key.shapeName)
+                    map.value.shape = try api.getShape(named: map.value.shapeName)
+                    self = .map(map)
                     
                 default:
                     break
                 }
             }
+            
+            var `enum`: EnumType? {
+                if case .enum(let type) = self { return type }
+                return nil
+            }
         }
         
         var type: ShapeType
+        var payload: String?
+        var xmlNamespace: XMLNamespace?
         var error: Error?
         var exception: Bool?
         // set after decode in postProcess stage
@@ -197,13 +250,15 @@ struct API: Decodable {
             self.usedInOutput = false
             
             let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.payload = try container.decodeIfPresent(String.self, forKey: .payload)
+            self.xmlNamespace = try container.decodeIfPresent(XMLNamespace.self, forKey: .xmlNamespace)
             self.error = try container.decodeIfPresent(Error.self, forKey: .error)
             self.exception = try container.decodeIfPresent(Bool.self, forKey: .exception)
             let type = try container.decode(String.self, forKey: .type)
             switch type {
             case "string":
                 if let enumStrings = try container.decodeIfPresent([String].self, forKey: .enum) {
-                    self.type = .enum(enumStrings)
+                    self.type = .enum(ShapeType.EnumType(cases:enumStrings))
                 } else {
                     let min = try container.decodeIfPresent(Int.self, forKey: .min)
                     let max = try container.decodeIfPresent(Int.self, forKey: .max)
@@ -217,16 +272,18 @@ struct API: Decodable {
             case "structure":
                 let required = try container.decodeIfPresent([String].self, forKey: .required)
                 let members = try container.decode([String: Member].self, forKey: .members)
-                self.type = .structure(required: required, members: members)
+                self.type = .structure(ShapeType.StructureType(required: required, members: members))
             case "list":
                 let min = try container.decodeIfPresent(Int.self, forKey: .min)
                 let max = try container.decodeIfPresent(Int.self, forKey: .max)
                 let member = try container.decode(Member.self, forKey: .member)
-                self.type = .list(member: member, min: min, max: max)
+                let flattened = try container.decodeIfPresent(Bool.self, forKey: .flattened)
+                self.type = .list(ShapeType.ListType(member: member, min: min, max: max, flattened: flattened))
             case "map":
                 let key = try container.decode(Member.self, forKey: .key)
                 let value = try container.decode(Member.self, forKey: .value)
-                self.type = .map(key: key, value: value)
+                let flattened = try container.decodeIfPresent(Bool.self, forKey: .flattened)
+                self.type = .map(ShapeType.MapType(key: key, value: value, flattened: flattened))
             case "long":
                 let min = try container.decodeIfPresent(Int64.self, forKey: .min)
                 let max = try container.decodeIfPresent(Int64.self, forKey: .max)
@@ -252,6 +309,8 @@ struct API: Decodable {
         
         private enum CodingKeys: String, CodingKey {
             case type
+            case payload
+            case xmlNamespace
             case error
             case exception
             case min
@@ -260,6 +319,7 @@ struct API: Decodable {
             case required
             case members
             case member
+            case flattened
             case key
             case value
             case `enum`
@@ -346,14 +406,14 @@ extension API {
         }
         
         switch shape.type {
-        case .list(let member, _, _):
-            try setShapeUsedIn(shape: self.getShape(named: member.shapeName), input: input, output: output)
-        case .map(let key, let value):
-            try setShapeUsedIn(shape: self.getShape(named: key.shapeName), input: input, output: output)
-            try setShapeUsedIn(shape: self.getShape(named: value.shapeName), input: input, output: output)
-        case .structure(_, let members):
-            for member in members.values {
-                try setShapeUsedIn(shape: self.getShape(named: member.shapeName), input: input, output: output)
+        case .list(let list):
+            try setShapeUsedIn(shape: list.member.shape, input: input, output: output)
+        case .map(let map):
+            try setShapeUsedIn(shape: map.key.shape, input: input, output: output)
+            try setShapeUsedIn(shape: map.value.shape, input: input, output: output)
+        case .structure(let structure):
+            for member in structure.members.values {
+                try setShapeUsedIn(shape: member.shape, input: input, output: output)
             }
         default:
             break

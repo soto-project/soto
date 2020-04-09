@@ -115,6 +115,70 @@ extension CodeGeneratorV2 {
         let tokenType: String
     }
 
+    struct EnumMemberContext {
+        let `case`: String
+        let string: String
+    }
+
+    struct EnumContext {
+        let name: String
+        let values: [EnumMemberContext]
+    }
+
+    struct MemberContext {
+        let variable : String
+        let locationPath : String
+        let parameter : String
+        let required : Bool
+        let `default` : String?
+        let type : String
+        let typeEnum : String
+        let comment : [String.SubSequence]
+        var duplicate : Bool
+    }
+
+    struct AWSShapeMemberContext {
+        let name : String
+        let location : String?
+        let locationName : String?
+        let encoding : String?
+    }
+
+    class ValidationContext {
+        let name : String
+        let shape : Bool
+        let required : Bool
+        let reqs : [String : Any]
+        let member : ValidationContext?
+        let key : ValidationContext?
+        let value : ValidationContext?
+
+        init(name: String, shape: Bool = false, required: Bool = true, reqs: [String: Any] = [:], member: ValidationContext? = nil, key: ValidationContext? = nil, value: ValidationContext? = nil) {
+            self.name = name
+            self.shape = shape
+            self.required = required
+            self.reqs = reqs
+            self.member = member
+            self.key = key
+            self.value = value
+        }
+    }
+
+    struct StructureContext {
+        let object : String
+        let name : String
+        let payload : String?
+        let namespace : String?
+        let members : [MemberContext]
+        let awsShapeMembers : [AWSShapeMemberContext]
+        let validation : [ValidationContext]
+    }
+
+    struct ResultContext {
+        let name: String
+        let type: String
+    }
+
     /// generate operations context
     func generateOperationContext(_ operation: API.Operation, name: String) -> OperationContext {
         return OperationContext(
@@ -195,8 +259,8 @@ extension CodeGeneratorV2 {
             guard let operation = api.operations[paginator.key],
                 let inputShape = try operation.input.map({ try api.getShape(named: $0.shapeName) }),
                 let outputShape = try operation.output.map({ try api.getShape(named: $0.shapeName) }),
-                case .structure(_, let inputMembers) = inputShape.type,
-                case .structure(let outputRequired, _) = outputShape.type else {
+                case .structure(let inputStructure) = inputShape.type,
+                case .structure(let outputStructure) = outputShape.type else {
                     continue
             }
 
@@ -207,7 +271,7 @@ extension CodeGeneratorV2 {
             // get input token member
             guard inputTokens.count > 0,
                 outputTokens.count > 0,
-                let inputTokenMember = inputMembers[inputTokens[0]] else {
+                let inputTokenMember = inputStructure.members[inputTokens[0]] else {
                     continue
             }
             
@@ -231,7 +295,7 @@ extension CodeGeneratorV2 {
                     }
                 }
                 // if output token is member of an optional struct add ? suffix
-                if outputRequired?.first(where: {$0 == String(split[0])}) == nil,
+                if outputStructure.required?.first(where: {$0 == String(split[0])}) == nil,
                     split.count > 1 {
                     split[0] += "?"
                 }
@@ -239,7 +303,7 @@ extension CodeGeneratorV2 {
             }
                         
             var initParams: [String: String] = [:]
-            for member in inputMembers {
+            for member in inputStructure.members {
                 initParams[member.key.toSwiftLabelCase()] = "self.\(member.key.toSwiftLabelCase())"
             }
             initParams[inputTokens[0].toSwiftLabelCase()] = "token"
@@ -261,6 +325,268 @@ extension CodeGeneratorV2 {
         return context
     }
     
+    /// Generate the context information for outputting an enum
+    func generateEnumContext(_ shape: API.Shape, values: [String]) -> EnumContext {
+
+        // Operations
+        var valueContexts: [EnumMemberContext] = []
+        for value in values {
+            var key = value.lowercased()
+                .replacingOccurrences(of: ".", with: "_")
+                .replacingOccurrences(of: ":", with: "_")
+                .replacingOccurrences(of: "-", with: "_")
+                .replacingOccurrences(of: " ", with: "_")
+                .replacingOccurrences(of: "/", with: "_")
+                .replacingOccurrences(of: "(", with: "_")
+                .replacingOccurrences(of: ")", with: "_")
+                .replacingOccurrences(of: "*", with: "all")
+
+            if Int(String(key[key.startIndex])) != nil { key = "_"+key }
+
+            var caseName = key.camelCased().reservedwordEscaped()
+            if caseName.allLetterIsNumeric() {
+                caseName = "\(shape.name.toSwiftVariableCase())\(caseName)"
+            }
+            valueContexts.append(EnumMemberContext(case: caseName, string: value))
+        }
+
+        return EnumContext(
+            name: shape.name.toSwiftClassCase().reservedwordEscaped(),
+            values: valueContexts
+        )
+    }
+
+    /// return if shape has a recursive reference (function only tests 2 levels)
+    func doesShapeHaveRecursiveOwnReference(_ shape: API.Shape, type: API.Shape.ShapeType.StructureType) -> Bool {
+        let hasRecursiveOwnReference = type.members.values.contains(where: { member in
+            // does shape have a member of same type as itself
+            if member.shape === shape {
+                return true
+            } else if case .structure(let type) = member.shape.type {
+                // test children structures as well to see if they contain a member of same type as the parent shape
+                if type.members.values.contains(where: {
+                    return $0.shape == shape
+                }) {
+                    return true
+                }
+            }
+            return false
+        })
+        
+        return hasRecursiveOwnReference
+    }
+    
+    /// Generate the context information for outputting a member variable
+    func generateMemberContext(_ member: API.Shape.Member, name: String, shape: API.Shape) -> MemberContext {
+        let defaultValue : String?
+        /*if member.options.contains(.idempotencyToken) {
+            defaultValue = "\(shape.swiftTypeName).idempotencyToken()"
+        } else*/ if !member.required {
+            defaultValue = "nil"
+        } else {
+            defaultValue = nil
+        }
+        let memberDocs = docs.shapes[member.shape.name]?.refs["\(shape.name!)$\(name)"]?.tagStriped().split(separator: "\n")
+        return MemberContext(
+            variable: name.toSwiftVariableCase(),
+            locationPath: member.locationName ?? name,
+            parameter: name.toSwiftLabelCase(),
+            required: member.required,
+            default: defaultValue,
+            type: member.shape.swiftTypeName + (member.required ? "" : "?"),
+            typeEnum: "\(member.shape.type.description)",
+            comment: memberDocs ?? [],//shapeDoc[shape.name]?[member.name]?.split(separator: "\n") ?? [],
+            duplicate: false
+        )
+    }
+    
+    /// Return encoding string for shap member
+    func getEncoding(for member: API.Shape.Member, isPayload: Bool) -> String? {
+        switch member.shape.type {
+        case .list(let list):
+            if list.flattened == true || member.flattened == true {
+                return ".flatList"
+            } else {
+                return ".list(member:\"\(list.member.locationName ?? "member")\")"
+            }
+        case .map(let map):
+            if map.flattened == true || member.flattened == true {
+                return ".flatMap(key:\"\(map.key.locationName ?? "key")\", value:\"\(map.value.locationName ?? "value")\")"
+            } else {
+                return ".map(entry:\"entry\", key: \"\(map.key.locationName ?? "key")\", value: \"\(map.value.locationName ?? "value")\")"
+            }
+        case .blob:
+            if isPayload {
+                return ".blob"
+            }
+        default:
+            break
+        }
+        return nil
+    }
+    
+    /// Generate the context information for outputting a member variable
+    func generateAWSShapeMemberContext(_ member: API.Shape.Member, name: String, shape: API.Shape, isPayload: Bool) -> AWSShapeMemberContext? {
+        var locationName: String? = member.locationName
+        let location = member.location ?? .body
+        let encoding = getEncoding(for: member, isPayload: isPayload)
+
+        if (isPayload || encoding != nil) && locationName == nil {
+            locationName = name
+        }
+        // remove location if equal to body and name is same as variable name
+        if location == .body && locationName == name.toSwiftLabelCase() && !isPayload {
+            locationName = nil
+        }
+        guard locationName != nil || encoding != nil else { return nil }
+        return AWSShapeMemberContext(
+            name: name.toSwiftLabelCase(),
+            location: location.enumStringValue,
+            locationName: locationName,
+            encoding: encoding
+        )
+    }
+
+    /// Generate validation context
+    func generateValidationContext(name: String, shape: API.Shape, required: Bool, container: Bool = false) -> ValidationContext? {
+        var requirements : [String: Any] = [:]
+        switch shape.type {
+        case .integer(let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+
+        case .long(let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+
+        case .float(let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+
+        case .double(let max, let min):
+            requirements["max"] = max
+            requirements["min"] = min
+
+        case .blob/*(let max, let min)*/:
+            //requirements["max"] = max
+            //requirements["min"] = min
+            break
+
+        case .list(let list):
+            requirements["max"] = list.max
+            requirements["min"] = list.min
+            // validation code doesn't support containers inside containers. Only service affected by this is SSM
+            if !container {
+                if let memberValidationContext = generateValidationContext(name: name, shape: list.member.shape, required: true, container: true) {
+                    return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements, member: memberValidationContext)
+                }
+            }
+        case .map(let map):
+            // validation code doesn't support containers inside containers. Only service affected by this is SSM
+            if !container {
+                let keyValidationContext = generateValidationContext(name: name, shape: map.key.shape, required: true, container: true)
+                let valueValiationContext = generateValidationContext(name: name, shape: map.value.shape, required: true, container: true)
+                if keyValidationContext != nil || valueValiationContext != nil {
+                    return ValidationContext(name: name.toSwiftVariableCase(), required: required, key: keyValidationContext, value: valueValiationContext)
+                }
+            }
+        case .string(let min, let max, let pattern):
+            requirements["max"] = max
+            requirements["min"] = min
+            if let pattern = pattern {
+                requirements["pattern"] = "\"\(pattern.addingBackslashEncoding())\""
+            }
+        case .structure(let shape):
+            for member2 in shape.members {
+                if generateValidationContext(name:member2.key, shape:member2.value.shape, required: member2.value.required) != nil {
+                    return ValidationContext(name: name.toSwiftVariableCase(), shape: true, required: required)
+                }
+            }
+        default:
+            break
+        }
+        if requirements.count > 0 {
+            return ValidationContext(name: name.toSwiftVariableCase(), reqs: requirements)
+        }
+        return nil
+    }
+
+    /// Generate the context for outputting a single AWSShape
+    func generateStructureContext(_ shape: API.Shape, type: API.Shape.ShapeType.StructureType) -> StructureContext {
+        var memberContexts : [MemberContext] = []
+        var awsShapeMemberContexts : [AWSShapeMemberContext] = []
+        var validationContexts : [ValidationContext] = []
+        var usedLocationPath : [String] = []
+        let members = type.members.map { (key:$0.key, value:$0.value)} .sorted {$0.key.lowercased() < $1.key.lowercased() }
+        for member in members {
+            var memberContext = generateMemberContext(member.value, name: member.key, shape: shape)
+
+            // check for duplicates, this seems to be mainly caused by deprecated variables
+            let locationPath = member.value.locationName ?? member.key
+            if usedLocationPath.contains(locationPath) {
+                memberContext.duplicate = true
+            } else {
+                usedLocationPath.append(locationPath)
+            }
+
+            memberContexts.append(memberContext)
+
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(member.value, name: member.key, shape: shape, isPayload: shape.payload == member.key) {
+                awsShapeMemberContexts.append(awsShapeMemberContext)
+            }
+
+            // only output validation for shapes used in inputs to service apis
+            if shape.usedInInput {
+                if let validationContext = generateValidationContext(name:member.key, shape: member.value.shape, required: member.value.required) {
+                    validationContexts.append(validationContext)
+                }
+            }
+        }
+
+        return StructureContext(
+            object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
+            name: shape.swiftTypeName,
+            payload: shape.payload?.toSwiftLabelCase(),
+            namespace: shape.xmlNamespace?.uri,
+            members: memberContexts,
+            awsShapeMembers: awsShapeMemberContexts,
+            validation: validationContexts)
+    }
+
+    /// Generate the context for outputting all the AWSShape (enums and structures)
+    func generateShapesContext() -> [String: Any] {
+        var context: [String: Any] = [:]
+        context["name"] = api.serviceName
+
+        var shapeContexts: [[String: Any]] = []
+        let shapes = api.shapes.values.sorted { $0.name < $1.name }
+        for shape in shapes {
+            if shape.usedInInput == false && shape.usedInOutput == false {
+                continue
+            }
+            // don't output error shapes
+            //if errorShapeNames.contains(shape.name) { continue }
+
+            switch shape.type {
+            case .enum(let enumType):
+                var enumContext: [String: Any] = [:]
+                enumContext["enum"] = generateEnumContext(shape, values: enumType.cases)
+                shapeContexts.append(enumContext)
+
+            case .structure(let type):
+                var structContext: [String: Any] = [:]
+                structContext["struct"] = generateStructureContext(shape, type: type)
+                shapeContexts.append(structContext)
+
+            default:
+                break
+            }
+        }
+        context["shapes"] = shapeContexts
+        return context
+    }
+
+
 }
 
 //MARK: Extensions
@@ -292,6 +618,37 @@ extension API.Metadata.ServiceProtocol {
     }
 }
 
+extension API.Shape.ShapeType {
+    var description: String {
+        switch self {
+        case .structure:
+            return "structure"
+        case .list:
+            return "list"
+        case .map:
+            return "map"
+        case .enum:
+            return "enum"
+        case .boolean:
+            return "boolean"
+        case .blob:
+            return "blob"
+        case .double:
+            return "double"
+        case .float:
+            return "float"
+        case .long:
+            return "long"
+        case .integer:
+            return "integer"
+        case .string:
+            return "string"
+        case .timestamp:
+            return "timestamp"
+        }
+    }
+}
+
 extension API.Shape {
     public var swiftTypeName: String {
         switch self.type {
@@ -299,14 +656,14 @@ extension API.Shape {
             return "String"
         case .integer(_, _):
             return "Int"
-        case .structure(_, _):
+        case .structure(_):
             return name.toSwiftClassCase()
         case .boolean:
             return "Bool"
-        case .list(let member,_,_):
-            return "[\(member.shape.swiftTypeName)]"
-        case .map(key: let key, value: let value):
-            return "[\(key.shape.swiftTypeName): \(value.shape.swiftTypeName)]"
+        case .list(let list):
+            return "[\(list.member.shape.swiftTypeName)]"
+        case .map(let map):
+            return "[\(map.key.shape.swiftTypeName): \(map.value.shape.swiftTypeName)]"
         case .long(_, _):
             return "Int64"
         case .double(_, _):
@@ -325,14 +682,14 @@ extension API.Shape {
     /// return swift type name that would compile when referenced outside of service class. You need to prefix all shapes defined in the service class with the service name
     public func swiftTypeNameWithServiceNamePrefix(_ serviceName: String) -> String {
         switch self.type {
-        case .structure(_,_), .enum(_):
+        case .structure(_), .enum(_):
             return "\(serviceName).\(name.toSwiftClassCase())"
             
-        case .list(let member,_,_):
-            return "[\(member.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
+        case .list(let list):
+            return "[\(list.member.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
             
-        case .map(key: let key, value: let value):
-            return "[\(key.shape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(value.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
+        case .map(let map):
+            return "[\(map.key.shape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(map.value.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
             
         default:
             return self.swiftTypeName
@@ -340,3 +697,19 @@ extension API.Shape {
     }
 }
 
+extension API.Shape.Location {
+    var enumStringValue: String {
+        switch self {
+        case .header, .headers:
+            return ".header"
+        case .querystring:
+            return ".querystring"
+        case .uri:
+            return ".uri"
+        case .body:
+            return ".body"
+        default:
+            return ".body"
+        }
+    }
+}

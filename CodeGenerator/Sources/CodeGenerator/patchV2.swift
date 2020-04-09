@@ -94,11 +94,26 @@ extension API {
         ],
         "ElasticLoadBalancing" : [
             ReplacePatch(keyPath: \.serviceName, value:"ELB", originalValue:"ElasticLoadBalancing"),
-            ReplacePatch2(keyPath1: \.shapes["SecurityGroupOwnerAlias"], keyPath2: \.type, value: API.Shape.ShapeType.integer(), originalValue: API.Shape.ShapeType.string())
+            ReplacePatch2(keyPath1: \.shapes["SecurityGroupOwnerAlias"], keyPath2: \.type, value: .integer(), originalValue: .string())
         ],
         "ElasticLoadBalancingv2" : [
             ReplacePatch(keyPath: \.serviceName, value:"ELBV2", originalValue:"ElasticLoadBalancingv2")
-        ]
+        ],
+        "S3": [
+            ReplacePatch3(keyPath1: \.shapes["ReplicationStatus"], keyPath2: \.type.enum, keyPath3: \.cases[0], value: "COMPLETED", originalValue: "COMPLETE"),
+            ReplacePatch2(keyPath1: \.shapes["Size"], keyPath2: \.type, value: .long(), originalValue: .integer()),
+            // Add additional location constraints
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "us-east-2"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-west-2"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-west-3"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-north-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ap-east-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ap-northeast-2"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ap-northeast-3"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ca-central-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "cn-northwest-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "me-south-1")
+        ],
     ]
 
     // structure defining a model patch
@@ -144,6 +159,30 @@ extension API {
                 throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(object2[keyPath: keyPath3])")
             }
             object2[keyPath: keyPath3] = value
+        }
+    }
+    
+    struct AddPatch2<T: Patchable, U>: PatchV2 {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: WritableKeyPath<T, Array<U>>
+        let value : U
+
+        func apply(to api: inout API) throws {
+            guard var object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            object1[keyPath: keyPath2].append(value)
+        }
+    }
+    
+    struct AddPatch3<T: Patchable, U: Patchable, V>: PatchV2 {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: KeyPath<T, U?>
+        let keyPath3: WritableKeyPath<U, Array<V>>
+        let value : V
+
+        func apply(to api: inout API) throws {
+            guard let object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard var object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
+            object2[keyPath: keyPath3].append(value)
         }
     }
 
