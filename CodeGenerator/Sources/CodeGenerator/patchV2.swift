@@ -75,6 +75,7 @@
 ]*/
 
 enum APIPatchError: Error {
+    case doesNotExist
     case unexpectedValue(expected: String, got: String)
 }
 
@@ -82,16 +83,22 @@ protocol PatchV2 {
     func apply(to api: inout API) throws
 }
 
+protocol Patchable: class {}
+
 extension API {
     static let servicePatches: [String: [PatchV2]] = [
+        "CloudWatch" : [
+            // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
+            ReplacePatch2(keyPath1: \.operations["GetDashboard"], keyPath2: \.errors[1].shapeName, value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
+            ReplacePatch2(keyPath1: \.operations["DeleteDashboards"], keyPath2: \.errors[1].shapeName, value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError")
+        ],
         "ElasticLoadBalancing" : [
             ReplacePatch(keyPath: \.serviceName, value:"ELB", originalValue:"ElasticLoadBalancing"),
-            //ReplacePatch(keyPath: \.shapes.SecurityGroupOwnerAlias.shapeType, value: API.Shape.ShapeType.integer, originalValue: API.Shape.ShapeType.string)
-            //.init(.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
+            ReplacePatch2(keyPath1: \.shapes["SecurityGroupOwnerAlias"], keyPath2: \.type, value: API.Shape.ShapeType.integer(), originalValue: API.Shape.ShapeType.string())
         ],
         "ElasticLoadBalancingv2" : [
             ReplacePatch(keyPath: \.serviceName, value:"ELBV2", originalValue:"ElasticLoadBalancingv2")
-        ],
+        ]
     ]
 
     // structure defining a model patch
@@ -101,10 +108,42 @@ extension API {
         let originalValue : T
 
         func apply(to api: inout API) throws {
-            guard api[keyPath: keyPath] == originalValue else {
-                throw APIPatchError.unexpectedValue(expected: "\(originalValue)", got: "\(api[keyPath: keyPath])")
+            guard api[keyPath: keyPath] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(api[keyPath: keyPath])")
             }
             api[keyPath: keyPath] = value
+        }
+    }
+    
+    struct ReplacePatch2<T: Patchable, U: Equatable>: PatchV2 {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: WritableKeyPath<T, U>
+        let value : U
+        let originalValue : U
+
+        func apply(to api: inout API) throws {
+            guard var object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard object1[keyPath: keyPath2] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(object1[keyPath: keyPath2])")
+            }
+            object1[keyPath: keyPath2] = value
+        }
+    }
+    
+    struct ReplacePatch3<T: Patchable, U: Patchable, V: Equatable>: PatchV2 {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: KeyPath<T, U?>
+        let keyPath3: WritableKeyPath<U, V>
+        let value : V
+        let originalValue : V
+
+        func apply(to api: inout API) throws {
+            guard let object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard var object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
+            guard object2[keyPath: keyPath3] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(object2[keyPath: keyPath3])")
+            }
+            object2[keyPath: keyPath3] = value
         }
     }
 
@@ -115,5 +154,37 @@ extension API {
         for patch in patches {
             try patch.apply(to: &self)
         }
+    }
+}
+
+extension API.Shape.ShapeType: Equatable {
+    static func == (lhs: API.Shape.ShapeType, rhs: API.Shape.ShapeType) -> Bool {
+        switch lhs {
+        case .string:
+            if case .string = rhs { return true}
+        case .integer:
+            if case .integer = rhs { return true}
+        case .structure:
+            if case .structure = rhs { return true}
+        case .list:
+            if case .list = rhs { return true}
+        case .map:
+            if case .map = rhs { return true}
+        case .blob:
+            if case .blob = rhs { return true}
+        case .long:
+            if case .long = rhs { return true}
+        case .double:
+            if case .double = rhs { return true}
+        case .float:
+            if case .float = rhs { return true}
+        case .timestamp:
+            if case .timestamp = rhs { return true}
+        case .boolean:
+            if case .boolean = rhs { return true}
+        case .enum:
+            if case .enum = rhs { return true}
+        }
+        return false
     }
 }

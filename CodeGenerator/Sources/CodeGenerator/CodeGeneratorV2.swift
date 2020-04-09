@@ -33,10 +33,8 @@ struct CodeGeneratorV2 {
     static func getErrors(from api: API) throws -> [API.Shape] {
         var errorsSet: Set<API.Shape> = []
         for operation in api.operations.values {
-            if let errors = operation.errors {
-                for error in errors {
-                    try errorsSet.insert(api.getShape(named: error.shapeName))
-                }
+            for error in operation.errors {
+                try errorsSet.insert(api.getShape(named: error.shapeName))
             }
         }
         return errorsSet.map { $0 }
