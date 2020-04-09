@@ -150,10 +150,10 @@ struct API: Decodable {
 
         enum ShapeType {
             class StructureType: Patchable {
-                var required: [String]?
+                var required: [String]
                 var members: [String: Member]
                 init(required: [String]? = nil, members: [String : Member]) {
-                    self.required = required
+                    self.required = required ?? []
                     self.members = members
                 }
                 
@@ -168,10 +168,8 @@ struct API: Decodable {
                         }
                         return member
                     }
-                    if let required = self.required {
-                        for require in required {
-                            updatedMembers[require]?.required = true
-                        }
+                    for require in required {
+                        updatedMembers[require]?.required = true
                     }
                     // remove deprecated members
                     members = updatedMembers.compactMapValues { if $0.deprecated == true { return nil }; return $0 }
@@ -233,6 +231,11 @@ struct API: Decodable {
             
             var `enum`: EnumType? {
                 if case .enum(let type) = self { return type }
+                return nil
+            }
+            
+            var structure: StructureType? {
+                if case .structure(let type) = self { return type }
                 return nil
             }
         }
@@ -380,6 +383,9 @@ struct API: Decodable {
 
 extension API {
     mutating func postProcess() throws {
+        
+        try patch()
+
         // post setup of Shape pointers
         for shape in shapes {
             shape.value.name = shape.key
@@ -389,14 +395,16 @@ extension API {
         // set where shapes are used
         for operation in operations.values {
             if let input = operation.input {
-                try setShapeUsedIn(shape: getShape(named: input.shapeName), input: true, output: false)
+                let inputShape = try getShape(named: input.shapeName)
+                if let xmlNamespace = input.xmlNamespace {
+                    inputShape.xmlNamespace = xmlNamespace
+                }
+                try setShapeUsedIn(shape: inputShape, input: true, output: false)
             }
             if let output = operation.output {
                 try setShapeUsedIn(shape: getShape(named: output.shapeName), input: false, output: true)
             }
         }
-        
-        try patch()
     }
 
     mutating func setShapeUsedIn(shape: Shape, input: Bool, output: Bool) throws {

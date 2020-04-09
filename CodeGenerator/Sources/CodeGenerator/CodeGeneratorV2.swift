@@ -295,7 +295,7 @@ extension CodeGeneratorV2 {
                     }
                 }
                 // if output token is member of an optional struct add ? suffix
-                if outputStructure.required?.first(where: {$0 == String(split[0])}) == nil,
+                if outputStructure.required.first(where: {$0 == String(split[0])}) == nil,
                     split.count > 1 {
                     split[0] += "?"
                 }
@@ -396,16 +396,19 @@ extension CodeGeneratorV2 {
         } else {
             defaultValue = nil
         }
-        let memberDocs = docs.shapes[member.shape.name]?.refs["\(shape.name!)$\(name)"]?.tagStriped().split(separator: "\n")
+        var memberDocs = docs.shapes[member.shape.name]?.refs["\(shape.name!)$\(name)"]?.tagStriped().split(separator: "\n")
+        if memberDocs == nil {
+            memberDocs = docs.shapes[shape.name]?.refs["\(shape.name!)$\(name)"]?.tagStriped().split(separator: "\n")
+        }
         return MemberContext(
             variable: name.toSwiftVariableCase(),
-            locationPath: member.locationName ?? name,
+            locationPath: member.getLocationName() ?? name,
             parameter: name.toSwiftLabelCase(),
             required: member.required,
             default: defaultValue,
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
             typeEnum: "\(member.shape.type.description)",
-            comment: memberDocs ?? [],//shapeDoc[shape.name]?[member.name]?.split(separator: "\n") ?? [],
+            comment: memberDocs ?? [],
             duplicate: false
         )
     }
@@ -427,7 +430,7 @@ extension CodeGeneratorV2 {
             }
         case .map(let map):
             if map.flattened == true || member.flattened == true {
-                return ".flatMap(key:\"\(map.key.locationName ?? "key")\", value:\"\(map.value.locationName ?? "value")\")"
+                return ".flatMap(key: \"\(map.key.locationName ?? "key")\", value: \"\(map.value.locationName ?? "value")\")"
             } else {
                 return ".map(entry:\"entry\", key: \"\(map.key.locationName ?? "key")\", value: \"\(map.value.locationName ?? "value")\")"
             }
@@ -439,9 +442,9 @@ extension CodeGeneratorV2 {
     
     /// Generate the context information for outputting a member variable
     func generateAWSShapeMemberContext(_ member: API.Shape.Member, name: String, shape: API.Shape, isPayload: Bool) -> AWSShapeMemberContext? {
-        var locationName: String? = member.locationName
-        let location = member.location ?? .body
         let encoding = getEncoding(for: member, isPayload: isPayload)
+        var locationName: String? = member.getLocationName()
+        let location = member.location ?? .body
 
         if (isPayload || encoding != nil) && locationName == nil {
             locationName = name
@@ -726,5 +729,15 @@ extension API.Shape.Location {
         default:
             return ".body"
         }
+    }
+}
+
+extension API.Shape.Member {
+    /// flattemed lists can pass their member locationName up to the instance of list
+    func getLocationName() -> String? {
+        if case .list(let list) = self.shape.type, list.flattened == true, let locationNameInList = list.member.locationName {
+            return locationNameInList
+        }
+        return locationName
     }
 }
