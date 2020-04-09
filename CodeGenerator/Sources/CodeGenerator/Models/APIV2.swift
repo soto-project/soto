@@ -126,6 +126,7 @@ struct API: Decodable {
             var deprecated: Bool?
             var xmlNamespace: XMLNamespace?
             var flattened: Bool?
+            var idempotencyToken: Bool?
             // set after decode in postProcess stage
             var required: Bool = false
             var shape: Shape!
@@ -137,6 +138,7 @@ struct API: Decodable {
                 case deprecated
                 case xmlNamespace
                 case flattened
+                case idempotencyToken
             }
         }
 
@@ -199,7 +201,7 @@ struct API: Decodable {
             case string(min: Int? = nil, max: Int? = nil, pattern: String? = nil)
             case integer(min: Int? = nil, max: Int? = nil)
             case structure(StructureType)
-            case blob
+            case blob(min: Int? = nil, max: Int? = nil)
             case list(ListType)
             case map(MapType)
             case long(min: Int64? = nil, max: Int64? = nil)
@@ -297,7 +299,9 @@ struct API: Decodable {
                 let max = try container.decodeIfPresent(Float.self, forKey: .max)
                 self.type = .float(min: min, max: max)
             case "blob":
-                self.type = .blob
+                let min = try container.decodeIfPresent(Int.self, forKey: .min)
+                let max = try container.decodeIfPresent(Int.self, forKey: .max)
+                self.type = .blob(min: min, max: max)
             case "boolean":
                 self.type = .boolean
             case "timestamp":

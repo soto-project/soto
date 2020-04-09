@@ -362,15 +362,25 @@ extension CodeGeneratorV2 {
             // does shape have a member of same type as itself
             if member.shape === shape {
                 return true
-            } else if case .structure(let type) = member.shape.type {
-                // test children structures as well to see if they contain a member of same type as the parent shape
-                if type.members.values.contains(where: {
-                    return $0.shape == shape
-                }) {
-                    return true
+            } else {
+                switch member.shape.type {
+                case .list(let list):
+                    if list.member.shape === shape {
+                        return true
+                    }
+                    
+                case .structure(let type):
+                    // test children structures as well to see if they contain a member of same type as the parent shape
+                    if type.members.values.contains(where: {
+                        return $0.shape === shape
+                    }) {
+                        return true
+                    }
+                default:
+                    break
                 }
+                return false
             }
-            return false
         })
         
         return hasRecursiveOwnReference
@@ -379,9 +389,9 @@ extension CodeGeneratorV2 {
     /// Generate the context information for outputting a member variable
     func generateMemberContext(_ member: API.Shape.Member, name: String, shape: API.Shape) -> MemberContext {
         let defaultValue : String?
-        /*if member.options.contains(.idempotencyToken) {
+        if member.idempotencyToken == true {
             defaultValue = "\(shape.swiftTypeName).idempotencyToken()"
-        } else*/ if !member.required {
+        } else if !member.required {
             defaultValue = "nil"
         } else {
             defaultValue = nil
@@ -402,6 +412,12 @@ extension CodeGeneratorV2 {
     
     /// Return encoding string for shap member
     func getEncoding(for member: API.Shape.Member, isPayload: Bool) -> String? {
+        if case .blob(_, _) = member.shape.type, isPayload {
+            return ".blob"
+        }
+        
+        guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
+        
         switch member.shape.type {
         case .list(let list):
             if list.flattened == true || member.flattened == true {
@@ -414,10 +430,6 @@ extension CodeGeneratorV2 {
                 return ".flatMap(key:\"\(map.key.locationName ?? "key")\", value:\"\(map.value.locationName ?? "value")\")"
             } else {
                 return ".map(entry:\"entry\", key: \"\(map.key.locationName ?? "key")\", value: \"\(map.value.locationName ?? "value")\")"
-            }
-        case .blob:
-            if isPayload {
-                return ".blob"
             }
         default:
             break
@@ -435,7 +447,7 @@ extension CodeGeneratorV2 {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
-        if location == .body && locationName == name.toSwiftLabelCase() && !isPayload {
+        if location == .body && locationName == name.toSwiftLabelCase() {
             locationName = nil
         }
         guard locationName != nil || encoding != nil else { return nil }
@@ -448,28 +460,28 @@ extension CodeGeneratorV2 {
     }
 
     /// Generate validation context
-    func generateValidationContext(name: String, shape: API.Shape, required: Bool, container: Bool = false) -> ValidationContext? {
+    func generateValidationContext(name: String, shape: API.Shape, required: Bool, container: Bool = false, alreadyProcessed: Set<String> = []) -> ValidationContext? {
         var requirements : [String: Any] = [:]
         switch shape.type {
-        case .integer(let max, let min):
+        case .integer(let min, let max):
             requirements["max"] = max
             requirements["min"] = min
 
-        case .long(let max, let min):
+        case .long(let min, let max):
             requirements["max"] = max
             requirements["min"] = min
 
-        case .float(let max, let min):
+        case .float(let min, let max):
+            requirements["max"] = max.map{ Int($0) }
+            requirements["min"] = min.map{ Int($0) }
+
+        case .double(let min, let max):
+            requirements["max"] = max.map{ Int($0) }
+            requirements["min"] = min.map{ Int($0) }
+
+        case .blob(let min, let max):
             requirements["max"] = max
             requirements["min"] = min
-
-        case .double(let max, let min):
-            requirements["max"] = max
-            requirements["min"] = min
-
-        case .blob/*(let max, let min)*/:
-            //requirements["max"] = max
-            //requirements["min"] = min
             break
 
         case .list(let list):
@@ -477,15 +489,15 @@ extension CodeGeneratorV2 {
             requirements["min"] = list.min
             // validation code doesn't support containers inside containers. Only service affected by this is SSM
             if !container {
-                if let memberValidationContext = generateValidationContext(name: name, shape: list.member.shape, required: true, container: true) {
+                if let memberValidationContext = generateValidationContext(name: name, shape: list.member.shape, required: true, container: true, alreadyProcessed: alreadyProcessed) {
                     return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements, member: memberValidationContext)
                 }
             }
         case .map(let map):
             // validation code doesn't support containers inside containers. Only service affected by this is SSM
             if !container {
-                let keyValidationContext = generateValidationContext(name: name, shape: map.key.shape, required: true, container: true)
-                let valueValiationContext = generateValidationContext(name: name, shape: map.value.shape, required: true, container: true)
+                let keyValidationContext = generateValidationContext(name: name, shape: map.key.shape, required: true, container: true, alreadyProcessed: alreadyProcessed)
+                let valueValiationContext = generateValidationContext(name: name, shape: map.value.shape, required: true, container: true, alreadyProcessed: alreadyProcessed)
                 if keyValidationContext != nil || valueValiationContext != nil {
                     return ValidationContext(name: name.toSwiftVariableCase(), required: required, key: keyValidationContext, value: valueValiationContext)
                 }
@@ -496,9 +508,12 @@ extension CodeGeneratorV2 {
             if let pattern = pattern {
                 requirements["pattern"] = "\"\(pattern.addingBackslashEncoding())\""
             }
-        case .structure(let shape):
-            for member2 in shape.members {
-                if generateValidationContext(name:member2.key, shape:member2.value.shape, required: member2.value.required) != nil {
+        case .structure(let structure):
+            guard !alreadyProcessed.contains(shape.name) else { return nil }
+            var alreadyProcessed = alreadyProcessed
+            alreadyProcessed.insert(shape.name)
+            for member2 in structure.members {
+                if generateValidationContext(name:member2.key, shape:member2.value.shape, required: member2.value.required, container: false, alreadyProcessed: alreadyProcessed) != nil {
                     return ValidationContext(name: name.toSwiftVariableCase(), shape: true, required: required)
                 }
             }
