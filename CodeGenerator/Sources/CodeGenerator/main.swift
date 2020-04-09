@@ -186,11 +186,24 @@ class CodeGenerator {
         // load JSON
         let endpoints = try loadEndpointJSONV2()
         let models = try loadModelJSONV2()
-        
-        try models.forEach { model in
-            let codeGenerator = try CodeGeneratorV2(api: model.api, docs: model.docs, paginators: model.paginators, endpoints: endpoints)
-            try generateFiles(with: codeGenerator)
+        let group = DispatchGroup()
+
+        models.forEach { model in
+            group.enter()
+            
+            DispatchQueue.global().async {
+                defer { group.leave() }
+                do {
+                    let codeGenerator = try CodeGeneratorV2(api: model.api, docs: model.docs, paginators: model.paginators, endpoints: endpoints)
+                    try self.generateFiles(with: codeGenerator)
+                } catch {
+                    print("\(error)")
+                    exit(1)
+                }
+            }
         }
+        
+        group.wait()
     }
 }
 
