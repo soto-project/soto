@@ -37,8 +37,6 @@ jobs:
     services:
       localstack:
         image: localstack/localstack
-        # ports:
-        # - 4567-4597:4567-4597
         env:
           SERVICES: 'apigateway,dynamodb,iam,s3,sns,sqs,ssm'
         options: >-
@@ -49,9 +47,6 @@ jobs:
           --workdir /opt/code/localstack/
     container:
       image: ${{ matrix.image }}
-      volumes:
-      - $GITHUB_WORKSPACE:/src
-      options: --workdir /src
       env:
         APIGATEWAY_ENDPOINT : "http://localstack:4567"
         DYNAMODB_ENDPOINT   : "http://localstack:4569"

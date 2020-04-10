@@ -60,7 +60,7 @@ public struct TranscribeStreamingService {
     //MARK: API Calls
 
     ///  Starts a bidirectional HTTP2 stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following are encoded as HTTP2 headers:   x-amzn-transcribe-language-code   x-amzn-transcribe-media-encoding   x-amzn-transcribe-sample-rate   x-amzn-transcribe-session-id  
-    @discardableResult public func startStreamTranscription() -> EventLoopFuture<Void> {
-        return client.send(operation: "StartStreamTranscription", path: "/stream-transcription", httpMethod: "POST")
+    public func startStreamTranscription(_ input: StartStreamTranscriptionRequest) -> EventLoopFuture<StartStreamTranscriptionResponse> {
+        return client.send(operation: "StartStreamTranscription", path: "/stream-transcription", httpMethod: "POST", input: input)
     }
 }

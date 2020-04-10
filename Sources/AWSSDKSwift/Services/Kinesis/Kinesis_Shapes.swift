@@ -651,6 +651,103 @@ extension Kinesis {
         }
     }
 
+    public struct InternalFailureException: AWSDecodableShape {
+
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct KMSAccessDeniedException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct KMSDisabledException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct KMSInvalidStateException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct KMSNotFoundException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct KMSOptInRequired: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct KMSThrottlingException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ListShardsInput: AWSEncodableShape {
 
         /// Specify this parameter to indicate that you want to list the shards starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior is for ListShards to list the shards starting with the first one in the stream. You cannot specify this parameter if you specify NextToken.
@@ -1166,6 +1263,34 @@ extension Kinesis {
         }
     }
 
+    public struct ResourceInUseException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSDecodableShape {
+
+        /// A message that provides information about the error.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct SequenceNumberRange: AWSDecodableShape {
 
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
@@ -1429,6 +1554,67 @@ extension Kinesis {
         }
     }
 
+    public struct SubscribeToShardEvent: AWSDecodableShape {
+
+        /// Use this as StartingSequenceNumber in the next call to SubscribeToShard.
+        public let continuationSequenceNumber: String
+        /// The number of milliseconds the read records are from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
+        public let millisBehindLatest: Int64
+        public let records: [Record]
+
+        public init(continuationSequenceNumber: String, millisBehindLatest: Int64, records: [Record]) {
+            self.continuationSequenceNumber = continuationSequenceNumber
+            self.millisBehindLatest = millisBehindLatest
+            self.records = records
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuationSequenceNumber = "ContinuationSequenceNumber"
+            case millisBehindLatest = "MillisBehindLatest"
+            case records = "Records"
+        }
+    }
+
+    public struct SubscribeToShardEventStream: AWSDecodableShape {
+
+        public let internalFailureException: InternalFailureException?
+        public let kMSAccessDeniedException: KMSAccessDeniedException?
+        public let kMSDisabledException: KMSDisabledException?
+        public let kMSInvalidStateException: KMSInvalidStateException?
+        public let kMSNotFoundException: KMSNotFoundException?
+        public let kMSOptInRequired: KMSOptInRequired?
+        public let kMSThrottlingException: KMSThrottlingException?
+        public let resourceInUseException: ResourceInUseException?
+        public let resourceNotFoundException: ResourceNotFoundException?
+        public let subscribeToShardEvent: SubscribeToShardEvent
+
+        public init(internalFailureException: InternalFailureException? = nil, kMSAccessDeniedException: KMSAccessDeniedException? = nil, kMSDisabledException: KMSDisabledException? = nil, kMSInvalidStateException: KMSInvalidStateException? = nil, kMSNotFoundException: KMSNotFoundException? = nil, kMSOptInRequired: KMSOptInRequired? = nil, kMSThrottlingException: KMSThrottlingException? = nil, resourceInUseException: ResourceInUseException? = nil, resourceNotFoundException: ResourceNotFoundException? = nil, subscribeToShardEvent: SubscribeToShardEvent) {
+            self.internalFailureException = internalFailureException
+            self.kMSAccessDeniedException = kMSAccessDeniedException
+            self.kMSDisabledException = kMSDisabledException
+            self.kMSInvalidStateException = kMSInvalidStateException
+            self.kMSNotFoundException = kMSNotFoundException
+            self.kMSOptInRequired = kMSOptInRequired
+            self.kMSThrottlingException = kMSThrottlingException
+            self.resourceInUseException = resourceInUseException
+            self.resourceNotFoundException = resourceNotFoundException
+            self.subscribeToShardEvent = subscribeToShardEvent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case internalFailureException = "InternalFailureException"
+            case kMSAccessDeniedException = "KMSAccessDeniedException"
+            case kMSDisabledException = "KMSDisabledException"
+            case kMSInvalidStateException = "KMSInvalidStateException"
+            case kMSNotFoundException = "KMSNotFoundException"
+            case kMSOptInRequired = "KMSOptInRequired"
+            case kMSThrottlingException = "KMSThrottlingException"
+            case resourceInUseException = "ResourceInUseException"
+            case resourceNotFoundException = "ResourceNotFoundException"
+            case subscribeToShardEvent = "SubscribeToShardEvent"
+        }
+    }
+
     public struct SubscribeToShardInput: AWSEncodableShape {
 
         /// For this parameter, use the value you obtained when you called RegisterStreamConsumer.
@@ -1457,6 +1643,20 @@ extension Kinesis {
             case consumerARN = "ConsumerARN"
             case shardId = "ShardId"
             case startingPosition = "StartingPosition"
+        }
+    }
+
+    public struct SubscribeToShardOutput: AWSDecodableShape {
+
+        /// The event stream that your consumer can use to read records from the shard.
+        public let eventStream: SubscribeToShardEventStream
+
+        public init(eventStream: SubscribeToShardEventStream) {
+            self.eventStream = eventStream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventStream = "EventStream"
         }
     }
 

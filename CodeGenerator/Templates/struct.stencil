@@ -11,7 +11,7 @@
 {%if struct.awsShapeMembers.count > 0%}
         public static var _encoding = [
 {%for member in struct.awsShapeMembers %}
-            AWSMemberEncoding(label: "{{member.name}}"{%if member.location %}, location: {{member.location}}{%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
+            AWSMemberEncoding(label: "{{member.name}}"{%if member.locationName %}, location: {{member.location}}(locationName: "{{member.locationName}}"){%endif %}{%if member.encoding %}, encoding: {{member.encoding}}{%endif %}){%if not forloop.last %}, {%endif +%}
 {%endfor %}
         ]
 {%endif %}
