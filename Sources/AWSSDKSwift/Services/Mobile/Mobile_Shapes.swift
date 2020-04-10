@@ -94,9 +94,7 @@ extension Mobile {
             self.snapshotId = snapshotId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contents = "contents"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateProjectResult: AWSDecodableShape {
@@ -451,9 +449,7 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contents = "contents"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateProjectResult: AWSDecodableShape {

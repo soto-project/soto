@@ -71,9 +71,7 @@ extension SageMakerRuntime {
             try validate(self.targetModel, name:"targetModel", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvokeEndpointOutput: AWSDecodableShape & AWSShapeWithPayload {

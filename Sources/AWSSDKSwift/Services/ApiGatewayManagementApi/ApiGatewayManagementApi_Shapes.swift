@@ -107,8 +107,6 @@ extension ApiGatewayManagementApi {
             try validate(self.data, name:"data", parent: name, max: 131072)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case data = "Data"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 }

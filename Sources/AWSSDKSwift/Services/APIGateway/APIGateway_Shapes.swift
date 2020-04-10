@@ -2969,9 +2969,7 @@ extension APIGateway {
             self.format = format
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ImportDocumentationPartsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -3000,9 +2998,7 @@ extension APIGateway {
             self.restApiId = restApiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ImportRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -3027,9 +3023,7 @@ extension APIGateway {
             self.parameters = parameters
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Integration: AWSDecodableShape {
@@ -3635,9 +3629,7 @@ extension APIGateway {
             self.restApiId = restApiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct QuotaSettings: AWSEncodableShape & AWSDecodableShape {

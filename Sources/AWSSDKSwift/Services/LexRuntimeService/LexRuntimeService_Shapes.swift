@@ -368,9 +368,7 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputStream = "inputStream"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PostContentResponse: AWSDecodableShape & AWSShapeWithPayload {

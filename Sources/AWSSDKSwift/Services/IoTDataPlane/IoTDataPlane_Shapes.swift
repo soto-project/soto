@@ -129,9 +129,7 @@ extension IoTDataPlane {
             try validate(self.qos, name:"qos", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -158,9 +156,7 @@ extension IoTDataPlane {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {

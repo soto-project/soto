@@ -408,9 +408,7 @@ extension CloudSearchDomain {
             self.documents = documents
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case documents = "documents"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadDocumentsResponse: AWSDecodableShape {

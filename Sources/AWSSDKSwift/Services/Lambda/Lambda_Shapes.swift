@@ -1647,9 +1647,7 @@ extension Lambda {
             try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvocationResponse: AWSDecodableShape & AWSShapeWithPayload {
@@ -1714,9 +1712,7 @@ extension Lambda {
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case invokeArgs = "InvokeArgs"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvokeAsyncResponse: AWSDecodableShape {

@@ -418,13 +418,17 @@ extension AWSService {
 
     /// Generate the context information for outputting a member variable
     func generateCodingKeyContext(_ member: Shape.Member, name: String, shape: Shape) -> CodingKeysContext? {
-        switch member.location {
-        case .header, .headers, .querystring, .uri:
-            if !shape.usedInOutput {
+        if !shape.usedInOutput {
+            switch member.location {
+            case .header, .headers, .querystring, .uri:
+                return nil
+            default:
+                break
+            }
+            // ensure payload objects aren't added to the codingkeys
+            if case .payload = member.shape.type {
                 return nil
             }
-        default:
-            break
         }
         return CodingKeysContext(
             variable: name.toSwiftVariableCase(),

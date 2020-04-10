@@ -329,9 +329,7 @@ extension MediaStoreData {
             try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectResponse: AWSDecodableShape {

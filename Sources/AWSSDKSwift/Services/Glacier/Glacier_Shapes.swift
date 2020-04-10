@@ -1741,9 +1741,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadListElement: AWSDecodableShape {
@@ -1810,9 +1808,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadMultipartPartOutput: AWSDecodableShape {

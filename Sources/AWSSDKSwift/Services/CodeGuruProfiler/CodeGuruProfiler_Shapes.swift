@@ -465,9 +465,7 @@ extension CodeGuruProfiler {
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case agentProfile = "agentProfile"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PostAgentProfileResponse: AWSDecodableShape {

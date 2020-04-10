@@ -6244,9 +6244,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectRetentionOutput: AWSDecodableShape {
@@ -7608,9 +7606,7 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct VersioningConfiguration: AWSEncodableShape {
