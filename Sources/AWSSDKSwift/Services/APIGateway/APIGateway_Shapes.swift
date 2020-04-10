@@ -2304,6 +2304,7 @@ extension APIGateway {
         public static var _encoding = [
             AWSMemberEncoding(label: "accepts", location: .header(locationName: "Accept")), 
             AWSMemberEncoding(label: "exportType", location: .uri(locationName: "export_type")), 
+            AWSMemberEncoding(label: "parameters", location: .querystring(locationName: "parameters")), 
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
         ]
@@ -2327,9 +2328,7 @@ extension APIGateway {
             self.stageName = stageName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "parameters"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGatewayResponseRequest: AWSEncodableShape {
@@ -2675,6 +2674,7 @@ extension APIGateway {
 
     public struct GetSdkRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "parameters", location: .querystring(locationName: "parameters")), 
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id")), 
             AWSMemberEncoding(label: "sdkType", location: .uri(locationName: "sdk_type")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stage_name"))
@@ -2696,9 +2696,7 @@ extension APIGateway {
             self.stageName = stageName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "parameters"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSdkTypeRequest: AWSEncodableShape {
@@ -3012,7 +3010,8 @@ extension APIGateway {
         public static let payloadPath: String? = "body"
         public static var _encoding = [
             AWSMemberEncoding(label: "body", encoding: .blob), 
-            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings"))
+            AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
+            AWSMemberEncoding(label: "parameters", location: .querystring(locationName: "parameters"))
         ]
 
         /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
@@ -3030,7 +3029,6 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case body = "body"
-            case parameters = "parameters"
         }
     }
 
@@ -3614,6 +3612,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failonwarnings")), 
             AWSMemberEncoding(label: "mode", location: .querystring(locationName: "mode")), 
+            AWSMemberEncoding(label: "parameters", location: .querystring(locationName: "parameters")), 
             AWSMemberEncoding(label: "restApiId", location: .uri(locationName: "restapi_id"))
         ]
 
@@ -3638,7 +3637,6 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case body = "body"
-            case parameters = "parameters"
         }
     }
 
