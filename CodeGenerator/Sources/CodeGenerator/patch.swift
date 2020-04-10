@@ -204,6 +204,8 @@ extension Shape.ShapeType: Equatable {
             if case .map = rhs { return true}
         case .blob:
             if case .blob = rhs { return true}
+        case .payload:
+            if case .payload = rhs { return true}
         case .long:
             if case .long = rhs { return true}
         case .double:

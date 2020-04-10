@@ -59,6 +59,7 @@ extension SageMakerRuntime {
         public func validate(name: String) throws {
             try validate(self.accept, name:"accept", parent: name, max: 1024)
             try validate(self.accept, name:"accept", parent: name, pattern: "\\p{ASCII}*")
+            try validate(self.body, name:"body", parent: name, max: 5242880)
             try validate(self.contentType, name:"contentType", parent: name, max: 1024)
             try validate(self.contentType, name:"contentType", parent: name, pattern: "\\p{ASCII}*")
             try validate(self.customAttributes, name:"customAttributes", parent: name, max: 1024)
