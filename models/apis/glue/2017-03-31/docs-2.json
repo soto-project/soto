@@ -91,6 +91,7 @@
     "ListCrawlers": "<p>Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.</p> <p>This operation takes the optional <code>Tags</code> field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.</p>",
     "ListDevEndpoints": "<p>Retrieves the names of all <code>DevEndpoint</code> resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.</p> <p>This operation takes the optional <code>Tags</code> field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.</p>",
     "ListJobs": "<p>Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.</p> <p>This operation takes the optional <code>Tags</code> field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.</p>",
+    "ListMLTransforms": "<p> Retrieves a sortable, filterable list of existing AWS Glue machine learning transforms in this AWS account, or the resources with the specified tag. This operation takes the optional <code>Tags</code> field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved. </p>",
     "ListTriggers": "<p>Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.</p> <p>This operation takes the optional <code>Tags</code> field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.</p>",
     "ListWorkflows": "<p>Lists names of workflows created in the account.</p>",
     "PutDataCatalogEncryptionSettings": "<p>Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.</p>",
@@ -685,7 +686,7 @@
     "ConnectionProperties": {
       "base": null,
       "refs": {
-        "Connection$ConnectionProperties": "<p>These key-value pairs define parameters for the connection:</p> <ul> <li> <p> <code>HOST</code> - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.</p> </li> <li> <p> <code>PORT</code> - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.</p> </li> <li> <p> <code>USER_NAME</code> - The name under which to log in to the database. The value string for <code>USER_NAME</code> is \"<code>USERNAME</code>\".</p> </li> <li> <p> <code>PASSWORD</code> - A password, if one is used, for the user name.</p> </li> <li> <p> <code>ENCRYPTED_PASSWORD</code> - When you enable connection password protection by setting <code>ConnectionPasswordEncryption</code> in the Data Catalog encryption settings, this field stores the encrypted password.</p> </li> <li> <p> <code>JDBC_DRIVER_JAR_URI</code> - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.</p> </li> <li> <p> <code>JDBC_DRIVER_CLASS_NAME</code> - The class name of the JDBC driver to use.</p> </li> <li> <p> <code>JDBC_ENGINE</code> - The name of the JDBC engine to use.</p> </li> <li> <p> <code>JDBC_ENGINE_VERSION</code> - The version of the JDBC engine to use.</p> </li> <li> <p> <code>CONFIG_FILES</code> - (Reserved for future use.)</p> </li> <li> <p> <code>INSTANCE_ID</code> - The instance ID to use.</p> </li> <li> <p> <code>JDBC_CONNECTION_URL</code> - The URL for the JDBC connection.</p> </li> <li> <p> <code>JDBC_ENFORCE_SSL</code> - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.</p> </li> <li> <p> <code>CUSTOM_JDBC_CERT</code> - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.</p> </li> <li> <p> <code>SKIP_CUSTOM_JDBC_CERT_VALIDATION</code> - By default, this is <code>false</code>. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to <code>true</code> to skip AWS Glue’s validation of the customer certificate.</p> </li> <li> <p> <code>CUSTOM_JDBC_CERT_STRING</code> - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the <code>SSL_SERVER_CERT_DN</code>; in Microsoft SQL Server, this is used as the <code>hostNameInCertificate</code>.</p> </li> </ul>",
+        "Connection$ConnectionProperties": "<p>These key-value pairs define parameters for the connection:</p> <ul> <li> <p> <code>HOST</code> - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.</p> </li> <li> <p> <code>PORT</code> - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.</p> </li> <li> <p> <code>USER_NAME</code> - The name under which to log in to the database. The value string for <code>USER_NAME</code> is \"<code>USERNAME</code>\".</p> </li> <li> <p> <code>PASSWORD</code> - A password, if one is used, for the user name.</p> </li> <li> <p> <code>ENCRYPTED_PASSWORD</code> - When you enable connection password protection by setting <code>ConnectionPasswordEncryption</code> in the Data Catalog encryption settings, this field stores the encrypted password.</p> </li> <li> <p> <code>JDBC_DRIVER_JAR_URI</code> - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.</p> </li> <li> <p> <code>JDBC_DRIVER_CLASS_NAME</code> - The class name of the JDBC driver to use.</p> </li> <li> <p> <code>JDBC_ENGINE</code> - The name of the JDBC engine to use.</p> </li> <li> <p> <code>JDBC_ENGINE_VERSION</code> - The version of the JDBC engine to use.</p> </li> <li> <p> <code>CONFIG_FILES</code> - (Reserved for future use.)</p> </li> <li> <p> <code>INSTANCE_ID</code> - The instance ID to use.</p> </li> <li> <p> <code>JDBC_CONNECTION_URL</code> - The URL for connecting to a JDBC data source.</p> </li> <li> <p> <code>JDBC_ENFORCE_SSL</code> - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.</p> </li> <li> <p> <code>CUSTOM_JDBC_CERT</code> - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.</p> </li> <li> <p> <code>SKIP_CUSTOM_JDBC_CERT_VALIDATION</code> - By default, this is <code>false</code>. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to <code>true</code> to skip AWS Glue’s validation of the customer certificate.</p> </li> <li> <p> <code>CUSTOM_JDBC_CERT_STRING</code> - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the <code>SSL_SERVER_CERT_DN</code>; in Microsoft SQL Server, this is used as the <code>hostNameInCertificate</code>.</p> </li> <li> <p> <code>CONNECTION_URL</code> - The URL for connecting to a general (non-JDBC) data source.</p> </li> </ul>",
         "ConnectionInput$ConnectionProperties": "<p>These key-value pairs define parameters for the connection.</p>"
       }
     },
@@ -699,7 +700,7 @@
       "base": null,
       "refs": {
         "Connection$ConnectionType": "<p>The type of the connection. Currently, only JDBC is supported; SFTP is not supported.</p>",
-        "ConnectionInput$ConnectionType": "<p>The type of the connection. Currently, only JDBC is supported; SFTP is not supported.</p>",
+        "ConnectionInput$ConnectionType": "<p>The type of the connection. Currently, these types are supported:</p> <ul> <li> <p> <code>JDBC</code> - Designates a connection to a database through Java Database Connectivity (JDBC).</p> </li> <li> <p> <code>MONGODB</code> - Designates a connection to a MongoDB document database.</p> </li> </ul> <p>SFTP is not supported.</p>",
         "GetConnectionsFilter$ConnectionType": "<p>The type of connections to return. Currently, only JDBC is supported; SFTP is not supported.</p>"
       }
     },
@@ -1476,9 +1477,12 @@
       "refs": {
         "Action$Arguments": "<p>The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself.</p> <p>You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes.</p> <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling AWS Glue APIs in Python</a> topic in the developer guide.</p> <p>For information about the key-value pairs that AWS Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by AWS Glue</a> topic in the developer guide.</p>",
         "CreateJobRequest$DefaultArguments": "<p>The default arguments for this job.</p> <p>You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes.</p> <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling AWS Glue APIs in Python</a> topic in the developer guide.</p> <p>For information about the key-value pairs that AWS Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by AWS Glue</a> topic in the developer guide.</p>",
+        "CreateJobRequest$NonOverridableArguments": "<p>Non-overridable arguments for this job, specified as name-value pairs.</p>",
         "Job$DefaultArguments": "<p>The default arguments for this job, specified as name-value pairs.</p> <p>You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes.</p> <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling AWS Glue APIs in Python</a> topic in the developer guide.</p> <p>For information about the key-value pairs that AWS Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by AWS Glue</a> topic in the developer guide.</p>",
+        "Job$NonOverridableArguments": "<p>Non-overridable arguments for this job, specified as name-value pairs.</p>",
         "JobRun$Arguments": "<p>The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself.</p> <p>You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes.</p> <p>For information about how to specify and consume your own job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling AWS Glue APIs in Python</a> topic in the developer guide.</p> <p>For information about the key-value pairs that AWS Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by AWS Glue</a> topic in the developer guide.</p>",
         "JobUpdate$DefaultArguments": "<p>The default arguments for this job.</p> <p>You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes.</p> <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling AWS Glue APIs in Python</a> topic in the developer guide.</p> <p>For information about the key-value pairs that AWS Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by AWS Glue</a> topic in the developer guide.</p>",
+        "JobUpdate$NonOverridableArguments": "<p>Non-overridable arguments for this job, specified as name-value pairs.</p>",
         "StartJobRunRequest$Arguments": "<p>The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself.</p> <p>You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes.</p> <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling AWS Glue APIs in Python</a> topic in the developer guide.</p> <p>For information about the key-value pairs that AWS Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by AWS Glue</a> topic in the developer guide.</p>"
       }
     },
@@ -2095,6 +2099,7 @@
         "StartMLLabelingSetGenerationTaskRunResponse$TaskRunId": "<p>The unique run identifier that is associated with this task run.</p>",
         "TaskRun$TransformId": "<p>The unique identifier for the transform.</p>",
         "TaskRun$TaskRunId": "<p>The unique identifier for this task run.</p>",
+        "TransformIdList$member": null,
         "UpdateMLTransformRequest$TransformId": "<p>A unique identifier that was generated when the transform was created.</p>",
         "UpdateMLTransformResponse$TransformId": "<p>The unique identifier for the transform that was updated.</p>"
       }
@@ -2382,6 +2387,16 @@
       }
     },
     "ListJobsResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListMLTransformsRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListMLTransformsResponse": {
       "base": null,
       "refs": {
       }
@@ -2913,6 +2928,7 @@
         "ListCrawlersRequest$MaxResults": "<p>The maximum size of a list to return.</p>",
         "ListDevEndpointsRequest$MaxResults": "<p>The maximum size of a list to return.</p>",
         "ListJobsRequest$MaxResults": "<p>The maximum size of a list to return.</p>",
+        "ListMLTransformsRequest$MaxResults": "<p>The maximum size of a list to return.</p>",
         "ListTriggersRequest$MaxResults": "<p>The maximum size of a list to return.</p>",
         "ListWorkflowsRequest$MaxResults": "<p>The maximum size of a list to return.</p>",
         "SearchTablesRequest$MaxResults": "<p>The maximum number of tables to return in a single response.</p>"
@@ -2924,7 +2940,9 @@
         "GetMLTaskRunsRequest$NextToken": "<p>A token for pagination of the results. The default is empty.</p>",
         "GetMLTaskRunsResponse$NextToken": "<p>A pagination token, if more results are available.</p>",
         "GetMLTransformsRequest$NextToken": "<p>A paginated token to offset the results.</p>",
-        "GetMLTransformsResponse$NextToken": "<p>A pagination token, if more results are available.</p>"
+        "GetMLTransformsResponse$NextToken": "<p>A pagination token, if more results are available.</p>",
+        "ListMLTransformsRequest$NextToken": "<p>A continuation token, if this is a continuation request.</p>",
+        "ListMLTransformsResponse$NextToken": "<p>A continuation token, if the returned list does not contain the last metric available.</p>"
       }
     },
     "ParametersMap": {
@@ -3654,12 +3672,14 @@
         "CreateCrawlerRequest$Tags": "<p>The tags to use with this crawler request. You can use tags to limit access to the crawler. For more information, see <a href=\"http://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html\">AWS Tags in AWS Glue</a>.</p>",
         "CreateDevEndpointRequest$Tags": "<p>The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html\">AWS Tags in AWS Glue</a> in the developer guide.</p>",
         "CreateJobRequest$Tags": "<p>The tags to use with this job. You may use tags to limit access to the job. For more information about tags in AWS Glue, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html\">AWS Tags in AWS Glue</a> in the developer guide.</p>",
+        "CreateMLTransformRequest$Tags": "<p>The tags to use with this machine learning transform. You may use tags to limit access to the machine learning transform. For more information about tags in AWS Glue, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html\">AWS Tags in AWS Glue</a> in the developer guide.</p>",
         "CreateTriggerRequest$Tags": "<p>The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html\">AWS Tags in AWS Glue</a> in the developer guide. </p>",
         "CreateWorkflowRequest$Tags": "<p>The tags to be used with this workflow.</p>",
         "GetTagsResponse$Tags": "<p>The requested tags.</p>",
         "ListCrawlersRequest$Tags": "<p>Specifies to return only these tagged resources.</p>",
         "ListDevEndpointsRequest$Tags": "<p>Specifies to return only these tagged resources.</p>",
         "ListJobsRequest$Tags": "<p>Specifies to return only these tagged resources.</p>",
+        "ListMLTransformsRequest$Tags": "<p>Specifies to return only these tagged resources.</p>",
         "ListTriggersRequest$Tags": "<p>Specifies to return only these tagged resources.</p>",
         "TagResourceRequest$TagsToAdd": "<p>Tags to add to this resource.</p>"
       }
@@ -3839,7 +3859,14 @@
     "TransformFilterCriteria": {
       "base": "<p>The criteria used to filter the machine learning transforms.</p>",
       "refs": {
-        "GetMLTransformsRequest$Filter": "<p>The filter transformation criteria.</p>"
+        "GetMLTransformsRequest$Filter": "<p>The filter transformation criteria.</p>",
+        "ListMLTransformsRequest$Filter": "<p>A <code>TransformFilterCriteria</code> used to filter the machine learning transforms.</p>"
+      }
+    },
+    "TransformIdList": {
+      "base": null,
+      "refs": {
+        "ListMLTransformsResponse$TransformIds": "<p>The identifiers of all the machine learning transforms in the account, or the machine learning transforms with the specified tags.</p>"
       }
     },
     "TransformList": {
@@ -3874,7 +3901,8 @@
     "TransformSortCriteria": {
       "base": "<p>The sorting criteria that are associated with the machine learning transform.</p>",
       "refs": {
-        "GetMLTransformsRequest$Sort": "<p>The sorting criteria.</p>"
+        "GetMLTransformsRequest$Sort": "<p>The sorting criteria.</p>",
+        "ListMLTransformsRequest$Sort": "<p>A <code>TransformSortCriteria</code> used to sort the machine learning transforms.</p>"
       }
     },
     "TransformStatusType": {

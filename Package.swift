@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "AWSSDKSwift",
+    name: "aws-sdk-swift",
     platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
     products: [
         .library(name: "AWSACM", targets: ["AWSACM"]),
@@ -233,7 +233,7 @@ let package = Package(
     targets: [
         .target(name: "AWSACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
         .target(name: "AWSACMPCA", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACMPCA"),
-        .target(name: "AWSAPIGateway", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/APIGateway"),
+        .target(name: "AWSAPIGateway", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/APIGateway", "Extensions/APIGateway"]),
         .target(name: "AWSAccessAnalyzer", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AccessAnalyzer"),
         .target(name: "AWSAlexaForBusiness", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/AlexaForBusiness"),
         .target(name: "AWSAmplify", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Amplify"),
@@ -410,7 +410,7 @@ let package = Package(
         .target(name: "AWSRoute53Domains", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Domains"),
         .target(name: "AWSRoute53Resolver", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/Route53Resolver"),
         .target(name: "AWSS3", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/S3", "Extensions/S3"]),
-        .target(name: "AWSS3Control", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/S3Control"),
+        .target(name: "AWSS3Control", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/", sources: ["Services/S3Control", "Extensions/S3Control"]),
         .target(name: "AWSSES", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SES"),
         .target(name: "AWSSESV2", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SESV2"),
         .target(name: "AWSSFN", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/SFN"),

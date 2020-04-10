@@ -1,8 +1,17 @@
+//===----------------------------------------------------------------------===//
 //
-// IAMTests.swift
-// written by Adam Fowler
-// IAM tests
+// This source file is part of the AWSSDKSwift open source project
 //
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
+//
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
+
 import XCTest
 import Foundation
 @testable import AWSIAM
@@ -16,7 +25,7 @@ class IAMTests: XCTestCase {
         secretAccessKey: "secret",
         region: .useast1,
         endpoint: ProcessInfo.processInfo.environment["IAM_ENDPOINT"] ?? "http://localhost:4593",
-        middlewares: [AWSLoggingMiddleware()]
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     )
 
     class TestData {

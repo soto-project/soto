@@ -1,10 +1,16 @@
+//===----------------------------------------------------------------------===//
 //
-//  DynamoDBTests.swift
-//  AWSSDKSwift
+// This source file is part of the AWSSDKSwift open source project
 //
-//  Created by Yuki Takei on 2017/04/21.
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
 //
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
 //
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
 
 import Foundation
 import XCTest
@@ -18,7 +24,8 @@ class DynamoDBTests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["DYNAMODB_ENDPOINT"] ?? "http://localhost:4569"
+        endpoint: ProcessInfo.processInfo.environment["DYNAMODB_ENDPOINT"] ?? "http://localhost:4569",
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     )
 
     class TestData {

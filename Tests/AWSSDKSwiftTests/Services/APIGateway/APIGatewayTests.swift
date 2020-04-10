@@ -1,8 +1,17 @@
+//===----------------------------------------------------------------------===//
 //
-// APIGatewayTests.swift
-// written by Adam Fowler
-// APIGateway Tests tests
+// This source file is part of the AWSSDKSwift open source project
 //
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
+//
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
+
 import XCTest
 import Foundation
 @testable import AWSAPIGateway
@@ -19,7 +28,8 @@ class APIGatewayTests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["APIGATEWAY_ENDPOINT"] ?? "http://localhost:4567"
+        endpoint: ProcessInfo.processInfo.environment["APIGATEWAY_ENDPOINT"] ?? "http://localhost:4567",
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     )
 
     class TestData {

@@ -1,10 +1,16 @@
+//===----------------------------------------------------------------------===//
 //
-//  AWSRequestTests.swift
-//  AWSSDKSwift
+// This source file is part of the AWSSDKSwift open source project
 //
-//  Created by Adam Fowler on 2019/06/28.
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
 //
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
 //
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
 
 import Foundation
 import XCTest
@@ -24,11 +30,8 @@ class AWSRequestTests: XCTestCase {
     /// test awsRequest body is expected string
     func testRequestedBody(expected: String, result: AWSRequest) throws {
         // get body
-        let bodyData = result.body.asData()
-        XCTAssertNotNil(bodyData)
-        if let body = String(data:bodyData!, encoding: .utf8) {
-            XCTAssertEqual(expected, body)
-        }
+        let body = result.body.asString()
+        XCTAssertEqual(expected, body)
     }
 
     /// test

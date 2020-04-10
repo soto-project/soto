@@ -1,8 +1,17 @@
+//===----------------------------------------------------------------------===//
 //
-// SSMTests.swift
-// written by Adam Fowler
-// SSM tests
+// This source file is part of the AWSSDKSwift open source project
 //
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
+//
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
+
 import XCTest
 import Foundation
 @testable import AWSSSM
@@ -20,7 +29,7 @@ class SSMTests: XCTestCase {
         secretAccessKey: "secret",
         region: .useast1,
         endpoint: ProcessInfo.processInfo.environment["SSM_ENDPOINT"] ?? "http://localhost:4583",
-        middlewares: [AWSLoggingMiddleware()]
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     )
 
     class TestData {

@@ -7,14 +7,27 @@ needs to be listed here.
 
 ## COPYRIGHT HOLDERS
 
-### Contributors
+### Contributors - AWSSDKSwift
 
 - Adam Fowler <adamfowler71@gmail.com>
 - Fabian Fett <fabianfett@mac.com>
 - Joe Smith <yasumoto7@gmail.com>
 - Jonathan McAllister <jonny.mcallister@leagueheads.com>
+- Tim <0xTim@users.noreply.github.com>
 - Yifei Teng <tengyifei@users.noreply.github.com>
 - Yuki Takei <yuki@miketokyo.com>
+
+### Contributors - AWSSDKSwiftCore
+
+- Adam Fowler <adamfowler71@gmail.com>
+- Fabian Fett <fabianfett@mac.com>
+- Joe Smith <yasumoto7@gmail.com>
+- Jonathan McAllister <jonny.mcallister@leagueheads.com>
+- Kyle Ishie <kyle@kyleishie.com>
+- Oliver O'Neill <oliveroneill@users.noreply.github.com>
+- Yifei Teng <tengyifei@users.noreply.github.com>
+- Yuki Takei <yuki@miketokyo.com>
+- giginet <giginet.net@gmail.com>
 
 **Updating this list**
 

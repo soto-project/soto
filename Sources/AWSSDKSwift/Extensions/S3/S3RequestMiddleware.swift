@@ -1,3 +1,17 @@
+//===----------------------------------------------------------------------===//
+//
+// This source file is part of the AWSSDKSwift open source project
+//
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
+//
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
+
 import Foundation
 import AWSSDKSwiftCore
 import AWSCrypto
@@ -85,9 +99,13 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
     func calculateMD5(request: inout AWSRequest) {
         // if request has a body, calculate the MD5 for that body
-        if let data = request.body.asData() {
-            let encoded = Data(Insecure.MD5.hash(data: data)).base64EncodedString()
-            request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
+        if let byteBuffer = request.body.asByteBuffer() {
+            let byteBufferView = byteBuffer.readableBytesView
+            if let encoded = byteBufferView.withContiguousStorageIfAvailable({ bytes in
+                return Data(Insecure.MD5.hash(data: bytes)).base64EncodedString()
+            }) {
+                request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
+            }
         }
     }
 

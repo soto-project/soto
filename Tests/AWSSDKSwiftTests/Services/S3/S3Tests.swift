@@ -1,10 +1,16 @@
+//===----------------------------------------------------------------------===//
 //
-//  S3Tests.swift
-//  AWSSDKSwift
+// This source file is part of the AWSSDKSwift open source project
 //
-//  Created by Yuki Takei on 2017/04/06.
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
 //
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
 //
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
 
 import Foundation
 import XCTest
@@ -24,7 +30,7 @@ class S3Tests: XCTestCase {
         secretAccessKey: "secret",
         region: .euwest1,
         endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
-        middlewares: [AWSLoggingMiddleware()]
+        middlewares: (ProcessInfo.processInfo.environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
     )
 
     class TestData {
@@ -309,11 +315,9 @@ class S3Tests: XCTestCase {
                 let response = client.putObject(request)
                     .flatMap { (response)->EventLoopFuture<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
-                        print("Put \(objectName)")
                         return self.client.getObject(request)
                     }
                     .flatMapThrowing { response in
-                        print("Get \(objectName)")
                         guard let body = response.body else {throw S3TestErrors.error("Get \(objectName) failed") }
                         guard text == String(data: body, encoding: .utf8) else {throw S3TestErrors.error("Get \(objectName) contents is incorrect") }
                         return

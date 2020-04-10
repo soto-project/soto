@@ -1,48 +1,54 @@
+//===----------------------------------------------------------------------===//
 //
-//  String.swift
-//  AWSSDKSwift
+// This source file is part of the AWSSDKSwift open source project
 //
-//  Created by Yuki Takei on 2017/03/22.
+// Copyright (c) 2017-2020 the AWSSDKSwift project authors
+// Licensed under Apache License v2.0
 //
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AWSSDKSwift project authors
 //
+// SPDX-License-Identifier: Apache-2.0
+//
+//===----------------------------------------------------------------------===//
 
 import Foundation
 
-let swiftReservedWords: [String] = [
-    "protocol",
-    "return",
-    "operator",
-    "class",
-    "struct",
-    "break",
-    "continue",
-    "extension",
-    "self",
-    "public",
-    "private",
-    "internal",
-    "where",
-    "catch",
-    "try",
-    "default",
-    "case",
-    "static",
-    "switch",
-    "if",
-    "else",
-    "func",
-    "enum",
-    "true",
-    "false",
-    "nil",
-    "in",
-    "import",
+let swiftReservedWords: Set<String> = [
     "as",
-    "is",
+    "break",
+    "case",
+    "catch",
+    "class",
+    "continue",
+    "default",
     "do",
+    "else",
+    "enum",
+    "extension",
+    "false",
+    "for",
+    "func",
+    "if",
+    "import",
+    "in",
+    "internal",
+    "is",
+    "nil",
+    "operator",
+    "private",
+    "protocol",
+    "public",
+    "repeat",
+    "return",
+    "self",
+    "static",
+    "struct",
+    "switch",
+    "true",
     "try",
     "type",
-    "repeat"
+    "where"
 ]
 
 extension String {
@@ -140,5 +146,41 @@ extension String {
         return newString
     }
     
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+
+    mutating func deletePrefix(_ prefix: String) {
+        self = self.deletingPrefix(prefix)
+    }
+
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
+
+    mutating func removeWhitespaces() {
+        self = self.removingWhitespaces()
+    }
+
+    func removingCharacterSet(in characterset: CharacterSet) -> String {
+        return components(separatedBy: characterset).joined()
+    }
+
+    mutating func removeCharacterSet(in characterset: CharacterSet) {
+        self = self.removingCharacterSet(in: characterset)
+    }
+
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+
+    mutating func trimCharacters(in characterset: CharacterSet) {
+        self = self.trimmingCharacters(in: characterset)
+    }
 }
 
