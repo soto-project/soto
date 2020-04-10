@@ -334,11 +334,13 @@ class Shape: Decodable, Patchable {
             }
         }
         
+        // added so we can access enum type through keypaths
         var `enum`: EnumType? {
             if case .enum(let type) = self { return type }
             return nil
         }
         
+        // added so we can access structure type through keypaths
         var structure: StructureType? {
             if case .structure(let type) = self { return type }
             return nil
