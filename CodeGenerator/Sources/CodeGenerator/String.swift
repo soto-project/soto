@@ -146,5 +146,41 @@ extension String {
         return newString
     }
     
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+
+    mutating func deletePrefix(_ prefix: String) {
+        self = self.deletingPrefix(prefix)
+    }
+
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
+
+    mutating func removeWhitespaces() {
+        self = self.removingWhitespaces()
+    }
+
+    func removingCharacterSet(in characterset: CharacterSet) -> String {
+        return components(separatedBy: characterset).joined()
+    }
+
+    mutating func removeCharacterSet(in characterset: CharacterSet) {
+        self = self.removingCharacterSet(in: characterset)
+    }
+
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+
+    mutating func trimCharacters(in characterset: CharacterSet) {
+        self = self.trimmingCharacters(in: characterset)
+    }
 }
 

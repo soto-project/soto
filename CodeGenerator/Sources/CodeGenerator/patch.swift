@@ -12,156 +12,209 @@
 //
 //===----------------------------------------------------------------------===//
 
-//  Patches the JSON AWS model files as they are loaded into the CodeGenerator
-//
-import Foundation
-import SwiftyJSON
 
-//
-// Patch operations
-//
-let servicePatches : [String: [Patch]] = [
-    "CloudFront" : [
-        .init(.replace, entry:["shapes", "HttpVersion", "enum", 0], value:"HTTP1_1", originalValue:"http1.1"),
-        .init(.replace, entry:["shapes", "HttpVersion", "enum", 1], value:"HTTP2", originalValue:"http2")
-    ],
-    "CloudWatch" : [
-        // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
-        .init(.replace, entry:["operations", "GetDashboard", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
-        .init(.replace, entry:["operations", "DeleteDashboards", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError")
-    ],
-    "ComprehendMedical" : [
-        .init(.add, entry:["shapes", "EntitySubType", "enum"], value:"DX_NAME")
-    ],
-    "Config" : [
-        .init(.replace, entry:["serviceName"], value:"ConfigService", originalValue:"Config")
-    ],
-    "ECS" : [
-        .init(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
-    ],
-    "EC2" : [
-        .init(.replace, entry:["shapes", "PlatformValues", "enum", 0], value:"windows", originalValue:"Windows")
-    ],
-    "ElasticLoadBalancing" : [
-        .init(.replace, entry:["serviceName"], value:"ELB", originalValue:"ElasticLoadBalancing"),
-        .init(.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
-    ],
-    "ElasticLoadBalancingv2" : [
-        .init(.replace, entry:["serviceName"], value:"ELBV2", originalValue:"ElasticLoadBalancingv2")
-    ],
-    "IAM" : [
-        .init(.add, entry:["shapes", "PolicySourceType", "enum"], value:"IAM Policy")
-    ],
-    "Route53": [
-        .init(.remove, entry:["shapes", "ListHealthChecksResponse", "required"], value:"Marker"),
-        .init(.remove, entry:["shapes", "ListHostedZonesResponse", "required"], value:"Marker"),
-        .init(.remove, entry:["shapes", "ListReusableDelegationSetsResponse", "required"], value:"Marker")
-    ],
-    "S3": [
-        .init(.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
-        .init(.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer"),
-        // Add additional location constraints
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"us-east-2"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-2"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-3"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-north-1"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-east-1"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-2"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-3"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
-        .init(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1"),
-    ],
-    "SQS": [
-        .init(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Successful"),
-        .init(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Failed"),
-    ]
-]
-
-// structure defining a model patch
-struct Patch {
-    enum Operation {
-        case replace
-        case add
-        case remove
-    }
-
-    init(_ operation: Operation, entry: [JSONSubscriptType], key: String? = nil, value: String, originalValue: String? = nil) {
-        self.operation = operation
-        self.entry = entry
-        self.key = key
-        self.value = value
-        self.originalValue = originalValue
-    }
-
-    let operation : Operation
-    let entry : [JSONSubscriptType]
-    let key : String?
-    let value : CustomStringConvertible
-    let originalValue : CustomStringConvertible?
+enum APIPatchError: Error {
+    case doesNotExist
+    case unexpectedValue(expected: String, got: String)
 }
 
-/// patch model JSON
-func patch(_ apiJSON: JSON) -> JSON {
-    let service = apiJSON["serviceName"].stringValue.toSwiftClassCase()
-    guard let patches = servicePatches[service] else {return apiJSON}
-    var patchedJSON = apiJSON
+protocol Patch {
+    func apply(to api: inout API) throws
+}
 
-    for patch in patches {
-        let field = patchedJSON[patch.entry]
-        guard field != JSON.null else {
-            fatalError("Attempting to patch field \(patch.entry) that doesn't eixst")
-        }
+protocol Patchable: class {}
 
-        switch patch.operation {
-        case .replace:
-            if let originalValue = patch.originalValue {
-                guard originalValue.description == field.stringValue else {
-                    fatalError("Found an unexpected value while patching \(patch.entry). Expected \"\(originalValue)\", got \"\(field.stringValue)\"")
-                }
+extension API {
+    static let servicePatches: [String: [Patch]] = [
+        "CloudFront" : [
+            ReplacePatch3(keyPath1: \.shapes["HttpVersion"], keyPath2: \.type.enum, keyPath3: \.cases[0], value: "HTTP1_1", originalValue: "http1.1"),
+            ReplacePatch3(keyPath1: \.shapes["HttpVersion"], keyPath2: \.type.enum, keyPath3: \.cases[1], value: "HTTP2", originalValue: "http2"),
+        ],
+        "CloudWatch" : [
+            // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
+            ReplacePatch2(keyPath1: \.operations["GetDashboard"], keyPath2: \.errors[1].shapeName, value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
+            ReplacePatch2(keyPath1: \.operations["DeleteDashboards"], keyPath2: \.errors[1].shapeName, value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
+        ],
+        "ComprehendMedical" : [
+            AddPatch3(keyPath1: \.shapes["EntitySubType"], keyPath2: \.type.enum, keyPath3: \.cases, value: "DX_NAME"),
+        ],
+        "EC2" : [
+            ReplacePatch3(keyPath1: \.shapes["PlatformValues"], keyPath2: \.type.enum, keyPath3: \.cases[0], value: "windows", originalValue: "Windows"),
+        ],
+        "ECS" : [
+            AddPatch3(keyPath1: \.shapes["PropagateTags"], keyPath2: \.type.enum, keyPath3: \.cases, value: "NONE"),
+            //.init(.add, entry:["shapes", "PropagateTags", "enum"], value:"NONE")
+        ],
+        "ElasticLoadBalancing" : [
+            ReplacePatch(keyPath: \.serviceName, value:"ELB", originalValue:"ElasticLoadBalancing"),
+            ReplacePatch2(keyPath1: \.shapes["SecurityGroupOwnerAlias"], keyPath2: \.type, value: .integer(), originalValue: .string())
+        ],
+        "ElasticLoadBalancingv2" : [
+            ReplacePatch(keyPath: \.serviceName, value:"ELBV2", originalValue:"ElasticLoadBalancingv2")
+        ],
+        "IAM" : [
+            AddPatch3(keyPath1: \.shapes["PolicySourceType"], keyPath2: \.type.enum, keyPath3: \.cases, value: "IAM Policy"),
+        ],
+        "Route53": [
+           RemovePatch3(keyPath1: \.shapes["ListHealthChecksResponse"], keyPath2: \.type.structure, keyPath3: \.required, value: "Marker"),
+           RemovePatch3(keyPath1: \.shapes["ListHostedZonesResponse"], keyPath2: \.type.structure, keyPath3: \.required, value: "Marker"),
+           RemovePatch3(keyPath1: \.shapes["ListReusableDelegationSetsResponse"], keyPath2: \.type.structure, keyPath3: \.required, value: "Marker"),
+        ],
+        "S3": [
+            ReplacePatch3(keyPath1: \.shapes["ReplicationStatus"], keyPath2: \.type.enum, keyPath3: \.cases[0], value: "COMPLETED", originalValue: "COMPLETE"),
+            ReplacePatch2(keyPath1: \.shapes["Size"], keyPath2: \.type, value: .long(), originalValue: .integer()),
+            // Add additional location constraints
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "us-east-2"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-west-2"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-west-3"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "eu-north-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ap-east-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ap-northeast-2"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ap-northeast-3"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "ca-central-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "cn-northwest-1"),
+            AddPatch3(keyPath1: \.shapes["BucketLocationConstraint"], keyPath2: \.type.enum, keyPath3: \.cases, value: "me-south-1")
+        ],
+        "SQS": [
+            RemovePatch3(keyPath1: \.shapes["SendMessageBatchResult"], keyPath2: \.type.structure, keyPath3: \.required, value: "Successful"),
+            RemovePatch3(keyPath1: \.shapes["SendMessageBatchResult"], keyPath2: \.type.structure, keyPath3: \.required, value: "Failed"),
+        ],
+    ]
+
+    // structure defining a model patch
+    struct ReplacePatch<T: Equatable>: Patch {
+        let keyPath: WritableKeyPath<API, T>
+        let value : T
+        let originalValue : T
+
+        func apply(to api: inout API) throws {
+            guard api[keyPath: keyPath] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(api[keyPath: keyPath])")
             }
-
-            patchedJSON[patch.entry].object = patch.value
-
-        case .add:
-            if let array = field.array {
-                guard array.first(where:{$0.stringValue == patch.value.description}) == nil else {
-                    fatalError("Attempting to add field \"\(patch.value)\" to array \(patch.entry) that aleady exists.")
-                }
-
-                var newArray = field.arrayObject!
-                newArray.append(patch.value)
-                patchedJSON[patch.entry].arrayObject = newArray
-            } else if let _ = field.dictionary {
-                guard let key = patch.key else {
-                    fatalError("Attempting to add to dictionary \(patch.entry) without supplying a key value")
-                }
-                let entry : [JSONSubscriptType] = patch.entry + [key]
-                patchedJSON[entry].object = patch.value
-            } else {
-                fatalError("Attempting to add a field to \(patch.entry) that cannot be added to.")
-            }
-        case .remove:
-            if let array = field.array {
-                guard let firstIndex = array.firstIndex(where:{$0.stringValue == patch.value.description}) else {
-                    fatalError("Attempting to remove field \"\(patch.value)\" from array \(patch.entry) that doesn't exists.")
-                }
-
-                var newArray = field.arrayObject!
-                newArray.remove(at: firstIndex)
-                patchedJSON[patch.entry].arrayObject = newArray
-            } else if let dictionary = field.dictionary {
-                guard dictionary[patch.value.description] != nil else {
-                    fatalError("Attempting to remove field \"\(patch.value)\" from dictionary \(patch.entry) that doesn't exists.")
-                }
-
-                var newDictionary = field.dictionaryObject!
-                newDictionary[patch.value.description] = nil
-                patchedJSON[patch.entry].dictionaryObject = newDictionary
-            } else {
-                fatalError("Attempting to remove a field from \(patch.entry) that cannot be removed from.")
-            }
+            api[keyPath: keyPath] = value
         }
     }
-    return patchedJSON
+    
+    struct ReplacePatch2<T: Patchable, U: Equatable>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: WritableKeyPath<T, U>
+        let value : U
+        let originalValue : U
+
+        func apply(to api: inout API) throws {
+            guard var object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard object1[keyPath: keyPath2] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(object1[keyPath: keyPath2])")
+            }
+            object1[keyPath: keyPath2] = value
+        }
+    }
+    
+    struct ReplacePatch3<T: Patchable, U: Patchable, V: Equatable>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: KeyPath<T, U?>
+        let keyPath3: WritableKeyPath<U, V>
+        let value : V
+        let originalValue : V
+
+        func apply(to api: inout API) throws {
+            guard let object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard var object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
+            guard object2[keyPath: keyPath3] == self.originalValue else {
+                throw APIPatchError.unexpectedValue(expected: "\(self.originalValue)", got: "\(object2[keyPath: keyPath3])")
+            }
+            object2[keyPath: keyPath3] = value
+        }
+    }
+    
+    struct RemovePatch2<T: Patchable, U: Equatable>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: WritableKeyPath<T, Array<U>>
+        let value : U
+
+        func apply(to api: inout API) throws {
+            guard var object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard let index = object1[keyPath: keyPath2].firstIndex(of: value) else { throw APIPatchError.doesNotExist }
+            object1[keyPath: keyPath2].remove(at: index)
+        }
+    }
+    
+    struct RemovePatch3<T: Patchable, U: Patchable, V: Equatable>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: KeyPath<T, U?>
+        let keyPath3: WritableKeyPath<U, Array<V>>
+        let value : V
+
+        func apply(to api: inout API) throws {
+            guard let object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard var object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
+            guard let index = object2[keyPath: keyPath3].firstIndex(of: value) else { throw APIPatchError.doesNotExist }
+            object2[keyPath: keyPath3].remove(at: index)
+        }
+    }
+
+    struct AddPatch2<T: Patchable, U>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: WritableKeyPath<T, Array<U>>
+        let value : U
+
+        func apply(to api: inout API) throws {
+            guard var object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            object1[keyPath: keyPath2].append(value)
+        }
+    }
+    
+    struct AddPatch3<T: Patchable, U: Patchable, V>: Patch {
+        let keyPath1: KeyPath<API, T?>
+        let keyPath2: KeyPath<T, U?>
+        let keyPath3: WritableKeyPath<U, Array<V>>
+        let value : V
+
+        func apply(to api: inout API) throws {
+            guard let object1 = api[keyPath: keyPath1] else { throw APIPatchError.doesNotExist }
+            guard var object2 = object1[keyPath: keyPath2] else { throw APIPatchError.doesNotExist }
+            object2[keyPath: keyPath3].append(value)
+        }
+    }
+
+}
+extension API {
+    mutating func patch() throws {
+        guard let patches = Self.servicePatches[serviceName] else { return }
+        for patch in patches {
+            try patch.apply(to: &self)
+        }
+    }
+}
+
+extension API.Shape.ShapeType: Equatable {
+    static func == (lhs: API.Shape.ShapeType, rhs: API.Shape.ShapeType) -> Bool {
+        switch lhs {
+        case .string:
+            if case .string = rhs { return true}
+        case .integer:
+            if case .integer = rhs { return true}
+        case .structure:
+            if case .structure = rhs { return true}
+        case .list:
+            if case .list = rhs { return true}
+        case .map:
+            if case .map = rhs { return true}
+        case .blob:
+            if case .blob = rhs { return true}
+        case .long:
+            if case .long = rhs { return true}
+        case .double:
+            if case .double = rhs { return true}
+        case .float:
+            if case .float = rhs { return true}
+        case .timestamp:
+            if case .timestamp = rhs { return true}
+        case .boolean:
+            if case .boolean = rhs { return true}
+        case .enum:
+            if case .enum = rhs { return true}
+        }
+        return false
+    }
 }
