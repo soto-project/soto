@@ -19,7 +19,7 @@ struct AWSService {
     var docs: Docs
     var paginators: Paginators?
     var endpoints: Endpoints
-    var errors: [API.Shape]
+    var errors: [Shape]
     
     init(api: API, docs: Docs, paginators: Paginators?, endpoints: Endpoints) throws {
         self.api = api
@@ -30,8 +30,8 @@ struct AWSService {
     }
     
     /// Return list of errors from API
-    static func getErrors(from api: API) throws -> [API.Shape] {
-        var errorsSet: Set<API.Shape> = []
+    static func getErrors(from api: API) throws -> [Shape] {
+        var errorsSet: Set<Shape> = []
         for operation in api.operations.values {
             for error in operation.errors {
                 try errorsSet.insert(api.getShape(named: error.shapeName))
@@ -132,7 +132,6 @@ extension AWSService {
         let required : Bool
         let `default` : String?
         let type : String
-        let typeEnum : String
         let comment : [String.SubSequence]
         var duplicate : Bool
     }
@@ -180,7 +179,7 @@ extension AWSService {
     }
 
     /// generate operations context
-    func generateOperationContext(_ operation: API.Operation, name: String) -> OperationContext {
+    func generateOperationContext(_ operation: Operation, name: String) -> OperationContext {
         return OperationContext(
             comment: docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase(),
@@ -326,7 +325,7 @@ extension AWSService {
     }
     
     /// Generate the context information for outputting an enum
-    func generateEnumContext(_ shape: API.Shape, values: [String]) -> EnumContext {
+    func generateEnumContext(_ shape: Shape, values: [String]) -> EnumContext {
 
         // Operations
         var valueContexts: [EnumMemberContext] = []
@@ -357,7 +356,7 @@ extension AWSService {
     }
 
     /// return if shape has a recursive reference (function only tests 2 levels)
-    func doesShapeHaveRecursiveOwnReference(_ shape: API.Shape, type: API.Shape.ShapeType.StructureType) -> Bool {
+    func doesShapeHaveRecursiveOwnReference(_ shape: Shape, type: Shape.ShapeType.StructureType) -> Bool {
         let hasRecursiveOwnReference = type.members.values.contains(where: { member in
             // does shape have a member of same type as itself
             if member.shape === shape {
@@ -387,7 +386,7 @@ extension AWSService {
     }
     
     /// Generate the context information for outputting a member variable
-    func generateMemberContext(_ member: API.Shape.Member, name: String, shape: API.Shape) -> MemberContext {
+    func generateMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> MemberContext {
         let defaultValue : String?
         if member.idempotencyToken == true {
             defaultValue = "\(shape.swiftTypeName).idempotencyToken()"
@@ -404,14 +403,13 @@ extension AWSService {
             required: member.required,
             default: defaultValue,
             type: member.shape.swiftTypeName + (member.required ? "" : "?"),
-            typeEnum: "\(member.shape.type.description)",
             comment: memberDocs ?? [],
             duplicate: false
         )
     }
     
     /// Return encoding string for shap member
-    func getEncoding(for member: API.Shape.Member, isPayload: Bool) -> String? {
+    func getEncoding(for member: Shape.Member, isPayload: Bool) -> String? {
         if case .blob(_, _) = member.shape.type, isPayload {
             return ".blob"
         }
@@ -438,7 +436,7 @@ extension AWSService {
     }
     
     /// Generate the context information for outputting a member variable
-    func generateAWSShapeMemberContext(_ member: API.Shape.Member, name: String, shape: API.Shape, isPayload: Bool) -> AWSShapeMemberContext? {
+    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape, isPayload: Bool) -> AWSShapeMemberContext? {
         let encoding = getEncoding(for: member, isPayload: isPayload)
         var locationName: String? = member.getLocationName()
         let location = member.location ?? .body
@@ -460,7 +458,7 @@ extension AWSService {
     }
 
     /// Generate validation context
-    func generateValidationContext(name: String, shape: API.Shape, required: Bool, container: Bool = false, alreadyProcessed: Set<String> = []) -> ValidationContext? {
+    func generateValidationContext(name: String, shape: Shape, required: Bool, container: Bool = false, alreadyProcessed: Set<String> = []) -> ValidationContext? {
         var requirements : [String: Any] = [:]
         switch shape.type {
         case .integer(let min, let max):
@@ -527,7 +525,7 @@ extension AWSService {
     }
 
     /// Generate the context for outputting a single AWSShape
-    func generateStructureContext(_ shape: API.Shape, type: API.Shape.ShapeType.StructureType) -> StructureContext {
+    func generateStructureContext(_ shape: Shape, type: Shape.ShapeType.StructureType) -> StructureContext {
         var memberContexts : [MemberContext] = []
         var awsShapeMemberContexts : [AWSShapeMemberContext] = []
         var validationContexts : [ValidationContext] = []
@@ -579,8 +577,6 @@ extension AWSService {
             if shape.usedInInput == false && shape.usedInOutput == false {
                 continue
             }
-            // don't output error shapes
-            //if errorShapeNames.contains(shape.name) { continue }
 
             switch shape.type {
             case .enum(let enumType):
@@ -606,8 +602,9 @@ extension AWSService {
 
 //MARK: Extensions
 
-extension API.Shape : Hashable, Equatable {
-    static func == (lhs: API.Shape, rhs: API.Shape) -> Bool {
+/// extend Shape to be Hashable so we can store them in a Set<>
+extension Shape : Hashable, Equatable {
+    static func == (lhs: Shape, rhs: Shape) -> Bool {
         lhs.name == rhs.name
     }
 
@@ -617,6 +614,7 @@ extension API.Shape : Hashable, Equatable {
 }
 
 extension API.Metadata.ServiceProtocol {
+    /// return enum as a string to output in client
     var enumStringValue: String {
         switch self {
         case .restxml:
@@ -633,38 +631,8 @@ extension API.Metadata.ServiceProtocol {
     }
 }
 
-extension API.Shape.ShapeType {
-    var description: String {
-        switch self {
-        case .structure:
-            return "structure"
-        case .list:
-            return "list"
-        case .map:
-            return "map"
-        case .enum:
-            return "enum"
-        case .boolean:
-            return "boolean"
-        case .blob:
-            return "blob"
-        case .double:
-            return "double"
-        case .float:
-            return "float"
-        case .long:
-            return "long"
-        case .integer:
-            return "integer"
-        case .string:
-            return "string"
-        case .timestamp:
-            return "timestamp"
-        }
-    }
-}
-
-extension API.Shape {
+extension Shape {
+    /// return shape type as a string for output
     public var swiftTypeName: String {
         switch self.type {
         case .string(_, _, _):
@@ -712,7 +680,8 @@ extension API.Shape {
     }
 }
 
-extension API.Shape.Location {
+extension Shape.Location {
+    /// return enum as a string to output in AWSMemberEncoding
     var enumStringValue: String {
         switch self {
         case .header, .headers:
@@ -729,7 +698,7 @@ extension API.Shape.Location {
     }
 }
 
-extension API.Shape.Member {
+extension Shape.Member {
     /// flattemed lists can pass their member locationName up to the instance of list
     func getLocationName() -> String? {
         if case .list(let list) = self.shape.type, list.flattened == true, let locationNameInList = list.member.locationName {

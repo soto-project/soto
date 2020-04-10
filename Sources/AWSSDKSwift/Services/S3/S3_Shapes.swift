@@ -3607,6 +3607,7 @@ extension S3 {
     }
 
     public struct Grantee: AWSShape {
+        public static let _xmlNamespace: String? = "http://www.w3.org/2001/XMLSchema-instance"
         public static var _encoding = [
             AWSMemberEncoding(label: "type", location: .body(locationName: "xsi:type"))
         ]

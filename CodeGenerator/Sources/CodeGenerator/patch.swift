@@ -178,6 +178,7 @@ extension API {
     }
 
 }
+
 extension API {
     mutating func patch() throws {
         guard let patches = Self.servicePatches[serviceName] else { return }
@@ -187,8 +188,9 @@ extension API {
     }
 }
 
-extension API.Shape.ShapeType: Equatable {
-    static func == (lhs: API.Shape.ShapeType, rhs: API.Shape.ShapeType) -> Bool {
+extension Shape.ShapeType: Equatable {
+    /// use to verify is shape types are the same when checking original values in replace patches
+    static func == (lhs: Shape.ShapeType, rhs: Shape.ShapeType) -> Bool {
         switch lhs {
         case .string:
             if case .string = rhs { return true}
