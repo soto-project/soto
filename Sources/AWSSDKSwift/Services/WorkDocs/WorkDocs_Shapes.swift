@@ -231,7 +231,7 @@ extension WorkDocs {
 
     //MARK: Shapes
 
-    public struct AbortDocumentVersionUploadRequest: AWSShape {
+    public struct AbortDocumentVersionUploadRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -262,14 +262,10 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ActivateUserRequest: AWSShape {
+    public struct ActivateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -293,13 +289,10 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ActivateUserResponse: AWSShape {
+    public struct ActivateUserResponse: AWSDecodableShape {
 
         /// The user information.
         public let user: User?
@@ -313,7 +306,7 @@ extension WorkDocs {
         }
     }
 
-    public struct Activity: AWSShape {
+    public struct Activity: AWSDecodableShape {
 
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public let commentMetadata: CommentMetadata?
@@ -359,7 +352,7 @@ extension WorkDocs {
         }
     }
 
-    public struct AddResourcePermissionsRequest: AWSShape {
+    public struct AddResourcePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
@@ -394,14 +387,12 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case notificationOptions = "NotificationOptions"
             case principals = "Principals"
-            case resourceId = "ResourceId"
         }
     }
 
-    public struct AddResourcePermissionsResponse: AWSShape {
+    public struct AddResourcePermissionsResponse: AWSDecodableShape {
 
         /// The share results.
         public let shareResults: [ShareResult]?
@@ -415,7 +406,7 @@ extension WorkDocs {
         }
     }
 
-    public struct Comment: AWSShape {
+    public struct Comment: AWSDecodableShape {
 
         /// The ID of the comment.
         public let commentId: String
@@ -461,7 +452,7 @@ extension WorkDocs {
         }
     }
 
-    public struct CommentMetadata: AWSShape {
+    public struct CommentMetadata: AWSDecodableShape {
 
         /// The ID of the comment.
         public let commentId: String?
@@ -491,7 +482,7 @@ extension WorkDocs {
         }
     }
 
-    public struct CreateCommentRequest: AWSShape {
+    public struct CreateCommentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -546,18 +537,15 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
             case notifyCollaborators = "NotifyCollaborators"
             case parentId = "ParentId"
             case text = "Text"
             case threadId = "ThreadId"
-            case versionId = "VersionId"
             case visibility = "Visibility"
         }
     }
 
-    public struct CreateCommentResponse: AWSShape {
+    public struct CreateCommentResponse: AWSDecodableShape {
 
         /// The comment that has been created.
         public let comment: Comment?
@@ -571,7 +559,7 @@ extension WorkDocs {
         }
     }
 
-    public struct CreateCustomMetadataRequest: AWSShape {
+    public struct CreateCustomMetadataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
@@ -614,14 +602,11 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case customMetadata = "CustomMetadata"
-            case resourceId = "ResourceId"
-            case versionId = "versionid"
         }
     }
 
-    public struct CreateCustomMetadataResponse: AWSShape {
+    public struct CreateCustomMetadataResponse: AWSDecodableShape {
 
 
         public init() {
@@ -629,7 +614,7 @@ extension WorkDocs {
 
     }
 
-    public struct CreateFolderRequest: AWSShape {
+    public struct CreateFolderRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
@@ -659,13 +644,12 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case name = "Name"
             case parentFolderId = "ParentFolderId"
         }
     }
 
-    public struct CreateFolderResponse: AWSShape {
+    public struct CreateFolderResponse: AWSDecodableShape {
 
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
@@ -679,7 +663,7 @@ extension WorkDocs {
         }
     }
 
-    public struct CreateLabelsRequest: AWSShape {
+    public struct CreateLabelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
@@ -713,13 +697,11 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case labels = "Labels"
-            case resourceId = "ResourceId"
         }
     }
 
-    public struct CreateLabelsResponse: AWSShape {
+    public struct CreateLabelsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -727,7 +709,7 @@ extension WorkDocs {
 
     }
 
-    public struct CreateNotificationSubscriptionRequest: AWSShape {
+    public struct CreateNotificationSubscriptionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId"))
         ]
@@ -758,13 +740,12 @@ extension WorkDocs {
 
         private enum CodingKeys: String, CodingKey {
             case endpoint = "Endpoint"
-            case organizationId = "OrganizationId"
             case `protocol` = "Protocol"
             case subscriptionType = "SubscriptionType"
         }
     }
 
-    public struct CreateNotificationSubscriptionResponse: AWSShape {
+    public struct CreateNotificationSubscriptionResponse: AWSDecodableShape {
 
         /// The subscription.
         public let subscription: Subscription?
@@ -778,7 +759,7 @@ extension WorkDocs {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
@@ -839,7 +820,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case emailAddress = "EmailAddress"
             case givenName = "GivenName"
             case organizationId = "OrganizationId"
@@ -851,7 +831,7 @@ extension WorkDocs {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
         /// The user information.
         public let user: User?
@@ -865,7 +845,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DeactivateUserRequest: AWSShape {
+    public struct DeactivateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -889,13 +869,10 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteCommentRequest: AWSShape {
+    public struct DeleteCommentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "commentId", location: .uri(locationName: "CommentId")), 
@@ -933,15 +910,10 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case commentId = "CommentId"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteCustomMetadataRequest: AWSShape {
+    public struct DeleteCustomMetadataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")), 
@@ -986,16 +958,10 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case deleteAll = "deleteAll"
-            case keys = "keys"
-            case resourceId = "ResourceId"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteCustomMetadataResponse: AWSShape {
+    public struct DeleteCustomMetadataResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1003,7 +969,7 @@ extension WorkDocs {
 
     }
 
-    public struct DeleteDocumentRequest: AWSShape {
+    public struct DeleteDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId"))
@@ -1027,13 +993,10 @@ extension WorkDocs {
             try validate(self.documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFolderContentsRequest: AWSShape {
+    public struct DeleteFolderContentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
@@ -1057,13 +1020,10 @@ extension WorkDocs {
             try validate(self.folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFolderRequest: AWSShape {
+    public struct DeleteFolderRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
@@ -1087,13 +1047,10 @@ extension WorkDocs {
             try validate(self.folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteLabelsRequest: AWSShape {
+    public struct DeleteLabelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")), 
@@ -1131,15 +1088,10 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case deleteAll = "deleteAll"
-            case labels = "labels"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteLabelsResponse: AWSShape {
+    public struct DeleteLabelsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1147,7 +1099,7 @@ extension WorkDocs {
 
     }
 
-    public struct DeleteNotificationSubscriptionRequest: AWSShape {
+    public struct DeleteNotificationSubscriptionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId")), 
             AWSMemberEncoding(label: "subscriptionId", location: .uri(locationName: "SubscriptionId"))
@@ -1172,13 +1124,10 @@ extension WorkDocs {
             try validate(self.subscriptionId, name:"subscriptionId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case subscriptionId = "SubscriptionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -1202,13 +1151,10 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case userId = "UserId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeActivitiesRequest: AWSShape {
+    public struct DescribeActivitiesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "activityTypes", location: .querystring(locationName: "activityTypes")), 
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
@@ -1278,21 +1224,10 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case activityTypes = "activityTypes"
-            case authenticationToken = "Authentication"
-            case endTime = "endTime"
-            case includeIndirectActivities = "includeIndirectActivities"
-            case limit = "limit"
-            case marker = "marker"
-            case organizationId = "organizationId"
-            case resourceId = "resourceId"
-            case startTime = "startTime"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeActivitiesResponse: AWSShape {
+    public struct DescribeActivitiesResponse: AWSDecodableShape {
 
         /// The marker for the next set of results.
         public let marker: String?
@@ -1310,7 +1245,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeCommentsRequest: AWSShape {
+    public struct DescribeCommentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -1354,16 +1289,10 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case limit = "limit"
-            case marker = "marker"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeCommentsResponse: AWSShape {
+    public struct DescribeCommentsResponse: AWSDecodableShape {
 
         /// The list of comments for the specified document version.
         public let comments: [Comment]?
@@ -1381,7 +1310,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeDocumentVersionsRequest: AWSShape {
+    public struct DescribeDocumentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -1431,17 +1360,10 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case include = "include"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeDocumentVersionsResponse: AWSShape {
+    public struct DescribeDocumentVersionsResponse: AWSDecodableShape {
 
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
@@ -1459,7 +1381,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeFolderContentsRequest: AWSShape {
+    public struct DescribeFolderContentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
@@ -1514,19 +1436,10 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-            case include = "include"
-            case limit = "limit"
-            case marker = "marker"
-            case order = "order"
-            case sort = "sort"
-            case `type` = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeFolderContentsResponse: AWSShape {
+    public struct DescribeFolderContentsResponse: AWSDecodableShape {
 
         /// The documents in the specified folder.
         public let documents: [DocumentMetadata]?
@@ -1548,7 +1461,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeGroupsRequest: AWSShape {
+    public struct DescribeGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
@@ -1591,16 +1504,10 @@ extension WorkDocs {
             try validate(self.searchQuery, name:"searchQuery", parent: name, pattern: "[\\u0020-\\uFFFF]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case marker = "marker"
-            case organizationId = "organizationId"
-            case searchQuery = "searchQuery"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeGroupsResponse: AWSShape {
+    public struct DescribeGroupsResponse: AWSDecodableShape {
 
         /// The list of groups.
         public let groups: [GroupMetadata]?
@@ -1618,7 +1525,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeNotificationSubscriptionsRequest: AWSShape {
+    public struct DescribeNotificationSubscriptionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -1648,14 +1555,10 @@ extension WorkDocs {
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case marker = "marker"
-            case organizationId = "OrganizationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeNotificationSubscriptionsResponse: AWSShape {
+    public struct DescribeNotificationSubscriptionsResponse: AWSDecodableShape {
 
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -1673,7 +1576,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeResourcePermissionsRequest: AWSShape {
+    public struct DescribeResourcePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
@@ -1716,16 +1619,10 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case marker = "marker"
-            case principalId = "principalId"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeResourcePermissionsResponse: AWSShape {
+    public struct DescribeResourcePermissionsResponse: AWSDecodableShape {
 
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -1743,7 +1640,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeRootFoldersRequest: AWSShape {
+    public struct DescribeRootFoldersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
@@ -1772,14 +1669,10 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeRootFoldersResponse: AWSShape {
+    public struct DescribeRootFoldersResponse: AWSDecodableShape {
 
         /// The user's special folders.
         public let folders: [FolderMetadata]?
@@ -1797,7 +1690,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DescribeUsersRequest: AWSShape {
+    public struct DescribeUsersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
@@ -1866,21 +1759,10 @@ extension WorkDocs {
             try validate(self.userIds, name:"userIds", parent: name, pattern: "[&\\w+-.@, ]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case fields = "fields"
-            case include = "include"
-            case limit = "limit"
-            case marker = "marker"
-            case order = "order"
-            case organizationId = "organizationId"
-            case query = "query"
-            case sort = "sort"
-            case userIds = "userIds"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeUsersResponse: AWSShape {
+    public struct DescribeUsersResponse: AWSDecodableShape {
 
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -1898,7 +1780,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DocumentMetadata: AWSShape {
+    public struct DocumentMetadata: AWSDecodableShape {
 
         /// The time when the document was created.
         public let createdTimestamp: TimeStamp?
@@ -1940,7 +1822,7 @@ extension WorkDocs {
         }
     }
 
-    public struct DocumentVersionMetadata: AWSShape {
+    public struct DocumentVersionMetadata: AWSDecodableShape {
 
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: TimeStamp?
@@ -2002,7 +1884,7 @@ extension WorkDocs {
         }
     }
 
-    public struct FolderMetadata: AWSShape {
+    public struct FolderMetadata: AWSDecodableShape {
 
         /// The time when the folder was created.
         public let createdTimestamp: TimeStamp?
@@ -2056,7 +1938,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetCurrentUserRequest: AWSShape {
+    public struct GetCurrentUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
@@ -2073,12 +1955,10 @@ extension WorkDocs {
             try validate(self.authenticationToken, name:"authenticationToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCurrentUserResponse: AWSShape {
+    public struct GetCurrentUserResponse: AWSDecodableShape {
 
         /// Metadata of the user.
         public let user: User?
@@ -2092,7 +1972,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetDocumentPathRequest: AWSShape {
+    public struct GetDocumentPathRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -2135,16 +2015,10 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDocumentPathResponse: AWSShape {
+    public struct GetDocumentPathResponse: AWSDecodableShape {
 
         /// The path information.
         public let path: ResourcePath?
@@ -2158,7 +2032,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetDocumentRequest: AWSShape {
+    public struct GetDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -2186,14 +2060,10 @@ extension WorkDocs {
             try validate(self.documentId, name:"documentId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case includeCustomMetadata = "includeCustomMetadata"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDocumentResponse: AWSShape {
+    public struct GetDocumentResponse: AWSDecodableShape {
 
         /// The custom metadata on the document.
         public let customMetadata: [String: String]?
@@ -2211,7 +2081,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetDocumentVersionRequest: AWSShape {
+    public struct GetDocumentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -2253,16 +2123,10 @@ extension WorkDocs {
             try validate(self.versionId, name:"versionId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case fields = "fields"
-            case includeCustomMetadata = "includeCustomMetadata"
-            case versionId = "VersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDocumentVersionResponse: AWSShape {
+    public struct GetDocumentVersionResponse: AWSDecodableShape {
 
         /// The custom metadata on the document version.
         public let customMetadata: [String: String]?
@@ -2280,7 +2144,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetFolderPathRequest: AWSShape {
+    public struct GetFolderPathRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
@@ -2323,16 +2187,10 @@ extension WorkDocs {
             try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case fields = "fields"
-            case folderId = "FolderId"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFolderPathResponse: AWSShape {
+    public struct GetFolderPathResponse: AWSDecodableShape {
 
         /// The path information.
         public let path: ResourcePath?
@@ -2346,7 +2204,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetFolderRequest: AWSShape {
+    public struct GetFolderRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
@@ -2374,14 +2232,10 @@ extension WorkDocs {
             try validate(self.folderId, name:"folderId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
-            case includeCustomMetadata = "includeCustomMetadata"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFolderResponse: AWSShape {
+    public struct GetFolderResponse: AWSDecodableShape {
 
         /// The custom metadata on the folder.
         public let customMetadata: [String: String]?
@@ -2399,7 +2253,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GetResourcesRequest: AWSShape {
+    public struct GetResourcesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "collectionType", location: .querystring(locationName: "collectionType")), 
@@ -2439,16 +2293,10 @@ extension WorkDocs {
             try validate(self.userId, name:"userId", parent: name, pattern: "[&\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case collectionType = "collectionType"
-            case limit = "limit"
-            case marker = "marker"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResourcesResponse: AWSShape {
+    public struct GetResourcesResponse: AWSDecodableShape {
 
         /// The documents in the specified collection.
         public let documents: [DocumentMetadata]?
@@ -2470,7 +2318,7 @@ extension WorkDocs {
         }
     }
 
-    public struct GroupMetadata: AWSShape {
+    public struct GroupMetadata: AWSDecodableShape {
 
         /// The ID of the user group.
         public let id: String?
@@ -2488,7 +2336,7 @@ extension WorkDocs {
         }
     }
 
-    public struct InitiateDocumentVersionUploadRequest: AWSShape {
+    public struct InitiateDocumentVersionUploadRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication"))
         ]
@@ -2538,7 +2386,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case contentCreatedTimestamp = "ContentCreatedTimestamp"
             case contentModifiedTimestamp = "ContentModifiedTimestamp"
             case contentType = "ContentType"
@@ -2549,7 +2396,7 @@ extension WorkDocs {
         }
     }
 
-    public struct InitiateDocumentVersionUploadResponse: AWSShape {
+    public struct InitiateDocumentVersionUploadResponse: AWSDecodableShape {
 
         /// The document metadata.
         public let metadata: DocumentMetadata?
@@ -2567,7 +2414,7 @@ extension WorkDocs {
         }
     }
 
-    public struct NotificationOptions: AWSShape {
+    public struct NotificationOptions: AWSEncodableShape {
 
         /// Text value to be included in the email body.
         public let emailMessage: String?
@@ -2590,7 +2437,7 @@ extension WorkDocs {
         }
     }
 
-    public struct Participants: AWSShape {
+    public struct Participants: AWSDecodableShape {
 
         /// The list of user groups.
         public let groups: [GroupMetadata]?
@@ -2608,7 +2455,7 @@ extension WorkDocs {
         }
     }
 
-    public struct PermissionInfo: AWSShape {
+    public struct PermissionInfo: AWSDecodableShape {
 
         /// The role of the user.
         public let role: RoleType?
@@ -2626,7 +2473,7 @@ extension WorkDocs {
         }
     }
 
-    public struct Principal: AWSShape {
+    public struct Principal: AWSDecodableShape {
 
         /// The ID of the resource.
         public let id: String?
@@ -2648,7 +2495,7 @@ extension WorkDocs {
         }
     }
 
-    public struct RemoveAllResourcePermissionsRequest: AWSShape {
+    public struct RemoveAllResourcePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
@@ -2672,13 +2519,10 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RemoveResourcePermissionRequest: AWSShape {
+    public struct RemoveResourcePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId")), 
@@ -2713,15 +2557,10 @@ extension WorkDocs {
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "[\\w+-.@]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case principalId = "PrincipalId"
-            case principalType = "type"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ResourceMetadata: AWSShape {
+    public struct ResourceMetadata: AWSDecodableShape {
 
         /// The ID of the resource.
         public let id: String?
@@ -2759,7 +2598,7 @@ extension WorkDocs {
         }
     }
 
-    public struct ResourcePath: AWSShape {
+    public struct ResourcePath: AWSDecodableShape {
 
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
@@ -2773,7 +2612,7 @@ extension WorkDocs {
         }
     }
 
-    public struct ResourcePathComponent: AWSShape {
+    public struct ResourcePathComponent: AWSDecodableShape {
 
         /// The ID of the resource path.
         public let id: String?
@@ -2791,7 +2630,7 @@ extension WorkDocs {
         }
     }
 
-    public struct SharePrincipal: AWSShape {
+    public struct SharePrincipal: AWSEncodableShape {
 
         /// The ID of the recipient.
         public let id: String
@@ -2819,7 +2658,7 @@ extension WorkDocs {
         }
     }
 
-    public struct ShareResult: AWSShape {
+    public struct ShareResult: AWSDecodableShape {
 
         /// The ID of the invited user.
         public let inviteePrincipalId: String?
@@ -2853,7 +2692,7 @@ extension WorkDocs {
         }
     }
 
-    public struct StorageRuleType: AWSShape {
+    public struct StorageRuleType: AWSEncodableShape & AWSDecodableShape {
 
         /// The amount of storage allocated, in bytes.
         public let storageAllocatedInBytes: Int64?
@@ -2875,7 +2714,7 @@ extension WorkDocs {
         }
     }
 
-    public struct Subscription: AWSShape {
+    public struct Subscription: AWSDecodableShape {
 
         /// The endpoint of the subscription.
         public let endPoint: String?
@@ -2897,7 +2736,7 @@ extension WorkDocs {
         }
     }
 
-    public struct UpdateDocumentRequest: AWSShape {
+    public struct UpdateDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId"))
@@ -2937,15 +2776,13 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
             case name = "Name"
             case parentFolderId = "ParentFolderId"
             case resourceState = "ResourceState"
         }
     }
 
-    public struct UpdateDocumentVersionRequest: AWSShape {
+    public struct UpdateDocumentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
@@ -2980,14 +2817,11 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case documentId = "DocumentId"
-            case versionId = "VersionId"
             case versionStatus = "VersionStatus"
         }
     }
 
-    public struct UpdateFolderRequest: AWSShape {
+    public struct UpdateFolderRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
@@ -3027,15 +2861,13 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
-            case folderId = "FolderId"
             case name = "Name"
             case parentFolderId = "ParentFolderId"
             case resourceState = "ResourceState"
         }
     }
 
-    public struct UpdateUserRequest: AWSShape {
+    public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
@@ -3088,7 +2920,6 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationToken = "Authentication"
             case givenName = "GivenName"
             case grantPoweruserPrivileges = "GrantPoweruserPrivileges"
             case locale = "Locale"
@@ -3096,11 +2927,10 @@ extension WorkDocs {
             case surname = "Surname"
             case timeZoneId = "TimeZoneId"
             case `type` = "Type"
-            case userId = "UserId"
         }
     }
 
-    public struct UpdateUserResponse: AWSShape {
+    public struct UpdateUserResponse: AWSDecodableShape {
 
         /// The user information.
         public let user: User?
@@ -3114,7 +2944,7 @@ extension WorkDocs {
         }
     }
 
-    public struct UploadMetadata: AWSShape {
+    public struct UploadMetadata: AWSDecodableShape {
 
         /// The signed headers.
         public let signedHeaders: [String: String]?
@@ -3132,7 +2962,7 @@ extension WorkDocs {
         }
     }
 
-    public struct User: AWSShape {
+    public struct User: AWSDecodableShape {
 
         /// The time when the user was created.
         public let createdTimestamp: TimeStamp?
@@ -3202,7 +3032,7 @@ extension WorkDocs {
         }
     }
 
-    public struct UserMetadata: AWSShape {
+    public struct UserMetadata: AWSDecodableShape {
 
         /// The email address of the user.
         public let emailAddress: String?
@@ -3232,7 +3062,7 @@ extension WorkDocs {
         }
     }
 
-    public struct UserStorageMetadata: AWSShape {
+    public struct UserStorageMetadata: AWSDecodableShape {
 
         /// The storage for a user.
         public let storageRule: StorageRuleType?

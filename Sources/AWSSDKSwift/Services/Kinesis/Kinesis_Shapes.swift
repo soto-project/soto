@@ -69,7 +69,7 @@ extension Kinesis {
 
     //MARK: Shapes
 
-    public struct AddTagsToStreamInput: AWSShape {
+    public struct AddTagsToStreamInput: AWSEncodableShape {
 
         /// The name of the stream.
         public let streamName: String
@@ -99,7 +99,7 @@ extension Kinesis {
         }
     }
 
-    public struct Consumer: AWSShape {
+    public struct Consumer: AWSDecodableShape {
 
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call SubscribeToShard. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         public let consumerARN: String
@@ -124,7 +124,7 @@ extension Kinesis {
         }
     }
 
-    public struct ConsumerDescription: AWSShape {
+    public struct ConsumerDescription: AWSDecodableShape {
 
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call SubscribeToShard. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         public let consumerARN: String
@@ -153,7 +153,7 @@ extension Kinesis {
         }
     }
 
-    public struct CreateStreamInput: AWSShape {
+    public struct CreateStreamInput: AWSEncodableShape {
 
         /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput. DefaultShardLimit;
         public let shardCount: Int
@@ -179,7 +179,7 @@ extension Kinesis {
         }
     }
 
-    public struct DecreaseStreamRetentionPeriodInput: AWSShape {
+    public struct DecreaseStreamRetentionPeriodInput: AWSEncodableShape {
 
         /// The new retention period of the stream, in hours. Must be less than the current retention period.
         public let retentionPeriodHours: Int
@@ -205,7 +205,7 @@ extension Kinesis {
         }
     }
 
-    public struct DeleteStreamInput: AWSShape {
+    public struct DeleteStreamInput: AWSEncodableShape {
 
         /// If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException. 
         public let enforceConsumerDeletion: Bool?
@@ -229,7 +229,7 @@ extension Kinesis {
         }
     }
 
-    public struct DeregisterStreamConsumerInput: AWSShape {
+    public struct DeregisterStreamConsumerInput: AWSEncodableShape {
 
         /// The ARN returned by Kinesis Data Streams when you registered the consumer. If you don't know the ARN of the consumer that you want to deregister, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The description of a consumer contains its ARN.
         public let consumerARN: String?
@@ -263,7 +263,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeLimitsInput: AWSShape {
+    public struct DescribeLimitsInput: AWSEncodableShape {
 
 
         public init() {
@@ -271,7 +271,7 @@ extension Kinesis {
 
     }
 
-    public struct DescribeLimitsOutput: AWSShape {
+    public struct DescribeLimitsOutput: AWSDecodableShape {
 
         /// The number of open shards.
         public let openShardCount: Int
@@ -289,7 +289,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeStreamConsumerInput: AWSShape {
+    public struct DescribeStreamConsumerInput: AWSEncodableShape {
 
         /// The ARN returned by Kinesis Data Streams when you registered the consumer.
         public let consumerARN: String?
@@ -323,7 +323,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeStreamConsumerOutput: AWSShape {
+    public struct DescribeStreamConsumerOutput: AWSDecodableShape {
 
         /// An object that represents the details of the consumer.
         public let consumerDescription: ConsumerDescription
@@ -337,7 +337,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeStreamInput: AWSShape {
+    public struct DescribeStreamInput: AWSEncodableShape {
 
         /// The shard ID of the shard to start with.
         public let exclusiveStartShardId: String?
@@ -370,7 +370,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeStreamOutput: AWSShape {
+    public struct DescribeStreamOutput: AWSDecodableShape {
 
         /// The current status of the stream, the stream Amazon Resource Name (ARN), an array of shard objects that comprise the stream, and whether there are more shards available.
         public let streamDescription: StreamDescription
@@ -384,7 +384,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeStreamSummaryInput: AWSShape {
+    public struct DescribeStreamSummaryInput: AWSEncodableShape {
 
         /// The name of the stream to describe.
         public let streamName: String
@@ -404,7 +404,7 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeStreamSummaryOutput: AWSShape {
+    public struct DescribeStreamSummaryOutput: AWSDecodableShape {
 
         /// A StreamDescriptionSummary containing information about the stream.
         public let streamDescriptionSummary: StreamDescriptionSummary
@@ -418,7 +418,7 @@ extension Kinesis {
         }
     }
 
-    public struct DisableEnhancedMonitoringInput: AWSShape {
+    public struct DisableEnhancedMonitoringInput: AWSEncodableShape {
 
         /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
@@ -444,7 +444,7 @@ extension Kinesis {
         }
     }
 
-    public struct EnableEnhancedMonitoringInput: AWSShape {
+    public struct EnableEnhancedMonitoringInput: AWSEncodableShape {
 
         /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
@@ -470,7 +470,7 @@ extension Kinesis {
         }
     }
 
-    public struct EnhancedMetrics: AWSShape {
+    public struct EnhancedMetrics: AWSDecodableShape {
 
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]?
@@ -484,7 +484,7 @@ extension Kinesis {
         }
     }
 
-    public struct EnhancedMonitoringOutput: AWSShape {
+    public struct EnhancedMonitoringOutput: AWSDecodableShape {
 
         /// Represents the current state of the metrics that are in the enhanced state before the operation.
         public let currentShardLevelMetrics: [MetricsName]?
@@ -506,7 +506,7 @@ extension Kinesis {
         }
     }
 
-    public struct GetRecordsInput: AWSShape {
+    public struct GetRecordsInput: AWSEncodableShape {
 
         /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
         public let limit: Int?
@@ -531,7 +531,7 @@ extension Kinesis {
         }
     }
 
-    public struct GetRecordsOutput: AWSShape {
+    public struct GetRecordsOutput: AWSDecodableShape {
 
         /// The number of milliseconds the GetRecords response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
         public let millisBehindLatest: Int64?
@@ -553,7 +553,7 @@ extension Kinesis {
         }
     }
 
-    public struct GetShardIteratorInput: AWSShape {
+    public struct GetShardIteratorInput: AWSEncodableShape {
 
         /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
         public let shardId: String
@@ -593,7 +593,7 @@ extension Kinesis {
         }
     }
 
-    public struct GetShardIteratorOutput: AWSShape {
+    public struct GetShardIteratorOutput: AWSDecodableShape {
 
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
         public let shardIterator: String?
@@ -607,7 +607,7 @@ extension Kinesis {
         }
     }
 
-    public struct HashKeyRange: AWSShape {
+    public struct HashKeyRange: AWSDecodableShape {
 
         /// The ending hash key of the hash key range.
         public let endingHashKey: String
@@ -625,7 +625,7 @@ extension Kinesis {
         }
     }
 
-    public struct IncreaseStreamRetentionPeriodInput: AWSShape {
+    public struct IncreaseStreamRetentionPeriodInput: AWSEncodableShape {
 
         /// The new retention period of the stream, in hours. Must be more than the current retention period.
         public let retentionPeriodHours: Int
@@ -651,7 +651,7 @@ extension Kinesis {
         }
     }
 
-    public struct InternalFailureException: AWSShape {
+    public struct InternalFailureException: AWSDecodableShape {
 
         public let message: String?
 
@@ -664,7 +664,7 @@ extension Kinesis {
         }
     }
 
-    public struct KMSAccessDeniedException: AWSShape {
+    public struct KMSAccessDeniedException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -678,7 +678,7 @@ extension Kinesis {
         }
     }
 
-    public struct KMSDisabledException: AWSShape {
+    public struct KMSDisabledException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -692,7 +692,7 @@ extension Kinesis {
         }
     }
 
-    public struct KMSInvalidStateException: AWSShape {
+    public struct KMSInvalidStateException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -706,7 +706,7 @@ extension Kinesis {
         }
     }
 
-    public struct KMSNotFoundException: AWSShape {
+    public struct KMSNotFoundException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -720,7 +720,7 @@ extension Kinesis {
         }
     }
 
-    public struct KMSOptInRequired: AWSShape {
+    public struct KMSOptInRequired: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -734,7 +734,7 @@ extension Kinesis {
         }
     }
 
-    public struct KMSThrottlingException: AWSShape {
+    public struct KMSThrottlingException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -748,7 +748,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListShardsInput: AWSShape {
+    public struct ListShardsInput: AWSEncodableShape {
 
         /// Specify this parameter to indicate that you want to list the shards starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior is for ListShards to list the shards starting with the first one in the stream. You cannot specify this parameter if you specify NextToken.
         public let exclusiveStartShardId: String?
@@ -791,7 +791,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListShardsOutput: AWSShape {
+    public struct ListShardsOutput: AWSDecodableShape {
 
         /// When the number of shards in the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of shards in the data stream, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListShards to list the next set of shards. For more information about the use of this pagination token when calling the ListShards operation, see ListShardsInput$NextToken.  Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListShards, you have 300 seconds to use that value. If you specify an expired token in a call to ListShards, you get ExpiredNextTokenException. 
         public let nextToken: String?
@@ -809,7 +809,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListStreamConsumersInput: AWSShape {
+    public struct ListStreamConsumersInput: AWSEncodableShape {
 
         /// The maximum number of consumers that you want a single call of ListStreamConsumers to return.
         public let maxResults: Int?
@@ -845,7 +845,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListStreamConsumersOutput: AWSShape {
+    public struct ListStreamConsumersOutput: AWSDecodableShape {
 
         /// An array of JSON objects. Each object represents one registered consumer.
         public let consumers: [Consumer]?
@@ -863,7 +863,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListStreamsInput: AWSShape {
+    public struct ListStreamsInput: AWSEncodableShape {
 
         /// The name of the stream to start the list with.
         public let exclusiveStartStreamName: String?
@@ -889,7 +889,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListStreamsOutput: AWSShape {
+    public struct ListStreamsOutput: AWSDecodableShape {
 
         /// If set to true, there are more streams available to list.
         public let hasMoreStreams: Bool
@@ -907,7 +907,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListTagsForStreamInput: AWSShape {
+    public struct ListTagsForStreamInput: AWSEncodableShape {
 
         /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey. 
         public let exclusiveStartTagKey: String?
@@ -939,7 +939,7 @@ extension Kinesis {
         }
     }
 
-    public struct ListTagsForStreamOutput: AWSShape {
+    public struct ListTagsForStreamOutput: AWSDecodableShape {
 
         /// If set to true, more tags are available. To request additional tags, set ExclusiveStartTagKey to the key of the last tag returned.
         public let hasMoreTags: Bool
@@ -957,7 +957,7 @@ extension Kinesis {
         }
     }
 
-    public struct MergeShardsInput: AWSShape {
+    public struct MergeShardsInput: AWSEncodableShape {
 
         /// The shard ID of the adjacent shard for the merge.
         public let adjacentShardToMerge: String
@@ -991,7 +991,7 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordInput: AWSShape {
+    public struct PutRecordInput: AWSEncodableShape {
 
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
@@ -1033,7 +1033,7 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordOutput: AWSShape {
+    public struct PutRecordOutput: AWSDecodableShape {
 
         /// The encryption type to use on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1055,7 +1055,7 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordsInput: AWSShape {
+    public struct PutRecordsInput: AWSEncodableShape {
 
         /// The records associated with the request.
         public let records: [PutRecordsRequestEntry]
@@ -1084,7 +1084,7 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordsOutput: AWSShape {
+    public struct PutRecordsOutput: AWSDecodableShape {
 
         /// The encryption type used on the records. This parameter can be one of the following values:    NONE: Do not encrypt the records.    KMS: Use server-side encryption on the records using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1106,7 +1106,7 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordsRequestEntry: AWSShape {
+    public struct PutRecordsRequestEntry: AWSEncodableShape {
 
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
@@ -1136,7 +1136,7 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordsResultEntry: AWSShape {
+    public struct PutRecordsResultEntry: AWSDecodableShape {
 
         /// The error code for an individual record result. ErrorCodes can be either ProvisionedThroughputExceededException or InternalFailure.
         public let errorCode: String?
@@ -1162,7 +1162,7 @@ extension Kinesis {
         }
     }
 
-    public struct Record: AWSShape {
+    public struct Record: AWSDecodableShape {
 
         /// The approximate time that the record was inserted into the stream.
         public let approximateArrivalTimestamp: TimeStamp?
@@ -1192,7 +1192,7 @@ extension Kinesis {
         }
     }
 
-    public struct RegisterStreamConsumerInput: AWSShape {
+    public struct RegisterStreamConsumerInput: AWSEncodableShape {
 
         /// For a given Kinesis data stream, each consumer must have a unique name. However, consumer names don't have to be unique across data streams.
         public let consumerName: String
@@ -1219,7 +1219,7 @@ extension Kinesis {
         }
     }
 
-    public struct RegisterStreamConsumerOutput: AWSShape {
+    public struct RegisterStreamConsumerOutput: AWSDecodableShape {
 
         /// An object that represents the details of the consumer you registered. When you register a consumer, it gets an ARN that is generated by Kinesis Data Streams.
         public let consumer: Consumer
@@ -1233,7 +1233,7 @@ extension Kinesis {
         }
     }
 
-    public struct RemoveTagsFromStreamInput: AWSShape {
+    public struct RemoveTagsFromStreamInput: AWSEncodableShape {
 
         /// The name of the stream.
         public let streamName: String
@@ -1263,7 +1263,7 @@ extension Kinesis {
         }
     }
 
-    public struct ResourceInUseException: AWSShape {
+    public struct ResourceInUseException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -1277,7 +1277,7 @@ extension Kinesis {
         }
     }
 
-    public struct ResourceNotFoundException: AWSShape {
+    public struct ResourceNotFoundException: AWSDecodableShape {
 
         /// A message that provides information about the error.
         public let message: String?
@@ -1291,7 +1291,7 @@ extension Kinesis {
         }
     }
 
-    public struct SequenceNumberRange: AWSShape {
+    public struct SequenceNumberRange: AWSDecodableShape {
 
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
         public let endingSequenceNumber: String?
@@ -1309,7 +1309,7 @@ extension Kinesis {
         }
     }
 
-    public struct Shard: AWSShape {
+    public struct Shard: AWSDecodableShape {
 
         /// The shard ID of the shard adjacent to the shard's parent.
         public let adjacentParentShardId: String?
@@ -1339,7 +1339,7 @@ extension Kinesis {
         }
     }
 
-    public struct SplitShardInput: AWSShape {
+    public struct SplitShardInput: AWSEncodableShape {
 
         /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard.
         public let newStartingHashKey: String
@@ -1371,7 +1371,7 @@ extension Kinesis {
         }
     }
 
-    public struct StartStreamEncryptionInput: AWSShape {
+    public struct StartStreamEncryptionInput: AWSEncodableShape {
 
         /// The encryption type to use. The only valid value is KMS.
         public let encryptionType: EncryptionType
@@ -1401,7 +1401,7 @@ extension Kinesis {
         }
     }
 
-    public struct StartingPosition: AWSShape {
+    public struct StartingPosition: AWSEncodableShape {
 
         public let sequenceNumber: String?
         public let timestamp: TimeStamp?
@@ -1424,7 +1424,7 @@ extension Kinesis {
         }
     }
 
-    public struct StopStreamEncryptionInput: AWSShape {
+    public struct StopStreamEncryptionInput: AWSEncodableShape {
 
         /// The encryption type. The only valid value is KMS.
         public let encryptionType: EncryptionType
@@ -1454,7 +1454,7 @@ extension Kinesis {
         }
     }
 
-    public struct StreamDescription: AWSShape {
+    public struct StreamDescription: AWSDecodableShape {
 
         /// The server-side encryption type used on the stream. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed AWS KMS key.  
         public let encryptionType: EncryptionType?
@@ -1504,7 +1504,7 @@ extension Kinesis {
         }
     }
 
-    public struct StreamDescriptionSummary: AWSShape {
+    public struct StreamDescriptionSummary: AWSDecodableShape {
 
         /// The number of enhanced fan-out consumers registered with the stream.
         public let consumerCount: Int?
@@ -1554,7 +1554,7 @@ extension Kinesis {
         }
     }
 
-    public struct SubscribeToShardEvent: AWSShape {
+    public struct SubscribeToShardEvent: AWSDecodableShape {
 
         /// Use this as StartingSequenceNumber in the next call to SubscribeToShard.
         public let continuationSequenceNumber: String
@@ -1575,7 +1575,7 @@ extension Kinesis {
         }
     }
 
-    public struct SubscribeToShardEventStream: AWSShape {
+    public struct SubscribeToShardEventStream: AWSDecodableShape {
 
         public let internalFailureException: InternalFailureException?
         public let kMSAccessDeniedException: KMSAccessDeniedException?
@@ -1615,7 +1615,7 @@ extension Kinesis {
         }
     }
 
-    public struct SubscribeToShardInput: AWSShape {
+    public struct SubscribeToShardInput: AWSEncodableShape {
 
         /// For this parameter, use the value you obtained when you called RegisterStreamConsumer.
         public let consumerARN: String
@@ -1646,7 +1646,7 @@ extension Kinesis {
         }
     }
 
-    public struct SubscribeToShardOutput: AWSShape {
+    public struct SubscribeToShardOutput: AWSDecodableShape {
 
         /// The event stream that your consumer can use to read records from the shard.
         public let eventStream: SubscribeToShardEventStream
@@ -1660,7 +1660,7 @@ extension Kinesis {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSDecodableShape {
 
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let key: String
@@ -1678,7 +1678,7 @@ extension Kinesis {
         }
     }
 
-    public struct UpdateShardCountInput: AWSShape {
+    public struct UpdateShardCountInput: AWSEncodableShape {
 
         /// The scaling type. Uniform scaling creates shards of equal size.
         public let scalingType: ScalingType
@@ -1708,7 +1708,7 @@ extension Kinesis {
         }
     }
 
-    public struct UpdateShardCountOutput: AWSShape {
+    public struct UpdateShardCountOutput: AWSDecodableShape {
 
         /// The current number of shards.
         public let currentShardCount: Int?

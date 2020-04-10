@@ -94,7 +94,7 @@ extension Glacier {
 
     //MARK: Shapes
 
-    public struct AbortMultipartUploadInput: AWSShape {
+    public struct AbortMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")), 
@@ -114,14 +114,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AbortVaultLockInput: AWSShape {
+    public struct AbortVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -137,13 +133,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AddTagsToVaultInput: AWSShape {
+    public struct AddTagsToVaultInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -163,13 +156,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case tags = "Tags"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct ArchiveCreationOutput: AWSShape {
+    public struct ArchiveCreationOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "archiveId", location: .header(locationName: "x-amz-archive-id")), 
             AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
@@ -196,7 +187,7 @@ extension Glacier {
         }
     }
 
-    public struct CSVInput: AWSShape {
+    public struct CSVInput: AWSEncodableShape & AWSDecodableShape {
 
         /// A single character used to indicate that a row should be ignored when the character is present at the start of that row.
         public let comments: String?
@@ -230,7 +221,7 @@ extension Glacier {
         }
     }
 
-    public struct CSVOutput: AWSShape {
+    public struct CSVOutput: AWSEncodableShape & AWSDecodableShape {
 
         /// A value used to separate individual fields from each other within a record.
         public let fieldDelimiter: String?
@@ -260,7 +251,7 @@ extension Glacier {
         }
     }
 
-    public struct CompleteMultipartUploadInput: AWSShape {
+    public struct CompleteMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "archiveSize", location: .header(locationName: "x-amz-archive-size")), 
@@ -288,16 +279,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveSize = "x-amz-archive-size"
-            case checksum = "x-amz-sha256-tree-hash"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CompleteVaultLockInput: AWSShape {
+    public struct CompleteVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "lockId", location: .uri(locationName: "lockId")), 
@@ -317,14 +302,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case lockId = "lockId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateVaultInput: AWSShape {
+    public struct CreateVaultInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -340,13 +321,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateVaultOutput: AWSShape {
+    public struct CreateVaultOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -363,7 +341,7 @@ extension Glacier {
         }
     }
 
-    public struct DataRetrievalPolicy: AWSShape {
+    public struct DataRetrievalPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
         public let rules: [DataRetrievalRule]?
@@ -377,7 +355,7 @@ extension Glacier {
         }
     }
 
-    public struct DataRetrievalRule: AWSShape {
+    public struct DataRetrievalRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour. Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field.
         public let bytesPerHour: Int64?
@@ -395,7 +373,7 @@ extension Glacier {
         }
     }
 
-    public struct DeleteArchiveInput: AWSShape {
+    public struct DeleteArchiveInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "archiveId", location: .uri(locationName: "archiveId")), 
@@ -415,14 +393,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveId = "archiveId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVaultAccessPolicyInput: AWSShape {
+    public struct DeleteVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -438,13 +412,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVaultInput: AWSShape {
+    public struct DeleteVaultInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -460,13 +431,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVaultNotificationsInput: AWSShape {
+    public struct DeleteVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -482,13 +450,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeJobInput: AWSShape {
+    public struct DescribeJobInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
@@ -508,14 +473,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case jobId = "jobId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVaultInput: AWSShape {
+    public struct DescribeVaultInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -531,13 +492,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVaultOutput: AWSShape {
+    public struct DescribeVaultOutput: AWSDecodableShape {
 
         /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
         public let creationDate: String?
@@ -571,7 +529,7 @@ extension Glacier {
         }
     }
 
-    public struct Encryption: AWSShape {
+    public struct Encryption: AWSEncodableShape & AWSDecodableShape {
 
         /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
         public let encryptionType: EncryptionType?
@@ -593,7 +551,7 @@ extension Glacier {
         }
     }
 
-    public struct GetDataRetrievalPolicyInput: AWSShape {
+    public struct GetDataRetrievalPolicyInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -605,12 +563,10 @@ extension Glacier {
             self.accountId = accountId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDataRetrievalPolicyOutput: AWSShape {
+    public struct GetDataRetrievalPolicyOutput: AWSDecodableShape {
 
         /// Contains the returned data retrieval policy in JSON format.
         public let policy: DataRetrievalPolicy?
@@ -624,7 +580,7 @@ extension Glacier {
         }
     }
 
-    public struct GetJobOutputInput: AWSShape {
+    public struct GetJobOutputInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
@@ -648,15 +604,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case jobId = "jobId"
-            case range = "Range"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJobOutputOutput: AWSShape {
+    public struct GetJobOutputOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -704,7 +655,7 @@ extension Glacier {
         }
     }
 
-    public struct GetVaultAccessPolicyInput: AWSShape {
+    public struct GetVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -720,13 +671,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVaultAccessPolicyOutput: AWSShape {
+    public struct GetVaultAccessPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
 
@@ -742,7 +690,7 @@ extension Glacier {
         }
     }
 
-    public struct GetVaultLockInput: AWSShape {
+    public struct GetVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -758,13 +706,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVaultLockOutput: AWSShape {
+    public struct GetVaultLockOutput: AWSDecodableShape {
 
         /// The UTC date and time at which the vault lock was put into the InProgress state.
         public let creationDate: String?
@@ -790,7 +735,7 @@ extension Glacier {
         }
     }
 
-    public struct GetVaultNotificationsInput: AWSShape {
+    public struct GetVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -806,13 +751,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVaultNotificationsOutput: AWSShape {
+    public struct GetVaultNotificationsOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "vaultNotificationConfig"
 
@@ -828,7 +770,7 @@ extension Glacier {
         }
     }
 
-    public struct GlacierJobDescription: AWSShape {
+    public struct GlacierJobDescription: AWSDecodableShape {
 
         /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select. 
         public let action: ActionCode?
@@ -922,7 +864,7 @@ extension Glacier {
         }
     }
 
-    public struct Grant: AWSShape {
+    public struct Grant: AWSEncodableShape & AWSDecodableShape {
 
         /// The grantee.
         public let grantee: Grantee?
@@ -940,7 +882,7 @@ extension Glacier {
         }
     }
 
-    public struct Grantee: AWSShape {
+    public struct Grantee: AWSEncodableShape & AWSDecodableShape {
 
         /// Screen name of the grantee.
         public let displayName: String?
@@ -970,7 +912,7 @@ extension Glacier {
         }
     }
 
-    public struct InitiateJobInput: AWSShape {
+    public struct InitiateJobInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "jobParameters"
         public static var _encoding = [
@@ -992,13 +934,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case jobParameters = "jobParameters"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct InitiateJobOutput: AWSShape {
+    public struct InitiateJobOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .header(locationName: "x-amz-job-id")), 
             AWSMemberEncoding(label: "jobOutputPath", location: .header(locationName: "x-amz-job-output-path")), 
@@ -1025,7 +965,7 @@ extension Glacier {
         }
     }
 
-    public struct InitiateMultipartUploadInput: AWSShape {
+    public struct InitiateMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
@@ -1049,15 +989,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveDescription = "x-amz-archive-description"
-            case partSize = "x-amz-part-size"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct InitiateMultipartUploadOutput: AWSShape {
+    public struct InitiateMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
             AWSMemberEncoding(label: "uploadId", location: .header(locationName: "x-amz-multipart-upload-id"))
@@ -1079,7 +1014,7 @@ extension Glacier {
         }
     }
 
-    public struct InitiateVaultLockInput: AWSShape {
+    public struct InitiateVaultLockInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
         public static var _encoding = [
@@ -1101,13 +1036,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case policy = "policy"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct InitiateVaultLockOutput: AWSShape {
+    public struct InitiateVaultLockOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "lockId", location: .header(locationName: "x-amz-lock-id"))
         ]
@@ -1124,7 +1057,7 @@ extension Glacier {
         }
     }
 
-    public struct InputSerialization: AWSShape {
+    public struct InputSerialization: AWSEncodableShape & AWSDecodableShape {
 
         /// Describes the serialization of a CSV-encoded object.
         public let csv: CSVInput?
@@ -1138,7 +1071,7 @@ extension Glacier {
         }
     }
 
-    public struct InventoryRetrievalJobDescription: AWSShape {
+    public struct InventoryRetrievalJobDescription: AWSDecodableShape {
 
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let endDate: String?
@@ -1168,7 +1101,7 @@ extension Glacier {
         }
     }
 
-    public struct InventoryRetrievalJobInput: AWSShape {
+    public struct InventoryRetrievalJobInput: AWSEncodableShape {
 
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let endDate: String?
@@ -1194,7 +1127,7 @@ extension Glacier {
         }
     }
 
-    public struct JobParameters: AWSShape {
+    public struct JobParameters: AWSEncodableShape {
 
         /// The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrievalcode&gt;. An error occurs if you specify this request parameter for an inventory retrieval job request. 
         public let archiveId: String?
@@ -1244,7 +1177,7 @@ extension Glacier {
         }
     }
 
-    public struct ListJobsInput: AWSShape {
+    public struct ListJobsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "completed", location: .querystring(locationName: "completed")), 
@@ -1276,17 +1209,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case completed = "completed"
-            case limit = "limit"
-            case marker = "marker"
-            case statuscode = "statuscode"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJobsOutput: AWSShape {
+    public struct ListJobsOutput: AWSDecodableShape {
 
         /// A list of job objects. Each job object contains metadata describing the job.
         public let jobList: [GlacierJobDescription]?
@@ -1304,7 +1230,7 @@ extension Glacier {
         }
     }
 
-    public struct ListMultipartUploadsInput: AWSShape {
+    public struct ListMultipartUploadsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
@@ -1328,15 +1254,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case limit = "limit"
-            case marker = "marker"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListMultipartUploadsOutput: AWSShape {
+    public struct ListMultipartUploadsOutput: AWSDecodableShape {
 
         /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
         public let marker: String?
@@ -1354,7 +1275,7 @@ extension Glacier {
         }
     }
 
-    public struct ListPartsInput: AWSShape {
+    public struct ListPartsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
@@ -1382,16 +1303,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case limit = "limit"
-            case marker = "marker"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPartsOutput: AWSShape {
+    public struct ListPartsOutput: AWSDecodableShape {
 
         /// The description of the archive that was specified in the Initiate Multipart Upload request.
         public let archiveDescription: String?
@@ -1429,7 +1344,7 @@ extension Glacier {
         }
     }
 
-    public struct ListProvisionedCapacityInput: AWSShape {
+    public struct ListProvisionedCapacityInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1441,12 +1356,10 @@ extension Glacier {
             self.accountId = accountId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListProvisionedCapacityOutput: AWSShape {
+    public struct ListProvisionedCapacityOutput: AWSDecodableShape {
 
         /// The response body contains the following JSON fields.
         public let provisionedCapacityList: [ProvisionedCapacityDescription]?
@@ -1460,7 +1373,7 @@ extension Glacier {
         }
     }
 
-    public struct ListTagsForVaultInput: AWSShape {
+    public struct ListTagsForVaultInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -1476,13 +1389,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForVaultOutput: AWSShape {
+    public struct ListTagsForVaultOutput: AWSDecodableShape {
 
         /// The tags attached to the vault. Each tag is composed of a key and a value.
         public let tags: [String: String]?
@@ -1496,7 +1406,7 @@ extension Glacier {
         }
     }
 
-    public struct ListVaultsInput: AWSShape {
+    public struct ListVaultsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
@@ -1516,14 +1426,10 @@ extension Glacier {
             self.marker = marker
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case limit = "limit"
-            case marker = "marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListVaultsOutput: AWSShape {
+    public struct ListVaultsOutput: AWSDecodableShape {
 
         /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
         public let marker: String?
@@ -1541,7 +1447,7 @@ extension Glacier {
         }
     }
 
-    public struct OutputLocation: AWSShape {
+    public struct OutputLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// Describes an S3 location that will receive the results of the job request.
         public let s3: S3Location?
@@ -1555,7 +1461,7 @@ extension Glacier {
         }
     }
 
-    public struct OutputSerialization: AWSShape {
+    public struct OutputSerialization: AWSEncodableShape & AWSDecodableShape {
 
         /// Describes the serialization of CSV-encoded query results.
         public let csv: CSVOutput?
@@ -1569,7 +1475,7 @@ extension Glacier {
         }
     }
 
-    public struct PartListElement: AWSShape {
+    public struct PartListElement: AWSDecodableShape {
 
         /// The byte range of a part, inclusive of the upper value of the range.
         public let rangeInBytes: String?
@@ -1587,7 +1493,7 @@ extension Glacier {
         }
     }
 
-    public struct ProvisionedCapacityDescription: AWSShape {
+    public struct ProvisionedCapacityDescription: AWSDecodableShape {
 
         /// The ID that identifies the provisioned capacity unit.
         public let capacityId: String?
@@ -1609,7 +1515,7 @@ extension Glacier {
         }
     }
 
-    public struct PurchaseProvisionedCapacityInput: AWSShape {
+    public struct PurchaseProvisionedCapacityInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1621,12 +1527,10 @@ extension Glacier {
             self.accountId = accountId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct PurchaseProvisionedCapacityOutput: AWSShape {
+    public struct PurchaseProvisionedCapacityOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "capacityId", location: .header(locationName: "x-amz-capacity-id"))
         ]
@@ -1643,7 +1547,7 @@ extension Glacier {
         }
     }
 
-    public struct RemoveTagsFromVaultInput: AWSShape {
+    public struct RemoveTagsFromVaultInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
@@ -1663,13 +1567,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case tagKeys = "TagKeys"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct S3Location: AWSShape {
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of grants that control access to the staged results.
         public let accessControlList: [Grant]?
@@ -1711,7 +1613,7 @@ extension Glacier {
         }
     }
 
-    public struct SelectParameters: AWSShape {
+    public struct SelectParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The expression that is used to select the object.
         public let expression: String?
@@ -1737,7 +1639,7 @@ extension Glacier {
         }
     }
 
-    public struct SetDataRetrievalPolicyInput: AWSShape {
+    public struct SetDataRetrievalPolicyInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1753,12 +1655,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case policy = "Policy"
         }
     }
 
-    public struct SetVaultAccessPolicyInput: AWSShape {
+    public struct SetVaultAccessPolicyInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
         public static var _encoding = [
@@ -1780,13 +1681,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case policy = "policy"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct SetVaultNotificationsInput: AWSShape {
+    public struct SetVaultNotificationsInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "vaultNotificationConfig"
         public static var _encoding = [
@@ -1808,13 +1707,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case vaultName = "vaultName"
             case vaultNotificationConfig = "vaultNotificationConfig"
         }
     }
 
-    public struct UploadArchiveInput: AWSShape {
+    public struct UploadArchiveInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -1845,15 +1742,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case archiveDescription = "x-amz-archive-description"
             case body = "body"
-            case checksum = "x-amz-sha256-tree-hash"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct UploadListElement: AWSShape {
+    public struct UploadListElement: AWSDecodableShape {
 
         /// The description of the archive that was specified in the Initiate Multipart Upload request.
         public let archiveDescription: String?
@@ -1883,7 +1776,7 @@ extension Glacier {
         }
     }
 
-    public struct UploadMultipartPartInput: AWSShape {
+    public struct UploadMultipartPartInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -1918,16 +1811,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case body = "body"
-            case checksum = "x-amz-sha256-tree-hash"
-            case range = "Content-Range"
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
         }
     }
 
-    public struct UploadMultipartPartOutput: AWSShape {
+    public struct UploadMultipartPartOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"))
         ]
@@ -1944,7 +1832,7 @@ extension Glacier {
         }
     }
 
-    public struct VaultAccessPolicy: AWSShape {
+    public struct VaultAccessPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The vault access policy.
         public let policy: String?
@@ -1958,7 +1846,7 @@ extension Glacier {
         }
     }
 
-    public struct VaultLockPolicy: AWSShape {
+    public struct VaultLockPolicy: AWSEncodableShape {
 
         /// The vault lock policy.
         public let policy: String?
@@ -1972,7 +1860,7 @@ extension Glacier {
         }
     }
 
-    public struct VaultNotificationConfig: AWSShape {
+    public struct VaultNotificationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of one or more events for which Amazon S3 Glacier will send a notification to the specified Amazon SNS topic.
         public let events: [String]?

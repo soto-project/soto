@@ -83,7 +83,7 @@ extension Route53Resolver {
 
     //MARK: Shapes
 
-    public struct AssociateResolverEndpointIpAddressRequest: AWSShape {
+    public struct AssociateResolverEndpointIpAddressRequest: AWSEncodableShape {
 
         /// Either the IPv4 address that you want to add to a resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
         public let ipAddress: IpAddressUpdate
@@ -107,7 +107,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct AssociateResolverEndpointIpAddressResponse: AWSShape {
+    public struct AssociateResolverEndpointIpAddressResponse: AWSDecodableShape {
 
         /// The response to an AssociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -121,7 +121,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct AssociateResolverRuleRequest: AWSShape {
+    public struct AssociateResolverRuleRequest: AWSEncodableShape {
 
         /// A name for the association that you're creating between a resolver rule and a VPC.
         public let name: String?
@@ -152,7 +152,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct AssociateResolverRuleResponse: AWSShape {
+    public struct AssociateResolverRuleResponse: AWSDecodableShape {
 
         /// Information about the AssociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
@@ -166,7 +166,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct CreateResolverEndpointRequest: AWSShape {
+    public struct CreateResolverEndpointRequest: AWSEncodableShape {
 
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
         public let creatorRequestId: String
@@ -216,7 +216,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct CreateResolverEndpointResponse: AWSShape {
+    public struct CreateResolverEndpointResponse: AWSDecodableShape {
 
         /// Information about the CreateResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -230,7 +230,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct CreateResolverRuleRequest: AWSShape {
+    public struct CreateResolverRuleRequest: AWSEncodableShape {
 
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
         public let creatorRequestId: String
@@ -283,7 +283,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct CreateResolverRuleResponse: AWSShape {
+    public struct CreateResolverRuleResponse: AWSDecodableShape {
 
         /// Information about the CreateResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
@@ -297,7 +297,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DeleteResolverEndpointRequest: AWSShape {
+    public struct DeleteResolverEndpointRequest: AWSEncodableShape {
 
         /// The ID of the resolver endpoint that you want to delete.
         public let resolverEndpointId: String
@@ -316,7 +316,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DeleteResolverEndpointResponse: AWSShape {
+    public struct DeleteResolverEndpointResponse: AWSDecodableShape {
 
         /// Information about the DeleteResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -330,7 +330,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DeleteResolverRuleRequest: AWSShape {
+    public struct DeleteResolverRuleRequest: AWSEncodableShape {
 
         /// The ID of the resolver rule that you want to delete.
         public let resolverRuleId: String
@@ -349,7 +349,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DeleteResolverRuleResponse: AWSShape {
+    public struct DeleteResolverRuleResponse: AWSDecodableShape {
 
         /// Information about the DeleteResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
@@ -363,7 +363,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DisassociateResolverEndpointIpAddressRequest: AWSShape {
+    public struct DisassociateResolverEndpointIpAddressRequest: AWSEncodableShape {
 
         /// The IPv4 address that you want to remove from a resolver endpoint.
         public let ipAddress: IpAddressUpdate
@@ -387,7 +387,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DisassociateResolverEndpointIpAddressResponse: AWSShape {
+    public struct DisassociateResolverEndpointIpAddressResponse: AWSDecodableShape {
 
         /// The response to an DisassociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -401,7 +401,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DisassociateResolverRuleRequest: AWSShape {
+    public struct DisassociateResolverRuleRequest: AWSEncodableShape {
 
         /// The ID of the resolver rule that you want to disassociate from the specified VPC.
         public let resolverRuleId: String
@@ -426,7 +426,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct DisassociateResolverRuleResponse: AWSShape {
+    public struct DisassociateResolverRuleResponse: AWSDecodableShape {
 
         /// Information about the DisassociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
@@ -440,7 +440,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the name of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify Direction for the value of Name.
         public let name: String?
@@ -467,7 +467,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverEndpointRequest: AWSShape {
+    public struct GetResolverEndpointRequest: AWSEncodableShape {
 
         /// The ID of the resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
@@ -486,7 +486,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverEndpointResponse: AWSShape {
+    public struct GetResolverEndpointResponse: AWSDecodableShape {
 
         /// Information about the resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -500,7 +500,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRuleAssociationRequest: AWSShape {
+    public struct GetResolverRuleAssociationRequest: AWSEncodableShape {
 
         /// The ID of the resolver rule association that you want to get information about.
         public let resolverRuleAssociationId: String
@@ -519,7 +519,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRuleAssociationResponse: AWSShape {
+    public struct GetResolverRuleAssociationResponse: AWSDecodableShape {
 
         /// Information about the resolver rule association that you specified in a GetResolverRuleAssociation request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
@@ -533,7 +533,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRulePolicyRequest: AWSShape {
+    public struct GetResolverRulePolicyRequest: AWSEncodableShape {
 
         /// The ID of the resolver rule policy that you want to get information about.
         public let arn: String
@@ -552,7 +552,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRulePolicyResponse: AWSShape {
+    public struct GetResolverRulePolicyResponse: AWSDecodableShape {
 
         /// Information about the resolver rule policy that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
@@ -566,7 +566,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRuleRequest: AWSShape {
+    public struct GetResolverRuleRequest: AWSEncodableShape {
 
         /// The ID of the resolver rule that you want to get information about.
         public let resolverRuleId: String
@@ -585,7 +585,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRuleResponse: AWSShape {
+    public struct GetResolverRuleResponse: AWSDecodableShape {
 
         /// Information about the resolver rule that you specified in a GetResolverRule request.
         public let resolverRule: ResolverRule?
@@ -599,7 +599,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct IpAddressRequest: AWSShape {
+    public struct IpAddressRequest: AWSEncodableShape {
 
         /// The IP address that you want to use for DNS queries.
         public let ip: String?
@@ -624,7 +624,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct IpAddressResponse: AWSShape {
+    public struct IpAddressResponse: AWSDecodableShape {
 
         /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
@@ -662,7 +662,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct IpAddressUpdate: AWSShape {
+    public struct IpAddressUpdate: AWSEncodableShape {
 
         /// The new IP address.
         public let ip: String?
@@ -693,7 +693,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverEndpointIpAddressesRequest: AWSShape {
+    public struct ListResolverEndpointIpAddressesRequest: AWSEncodableShape {
 
         /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
         public let maxResults: Int?
@@ -722,7 +722,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverEndpointIpAddressesResponse: AWSShape {
+    public struct ListResolverEndpointIpAddressesResponse: AWSDecodableShape {
 
         /// The IP addresses that DNS queries pass through on their way to your network (outbound endpoint) or on the way to Resolver (inbound endpoint).
         public let ipAddresses: [IpAddressResponse]?
@@ -744,7 +744,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverEndpointsRequest: AWSShape {
+    public struct ListResolverEndpointsRequest: AWSEncodableShape {
 
         /// An optional specification to return a subset of resolver endpoints, such as all inbound resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
@@ -774,7 +774,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverEndpointsResponse: AWSShape {
+    public struct ListResolverEndpointsResponse: AWSDecodableShape {
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -796,7 +796,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverRuleAssociationsRequest: AWSShape {
+    public struct ListResolverRuleAssociationsRequest: AWSEncodableShape {
 
         /// An optional specification to return a subset of resolver rules, such as resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
@@ -826,7 +826,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverRuleAssociationsResponse: AWSShape {
+    public struct ListResolverRuleAssociationsResponse: AWSDecodableShape {
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -848,7 +848,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverRulesRequest: AWSShape {
+    public struct ListResolverRulesRequest: AWSEncodableShape {
 
         /// An optional specification to return a subset of resolver rules, such as all resolver rules that are associated with the same resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
         public let filters: [Filter]?
@@ -878,7 +878,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListResolverRulesResponse: AWSShape {
+    public struct ListResolverRulesResponse: AWSDecodableShape {
 
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
@@ -900,7 +900,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
         public let maxResults: Int?
@@ -929,7 +929,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// If more than MaxResults tags match the specified criteria, you can submit another ListTagsForResource request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
@@ -947,7 +947,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct PutResolverRulePolicyRequest: AWSShape {
+    public struct PutResolverRulePolicyRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the account that you want to grant permissions to.
         public let arn: String
@@ -971,7 +971,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct PutResolverRulePolicyResponse: AWSShape {
+    public struct PutResolverRulePolicyResponse: AWSDecodableShape {
 
         /// Whether the PutResolverRulePolicy request was successful.
         public let returnValue: Bool?
@@ -985,7 +985,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ResolverEndpoint: AWSShape {
+    public struct ResolverEndpoint: AWSDecodableShape {
 
         /// The ARN (Amazon Resource Name) for the resolver endpoint.
         public let arn: String?
@@ -1043,7 +1043,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ResolverRule: AWSShape {
+    public struct ResolverRule: AWSDecodableShape {
 
         /// The ARN (Amazon Resource Name) for the resolver rule specified by Id.
         public let arn: String?
@@ -1101,7 +1101,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ResolverRuleAssociation: AWSShape {
+    public struct ResolverRuleAssociation: AWSDecodableShape {
 
         /// The ID of the association between a resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
         public let id: String?
@@ -1135,7 +1135,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct ResolverRuleConfig: AWSShape {
+    public struct ResolverRuleConfig: AWSEncodableShape {
 
         /// The new name for the resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. 
         public let name: String?
@@ -1168,7 +1168,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
         public let key: String?
@@ -1186,7 +1186,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
         public let resourceArn: String
@@ -1209,7 +1209,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1217,7 +1217,7 @@ extension Route53Resolver {
 
     }
 
-    public struct TargetAddress: AWSShape {
+    public struct TargetAddress: AWSEncodableShape & AWSDecodableShape {
 
         /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
         public let ip: String
@@ -1242,7 +1242,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
         public let resourceArn: String
@@ -1265,7 +1265,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1273,7 +1273,7 @@ extension Route53Resolver {
 
     }
 
-    public struct UpdateResolverEndpointRequest: AWSShape {
+    public struct UpdateResolverEndpointRequest: AWSEncodableShape {
 
         /// The name of the resolver endpoint that you want to update.
         public let name: String?
@@ -1298,7 +1298,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct UpdateResolverEndpointResponse: AWSShape {
+    public struct UpdateResolverEndpointResponse: AWSDecodableShape {
 
         /// The response to an UpdateResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
@@ -1312,7 +1312,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct UpdateResolverRuleRequest: AWSShape {
+    public struct UpdateResolverRuleRequest: AWSEncodableShape {
 
         /// The new settings for the resolver rule.
         public let config: ResolverRuleConfig
@@ -1336,7 +1336,7 @@ extension Route53Resolver {
         }
     }
 
-    public struct UpdateResolverRuleResponse: AWSShape {
+    public struct UpdateResolverRuleResponse: AWSDecodableShape {
 
         /// The response to an UpdateResolverRule request.
         public let resolverRule: ResolverRule?

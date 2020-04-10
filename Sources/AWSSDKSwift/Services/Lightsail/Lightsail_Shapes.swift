@@ -487,7 +487,7 @@ extension Lightsail {
 
     //MARK: Shapes
 
-    public struct AddOn: AWSShape {
+    public struct AddOn: AWSDecodableShape {
 
         /// The name of the add-on.
         public let name: String?
@@ -513,7 +513,7 @@ extension Lightsail {
         }
     }
 
-    public struct AddOnRequest: AWSShape {
+    public struct AddOnRequest: AWSEncodableShape {
 
         /// The add-on type.
         public let addOnType: AddOnType
@@ -535,7 +535,7 @@ extension Lightsail {
         }
     }
 
-    public struct Alarm: AWSShape {
+    public struct Alarm: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the alarm.
         public let arn: String?
@@ -625,7 +625,7 @@ extension Lightsail {
         }
     }
 
-    public struct AllocateStaticIpRequest: AWSShape {
+    public struct AllocateStaticIpRequest: AWSEncodableShape {
 
         /// The name of the static IP address.
         public let staticIpName: String
@@ -643,7 +643,7 @@ extension Lightsail {
         }
     }
 
-    public struct AllocateStaticIpResult: AWSShape {
+    public struct AllocateStaticIpResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -657,7 +657,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachDiskRequest: AWSShape {
+    public struct AttachDiskRequest: AWSEncodableShape {
 
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
@@ -685,7 +685,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachDiskResult: AWSShape {
+    public struct AttachDiskResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -699,7 +699,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachInstancesToLoadBalancerRequest: AWSShape {
+    public struct AttachInstancesToLoadBalancerRequest: AWSEncodableShape {
 
         /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
         public let instanceNames: [String]
@@ -724,7 +724,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachInstancesToLoadBalancerResult: AWSShape {
+    public struct AttachInstancesToLoadBalancerResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -738,7 +738,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachLoadBalancerTlsCertificateRequest: AWSShape {
+    public struct AttachLoadBalancerTlsCertificateRequest: AWSEncodableShape {
 
         /// The name of your SSL/TLS certificate.
         public let certificateName: String
@@ -761,7 +761,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachLoadBalancerTlsCertificateResult: AWSShape {
+    public struct AttachLoadBalancerTlsCertificateResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
@@ -775,7 +775,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachStaticIpRequest: AWSShape {
+    public struct AttachStaticIpRequest: AWSEncodableShape {
 
         /// The instance name to which you want to attach the static IP address.
         public let instanceName: String
@@ -798,7 +798,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachStaticIpResult: AWSShape {
+    public struct AttachStaticIpResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -812,7 +812,7 @@ extension Lightsail {
         }
     }
 
-    public struct AttachedDisk: AWSShape {
+    public struct AttachedDisk: AWSDecodableShape {
 
         /// The path of the disk (e.g., /dev/xvdf).
         public let path: String?
@@ -830,7 +830,7 @@ extension Lightsail {
         }
     }
 
-    public struct AutoSnapshotAddOnRequest: AWSShape {
+    public struct AutoSnapshotAddOnRequest: AWSEncodableShape {
 
         /// The daily time when an automatic snapshot will be created. Constraints:   Must be in HH:00 format, and in an hourly increment.   Specified in Coordinated Universal Time (UTC).   The snapshot will be automatically created between the time specified and up to 45 minutes after.  
         public let snapshotTimeOfDay: String?
@@ -848,7 +848,7 @@ extension Lightsail {
         }
     }
 
-    public struct AutoSnapshotDetails: AWSShape {
+    public struct AutoSnapshotDetails: AWSDecodableShape {
 
         /// The timestamp when the automatic snapshot was created.
         public let createdAt: TimeStamp?
@@ -874,7 +874,7 @@ extension Lightsail {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
 
         /// The state of the Availability Zone.
         public let state: String?
@@ -892,7 +892,7 @@ extension Lightsail {
         }
     }
 
-    public struct Blueprint: AWSShape {
+    public struct Blueprint: AWSDecodableShape {
 
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
         public let blueprintId: String?
@@ -950,7 +950,7 @@ extension Lightsail {
         }
     }
 
-    public struct Bundle: AWSShape {
+    public struct Bundle: AWSDecodableShape {
 
         /// The bundle ID (e.g., micro_1_0).
         public let bundleId: String?
@@ -1004,7 +1004,7 @@ extension Lightsail {
         }
     }
 
-    public struct CloseInstancePublicPortsRequest: AWSShape {
+    public struct CloseInstancePublicPortsRequest: AWSEncodableShape {
 
         /// The name of the instance on which you're attempting to close the public ports.
         public let instanceName: String
@@ -1027,7 +1027,7 @@ extension Lightsail {
         }
     }
 
-    public struct CloseInstancePublicPortsResult: AWSShape {
+    public struct CloseInstancePublicPortsResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -1041,7 +1041,7 @@ extension Lightsail {
         }
     }
 
-    public struct CloudFormationStackRecord: AWSShape {
+    public struct CloudFormationStackRecord: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
         public let arn: String?
@@ -1083,7 +1083,7 @@ extension Lightsail {
         }
     }
 
-    public struct CloudFormationStackRecordSourceInfo: AWSShape {
+    public struct CloudFormationStackRecordSourceInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
@@ -1105,7 +1105,7 @@ extension Lightsail {
         }
     }
 
-    public struct ContactMethod: AWSShape {
+    public struct ContactMethod: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the contact method.
         public let arn: String?
@@ -1150,7 +1150,7 @@ extension Lightsail {
         }
     }
 
-    public struct CopySnapshotRequest: AWSShape {
+    public struct CopySnapshotRequest: AWSEncodableShape {
 
         /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.  
         public let restoreDate: String?
@@ -1189,7 +1189,7 @@ extension Lightsail {
         }
     }
 
-    public struct CopySnapshotResult: AWSShape {
+    public struct CopySnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1203,7 +1203,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateCloudFormationStackRequest: AWSShape {
+    public struct CreateCloudFormationStackRequest: AWSEncodableShape {
 
         /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
         public let instances: [InstanceEntry]
@@ -1223,7 +1223,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateCloudFormationStackResult: AWSShape {
+    public struct CreateCloudFormationStackResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1237,7 +1237,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateContactMethodRequest: AWSShape {
+    public struct CreateContactMethodRequest: AWSEncodableShape {
 
         /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 in Wikipedia.
         public let contactEndpoint: String
@@ -1260,7 +1260,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateContactMethodResult: AWSShape {
+    public struct CreateContactMethodResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1274,7 +1274,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDiskFromSnapshotRequest: AWSShape {
+    public struct CreateDiskFromSnapshotRequest: AWSEncodableShape {
 
         /// An array of objects that represent the add-ons to enable for the new disk.
         public let addOns: [AddOnRequest]?
@@ -1329,7 +1329,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDiskFromSnapshotResult: AWSShape {
+    public struct CreateDiskFromSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1343,7 +1343,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDiskRequest: AWSShape {
+    public struct CreateDiskRequest: AWSEncodableShape {
 
         /// An array of objects that represent the add-ons to enable for the new disk.
         public let addOns: [AddOnRequest]?
@@ -1381,7 +1381,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDiskResult: AWSShape {
+    public struct CreateDiskResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1395,7 +1395,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDiskSnapshotRequest: AWSShape {
+    public struct CreateDiskSnapshotRequest: AWSEncodableShape {
 
         /// The unique name of the source disk (e.g., Disk-Virginia-1).  This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive. 
         public let diskName: String?
@@ -1427,7 +1427,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDiskSnapshotResult: AWSShape {
+    public struct CreateDiskSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1441,7 +1441,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDomainEntryRequest: AWSShape {
+    public struct CreateDomainEntryRequest: AWSEncodableShape {
 
         /// An array of key-value pairs containing information about the domain entry request.
         public let domainEntry: DomainEntry
@@ -1463,7 +1463,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDomainEntryResult: AWSShape {
+    public struct CreateDomainEntryResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -1477,7 +1477,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDomainRequest: AWSShape {
+    public struct CreateDomainRequest: AWSEncodableShape {
 
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
         public let domainName: String
@@ -1495,7 +1495,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateDomainResult: AWSShape {
+    public struct CreateDomainResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -1509,7 +1509,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateInstanceSnapshotRequest: AWSShape {
+    public struct CreateInstanceSnapshotRequest: AWSEncodableShape {
 
         /// The Lightsail instance on which to base your snapshot.
         public let instanceName: String
@@ -1536,7 +1536,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateInstanceSnapshotResult: AWSShape {
+    public struct CreateInstanceSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1550,7 +1550,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateInstancesFromSnapshotRequest: AWSShape {
+    public struct CreateInstancesFromSnapshotRequest: AWSEncodableShape {
 
         /// An array of objects representing the add-ons to enable for the new instance.
         public let addOns: [AddOnRequest]?
@@ -1620,7 +1620,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateInstancesFromSnapshotResult: AWSShape {
+    public struct CreateInstancesFromSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1634,7 +1634,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateInstancesRequest: AWSShape {
+    public struct CreateInstancesRequest: AWSEncodableShape {
 
         /// An array of objects representing the add-ons to enable for the new instance.
         public let addOns: [AddOnRequest]?
@@ -1685,7 +1685,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateInstancesResult: AWSShape {
+    public struct CreateInstancesResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1699,7 +1699,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateKeyPairRequest: AWSShape {
+    public struct CreateKeyPairRequest: AWSEncodableShape {
 
         /// The name for your new key pair.
         public let keyPairName: String
@@ -1721,7 +1721,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateKeyPairResult: AWSShape {
+    public struct CreateKeyPairResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
@@ -1747,7 +1747,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateLoadBalancerRequest: AWSShape {
+    public struct CreateLoadBalancerRequest: AWSEncodableShape {
 
         /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
         public let certificateAlternativeNames: [String]?
@@ -1792,7 +1792,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateLoadBalancerResult: AWSShape {
+    public struct CreateLoadBalancerResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1806,7 +1806,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateLoadBalancerTlsCertificateRequest: AWSShape {
+    public struct CreateLoadBalancerTlsCertificateRequest: AWSEncodableShape {
 
         /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
         public let certificateAlternativeNames: [String]?
@@ -1841,7 +1841,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateLoadBalancerTlsCertificateResult: AWSShape {
+    public struct CreateLoadBalancerTlsCertificateResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1855,7 +1855,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateRelationalDatabaseFromSnapshotRequest: AWSShape {
+    public struct CreateRelationalDatabaseFromSnapshotRequest: AWSEncodableShape {
 
         /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
@@ -1907,7 +1907,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateRelationalDatabaseFromSnapshotResult: AWSShape {
+    public struct CreateRelationalDatabaseFromSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1921,7 +1921,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateRelationalDatabaseRequest: AWSShape {
+    public struct CreateRelationalDatabaseRequest: AWSEncodableShape {
 
         /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
@@ -1979,7 +1979,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateRelationalDatabaseResult: AWSShape {
+    public struct CreateRelationalDatabaseResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -1993,7 +1993,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateRelationalDatabaseSnapshotRequest: AWSShape {
+    public struct CreateRelationalDatabaseSnapshotRequest: AWSEncodableShape {
 
         /// The name of the database on which to base your new snapshot.
         public let relationalDatabaseName: String
@@ -2020,7 +2020,7 @@ extension Lightsail {
         }
     }
 
-    public struct CreateRelationalDatabaseSnapshotResult: AWSShape {
+    public struct CreateRelationalDatabaseSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2034,7 +2034,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteAlarmRequest: AWSShape {
+    public struct DeleteAlarmRequest: AWSEncodableShape {
 
         /// The name of the alarm to delete.
         public let alarmName: String
@@ -2052,7 +2052,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteAlarmResult: AWSShape {
+    public struct DeleteAlarmResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2066,7 +2066,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteAutoSnapshotRequest: AWSShape {
+    public struct DeleteAutoSnapshotRequest: AWSEncodableShape {
 
         /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource.
         public let date: String
@@ -2089,7 +2089,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteAutoSnapshotResult: AWSShape {
+    public struct DeleteAutoSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2103,7 +2103,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteContactMethodRequest: AWSShape {
+    public struct DeleteContactMethodRequest: AWSEncodableShape {
 
         /// The protocol that will be deleted, such as Email or SMS (text messaging).  To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol. 
         public let `protocol`: ContactProtocol
@@ -2117,7 +2117,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteContactMethodResult: AWSShape {
+    public struct DeleteContactMethodResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2131,7 +2131,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDiskRequest: AWSShape {
+    public struct DeleteDiskRequest: AWSEncodableShape {
 
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
@@ -2153,7 +2153,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDiskResult: AWSShape {
+    public struct DeleteDiskResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2167,7 +2167,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDiskSnapshotRequest: AWSShape {
+    public struct DeleteDiskSnapshotRequest: AWSEncodableShape {
 
         /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
@@ -2185,7 +2185,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDiskSnapshotResult: AWSShape {
+    public struct DeleteDiskSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2199,7 +2199,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDomainEntryRequest: AWSShape {
+    public struct DeleteDomainEntryRequest: AWSEncodableShape {
 
         /// An array of key-value pairs containing information about your domain entries.
         public let domainEntry: DomainEntry
@@ -2221,7 +2221,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDomainEntryResult: AWSShape {
+    public struct DeleteDomainEntryResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -2235,7 +2235,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDomainRequest: AWSShape {
+    public struct DeleteDomainRequest: AWSEncodableShape {
 
         /// The specific domain name to delete.
         public let domainName: String
@@ -2249,7 +2249,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDomainResult: AWSShape {
+    public struct DeleteDomainResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -2263,7 +2263,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteInstanceRequest: AWSShape {
+    public struct DeleteInstanceRequest: AWSEncodableShape {
 
         /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
         public let forceDeleteAddOns: Bool?
@@ -2285,7 +2285,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteInstanceResult: AWSShape {
+    public struct DeleteInstanceResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2299,7 +2299,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteInstanceSnapshotRequest: AWSShape {
+    public struct DeleteInstanceSnapshotRequest: AWSEncodableShape {
 
         /// The name of the snapshot to delete.
         public let instanceSnapshotName: String
@@ -2317,7 +2317,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteInstanceSnapshotResult: AWSShape {
+    public struct DeleteInstanceSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2331,7 +2331,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteKeyPairRequest: AWSShape {
+    public struct DeleteKeyPairRequest: AWSEncodableShape {
 
         /// The name of the key pair to delete.
         public let keyPairName: String
@@ -2349,7 +2349,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteKeyPairResult: AWSShape {
+    public struct DeleteKeyPairResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -2363,7 +2363,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteKnownHostKeysRequest: AWSShape {
+    public struct DeleteKnownHostKeysRequest: AWSEncodableShape {
 
         /// The name of the instance for which you want to reset the host key or certificate.
         public let instanceName: String
@@ -2381,7 +2381,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteKnownHostKeysResult: AWSShape {
+    public struct DeleteKnownHostKeysResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2395,7 +2395,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteLoadBalancerRequest: AWSShape {
+    public struct DeleteLoadBalancerRequest: AWSEncodableShape {
 
         /// The name of the load balancer you want to delete.
         public let loadBalancerName: String
@@ -2413,7 +2413,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteLoadBalancerResult: AWSShape {
+    public struct DeleteLoadBalancerResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2427,7 +2427,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteLoadBalancerTlsCertificateRequest: AWSShape {
+    public struct DeleteLoadBalancerTlsCertificateRequest: AWSEncodableShape {
 
         /// The SSL/TLS certificate name.
         public let certificateName: String
@@ -2454,7 +2454,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteLoadBalancerTlsCertificateResult: AWSShape {
+    public struct DeleteLoadBalancerTlsCertificateResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2468,7 +2468,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteRelationalDatabaseRequest: AWSShape {
+    public struct DeleteRelationalDatabaseRequest: AWSEncodableShape {
 
         /// The name of the database snapshot created if skip final snapshot is false, which is the default value for that parameter.  Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error.  Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
         public let finalRelationalDatabaseSnapshotName: String?
@@ -2495,7 +2495,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteRelationalDatabaseResult: AWSShape {
+    public struct DeleteRelationalDatabaseResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2509,7 +2509,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteRelationalDatabaseSnapshotRequest: AWSShape {
+    public struct DeleteRelationalDatabaseSnapshotRequest: AWSEncodableShape {
 
         /// The name of the database snapshot that you are deleting.
         public let relationalDatabaseSnapshotName: String
@@ -2527,7 +2527,7 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteRelationalDatabaseSnapshotResult: AWSShape {
+    public struct DeleteRelationalDatabaseSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2541,7 +2541,7 @@ extension Lightsail {
         }
     }
 
-    public struct DestinationInfo: AWSShape {
+    public struct DestinationInfo: AWSDecodableShape {
 
         /// The ID of the resource created at the destination.
         public let id: String?
@@ -2559,7 +2559,7 @@ extension Lightsail {
         }
     }
 
-    public struct DetachDiskRequest: AWSShape {
+    public struct DetachDiskRequest: AWSEncodableShape {
 
         /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
         public let diskName: String
@@ -2577,7 +2577,7 @@ extension Lightsail {
         }
     }
 
-    public struct DetachDiskResult: AWSShape {
+    public struct DetachDiskResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2591,7 +2591,7 @@ extension Lightsail {
         }
     }
 
-    public struct DetachInstancesFromLoadBalancerRequest: AWSShape {
+    public struct DetachInstancesFromLoadBalancerRequest: AWSEncodableShape {
 
         /// An array of strings containing the names of the instances you want to detach from the load balancer.
         public let instanceNames: [String]
@@ -2616,7 +2616,7 @@ extension Lightsail {
         }
     }
 
-    public struct DetachInstancesFromLoadBalancerResult: AWSShape {
+    public struct DetachInstancesFromLoadBalancerResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2630,7 +2630,7 @@ extension Lightsail {
         }
     }
 
-    public struct DetachStaticIpRequest: AWSShape {
+    public struct DetachStaticIpRequest: AWSEncodableShape {
 
         /// The name of the static IP to detach from the instance.
         public let staticIpName: String
@@ -2648,7 +2648,7 @@ extension Lightsail {
         }
     }
 
-    public struct DetachStaticIpResult: AWSShape {
+    public struct DetachStaticIpResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2662,7 +2662,7 @@ extension Lightsail {
         }
     }
 
-    public struct DisableAddOnRequest: AWSShape {
+    public struct DisableAddOnRequest: AWSEncodableShape {
 
         /// The add-on type to disable.
         public let addOnType: AddOnType
@@ -2684,7 +2684,7 @@ extension Lightsail {
         }
     }
 
-    public struct DisableAddOnResult: AWSShape {
+    public struct DisableAddOnResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -2698,7 +2698,7 @@ extension Lightsail {
         }
     }
 
-    public struct Disk: AWSShape {
+    public struct Disk: AWSDecodableShape {
 
         /// An array of objects representing the add-ons enabled on the disk.
         public let addOns: [AddOn]?
@@ -2768,7 +2768,7 @@ extension Lightsail {
         }
     }
 
-    public struct DiskInfo: AWSShape {
+    public struct DiskInfo: AWSDecodableShape {
 
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
         public let isSystemDisk: Bool?
@@ -2794,7 +2794,7 @@ extension Lightsail {
         }
     }
 
-    public struct DiskMap: AWSShape {
+    public struct DiskMap: AWSEncodableShape {
 
         /// The new disk name (e.g., my-new-disk).
         public let newDiskName: String?
@@ -2817,7 +2817,7 @@ extension Lightsail {
         }
     }
 
-    public struct DiskSnapshot: AWSShape {
+    public struct DiskSnapshot: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the disk snapshot.
         public let arn: String?
@@ -2887,7 +2887,7 @@ extension Lightsail {
         }
     }
 
-    public struct DiskSnapshotInfo: AWSShape {
+    public struct DiskSnapshotInfo: AWSDecodableShape {
 
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int?
@@ -2901,7 +2901,7 @@ extension Lightsail {
         }
     }
 
-    public struct Domain: AWSShape {
+    public struct Domain: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
@@ -2943,7 +2943,7 @@ extension Lightsail {
         }
     }
 
-    public struct DomainEntry: AWSShape {
+    public struct DomainEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the domain recordset entry.
         public let id: String?
@@ -2977,7 +2977,7 @@ extension Lightsail {
         }
     }
 
-    public struct DownloadDefaultKeyPairRequest: AWSShape {
+    public struct DownloadDefaultKeyPairRequest: AWSEncodableShape {
 
 
         public init() {
@@ -2985,7 +2985,7 @@ extension Lightsail {
 
     }
 
-    public struct DownloadDefaultKeyPairResult: AWSShape {
+    public struct DownloadDefaultKeyPairResult: AWSDecodableShape {
 
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
@@ -3003,7 +3003,7 @@ extension Lightsail {
         }
     }
 
-    public struct EnableAddOnRequest: AWSShape {
+    public struct EnableAddOnRequest: AWSEncodableShape {
 
         /// An array of strings representing the add-on to enable or modify.
         public let addOnRequest: AddOnRequest
@@ -3026,7 +3026,7 @@ extension Lightsail {
         }
     }
 
-    public struct EnableAddOnResult: AWSShape {
+    public struct EnableAddOnResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -3040,7 +3040,7 @@ extension Lightsail {
         }
     }
 
-    public struct ExportSnapshotRecord: AWSShape {
+    public struct ExportSnapshotRecord: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
@@ -3082,7 +3082,7 @@ extension Lightsail {
         }
     }
 
-    public struct ExportSnapshotRecordSourceInfo: AWSShape {
+    public struct ExportSnapshotRecordSourceInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
         public let arn: String?
@@ -3124,7 +3124,7 @@ extension Lightsail {
         }
     }
 
-    public struct ExportSnapshotRequest: AWSShape {
+    public struct ExportSnapshotRequest: AWSEncodableShape {
 
         /// The name of the instance or disk snapshot to be exported to Amazon EC2.
         public let sourceSnapshotName: String
@@ -3142,7 +3142,7 @@ extension Lightsail {
         }
     }
 
-    public struct ExportSnapshotResult: AWSShape {
+    public struct ExportSnapshotResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -3156,7 +3156,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetActiveNamesRequest: AWSShape {
+    public struct GetActiveNamesRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetActiveNames request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3170,7 +3170,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetActiveNamesResult: AWSShape {
+    public struct GetActiveNamesResult: AWSDecodableShape {
 
         /// The list of active names returned by the get active names request.
         public let activeNames: [String]?
@@ -3188,7 +3188,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetAlarmsRequest: AWSShape {
+    public struct GetAlarmsRequest: AWSEncodableShape {
 
         /// The name of the alarm. Specify an alarm name to return information about a specific alarm.
         public let alarmName: String?
@@ -3215,7 +3215,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetAlarmsResult: AWSShape {
+    public struct GetAlarmsResult: AWSDecodableShape {
 
         /// An array of objects that describe the alarms.
         public let alarms: [Alarm]?
@@ -3233,7 +3233,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetAutoSnapshotsRequest: AWSShape {
+    public struct GetAutoSnapshotsRequest: AWSEncodableShape {
 
         /// The name of the source instance or disk from which to get automatic snapshot information.
         public let resourceName: String
@@ -3251,7 +3251,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetAutoSnapshotsResult: AWSShape {
+    public struct GetAutoSnapshotsResult: AWSDecodableShape {
 
         /// An array of objects that describe the automatic snapshots that are available for the specified source instance or disk.
         public let autoSnapshots: [AutoSnapshotDetails]?
@@ -3273,7 +3273,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetBlueprintsRequest: AWSShape {
+    public struct GetBlueprintsRequest: AWSEncodableShape {
 
         /// A Boolean value indicating whether to include inactive results in your request.
         public let includeInactive: Bool?
@@ -3291,7 +3291,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetBlueprintsResult: AWSShape {
+    public struct GetBlueprintsResult: AWSDecodableShape {
 
         /// An array of key-value pairs that contains information about the available blueprints.
         public let blueprints: [Blueprint]?
@@ -3309,7 +3309,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetBundlesRequest: AWSShape {
+    public struct GetBundlesRequest: AWSEncodableShape {
 
         /// A Boolean value that indicates whether to include inactive bundle results in your request.
         public let includeInactive: Bool?
@@ -3327,7 +3327,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetBundlesResult: AWSShape {
+    public struct GetBundlesResult: AWSDecodableShape {
 
         /// An array of key-value pairs that contains information about the available bundles.
         public let bundles: [Bundle]?
@@ -3345,7 +3345,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetCloudFormationStackRecordsRequest: AWSShape {
+    public struct GetCloudFormationStackRecordsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetClouFormationStackRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3359,7 +3359,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetCloudFormationStackRecordsResult: AWSShape {
+    public struct GetCloudFormationStackRecordsResult: AWSDecodableShape {
 
         /// A list of objects describing the CloudFormation stack records.
         public let cloudFormationStackRecords: [CloudFormationStackRecord]?
@@ -3377,7 +3377,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetContactMethodsRequest: AWSShape {
+    public struct GetContactMethodsRequest: AWSEncodableShape {
 
         /// The protocols used to send notifications, such as Email, or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol.
         public let protocols: [ContactProtocol]?
@@ -3391,7 +3391,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetContactMethodsResult: AWSShape {
+    public struct GetContactMethodsResult: AWSDecodableShape {
 
         /// An array of objects that describe the contact methods.
         public let contactMethods: [ContactMethod]?
@@ -3405,7 +3405,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskRequest: AWSShape {
+    public struct GetDiskRequest: AWSEncodableShape {
 
         /// The name of the disk (e.g., my-disk).
         public let diskName: String
@@ -3423,7 +3423,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskResult: AWSShape {
+    public struct GetDiskResult: AWSDecodableShape {
 
         /// An object containing information about the disk.
         public let disk: Disk?
@@ -3437,7 +3437,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskSnapshotRequest: AWSShape {
+    public struct GetDiskSnapshotRequest: AWSEncodableShape {
 
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
@@ -3455,7 +3455,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskSnapshotResult: AWSShape {
+    public struct GetDiskSnapshotResult: AWSDecodableShape {
 
         /// An object containing information about the disk snapshot.
         public let diskSnapshot: DiskSnapshot?
@@ -3469,7 +3469,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskSnapshotsRequest: AWSShape {
+    public struct GetDiskSnapshotsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDiskSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3483,7 +3483,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskSnapshotsResult: AWSShape {
+    public struct GetDiskSnapshotsResult: AWSDecodableShape {
 
         /// An array of objects containing information about all block storage disk snapshots.
         public let diskSnapshots: [DiskSnapshot]?
@@ -3501,7 +3501,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDisksRequest: AWSShape {
+    public struct GetDisksRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDisks request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3515,7 +3515,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDisksResult: AWSShape {
+    public struct GetDisksResult: AWSDecodableShape {
 
         /// An array of objects containing information about all block storage disks.
         public let disks: [Disk]?
@@ -3533,7 +3533,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDomainRequest: AWSShape {
+    public struct GetDomainRequest: AWSEncodableShape {
 
         /// The domain name for which your want to return information about.
         public let domainName: String
@@ -3547,7 +3547,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDomainResult: AWSShape {
+    public struct GetDomainResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about your get domain request.
         public let domain: Domain?
@@ -3561,7 +3561,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDomainsRequest: AWSShape {
+    public struct GetDomainsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDomains request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3575,7 +3575,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetDomainsResult: AWSShape {
+    public struct GetDomainsResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
@@ -3593,7 +3593,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetExportSnapshotRecordsRequest: AWSShape {
+    public struct GetExportSnapshotRecordsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetExportSnapshotRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3607,7 +3607,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetExportSnapshotRecordsResult: AWSShape {
+    public struct GetExportSnapshotRecordsResult: AWSDecodableShape {
 
         /// A list of objects describing the export snapshot records.
         public let exportSnapshotRecords: [ExportSnapshotRecord]?
@@ -3625,7 +3625,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceAccessDetailsRequest: AWSShape {
+    public struct GetInstanceAccessDetailsRequest: AWSEncodableShape {
 
         /// The name of the instance to access.
         public let instanceName: String
@@ -3647,7 +3647,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceAccessDetailsResult: AWSShape {
+    public struct GetInstanceAccessDetailsResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about a get instance access request.
         public let accessDetails: InstanceAccessDetails?
@@ -3661,7 +3661,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceMetricDataRequest: AWSShape {
+    public struct GetInstanceMetricDataRequest: AWSEncodableShape {
 
         /// The end time of the time period.
         public let endTime: TimeStamp
@@ -3705,7 +3705,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceMetricDataResult: AWSShape {
+    public struct GetInstanceMetricDataResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
         public let metricData: [MetricDatapoint]?
@@ -3723,7 +3723,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstancePortStatesRequest: AWSShape {
+    public struct GetInstancePortStatesRequest: AWSEncodableShape {
 
         /// The name of the instance.
         public let instanceName: String
@@ -3741,7 +3741,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstancePortStatesResult: AWSShape {
+    public struct GetInstancePortStatesResult: AWSDecodableShape {
 
         /// Information about the port states resulting from your request.
         public let portStates: [InstancePortState]?
@@ -3755,7 +3755,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceRequest: AWSShape {
+    public struct GetInstanceRequest: AWSEncodableShape {
 
         /// The name of the instance.
         public let instanceName: String
@@ -3773,7 +3773,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceResult: AWSShape {
+    public struct GetInstanceResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the specified instance.
         public let instance: Instance?
@@ -3787,7 +3787,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceSnapshotRequest: AWSShape {
+    public struct GetInstanceSnapshotRequest: AWSEncodableShape {
 
         /// The name of the snapshot for which you are requesting information.
         public let instanceSnapshotName: String
@@ -3805,7 +3805,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceSnapshotResult: AWSShape {
+    public struct GetInstanceSnapshotResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
         public let instanceSnapshot: InstanceSnapshot?
@@ -3819,7 +3819,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceSnapshotsRequest: AWSShape {
+    public struct GetInstanceSnapshotsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstanceSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3833,7 +3833,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceSnapshotsResult: AWSShape {
+    public struct GetInstanceSnapshotsResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
         public let instanceSnapshots: [InstanceSnapshot]?
@@ -3851,7 +3851,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceStateRequest: AWSShape {
+    public struct GetInstanceStateRequest: AWSEncodableShape {
 
         /// The name of the instance to get state information about.
         public let instanceName: String
@@ -3869,7 +3869,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstanceStateResult: AWSShape {
+    public struct GetInstanceStateResult: AWSDecodableShape {
 
         /// The state of the instance.
         public let state: InstanceState?
@@ -3883,7 +3883,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstancesRequest: AWSShape {
+    public struct GetInstancesRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3897,7 +3897,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetInstancesResult: AWSShape {
+    public struct GetInstancesResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about your instances.
         public let instances: [Instance]?
@@ -3915,7 +3915,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetKeyPairRequest: AWSShape {
+    public struct GetKeyPairRequest: AWSEncodableShape {
 
         /// The name of the key pair for which you are requesting information.
         public let keyPairName: String
@@ -3933,7 +3933,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetKeyPairResult: AWSShape {
+    public struct GetKeyPairResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the key pair.
         public let keyPair: KeyPair?
@@ -3947,7 +3947,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetKeyPairsRequest: AWSShape {
+    public struct GetKeyPairsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetKeyPairs request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -3961,7 +3961,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetKeyPairsResult: AWSShape {
+    public struct GetKeyPairsResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the key pairs.
         public let keyPairs: [KeyPair]?
@@ -3979,7 +3979,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancerMetricDataRequest: AWSShape {
+    public struct GetLoadBalancerMetricDataRequest: AWSEncodableShape {
 
         /// The end time of the period.
         public let endTime: TimeStamp
@@ -4023,7 +4023,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancerMetricDataResult: AWSShape {
+    public struct GetLoadBalancerMetricDataResult: AWSDecodableShape {
 
         /// An array of metric datapoint objects.
         public let metricData: [MetricDatapoint]?
@@ -4041,7 +4041,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancerRequest: AWSShape {
+    public struct GetLoadBalancerRequest: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -4059,7 +4059,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancerResult: AWSShape {
+    public struct GetLoadBalancerResult: AWSDecodableShape {
 
         /// An object containing information about your load balancer.
         public let loadBalancer: LoadBalancer?
@@ -4073,7 +4073,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancerTlsCertificatesRequest: AWSShape {
+    public struct GetLoadBalancerTlsCertificatesRequest: AWSEncodableShape {
 
         /// The name of the load balancer you associated with your SSL/TLS certificate.
         public let loadBalancerName: String
@@ -4091,7 +4091,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancerTlsCertificatesResult: AWSShape {
+    public struct GetLoadBalancerTlsCertificatesResult: AWSDecodableShape {
 
         /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
         public let tlsCertificates: [LoadBalancerTlsCertificate]?
@@ -4105,7 +4105,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancersRequest: AWSShape {
+    public struct GetLoadBalancersRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancers request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4119,7 +4119,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetLoadBalancersResult: AWSShape {
+    public struct GetLoadBalancersResult: AWSDecodableShape {
 
         /// An array of LoadBalancer objects describing your load balancers.
         public let loadBalancers: [LoadBalancer]?
@@ -4137,7 +4137,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetOperationRequest: AWSShape {
+    public struct GetOperationRequest: AWSEncodableShape {
 
         /// A GUID used to identify the operation.
         public let operationId: String
@@ -4155,7 +4155,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetOperationResult: AWSShape {
+    public struct GetOperationResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -4169,7 +4169,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetOperationsForResourceRequest: AWSShape {
+    public struct GetOperationsForResourceRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperationsForResource request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4191,7 +4191,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetOperationsForResourceResult: AWSShape {
+    public struct GetOperationsForResourceResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4209,7 +4209,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetOperationsRequest: AWSShape {
+    public struct GetOperationsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperations request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4223,7 +4223,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetOperationsResult: AWSShape {
+    public struct GetOperationsResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4241,7 +4241,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRegionsRequest: AWSShape {
+    public struct GetRegionsRequest: AWSEncodableShape {
 
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
         public let includeAvailabilityZones: Bool?
@@ -4259,7 +4259,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRegionsResult: AWSShape {
+    public struct GetRegionsResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about your get regions request.
         public let regions: [Region]?
@@ -4273,7 +4273,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseBlueprintsRequest: AWSShape {
+    public struct GetRelationalDatabaseBlueprintsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4287,7 +4287,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseBlueprintsResult: AWSShape {
+    public struct GetRelationalDatabaseBlueprintsResult: AWSDecodableShape {
 
         /// An object describing the result of your get relational database blueprints request.
         public let blueprints: [RelationalDatabaseBlueprint]?
@@ -4305,7 +4305,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseBundlesRequest: AWSShape {
+    public struct GetRelationalDatabaseBundlesRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4319,7 +4319,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseBundlesResult: AWSShape {
+    public struct GetRelationalDatabaseBundlesResult: AWSDecodableShape {
 
         /// An object describing the result of your get relational database bundles request.
         public let bundles: [RelationalDatabaseBundle]?
@@ -4337,7 +4337,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseEventsRequest: AWSShape {
+    public struct GetRelationalDatabaseEventsRequest: AWSEncodableShape {
 
         /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
         public let durationInMinutes: Int?
@@ -4363,7 +4363,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseEventsResult: AWSShape {
+    public struct GetRelationalDatabaseEventsResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseEvents request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4381,7 +4381,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseLogEventsRequest: AWSShape {
+    public struct GetRelationalDatabaseLogEventsRequest: AWSEncodableShape {
 
         /// The end of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp?
@@ -4419,7 +4419,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseLogEventsResult: AWSShape {
+    public struct GetRelationalDatabaseLogEventsResult: AWSDecodableShape {
 
         /// A token used for advancing to the previous page of results from your get relational database log events request.
         public let nextBackwardToken: String?
@@ -4441,7 +4441,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseLogStreamsRequest: AWSShape {
+    public struct GetRelationalDatabaseLogStreamsRequest: AWSEncodableShape {
 
         /// The name of your database for which to get log streams.
         public let relationalDatabaseName: String
@@ -4459,7 +4459,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseLogStreamsResult: AWSShape {
+    public struct GetRelationalDatabaseLogStreamsResult: AWSDecodableShape {
 
         /// An object describing the result of your get relational database log streams request.
         public let logStreams: [String]?
@@ -4473,7 +4473,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseMasterUserPasswordRequest: AWSShape {
+    public struct GetRelationalDatabaseMasterUserPasswordRequest: AWSEncodableShape {
 
         /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT. After the PENDING password rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT 
         public let passwordVersion: RelationalDatabasePasswordVersion?
@@ -4495,7 +4495,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseMasterUserPasswordResult: AWSShape {
+    public struct GetRelationalDatabaseMasterUserPasswordResult: AWSDecodableShape {
 
         /// The timestamp when the specified version of the master user password was created.
         public let createdAt: TimeStamp?
@@ -4513,7 +4513,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseMetricDataRequest: AWSShape {
+    public struct GetRelationalDatabaseMetricDataRequest: AWSEncodableShape {
 
         /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp
@@ -4557,7 +4557,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseMetricDataResult: AWSShape {
+    public struct GetRelationalDatabaseMetricDataResult: AWSDecodableShape {
 
         /// An object describing the result of your get relational database metric data request.
         public let metricData: [MetricDatapoint]?
@@ -4575,7 +4575,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseParametersRequest: AWSShape {
+    public struct GetRelationalDatabaseParametersRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseParameters request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4597,7 +4597,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseParametersResult: AWSShape {
+    public struct GetRelationalDatabaseParametersResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseParameters request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4615,7 +4615,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseRequest: AWSShape {
+    public struct GetRelationalDatabaseRequest: AWSEncodableShape {
 
         /// The name of the database that you are looking up.
         public let relationalDatabaseName: String
@@ -4633,7 +4633,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseResult: AWSShape {
+    public struct GetRelationalDatabaseResult: AWSDecodableShape {
 
         /// An object describing the specified database.
         public let relationalDatabase: RelationalDatabase?
@@ -4647,7 +4647,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseSnapshotRequest: AWSShape {
+    public struct GetRelationalDatabaseSnapshotRequest: AWSEncodableShape {
 
         /// The name of the database snapshot for which to get information.
         public let relationalDatabaseSnapshotName: String
@@ -4665,7 +4665,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseSnapshotResult: AWSShape {
+    public struct GetRelationalDatabaseSnapshotResult: AWSDecodableShape {
 
         /// An object describing the specified database snapshot.
         public let relationalDatabaseSnapshot: RelationalDatabaseSnapshot?
@@ -4679,7 +4679,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseSnapshotsRequest: AWSShape {
+    public struct GetRelationalDatabaseSnapshotsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4693,7 +4693,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabaseSnapshotsResult: AWSShape {
+    public struct GetRelationalDatabaseSnapshotsResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4711,7 +4711,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabasesRequest: AWSShape {
+    public struct GetRelationalDatabasesRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabases request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4725,7 +4725,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetRelationalDatabasesResult: AWSShape {
+    public struct GetRelationalDatabasesResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabases request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4743,7 +4743,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetStaticIpRequest: AWSShape {
+    public struct GetStaticIpRequest: AWSEncodableShape {
 
         /// The name of the static IP in Lightsail.
         public let staticIpName: String
@@ -4761,7 +4761,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetStaticIpResult: AWSShape {
+    public struct GetStaticIpResult: AWSDecodableShape {
 
         /// An array of key-value pairs containing information about the requested static IP.
         public let staticIp: StaticIp?
@@ -4775,7 +4775,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetStaticIpsRequest: AWSShape {
+    public struct GetStaticIpsRequest: AWSEncodableShape {
 
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetStaticIps request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4789,7 +4789,7 @@ extension Lightsail {
         }
     }
 
-    public struct GetStaticIpsResult: AWSShape {
+    public struct GetStaticIpsResult: AWSDecodableShape {
 
         /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetStaticIps request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
@@ -4807,7 +4807,7 @@ extension Lightsail {
         }
     }
 
-    public struct HostKeyAttributes: AWSShape {
+    public struct HostKeyAttributes: AWSDecodableShape {
 
         /// The SSH host key algorithm or the RDP certificate format. For SSH host keys, the algorithm may be ssh-rsa, ecdsa-sha2-nistp256, ssh-ed25519, etc. For RDP certificates, the algorithm is always x509-cert.
         public let algorithm: String?
@@ -4845,7 +4845,7 @@ extension Lightsail {
         }
     }
 
-    public struct ImportKeyPairRequest: AWSShape {
+    public struct ImportKeyPairRequest: AWSEncodableShape {
 
         /// The name of the key pair for which you want to import the public key.
         public let keyPairName: String
@@ -4867,7 +4867,7 @@ extension Lightsail {
         }
     }
 
-    public struct ImportKeyPairResult: AWSShape {
+    public struct ImportKeyPairResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -4881,7 +4881,7 @@ extension Lightsail {
         }
     }
 
-    public struct Instance: AWSShape {
+    public struct Instance: AWSDecodableShape {
 
         /// An array of objects representing the add-ons enabled on the instance.
         public let addOns: [AddOn]?
@@ -4971,7 +4971,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceAccessDetails: AWSShape {
+    public struct InstanceAccessDetails: AWSDecodableShape {
 
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
         public let certKey: String?
@@ -5021,7 +5021,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceEntry: AWSShape {
+    public struct InstanceEntry: AWSEncodableShape {
 
         /// The Availability Zone for the new Amazon EC2 instance.
         public let availabilityZone: String
@@ -5056,7 +5056,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceHardware: AWSShape {
+    public struct InstanceHardware: AWSDecodableShape {
 
         /// The number of vCPUs the instance has.
         public let cpuCount: Int?
@@ -5078,7 +5078,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceHealthSummary: AWSShape {
+    public struct InstanceHealthSummary: AWSDecodableShape {
 
         /// Describes the overall instance health. Valid values are below.
         public let instanceHealth: InstanceHealthState?
@@ -5100,7 +5100,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceNetworking: AWSShape {
+    public struct InstanceNetworking: AWSDecodableShape {
 
         /// The amount of data in GB allocated for monthly data transfers.
         public let monthlyTransfer: MonthlyTransfer?
@@ -5118,7 +5118,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstancePortInfo: AWSShape {
+    public struct InstancePortInfo: AWSDecodableShape {
 
         /// The access direction (inbound or outbound).
         public let accessDirection: AccessDirection?
@@ -5156,7 +5156,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstancePortState: AWSShape {
+    public struct InstancePortState: AWSDecodableShape {
 
         /// The first port in the range.
         public let fromPort: Int?
@@ -5182,7 +5182,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceSnapshot: AWSShape {
+    public struct InstanceSnapshot: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
         public let arn: String?
@@ -5256,7 +5256,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceSnapshotInfo: AWSShape {
+    public struct InstanceSnapshotInfo: AWSDecodableShape {
 
         /// The blueprint ID from which the source instance (e.g., os_debian_8_3).
         public let fromBlueprintId: String?
@@ -5278,7 +5278,7 @@ extension Lightsail {
         }
     }
 
-    public struct InstanceState: AWSShape {
+    public struct InstanceState: AWSDecodableShape {
 
         /// The status code for the instance.
         public let code: Int?
@@ -5296,7 +5296,7 @@ extension Lightsail {
         }
     }
 
-    public struct IsVpcPeeredRequest: AWSShape {
+    public struct IsVpcPeeredRequest: AWSEncodableShape {
 
 
         public init() {
@@ -5304,7 +5304,7 @@ extension Lightsail {
 
     }
 
-    public struct IsVpcPeeredResult: AWSShape {
+    public struct IsVpcPeeredResult: AWSDecodableShape {
 
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
@@ -5318,7 +5318,7 @@ extension Lightsail {
         }
     }
 
-    public struct KeyPair: AWSShape {
+    public struct KeyPair: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
@@ -5360,7 +5360,7 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancer: AWSShape {
+    public struct LoadBalancer: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let arn: String?
@@ -5434,7 +5434,7 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancerTlsCertificate: AWSShape {
+    public struct LoadBalancerTlsCertificate: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
         public let arn: String?
@@ -5544,7 +5544,7 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancerTlsCertificateDomainValidationOption: AWSShape {
+    public struct LoadBalancerTlsCertificateDomainValidationOption: AWSDecodableShape {
 
         /// The fully qualified domain name in the certificate request.
         public let domainName: String?
@@ -5562,7 +5562,7 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSShape {
+    public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSDecodableShape {
 
         /// The domain name against which your SSL/TLS certificate was validated.
         public let domainName: String?
@@ -5592,7 +5592,7 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancerTlsCertificateRenewalSummary: AWSShape {
+    public struct LoadBalancerTlsCertificateRenewalSummary: AWSDecodableShape {
 
         /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
         public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
@@ -5610,7 +5610,7 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancerTlsCertificateSummary: AWSShape {
+    public struct LoadBalancerTlsCertificateSummary: AWSDecodableShape {
 
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
@@ -5628,7 +5628,7 @@ extension Lightsail {
         }
     }
 
-    public struct LogEvent: AWSShape {
+    public struct LogEvent: AWSDecodableShape {
 
         /// The timestamp when the database log event was created.
         public let createdAt: TimeStamp?
@@ -5646,7 +5646,7 @@ extension Lightsail {
         }
     }
 
-    public struct MetricDatapoint: AWSShape {
+    public struct MetricDatapoint: AWSDecodableShape {
 
         /// The average.
         public let average: Double?
@@ -5684,7 +5684,7 @@ extension Lightsail {
         }
     }
 
-    public struct MonitoredResourceInfo: AWSShape {
+    public struct MonitoredResourceInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource being monitored.
         public let arn: String?
@@ -5706,7 +5706,7 @@ extension Lightsail {
         }
     }
 
-    public struct MonthlyTransfer: AWSShape {
+    public struct MonthlyTransfer: AWSDecodableShape {
 
         /// The amount allocated per month (in GB).
         public let gbPerMonthAllocated: Int?
@@ -5720,7 +5720,7 @@ extension Lightsail {
         }
     }
 
-    public struct OpenInstancePublicPortsRequest: AWSShape {
+    public struct OpenInstancePublicPortsRequest: AWSEncodableShape {
 
         /// The name of the instance for which you want to open the public ports.
         public let instanceName: String
@@ -5743,7 +5743,7 @@ extension Lightsail {
         }
     }
 
-    public struct OpenInstancePublicPortsResult: AWSShape {
+    public struct OpenInstancePublicPortsResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -5757,7 +5757,7 @@ extension Lightsail {
         }
     }
 
-    public struct Operation: AWSShape {
+    public struct Operation: AWSDecodableShape {
 
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
         public let createdAt: TimeStamp?
@@ -5815,7 +5815,7 @@ extension Lightsail {
         }
     }
 
-    public struct PasswordData: AWSShape {
+    public struct PasswordData: AWSDecodableShape {
 
         /// The encrypted password. Ciphertext will be an empty string if access to your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you use the default key pair (LightsailDefaultKeyPair), the decrypted password will be available in the password field. If you are using a custom key pair, you need to use your own means of decryption. If you change the Administrator password on the instance, Lightsail will continue to return the original ciphertext value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default. 
         public let ciphertext: String?
@@ -5833,7 +5833,7 @@ extension Lightsail {
         }
     }
 
-    public struct PeerVpcRequest: AWSShape {
+    public struct PeerVpcRequest: AWSEncodableShape {
 
 
         public init() {
@@ -5841,7 +5841,7 @@ extension Lightsail {
 
     }
 
-    public struct PeerVpcResult: AWSShape {
+    public struct PeerVpcResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -5855,7 +5855,7 @@ extension Lightsail {
         }
     }
 
-    public struct PendingMaintenanceAction: AWSShape {
+    public struct PendingMaintenanceAction: AWSDecodableShape {
 
         /// The type of pending database maintenance action.
         public let action: String?
@@ -5877,7 +5877,7 @@ extension Lightsail {
         }
     }
 
-    public struct PendingModifiedRelationalDatabaseValues: AWSShape {
+    public struct PendingModifiedRelationalDatabaseValues: AWSDecodableShape {
 
         /// A Boolean value indicating whether automated backup retention is enabled.
         public let backupRetentionEnabled: Bool?
@@ -5899,7 +5899,7 @@ extension Lightsail {
         }
     }
 
-    public struct PortInfo: AWSShape {
+    public struct PortInfo: AWSEncodableShape {
 
         /// The first port in the range.
         public let fromPort: Int?
@@ -5928,7 +5928,7 @@ extension Lightsail {
         }
     }
 
-    public struct PutAlarmRequest: AWSShape {
+    public struct PutAlarmRequest: AWSEncodableShape {
 
         /// The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm.
         public let alarmName: String
@@ -5987,7 +5987,7 @@ extension Lightsail {
         }
     }
 
-    public struct PutAlarmResult: AWSShape {
+    public struct PutAlarmResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6001,7 +6001,7 @@ extension Lightsail {
         }
     }
 
-    public struct PutInstancePublicPortsRequest: AWSShape {
+    public struct PutInstancePublicPortsRequest: AWSEncodableShape {
 
         /// The Lightsail instance name of the public port(s) you are setting.
         public let instanceName: String
@@ -6026,7 +6026,7 @@ extension Lightsail {
         }
     }
 
-    public struct PutInstancePublicPortsResult: AWSShape {
+    public struct PutInstancePublicPortsResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -6040,7 +6040,7 @@ extension Lightsail {
         }
     }
 
-    public struct RebootInstanceRequest: AWSShape {
+    public struct RebootInstanceRequest: AWSEncodableShape {
 
         /// The name of the instance to reboot.
         public let instanceName: String
@@ -6058,7 +6058,7 @@ extension Lightsail {
         }
     }
 
-    public struct RebootInstanceResult: AWSShape {
+    public struct RebootInstanceResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6072,7 +6072,7 @@ extension Lightsail {
         }
     }
 
-    public struct RebootRelationalDatabaseRequest: AWSShape {
+    public struct RebootRelationalDatabaseRequest: AWSEncodableShape {
 
         /// The name of your database to reboot.
         public let relationalDatabaseName: String
@@ -6090,7 +6090,7 @@ extension Lightsail {
         }
     }
 
-    public struct RebootRelationalDatabaseResult: AWSShape {
+    public struct RebootRelationalDatabaseResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6104,7 +6104,7 @@ extension Lightsail {
         }
     }
 
-    public struct Region: AWSShape {
+    public struct Region: AWSDecodableShape {
 
         /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
         public let availabilityZones: [AvailabilityZone]?
@@ -6138,7 +6138,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabase: AWSShape {
+    public struct RelationalDatabase: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the database.
         public let arn: String?
@@ -6252,7 +6252,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseBlueprint: AWSShape {
+    public struct RelationalDatabaseBlueprint: AWSDecodableShape {
 
         /// The ID for the database blueprint.
         public let blueprintId: String?
@@ -6286,7 +6286,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseBundle: AWSShape {
+    public struct RelationalDatabaseBundle: AWSDecodableShape {
 
         /// The ID for the database bundle.
         public let bundleId: String?
@@ -6332,7 +6332,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseEndpoint: AWSShape {
+    public struct RelationalDatabaseEndpoint: AWSDecodableShape {
 
         /// Specifies the DNS address of the database.
         public let address: String?
@@ -6350,7 +6350,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseEvent: AWSShape {
+    public struct RelationalDatabaseEvent: AWSDecodableShape {
 
         /// The timestamp when the database event was created.
         public let createdAt: TimeStamp?
@@ -6376,7 +6376,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseHardware: AWSShape {
+    public struct RelationalDatabaseHardware: AWSDecodableShape {
 
         /// The number of vCPUs for the database.
         public let cpuCount: Int?
@@ -6398,7 +6398,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseParameter: AWSShape {
+    public struct RelationalDatabaseParameter: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
@@ -6440,7 +6440,7 @@ extension Lightsail {
         }
     }
 
-    public struct RelationalDatabaseSnapshot: AWSShape {
+    public struct RelationalDatabaseSnapshot: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the database snapshot.
         public let arn: String?
@@ -6510,7 +6510,7 @@ extension Lightsail {
         }
     }
 
-    public struct ReleaseStaticIpRequest: AWSShape {
+    public struct ReleaseStaticIpRequest: AWSEncodableShape {
 
         /// The name of the static IP to delete.
         public let staticIpName: String
@@ -6528,7 +6528,7 @@ extension Lightsail {
         }
     }
 
-    public struct ReleaseStaticIpResult: AWSShape {
+    public struct ReleaseStaticIpResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6542,7 +6542,7 @@ extension Lightsail {
         }
     }
 
-    public struct ResourceLocation: AWSShape {
+    public struct ResourceLocation: AWSDecodableShape {
 
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
         public let availabilityZone: String?
@@ -6560,7 +6560,7 @@ extension Lightsail {
         }
     }
 
-    public struct SendContactMethodVerificationRequest: AWSShape {
+    public struct SendContactMethodVerificationRequest: AWSEncodableShape {
 
         /// The protocol to verify, such as Email or SMS (text messaging).
         public let `protocol`: ContactMethodVerificationProtocol
@@ -6574,7 +6574,7 @@ extension Lightsail {
         }
     }
 
-    public struct SendContactMethodVerificationResult: AWSShape {
+    public struct SendContactMethodVerificationResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6588,7 +6588,7 @@ extension Lightsail {
         }
     }
 
-    public struct StartInstanceRequest: AWSShape {
+    public struct StartInstanceRequest: AWSEncodableShape {
 
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
@@ -6606,7 +6606,7 @@ extension Lightsail {
         }
     }
 
-    public struct StartInstanceResult: AWSShape {
+    public struct StartInstanceResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6620,7 +6620,7 @@ extension Lightsail {
         }
     }
 
-    public struct StartRelationalDatabaseRequest: AWSShape {
+    public struct StartRelationalDatabaseRequest: AWSEncodableShape {
 
         /// The name of your database to start.
         public let relationalDatabaseName: String
@@ -6638,7 +6638,7 @@ extension Lightsail {
         }
     }
 
-    public struct StartRelationalDatabaseResult: AWSShape {
+    public struct StartRelationalDatabaseResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6652,7 +6652,7 @@ extension Lightsail {
         }
     }
 
-    public struct StaticIp: AWSShape {
+    public struct StaticIp: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public let arn: String?
@@ -6698,7 +6698,7 @@ extension Lightsail {
         }
     }
 
-    public struct StopInstanceRequest: AWSShape {
+    public struct StopInstanceRequest: AWSEncodableShape {
 
         /// When set to True, forces a Lightsail instance that is stuck in a stopping state to stop.  Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request. 
         public let force: Bool?
@@ -6720,7 +6720,7 @@ extension Lightsail {
         }
     }
 
-    public struct StopInstanceResult: AWSShape {
+    public struct StopInstanceResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6734,7 +6734,7 @@ extension Lightsail {
         }
     }
 
-    public struct StopRelationalDatabaseRequest: AWSShape {
+    public struct StopRelationalDatabaseRequest: AWSEncodableShape {
 
         /// The name of your database to stop.
         public let relationalDatabaseName: String
@@ -6757,7 +6757,7 @@ extension Lightsail {
         }
     }
 
-    public struct StopRelationalDatabaseResult: AWSShape {
+    public struct StopRelationalDatabaseResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6771,7 +6771,7 @@ extension Lightsail {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
         public let key: String?
@@ -6789,7 +6789,7 @@ extension Lightsail {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to which you want to add a tag.
         public let resourceArn: String?
@@ -6816,7 +6816,7 @@ extension Lightsail {
         }
     }
 
-    public struct TagResourceResult: AWSShape {
+    public struct TagResourceResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6830,7 +6830,7 @@ extension Lightsail {
         }
     }
 
-    public struct TestAlarmRequest: AWSShape {
+    public struct TestAlarmRequest: AWSEncodableShape {
 
         /// The name of the alarm to test.
         public let alarmName: String
@@ -6852,7 +6852,7 @@ extension Lightsail {
         }
     }
 
-    public struct TestAlarmResult: AWSShape {
+    public struct TestAlarmResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6866,7 +6866,7 @@ extension Lightsail {
         }
     }
 
-    public struct UnpeerVpcRequest: AWSShape {
+    public struct UnpeerVpcRequest: AWSEncodableShape {
 
 
         public init() {
@@ -6874,7 +6874,7 @@ extension Lightsail {
 
     }
 
-    public struct UnpeerVpcResult: AWSShape {
+    public struct UnpeerVpcResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operation: Operation?
@@ -6888,7 +6888,7 @@ extension Lightsail {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag.
         public let resourceArn: String?
@@ -6915,7 +6915,7 @@ extension Lightsail {
         }
     }
 
-    public struct UntagResourceResult: AWSShape {
+    public struct UntagResourceResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6929,7 +6929,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateDomainEntryRequest: AWSShape {
+    public struct UpdateDomainEntryRequest: AWSEncodableShape {
 
         /// An array of key-value pairs containing information about the domain entry.
         public let domainEntry: DomainEntry
@@ -6951,7 +6951,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateDomainEntryResult: AWSShape {
+    public struct UpdateDomainEntryResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -6965,7 +6965,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateLoadBalancerAttributeRequest: AWSShape {
+    public struct UpdateLoadBalancerAttributeRequest: AWSEncodableShape {
 
         /// The name of the attribute you want to update. Valid values are below.
         public let attributeName: LoadBalancerAttributeName
@@ -6993,7 +6993,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateLoadBalancerAttributeResult: AWSShape {
+    public struct UpdateLoadBalancerAttributeResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -7007,7 +7007,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateRelationalDatabaseParametersRequest: AWSShape {
+    public struct UpdateRelationalDatabaseParametersRequest: AWSEncodableShape {
 
         /// The database parameters to update.
         public let parameters: [RelationalDatabaseParameter]
@@ -7029,7 +7029,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateRelationalDatabaseParametersResult: AWSShape {
+    public struct UpdateRelationalDatabaseParametersResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -7043,7 +7043,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateRelationalDatabaseRequest: AWSShape {
+    public struct UpdateRelationalDatabaseRequest: AWSEncodableShape {
 
         /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false 
         public let applyImmediately: Bool?
@@ -7097,7 +7097,7 @@ extension Lightsail {
         }
     }
 
-    public struct UpdateRelationalDatabaseResult: AWSShape {
+    public struct UpdateRelationalDatabaseResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the time stamp of the request, and the resources affected by the request.
         public let operations: [Operation]?

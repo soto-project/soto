@@ -129,7 +129,7 @@ extension DatabaseMigrationService {
 
     //MARK: Shapes
 
-    public struct AccountQuota: AWSShape {
+    public struct AccountQuota: AWSDecodableShape {
 
         /// The name of the AWS DMS quota for this AWS account.
         public let accountQuotaName: String?
@@ -151,7 +151,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct AddTagsToResourceMessage: AWSShape {
+    public struct AddTagsToResourceMessage: AWSEncodableShape {
 
         /// Identifies the AWS DMS resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For AWS DMS, you can tag a replication instance, an endpoint, or a replication task.
         public let resourceArn: String
@@ -169,7 +169,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct AddTagsToResourceResponse: AWSShape {
+    public struct AddTagsToResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -177,7 +177,7 @@ extension DatabaseMigrationService {
 
     }
 
-    public struct ApplyPendingMaintenanceActionMessage: AWSShape {
+    public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
 
         /// The pending maintenance action to apply to this resource.
         public let applyAction: String
@@ -199,7 +199,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ApplyPendingMaintenanceActionResponse: AWSShape {
+    public struct ApplyPendingMaintenanceActionResponse: AWSDecodableShape {
 
         /// The AWS DMS resource that the pending maintenance action will be applied to.
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
@@ -213,7 +213,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
 
         /// The name of the Availability Zone.
         public let name: String?
@@ -227,7 +227,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Certificate: AWSShape {
+    public struct Certificate: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
@@ -277,7 +277,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Connection: AWSShape {
+    public struct Connection: AWSDecodableShape {
 
         /// The ARN string that uniquely identifies the endpoint.
         public let endpointArn: String?
@@ -311,7 +311,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateEndpointMessage: AWSShape {
+    public struct CreateEndpointMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
@@ -412,7 +412,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateEndpointResponse: AWSShape {
+    public struct CreateEndpointResponse: AWSDecodableShape {
 
         /// The endpoint that was created.
         public let endpoint: Endpoint?
@@ -426,7 +426,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateEventSubscriptionMessage: AWSShape {
+    public struct CreateEventSubscriptionMessage: AWSEncodableShape {
 
         ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
         public let enabled: Bool?
@@ -464,7 +464,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateEventSubscriptionResponse: AWSShape {
+    public struct CreateEventSubscriptionResponse: AWSDecodableShape {
 
         /// The event subscription that was created.
         public let eventSubscription: EventSubscription?
@@ -478,7 +478,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateReplicationInstanceMessage: AWSShape {
+    public struct CreateReplicationInstanceMessage: AWSEncodableShape {
 
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -544,7 +544,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateReplicationInstanceResponse: AWSShape {
+    public struct CreateReplicationInstanceResponse: AWSDecodableShape {
 
         /// The replication instance that was created.
         public let replicationInstance: ReplicationInstance?
@@ -558,7 +558,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateReplicationSubnetGroupMessage: AWSShape {
+    public struct CreateReplicationSubnetGroupMessage: AWSEncodableShape {
 
         /// The description for the subnet group.
         public let replicationSubnetGroupDescription: String
@@ -584,7 +584,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateReplicationSubnetGroupResponse: AWSShape {
+    public struct CreateReplicationSubnetGroupResponse: AWSDecodableShape {
 
         /// The replication subnet group that was created.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -598,7 +598,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateReplicationTaskMessage: AWSShape {
+    public struct CreateReplicationTaskMessage: AWSEncodableShape {
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
@@ -652,7 +652,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct CreateReplicationTaskResponse: AWSShape {
+    public struct CreateReplicationTaskResponse: AWSDecodableShape {
 
         /// The replication task that was created.
         public let replicationTask: ReplicationTask?
@@ -666,7 +666,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteCertificateMessage: AWSShape {
+    public struct DeleteCertificateMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public let certificateArn: String
@@ -680,7 +680,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteCertificateResponse: AWSShape {
+    public struct DeleteCertificateResponse: AWSDecodableShape {
 
         /// The Secure Sockets Layer (SSL) certificate.
         public let certificate: Certificate?
@@ -694,7 +694,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteConnectionMessage: AWSShape {
+    public struct DeleteConnectionMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -712,7 +712,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteConnectionResponse: AWSShape {
+    public struct DeleteConnectionResponse: AWSDecodableShape {
 
         /// The connection that is being deleted.
         public let connection: Connection?
@@ -726,7 +726,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteEndpointMessage: AWSShape {
+    public struct DeleteEndpointMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -740,7 +740,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteEndpointResponse: AWSShape {
+    public struct DeleteEndpointResponse: AWSDecodableShape {
 
         /// The endpoint that was deleted.
         public let endpoint: Endpoint?
@@ -754,7 +754,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteEventSubscriptionMessage: AWSShape {
+    public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
 
         /// The name of the DMS event notification subscription to be deleted.
         public let subscriptionName: String
@@ -768,7 +768,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteEventSubscriptionResponse: AWSShape {
+    public struct DeleteEventSubscriptionResponse: AWSDecodableShape {
 
         /// The event subscription that was deleted.
         public let eventSubscription: EventSubscription?
@@ -782,7 +782,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteReplicationInstanceMessage: AWSShape {
+    public struct DeleteReplicationInstanceMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public let replicationInstanceArn: String
@@ -796,7 +796,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteReplicationInstanceResponse: AWSShape {
+    public struct DeleteReplicationInstanceResponse: AWSDecodableShape {
 
         /// The replication instance that was deleted.
         public let replicationInstance: ReplicationInstance?
@@ -810,7 +810,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteReplicationSubnetGroupMessage: AWSShape {
+    public struct DeleteReplicationSubnetGroupMessage: AWSEncodableShape {
 
         /// The subnet group name of the replication instance.
         public let replicationSubnetGroupIdentifier: String
@@ -824,7 +824,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteReplicationSubnetGroupResponse: AWSShape {
+    public struct DeleteReplicationSubnetGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -832,7 +832,7 @@ extension DatabaseMigrationService {
 
     }
 
-    public struct DeleteReplicationTaskMessage: AWSShape {
+    public struct DeleteReplicationTaskMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public let replicationTaskArn: String
@@ -846,7 +846,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DeleteReplicationTaskResponse: AWSShape {
+    public struct DeleteReplicationTaskResponse: AWSDecodableShape {
 
         /// The deleted replication task.
         public let replicationTask: ReplicationTask?
@@ -860,7 +860,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeAccountAttributesMessage: AWSShape {
+    public struct DescribeAccountAttributesMessage: AWSEncodableShape {
 
 
         public init() {
@@ -868,7 +868,7 @@ extension DatabaseMigrationService {
 
     }
 
-    public struct DescribeAccountAttributesResponse: AWSShape {
+    public struct DescribeAccountAttributesResponse: AWSDecodableShape {
 
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
@@ -886,7 +886,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeCertificatesMessage: AWSShape {
+    public struct DescribeCertificatesMessage: AWSEncodableShape {
 
         /// Filters applied to the certificate described in the form of key-value pairs.
         public let filters: [Filter]?
@@ -908,7 +908,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeCertificatesResponse: AWSShape {
+    public struct DescribeCertificatesResponse: AWSDecodableShape {
 
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
         public let certificates: [Certificate]?
@@ -926,7 +926,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeConnectionsMessage: AWSShape {
+    public struct DescribeConnectionsMessage: AWSEncodableShape {
 
         /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
@@ -948,7 +948,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeConnectionsResponse: AWSShape {
+    public struct DescribeConnectionsResponse: AWSDecodableShape {
 
         /// A description of the connections.
         public let connections: [Connection]?
@@ -966,7 +966,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEndpointTypesMessage: AWSShape {
+    public struct DescribeEndpointTypesMessage: AWSEncodableShape {
 
         /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
         public let filters: [Filter]?
@@ -988,7 +988,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEndpointTypesResponse: AWSShape {
+    public struct DescribeEndpointTypesResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1006,7 +1006,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEndpointsMessage: AWSShape {
+    public struct DescribeEndpointsMessage: AWSEncodableShape {
 
         /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
         public let filters: [Filter]?
@@ -1028,7 +1028,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEndpointsResponse: AWSShape {
+    public struct DescribeEndpointsResponse: AWSDecodableShape {
 
         /// Endpoint description.
         public let endpoints: [Endpoint]?
@@ -1046,7 +1046,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventCategoriesMessage: AWSShape {
+    public struct DescribeEventCategoriesMessage: AWSEncodableShape {
 
         /// Filters applied to the action.
         public let filters: [Filter]?
@@ -1064,7 +1064,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventCategoriesResponse: AWSShape {
+    public struct DescribeEventCategoriesResponse: AWSDecodableShape {
 
         /// A list of event categories.
         public let eventCategoryGroupList: [EventCategoryGroup]?
@@ -1078,7 +1078,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventSubscriptionsMessage: AWSShape {
+    public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
 
         /// Filters applied to the action.
         public let filters: [Filter]?
@@ -1104,7 +1104,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventSubscriptionsResponse: AWSShape {
+    public struct DescribeEventSubscriptionsResponse: AWSDecodableShape {
 
         /// A list of event subscriptions.
         public let eventSubscriptionsList: [EventSubscription]?
@@ -1122,7 +1122,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventsMessage: AWSShape {
+    public struct DescribeEventsMessage: AWSEncodableShape {
 
         /// The duration of the events to be listed.
         public let duration: Int?
@@ -1168,7 +1168,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeEventsResponse: AWSShape {
+    public struct DescribeEventsResponse: AWSDecodableShape {
 
         /// The events described.
         public let events: [Event]?
@@ -1186,7 +1186,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
+    public struct DescribeOrderableReplicationInstancesMessage: AWSEncodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1204,7 +1204,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
+    public struct DescribeOrderableReplicationInstancesResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1222,7 +1222,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
+    public struct DescribePendingMaintenanceActionsMessage: AWSEncodableShape {
 
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1247,7 +1247,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribePendingMaintenanceActionsResponse: AWSShape {
+    public struct DescribePendingMaintenanceActionsResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1265,7 +1265,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeRefreshSchemasStatusMessage: AWSShape {
+    public struct DescribeRefreshSchemasStatusMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -1279,7 +1279,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeRefreshSchemasStatusResponse: AWSShape {
+    public struct DescribeRefreshSchemasStatusResponse: AWSDecodableShape {
 
         /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
@@ -1293,7 +1293,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationInstanceTaskLogsMessage: AWSShape {
+    public struct DescribeReplicationInstanceTaskLogsMessage: AWSEncodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1315,7 +1315,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationInstanceTaskLogsResponse: AWSShape {
+    public struct DescribeReplicationInstanceTaskLogsResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1337,7 +1337,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationInstancesMessage: AWSShape {
+    public struct DescribeReplicationInstancesMessage: AWSEncodableShape {
 
         /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
         public let filters: [Filter]?
@@ -1359,7 +1359,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationInstancesResponse: AWSShape {
+    public struct DescribeReplicationInstancesResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1377,7 +1377,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
+    public struct DescribeReplicationSubnetGroupsMessage: AWSEncodableShape {
 
         /// Filters applied to the describe action.
         public let filters: [Filter]?
@@ -1399,7 +1399,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
+    public struct DescribeReplicationSubnetGroupsResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1417,7 +1417,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationTaskAssessmentResultsMessage: AWSShape {
+    public struct DescribeReplicationTaskAssessmentResultsMessage: AWSEncodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1439,7 +1439,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationTaskAssessmentResultsResponse: AWSShape {
+    public struct DescribeReplicationTaskAssessmentResultsResponse: AWSDecodableShape {
 
         /// - The Amazon S3 bucket where the task assessment report is located. 
         public let bucketName: String?
@@ -1461,7 +1461,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationTasksMessage: AWSShape {
+    public struct DescribeReplicationTasksMessage: AWSEncodableShape {
 
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
         public let filters: [Filter]?
@@ -1487,7 +1487,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeReplicationTasksResponse: AWSShape {
+    public struct DescribeReplicationTasksResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1505,7 +1505,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeSchemasMessage: AWSShape {
+    public struct DescribeSchemasMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -1527,7 +1527,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeSchemasResponse: AWSShape {
+    public struct DescribeSchemasResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1545,7 +1545,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeTableStatisticsMessage: AWSShape {
+    public struct DescribeTableStatisticsMessage: AWSEncodableShape {
 
         /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
         public let filters: [Filter]?
@@ -1571,7 +1571,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeTableStatisticsResponse: AWSShape {
+    public struct DescribeTableStatisticsResponse: AWSDecodableShape {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1593,7 +1593,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DmsTransferSettings: AWSShape {
+    public struct DmsTransferSettings: AWSEncodableShape & AWSDecodableShape {
 
         ///  The name of the S3 bucket to use. 
         public let bucketName: String?
@@ -1611,7 +1611,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DynamoDbSettings: AWSShape {
+    public struct DynamoDbSettings: AWSEncodableShape & AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String
@@ -1625,7 +1625,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ElasticsearchSettings: AWSShape {
+    public struct ElasticsearchSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The endpoint for the Elasticsearch cluster.
         public let endpointUri: String
@@ -1651,7 +1651,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
         public let certificateArn: String?
@@ -1761,7 +1761,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSDecodableShape {
 
         /// The date of the event.
         public let date: TimeStamp?
@@ -1791,7 +1791,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct EventCategoryGroup: AWSShape {
+    public struct EventCategoryGroup: AWSDecodableShape {
 
         ///  A list of event categories from a source type that you've chosen.
         public let eventCategories: [String]?
@@ -1809,7 +1809,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct EventSubscription: AWSShape {
+    public struct EventSubscription: AWSDecodableShape {
 
         /// The AWS customer account associated with the AWS DMS event notification subscription.
         public let customerAwsId: String?
@@ -1855,7 +1855,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// The name of the filter.
         public let name: String
@@ -1873,7 +1873,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ImportCertificateMessage: AWSShape {
+    public struct ImportCertificateMessage: AWSEncodableShape {
 
         /// A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
         public let certificateIdentifier: String
@@ -1899,7 +1899,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ImportCertificateResponse: AWSShape {
+    public struct ImportCertificateResponse: AWSDecodableShape {
 
         /// The certificate to be uploaded.
         public let certificate: Certificate?
@@ -1913,7 +1913,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct KafkaSettings: AWSShape {
+    public struct KafkaSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The broker location and port of the Kafka broker that hosts your Kafka instance. Specify the broker in the form  broker-hostname-or-ip:port . For example, "ec2-12-345-678-901.compute-1.amazonaws.com:2345".
         public let broker: String?
@@ -1931,7 +1931,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct KinesisSettings: AWSShape {
+    public struct KinesisSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Shows detailed control information for table definition, column definition, and table and column changes in the Kinesis message output. The default is False.
         public let includeControlDetails: Bool?
@@ -1973,7 +1973,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ListTagsForResourceMessage: AWSShape {
+    public struct ListTagsForResourceMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public let resourceArn: String
@@ -1987,7 +1987,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// A list of tags for the resource.
         public let tagList: [Tag]?
@@ -2001,7 +2001,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyEndpointMessage: AWSShape {
+    public struct ModifyEndpointMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public let certificateArn: String?
@@ -2098,7 +2098,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyEndpointResponse: AWSShape {
+    public struct ModifyEndpointResponse: AWSDecodableShape {
 
         /// The modified endpoint.
         public let endpoint: Endpoint?
@@ -2112,7 +2112,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyEventSubscriptionMessage: AWSShape {
+    public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
 
         ///  A Boolean value; set to true to activate the subscription. 
         public let enabled: Bool?
@@ -2142,7 +2142,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyEventSubscriptionResponse: AWSShape {
+    public struct ModifyEventSubscriptionResponse: AWSDecodableShape {
 
         /// The modified event subscription.
         public let eventSubscription: EventSubscription?
@@ -2156,7 +2156,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyReplicationInstanceMessage: AWSShape {
+    public struct ModifyReplicationInstanceMessage: AWSEncodableShape {
 
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -2210,7 +2210,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyReplicationInstanceResponse: AWSShape {
+    public struct ModifyReplicationInstanceResponse: AWSDecodableShape {
 
         /// The modified replication instance.
         public let replicationInstance: ReplicationInstance?
@@ -2224,7 +2224,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyReplicationSubnetGroupMessage: AWSShape {
+    public struct ModifyReplicationSubnetGroupMessage: AWSEncodableShape {
 
         /// A description for the replication instance subnet group.
         public let replicationSubnetGroupDescription: String?
@@ -2246,7 +2246,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyReplicationSubnetGroupResponse: AWSShape {
+    public struct ModifyReplicationSubnetGroupResponse: AWSDecodableShape {
 
         /// The modified replication subnet group.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -2260,7 +2260,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyReplicationTaskMessage: AWSShape {
+    public struct ModifyReplicationTaskMessage: AWSEncodableShape {
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
@@ -2302,7 +2302,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ModifyReplicationTaskResponse: AWSShape {
+    public struct ModifyReplicationTaskResponse: AWSDecodableShape {
 
         /// The replication task that was modified.
         public let replicationTask: ReplicationTask?
@@ -2316,7 +2316,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct MongoDbSettings: AWSShape {
+    public struct MongoDbSettings: AWSEncodableShape & AWSDecodableShape {
 
         ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This setting isn't used when authType=No.
         public let authMechanism: AuthMechanismValue?
@@ -2374,7 +2374,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct OrderableReplicationInstance: AWSShape {
+    public struct OrderableReplicationInstance: AWSDecodableShape {
 
         /// List of Availability Zones for this replication instance.
         public let availabilityZones: [String]?
@@ -2420,7 +2420,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct PendingMaintenanceAction: AWSShape {
+    public struct PendingMaintenanceAction: AWSDecodableShape {
 
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
@@ -2454,7 +2454,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RebootReplicationInstanceMessage: AWSShape {
+    public struct RebootReplicationInstanceMessage: AWSEncodableShape {
 
         /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
         public let forceFailover: Bool?
@@ -2472,7 +2472,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RebootReplicationInstanceResponse: AWSShape {
+    public struct RebootReplicationInstanceResponse: AWSDecodableShape {
 
         /// The replication instance that is being rebooted. 
         public let replicationInstance: ReplicationInstance?
@@ -2486,7 +2486,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RedshiftSettings: AWSShape {
+    public struct RedshiftSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// A value that indicates to allow any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose true or false (the default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field. 
         public let acceptAnyDate: Bool?
@@ -2596,7 +2596,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RefreshSchemasMessage: AWSShape {
+    public struct RefreshSchemasMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -2614,7 +2614,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RefreshSchemasResponse: AWSShape {
+    public struct RefreshSchemasResponse: AWSDecodableShape {
 
         /// The status of the refreshed schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
@@ -2628,7 +2628,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RefreshSchemasStatus: AWSShape {
+    public struct RefreshSchemasStatus: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
@@ -2658,7 +2658,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReloadTablesMessage: AWSShape {
+    public struct ReloadTablesMessage: AWSEncodableShape {
 
         /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
         public let reloadOption: ReloadOptionValue?
@@ -2680,7 +2680,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReloadTablesResponse: AWSShape {
+    public struct ReloadTablesResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String?
@@ -2694,7 +2694,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RemoveTagsFromResourceMessage: AWSShape {
+    public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
 
         /// An AWS DMS resource from which you want to remove tag(s). The value for this parameter is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -2712,7 +2712,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct RemoveTagsFromResourceResponse: AWSShape {
+    public struct RemoveTagsFromResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2720,7 +2720,7 @@ extension DatabaseMigrationService {
 
     }
 
-    public struct ReplicationInstance: AWSShape {
+    public struct ReplicationInstance: AWSDecodableShape {
 
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -2814,7 +2814,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationInstanceTaskLog: AWSShape {
+    public struct ReplicationInstanceTaskLog: AWSDecodableShape {
 
         /// The size, in bytes, of the replication task log.
         public let replicationInstanceTaskLogSize: Int64?
@@ -2836,7 +2836,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationPendingModifiedValues: AWSShape {
+    public struct ReplicationPendingModifiedValues: AWSDecodableShape {
 
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -2862,7 +2862,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationSubnetGroup: AWSShape {
+    public struct ReplicationSubnetGroup: AWSDecodableShape {
 
         /// A description for the replication subnet group.
         public let replicationSubnetGroupDescription: String?
@@ -2892,7 +2892,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationTask: AWSShape {
+    public struct ReplicationTask: AWSDecodableShape {
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
@@ -2970,7 +2970,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationTaskAssessmentResult: AWSShape {
+    public struct ReplicationTaskAssessmentResult: AWSDecodableShape {
 
         ///  The task assessment results in JSON format. 
         public let assessmentResults: String?
@@ -3008,7 +3008,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ReplicationTaskStats: AWSShape {
+    public struct ReplicationTaskStats: AWSDecodableShape {
 
         /// The elapsed time of the task, in milliseconds.
         public let elapsedTimeMillis: Int64?
@@ -3062,7 +3062,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct ResourcePendingMaintenanceActions: AWSShape {
+    public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
 
         /// Detailed information about the pending maintenance action.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
@@ -3080,7 +3080,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct S3Settings: AWSShape {
+    public struct S3Settings: AWSEncodableShape & AWSDecodableShape {
 
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path  bucketFolder/schema_name/table_name/. If this parameter isn't specified, then the path used is  schema_name/table_name/. 
         public let bucketFolder: String?
@@ -3174,7 +3174,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct StartReplicationTaskAssessmentMessage: AWSShape {
+    public struct StartReplicationTaskAssessmentMessage: AWSEncodableShape {
 
         ///  The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String
@@ -3188,7 +3188,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct StartReplicationTaskAssessmentResponse: AWSShape {
+    public struct StartReplicationTaskAssessmentResponse: AWSDecodableShape {
 
         ///  The assessed replication task. 
         public let replicationTask: ReplicationTask?
@@ -3202,7 +3202,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct StartReplicationTaskMessage: AWSShape {
+    public struct StartReplicationTaskMessage: AWSEncodableShape {
 
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
@@ -3232,7 +3232,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct StartReplicationTaskResponse: AWSShape {
+    public struct StartReplicationTaskResponse: AWSDecodableShape {
 
         /// The replication task started.
         public let replicationTask: ReplicationTask?
@@ -3246,7 +3246,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct StopReplicationTaskMessage: AWSShape {
+    public struct StopReplicationTaskMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
@@ -3260,7 +3260,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct StopReplicationTaskResponse: AWSShape {
+    public struct StopReplicationTaskResponse: AWSDecodableShape {
 
         /// The replication task stopped.
         public let replicationTask: ReplicationTask?
@@ -3274,7 +3274,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct Subnet: AWSDecodableShape {
 
         /// The Availability Zone of the subnet.
         public let subnetAvailabilityZone: AvailabilityZone?
@@ -3296,7 +3296,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct SupportedEndpointType: AWSShape {
+    public struct SupportedEndpointType: AWSDecodableShape {
 
         /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
@@ -3322,7 +3322,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct TableStatistics: AWSShape {
+    public struct TableStatistics: AWSDecodableShape {
 
         /// The data definition language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
@@ -3408,7 +3408,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct TableToReload: AWSShape {
+    public struct TableToReload: AWSEncodableShape {
 
         /// The schema name of the table to be reloaded.
         public let schemaName: String?
@@ -3426,7 +3426,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -3444,7 +3444,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct TestConnectionMessage: AWSShape {
+    public struct TestConnectionMessage: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -3462,7 +3462,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct TestConnectionResponse: AWSShape {
+    public struct TestConnectionResponse: AWSDecodableShape {
 
         /// The connection tested.
         public let connection: Connection?
@@ -3476,7 +3476,7 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct VpcSecurityGroupMembership: AWSShape {
+    public struct VpcSecurityGroupMembership: AWSDecodableShape {
 
         /// The status of the VPC security group.
         public let status: String?

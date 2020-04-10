@@ -56,7 +56,7 @@ extension ServiceQuotas {
 
     //MARK: Shapes
 
-    public struct AssociateServiceQuotaTemplateRequest: AWSShape {
+    public struct AssociateServiceQuotaTemplateRequest: AWSEncodableShape {
 
 
         public init() {
@@ -64,7 +64,7 @@ extension ServiceQuotas {
 
     }
 
-    public struct AssociateServiceQuotaTemplateResponse: AWSShape {
+    public struct AssociateServiceQuotaTemplateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -72,7 +72,7 @@ extension ServiceQuotas {
 
     }
 
-    public struct DeleteServiceQuotaIncreaseRequestFromTemplateRequest: AWSShape {
+    public struct DeleteServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
 
         /// Specifies the AWS Region for the quota that you want to delete.
         public let awsRegion: String
@@ -106,7 +106,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct DeleteServiceQuotaIncreaseRequestFromTemplateResponse: AWSShape {
+    public struct DeleteServiceQuotaIncreaseRequestFromTemplateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -114,7 +114,7 @@ extension ServiceQuotas {
 
     }
 
-    public struct DisassociateServiceQuotaTemplateRequest: AWSShape {
+    public struct DisassociateServiceQuotaTemplateRequest: AWSEncodableShape {
 
 
         public init() {
@@ -122,7 +122,7 @@ extension ServiceQuotas {
 
     }
 
-    public struct DisassociateServiceQuotaTemplateResponse: AWSShape {
+    public struct DisassociateServiceQuotaTemplateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -130,7 +130,7 @@ extension ServiceQuotas {
 
     }
 
-    public struct ErrorReason: AWSShape {
+    public struct ErrorReason: AWSDecodableShape {
 
         /// Service Quotas returns the following error values.   DEPENDENCY_ACCESS_DENIED_ERROR is returned when the caller does not have permission to call the service or service quota. To resolve the error, you need permission to access the service or service quota.  DEPENDENCY_THROTTLING_ERROR is returned when the service being called is throttling Service Quotas.  DEPENDENCY_SERVICE_ERROR is returned when the service being called has availability issues.  SERVICE_QUOTA_NOT_AVAILABLE_ERROR is returned when there was an error in Service Quotas.
         public let errorCode: ErrorCode?
@@ -148,7 +148,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetAWSDefaultServiceQuotaRequest: AWSShape {
+    public struct GetAWSDefaultServiceQuotaRequest: AWSEncodableShape {
 
         /// Identifies the service quota you want to select.
         public let quotaCode: String
@@ -175,7 +175,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetAWSDefaultServiceQuotaResponse: AWSShape {
+    public struct GetAWSDefaultServiceQuotaResponse: AWSDecodableShape {
 
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
@@ -189,7 +189,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetAssociationForServiceQuotaTemplateRequest: AWSShape {
+    public struct GetAssociationForServiceQuotaTemplateRequest: AWSEncodableShape {
 
 
         public init() {
@@ -197,7 +197,7 @@ extension ServiceQuotas {
 
     }
 
-    public struct GetAssociationForServiceQuotaTemplateResponse: AWSShape {
+    public struct GetAssociationForServiceQuotaTemplateResponse: AWSDecodableShape {
 
         /// Specifies whether the template is ASSOCIATED or DISASSOCIATED. If the template is ASSOCIATED, then it requests service quota increases for all new accounts created in your organization. 
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
@@ -211,7 +211,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetRequestedServiceQuotaChangeRequest: AWSShape {
+    public struct GetRequestedServiceQuotaChangeRequest: AWSEncodableShape {
 
         /// Identifies the quota increase request.
         public let requestId: String
@@ -231,7 +231,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetRequestedServiceQuotaChangeResponse: AWSShape {
+    public struct GetRequestedServiceQuotaChangeResponse: AWSDecodableShape {
 
         /// Returns the RequestedServiceQuotaChange object for the specific increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
@@ -245,7 +245,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetServiceQuotaIncreaseRequestFromTemplateRequest: AWSShape {
+    public struct GetServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
 
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String
@@ -279,7 +279,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetServiceQuotaIncreaseRequestFromTemplateResponse: AWSShape {
+    public struct GetServiceQuotaIncreaseRequestFromTemplateResponse: AWSDecodableShape {
 
         /// This object contains the details about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
@@ -293,7 +293,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetServiceQuotaRequest: AWSShape {
+    public struct GetServiceQuotaRequest: AWSEncodableShape {
 
         /// Identifies the service quota you want to select.
         public let quotaCode: String
@@ -320,7 +320,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetServiceQuotaResponse: AWSShape {
+    public struct GetServiceQuotaResponse: AWSDecodableShape {
 
         /// Returns the ServiceQuota object which contains all values for a quota.
         public let quota: ServiceQuota?
@@ -334,7 +334,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListAWSDefaultServiceQuotasRequest: AWSShape {
+    public struct ListAWSDefaultServiceQuotasRequest: AWSEncodableShape {
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -366,7 +366,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListAWSDefaultServiceQuotasResponse: AWSShape {
+    public struct ListAWSDefaultServiceQuotasResponse: AWSDecodableShape {
 
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -384,7 +384,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSShape {
+    public struct ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSEncodableShape {
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -427,7 +427,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListRequestedServiceQuotaChangeHistoryByQuotaResponse: AWSShape {
+    public struct ListRequestedServiceQuotaChangeHistoryByQuotaResponse: AWSDecodableShape {
 
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
@@ -445,7 +445,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListRequestedServiceQuotaChangeHistoryRequest: AWSShape {
+    public struct ListRequestedServiceQuotaChangeHistoryRequest: AWSEncodableShape {
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -481,7 +481,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListRequestedServiceQuotaChangeHistoryResponse: AWSShape {
+    public struct ListRequestedServiceQuotaChangeHistoryResponse: AWSDecodableShape {
 
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
@@ -499,7 +499,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSShape {
+    public struct ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSEncodableShape {
 
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String?
@@ -538,7 +538,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListServiceQuotaIncreaseRequestsInTemplateResponse: AWSShape {
+    public struct ListServiceQuotaIncreaseRequestsInTemplateResponse: AWSDecodableShape {
 
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
@@ -556,7 +556,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListServiceQuotasRequest: AWSShape {
+    public struct ListServiceQuotasRequest: AWSEncodableShape {
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -588,7 +588,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListServiceQuotasResponse: AWSShape {
+    public struct ListServiceQuotasResponse: AWSDecodableShape {
 
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
@@ -606,7 +606,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListServicesRequest: AWSShape {
+    public struct ListServicesRequest: AWSEncodableShape {
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -631,7 +631,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ListServicesResponse: AWSShape {
+    public struct ListServicesResponse: AWSDecodableShape {
 
         /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
@@ -649,7 +649,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct MetricInfo: AWSShape {
+    public struct MetricInfo: AWSDecodableShape {
 
         /// A dimension is a name/value pair that is part of the identity of a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. These dimensions are part of the CloudWatch Metric Identity that measures usage against a particular service quota.
         public let metricDimensions: [String: String]?
@@ -675,7 +675,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct PutServiceQuotaIncreaseRequestIntoTemplateRequest: AWSShape {
+    public struct PutServiceQuotaIncreaseRequestIntoTemplateRequest: AWSEncodableShape {
 
         /// Specifies the AWS Region for the quota. 
         public let awsRegion: String
@@ -715,7 +715,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct PutServiceQuotaIncreaseRequestIntoTemplateResponse: AWSShape {
+    public struct PutServiceQuotaIncreaseRequestIntoTemplateResponse: AWSDecodableShape {
 
         /// A structure that contains information about one service quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
@@ -729,7 +729,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct QuotaPeriod: AWSShape {
+    public struct QuotaPeriod: AWSDecodableShape {
 
         /// The time unit of a period.
         public let periodUnit: PeriodUnit?
@@ -747,7 +747,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct RequestServiceQuotaIncreaseRequest: AWSShape {
+    public struct RequestServiceQuotaIncreaseRequest: AWSEncodableShape {
 
         /// Specifies the value submitted in the service quota increase request. 
         public let desiredValue: Double
@@ -780,7 +780,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct RequestServiceQuotaIncreaseResponse: AWSShape {
+    public struct RequestServiceQuotaIncreaseResponse: AWSDecodableShape {
 
         /// Returns a list of service quota requests.
         public let requestedQuota: RequestedServiceQuotaChange?
@@ -794,7 +794,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct RequestedServiceQuotaChange: AWSShape {
+    public struct RequestedServiceQuotaChange: AWSDecodableShape {
 
         /// The case Id for the service quota increase request.
         public let caseId: String?
@@ -860,7 +860,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ServiceInfo: AWSShape {
+    public struct ServiceInfo: AWSDecodableShape {
 
         /// Specifies the service that you want to use.
         public let serviceCode: String?
@@ -878,7 +878,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ServiceQuota: AWSShape {
+    public struct ServiceQuota: AWSDecodableShape {
 
         /// Specifies if the quota value can be increased.
         public let adjustable: Bool?
@@ -936,7 +936,7 @@ extension ServiceQuotas {
         }
     }
 
-    public struct ServiceQuotaIncreaseRequestInTemplate: AWSShape {
+    public struct ServiceQuotaIncreaseRequestInTemplate: AWSDecodableShape {
 
         /// The AWS Region where the increase request occurs.
         public let awsRegion: String?

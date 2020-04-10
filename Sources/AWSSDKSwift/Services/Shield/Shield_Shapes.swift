@@ -66,7 +66,7 @@ extension Shield {
 
     //MARK: Shapes
 
-    public struct AssociateDRTLogBucketRequest: AWSShape {
+    public struct AssociateDRTLogBucketRequest: AWSEncodableShape {
 
         /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
@@ -86,7 +86,7 @@ extension Shield {
         }
     }
 
-    public struct AssociateDRTLogBucketResponse: AWSShape {
+    public struct AssociateDRTLogBucketResponse: AWSDecodableShape {
 
 
         public init() {
@@ -94,7 +94,7 @@ extension Shield {
 
     }
 
-    public struct AssociateDRTRoleRequest: AWSShape {
+    public struct AssociateDRTRoleRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
@@ -114,7 +114,7 @@ extension Shield {
         }
     }
 
-    public struct AssociateDRTRoleResponse: AWSShape {
+    public struct AssociateDRTRoleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -122,7 +122,7 @@ extension Shield {
 
     }
 
-    public struct AssociateHealthCheckRequest: AWSShape {
+    public struct AssociateHealthCheckRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the health check to associate with the protection.
         public let healthCheckArn: String
@@ -149,7 +149,7 @@ extension Shield {
         }
     }
 
-    public struct AssociateHealthCheckResponse: AWSShape {
+    public struct AssociateHealthCheckResponse: AWSDecodableShape {
 
 
         public init() {
@@ -157,7 +157,7 @@ extension Shield {
 
     }
 
-    public struct AttackDetail: AWSShape {
+    public struct AttackDetail: AWSDecodableShape {
 
         /// List of counters that describe the attack for the specified time period.
         public let attackCounters: [SummarizedCounter]?
@@ -199,7 +199,7 @@ extension Shield {
         }
     }
 
-    public struct AttackProperty: AWSShape {
+    public struct AttackProperty: AWSDecodableShape {
 
         /// The type of distributed denial of service (DDoS) event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
         public let attackLayer: AttackLayer?
@@ -229,7 +229,7 @@ extension Shield {
         }
     }
 
-    public struct AttackSummary: AWSShape {
+    public struct AttackSummary: AWSDecodableShape {
 
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
@@ -259,7 +259,7 @@ extension Shield {
         }
     }
 
-    public struct AttackVectorDescription: AWSShape {
+    public struct AttackVectorDescription: AWSDecodableShape {
 
         /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION  
         public let vectorType: String
@@ -273,7 +273,7 @@ extension Shield {
         }
     }
 
-    public struct Contributor: AWSShape {
+    public struct Contributor: AWSDecodableShape {
 
         /// The name of the contributor. This is dependent on the AttackPropertyIdentifier. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public let name: String?
@@ -291,7 +291,7 @@ extension Shield {
         }
     }
 
-    public struct CreateProtectionRequest: AWSShape {
+    public struct CreateProtectionRequest: AWSEncodableShape {
 
         /// Friendly name for the Protection you are creating.
         public let name: String
@@ -318,7 +318,7 @@ extension Shield {
         }
     }
 
-    public struct CreateProtectionResponse: AWSShape {
+    public struct CreateProtectionResponse: AWSDecodableShape {
 
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
@@ -332,7 +332,7 @@ extension Shield {
         }
     }
 
-    public struct CreateSubscriptionRequest: AWSShape {
+    public struct CreateSubscriptionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -340,7 +340,7 @@ extension Shield {
 
     }
 
-    public struct CreateSubscriptionResponse: AWSShape {
+    public struct CreateSubscriptionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -348,7 +348,7 @@ extension Shield {
 
     }
 
-    public struct DeleteProtectionRequest: AWSShape {
+    public struct DeleteProtectionRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
@@ -368,7 +368,7 @@ extension Shield {
         }
     }
 
-    public struct DeleteProtectionResponse: AWSShape {
+    public struct DeleteProtectionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -376,7 +376,7 @@ extension Shield {
 
     }
 
-    public struct DeleteSubscriptionRequest: AWSShape {
+    public struct DeleteSubscriptionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -384,7 +384,7 @@ extension Shield {
 
     }
 
-    public struct DeleteSubscriptionResponse: AWSShape {
+    public struct DeleteSubscriptionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -392,7 +392,7 @@ extension Shield {
 
     }
 
-    public struct DescribeAttackRequest: AWSShape {
+    public struct DescribeAttackRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) for the attack that to be described.
         public let attackId: String
@@ -412,7 +412,7 @@ extension Shield {
         }
     }
 
-    public struct DescribeAttackResponse: AWSShape {
+    public struct DescribeAttackResponse: AWSDecodableShape {
 
         /// The attack that is described.
         public let attack: AttackDetail?
@@ -426,7 +426,7 @@ extension Shield {
         }
     }
 
-    public struct DescribeDRTAccessRequest: AWSShape {
+    public struct DescribeDRTAccessRequest: AWSEncodableShape {
 
 
         public init() {
@@ -434,7 +434,7 @@ extension Shield {
 
     }
 
-    public struct DescribeDRTAccessResponse: AWSShape {
+    public struct DescribeDRTAccessResponse: AWSDecodableShape {
 
         /// The list of Amazon S3 buckets accessed by the DRT.
         public let logBucketList: [String]?
@@ -452,7 +452,7 @@ extension Shield {
         }
     }
 
-    public struct DescribeEmergencyContactSettingsRequest: AWSShape {
+    public struct DescribeEmergencyContactSettingsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -460,7 +460,7 @@ extension Shield {
 
     }
 
-    public struct DescribeEmergencyContactSettingsResponse: AWSShape {
+    public struct DescribeEmergencyContactSettingsResponse: AWSDecodableShape {
 
         /// A list of email addresses that the DRT can use to contact you during a suspected attack.
         public let emergencyContactList: [EmergencyContact]?
@@ -474,7 +474,7 @@ extension Shield {
         }
     }
 
-    public struct DescribeProtectionRequest: AWSShape {
+    public struct DescribeProtectionRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
         public let protectionId: String?
@@ -501,7 +501,7 @@ extension Shield {
         }
     }
 
-    public struct DescribeProtectionResponse: AWSShape {
+    public struct DescribeProtectionResponse: AWSDecodableShape {
 
         /// The Protection object that is described.
         public let protection: Protection?
@@ -515,7 +515,7 @@ extension Shield {
         }
     }
 
-    public struct DescribeSubscriptionRequest: AWSShape {
+    public struct DescribeSubscriptionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -523,7 +523,7 @@ extension Shield {
 
     }
 
-    public struct DescribeSubscriptionResponse: AWSShape {
+    public struct DescribeSubscriptionResponse: AWSDecodableShape {
 
         /// The AWS Shield Advanced subscription details for an account.
         public let subscription: Subscription?
@@ -537,7 +537,7 @@ extension Shield {
         }
     }
 
-    public struct DisassociateDRTLogBucketRequest: AWSShape {
+    public struct DisassociateDRTLogBucketRequest: AWSEncodableShape {
 
         /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
@@ -557,7 +557,7 @@ extension Shield {
         }
     }
 
-    public struct DisassociateDRTLogBucketResponse: AWSShape {
+    public struct DisassociateDRTLogBucketResponse: AWSDecodableShape {
 
 
         public init() {
@@ -565,7 +565,7 @@ extension Shield {
 
     }
 
-    public struct DisassociateDRTRoleRequest: AWSShape {
+    public struct DisassociateDRTRoleRequest: AWSEncodableShape {
 
 
         public init() {
@@ -573,7 +573,7 @@ extension Shield {
 
     }
 
-    public struct DisassociateDRTRoleResponse: AWSShape {
+    public struct DisassociateDRTRoleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -581,7 +581,7 @@ extension Shield {
 
     }
 
-    public struct DisassociateHealthCheckRequest: AWSShape {
+    public struct DisassociateHealthCheckRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the health check that is associated with the protection.
         public let healthCheckArn: String
@@ -608,7 +608,7 @@ extension Shield {
         }
     }
 
-    public struct DisassociateHealthCheckResponse: AWSShape {
+    public struct DisassociateHealthCheckResponse: AWSDecodableShape {
 
 
         public init() {
@@ -616,7 +616,7 @@ extension Shield {
 
     }
 
-    public struct EmergencyContact: AWSShape {
+    public struct EmergencyContact: AWSEncodableShape & AWSDecodableShape {
 
         /// An email address that the DRT can use to contact you during a suspected attack.
         public let emailAddress: String
@@ -636,7 +636,7 @@ extension Shield {
         }
     }
 
-    public struct GetSubscriptionStateRequest: AWSShape {
+    public struct GetSubscriptionStateRequest: AWSEncodableShape {
 
 
         public init() {
@@ -644,7 +644,7 @@ extension Shield {
 
     }
 
-    public struct GetSubscriptionStateResponse: AWSShape {
+    public struct GetSubscriptionStateResponse: AWSDecodableShape {
 
         /// The status of the subscription.
         public let subscriptionState: SubscriptionState
@@ -658,7 +658,7 @@ extension Shield {
         }
     }
 
-    public struct Limit: AWSShape {
+    public struct Limit: AWSDecodableShape {
 
         /// The maximum number of protections that can be created for the specified Type.
         public let max: Int64?
@@ -676,7 +676,7 @@ extension Shield {
         }
     }
 
-    public struct ListAttacksRequest: AWSShape {
+    public struct ListAttacksRequest: AWSEncodableShape {
 
         /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
         public let endTime: TimeRange?
@@ -719,7 +719,7 @@ extension Shield {
         }
     }
 
-    public struct ListAttacksResponse: AWSShape {
+    public struct ListAttacksResponse: AWSDecodableShape {
 
         /// The attack information for the specified time range.
         public let attackSummaries: [AttackSummary]?
@@ -737,7 +737,7 @@ extension Shield {
         }
     }
 
-    public struct ListProtectionsRequest: AWSShape {
+    public struct ListProtectionsRequest: AWSEncodableShape {
 
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of Protection objects returned could be less than MaxResults, even if there are still more Protection objects yet to return. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
         public let maxResults: Int?
@@ -763,7 +763,7 @@ extension Shield {
         }
     }
 
-    public struct ListProtectionsResponse: AWSShape {
+    public struct ListProtectionsResponse: AWSDecodableShape {
 
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. AWS WAF might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
         public let nextToken: String?
@@ -781,7 +781,7 @@ extension Shield {
         }
     }
 
-    public struct Mitigation: AWSShape {
+    public struct Mitigation: AWSDecodableShape {
 
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
@@ -795,7 +795,7 @@ extension Shield {
         }
     }
 
-    public struct Protection: AWSShape {
+    public struct Protection: AWSDecodableShape {
 
         /// The unique identifier (ID) for the Route 53 health check that's associated with the protection. 
         public let healthCheckIds: [String]?
@@ -821,7 +821,7 @@ extension Shield {
         }
     }
 
-    public struct SubResourceSummary: AWSShape {
+    public struct SubResourceSummary: AWSDecodableShape {
 
         /// The list of attack types and associated counters.
         public let attackVectors: [SummarizedAttackVector]?
@@ -847,7 +847,7 @@ extension Shield {
         }
     }
 
-    public struct Subscription: AWSShape {
+    public struct Subscription: AWSDecodableShape {
 
         /// If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. When you initally create a subscription, AutoRenew is set to ENABLED. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
@@ -877,7 +877,7 @@ extension Shield {
         }
     }
 
-    public struct SummarizedAttackVector: AWSShape {
+    public struct SummarizedAttackVector: AWSDecodableShape {
 
         /// The list of counters that describe the details of the attack.
         public let vectorCounters: [SummarizedCounter]?
@@ -895,7 +895,7 @@ extension Shield {
         }
     }
 
-    public struct SummarizedCounter: AWSShape {
+    public struct SummarizedCounter: AWSDecodableShape {
 
         /// The average value of the counter for a specified time period.
         public let average: Double?
@@ -929,7 +929,7 @@ extension Shield {
         }
     }
 
-    public struct TimeRange: AWSShape {
+    public struct TimeRange: AWSEncodableShape {
 
         /// The start time, in Unix time in seconds. For more information see timestamp.
         public let fromInclusive: TimeStamp?
@@ -947,7 +947,7 @@ extension Shield {
         }
     }
 
-    public struct UpdateEmergencyContactSettingsRequest: AWSShape {
+    public struct UpdateEmergencyContactSettingsRequest: AWSEncodableShape {
 
         /// A list of email addresses that the DRT can use to contact you during a suspected attack.
         public let emergencyContactList: [EmergencyContact]?
@@ -969,7 +969,7 @@ extension Shield {
         }
     }
 
-    public struct UpdateEmergencyContactSettingsResponse: AWSShape {
+    public struct UpdateEmergencyContactSettingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -977,7 +977,7 @@ extension Shield {
 
     }
 
-    public struct UpdateSubscriptionRequest: AWSShape {
+    public struct UpdateSubscriptionRequest: AWSEncodableShape {
 
         /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
@@ -991,7 +991,7 @@ extension Shield {
         }
     }
 
-    public struct UpdateSubscriptionResponse: AWSShape {
+    public struct UpdateSubscriptionResponse: AWSDecodableShape {
 
 
         public init() {

@@ -161,7 +161,7 @@ extension Polly {
 
     //MARK: Shapes
 
-    public struct DeleteLexiconInput: AWSShape {
+    public struct DeleteLexiconInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "LexiconName"))
         ]
@@ -177,12 +177,10 @@ extension Polly {
             try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "LexiconName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteLexiconOutput: AWSShape {
+    public struct DeleteLexiconOutput: AWSDecodableShape {
 
 
         public init() {
@@ -190,7 +188,7 @@ extension Polly {
 
     }
 
-    public struct DescribeVoicesInput: AWSShape {
+    public struct DescribeVoicesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")), 
             AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")), 
@@ -219,15 +217,10 @@ extension Polly {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case engine = "Engine"
-            case includeAdditionalLanguageCodes = "IncludeAdditionalLanguageCodes"
-            case languageCode = "LanguageCode"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVoicesOutput: AWSShape {
+    public struct DescribeVoicesOutput: AWSDecodableShape {
 
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
         public let nextToken: String?
@@ -245,7 +238,7 @@ extension Polly {
         }
     }
 
-    public struct GetLexiconInput: AWSShape {
+    public struct GetLexiconInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "LexiconName"))
         ]
@@ -261,12 +254,10 @@ extension Polly {
             try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "LexiconName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLexiconOutput: AWSShape {
+    public struct GetLexiconOutput: AWSDecodableShape {
 
         /// Lexicon object that provides name and the string content of the lexicon. 
         public let lexicon: Lexicon?
@@ -284,7 +275,7 @@ extension Polly {
         }
     }
 
-    public struct GetSpeechSynthesisTaskInput: AWSShape {
+    public struct GetSpeechSynthesisTaskInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "TaskId"))
         ]
@@ -300,12 +291,10 @@ extension Polly {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,100}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "TaskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSpeechSynthesisTaskOutput: AWSShape {
+    public struct GetSpeechSynthesisTaskOutput: AWSDecodableShape {
 
         /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
         public let synthesisTask: SynthesisTask?
@@ -319,7 +308,7 @@ extension Polly {
         }
     }
 
-    public struct Lexicon: AWSShape {
+    public struct Lexicon: AWSDecodableShape {
 
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
@@ -337,7 +326,7 @@ extension Polly {
         }
     }
 
-    public struct LexiconAttributes: AWSShape {
+    public struct LexiconAttributes: AWSDecodableShape {
 
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
         public let alphabet: String?
@@ -371,7 +360,7 @@ extension Polly {
         }
     }
 
-    public struct LexiconDescription: AWSShape {
+    public struct LexiconDescription: AWSDecodableShape {
 
         /// Provides lexicon metadata.
         public let attributes: LexiconAttributes?
@@ -389,7 +378,7 @@ extension Polly {
         }
     }
 
-    public struct ListLexiconsInput: AWSShape {
+    public struct ListLexiconsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
@@ -406,12 +395,10 @@ extension Polly {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListLexiconsOutput: AWSShape {
+    public struct ListLexiconsOutput: AWSDecodableShape {
 
         /// A list of lexicon names and attributes.
         public let lexicons: [LexiconDescription]?
@@ -429,7 +416,7 @@ extension Polly {
         }
     }
 
-    public struct ListSpeechSynthesisTasksInput: AWSShape {
+    public struct ListSpeechSynthesisTasksInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -456,14 +443,10 @@ extension Polly {
             try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case status = "Status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSpeechSynthesisTasksOutput: AWSShape {
+    public struct ListSpeechSynthesisTasksOutput: AWSDecodableShape {
 
         /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
         public let nextToken: String?
@@ -481,7 +464,7 @@ extension Polly {
         }
     }
 
-    public struct PutLexiconInput: AWSShape {
+    public struct PutLexiconInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "LexiconName"))
         ]
@@ -502,11 +485,10 @@ extension Polly {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
-            case name = "LexiconName"
         }
     }
 
-    public struct PutLexiconOutput: AWSShape {
+    public struct PutLexiconOutput: AWSDecodableShape {
 
 
         public init() {
@@ -514,7 +496,7 @@ extension Polly {
 
     }
 
-    public struct StartSpeechSynthesisTaskInput: AWSShape {
+    public struct StartSpeechSynthesisTaskInput: AWSEncodableShape {
 
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
@@ -583,7 +565,7 @@ extension Polly {
         }
     }
 
-    public struct StartSpeechSynthesisTaskOutput: AWSShape {
+    public struct StartSpeechSynthesisTaskOutput: AWSDecodableShape {
 
         /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
         public let synthesisTask: SynthesisTask?
@@ -597,7 +579,7 @@ extension Polly {
         }
     }
 
-    public struct SynthesisTask: AWSShape {
+    public struct SynthesisTask: AWSDecodableShape {
 
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: TimeStamp?
@@ -667,7 +649,7 @@ extension Polly {
         }
     }
 
-    public struct SynthesizeSpeechInput: AWSShape {
+    public struct SynthesizeSpeechInput: AWSEncodableShape {
 
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
@@ -721,7 +703,7 @@ extension Polly {
         }
     }
 
-    public struct SynthesizeSpeechOutput: AWSShape {
+    public struct SynthesizeSpeechOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _encoding = [
@@ -750,7 +732,7 @@ extension Polly {
         }
     }
 
-    public struct Voice: AWSShape {
+    public struct Voice: AWSDecodableShape {
 
         /// Additional codes for languages available for the specified voice in addition to its default language.  For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
         public let additionalLanguageCodes: [LanguageCode]?

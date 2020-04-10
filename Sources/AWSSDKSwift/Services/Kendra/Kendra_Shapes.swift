@@ -138,7 +138,7 @@ extension Kendra {
 
     //MARK: Shapes
 
-    public struct AccessControlListConfiguration: AWSShape {
+    public struct AccessControlListConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Path to the AWS S3 bucket that contains the ACL files.
         public let keyPath: String?
@@ -157,7 +157,7 @@ extension Kendra {
         }
     }
 
-    public struct AclConfiguration: AWSShape {
+    public struct AclConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of groups, separated by semi-colons, that filters a query response based on user context. The document is only returned to users that are in one of the groups specified in the UserContext field of the Query operation.
         public let allowedGroupsColumnName: String
@@ -177,7 +177,7 @@ extension Kendra {
         }
     }
 
-    public struct AdditionalResultAttribute: AWSShape {
+    public struct AdditionalResultAttribute: AWSDecodableShape {
 
         public let key: String
         public let value: AdditionalResultAttributeValue
@@ -196,7 +196,7 @@ extension Kendra {
         }
     }
 
-    public struct AdditionalResultAttributeValue: AWSShape {
+    public struct AdditionalResultAttributeValue: AWSDecodableShape {
 
         /// The text associated with the attribute and information about the highlight to apply to the text.
         public let textWithHighlightsValue: TextWithHighlights?
@@ -210,7 +210,7 @@ extension Kendra {
         }
     }
 
-    public class AttributeFilter: AWSShape {
+    public class AttributeFilter: AWSEncodableShape {
 
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
@@ -281,7 +281,7 @@ extension Kendra {
         }
     }
 
-    public struct BatchDeleteDocumentRequest: AWSShape {
+    public struct BatchDeleteDocumentRequest: AWSEncodableShape {
 
         /// One or more identifiers for documents to delete from the index.
         public let documentIdList: [String]
@@ -311,7 +311,7 @@ extension Kendra {
         }
     }
 
-    public struct BatchDeleteDocumentResponse: AWSShape {
+    public struct BatchDeleteDocumentResponse: AWSDecodableShape {
 
         /// A list of documents that could not be removed from the index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
         public let failedDocuments: [BatchDeleteDocumentResponseFailedDocument]?
@@ -325,7 +325,7 @@ extension Kendra {
         }
     }
 
-    public struct BatchDeleteDocumentResponseFailedDocument: AWSShape {
+    public struct BatchDeleteDocumentResponseFailedDocument: AWSDecodableShape {
 
         /// The error code for why the document couldn't be removed from the index.
         public let errorCode: ErrorCode?
@@ -347,7 +347,7 @@ extension Kendra {
         }
     }
 
-    public struct BatchPutDocumentRequest: AWSShape {
+    public struct BatchPutDocumentRequest: AWSEncodableShape {
 
         /// One or more documents to add to the index.  Each document is limited to 5 Mb, the total size of the list is limited to 50 Mb.
         public let documents: [Document]
@@ -383,7 +383,7 @@ extension Kendra {
         }
     }
 
-    public struct BatchPutDocumentResponse: AWSShape {
+    public struct BatchPutDocumentResponse: AWSDecodableShape {
 
         /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your AWS CloudWatch log.
         public let failedDocuments: [BatchPutDocumentResponseFailedDocument]?
@@ -397,7 +397,7 @@ extension Kendra {
         }
     }
 
-    public struct BatchPutDocumentResponseFailedDocument: AWSShape {
+    public struct BatchPutDocumentResponseFailedDocument: AWSDecodableShape {
 
         /// The type of error that caused the document to fail to be indexed.
         public let errorCode: ErrorCode?
@@ -419,7 +419,7 @@ extension Kendra {
         }
     }
 
-    public struct ClickFeedback: AWSShape {
+    public struct ClickFeedback: AWSEncodableShape {
 
         /// The Unix timestamp of the data and time that the result was clicked.
         public let clickTime: TimeStamp
@@ -442,7 +442,7 @@ extension Kendra {
         }
     }
 
-    public struct ColumnConfiguration: AWSShape {
+    public struct ColumnConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// One to five columns that indicate when a document in the database has changed.
         public let changeDetectingColumns: [String]
@@ -496,7 +496,7 @@ extension Kendra {
         }
     }
 
-    public struct ConnectionConfiguration: AWSShape {
+    public struct ConnectionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the host for the database. Can be either a string (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
         public let databaseHost: String
@@ -542,7 +542,7 @@ extension Kendra {
         }
     }
 
-    public struct CreateDataSourceRequest: AWSShape {
+    public struct CreateDataSourceRequest: AWSEncodableShape {
 
         /// The connector configuration information that is required to access the repository.
         public let configuration: DataSourceConfiguration
@@ -596,7 +596,7 @@ extension Kendra {
         }
     }
 
-    public struct CreateDataSourceResponse: AWSShape {
+    public struct CreateDataSourceResponse: AWSDecodableShape {
 
         /// A unique identifier for the data source.
         public let id: String
@@ -610,7 +610,7 @@ extension Kendra {
         }
     }
 
-    public struct CreateFaqRequest: AWSShape {
+    public struct CreateFaqRequest: AWSEncodableShape {
 
         /// A description of the FAQ.
         public let description: String?
@@ -656,7 +656,7 @@ extension Kendra {
         }
     }
 
-    public struct CreateFaqResponse: AWSShape {
+    public struct CreateFaqResponse: AWSDecodableShape {
 
         /// The unique identifier of the FAQ.
         public let id: String?
@@ -670,7 +670,7 @@ extension Kendra {
         }
     }
 
-    public struct CreateIndexRequest: AWSShape {
+    public struct CreateIndexRequest: AWSEncodableShape {
 
         /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.”
         public let clientToken: String?
@@ -715,7 +715,7 @@ extension Kendra {
         }
     }
 
-    public struct CreateIndexResponse: AWSShape {
+    public struct CreateIndexResponse: AWSDecodableShape {
 
         /// The unique identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
         public let id: String?
@@ -729,7 +729,7 @@ extension Kendra {
         }
     }
 
-    public struct DataSourceConfiguration: AWSShape {
+    public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Provides information necessary to create a connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
@@ -757,7 +757,7 @@ extension Kendra {
         }
     }
 
-    public struct DataSourceSummary: AWSShape {
+    public struct DataSourceSummary: AWSDecodableShape {
 
         /// The UNIX datetime that the data source was created.
         public let createdAt: TimeStamp?
@@ -791,7 +791,7 @@ extension Kendra {
         }
     }
 
-    public struct DataSourceSyncJob: AWSShape {
+    public struct DataSourceSyncJob: AWSDecodableShape {
 
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public let dataSourceErrorCode: String?
@@ -829,7 +829,7 @@ extension Kendra {
         }
     }
 
-    public struct DataSourceToIndexFieldMapping: AWSShape {
+    public struct DataSourceToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the column or attribute in the data source.
         public let dataSourceFieldName: String
@@ -862,7 +862,7 @@ extension Kendra {
         }
     }
 
-    public struct DataSourceVpcConfiguration: AWSShape {
+    public struct DataSourceVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of identifiers of security groups within your Amazon VPC. The security groups should enable Amazon Kendra to connect to the data source.
         public let securityGroupIds: [String]
@@ -897,7 +897,7 @@ extension Kendra {
         }
     }
 
-    public struct DatabaseConfiguration: AWSShape {
+    public struct DatabaseConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about the database column that provides information for user context filtering.
         public let aclConfiguration: AclConfiguration?
@@ -933,7 +933,7 @@ extension Kendra {
         }
     }
 
-    public struct DeleteFaqRequest: AWSShape {
+    public struct DeleteFaqRequest: AWSEncodableShape {
 
         /// The identifier of the FAQ to remove.
         public let id: String
@@ -960,7 +960,7 @@ extension Kendra {
         }
     }
 
-    public struct DeleteIndexRequest: AWSShape {
+    public struct DeleteIndexRequest: AWSEncodableShape {
 
         /// The identifier of the index to delete.
         public let id: String
@@ -980,7 +980,7 @@ extension Kendra {
         }
     }
 
-    public struct DescribeDataSourceRequest: AWSShape {
+    public struct DescribeDataSourceRequest: AWSEncodableShape {
 
         /// The unique identifier of the data source to describe.
         public let id: String
@@ -1007,7 +1007,7 @@ extension Kendra {
         }
     }
 
-    public struct DescribeDataSourceResponse: AWSShape {
+    public struct DescribeDataSourceResponse: AWSDecodableShape {
 
         /// Information that describes where the data source is located and how the data source is configured. The specific information in the description depends on the data source provider.
         public let configuration: DataSourceConfiguration?
@@ -1065,7 +1065,7 @@ extension Kendra {
         }
     }
 
-    public struct DescribeFaqRequest: AWSShape {
+    public struct DescribeFaqRequest: AWSEncodableShape {
 
         /// The unique identifier of the FAQ.
         public let id: String
@@ -1092,7 +1092,7 @@ extension Kendra {
         }
     }
 
-    public struct DescribeFaqResponse: AWSShape {
+    public struct DescribeFaqResponse: AWSDecodableShape {
 
         /// The date and time that the FAQ was created.
         public let createdAt: TimeStamp?
@@ -1141,7 +1141,7 @@ extension Kendra {
         }
     }
 
-    public struct DescribeIndexRequest: AWSShape {
+    public struct DescribeIndexRequest: AWSEncodableShape {
 
         /// The name of the index to describe.
         public let id: String
@@ -1161,7 +1161,7 @@ extension Kendra {
         }
     }
 
-    public struct DescribeIndexResponse: AWSShape {
+    public struct DescribeIndexResponse: AWSDecodableShape {
 
         /// The Unix datetime that the index was created.
         public let createdAt: TimeStamp?
@@ -1215,7 +1215,7 @@ extension Kendra {
         }
     }
 
-    public struct Document: AWSShape {
+    public struct Document: AWSEncodableShape {
 
         /// Information to use for user context filtering.
         public let accessControlList: [Principal]?
@@ -1272,7 +1272,7 @@ extension Kendra {
         }
     }
 
-    public struct DocumentAttribute: AWSShape {
+    public struct DocumentAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier for the attribute.
         public let key: String
@@ -1297,7 +1297,7 @@ extension Kendra {
         }
     }
 
-    public struct DocumentAttributeValue: AWSShape {
+    public struct DocumentAttributeValue: AWSEncodableShape & AWSDecodableShape {
 
         /// A date value expressed as seconds from the Unix epoch.
         public let dateValue: TimeStamp?
@@ -1334,7 +1334,7 @@ extension Kendra {
         }
     }
 
-    public struct DocumentAttributeValueCountPair: AWSShape {
+    public struct DocumentAttributeValueCountPair: AWSDecodableShape {
 
         /// The number of documents in the response that have the attribute value for the key.
         public let count: Int?
@@ -1352,7 +1352,7 @@ extension Kendra {
         }
     }
 
-    public struct DocumentMetadataConfiguration: AWSShape {
+    public struct DocumentMetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the index field.
         public let name: String
@@ -1384,7 +1384,7 @@ extension Kendra {
         }
     }
 
-    public struct DocumentsMetadataConfiguration: AWSShape {
+    public struct DocumentsMetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A prefix used to filter metadata configuration files in the AWS S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public let s3Prefix: String?
@@ -1403,7 +1403,7 @@ extension Kendra {
         }
     }
 
-    public struct Facet: AWSShape {
+    public struct Facet: AWSEncodableShape {
 
         /// The unique key for the document attribute.
         public let documentAttributeKey: String?
@@ -1423,7 +1423,7 @@ extension Kendra {
         }
     }
 
-    public struct FacetResult: AWSShape {
+    public struct FacetResult: AWSDecodableShape {
 
         /// The key for the facet values. This is the same as the DocumentAttributeKey provided in the query.
         public let documentAttributeKey: String?
@@ -1441,7 +1441,7 @@ extension Kendra {
         }
     }
 
-    public struct FaqStatistics: AWSShape {
+    public struct FaqStatistics: AWSDecodableShape {
 
         /// The total number of FAQ questions and answers contained in the index.
         public let indexedQuestionAnswersCount: Int
@@ -1455,7 +1455,7 @@ extension Kendra {
         }
     }
 
-    public struct FaqSummary: AWSShape {
+    public struct FaqSummary: AWSDecodableShape {
 
         /// The UNIX datetime that the FAQ was added to the index.
         public let createdAt: TimeStamp?
@@ -1485,7 +1485,7 @@ extension Kendra {
         }
     }
 
-    public struct Highlight: AWSShape {
+    public struct Highlight: AWSDecodableShape {
 
         /// The zero-based location in the response string where the highlight starts.
         public let beginOffset: Int
@@ -1507,7 +1507,7 @@ extension Kendra {
         }
     }
 
-    public struct IndexConfigurationSummary: AWSShape {
+    public struct IndexConfigurationSummary: AWSDecodableShape {
 
         /// The Unix timestamp when the index was created.
         public let createdAt: TimeStamp
@@ -1537,7 +1537,7 @@ extension Kendra {
         }
     }
 
-    public struct IndexStatistics: AWSShape {
+    public struct IndexStatistics: AWSDecodableShape {
 
         /// The number of question and answer topics in the index.
         public let faqStatistics: FaqStatistics
@@ -1555,7 +1555,7 @@ extension Kendra {
         }
     }
 
-    public struct ListDataSourceSyncJobsRequest: AWSShape {
+    public struct ListDataSourceSyncJobsRequest: AWSEncodableShape {
 
         /// The identifier of the data source.
         public let id: String
@@ -1602,7 +1602,7 @@ extension Kendra {
         }
     }
 
-    public struct ListDataSourceSyncJobsResponse: AWSShape {
+    public struct ListDataSourceSyncJobsResponse: AWSDecodableShape {
 
         /// A history of synchronization jobs for the data source.
         public let history: [DataSourceSyncJob]?
@@ -1620,7 +1620,7 @@ extension Kendra {
         }
     }
 
-    public struct ListDataSourcesRequest: AWSShape {
+    public struct ListDataSourcesRequest: AWSEncodableShape {
 
         /// The identifier of the index that contains the data source.
         public let indexId: String
@@ -1652,7 +1652,7 @@ extension Kendra {
         }
     }
 
-    public struct ListDataSourcesResponse: AWSShape {
+    public struct ListDataSourcesResponse: AWSDecodableShape {
 
         /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of data sources. 
         public let nextToken: String?
@@ -1670,7 +1670,7 @@ extension Kendra {
         }
     }
 
-    public struct ListFaqsRequest: AWSShape {
+    public struct ListFaqsRequest: AWSEncodableShape {
 
         /// The index that contains the FAQ lists.
         public let indexId: String
@@ -1702,7 +1702,7 @@ extension Kendra {
         }
     }
 
-    public struct ListFaqsResponse: AWSShape {
+    public struct ListFaqsResponse: AWSDecodableShape {
 
         /// information about the FAQs associated with the specified index.
         public let faqSummaryItems: [FaqSummary]?
@@ -1720,7 +1720,7 @@ extension Kendra {
         }
     }
 
-    public struct ListIndicesRequest: AWSShape {
+    public struct ListIndicesRequest: AWSEncodableShape {
 
         /// The maximum number of data sources to return.
         public let maxResults: Int?
@@ -1745,7 +1745,7 @@ extension Kendra {
         }
     }
 
-    public struct ListIndicesResponse: AWSShape {
+    public struct ListIndicesResponse: AWSDecodableShape {
 
         /// An array of summary information for one or more indexes.
         public let indexConfigurationSummaryItems: [IndexConfigurationSummary]?
@@ -1763,7 +1763,7 @@ extension Kendra {
         }
     }
 
-    public struct Principal: AWSShape {
+    public struct Principal: AWSEncodableShape {
 
         /// Whether to allow or deny access to the principal.
         public let access: ReadAccessType
@@ -1791,7 +1791,7 @@ extension Kendra {
         }
     }
 
-    public struct QueryRequest: AWSShape {
+    public struct QueryRequest: AWSEncodableShape {
 
         /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
         public let attributeFilter: AttributeFilter?
@@ -1853,7 +1853,7 @@ extension Kendra {
         }
     }
 
-    public struct QueryResult: AWSShape {
+    public struct QueryResult: AWSDecodableShape {
 
         /// Contains the facet results. A FacetResult contains the counts for each attribute key that was specified in the Facets input parameter.
         public let facetResults: [FacetResult]?
@@ -1879,7 +1879,7 @@ extension Kendra {
         }
     }
 
-    public struct QueryResultItem: AWSShape {
+    public struct QueryResultItem: AWSDecodableShape {
 
         public let additionalAttributes: [AdditionalResultAttribute]?
         /// An array of document attributes for the document that the query result maps to. For example, the document author (Author) or the source URI (SourceUri) of the document.
@@ -1920,7 +1920,7 @@ extension Kendra {
         }
     }
 
-    public struct Relevance: AWSShape {
+    public struct Relevance: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the time period that the boost applies to. For example, to make the boost apply to documents with the field value within the last month, you would use "2628000s". Once the field value is beyond the specified range, the effect of the boost drops off. The higher the importance, the faster the effect drops off. If you don't specify a value, the default is 3 months. The value of the field is a numeric string followed by the character "s", for example "86400s" for one day, or "604800s" for one week.  Only applies to DATE fields.
         public let duration: String?
@@ -1964,7 +1964,7 @@ extension Kendra {
         }
     }
 
-    public struct RelevanceFeedback: AWSShape {
+    public struct RelevanceFeedback: AWSEncodableShape {
 
         /// Whether to document was relevant or not relevant to the search.
         public let relevanceValue: RelevanceType
@@ -1987,7 +1987,7 @@ extension Kendra {
         }
     }
 
-    public struct S3DataSourceConfiguration: AWSShape {
+    public struct S3DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Provides the path to the S3 bucket that contains the user context filtering files for the data source.
         public let accessControlListConfiguration: AccessControlListConfiguration?
@@ -2036,7 +2036,7 @@ extension Kendra {
         }
     }
 
-    public struct S3Path: AWSShape {
+    public struct S3Path: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the S3 bucket that contains the file.
         public let bucket: String
@@ -2062,7 +2062,7 @@ extension Kendra {
         }
     }
 
-    public struct Search: AWSShape {
+    public struct Search: AWSEncodableShape & AWSDecodableShape {
 
         /// Determines whether the field is returned in the query response. The default is true.
         public let displayable: Bool?
@@ -2084,7 +2084,7 @@ extension Kendra {
         }
     }
 
-    public struct ServerSideEncryptionConfiguration: AWSShape {
+    public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier of the AWS KMS customer master key (CMK). Amazon Kendra doesn't support asymmetric CMKs.
         public let kmsKeyId: String?
@@ -2103,7 +2103,7 @@ extension Kendra {
         }
     }
 
-    public struct SharePointConfiguration: AWSShape {
+    public struct SharePointConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         ///  TRUE to include attachments to documents stored in your Microsoft SharePoint site in the index; otherwise, FALSE.
         public let crawlAttachments: Bool?
@@ -2186,7 +2186,7 @@ extension Kendra {
         }
     }
 
-    public struct StartDataSourceSyncJobRequest: AWSShape {
+    public struct StartDataSourceSyncJobRequest: AWSEncodableShape {
 
         /// The identifier of the data source to synchronize.
         public let id: String
@@ -2213,7 +2213,7 @@ extension Kendra {
         }
     }
 
-    public struct StartDataSourceSyncJobResponse: AWSShape {
+    public struct StartDataSourceSyncJobResponse: AWSDecodableShape {
 
         /// Identifies a particular synchronization job.
         public let executionId: String?
@@ -2227,7 +2227,7 @@ extension Kendra {
         }
     }
 
-    public struct StopDataSourceSyncJobRequest: AWSShape {
+    public struct StopDataSourceSyncJobRequest: AWSEncodableShape {
 
         /// The identifier of the data source for which to stop the synchronization jobs.
         public let id: String
@@ -2254,7 +2254,7 @@ extension Kendra {
         }
     }
 
-    public struct SubmitFeedbackRequest: AWSShape {
+    public struct SubmitFeedbackRequest: AWSEncodableShape {
 
         /// Tells Amazon Kendra that a particular search result link was chosen by the user. 
         public let clickFeedbackItems: [ClickFeedback]?
@@ -2294,7 +2294,7 @@ extension Kendra {
         }
     }
 
-    public struct TextDocumentStatistics: AWSShape {
+    public struct TextDocumentStatistics: AWSDecodableShape {
 
         /// The number of text documents indexed.
         public let indexedTextDocumentsCount: Int
@@ -2308,7 +2308,7 @@ extension Kendra {
         }
     }
 
-    public struct TextWithHighlights: AWSShape {
+    public struct TextWithHighlights: AWSDecodableShape {
 
         /// The beginning and end of the text that should be highlighted.
         public let highlights: [Highlight]?
@@ -2326,7 +2326,7 @@ extension Kendra {
         }
     }
 
-    public struct TimeRange: AWSShape {
+    public struct TimeRange: AWSEncodableShape {
 
         /// The UNIX datetime of the end of the time range.
         public let endTime: TimeStamp?
@@ -2344,7 +2344,7 @@ extension Kendra {
         }
     }
 
-    public struct UpdateDataSourceRequest: AWSShape {
+    public struct UpdateDataSourceRequest: AWSEncodableShape {
 
         public let configuration: DataSourceConfiguration?
         /// The new description for the data source.
@@ -2400,7 +2400,7 @@ extension Kendra {
         }
     }
 
-    public struct UpdateIndexRequest: AWSShape {
+    public struct UpdateIndexRequest: AWSEncodableShape {
 
         /// A new description for the index.
         public let description: String?

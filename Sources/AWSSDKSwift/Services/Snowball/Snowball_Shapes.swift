@@ -80,7 +80,7 @@ extension Snowball {
 
     //MARK: Shapes
 
-    public struct Address: AWSShape {
+    public struct Address: AWSEncodableShape & AWSDecodableShape {
 
         /// The unique ID for an address.
         public let addressId: String?
@@ -164,7 +164,7 @@ extension Snowball {
         }
     }
 
-    public struct CancelClusterRequest: AWSShape {
+    public struct CancelClusterRequest: AWSEncodableShape {
 
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
@@ -184,7 +184,7 @@ extension Snowball {
         }
     }
 
-    public struct CancelClusterResult: AWSShape {
+    public struct CancelClusterResult: AWSDecodableShape {
 
 
         public init() {
@@ -192,7 +192,7 @@ extension Snowball {
 
     }
 
-    public struct CancelJobRequest: AWSShape {
+    public struct CancelJobRequest: AWSEncodableShape {
 
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -212,7 +212,7 @@ extension Snowball {
         }
     }
 
-    public struct CancelJobResult: AWSShape {
+    public struct CancelJobResult: AWSDecodableShape {
 
 
         public init() {
@@ -220,7 +220,7 @@ extension Snowball {
 
     }
 
-    public struct ClusterListEntry: AWSShape {
+    public struct ClusterListEntry: AWSDecodableShape {
 
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String?
@@ -246,7 +246,7 @@ extension Snowball {
         }
     }
 
-    public struct ClusterMetadata: AWSShape {
+    public struct ClusterMetadata: AWSDecodableShape {
 
         /// The automatically generated ID for a specific address.
         public let addressId: String?
@@ -312,7 +312,7 @@ extension Snowball {
         }
     }
 
-    public struct CompatibleImage: AWSShape {
+    public struct CompatibleImage: AWSDecodableShape {
 
         /// The unique identifier for an individual Snowball Edge AMI.
         public let amiId: String?
@@ -330,7 +330,7 @@ extension Snowball {
         }
     }
 
-    public struct CreateAddressRequest: AWSShape {
+    public struct CreateAddressRequest: AWSEncodableShape {
 
         /// The address that you want the Snowball shipped to.
         public let address: Address
@@ -348,7 +348,7 @@ extension Snowball {
         }
     }
 
-    public struct CreateAddressResult: AWSShape {
+    public struct CreateAddressResult: AWSDecodableShape {
 
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
         public let addressId: String?
@@ -362,7 +362,7 @@ extension Snowball {
         }
     }
 
-    public struct CreateClusterRequest: AWSShape {
+    public struct CreateClusterRequest: AWSEncodableShape {
 
         /// The ID for the address that you want the cluster shipped to.
         public let addressId: String
@@ -433,7 +433,7 @@ extension Snowball {
         }
     }
 
-    public struct CreateClusterResult: AWSShape {
+    public struct CreateClusterResult: AWSDecodableShape {
 
         /// The automatically generated ID for a cluster.
         public let clusterId: String?
@@ -447,7 +447,7 @@ extension Snowball {
         }
     }
 
-    public struct CreateJobRequest: AWSShape {
+    public struct CreateJobRequest: AWSEncodableShape {
 
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
@@ -529,7 +529,7 @@ extension Snowball {
         }
     }
 
-    public struct CreateJobResult: AWSShape {
+    public struct CreateJobResult: AWSDecodableShape {
 
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
@@ -543,7 +543,7 @@ extension Snowball {
         }
     }
 
-    public struct DataTransfer: AWSShape {
+    public struct DataTransfer: AWSDecodableShape {
 
         /// The number of bytes transferred between a Snowball and Amazon S3.
         public let bytesTransferred: Int64?
@@ -569,7 +569,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeAddressRequest: AWSShape {
+    public struct DescribeAddressRequest: AWSEncodableShape {
 
         /// The automatically generated ID for a specific address.
         public let addressId: String
@@ -589,7 +589,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeAddressResult: AWSShape {
+    public struct DescribeAddressResult: AWSDecodableShape {
 
         /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
         public let address: Address?
@@ -603,7 +603,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeAddressesRequest: AWSShape {
+    public struct DescribeAddressesRequest: AWSEncodableShape {
 
         /// The number of ADDRESS objects to return.
         public let maxResults: Int?
@@ -627,7 +627,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeAddressesResult: AWSShape {
+    public struct DescribeAddressesResult: AWSDecodableShape {
 
         /// The Snowball shipping addresses that were created for this account.
         public let addresses: [Address]?
@@ -645,7 +645,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeClusterRequest: AWSShape {
+    public struct DescribeClusterRequest: AWSEncodableShape {
 
         /// The automatically generated ID for a cluster.
         public let clusterId: String
@@ -665,7 +665,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeClusterResult: AWSShape {
+    public struct DescribeClusterResult: AWSDecodableShape {
 
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
         public let clusterMetadata: ClusterMetadata?
@@ -679,7 +679,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeJobRequest: AWSShape {
+    public struct DescribeJobRequest: AWSEncodableShape {
 
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -699,7 +699,7 @@ extension Snowball {
         }
     }
 
-    public struct DescribeJobResult: AWSShape {
+    public struct DescribeJobResult: AWSDecodableShape {
 
         /// Information about a specific job, including shipping information, job status, and other important metadata.
         public let jobMetadata: JobMetadata?
@@ -717,7 +717,7 @@ extension Snowball {
         }
     }
 
-    public struct Ec2AmiResource: AWSShape {
+    public struct Ec2AmiResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the AMI in Amazon EC2.
         public let amiId: String
@@ -742,7 +742,7 @@ extension Snowball {
         }
     }
 
-    public struct EventTriggerDefinition: AWSShape {
+    public struct EventTriggerDefinition: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
         public let eventResourceARN: String?
@@ -760,7 +760,7 @@ extension Snowball {
         }
     }
 
-    public struct GetJobManifestRequest: AWSShape {
+    public struct GetJobManifestRequest: AWSEncodableShape {
 
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -780,7 +780,7 @@ extension Snowball {
         }
     }
 
-    public struct GetJobManifestResult: AWSShape {
+    public struct GetJobManifestResult: AWSDecodableShape {
 
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
         public let manifestURI: String?
@@ -794,7 +794,7 @@ extension Snowball {
         }
     }
 
-    public struct GetJobUnlockCodeRequest: AWSShape {
+    public struct GetJobUnlockCodeRequest: AWSEncodableShape {
 
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -814,7 +814,7 @@ extension Snowball {
         }
     }
 
-    public struct GetJobUnlockCodeResult: AWSShape {
+    public struct GetJobUnlockCodeResult: AWSDecodableShape {
 
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
         public let unlockCode: String?
@@ -828,7 +828,7 @@ extension Snowball {
         }
     }
 
-    public struct GetSnowballUsageRequest: AWSShape {
+    public struct GetSnowballUsageRequest: AWSEncodableShape {
 
 
         public init() {
@@ -836,7 +836,7 @@ extension Snowball {
 
     }
 
-    public struct GetSnowballUsageResult: AWSShape {
+    public struct GetSnowballUsageResult: AWSDecodableShape {
 
         /// The service limit for number of Snowballs this account can have at once. The default service limit is 1 (one).
         public let snowballLimit: Int?
@@ -854,7 +854,7 @@ extension Snowball {
         }
     }
 
-    public struct GetSoftwareUpdatesRequest: AWSShape {
+    public struct GetSoftwareUpdatesRequest: AWSEncodableShape {
 
         /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -874,7 +874,7 @@ extension Snowball {
         }
     }
 
-    public struct GetSoftwareUpdatesResult: AWSShape {
+    public struct GetSoftwareUpdatesResult: AWSDecodableShape {
 
         /// The Amazon S3 presigned URL for the update file associated with the specified JobId value. The software update will be available for 2 days after this request is made. To access an update after the 2 days have passed, you'll have to make another call to GetSoftwareUpdates.
         public let updatesURI: String?
@@ -888,7 +888,7 @@ extension Snowball {
         }
     }
 
-    public struct INDTaxDocuments: AWSShape {
+    public struct INDTaxDocuments: AWSEncodableShape & AWSDecodableShape {
 
         /// The Goods and Services Tax (GST) documents required in AWS Regions in India.
         public let gstin: String?
@@ -906,7 +906,7 @@ extension Snowball {
         }
     }
 
-    public struct JobListEntry: AWSShape {
+    public struct JobListEntry: AWSDecodableShape {
 
         /// The creation date for this job.
         public let creationDate: TimeStamp?
@@ -944,7 +944,7 @@ extension Snowball {
         }
     }
 
-    public struct JobLogs: AWSShape {
+    public struct JobLogs: AWSDecodableShape {
 
         /// A link to an Amazon S3 presigned URL where the job completion report is located.
         public let jobCompletionReportURI: String?
@@ -966,7 +966,7 @@ extension Snowball {
         }
     }
 
-    public struct JobMetadata: AWSShape {
+    public struct JobMetadata: AWSDecodableShape {
 
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
@@ -1048,7 +1048,7 @@ extension Snowball {
         }
     }
 
-    public struct JobResource: AWSShape {
+    public struct JobResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Machine Images (AMIs) associated with this job.
         public let ec2AmiResources: [Ec2AmiResource]?
@@ -1082,7 +1082,7 @@ extension Snowball {
         }
     }
 
-    public struct KeyRange: AWSShape {
+    public struct KeyRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The key that starts an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public let beginMarker: String?
@@ -1105,7 +1105,7 @@ extension Snowball {
         }
     }
 
-    public struct LambdaResource: AWSShape {
+    public struct LambdaResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The array of ARNs for S3Resource objects to trigger the LambdaResource objects associated with this job.
         public let eventTriggers: [EventTriggerDefinition]?
@@ -1130,7 +1130,7 @@ extension Snowball {
         }
     }
 
-    public struct ListClusterJobsRequest: AWSShape {
+    public struct ListClusterJobsRequest: AWSEncodableShape {
 
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
@@ -1161,7 +1161,7 @@ extension Snowball {
         }
     }
 
-    public struct ListClusterJobsResult: AWSShape {
+    public struct ListClusterJobsResult: AWSDecodableShape {
 
         /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
         public let jobListEntries: [JobListEntry]?
@@ -1179,7 +1179,7 @@ extension Snowball {
         }
     }
 
-    public struct ListClustersRequest: AWSShape {
+    public struct ListClustersRequest: AWSEncodableShape {
 
         /// The number of ClusterListEntry objects to return.
         public let maxResults: Int?
@@ -1203,7 +1203,7 @@ extension Snowball {
         }
     }
 
-    public struct ListClustersResult: AWSShape {
+    public struct ListClustersResult: AWSDecodableShape {
 
         /// Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
         public let clusterListEntries: [ClusterListEntry]?
@@ -1221,7 +1221,7 @@ extension Snowball {
         }
     }
 
-    public struct ListCompatibleImagesRequest: AWSShape {
+    public struct ListCompatibleImagesRequest: AWSEncodableShape {
 
         /// The maximum number of results for the list of compatible images. Currently, a Snowball Edge device can store 10 AMIs.
         public let maxResults: Int?
@@ -1245,7 +1245,7 @@ extension Snowball {
         }
     }
 
-    public struct ListCompatibleImagesResult: AWSShape {
+    public struct ListCompatibleImagesResult: AWSDecodableShape {
 
         /// A JSON-formatted object that describes a compatible AMI, including the ID and name for a Snowball Edge AMI.
         public let compatibleImages: [CompatibleImage]?
@@ -1263,7 +1263,7 @@ extension Snowball {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
 
         /// The number of JobListEntry objects to return.
         public let maxResults: Int?
@@ -1287,7 +1287,7 @@ extension Snowball {
         }
     }
 
-    public struct ListJobsResult: AWSShape {
+    public struct ListJobsResult: AWSDecodableShape {
 
         /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
         public let jobListEntries: [JobListEntry]?
@@ -1305,7 +1305,7 @@ extension Snowball {
         }
     }
 
-    public struct Notification: AWSShape {
+    public struct Notification: AWSEncodableShape & AWSDecodableShape {
 
         /// The list of job states that will trigger a notification for this job.
         public let jobStatesToNotify: [JobState]?
@@ -1332,7 +1332,7 @@ extension Snowball {
         }
     }
 
-    public struct S3Resource: AWSShape {
+    public struct S3Resource: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
         public let bucketArn: String?
@@ -1355,7 +1355,7 @@ extension Snowball {
         }
     }
 
-    public struct Shipment: AWSShape {
+    public struct Shipment: AWSDecodableShape {
 
         /// Status information for a shipment.
         public let status: String?
@@ -1373,7 +1373,7 @@ extension Snowball {
         }
     }
 
-    public struct ShippingDetails: AWSShape {
+    public struct ShippingDetails: AWSDecodableShape {
 
         /// The Status and TrackingNumber values for a Snowball being returned to AWS for a particular job.
         public let inboundShipment: Shipment?
@@ -1395,7 +1395,7 @@ extension Snowball {
         }
     }
 
-    public struct TaxDocuments: AWSShape {
+    public struct TaxDocuments: AWSEncodableShape & AWSDecodableShape {
 
         /// The tax documents required in AWS Regions in India.
         public let ind: INDTaxDocuments?
@@ -1413,7 +1413,7 @@ extension Snowball {
         }
     }
 
-    public struct UpdateClusterRequest: AWSShape {
+    public struct UpdateClusterRequest: AWSEncodableShape {
 
         /// The ID of the updated Address object.
         public let addressId: String?
@@ -1472,7 +1472,7 @@ extension Snowball {
         }
     }
 
-    public struct UpdateClusterResult: AWSShape {
+    public struct UpdateClusterResult: AWSDecodableShape {
 
 
         public init() {
@@ -1480,7 +1480,7 @@ extension Snowball {
 
     }
 
-    public struct UpdateJobRequest: AWSShape {
+    public struct UpdateJobRequest: AWSEncodableShape {
 
         /// The ID of the updated Address object.
         public let addressId: String?
@@ -1543,7 +1543,7 @@ extension Snowball {
         }
     }
 
-    public struct UpdateJobResult: AWSShape {
+    public struct UpdateJobResult: AWSDecodableShape {
 
 
         public init() {

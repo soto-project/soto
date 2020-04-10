@@ -52,7 +52,7 @@ extension EFS {
 
     //MARK: Shapes
 
-    public struct AccessPointDescription: AWSShape {
+    public struct AccessPointDescription: AWSDecodableShape {
 
         /// The unique Amazon Resource Name (ARN) associated with the access point.
         public let accessPointArn: String?
@@ -102,7 +102,7 @@ extension EFS {
         }
     }
 
-    public struct CreateAccessPointRequest: AWSShape {
+    public struct CreateAccessPointRequest: AWSEncodableShape {
 
         /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
         public let clientToken: String
@@ -142,7 +142,7 @@ extension EFS {
         }
     }
 
-    public struct CreateFileSystemRequest: AWSShape {
+    public struct CreateFileSystemRequest: AWSEncodableShape {
 
         /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
@@ -191,7 +191,7 @@ extension EFS {
         }
     }
 
-    public struct CreateMountTargetRequest: AWSShape {
+    public struct CreateMountTargetRequest: AWSEncodableShape {
 
         /// The ID of the file system for which to create the mount target.
         public let fileSystemId: String
@@ -221,7 +221,7 @@ extension EFS {
         }
     }
 
-    public struct CreateTagsRequest: AWSShape {
+    public struct CreateTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -243,12 +243,11 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case tags = "Tags"
         }
     }
 
-    public struct CreationInfo: AWSShape {
+    public struct CreationInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the POSIX group ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
         public let ownerGid: Int64
@@ -278,7 +277,7 @@ extension EFS {
         }
     }
 
-    public struct DeleteAccessPointRequest: AWSShape {
+    public struct DeleteAccessPointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessPointId", location: .uri(locationName: "AccessPointId"))
         ]
@@ -290,12 +289,10 @@ extension EFS {
             self.accessPointId = accessPointId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessPointId = "AccessPointId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFileSystemPolicyRequest: AWSShape {
+    public struct DeleteFileSystemPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -307,12 +304,10 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFileSystemRequest: AWSShape {
+    public struct DeleteFileSystemRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -324,12 +319,10 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMountTargetRequest: AWSShape {
+    public struct DeleteMountTargetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "mountTargetId", location: .uri(locationName: "MountTargetId"))
         ]
@@ -341,12 +334,10 @@ extension EFS {
             self.mountTargetId = mountTargetId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteTagsRequest: AWSShape {
+    public struct DeleteTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -371,12 +362,11 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case tagKeys = "TagKeys"
         }
     }
 
-    public struct DescribeAccessPointsRequest: AWSShape {
+    public struct DescribeAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")), 
             AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
@@ -404,15 +394,10 @@ extension EFS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessPointId = "AccessPointId"
-            case fileSystemId = "FileSystemId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAccessPointsResponse: AWSShape {
+    public struct DescribeAccessPointsResponse: AWSDecodableShape {
 
         /// An array of access point descriptions.
         public let accessPoints: [AccessPointDescription]?
@@ -430,7 +415,7 @@ extension EFS {
         }
     }
 
-    public struct DescribeFileSystemPolicyRequest: AWSShape {
+    public struct DescribeFileSystemPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -442,12 +427,10 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeFileSystemsRequest: AWSShape {
+    public struct DescribeFileSystemsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "creationToken", location: .querystring(locationName: "CreationToken")), 
             AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
@@ -477,15 +460,10 @@ extension EFS {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case creationToken = "CreationToken"
-            case fileSystemId = "FileSystemId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeFileSystemsResponse: AWSShape {
+    public struct DescribeFileSystemsResponse: AWSDecodableShape {
 
         /// An array of file system descriptions.
         public let fileSystems: [FileSystemDescription]?
@@ -507,7 +485,7 @@ extension EFS {
         }
     }
 
-    public struct DescribeLifecycleConfigurationRequest: AWSShape {
+    public struct DescribeLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -519,12 +497,10 @@ extension EFS {
             self.fileSystemId = fileSystemId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
+    public struct DescribeMountTargetSecurityGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "mountTargetId", location: .uri(locationName: "MountTargetId"))
         ]
@@ -536,12 +512,10 @@ extension EFS {
             self.mountTargetId = mountTargetId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
+    public struct DescribeMountTargetSecurityGroupsResponse: AWSDecodableShape {
 
         /// An array of security groups.
         public let securityGroups: [String]
@@ -555,7 +529,7 @@ extension EFS {
         }
     }
 
-    public struct DescribeMountTargetsRequest: AWSShape {
+    public struct DescribeMountTargetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")), 
             AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
@@ -587,16 +561,10 @@ extension EFS {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessPointId = "AccessPointId"
-            case fileSystemId = "FileSystemId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case mountTargetId = "MountTargetId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeMountTargetsResponse: AWSShape {
+    public struct DescribeMountTargetsResponse: AWSDecodableShape {
 
         /// If the request included the Marker, the response returns that value in this field.
         public let marker: String?
@@ -618,7 +586,7 @@ extension EFS {
         }
     }
 
-    public struct DescribeTagsRequest: AWSShape {
+    public struct DescribeTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
@@ -642,14 +610,10 @@ extension EFS {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeTagsResponse: AWSShape {
+    public struct DescribeTagsResponse: AWSDecodableShape {
 
         /// If the request included a Marker, the response returns that value in this field.
         public let marker: String?
@@ -671,7 +635,7 @@ extension EFS {
         }
     }
 
-    public struct FileSystemDescription: AWSShape {
+    public struct FileSystemDescription: AWSDecodableShape {
 
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: TimeStamp
@@ -737,7 +701,7 @@ extension EFS {
         }
     }
 
-    public struct FileSystemPolicyDescription: AWSShape {
+    public struct FileSystemPolicyDescription: AWSDecodableShape {
 
         /// Specifies the EFS file system to which the FileSystemPolicy applies.
         public let fileSystemId: String?
@@ -755,7 +719,7 @@ extension EFS {
         }
     }
 
-    public struct FileSystemSize: AWSShape {
+    public struct FileSystemSize: AWSDecodableShape {
 
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public let timestamp: TimeStamp?
@@ -781,7 +745,7 @@ extension EFS {
         }
     }
 
-    public struct LifecycleConfigurationDescription: AWSShape {
+    public struct LifecycleConfigurationDescription: AWSDecodableShape {
 
         /// An array of lifecycle management policies. Currently, EFS supports a maximum of one policy per file system.
         public let lifecyclePolicies: [LifecyclePolicy]?
@@ -795,7 +759,7 @@ extension EFS {
         }
     }
 
-    public struct LifecyclePolicy: AWSShape {
+    public struct LifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
 
         ///  A value that describes the period of time that a file is not accessed, after which it transitions to the IA storage class. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
@@ -809,7 +773,7 @@ extension EFS {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -833,14 +797,10 @@ extension EFS {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceId = "ResourceId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         ///  NextToken is present if the response payload is paginated. You can use NextToken in a subsequent request to fetch the next page of access point descriptions.
         public let nextToken: String?
@@ -858,7 +818,7 @@ extension EFS {
         }
     }
 
-    public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
+    public struct ModifyMountTargetSecurityGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "mountTargetId", location: .uri(locationName: "MountTargetId"))
         ]
@@ -878,12 +838,11 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
             case securityGroups = "SecurityGroups"
         }
     }
 
-    public struct MountTargetDescription: AWSShape {
+    public struct MountTargetDescription: AWSDecodableShape {
 
         /// The unique and consistent identifier of the Availability Zone (AZ) that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every AWS account.
         public let availabilityZoneId: String?
@@ -929,7 +888,7 @@ extension EFS {
         }
     }
 
-    public struct PosixUser: AWSShape {
+    public struct PosixUser: AWSEncodableShape & AWSDecodableShape {
 
         /// The POSIX group ID used for all file system operations using this access point.
         public let gid: Int64
@@ -964,7 +923,7 @@ extension EFS {
         }
     }
 
-    public struct PutFileSystemPolicyRequest: AWSShape {
+    public struct PutFileSystemPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -984,12 +943,11 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
-            case fileSystemId = "FileSystemId"
             case policy = "Policy"
         }
     }
 
-    public struct PutLifecycleConfigurationRequest: AWSShape {
+    public struct PutLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -1005,12 +963,11 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case lifecyclePolicies = "LifecyclePolicies"
         }
     }
 
-    public struct RootDirectory: AWSShape {
+    public struct RootDirectory: AWSEncodableShape & AWSDecodableShape {
 
         /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory &gt; Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory &gt; Path does not exist, attempts to mount the file system using the access point will fail. 
         public let creationInfo: CreationInfo?
@@ -1034,7 +991,7 @@ extension EFS {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag key (String). The key can't start with aws:.
         public let key: String
@@ -1058,7 +1015,7 @@ extension EFS {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
@@ -1079,12 +1036,11 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
             case tags = "Tags"
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
@@ -1109,12 +1065,11 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
             case tagKeys = "TagKeys"
         }
     }
 
-    public struct UpdateFileSystemRequest: AWSShape {
+    public struct UpdateFileSystemRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
@@ -1137,7 +1092,6 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
             case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
             case throughputMode = "ThroughputMode"
         }

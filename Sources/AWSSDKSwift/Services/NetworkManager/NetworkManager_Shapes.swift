@@ -79,7 +79,7 @@ extension NetworkManager {
 
     //MARK: Shapes
 
-    public struct AssociateCustomerGatewayRequest: AWSShape {
+    public struct AssociateCustomerGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -103,12 +103,11 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case customerGatewayArn = "CustomerGatewayArn"
             case deviceId = "DeviceId"
-            case globalNetworkId = "globalNetworkId"
             case linkId = "LinkId"
         }
     }
 
-    public struct AssociateCustomerGatewayResponse: AWSShape {
+    public struct AssociateCustomerGatewayResponse: AWSDecodableShape {
 
         /// The customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
@@ -122,7 +121,7 @@ extension NetworkManager {
         }
     }
 
-    public struct AssociateLinkRequest: AWSShape {
+    public struct AssociateLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -142,12 +141,11 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case deviceId = "DeviceId"
-            case globalNetworkId = "globalNetworkId"
             case linkId = "LinkId"
         }
     }
 
-    public struct AssociateLinkResponse: AWSShape {
+    public struct AssociateLinkResponse: AWSDecodableShape {
 
         /// The link association.
         public let linkAssociation: LinkAssociation?
@@ -161,7 +159,7 @@ extension NetworkManager {
         }
     }
 
-    public struct Bandwidth: AWSShape {
+    public struct Bandwidth: AWSEncodableShape & AWSDecodableShape {
 
         /// Download speed in Mbps.
         public let downloadSpeed: Int?
@@ -179,7 +177,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateDeviceRequest: AWSShape {
+    public struct CreateDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -217,7 +215,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
             case model = "Model"
             case serialNumber = "SerialNumber"
@@ -228,7 +225,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateDeviceResponse: AWSShape {
+    public struct CreateDeviceResponse: AWSDecodableShape {
 
         /// Information about the device.
         public let device: Device?
@@ -242,7 +239,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateGlobalNetworkRequest: AWSShape {
+    public struct CreateGlobalNetworkRequest: AWSEncodableShape {
 
         /// A description of the global network. Length Constraints: Maximum length of 256 characters.
         public let description: String?
@@ -260,7 +257,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateGlobalNetworkResponse: AWSShape {
+    public struct CreateGlobalNetworkResponse: AWSDecodableShape {
 
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
@@ -274,7 +271,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateLinkRequest: AWSShape {
+    public struct CreateLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -307,7 +304,6 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case provider = "Provider"
             case siteId = "SiteId"
             case tags = "Tags"
@@ -315,7 +311,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateLinkResponse: AWSShape {
+    public struct CreateLinkResponse: AWSDecodableShape {
 
         /// Information about the link.
         public let link: Link?
@@ -329,7 +325,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CreateSiteRequest: AWSShape {
+    public struct CreateSiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -352,13 +348,12 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
             case tags = "Tags"
         }
     }
 
-    public struct CreateSiteResponse: AWSShape {
+    public struct CreateSiteResponse: AWSDecodableShape {
 
         /// Information about the site.
         public let site: Site?
@@ -372,7 +367,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CustomerGatewayAssociation: AWSShape {
+    public struct CustomerGatewayAssociation: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String?
@@ -402,7 +397,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DeleteDeviceRequest: AWSShape {
+    public struct DeleteDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -418,13 +413,10 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDeviceResponse: AWSShape {
+    public struct DeleteDeviceResponse: AWSDecodableShape {
 
         /// Information about the device.
         public let device: Device?
@@ -438,7 +430,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DeleteGlobalNetworkRequest: AWSShape {
+    public struct DeleteGlobalNetworkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -450,12 +442,10 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteGlobalNetworkResponse: AWSShape {
+    public struct DeleteGlobalNetworkResponse: AWSDecodableShape {
 
         /// Information about the global network.
         public let globalNetwork: GlobalNetwork?
@@ -469,7 +459,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DeleteLinkRequest: AWSShape {
+    public struct DeleteLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
@@ -485,13 +475,10 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteLinkResponse: AWSShape {
+    public struct DeleteLinkResponse: AWSDecodableShape {
 
         /// Information about the link.
         public let link: Link?
@@ -505,7 +492,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DeleteSiteRequest: AWSShape {
+    public struct DeleteSiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
@@ -521,13 +508,10 @@ extension NetworkManager {
             self.siteId = siteId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case siteId = "siteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSiteResponse: AWSShape {
+    public struct DeleteSiteResponse: AWSDecodableShape {
 
         /// Information about the site.
         public let site: Site?
@@ -541,7 +525,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DeregisterTransitGatewayRequest: AWSShape {
+    public struct DeregisterTransitGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "transitGatewayArn", location: .uri(locationName: "transitGatewayArn"))
@@ -557,13 +541,10 @@ extension NetworkManager {
             self.transitGatewayArn = transitGatewayArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case transitGatewayArn = "transitGatewayArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeregisterTransitGatewayResponse: AWSShape {
+    public struct DeregisterTransitGatewayResponse: AWSDecodableShape {
 
         /// The transit gateway registration information.
         public let transitGatewayRegistration: TransitGatewayRegistration?
@@ -577,7 +558,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DescribeGlobalNetworksRequest: AWSShape {
+    public struct DescribeGlobalNetworksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkIds", location: .querystring(locationName: "globalNetworkIds")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -602,14 +583,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkIds = "globalNetworkIds"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeGlobalNetworksResponse: AWSShape {
+    public struct DescribeGlobalNetworksResponse: AWSDecodableShape {
 
         /// Information about the global networks.
         public let globalNetworks: [GlobalNetwork]?
@@ -627,7 +604,7 @@ extension NetworkManager {
         }
     }
 
-    public struct Device: AWSShape {
+    public struct Device: AWSDecodableShape {
 
         /// The date and time that the site was created.
         public let createdAt: TimeStamp?
@@ -689,7 +666,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DisassociateCustomerGatewayRequest: AWSShape {
+    public struct DisassociateCustomerGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "customerGatewayArn", location: .uri(locationName: "customerGatewayArn")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -705,13 +682,10 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case customerGatewayArn = "customerGatewayArn"
-            case globalNetworkId = "globalNetworkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DisassociateCustomerGatewayResponse: AWSShape {
+    public struct DisassociateCustomerGatewayResponse: AWSDecodableShape {
 
         /// Information about the customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
@@ -725,7 +699,7 @@ extension NetworkManager {
         }
     }
 
-    public struct DisassociateLinkRequest: AWSShape {
+    public struct DisassociateLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
@@ -745,14 +719,10 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DisassociateLinkResponse: AWSShape {
+    public struct DisassociateLinkResponse: AWSDecodableShape {
 
         /// Information about the link association.
         public let linkAssociation: LinkAssociation?
@@ -766,7 +736,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GetCustomerGatewayAssociationsRequest: AWSShape {
+    public struct GetCustomerGatewayAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "customerGatewayArns", location: .querystring(locationName: "customerGatewayArns")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
@@ -795,15 +765,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case customerGatewayArns = "customerGatewayArns"
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCustomerGatewayAssociationsResponse: AWSShape {
+    public struct GetCustomerGatewayAssociationsResponse: AWSDecodableShape {
 
         /// The customer gateway associations.
         public let customerGatewayAssociations: [CustomerGatewayAssociation]?
@@ -821,7 +786,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GetDevicesRequest: AWSShape {
+    public struct GetDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceIds", location: .querystring(locationName: "deviceIds")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
@@ -854,16 +819,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceIds = "deviceIds"
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case siteId = "siteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDevicesResponse: AWSShape {
+    public struct GetDevicesResponse: AWSDecodableShape {
 
         /// The devices.
         public let devices: [Device]?
@@ -881,7 +840,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GetLinkAssociationsRequest: AWSShape {
+    public struct GetLinkAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
@@ -914,16 +873,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLinkAssociationsResponse: AWSShape {
+    public struct GetLinkAssociationsResponse: AWSDecodableShape {
 
         /// The link associations.
         public let linkAssociations: [LinkAssociation]?
@@ -941,7 +894,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GetLinksRequest: AWSShape {
+    public struct GetLinksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "linkIds", location: .querystring(locationName: "linkIds")), 
@@ -982,18 +935,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case linkIds = "linkIds"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case provider = "provider"
-            case siteId = "siteId"
-            case `type` = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLinksResponse: AWSShape {
+    public struct GetLinksResponse: AWSDecodableShape {
 
         /// The links.
         public let links: [Link]?
@@ -1011,7 +956,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GetSitesRequest: AWSShape {
+    public struct GetSitesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1040,15 +985,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case siteIds = "siteIds"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSitesResponse: AWSShape {
+    public struct GetSitesResponse: AWSDecodableShape {
 
         /// The token for the next page of results.
         public let nextToken: String?
@@ -1066,7 +1006,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GetTransitGatewayRegistrationsRequest: AWSShape {
+    public struct GetTransitGatewayRegistrationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1095,15 +1035,10 @@ extension NetworkManager {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case transitGatewayArns = "transitGatewayArns"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTransitGatewayRegistrationsResponse: AWSShape {
+    public struct GetTransitGatewayRegistrationsResponse: AWSDecodableShape {
 
         /// The token for the next page of results.
         public let nextToken: String?
@@ -1121,7 +1056,7 @@ extension NetworkManager {
         }
     }
 
-    public struct GlobalNetwork: AWSShape {
+    public struct GlobalNetwork: AWSDecodableShape {
 
         /// The date and time that the global network was created.
         public let createdAt: TimeStamp?
@@ -1155,7 +1090,7 @@ extension NetworkManager {
         }
     }
 
-    public struct Link: AWSShape {
+    public struct Link: AWSDecodableShape {
 
         /// The bandwidth for the link.
         public let bandwidth: Bandwidth?
@@ -1209,7 +1144,7 @@ extension NetworkManager {
         }
     }
 
-    public struct LinkAssociation: AWSShape {
+    public struct LinkAssociation: AWSDecodableShape {
 
         /// The device ID for the link association.
         public let deviceId: String?
@@ -1235,7 +1170,7 @@ extension NetworkManager {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1247,12 +1182,10 @@ extension NetworkManager {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The list of tags.
         public let tagList: [Tag]?
@@ -1266,7 +1199,7 @@ extension NetworkManager {
         }
     }
 
-    public struct Location: AWSShape {
+    public struct Location: AWSEncodableShape & AWSDecodableShape {
 
         /// The physical address.
         public let address: String?
@@ -1288,7 +1221,7 @@ extension NetworkManager {
         }
     }
 
-    public struct RegisterTransitGatewayRequest: AWSShape {
+    public struct RegisterTransitGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -1304,12 +1237,11 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case globalNetworkId = "globalNetworkId"
             case transitGatewayArn = "TransitGatewayArn"
         }
     }
 
-    public struct RegisterTransitGatewayResponse: AWSShape {
+    public struct RegisterTransitGatewayResponse: AWSDecodableShape {
 
         /// Information about the transit gateway registration.
         public let transitGatewayRegistration: TransitGatewayRegistration?
@@ -1323,7 +1255,7 @@ extension NetworkManager {
         }
     }
 
-    public struct Site: AWSShape {
+    public struct Site: AWSDecodableShape {
 
         /// The date and time that the site was created.
         public let createdAt: TimeStamp?
@@ -1365,7 +1297,7 @@ extension NetworkManager {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag key. Length Constraints: Maximum length of 128 characters.
         public let key: String?
@@ -1383,7 +1315,7 @@ extension NetworkManager {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1399,12 +1331,11 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1412,7 +1343,7 @@ extension NetworkManager {
 
     }
 
-    public struct TransitGatewayRegistration: AWSShape {
+    public struct TransitGatewayRegistration: AWSDecodableShape {
 
         /// The ID of the global network.
         public let globalNetworkId: String?
@@ -1434,7 +1365,7 @@ extension NetworkManager {
         }
     }
 
-    public struct TransitGatewayRegistrationStateReason: AWSShape {
+    public struct TransitGatewayRegistrationStateReason: AWSDecodableShape {
 
         /// The code for the state reason.
         public let code: TransitGatewayRegistrationState?
@@ -1452,7 +1383,7 @@ extension NetworkManager {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1468,13 +1399,10 @@ extension NetworkManager {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1482,7 +1410,7 @@ extension NetworkManager {
 
     }
 
-    public struct UpdateDeviceRequest: AWSShape {
+    public struct UpdateDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -1520,8 +1448,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case deviceId = "deviceId"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
             case model = "Model"
             case serialNumber = "SerialNumber"
@@ -1531,7 +1457,7 @@ extension NetworkManager {
         }
     }
 
-    public struct UpdateDeviceResponse: AWSShape {
+    public struct UpdateDeviceResponse: AWSDecodableShape {
 
         /// Information about the device.
         public let device: Device?
@@ -1545,7 +1471,7 @@ extension NetworkManager {
         }
     }
 
-    public struct UpdateGlobalNetworkRequest: AWSShape {
+    public struct UpdateGlobalNetworkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
@@ -1562,11 +1488,10 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
         }
     }
 
-    public struct UpdateGlobalNetworkResponse: AWSShape {
+    public struct UpdateGlobalNetworkResponse: AWSDecodableShape {
 
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
@@ -1580,7 +1505,7 @@ extension NetworkManager {
         }
     }
 
-    public struct UpdateLinkRequest: AWSShape {
+    public struct UpdateLinkRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
@@ -1611,14 +1536,12 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
-            case linkId = "linkId"
             case provider = "Provider"
             case `type` = "Type"
         }
     }
 
-    public struct UpdateLinkResponse: AWSShape {
+    public struct UpdateLinkResponse: AWSDecodableShape {
 
         /// Information about the link.
         public let link: Link?
@@ -1632,7 +1555,7 @@ extension NetworkManager {
         }
     }
 
-    public struct UpdateSiteRequest: AWSShape {
+    public struct UpdateSiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
@@ -1656,13 +1579,11 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case globalNetworkId = "globalNetworkId"
             case location = "Location"
-            case siteId = "siteId"
         }
     }
 
-    public struct UpdateSiteResponse: AWSShape {
+    public struct UpdateSiteResponse: AWSDecodableShape {
 
         /// Information about the site.
         public let site: Site?

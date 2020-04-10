@@ -38,7 +38,7 @@ extension Neptune {
 
     //MARK: Shapes
 
-    public struct AddRoleToDBClusterMessage: AWSShape {
+    public struct AddRoleToDBClusterMessage: AWSEncodableShape {
 
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
@@ -56,7 +56,7 @@ extension Neptune {
         }
     }
 
-    public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
+    public struct AddSourceIdentifierToSubscriptionMessage: AWSEncodableShape {
 
         /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
         public let sourceIdentifier: String
@@ -74,7 +74,7 @@ extension Neptune {
         }
     }
 
-    public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
+    public struct AddSourceIdentifierToSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -87,7 +87,7 @@ extension Neptune {
         }
     }
 
-    public struct AddTagsToResourceMessage: AWSShape {
+    public struct AddTagsToResourceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -108,7 +108,7 @@ extension Neptune {
         }
     }
 
-    public struct ApplyPendingMaintenanceActionMessage: AWSShape {
+    public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
 
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
         public let applyAction: String
@@ -130,7 +130,7 @@ extension Neptune {
         }
     }
 
-    public struct ApplyPendingMaintenanceActionResult: AWSShape {
+    public struct ApplyPendingMaintenanceActionResult: AWSDecodableShape {
 
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
@@ -143,7 +143,7 @@ extension Neptune {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
 
         /// The name of the availability zone.
         public let name: String?
@@ -157,7 +157,7 @@ extension Neptune {
         }
     }
 
-    public struct CharacterSet: AWSShape {
+    public struct CharacterSet: AWSDecodableShape {
 
         /// The description of the character set.
         public let characterSetDescription: String?
@@ -175,7 +175,7 @@ extension Neptune {
         }
     }
 
-    public struct CloudwatchLogsExportConfiguration: AWSShape {
+    public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "disableLogTypes", location: .body(locationName: "DisableLogTypes"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
@@ -197,7 +197,7 @@ extension Neptune {
         }
     }
 
-    public struct CopyDBClusterParameterGroupMessage: AWSShape {
+    public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -226,7 +226,7 @@ extension Neptune {
         }
     }
 
-    public struct CopyDBClusterParameterGroupResult: AWSShape {
+    public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -239,7 +239,7 @@ extension Neptune {
         }
     }
 
-    public struct CopyDBClusterSnapshotMessage: AWSShape {
+    public struct CopyDBClusterSnapshotMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -276,7 +276,7 @@ extension Neptune {
         }
     }
 
-    public struct CopyDBClusterSnapshotResult: AWSShape {
+    public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -289,7 +289,7 @@ extension Neptune {
         }
     }
 
-    public struct CopyDBParameterGroupMessage: AWSShape {
+    public struct CopyDBParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -318,7 +318,7 @@ extension Neptune {
         }
     }
 
-    public struct CopyDBParameterGroupResult: AWSShape {
+    public struct CopyDBParameterGroupResult: AWSDecodableShape {
 
         public let dBParameterGroup: DBParameterGroup?
 
@@ -331,7 +331,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBClusterMessage: AWSShape {
+    public struct CreateDBClusterMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
@@ -443,7 +443,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBClusterParameterGroupMessage: AWSShape {
+    public struct CreateDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -472,7 +472,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBClusterParameterGroupResult: AWSShape {
+    public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -485,7 +485,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBClusterResult: AWSShape {
+    public struct CreateDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -498,7 +498,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBClusterSnapshotMessage: AWSShape {
+    public struct CreateDBClusterSnapshotMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -523,7 +523,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBClusterSnapshotResult: AWSShape {
+    public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -536,7 +536,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBInstanceMessage: AWSShape {
+    public struct CreateDBInstanceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
@@ -720,7 +720,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBInstanceResult: AWSShape {
+    public struct CreateDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -733,7 +733,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBParameterGroupMessage: AWSShape {
+    public struct CreateDBParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -762,7 +762,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBParameterGroupResult: AWSShape {
+    public struct CreateDBParameterGroupResult: AWSDecodableShape {
 
         public let dBParameterGroup: DBParameterGroup?
 
@@ -775,7 +775,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBSubnetGroupMessage: AWSShape {
+    public struct CreateDBSubnetGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
@@ -805,7 +805,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateDBSubnetGroupResult: AWSShape {
+    public struct CreateDBSubnetGroupResult: AWSDecodableShape {
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -818,7 +818,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateEventSubscriptionMessage: AWSShape {
+    public struct CreateEventSubscriptionMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
             AWSMemberEncoding(label: "sourceIds", location: .body(locationName: "SourceIds"), encoding: .list(member:"SourceId")), 
@@ -861,7 +861,7 @@ extension Neptune {
         }
     }
 
-    public struct CreateEventSubscriptionResult: AWSShape {
+    public struct CreateEventSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -874,7 +874,7 @@ extension Neptune {
         }
     }
 
-    public struct DBCluster: AWSShape {
+    public struct DBCluster: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "associatedRoles", location: .body(locationName: "AssociatedRoles"), encoding: .list(member:"DBClusterRole")), 
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
@@ -1041,7 +1041,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterMember: AWSShape {
+    public struct DBClusterMember: AWSDecodableShape {
 
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
@@ -1067,7 +1067,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterMessage: AWSShape {
+    public struct DBClusterMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusters", location: .body(locationName: "DBClusters"), encoding: .list(member:"DBCluster"))
         ]
@@ -1088,7 +1088,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterOptionGroupStatus: AWSShape {
+    public struct DBClusterOptionGroupStatus: AWSDecodableShape {
 
         /// Specifies the name of the DB cluster option group.
         public let dBClusterOptionGroupName: String?
@@ -1106,7 +1106,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterParameterGroup: AWSShape {
+    public struct DBClusterParameterGroup: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
@@ -1132,7 +1132,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterParameterGroupDetails: AWSShape {
+    public struct DBClusterParameterGroupDetails: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -1153,7 +1153,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterParameterGroupNameMessage: AWSShape {
+    public struct DBClusterParameterGroupNameMessage: AWSDecodableShape {
 
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
@@ -1167,7 +1167,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterParameterGroupsMessage: AWSShape {
+    public struct DBClusterParameterGroupsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusterParameterGroups", location: .body(locationName: "DBClusterParameterGroups"), encoding: .list(member:"DBClusterParameterGroup"))
         ]
@@ -1188,7 +1188,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterRole: AWSShape {
+    public struct DBClusterRole: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
@@ -1206,7 +1206,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterSnapshot: AWSShape {
+    public struct DBClusterSnapshot: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
@@ -1299,7 +1299,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterSnapshotAttribute: AWSShape {
+    public struct DBClusterSnapshotAttribute: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValue"))
         ]
@@ -1320,7 +1320,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterSnapshotAttributesResult: AWSShape {
+    public struct DBClusterSnapshotAttributesResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusterSnapshotAttributes", location: .body(locationName: "DBClusterSnapshotAttributes"), encoding: .list(member:"DBClusterSnapshotAttribute"))
         ]
@@ -1341,7 +1341,7 @@ extension Neptune {
         }
     }
 
-    public struct DBClusterSnapshotMessage: AWSShape {
+    public struct DBClusterSnapshotMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusterSnapshots", location: .body(locationName: "DBClusterSnapshots"), encoding: .list(member:"DBClusterSnapshot"))
         ]
@@ -1362,7 +1362,7 @@ extension Neptune {
         }
     }
 
-    public struct DBEngineVersion: AWSShape {
+    public struct DBEngineVersion: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "exportableLogTypes", location: .body(locationName: "ExportableLogTypes"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "supportedCharacterSets", location: .body(locationName: "SupportedCharacterSets"), encoding: .list(member:"CharacterSet")), 
@@ -1426,7 +1426,7 @@ extension Neptune {
         }
     }
 
-    public struct DBEngineVersionMessage: AWSShape {
+    public struct DBEngineVersionMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBEngineVersions", location: .body(locationName: "DBEngineVersions"), encoding: .list(member:"DBEngineVersion"))
         ]
@@ -1447,7 +1447,7 @@ extension Neptune {
         }
     }
 
-    public struct DBInstance: AWSShape {
+    public struct DBInstance: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup")), 
             AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroup")), 
@@ -1676,7 +1676,7 @@ extension Neptune {
         }
     }
 
-    public struct DBInstanceMessage: AWSShape {
+    public struct DBInstanceMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBInstances", location: .body(locationName: "DBInstances"), encoding: .list(member:"DBInstance"))
         ]
@@ -1697,7 +1697,7 @@ extension Neptune {
         }
     }
 
-    public struct DBInstanceStatusInfo: AWSShape {
+    public struct DBInstanceStatusInfo: AWSDecodableShape {
 
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public let message: String?
@@ -1723,7 +1723,7 @@ extension Neptune {
         }
     }
 
-    public struct DBParameterGroup: AWSShape {
+    public struct DBParameterGroup: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
@@ -1749,7 +1749,7 @@ extension Neptune {
         }
     }
 
-    public struct DBParameterGroupDetails: AWSShape {
+    public struct DBParameterGroupDetails: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -1770,7 +1770,7 @@ extension Neptune {
         }
     }
 
-    public struct DBParameterGroupNameMessage: AWSShape {
+    public struct DBParameterGroupNameMessage: AWSDecodableShape {
 
         /// Provides the name of the DB parameter group.
         public let dBParameterGroupName: String?
@@ -1784,7 +1784,7 @@ extension Neptune {
         }
     }
 
-    public struct DBParameterGroupStatus: AWSShape {
+    public struct DBParameterGroupStatus: AWSDecodableShape {
 
         /// The name of the DP parameter group.
         public let dBParameterGroupName: String?
@@ -1802,7 +1802,7 @@ extension Neptune {
         }
     }
 
-    public struct DBParameterGroupsMessage: AWSShape {
+    public struct DBParameterGroupsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBParameterGroups", location: .body(locationName: "DBParameterGroups"), encoding: .list(member:"DBParameterGroup"))
         ]
@@ -1823,7 +1823,7 @@ extension Neptune {
         }
     }
 
-    public struct DBSecurityGroupMembership: AWSShape {
+    public struct DBSecurityGroupMembership: AWSDecodableShape {
 
         /// The name of the DB security group.
         public let dBSecurityGroupName: String?
@@ -1841,7 +1841,7 @@ extension Neptune {
         }
     }
 
-    public struct DBSubnetGroup: AWSShape {
+    public struct DBSubnetGroup: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"Subnet"))
         ]
@@ -1878,7 +1878,7 @@ extension Neptune {
         }
     }
 
-    public struct DBSubnetGroupMessage: AWSShape {
+    public struct DBSubnetGroupMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBSubnetGroups", location: .body(locationName: "DBSubnetGroups"), encoding: .list(member:"DBSubnetGroup"))
         ]
@@ -1899,7 +1899,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBClusterMessage: AWSShape {
+    public struct DeleteDBClusterMessage: AWSEncodableShape {
 
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
@@ -1921,7 +1921,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBClusterParameterGroupMessage: AWSShape {
+    public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
 
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
         public let dBClusterParameterGroupName: String
@@ -1935,7 +1935,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBClusterResult: AWSShape {
+    public struct DeleteDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -1948,7 +1948,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBClusterSnapshotMessage: AWSShape {
+    public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
 
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
@@ -1962,7 +1962,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBClusterSnapshotResult: AWSShape {
+    public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -1975,7 +1975,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBInstanceMessage: AWSShape {
+    public struct DeleteDBInstanceMessage: AWSEncodableShape {
 
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.  
         public let dBInstanceIdentifier: String
@@ -1997,7 +1997,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBInstanceResult: AWSShape {
+    public struct DeleteDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -2010,7 +2010,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBParameterGroupMessage: AWSShape {
+    public struct DeleteDBParameterGroupMessage: AWSEncodableShape {
 
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances  
         public let dBParameterGroupName: String
@@ -2024,7 +2024,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteDBSubnetGroupMessage: AWSShape {
+    public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
 
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
@@ -2038,7 +2038,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteEventSubscriptionMessage: AWSShape {
+    public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
 
         /// The name of the event notification subscription you want to delete.
         public let subscriptionName: String
@@ -2052,7 +2052,7 @@ extension Neptune {
         }
     }
 
-    public struct DeleteEventSubscriptionResult: AWSShape {
+    public struct DeleteEventSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -2065,7 +2065,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
+    public struct DescribeDBClusterParameterGroupsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2094,7 +2094,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBClusterParametersMessage: AWSShape {
+    public struct DescribeDBClusterParametersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2127,7 +2127,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
+    public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
 
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
@@ -2141,7 +2141,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
+    public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -2154,7 +2154,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBClusterSnapshotsMessage: AWSShape {
+    public struct DescribeDBClusterSnapshotsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2199,7 +2199,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBClustersMessage: AWSShape {
+    public struct DescribeDBClustersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2228,7 +2228,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBEngineVersionsMessage: AWSShape {
+    public struct DescribeDBEngineVersionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2277,7 +2277,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBInstancesMessage: AWSShape {
+    public struct DescribeDBInstancesMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2306,7 +2306,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBParameterGroupsMessage: AWSShape {
+    public struct DescribeDBParameterGroupsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2335,7 +2335,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBParametersMessage: AWSShape {
+    public struct DescribeDBParametersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2368,7 +2368,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeDBSubnetGroupsMessage: AWSShape {
+    public struct DescribeDBSubnetGroupsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2397,7 +2397,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
+    public struct DescribeEngineDefaultClusterParametersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2426,7 +2426,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
+    public struct DescribeEngineDefaultClusterParametersResult: AWSDecodableShape {
 
         public let engineDefaults: EngineDefaults?
 
@@ -2439,7 +2439,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEngineDefaultParametersMessage: AWSShape {
+    public struct DescribeEngineDefaultParametersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2468,7 +2468,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEngineDefaultParametersResult: AWSShape {
+    public struct DescribeEngineDefaultParametersResult: AWSDecodableShape {
 
         public let engineDefaults: EngineDefaults?
 
@@ -2481,7 +2481,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEventCategoriesMessage: AWSShape {
+    public struct DescribeEventCategoriesMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2502,7 +2502,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEventSubscriptionsMessage: AWSShape {
+    public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2531,7 +2531,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeEventsMessage: AWSShape {
+    public struct DescribeEventsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
@@ -2581,7 +2581,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
+    public struct DescribeOrderableDBInstanceOptionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2626,7 +2626,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
+    public struct DescribePendingMaintenanceActionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2655,7 +2655,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeValidDBInstanceModificationsMessage: AWSShape {
+    public struct DescribeValidDBInstanceModificationsMessage: AWSEncodableShape {
 
         /// The customer identifier or the ARN of your DB instance.
         public let dBInstanceIdentifier: String
@@ -2669,7 +2669,7 @@ extension Neptune {
         }
     }
 
-    public struct DescribeValidDBInstanceModificationsResult: AWSShape {
+    public struct DescribeValidDBInstanceModificationsResult: AWSDecodableShape {
 
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
@@ -2682,7 +2682,7 @@ extension Neptune {
         }
     }
 
-    public struct DomainMembership: AWSShape {
+    public struct DomainMembership: AWSDecodableShape {
 
         /// The identifier of the Active Directory Domain.
         public let domain: String?
@@ -2708,7 +2708,7 @@ extension Neptune {
         }
     }
 
-    public struct DoubleRange: AWSShape {
+    public struct DoubleRange: AWSDecodableShape {
 
         /// The minimum value in the range.
         public let from: Double?
@@ -2726,7 +2726,7 @@ extension Neptune {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
 
         /// Specifies the DNS address of the DB instance.
         public let address: String?
@@ -2748,7 +2748,7 @@ extension Neptune {
         }
     }
 
-    public struct EngineDefaults: AWSShape {
+    public struct EngineDefaults: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -2773,7 +2773,7 @@ extension Neptune {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
@@ -2810,7 +2810,7 @@ extension Neptune {
         }
     }
 
-    public struct EventCategoriesMap: AWSShape {
+    public struct EventCategoriesMap: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
@@ -2831,7 +2831,7 @@ extension Neptune {
         }
     }
 
-    public struct EventCategoriesMessage: AWSShape {
+    public struct EventCategoriesMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategoriesMapList", location: .body(locationName: "EventCategoriesMapList"), encoding: .list(member:"EventCategoriesMap"))
         ]
@@ -2848,7 +2848,7 @@ extension Neptune {
         }
     }
 
-    public struct EventSubscription: AWSShape {
+    public struct EventSubscription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategoriesList", location: .body(locationName: "EventCategoriesList"), encoding: .list(member:"EventCategory")), 
             AWSMemberEncoding(label: "sourceIdsList", location: .body(locationName: "SourceIdsList"), encoding: .list(member:"SourceId"))
@@ -2902,7 +2902,7 @@ extension Neptune {
         }
     }
 
-    public struct EventSubscriptionsMessage: AWSShape {
+    public struct EventSubscriptionsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventSubscriptionsList", location: .body(locationName: "EventSubscriptionsList"), encoding: .list(member:"EventSubscription"))
         ]
@@ -2923,7 +2923,7 @@ extension Neptune {
         }
     }
 
-    public struct EventsMessage: AWSShape {
+    public struct EventsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"Event"))
         ]
@@ -2944,7 +2944,7 @@ extension Neptune {
         }
     }
 
-    public struct FailoverDBClusterMessage: AWSShape {
+    public struct FailoverDBClusterMessage: AWSEncodableShape {
 
         /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
@@ -2962,7 +2962,7 @@ extension Neptune {
         }
     }
 
-    public struct FailoverDBClusterResult: AWSShape {
+    public struct FailoverDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2975,7 +2975,7 @@ extension Neptune {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"Value"))
         ]
@@ -2996,7 +2996,7 @@ extension Neptune {
         }
     }
 
-    public struct ListTagsForResourceMessage: AWSShape {
+    public struct ListTagsForResourceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -3017,7 +3017,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBClusterMessage: AWSShape {
+    public struct ModifyDBClusterMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
@@ -3090,7 +3090,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBClusterParameterGroupMessage: AWSShape {
+    public struct ModifyDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -3111,7 +3111,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBClusterResult: AWSShape {
+    public struct ModifyDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -3124,7 +3124,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
+    public struct ModifyDBClusterSnapshotAttributeMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "valuesToAdd", location: .body(locationName: "ValuesToAdd"), encoding: .list(member:"AttributeValue")), 
             AWSMemberEncoding(label: "valuesToRemove", location: .body(locationName: "ValuesToRemove"), encoding: .list(member:"AttributeValue"))
@@ -3154,7 +3154,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
+    public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -3167,7 +3167,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBInstanceMessage: AWSShape {
+    public struct ModifyDBInstanceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBSecurityGroups", location: .body(locationName: "DBSecurityGroups"), encoding: .list(member:"DBSecurityGroupName")), 
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
@@ -3325,7 +3325,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBInstanceResult: AWSShape {
+    public struct ModifyDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -3338,7 +3338,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBParameterGroupMessage: AWSShape {
+    public struct ModifyDBParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -3359,7 +3359,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBSubnetGroupMessage: AWSShape {
+    public struct ModifyDBSubnetGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier"))
         ]
@@ -3384,7 +3384,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyDBSubnetGroupResult: AWSShape {
+    public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -3397,7 +3397,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyEventSubscriptionMessage: AWSShape {
+    public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
@@ -3430,7 +3430,7 @@ extension Neptune {
         }
     }
 
-    public struct ModifyEventSubscriptionResult: AWSShape {
+    public struct ModifyEventSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -3443,7 +3443,7 @@ extension Neptune {
         }
     }
 
-    public struct OptionGroupMembership: AWSShape {
+    public struct OptionGroupMembership: AWSDecodableShape {
 
         /// The name of the option group that the instance belongs to.
         public let optionGroupName: String?
@@ -3461,7 +3461,7 @@ extension Neptune {
         }
     }
 
-    public struct OrderableDBInstanceOption: AWSShape {
+    public struct OrderableDBInstanceOption: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
@@ -3554,7 +3554,7 @@ extension Neptune {
         }
     }
 
-    public struct OrderableDBInstanceOptionsMessage: AWSShape {
+    public struct OrderableDBInstanceOptionsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "orderableDBInstanceOptions", location: .body(locationName: "OrderableDBInstanceOptions"), encoding: .list(member:"OrderableDBInstanceOption"))
         ]
@@ -3575,7 +3575,7 @@ extension Neptune {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
@@ -3625,7 +3625,7 @@ extension Neptune {
         }
     }
 
-    public struct PendingCloudwatchLogsExports: AWSShape {
+    public struct PendingCloudwatchLogsExports: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "logTypesToDisable", location: .body(locationName: "LogTypesToDisable"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
@@ -3647,7 +3647,7 @@ extension Neptune {
         }
     }
 
-    public struct PendingMaintenanceAction: AWSShape {
+    public struct PendingMaintenanceAction: AWSDecodableShape {
 
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
@@ -3681,7 +3681,7 @@ extension Neptune {
         }
     }
 
-    public struct PendingMaintenanceActionsMessage: AWSShape {
+    public struct PendingMaintenanceActionsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pendingMaintenanceActions", location: .body(locationName: "PendingMaintenanceActions"), encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
@@ -3702,7 +3702,7 @@ extension Neptune {
         }
     }
 
-    public struct PendingModifiedValues: AWSShape {
+    public struct PendingModifiedValues: AWSDecodableShape {
 
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied.
         public let allocatedStorage: Int?
@@ -3768,7 +3768,7 @@ extension Neptune {
         }
     }
 
-    public struct PromoteReadReplicaDBClusterMessage: AWSShape {
+    public struct PromoteReadReplicaDBClusterMessage: AWSEncodableShape {
 
         /// Not supported.
         public let dBClusterIdentifier: String
@@ -3782,7 +3782,7 @@ extension Neptune {
         }
     }
 
-    public struct PromoteReadReplicaDBClusterResult: AWSShape {
+    public struct PromoteReadReplicaDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -3795,7 +3795,7 @@ extension Neptune {
         }
     }
 
-    public struct Range: AWSShape {
+    public struct Range: AWSDecodableShape {
 
         /// The minimum value in the range.
         public let from: Int?
@@ -3817,7 +3817,7 @@ extension Neptune {
         }
     }
 
-    public struct RebootDBInstanceMessage: AWSShape {
+    public struct RebootDBInstanceMessage: AWSEncodableShape {
 
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
@@ -3835,7 +3835,7 @@ extension Neptune {
         }
     }
 
-    public struct RebootDBInstanceResult: AWSShape {
+    public struct RebootDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -3848,7 +3848,7 @@ extension Neptune {
         }
     }
 
-    public struct RemoveRoleFromDBClusterMessage: AWSShape {
+    public struct RemoveRoleFromDBClusterMessage: AWSEncodableShape {
 
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
@@ -3866,7 +3866,7 @@ extension Neptune {
         }
     }
 
-    public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
+    public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSEncodableShape {
 
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
         public let sourceIdentifier: String
@@ -3884,7 +3884,7 @@ extension Neptune {
         }
     }
 
-    public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
+    public struct RemoveSourceIdentifierFromSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -3897,7 +3897,7 @@ extension Neptune {
         }
     }
 
-    public struct RemoveTagsFromResourceMessage: AWSShape {
+    public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
@@ -3918,7 +3918,7 @@ extension Neptune {
         }
     }
 
-    public struct ResetDBClusterParameterGroupMessage: AWSShape {
+    public struct ResetDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -3943,7 +3943,7 @@ extension Neptune {
         }
     }
 
-    public struct ResetDBParameterGroupMessage: AWSShape {
+    public struct ResetDBParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -3968,7 +3968,7 @@ extension Neptune {
         }
     }
 
-    public struct ResourcePendingMaintenanceActions: AWSShape {
+    public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pendingMaintenanceActionDetails", location: .body(locationName: "PendingMaintenanceActionDetails"), encoding: .list(member:"PendingMaintenanceAction"))
         ]
@@ -3989,7 +3989,7 @@ extension Neptune {
         }
     }
 
-    public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
+    public struct RestoreDBClusterFromSnapshotMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
@@ -4069,7 +4069,7 @@ extension Neptune {
         }
     }
 
-    public struct RestoreDBClusterFromSnapshotResult: AWSShape {
+    public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -4082,7 +4082,7 @@ extension Neptune {
         }
     }
 
-    public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
+    public struct RestoreDBClusterToPointInTimeMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
@@ -4157,7 +4157,7 @@ extension Neptune {
         }
     }
 
-    public struct RestoreDBClusterToPointInTimeResult: AWSShape {
+    public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -4170,7 +4170,7 @@ extension Neptune {
         }
     }
 
-    public struct StartDBClusterMessage: AWSShape {
+    public struct StartDBClusterMessage: AWSEncodableShape {
 
         /// The DB cluster identifier of the Neptune DB cluster to be started. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
@@ -4184,7 +4184,7 @@ extension Neptune {
         }
     }
 
-    public struct StartDBClusterResult: AWSShape {
+    public struct StartDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -4197,7 +4197,7 @@ extension Neptune {
         }
     }
 
-    public struct StopDBClusterMessage: AWSShape {
+    public struct StopDBClusterMessage: AWSEncodableShape {
 
         /// The DB cluster identifier of the Neptune DB cluster to be stopped. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
@@ -4211,7 +4211,7 @@ extension Neptune {
         }
     }
 
-    public struct StopDBClusterResult: AWSShape {
+    public struct StopDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -4224,7 +4224,7 @@ extension Neptune {
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct Subnet: AWSDecodableShape {
 
         /// Specifies the EC2 Availability Zone that the subnet is in.
         public let subnetAvailabilityZone: AvailabilityZone?
@@ -4246,7 +4246,7 @@ extension Neptune {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -4264,7 +4264,7 @@ extension Neptune {
         }
     }
 
-    public struct TagListMessage: AWSShape {
+    public struct TagListMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagList", location: .body(locationName: "TagList"), encoding: .list(member:"Tag"))
         ]
@@ -4281,7 +4281,7 @@ extension Neptune {
         }
     }
 
-    public struct Timezone: AWSShape {
+    public struct Timezone: AWSDecodableShape {
 
         /// The name of the time zone.
         public let timezoneName: String?
@@ -4295,7 +4295,7 @@ extension Neptune {
         }
     }
 
-    public struct UpgradeTarget: AWSShape {
+    public struct UpgradeTarget: AWSDecodableShape {
 
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
@@ -4325,7 +4325,7 @@ extension Neptune {
         }
     }
 
-    public struct ValidDBInstanceModificationsMessage: AWSShape {
+    public struct ValidDBInstanceModificationsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "storage", location: .body(locationName: "Storage"), encoding: .list(member:"ValidStorageOptions"))
         ]
@@ -4342,7 +4342,7 @@ extension Neptune {
         }
     }
 
-    public struct ValidStorageOptions: AWSShape {
+    public struct ValidStorageOptions: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "iopsToStorageRatio", location: .body(locationName: "IopsToStorageRatio"), encoding: .list(member:"DoubleRange")), 
             AWSMemberEncoding(label: "provisionedIops", location: .body(locationName: "ProvisionedIops"), encoding: .list(member:"Range")), 
@@ -4373,7 +4373,7 @@ extension Neptune {
         }
     }
 
-    public struct VpcSecurityGroupMembership: AWSShape {
+    public struct VpcSecurityGroupMembership: AWSDecodableShape {
 
         /// The status of the VPC security group.
         public let status: String?

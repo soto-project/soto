@@ -103,7 +103,7 @@ extension TranscribeService {
 
     //MARK: Shapes
 
-    public struct ContentRedaction: AWSShape {
+    public struct ContentRedaction: AWSEncodableShape & AWSDecodableShape {
 
         /// Request parameter where you choose whether to output only the redacted transcript or generate an additional unredacted transcript. When you choose redacted Amazon Transcribe outputs a JSON file with only the redacted transcript and related information. When you choose redacted_and_unredacted Amazon Transcribe outputs a JSON file with the unredacted transcript and related information in addition to the JSON file with the redacted transcript.
         public let redactionOutput: RedactionOutput
@@ -121,7 +121,7 @@ extension TranscribeService {
         }
     }
 
-    public struct CreateVocabularyFilterRequest: AWSShape {
+    public struct CreateVocabularyFilterRequest: AWSEncodableShape {
 
         /// The language code of the words in the vocabulary filter. All words in the filter must be in the same language. The vocabulary filter can only be used with transcription jobs in the specified language.
         public let languageCode: LanguageCode
@@ -161,7 +161,7 @@ extension TranscribeService {
         }
     }
 
-    public struct CreateVocabularyFilterResponse: AWSShape {
+    public struct CreateVocabularyFilterResponse: AWSDecodableShape {
 
         /// The language code of the words in the collection.
         public let languageCode: LanguageCode?
@@ -183,7 +183,7 @@ extension TranscribeService {
         }
     }
 
-    public struct CreateVocabularyRequest: AWSShape {
+    public struct CreateVocabularyRequest: AWSEncodableShape {
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
@@ -223,7 +223,7 @@ extension TranscribeService {
         }
     }
 
-    public struct CreateVocabularyResponse: AWSShape {
+    public struct CreateVocabularyResponse: AWSDecodableShape {
 
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
         public let failureReason: String?
@@ -253,7 +253,7 @@ extension TranscribeService {
         }
     }
 
-    public struct DeleteTranscriptionJobRequest: AWSShape {
+    public struct DeleteTranscriptionJobRequest: AWSEncodableShape {
 
         /// The name of the transcription job to be deleted.
         public let transcriptionJobName: String
@@ -273,7 +273,7 @@ extension TranscribeService {
         }
     }
 
-    public struct DeleteVocabularyFilterRequest: AWSShape {
+    public struct DeleteVocabularyFilterRequest: AWSEncodableShape {
 
         /// The name of the vocabulary filter to remove.
         public let vocabularyFilterName: String
@@ -293,7 +293,7 @@ extension TranscribeService {
         }
     }
 
-    public struct DeleteVocabularyRequest: AWSShape {
+    public struct DeleteVocabularyRequest: AWSEncodableShape {
 
         /// The name of the vocabulary to delete. 
         public let vocabularyName: String
@@ -313,7 +313,7 @@ extension TranscribeService {
         }
     }
 
-    public struct GetTranscriptionJobRequest: AWSShape {
+    public struct GetTranscriptionJobRequest: AWSEncodableShape {
 
         /// The name of the job.
         public let transcriptionJobName: String
@@ -333,7 +333,7 @@ extension TranscribeService {
         }
     }
 
-    public struct GetTranscriptionJobResponse: AWSShape {
+    public struct GetTranscriptionJobResponse: AWSDecodableShape {
 
         /// An object that contains the results of the transcription job.
         public let transcriptionJob: TranscriptionJob?
@@ -347,7 +347,7 @@ extension TranscribeService {
         }
     }
 
-    public struct GetVocabularyFilterRequest: AWSShape {
+    public struct GetVocabularyFilterRequest: AWSEncodableShape {
 
         /// The name of the vocabulary filter for which to return information.
         public let vocabularyFilterName: String
@@ -367,7 +367,7 @@ extension TranscribeService {
         }
     }
 
-    public struct GetVocabularyFilterResponse: AWSShape {
+    public struct GetVocabularyFilterResponse: AWSDecodableShape {
 
         /// The URI of the list of words in the vocabulary filter. You can use this URI to get the list of words.
         public let downloadUri: String?
@@ -393,7 +393,7 @@ extension TranscribeService {
         }
     }
 
-    public struct GetVocabularyRequest: AWSShape {
+    public struct GetVocabularyRequest: AWSEncodableShape {
 
         /// The name of the vocabulary to return information about. The name is case-sensitive.
         public let vocabularyName: String
@@ -413,7 +413,7 @@ extension TranscribeService {
         }
     }
 
-    public struct GetVocabularyResponse: AWSShape {
+    public struct GetVocabularyResponse: AWSDecodableShape {
 
         /// The S3 location where the vocabulary is stored. Use this URI to get the contents of the vocabulary. The URI is available for a limited time.
         public let downloadUri: String?
@@ -447,7 +447,7 @@ extension TranscribeService {
         }
     }
 
-    public struct JobExecutionSettings: AWSShape {
+    public struct JobExecutionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and will be executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let allowDeferredExecution: Bool?
@@ -469,7 +469,7 @@ extension TranscribeService {
         }
     }
 
-    public struct ListTranscriptionJobsRequest: AWSShape {
+    public struct ListTranscriptionJobsRequest: AWSEncodableShape {
 
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
         public let jobNameContains: String?
@@ -505,7 +505,7 @@ extension TranscribeService {
         }
     }
 
-    public struct ListTranscriptionJobsResponse: AWSShape {
+    public struct ListTranscriptionJobsResponse: AWSDecodableShape {
 
         /// The ListTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListTranscriptionJobs operation to return in the next page of jobs.
         public let nextToken: String?
@@ -527,7 +527,7 @@ extension TranscribeService {
         }
     }
 
-    public struct ListVocabulariesRequest: AWSShape {
+    public struct ListVocabulariesRequest: AWSEncodableShape {
 
         /// The maximum number of vocabularies to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
@@ -563,7 +563,7 @@ extension TranscribeService {
         }
     }
 
-    public struct ListVocabulariesResponse: AWSShape {
+    public struct ListVocabulariesResponse: AWSDecodableShape {
 
         /// The ListVocabularies operation returns a page of vocabularies at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularies operation to return in the next page of jobs.
         public let nextToken: String?
@@ -585,7 +585,7 @@ extension TranscribeService {
         }
     }
 
-    public struct ListVocabularyFiltersRequest: AWSShape {
+    public struct ListVocabularyFiltersRequest: AWSEncodableShape {
 
         /// The maximum number of filters to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
@@ -617,7 +617,7 @@ extension TranscribeService {
         }
     }
 
-    public struct ListVocabularyFiltersResponse: AWSShape {
+    public struct ListVocabularyFiltersResponse: AWSDecodableShape {
 
         /// The ListVocabularyFilters operation returns a page of collections at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularyFilters operation to return in the next page of jobs.
         public let nextToken: String?
@@ -635,7 +635,7 @@ extension TranscribeService {
         }
     }
 
-    public struct Media: AWSShape {
+    public struct Media: AWSEncodableShape & AWSDecodableShape {
 
         /// The S3 object location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is:   s3://&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  s3://examplebucket/example.mp4   s3://examplebucket/mediadocs/example.mp4  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
         public let mediaFileUri: String?
@@ -655,7 +655,7 @@ extension TranscribeService {
         }
     }
 
-    public struct Settings: AWSShape {
+    public struct Settings: AWSEncodableShape & AWSDecodableShape {
 
         /// Instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription.  Amazon Transcribe also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let channelIdentification: Bool?
@@ -710,7 +710,7 @@ extension TranscribeService {
         }
     }
 
-    public struct StartTranscriptionJobRequest: AWSShape {
+    public struct StartTranscriptionJobRequest: AWSEncodableShape {
 
         /// An object that contains the request parameters for content redaction.
         public let contentRedaction: ContentRedaction?
@@ -776,7 +776,7 @@ extension TranscribeService {
         }
     }
 
-    public struct StartTranscriptionJobResponse: AWSShape {
+    public struct StartTranscriptionJobResponse: AWSDecodableShape {
 
         /// An object containing details of the asynchronous transcription job.
         public let transcriptionJob: TranscriptionJob?
@@ -790,7 +790,7 @@ extension TranscribeService {
         }
     }
 
-    public struct Transcript: AWSShape {
+    public struct Transcript: AWSDecodableShape {
 
         /// The S3 object location of the redacted transcript. Use this URI to access the redacated transcript. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
         public let redactedTranscriptFileUri: String?
@@ -808,7 +808,7 @@ extension TranscribeService {
         }
     }
 
-    public struct TranscriptionJob: AWSShape {
+    public struct TranscriptionJob: AWSDecodableShape {
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
@@ -874,7 +874,7 @@ extension TranscribeService {
         }
     }
 
-    public struct TranscriptionJobSummary: AWSShape {
+    public struct TranscriptionJobSummary: AWSDecodableShape {
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: TimeStamp?
@@ -920,7 +920,7 @@ extension TranscribeService {
         }
     }
 
-    public struct UpdateVocabularyFilterRequest: AWSShape {
+    public struct UpdateVocabularyFilterRequest: AWSEncodableShape {
 
         /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
         public let vocabularyFilterFileUri: String?
@@ -956,7 +956,7 @@ extension TranscribeService {
         }
     }
 
-    public struct UpdateVocabularyFilterResponse: AWSShape {
+    public struct UpdateVocabularyFilterResponse: AWSDecodableShape {
 
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
@@ -978,7 +978,7 @@ extension TranscribeService {
         }
     }
 
-    public struct UpdateVocabularyRequest: AWSShape {
+    public struct UpdateVocabularyRequest: AWSEncodableShape {
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
@@ -1018,7 +1018,7 @@ extension TranscribeService {
         }
     }
 
-    public struct UpdateVocabularyResponse: AWSShape {
+    public struct UpdateVocabularyResponse: AWSDecodableShape {
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
@@ -1044,7 +1044,7 @@ extension TranscribeService {
         }
     }
 
-    public struct VocabularyFilterInfo: AWSShape {
+    public struct VocabularyFilterInfo: AWSDecodableShape {
 
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
@@ -1066,7 +1066,7 @@ extension TranscribeService {
         }
     }
 
-    public struct VocabularyInfo: AWSShape {
+    public struct VocabularyInfo: AWSDecodableShape {
 
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?

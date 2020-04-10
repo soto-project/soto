@@ -73,7 +73,7 @@ extension AccessAnalyzer {
 
     //MARK: Shapes
 
-    public struct AnalyzedResource: AWSShape {
+    public struct AnalyzedResource: AWSDecodableShape {
 
         /// The actions that an external principal is granted permission to use by the policy that generated the finding.
         public let actions: [String]?
@@ -127,7 +127,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct AnalyzedResourceSummary: AWSShape {
+    public struct AnalyzedResourceSummary: AWSDecodableShape {
 
         /// The ARN of the analyzed resource.
         public let resourceArn: String
@@ -149,7 +149,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct AnalyzerSummary: AWSShape {
+    public struct AnalyzerSummary: AWSDecodableShape {
 
         /// The ARN of the analyzer.
         public let arn: String
@@ -195,7 +195,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ArchiveRuleSummary: AWSShape {
+    public struct ArchiveRuleSummary: AWSDecodableShape {
 
         /// The time at which the archive rule was created.
         public let createdAt: TimeStamp
@@ -221,7 +221,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct CreateAnalyzerRequest: AWSShape {
+    public struct CreateAnalyzerRequest: AWSEncodableShape {
 
         /// The name of the analyzer to create.
         public let analyzerName: String
@@ -260,7 +260,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct CreateAnalyzerResponse: AWSShape {
+    public struct CreateAnalyzerResponse: AWSDecodableShape {
 
         /// The ARN of the analyzer that was created by the request.
         public let arn: String?
@@ -274,7 +274,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct CreateArchiveRuleRequest: AWSShape {
+    public struct CreateArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName"))
         ]
@@ -308,14 +308,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
             case clientToken = "clientToken"
             case filter = "filter"
             case ruleName = "ruleName"
         }
     }
 
-    public struct Criterion: AWSShape {
+    public struct Criterion: AWSEncodableShape & AWSDecodableShape {
 
         /// A "contains" operator to match for the filter used to create the rule.
         public let contains: [String]?
@@ -350,7 +349,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct DeleteAnalyzerRequest: AWSShape {
+    public struct DeleteAnalyzerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
@@ -372,13 +371,10 @@ extension AccessAnalyzer {
             try validate(self.analyzerName, name:"analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case clientToken = "clientToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteArchiveRuleRequest: AWSShape {
+    public struct DeleteArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
@@ -407,14 +403,10 @@ extension AccessAnalyzer {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case clientToken = "clientToken"
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct Finding: AWSShape {
+    public struct Finding: AWSDecodableShape {
 
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
@@ -476,7 +468,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct FindingSummary: AWSShape {
+    public struct FindingSummary: AWSDecodableShape {
 
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
@@ -538,7 +530,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct GetAnalyzedResourceRequest: AWSShape {
+    public struct GetAnalyzedResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
@@ -559,13 +551,10 @@ extension AccessAnalyzer {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerArn = "analyzerArn"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAnalyzedResourceResponse: AWSShape {
+    public struct GetAnalyzedResourceResponse: AWSDecodableShape {
 
         /// An AnalyedResource object that contains information that Access Analyzer found when it analyzed the resource.
         public let resource: AnalyzedResource?
@@ -579,7 +568,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct GetAnalyzerRequest: AWSShape {
+    public struct GetAnalyzerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName"))
         ]
@@ -597,12 +586,10 @@ extension AccessAnalyzer {
             try validate(self.analyzerName, name:"analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAnalyzerResponse: AWSShape {
+    public struct GetAnalyzerResponse: AWSDecodableShape {
 
         /// An AnalyzerSummary object that contains information about the analyzer.
         public let analyzer: AnalyzerSummary
@@ -616,7 +603,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct GetArchiveRuleRequest: AWSShape {
+    public struct GetArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
@@ -641,13 +628,10 @@ extension AccessAnalyzer {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetArchiveRuleResponse: AWSShape {
+    public struct GetArchiveRuleResponse: AWSDecodableShape {
 
         public let archiveRule: ArchiveRuleSummary
 
@@ -660,7 +644,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct GetFindingRequest: AWSShape {
+    public struct GetFindingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
@@ -680,13 +664,10 @@ extension AccessAnalyzer {
             try validate(self.analyzerArn, name:"analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerArn = "analyzerArn"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFindingResponse: AWSShape {
+    public struct GetFindingResponse: AWSDecodableShape {
 
         /// A finding object that contains finding details.
         public let finding: Finding?
@@ -700,7 +681,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct InlineArchiveRule: AWSShape {
+    public struct InlineArchiveRule: AWSEncodableShape {
 
         /// The condition and values for a criterion.
         public let filter: [String: Criterion]
@@ -727,7 +708,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListAnalyzedResourcesRequest: AWSShape {
+    public struct ListAnalyzedResourcesRequest: AWSEncodableShape {
 
         /// The ARN of the analyzer to retrieve a list of analyzed resources from.
         public let analyzerArn: String
@@ -757,7 +738,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListAnalyzedResourcesResponse: AWSShape {
+    public struct ListAnalyzedResourcesResponse: AWSDecodableShape {
 
         /// A list of resources that were analyzed.
         public let analyzedResources: [AnalyzedResourceSummary]
@@ -775,7 +756,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListAnalyzersRequest: AWSShape {
+    public struct ListAnalyzersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -795,14 +776,10 @@ extension AccessAnalyzer {
             self.`type` = `type`
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case `type` = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAnalyzersResponse: AWSShape {
+    public struct ListAnalyzersResponse: AWSDecodableShape {
 
         /// The analyzers retrieved.
         public let analyzers: [AnalyzerSummary]
@@ -820,7 +797,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListArchiveRulesRequest: AWSShape {
+    public struct ListArchiveRulesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -846,14 +823,10 @@ extension AccessAnalyzer {
             try validate(self.analyzerName, name:"analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListArchiveRulesResponse: AWSShape {
+    public struct ListArchiveRulesResponse: AWSDecodableShape {
 
         /// A list of archive rules created for the specified analyzer.
         public let archiveRules: [ArchiveRuleSummary]
@@ -871,7 +844,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListFindingsRequest: AWSShape {
+    public struct ListFindingsRequest: AWSEncodableShape {
 
         /// The ARN of the analyzer to retrieve findings from.
         public let analyzerArn: String
@@ -908,7 +881,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListFindingsResponse: AWSShape {
+    public struct ListFindingsResponse: AWSDecodableShape {
 
         /// A list of findings retrieved from the analyzer that match the filter criteria specified, if any.
         public let findings: [FindingSummary]
@@ -926,7 +899,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -938,12 +911,10 @@ extension AccessAnalyzer {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags that are applied to the specified resource.
         public let tags: [String: String]?
@@ -957,7 +928,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct SortCriteria: AWSShape {
+    public struct SortCriteria: AWSEncodableShape {
 
         /// The name of the attribute to sort on.
         public let attributeName: String?
@@ -975,7 +946,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct StartResourceScanRequest: AWSShape {
+    public struct StartResourceScanRequest: AWSEncodableShape {
 
         /// The ARN of the analyzer to use to scan the policies applied to the specified resource.
         public let analyzerArn: String
@@ -998,7 +969,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct StatusReason: AWSShape {
+    public struct StatusReason: AWSDecodableShape {
 
         /// The reason code for the current status of the analyzer.
         public let code: ReasonCode
@@ -1012,7 +983,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1028,12 +999,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1041,7 +1011,7 @@ extension AccessAnalyzer {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1057,13 +1027,10 @@ extension AccessAnalyzer {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1071,7 +1038,7 @@ extension AccessAnalyzer {
 
     }
 
-    public struct UpdateArchiveRuleRequest: AWSShape {
+    public struct UpdateArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
@@ -1106,14 +1073,12 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerName = "analyzerName"
             case clientToken = "clientToken"
             case filter = "filter"
-            case ruleName = "ruleName"
         }
     }
 
-    public struct UpdateFindingsRequest: AWSShape {
+    public struct UpdateFindingsRequest: AWSEncodableShape {
 
         /// The ARN of the analyzer that generated the findings to update.
         public let analyzerArn: String

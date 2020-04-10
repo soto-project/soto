@@ -386,7 +386,7 @@ extension S3 {
 
     //MARK: Shapes
 
-    public struct AbortIncompleteMultipartUpload: AWSShape {
+    public struct AbortIncompleteMultipartUpload: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload.
         public let daysAfterInitiation: Int?
@@ -400,7 +400,7 @@ extension S3 {
         }
     }
 
-    public struct AbortMultipartUploadOutput: AWSShape {
+    public struct AbortMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
@@ -416,7 +416,7 @@ extension S3 {
         }
     }
 
-    public struct AbortMultipartUploadRequest: AWSShape {
+    public struct AbortMultipartUploadRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -443,15 +443,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AccelerateConfiguration: AWSShape {
+    public struct AccelerateConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies the transfer acceleration status of the bucket.
@@ -466,7 +461,7 @@ extension S3 {
         }
     }
 
-    public struct AccessControlPolicy: AWSShape {
+    public struct AccessControlPolicy: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant"))
@@ -488,7 +483,7 @@ extension S3 {
         }
     }
 
-    public struct AccessControlTranslation: AWSShape {
+    public struct AccessControlTranslation: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the replica ownership. For default and valid values, see PUT bucket replication in the Amazon Simple Storage Service API Reference.
         public let owner: OwnerOverride
@@ -502,7 +497,7 @@ extension S3 {
         }
     }
 
-    public struct AnalyticsAndOperator: AWSShape {
+    public struct AnalyticsAndOperator: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
         ]
@@ -529,7 +524,7 @@ extension S3 {
         }
     }
 
-    public struct AnalyticsConfiguration: AWSShape {
+    public struct AnalyticsConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
@@ -556,7 +551,7 @@ extension S3 {
         }
     }
 
-    public struct AnalyticsExportDestination: AWSShape {
+    public struct AnalyticsExportDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// A destination signifying output to an S3 bucket.
         public let s3BucketDestination: AnalyticsS3BucketDestination
@@ -570,7 +565,7 @@ extension S3 {
         }
     }
 
-    public struct AnalyticsFilter: AWSShape {
+    public struct AnalyticsFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
         public let and: AnalyticsAndOperator?
@@ -597,7 +592,7 @@ extension S3 {
         }
     }
 
-    public struct AnalyticsS3BucketDestination: AWSShape {
+    public struct AnalyticsS3BucketDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the bucket to which data is exported.
         public let bucket: String
@@ -623,7 +618,7 @@ extension S3 {
         }
     }
 
-    public struct Bucket: AWSShape {
+    public struct Bucket: AWSDecodableShape {
 
         /// Date the bucket was created.
         public let creationDate: TimeStamp?
@@ -641,7 +636,7 @@ extension S3 {
         }
     }
 
-    public struct BucketLifecycleConfiguration: AWSShape {
+    public struct BucketLifecycleConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
@@ -665,7 +660,7 @@ extension S3 {
         }
     }
 
-    public struct BucketLoggingStatus: AWSShape {
+    public struct BucketLoggingStatus: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         public let loggingEnabled: LoggingEnabled?
@@ -679,7 +674,7 @@ extension S3 {
         }
     }
 
-    public struct CORSConfiguration: AWSShape {
+    public struct CORSConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "cORSRules", location: .body(locationName: "CORSRule"), encoding: .flatList)
@@ -697,7 +692,7 @@ extension S3 {
         }
     }
 
-    public struct CORSRule: AWSShape {
+    public struct CORSRule: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "allowedHeaders", location: .body(locationName: "AllowedHeader"), encoding: .flatList), 
             AWSMemberEncoding(label: "allowedMethods", location: .body(locationName: "AllowedMethod"), encoding: .flatList), 
@@ -733,7 +728,7 @@ extension S3 {
         }
     }
 
-    public struct CSVInput: AWSShape {
+    public struct CSVInput: AWSEncodableShape {
 
         /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
         public let allowQuotedRecordDelimiter: Bool?
@@ -771,7 +766,7 @@ extension S3 {
         }
     }
 
-    public struct CSVOutput: AWSShape {
+    public struct CSVOutput: AWSEncodableShape {
 
         /// The value used to separate individual fields in a record. You can specify an arbitrary delimiter.
         public let fieldDelimiter: String?
@@ -801,7 +796,7 @@ extension S3 {
         }
     }
 
-    public struct CloudFunctionConfiguration: AWSShape {
+    public struct CloudFunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList)
         ]
@@ -829,7 +824,7 @@ extension S3 {
         }
     }
 
-    public struct CommonPrefix: AWSShape {
+    public struct CommonPrefix: AWSDecodableShape {
 
         /// Container for the specified common prefix.
         public let prefix: String?
@@ -843,7 +838,7 @@ extension S3 {
         }
     }
 
-    public struct CompleteMultipartUploadOutput: AWSShape {
+    public struct CompleteMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
@@ -895,7 +890,7 @@ extension S3 {
         }
     }
 
-    public struct CompleteMultipartUploadRequest: AWSShape {
+    public struct CompleteMultipartUploadRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "multipartUpload"
         public static var _encoding = [
@@ -929,15 +924,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
             case multipartUpload = "CompleteMultipartUpload"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
         }
     }
 
-    public struct CompletedMultipartUpload: AWSShape {
+    public struct CompletedMultipartUpload: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "parts", location: .body(locationName: "Part"), encoding: .flatList)
@@ -955,7 +946,7 @@ extension S3 {
         }
     }
 
-    public struct CompletedPart: AWSShape {
+    public struct CompletedPart: AWSEncodableShape {
 
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
@@ -973,7 +964,7 @@ extension S3 {
         }
     }
 
-    public struct Condition: AWSShape {
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
 
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
         public let httpErrorCodeReturnedEquals: String?
@@ -991,7 +982,7 @@ extension S3 {
         }
     }
 
-    public struct ContinuationEvent: AWSShape {
+    public struct ContinuationEvent: AWSDecodableShape {
 
 
         public init() {
@@ -999,7 +990,7 @@ extension S3 {
 
     }
 
-    public struct CopyObjectOutput: AWSShape {
+    public struct CopyObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "copyObjectResult"
         public static var _encoding = [
@@ -1062,7 +1053,7 @@ extension S3 {
         }
     }
 
-    public struct CopyObjectRequest: AWSShape {
+    public struct CopyObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -1222,48 +1213,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case cacheControl = "Cache-Control"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentType = "Content-Type"
-            case copySource = "x-amz-copy-source"
-            case copySourceIfMatch = "x-amz-copy-source-if-match"
-            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
-            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
-            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
-            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
-            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
-            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
-            case expires = "Expires"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case metadata = "x-amz-meta-"
-            case metadataDirective = "x-amz-metadata-directive"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case requestPayer = "x-amz-request-payer"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagging = "x-amz-tagging"
-            case taggingDirective = "x-amz-tagging-directive"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CopyObjectResult: AWSShape {
+    public struct CopyObjectResult: AWSDecodableShape {
 
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata. The source and destination ETag is identical for a successfully copied object.
         public let eTag: String?
@@ -1281,7 +1234,7 @@ extension S3 {
         }
     }
 
-    public struct CopyPartResult: AWSShape {
+    public struct CopyPartResult: AWSDecodableShape {
 
         /// Entity tag of the object.
         public let eTag: String?
@@ -1299,7 +1252,7 @@ extension S3 {
         }
     }
 
-    public struct CreateBucketConfiguration: AWSShape {
+    public struct CreateBucketConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies the Region where the bucket will be created. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1).
@@ -1314,7 +1267,7 @@ extension S3 {
         }
     }
 
-    public struct CreateBucketOutput: AWSShape {
+    public struct CreateBucketOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -1331,7 +1284,7 @@ extension S3 {
         }
     }
 
-    public struct CreateBucketRequest: AWSShape {
+    public struct CreateBucketRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "createBucketConfiguration"
         public static var _encoding = [
@@ -1378,19 +1331,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
             case createBucketConfiguration = "CreateBucketConfiguration"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case objectLockEnabledForBucket = "x-amz-bucket-object-lock-enabled"
         }
     }
 
-    public struct CreateMultipartUploadOutput: AWSShape {
+    public struct CreateMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")), 
             AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")), 
@@ -1454,7 +1399,7 @@ extension S3 {
         }
     }
 
-    public struct CreateMultipartUploadRequest: AWSShape {
+    public struct CreateMultipartUploadRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -1573,38 +1518,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case cacheControl = "Cache-Control"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case metadata = "x-amz-meta-"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case requestPayer = "x-amz-request-payer"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagging = "x-amz-tagging"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DefaultRetention: AWSShape {
+    public struct DefaultRetention: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of days that you want to specify for the default retention period.
         public let days: Int?
@@ -1626,7 +1543,7 @@ extension S3 {
         }
     }
 
-    public struct Delete: AWSShape {
+    public struct Delete: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "objects", location: .body(locationName: "Object"), encoding: .flatList)
@@ -1654,7 +1571,7 @@ extension S3 {
         }
     }
 
-    public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
+    public struct DeleteBucketAnalyticsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
@@ -1670,13 +1587,10 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketCorsRequest: AWSShape {
+    public struct DeleteBucketCorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1688,12 +1602,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketEncryptionRequest: AWSShape {
+    public struct DeleteBucketEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1705,12 +1617,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
+    public struct DeleteBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
@@ -1726,13 +1636,10 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketLifecycleRequest: AWSShape {
+    public struct DeleteBucketLifecycleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1744,12 +1651,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
+    public struct DeleteBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
@@ -1765,13 +1670,10 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketPolicyRequest: AWSShape {
+    public struct DeleteBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1783,12 +1685,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketReplicationRequest: AWSShape {
+    public struct DeleteBucketReplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1800,12 +1700,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketRequest: AWSShape {
+    public struct DeleteBucketRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1817,12 +1715,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketTaggingRequest: AWSShape {
+    public struct DeleteBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1834,12 +1730,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBucketWebsiteRequest: AWSShape {
+    public struct DeleteBucketWebsiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -1851,12 +1745,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMarkerEntry: AWSShape {
+    public struct DeleteMarkerEntry: AWSDecodableShape {
 
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
         public let isLatest: Bool?
@@ -1886,7 +1778,7 @@ extension S3 {
         }
     }
 
-    public struct DeleteMarkerReplication: AWSShape {
+    public struct DeleteMarkerReplication: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether to replicate delete markers.   In the current implementation, Amazon S3 doesn't replicate the delete markers. The status must be Disabled.  
         public let status: DeleteMarkerReplicationStatus?
@@ -1900,7 +1792,7 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectOutput: AWSShape {
+    public struct DeleteObjectOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
@@ -1926,7 +1818,7 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectRequest: AWSShape {
+    public struct DeleteObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
@@ -1961,17 +1853,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-            case key = "Key"
-            case mfa = "x-amz-mfa"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteObjectTaggingOutput: AWSShape {
+    public struct DeleteObjectTaggingOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
@@ -1988,7 +1873,7 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectTaggingRequest: AWSShape {
+    public struct DeleteObjectTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -2012,14 +1897,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteObjectsOutput: AWSShape {
+    public struct DeleteObjectsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deleted", location: .body(locationName: "Deleted"), encoding: .flatList), 
             AWSMemberEncoding(label: "errors", location: .body(locationName: "Error"), encoding: .flatList), 
@@ -2045,7 +1926,7 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectsRequest: AWSShape {
+    public struct DeleteObjectsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "delete"
         public static var _encoding = [
@@ -2079,15 +1960,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
             case delete = "Delete"
-            case mfa = "x-amz-mfa"
-            case requestPayer = "x-amz-request-payer"
         }
     }
 
-    public struct DeletePublicAccessBlockRequest: AWSShape {
+    public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2099,12 +1976,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletedObject: AWSShape {
+    public struct DeletedObject: AWSDecodableShape {
 
         /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker. In a simple DELETE, this header indicates whether (true) or not (false) a delete marker was created.
         public let deleteMarker: Bool?
@@ -2130,7 +2005,7 @@ extension S3 {
         }
     }
 
-    public struct Destination: AWSShape {
+    public struct Destination: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify this only in a cross-account scenario (where source and destination bucket owners are not the same), and you want to change replica ownership to the AWS account that owns the destination bucket. If this is not specified in the replication configuration, the replicas are owned by same AWS account that owns the source object.
         public let accessControlTranslation: AccessControlTranslation?
@@ -2168,7 +2043,7 @@ extension S3 {
         }
     }
 
-    public struct Encryption: AWSShape {
+    public struct Encryption: AWSEncodableShape {
 
         /// The server-side encryption algorithm used when storing job results in Amazon S3 (for example, AES256, aws:kms).
         public let encryptionType: ServerSideEncryption
@@ -2190,7 +2065,7 @@ extension S3 {
         }
     }
 
-    public struct EncryptionConfiguration: AWSShape {
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the ID (Key ARN or Alias ARN) of the customer managed customer master key (CMK) stored in AWS Key Management Service (KMS) for the destination bucket. Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports symmetric customer managed CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide.
         public let replicaKmsKeyID: String?
@@ -2204,7 +2079,7 @@ extension S3 {
         }
     }
 
-    public struct EndEvent: AWSShape {
+    public struct EndEvent: AWSDecodableShape {
 
 
         public init() {
@@ -2212,7 +2087,7 @@ extension S3 {
 
     }
 
-    public struct Error: AWSShape {
+    public struct Error: AWSDecodableShape {
 
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.   Amazon S3 error codes       Code: AccessDenied     Description: Access Denied    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AccountProblem    Description: There is a problem with your AWS account that prevents the operation from completing successfully. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AllAccessDisabled    Description: All access to this Amazon S3 resource has been disabled. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AmbiguousGrantByEmailAddress    Description: The email address you provided is associated with more than one account.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: AuthorizationHeaderMalformed    Description: The authorization header you provided is invalid.    HTTP Status Code: 400 Bad Request    HTTP Status Code: N/A        Code: BadDigest    Description: The Content-MD5 you specified did not match what we received.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: BucketAlreadyExists    Description: The requested bucket name is not available. The bucket namespace is shared by all users of the system. Please select a different name and try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: BucketAlreadyOwnedByYou    Description: The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all AWS Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).    Code: 409 Conflict (in all Regions except the North Virginia Region)     SOAP Fault Code Prefix: Client        Code: BucketNotEmpty    Description: The bucket you tried to delete is not empty.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: CredentialsNotSupported    Description: This request does not support credentials.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: CrossLocationLoggingProhibited    Description: Cross-location logging not allowed. Buckets in one geographic location cannot log information to a bucket in another location.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: EntityTooSmall    Description: Your proposed upload is smaller than the minimum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: EntityTooLarge    Description: Your proposed upload exceeds the maximum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: ExpiredToken    Description: The provided token has expired.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IllegalVersioningConfigurationException     Description: Indicates that the versioning configuration specified in the request is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncompleteBody    Description: You did not provide the number of bytes specified by the Content-Length HTTP header    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncorrectNumberOfFilesInPostRequest    Description: POST requires exactly one file upload per request.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InlineDataTooLarge    Description: Inline data exceeds the maximum allowed size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InternalError    Description: We encountered an internal error. Please try again.    HTTP Status Code: 500 Internal Server Error    SOAP Fault Code Prefix: Server        Code: InvalidAccessKeyId    Description: The AWS access key ID you provided does not exist in our records.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidAddressingHeader    Description: You must specify the Anonymous role.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: InvalidArgument    Description: Invalid Argument    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketName    Description: The specified bucket is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketState    Description: The request is not valid with the current state of the bucket.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: InvalidDigest    Description: The Content-MD5 you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidEncryptionAlgorithmError    Description: The encryption request you specified is not valid. The valid value is AES256.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidLocationConstraint    Description: The specified location constraint is not valid. For more information about Regions, see How to Select a Region for Your Buckets.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidObjectState    Description: The operation is not valid for the current state of the object.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPart    Description: One or more of the specified parts could not be found. The part might not have been uploaded, or the specified entity tag might not have matched the part's entity tag.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPartOrder    Description: The list of parts was not in ascending order. Parts list must be specified in order by part number.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPayer    Description: All access to this object has been disabled. Please contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPolicyDocument    Description: The content of the form does not meet the conditions specified in the policy document.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRange    Description: The requested range cannot be satisfied.    HTTP Status Code: 416 Requested Range Not Satisfiable    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Please use AWS4-HMAC-SHA256.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: SOAP requests must be made over an HTTPS connection.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with non-DNS compliant names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with periods (.) in their names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate endpoint only supports virtual style requests.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is not configured on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is disabled on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration cannot be enabled on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidSecurity    Description: The provided security credentials are not valid.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidSOAPRequest    Description: The SOAP request body is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidStorageClass    Description: The storage class you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidTargetBucketForLogging    Description: The target bucket for logging does not exist, is not owned by you, or does not have the appropriate grants for the log-delivery group.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidToken    Description: The provided token is malformed or otherwise invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidURI    Description: Couldn't parse the specified URI.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: KeyTooLongError    Description: Your key is too long.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedACLError    Description: The XML you provided was not well-formed or did not validate against our published schema.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedPOSTRequest     Description: The body of your POST request is not well-formed multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedXML    Description: This happens when the user sends malformed XML (XML that doesn't conform to the published XSD) for the configuration. The error message is, "The XML you provided was not well-formed or did not validate against our published schema."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxMessageLengthExceeded    Description: Your request was too big.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxPostPreDataLengthExceededError    Description: Your POST request fields preceding the upload file were too large.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MetadataTooLarge    Description: Your metadata headers exceed the maximum allowed metadata size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MethodNotAllowed    Description: The specified method is not allowed against this resource.    HTTP Status Code: 405 Method Not Allowed    SOAP Fault Code Prefix: Client        Code: MissingAttachment    Description: A SOAP attachment was expected, but none were found.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: MissingContentLength    Description: You must provide the Content-Length HTTP header.    HTTP Status Code: 411 Length Required    SOAP Fault Code Prefix: Client        Code: MissingRequestBodyError    Description: This happens when the user sends an empty XML document as a request. The error message is, "Request body is empty."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityElement    Description: The SOAP 1.1 request is missing a security element.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityHeader    Description: Your request is missing a required header.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoLoggingStatusForKey    Description: There is no such thing as a logging status subresource for a key.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoSuchBucket    Description: The specified bucket does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchBucketPolicy    Description: The specified bucket does not have a bucket policy.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchKey    Description: The specified key does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.     HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID might be invalid, or the multipart upload might have been aborted or completed.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchVersion     Description: Indicates that the version ID specified in the request does not match an existing version.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NotImplemented    Description: A header you provided implies functionality that is not implemented.    HTTP Status Code: 501 Not Implemented    SOAP Fault Code Prefix: Server        Code: NotSignedUp    Description: Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: OperationAborted    Description: A conflicting conditional operation is currently in progress against this resource. Try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: PermanentRedirect    Description: The bucket you are attempting to access must be addressed using the specified endpoint. Send all future requests to this endpoint.    HTTP Status Code: 301 Moved Permanently    SOAP Fault Code Prefix: Client        Code: PreconditionFailed    Description: At least one of the preconditions you specified did not hold.    HTTP Status Code: 412 Precondition Failed    SOAP Fault Code Prefix: Client        Code: Redirect    Description: Temporary redirect.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: RestoreAlreadyInProgress    Description: Object restore is already in progress.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: RequestIsNotMultiPartContent    Description: Bucket POST must be of the enclosure-type multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeout    Description: Your socket connection to the server was not read from or written to within the timeout period.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeTooSkewed    Description: The difference between the request time and the server's time is too large.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: RequestTorrentOfBucketError    Description: Requesting the torrent file of a bucket is not permitted.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: SignatureDoesNotMatch    Description: The request signature we calculated does not match the signature you provided. Check your AWS secret access key and signing method. For more information, see REST Authentication and SOAP Authentication for details.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: ServiceUnavailable    Description: Reduce your request rate.    HTTP Status Code: 503 Service Unavailable    SOAP Fault Code Prefix: Server        Code: SlowDown    Description: Reduce your request rate.    HTTP Status Code: 503 Slow Down    SOAP Fault Code Prefix: Server        Code: TemporaryRedirect    Description: You are being redirected to the bucket while DNS updates.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: TokenRefreshRequired    Description: The provided token must be refreshed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: TooManyBuckets    Description: You have attempted to create more buckets than allowed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnexpectedContent    Description: This request does not support content.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnresolvableGrantByEmailAddress    Description: The email address you provided does not match any account on record.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UserKeyMustBeSpecified    Description: The bucket POST must contain the specified field name. If it is specified, check the order of the fields.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client     
         public let code: String?
@@ -2238,7 +2113,7 @@ extension S3 {
         }
     }
 
-    public struct ErrorDocument: AWSShape {
+    public struct ErrorDocument: AWSEncodableShape & AWSDecodableShape {
 
         /// The object key name to use when a 4XX class error occurs.
         public let key: String
@@ -2256,7 +2131,7 @@ extension S3 {
         }
     }
 
-    public struct ExistingObjectReplication: AWSShape {
+    public struct ExistingObjectReplication: AWSEncodableShape & AWSDecodableShape {
 
         public let status: ExistingObjectReplicationStatus
 
@@ -2269,7 +2144,7 @@ extension S3 {
         }
     }
 
-    public struct FilterRule: AWSShape {
+    public struct FilterRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The object key name prefix or suffix identifying one or more objects to which the filtering rule applies. The maximum length is 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, see Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
         public let name: FilterRuleName?
@@ -2287,7 +2162,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketAccelerateConfigurationOutput: AWSShape {
+    public struct GetBucketAccelerateConfigurationOutput: AWSDecodableShape {
 
         /// The accelerate configuration of the bucket.
         public let status: BucketAccelerateStatus?
@@ -2301,7 +2176,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketAccelerateConfigurationRequest: AWSShape {
+    public struct GetBucketAccelerateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2313,12 +2188,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketAclOutput: AWSShape {
+    public struct GetBucketAclOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant"))
         ]
@@ -2339,7 +2212,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketAclRequest: AWSShape {
+    public struct GetBucketAclRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2351,12 +2224,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
+    public struct GetBucketAnalyticsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "analyticsConfiguration"
         public static var _encoding = [
@@ -2375,7 +2246,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
+    public struct GetBucketAnalyticsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
@@ -2391,13 +2262,10 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketCorsOutput: AWSShape {
+    public struct GetBucketCorsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "cORSRules", location: .body(locationName: "CORSRule"), encoding: .flatList)
         ]
@@ -2414,7 +2282,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketCorsRequest: AWSShape {
+    public struct GetBucketCorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2426,12 +2294,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketEncryptionOutput: AWSShape {
+    public struct GetBucketEncryptionOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "serverSideEncryptionConfiguration"
         public static var _encoding = [
@@ -2449,7 +2315,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketEncryptionRequest: AWSShape {
+    public struct GetBucketEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2461,12 +2327,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketInventoryConfigurationOutput: AWSShape {
+    public struct GetBucketInventoryConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "inventoryConfiguration"
         public static var _encoding = [
@@ -2485,7 +2349,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketInventoryConfigurationRequest: AWSShape {
+    public struct GetBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
@@ -2501,13 +2365,10 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketLifecycleConfigurationOutput: AWSShape {
+    public struct GetBucketLifecycleConfigurationOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
         ]
@@ -2524,7 +2385,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketLifecycleConfigurationRequest: AWSShape {
+    public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2536,12 +2397,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketLifecycleOutput: AWSShape {
+    public struct GetBucketLifecycleOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
         ]
@@ -2558,7 +2417,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketLifecycleRequest: AWSShape {
+    public struct GetBucketLifecycleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2570,12 +2429,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketLocationOutput: AWSShape {
+    public struct GetBucketLocationOutput: AWSDecodableShape {
 
         /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints.
         public let locationConstraint: BucketLocationConstraint?
@@ -2589,7 +2446,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketLocationRequest: AWSShape {
+    public struct GetBucketLocationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2601,12 +2458,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketLoggingOutput: AWSShape {
+    public struct GetBucketLoggingOutput: AWSDecodableShape {
 
         public let loggingEnabled: LoggingEnabled?
 
@@ -2619,7 +2474,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketLoggingRequest: AWSShape {
+    public struct GetBucketLoggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2631,12 +2486,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketMetricsConfigurationOutput: AWSShape {
+    public struct GetBucketMetricsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "metricsConfiguration"
         public static var _encoding = [
@@ -2655,7 +2508,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketMetricsConfigurationRequest: AWSShape {
+    public struct GetBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
@@ -2671,13 +2524,10 @@ extension S3 {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketNotificationConfigurationRequest: AWSShape {
+    public struct GetBucketNotificationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2689,12 +2539,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketPolicyOutput: AWSShape {
+    public struct GetBucketPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
         public static var _encoding = [
@@ -2713,7 +2561,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketPolicyRequest: AWSShape {
+    public struct GetBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2725,12 +2573,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketPolicyStatusOutput: AWSShape {
+    public struct GetBucketPolicyStatusOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "policyStatus"
         public static var _encoding = [
@@ -2749,7 +2595,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketPolicyStatusRequest: AWSShape {
+    public struct GetBucketPolicyStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2761,12 +2607,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketReplicationOutput: AWSShape {
+    public struct GetBucketReplicationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "replicationConfiguration"
         public static var _encoding = [
@@ -2784,7 +2628,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketReplicationRequest: AWSShape {
+    public struct GetBucketReplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2796,12 +2640,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketRequestPaymentOutput: AWSShape {
+    public struct GetBucketRequestPaymentOutput: AWSDecodableShape {
 
         /// Specifies who pays for the download and request fees.
         public let payer: Payer?
@@ -2815,7 +2657,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketRequestPaymentRequest: AWSShape {
+    public struct GetBucketRequestPaymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2827,12 +2669,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketTaggingOutput: AWSShape {
+    public struct GetBucketTaggingOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag"))
         ]
@@ -2849,7 +2689,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketTaggingRequest: AWSShape {
+    public struct GetBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2861,12 +2701,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketVersioningOutput: AWSShape {
+    public struct GetBucketVersioningOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "mFADelete", location: .body(locationName: "MfaDelete"))
         ]
@@ -2887,7 +2725,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketVersioningRequest: AWSShape {
+    public struct GetBucketVersioningRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2899,12 +2737,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketWebsiteOutput: AWSShape {
+    public struct GetBucketWebsiteOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "routingRules", location: .body(locationName: "RoutingRules"), encoding: .list(member:"RoutingRule"))
         ]
@@ -2933,7 +2769,7 @@ extension S3 {
         }
     }
 
-    public struct GetBucketWebsiteRequest: AWSShape {
+    public struct GetBucketWebsiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -2945,12 +2781,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectAclOutput: AWSShape {
+    public struct GetObjectAclOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "grants", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
@@ -2975,7 +2809,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectAclRequest: AWSShape {
+    public struct GetObjectAclRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -3002,15 +2836,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectLegalHoldOutput: AWSShape {
+    public struct GetObjectLegalHoldOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "legalHold"
         public static var _encoding = [
@@ -3029,7 +2858,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectLegalHoldRequest: AWSShape {
+    public struct GetObjectLegalHoldRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -3056,15 +2885,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectLockConfigurationOutput: AWSShape {
+    public struct GetObjectLockConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "objectLockConfiguration"
         public static var _encoding = [
@@ -3083,7 +2907,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectLockConfigurationRequest: AWSShape {
+    public struct GetObjectLockConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -3095,12 +2919,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectOutput: AWSShape {
+    public struct GetObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -3268,7 +3090,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectRequest: AWSShape {
+    public struct GetObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
@@ -3355,30 +3177,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case ifMatch = "If-Match"
-            case ifModifiedSince = "If-Modified-Since"
-            case ifNoneMatch = "If-None-Match"
-            case ifUnmodifiedSince = "If-Unmodified-Since"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case range = "Range"
-            case requestPayer = "x-amz-request-payer"
-            case responseCacheControl = "response-cache-control"
-            case responseContentDisposition = "response-content-disposition"
-            case responseContentEncoding = "response-content-encoding"
-            case responseContentLanguage = "response-content-language"
-            case responseContentType = "response-content-type"
-            case responseExpires = "response-expires"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectRetentionOutput: AWSShape {
+    public struct GetObjectRetentionOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "retention"
         public static var _encoding = [
@@ -3397,7 +3199,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectRetentionRequest: AWSShape {
+    public struct GetObjectRetentionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -3424,15 +3226,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectTaggingOutput: AWSShape {
+    public struct GetObjectTaggingOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag")), 
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
@@ -3454,7 +3251,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectTaggingRequest: AWSShape {
+    public struct GetObjectTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -3478,14 +3275,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectTorrentOutput: AWSShape {
+    public struct GetObjectTorrentOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -3508,7 +3301,7 @@ extension S3 {
         }
     }
 
-    public struct GetObjectTorrentRequest: AWSShape {
+    public struct GetObjectTorrentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -3531,14 +3324,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPublicAccessBlockOutput: AWSShape {
+    public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
         public static var _encoding = [
@@ -3557,7 +3346,7 @@ extension S3 {
         }
     }
 
-    public struct GetPublicAccessBlockRequest: AWSShape {
+    public struct GetPublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -3569,12 +3358,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GlacierJobParameters: AWSShape {
+    public struct GlacierJobParameters: AWSEncodableShape {
 
         /// Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier
@@ -3588,7 +3375,7 @@ extension S3 {
         }
     }
 
-    public struct Grant: AWSShape {
+    public struct Grant: AWSEncodableShape & AWSDecodableShape {
 
         /// The person being granted permissions.
         public let grantee: Grantee?
@@ -3606,7 +3393,7 @@ extension S3 {
         }
     }
 
-    public struct Grantee: AWSShape {
+    public struct Grantee: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://www.w3.org/2001/XMLSchema-instance"
         public static var _encoding = [
             AWSMemberEncoding(label: "type", location: .body(locationName: "xsi:type"))
@@ -3640,7 +3427,7 @@ extension S3 {
         }
     }
 
-    public struct HeadBucketRequest: AWSShape {
+    public struct HeadBucketRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket"))
         ]
@@ -3652,12 +3439,10 @@ extension S3 {
             self.bucket = bucket
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct HeadObjectOutput: AWSShape {
+    public struct HeadObjectOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")), 
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
@@ -3808,7 +3593,7 @@ extension S3 {
         }
     }
 
-    public struct HeadObjectRequest: AWSShape {
+    public struct HeadObjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
@@ -3871,24 +3656,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case ifMatch = "If-Match"
-            case ifModifiedSince = "If-Modified-Since"
-            case ifNoneMatch = "If-None-Match"
-            case ifUnmodifiedSince = "If-Unmodified-Since"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case range = "Range"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct IndexDocument: AWSShape {
+    public struct IndexDocument: AWSEncodableShape & AWSDecodableShape {
 
         /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
         public let suffix: String
@@ -3902,7 +3673,7 @@ extension S3 {
         }
     }
 
-    public struct Initiator: AWSShape {
+    public struct Initiator: AWSDecodableShape {
 
         /// Name of the Principal.
         public let displayName: String?
@@ -3920,7 +3691,7 @@ extension S3 {
         }
     }
 
-    public struct InputSerialization: AWSShape {
+    public struct InputSerialization: AWSEncodableShape {
 
         /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
         public let compressionType: CompressionType?
@@ -3946,7 +3717,7 @@ extension S3 {
         }
     }
 
-    public struct InventoryConfiguration: AWSShape {
+    public struct InventoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "optionalFields", location: .body(locationName: "OptionalFields"), encoding: .list(member:"Field"))
@@ -3988,7 +3759,7 @@ extension S3 {
         }
     }
 
-    public struct InventoryDestination: AWSShape {
+    public struct InventoryDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
         public let s3BucketDestination: InventoryS3BucketDestination
@@ -4002,7 +3773,7 @@ extension S3 {
         }
     }
 
-    public struct InventoryEncryption: AWSShape {
+    public struct InventoryEncryption: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ssekms", location: .body(locationName: "SSE-KMS")), 
             AWSMemberEncoding(label: "sses3", location: .body(locationName: "SSE-S3"))
@@ -4024,7 +3795,7 @@ extension S3 {
         }
     }
 
-    public struct InventoryFilter: AWSShape {
+    public struct InventoryFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The prefix that an object must have to be included in the inventory results.
         public let prefix: String
@@ -4038,7 +3809,7 @@ extension S3 {
         }
     }
 
-    public struct InventoryS3BucketDestination: AWSShape {
+    public struct InventoryS3BucketDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the account that owns the destination bucket.
         public let accountId: String?
@@ -4068,7 +3839,7 @@ extension S3 {
         }
     }
 
-    public struct InventorySchedule: AWSShape {
+    public struct InventorySchedule: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies how frequently inventory results are produced.
         public let frequency: InventoryFrequency
@@ -4082,7 +3853,7 @@ extension S3 {
         }
     }
 
-    public struct JSONInput: AWSShape {
+    public struct JSONInput: AWSEncodableShape {
 
         /// The type of JSON. Valid values: Document, Lines.
         public let `type`: JSONType?
@@ -4096,7 +3867,7 @@ extension S3 {
         }
     }
 
-    public struct JSONOutput: AWSShape {
+    public struct JSONOutput: AWSEncodableShape {
 
         /// The value used to separate individual records in the output.
         public let recordDelimiter: String?
@@ -4110,7 +3881,7 @@ extension S3 {
         }
     }
 
-    public struct LambdaFunctionConfiguration: AWSShape {
+    public struct LambdaFunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList), 
             AWSMemberEncoding(label: "lambdaFunctionArn", location: .body(locationName: "CloudFunction"))
@@ -4138,7 +3909,7 @@ extension S3 {
         }
     }
 
-    public struct LifecycleConfiguration: AWSShape {
+    public struct LifecycleConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
@@ -4156,7 +3927,7 @@ extension S3 {
         }
     }
 
-    public struct LifecycleExpiration: AWSShape {
+    public struct LifecycleExpiration: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
         public let date: TimeStamp?
@@ -4178,7 +3949,7 @@ extension S3 {
         }
     }
 
-    public struct LifecycleRule: AWSShape {
+    public struct LifecycleRule: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "noncurrentVersionTransitions", location: .body(locationName: "NoncurrentVersionTransition"), encoding: .flatList), 
             AWSMemberEncoding(label: "transitions", location: .body(locationName: "Transition"), encoding: .flatList)
@@ -4225,7 +3996,7 @@ extension S3 {
         }
     }
 
-    public struct LifecycleRuleAndOperator: AWSShape {
+    public struct LifecycleRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
         ]
@@ -4252,7 +4023,7 @@ extension S3 {
         }
     }
 
-    public struct LifecycleRuleFilter: AWSShape {
+    public struct LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
 
         public let and: LifecycleRuleAndOperator?
         /// Prefix identifying one or more objects to which the rule applies.
@@ -4278,7 +4049,7 @@ extension S3 {
         }
     }
 
-    public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
+    public struct ListBucketAnalyticsConfigurationsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyticsConfigurationList", location: .body(locationName: "AnalyticsConfiguration"), encoding: .flatList)
         ]
@@ -4307,7 +4078,7 @@ extension S3 {
         }
     }
 
-    public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
+    public struct ListBucketAnalyticsConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token"))
@@ -4323,13 +4094,10 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBucketInventoryConfigurationsOutput: AWSShape {
+    public struct ListBucketInventoryConfigurationsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "inventoryConfigurationList", location: .body(locationName: "InventoryConfiguration"), encoding: .flatList)
         ]
@@ -4358,7 +4126,7 @@ extension S3 {
         }
     }
 
-    public struct ListBucketInventoryConfigurationsRequest: AWSShape {
+    public struct ListBucketInventoryConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token"))
@@ -4374,13 +4142,10 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBucketMetricsConfigurationsOutput: AWSShape {
+    public struct ListBucketMetricsConfigurationsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), encoding: .flatList)
         ]
@@ -4409,7 +4174,7 @@ extension S3 {
         }
     }
 
-    public struct ListBucketMetricsConfigurationsRequest: AWSShape {
+    public struct ListBucketMetricsConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token"))
@@ -4425,13 +4190,10 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBucketsOutput: AWSShape {
+    public struct ListBucketsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "buckets", location: .body(locationName: "Buckets"), encoding: .list(member:"Bucket"))
         ]
@@ -4452,7 +4214,7 @@ extension S3 {
         }
     }
 
-    public struct ListMultipartUploadsOutput: AWSShape {
+    public struct ListMultipartUploadsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
             AWSMemberEncoding(label: "uploads", location: .body(locationName: "Upload"), encoding: .flatList)
@@ -4514,7 +4276,7 @@ extension S3 {
         }
     }
 
-    public struct ListMultipartUploadsRequest: AWSShape {
+    public struct ListMultipartUploadsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
@@ -4549,18 +4311,10 @@ extension S3 {
             self.uploadIdMarker = uploadIdMarker
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case keyMarker = "key-marker"
-            case maxUploads = "max-uploads"
-            case prefix = "prefix"
-            case uploadIdMarker = "upload-id-marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListObjectVersionsOutput: AWSShape {
+    public struct ListObjectVersionsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
             AWSMemberEncoding(label: "deleteMarkers", location: .body(locationName: "DeleteMarker"), encoding: .flatList), 
@@ -4627,7 +4381,7 @@ extension S3 {
         }
     }
 
-    public struct ListObjectVersionsRequest: AWSShape {
+    public struct ListObjectVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
@@ -4662,18 +4416,10 @@ extension S3 {
             self.versionIdMarker = versionIdMarker
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case keyMarker = "key-marker"
-            case maxKeys = "max-keys"
-            case prefix = "prefix"
-            case versionIdMarker = "version-id-marker"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListObjectsOutput: AWSShape {
+    public struct ListObjectsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
             AWSMemberEncoding(label: "contents", location: .body(locationName: "Contents"), encoding: .flatList)
@@ -4727,7 +4473,7 @@ extension S3 {
         }
     }
 
-    public struct ListObjectsRequest: AWSShape {
+    public struct ListObjectsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
@@ -4762,18 +4508,10 @@ extension S3 {
             self.requestPayer = requestPayer
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case marker = "marker"
-            case maxKeys = "max-keys"
-            case prefix = "prefix"
-            case requestPayer = "x-amz-request-payer"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListObjectsV2Output: AWSShape {
+    public struct ListObjectsV2Output: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "commonPrefixes", location: .body(locationName: "CommonPrefixes"), encoding: .flatList), 
             AWSMemberEncoding(label: "contents", location: .body(locationName: "Contents"), encoding: .flatList)
@@ -4835,7 +4573,7 @@ extension S3 {
         }
     }
 
-    public struct ListObjectsV2Request: AWSShape {
+    public struct ListObjectsV2Request: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
@@ -4879,20 +4617,10 @@ extension S3 {
             self.startAfter = startAfter
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case continuationToken = "continuation-token"
-            case delimiter = "delimiter"
-            case encodingType = "encoding-type"
-            case fetchOwner = "fetch-owner"
-            case maxKeys = "max-keys"
-            case prefix = "prefix"
-            case requestPayer = "x-amz-request-payer"
-            case startAfter = "start-after"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPartsOutput: AWSShape {
+    public struct ListPartsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")), 
             AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")), 
@@ -4963,7 +4691,7 @@ extension S3 {
         }
     }
 
-    public struct ListPartsRequest: AWSShape {
+    public struct ListPartsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
@@ -4998,17 +4726,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case maxParts = "max-parts"
-            case partNumberMarker = "part-number-marker"
-            case requestPayer = "x-amz-request-payer"
-            case uploadId = "uploadId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct LoggingEnabled: AWSShape {
+    public struct LoggingEnabled: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGrants", location: .body(locationName: "TargetGrants"), encoding: .list(member:"Grant"))
         ]
@@ -5033,7 +4754,7 @@ extension S3 {
         }
     }
 
-    public struct MetadataEntry: AWSShape {
+    public struct MetadataEntry: AWSEncodableShape {
 
         /// Name of the Object.
         public let name: String?
@@ -5051,7 +4772,7 @@ extension S3 {
         }
     }
 
-    public struct Metrics: AWSShape {
+    public struct Metrics: AWSEncodableShape & AWSDecodableShape {
 
         ///  A container specifying the time threshold for emitting the s3:Replication:OperationMissedThreshold event. 
         public let eventThreshold: ReplicationTimeValue
@@ -5069,7 +4790,7 @@ extension S3 {
         }
     }
 
-    public struct MetricsAndOperator: AWSShape {
+    public struct MetricsAndOperator: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
         ]
@@ -5096,7 +4817,7 @@ extension S3 {
         }
     }
 
-    public struct MetricsConfiguration: AWSShape {
+    public struct MetricsConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
@@ -5119,7 +4840,7 @@ extension S3 {
         }
     }
 
-    public struct MetricsFilter: AWSShape {
+    public struct MetricsFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
         public let and: MetricsAndOperator?
@@ -5146,7 +4867,7 @@ extension S3 {
         }
     }
 
-    public struct MultipartUpload: AWSShape {
+    public struct MultipartUpload: AWSDecodableShape {
 
         /// Date and time at which the multipart upload was initiated.
         public let initiated: TimeStamp?
@@ -5180,7 +4901,7 @@ extension S3 {
         }
     }
 
-    public struct NoncurrentVersionExpiration: AWSShape {
+    public struct NoncurrentVersionExpiration: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int?
@@ -5194,7 +4915,7 @@ extension S3 {
         }
     }
 
-    public struct NoncurrentVersionTransition: AWSShape {
+    public struct NoncurrentVersionTransition: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int?
@@ -5212,7 +4933,7 @@ extension S3 {
         }
     }
 
-    public struct NotificationConfiguration: AWSShape {
+    public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "lambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), encoding: .flatList), 
@@ -5240,7 +4961,7 @@ extension S3 {
         }
     }
 
-    public struct NotificationConfigurationDeprecated: AWSShape {
+    public struct NotificationConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Container for specifying the AWS Lambda notification configuration.
@@ -5263,7 +4984,7 @@ extension S3 {
         }
     }
 
-    public struct NotificationConfigurationFilter: AWSShape {
+    public struct NotificationConfigurationFilter: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "key", location: .body(locationName: "S3Key"))
         ]
@@ -5279,7 +5000,7 @@ extension S3 {
         }
     }
 
-    public struct Object: AWSShape {
+    public struct Object: AWSDecodableShape {
 
         /// The entity tag is an MD5 hash of the object. ETag reflects only changes to the contents of an object, not its metadata.
         public let eTag: String?
@@ -5313,7 +5034,7 @@ extension S3 {
         }
     }
 
-    public struct ObjectIdentifier: AWSShape {
+    public struct ObjectIdentifier: AWSEncodableShape {
 
         /// Key name of the object to delete.
         public let key: String
@@ -5335,7 +5056,7 @@ extension S3 {
         }
     }
 
-    public struct ObjectLockConfiguration: AWSShape {
+    public struct ObjectLockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Indicates whether this bucket has an Object Lock configuration enabled.
@@ -5354,7 +5075,7 @@ extension S3 {
         }
     }
 
-    public struct ObjectLockLegalHold: AWSShape {
+    public struct ObjectLockLegalHold: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Indicates whether the specified object has a Legal Hold in place.
@@ -5369,7 +5090,7 @@ extension S3 {
         }
     }
 
-    public struct ObjectLockRetention: AWSShape {
+    public struct ObjectLockRetention: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Indicates the Retention mode for the specified object.
@@ -5388,7 +5109,7 @@ extension S3 {
         }
     }
 
-    public struct ObjectLockRule: AWSShape {
+    public struct ObjectLockRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The default retention period that you want to apply to new objects placed in the specified bucket.
         public let defaultRetention: DefaultRetention?
@@ -5402,7 +5123,7 @@ extension S3 {
         }
     }
 
-    public struct ObjectVersion: AWSShape {
+    public struct ObjectVersion: AWSDecodableShape {
 
         /// The entity tag is an MD5 hash of that version of the object.
         public let eTag: String?
@@ -5444,7 +5165,7 @@ extension S3 {
         }
     }
 
-    public struct OutputLocation: AWSShape {
+    public struct OutputLocation: AWSEncodableShape {
 
         /// Describes an S3 location that will receive the results of the restore request.
         public let s3: S3Location?
@@ -5462,7 +5183,7 @@ extension S3 {
         }
     }
 
-    public struct OutputSerialization: AWSShape {
+    public struct OutputSerialization: AWSEncodableShape {
 
         /// Describes the serialization of CSV-encoded Select results.
         public let csv: CSVOutput?
@@ -5480,7 +5201,7 @@ extension S3 {
         }
     }
 
-    public struct Owner: AWSShape {
+    public struct Owner: AWSEncodableShape & AWSDecodableShape {
 
         /// Container for the display name of the owner.
         public let displayName: String?
@@ -5498,7 +5219,7 @@ extension S3 {
         }
     }
 
-    public struct ParquetInput: AWSShape {
+    public struct ParquetInput: AWSEncodableShape {
 
 
         public init() {
@@ -5506,7 +5227,7 @@ extension S3 {
 
     }
 
-    public struct Part: AWSShape {
+    public struct Part: AWSDecodableShape {
 
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
@@ -5532,7 +5253,7 @@ extension S3 {
         }
     }
 
-    public struct PolicyStatus: AWSShape {
+    public struct PolicyStatus: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "isPublic", location: .body(locationName: "IsPublic"))
         ]
@@ -5549,7 +5270,7 @@ extension S3 {
         }
     }
 
-    public struct Progress: AWSShape {
+    public struct Progress: AWSDecodableShape {
 
         /// The current number of uncompressed object bytes processed.
         public let bytesProcessed: Int64?
@@ -5571,7 +5292,7 @@ extension S3 {
         }
     }
 
-    public struct ProgressEvent: AWSShape {
+    public struct ProgressEvent: AWSDecodableShape {
 
         /// The Progress event details.
         public let details: Progress?
@@ -5585,7 +5306,7 @@ extension S3 {
         }
     }
 
-    public struct PublicAccessBlockConfiguration: AWSShape {
+    public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "blockPublicAcls", location: .body(locationName: "BlockPublicAcls")), 
@@ -5618,7 +5339,7 @@ extension S3 {
         }
     }
 
-    public struct PutBucketAccelerateConfigurationRequest: AWSShape {
+    public struct PutBucketAccelerateConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "accelerateConfiguration"
         public static var _encoding = [
@@ -5638,11 +5359,10 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case accelerateConfiguration = "AccelerateConfiguration"
-            case bucket = "Bucket"
         }
     }
 
-    public struct PutBucketAclRequest: AWSShape {
+    public struct PutBucketAclRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "accessControlPolicy"
         public static var _encoding = [
@@ -5690,18 +5410,10 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case grantWriteACP = "x-amz-grant-write-acp"
         }
     }
 
-    public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
+    public struct PutBucketAnalyticsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "analyticsConfiguration"
         public static var _encoding = [
@@ -5729,12 +5441,10 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case analyticsConfiguration = "AnalyticsConfiguration"
-            case bucket = "Bucket"
-            case id = "id"
         }
     }
 
-    public struct PutBucketCorsRequest: AWSShape {
+    public struct PutBucketCorsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cORSConfiguration"
         public static var _encoding = [
@@ -5757,13 +5467,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case cORSConfiguration = "CORSConfiguration"
         }
     }
 
-    public struct PutBucketEncryptionRequest: AWSShape {
+    public struct PutBucketEncryptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "serverSideEncryptionConfiguration"
         public static var _encoding = [
@@ -5785,13 +5493,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         }
     }
 
-    public struct PutBucketInventoryConfigurationRequest: AWSShape {
+    public struct PutBucketInventoryConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "inventoryConfiguration"
         public static var _encoding = [
@@ -5814,13 +5520,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
             case inventoryConfiguration = "InventoryConfiguration"
         }
     }
 
-    public struct PutBucketLifecycleConfigurationRequest: AWSShape {
+    public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "lifecycleConfiguration"
         public static var _encoding = [
@@ -5843,12 +5547,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case lifecycleConfiguration = "LifecycleConfiguration"
         }
     }
 
-    public struct PutBucketLifecycleRequest: AWSShape {
+    public struct PutBucketLifecycleRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "lifecycleConfiguration"
         public static var _encoding = [
@@ -5868,13 +5571,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case lifecycleConfiguration = "LifecycleConfiguration"
         }
     }
 
-    public struct PutBucketLoggingRequest: AWSShape {
+    public struct PutBucketLoggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "bucketLoggingStatus"
         public static var _encoding = [
@@ -5897,13 +5598,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case bucketLoggingStatus = "BucketLoggingStatus"
-            case contentMD5 = "Content-MD5"
         }
     }
 
-    public struct PutBucketMetricsConfigurationRequest: AWSShape {
+    public struct PutBucketMetricsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "metricsConfiguration"
         public static var _encoding = [
@@ -5930,13 +5629,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case id = "id"
             case metricsConfiguration = "MetricsConfiguration"
         }
     }
 
-    public struct PutBucketNotificationConfigurationRequest: AWSShape {
+    public struct PutBucketNotificationConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "notificationConfiguration"
         public static var _encoding = [
@@ -5954,12 +5651,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case notificationConfiguration = "NotificationConfiguration"
         }
     }
 
-    public struct PutBucketNotificationRequest: AWSShape {
+    public struct PutBucketNotificationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "notificationConfiguration"
         public static var _encoding = [
@@ -5982,20 +5678,17 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case notificationConfiguration = "NotificationConfiguration"
         }
     }
 
-    public struct PutBucketPolicyRequest: AWSShape {
+    public struct PutBucketPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
-            AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5"))
         ]
 
         /// The name of the bucket.
@@ -6015,14 +5708,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case confirmRemoveSelfBucketAccess = "x-amz-confirm-remove-self-bucket-access"
-            case contentMD5 = "Content-MD5"
             case policy = "Policy"
         }
     }
 
-    public struct PutBucketReplicationRequest: AWSShape {
+    public struct PutBucketReplicationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "replicationConfiguration"
         public static var _encoding = [
@@ -6051,14 +5741,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case replicationConfiguration = "ReplicationConfiguration"
-            case token = "x-amz-bucket-object-lock-token"
         }
     }
 
-    public struct PutBucketRequestPaymentRequest: AWSShape {
+    public struct PutBucketRequestPaymentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "requestPaymentConfiguration"
         public static var _encoding = [
@@ -6081,13 +5768,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case requestPaymentConfiguration = "RequestPaymentConfiguration"
         }
     }
 
-    public struct PutBucketTaggingRequest: AWSShape {
+    public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "tagging"
         public static var _encoding = [
@@ -6114,13 +5799,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case tagging = "Tagging"
         }
     }
 
-    public struct PutBucketVersioningRequest: AWSShape {
+    public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "versioningConfiguration"
         public static var _encoding = [
@@ -6147,14 +5830,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case mfa = "x-amz-mfa"
             case versioningConfiguration = "VersioningConfiguration"
         }
     }
 
-    public struct PutBucketWebsiteRequest: AWSShape {
+    public struct PutBucketWebsiteRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "websiteConfiguration"
         public static var _encoding = [
@@ -6181,13 +5861,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case websiteConfiguration = "WebsiteConfiguration"
         }
     }
 
-    public struct PutObjectAclOutput: AWSShape {
+    public struct PutObjectAclOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
@@ -6203,7 +5881,7 @@ extension S3 {
         }
     }
 
-    public struct PutObjectAclRequest: AWSShape {
+    public struct PutObjectAclRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "accessControlPolicy"
         public static var _encoding = [
@@ -6266,21 +5944,10 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
-            case acl = "x-amz-acl"
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWrite = "x-amz-grant-write"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
         }
     }
 
-    public struct PutObjectLegalHoldOutput: AWSShape {
+    public struct PutObjectLegalHoldOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
@@ -6296,7 +5963,7 @@ extension S3 {
         }
     }
 
-    public struct PutObjectLegalHoldRequest: AWSShape {
+    public struct PutObjectLegalHoldRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "legalHold"
         public static var _encoding = [
@@ -6334,16 +6001,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
             case legalHold = "LegalHold"
-            case requestPayer = "x-amz-request-payer"
-            case versionId = "versionId"
         }
     }
 
-    public struct PutObjectLockConfigurationOutput: AWSShape {
+    public struct PutObjectLockConfigurationOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
@@ -6359,7 +6021,7 @@ extension S3 {
         }
     }
 
-    public struct PutObjectLockConfigurationRequest: AWSShape {
+    public struct PutObjectLockConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "objectLockConfiguration"
         public static var _encoding = [
@@ -6389,15 +6051,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case objectLockConfiguration = "ObjectLockConfiguration"
-            case requestPayer = "x-amz-request-payer"
-            case token = "x-amz-bucket-object-lock-token"
         }
     }
 
-    public struct PutObjectOutput: AWSShape {
+    public struct PutObjectOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
@@ -6453,7 +6111,7 @@ extension S3 {
         }
     }
 
-    public struct PutObjectRequest: AWSShape {
+    public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -6587,40 +6245,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acl = "x-amz-acl"
             case body = "Body"
-            case bucket = "Bucket"
-            case cacheControl = "Cache-Control"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentLength = "Content-Length"
-            case contentMD5 = "Content-MD5"
-            case contentType = "Content-Type"
-            case expires = "Expires"
-            case grantFullControl = "x-amz-grant-full-control"
-            case grantRead = "x-amz-grant-read"
-            case grantReadACP = "x-amz-grant-read-acp"
-            case grantWriteACP = "x-amz-grant-write-acp"
-            case key = "Key"
-            case metadata = "x-amz-meta-"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case requestPayer = "x-amz-request-payer"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case sSEKMSEncryptionContext = "x-amz-server-side-encryption-context"
-            case sSEKMSKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagging = "x-amz-tagging"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
         }
     }
 
-    public struct PutObjectRetentionOutput: AWSShape {
+    public struct PutObjectRetentionOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
@@ -6636,7 +6265,7 @@ extension S3 {
         }
     }
 
-    public struct PutObjectRetentionRequest: AWSShape {
+    public struct PutObjectRetentionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "retention"
         public static var _encoding = [
@@ -6678,17 +6307,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case bypassGovernanceRetention = "x-amz-bypass-governance-retention"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
             case retention = "Retention"
-            case versionId = "versionId"
         }
     }
 
-    public struct PutObjectTaggingOutput: AWSShape {
+    public struct PutObjectTaggingOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
@@ -6705,7 +6328,7 @@ extension S3 {
         }
     }
 
-    public struct PutObjectTaggingRequest: AWSShape {
+    public struct PutObjectTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "tagging"
         public static var _encoding = [
@@ -6741,15 +6364,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
             case tagging = "Tagging"
-            case versionId = "versionId"
         }
     }
 
-    public struct PutPublicAccessBlockRequest: AWSShape {
+    public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicAccessBlockConfiguration"
         public static var _encoding = [
@@ -6772,13 +6391,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case contentMD5 = "Content-MD5"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
         }
     }
 
-    public struct QueueConfiguration: AWSShape {
+    public struct QueueConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList), 
             AWSMemberEncoding(label: "queueArn", location: .body(locationName: "Queue"))
@@ -6806,7 +6423,7 @@ extension S3 {
         }
     }
 
-    public struct QueueConfigurationDeprecated: AWSShape {
+    public struct QueueConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList)
         ]
@@ -6830,7 +6447,7 @@ extension S3 {
         }
     }
 
-    public struct RecordsEvent: AWSShape {
+    public struct RecordsEvent: AWSDecodableShape {
 
         /// The byte array of partial, one or more result records.
         public let payload: Data?
@@ -6844,7 +6461,7 @@ extension S3 {
         }
     }
 
-    public struct Redirect: AWSShape {
+    public struct Redirect: AWSEncodableShape & AWSDecodableShape {
 
         /// The host name to use in the redirect request.
         public let hostName: String?
@@ -6874,7 +6491,7 @@ extension S3 {
         }
     }
 
-    public struct RedirectAllRequestsTo: AWSShape {
+    public struct RedirectAllRequestsTo: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of the host where requests are redirected.
         public let hostName: String
@@ -6892,7 +6509,7 @@ extension S3 {
         }
     }
 
-    public struct ReplicationConfiguration: AWSShape {
+    public struct ReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
@@ -6920,7 +6537,7 @@ extension S3 {
         }
     }
 
-    public struct ReplicationRule: AWSShape {
+    public struct ReplicationRule: AWSEncodableShape & AWSDecodableShape {
 
         public let deleteMarkerReplication: DeleteMarkerReplication?
         /// A container for information about the replication destination and its configurations including enabling the S3 Replication Time Control (S3 RTC).
@@ -6963,7 +6580,7 @@ extension S3 {
         }
     }
 
-    public struct ReplicationRuleAndOperator: AWSShape {
+    public struct ReplicationRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatList)
         ]
@@ -6990,7 +6607,7 @@ extension S3 {
         }
     }
 
-    public struct ReplicationRuleFilter: AWSShape {
+    public struct ReplicationRuleFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:    If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.   If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.  
         public let and: ReplicationRuleAndOperator?
@@ -7017,7 +6634,7 @@ extension S3 {
         }
     }
 
-    public struct ReplicationTime: AWSShape {
+    public struct ReplicationTime: AWSEncodableShape & AWSDecodableShape {
 
         ///  Specifies whether the replication time is enabled. 
         public let status: ReplicationTimeStatus
@@ -7035,7 +6652,7 @@ extension S3 {
         }
     }
 
-    public struct ReplicationTimeValue: AWSShape {
+    public struct ReplicationTimeValue: AWSEncodableShape & AWSDecodableShape {
 
         ///  Contains an integer specifying time in minutes.   Valid values: 15 minutes. 
         public let minutes: Int?
@@ -7049,7 +6666,7 @@ extension S3 {
         }
     }
 
-    public struct RequestPaymentConfiguration: AWSShape {
+    public struct RequestPaymentConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Specifies who pays for the download and request fees.
@@ -7064,7 +6681,7 @@ extension S3 {
         }
     }
 
-    public struct RequestProgress: AWSShape {
+    public struct RequestProgress: AWSEncodableShape {
 
         /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
         public let enabled: Bool?
@@ -7078,7 +6695,7 @@ extension S3 {
         }
     }
 
-    public struct RestoreObjectOutput: AWSShape {
+    public struct RestoreObjectOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
             AWSMemberEncoding(label: "restoreOutputPath", location: .header(locationName: "x-amz-restore-output-path"))
@@ -7099,7 +6716,7 @@ extension S3 {
         }
     }
 
-    public struct RestoreObjectRequest: AWSShape {
+    public struct RestoreObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "restoreRequest"
         public static var _encoding = [
@@ -7133,15 +6750,11 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case key = "Key"
-            case requestPayer = "x-amz-request-payer"
             case restoreRequest = "RestoreRequest"
-            case versionId = "versionId"
         }
     }
 
-    public struct RestoreRequest: AWSShape {
+    public struct RestoreRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
         /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
@@ -7184,7 +6797,7 @@ extension S3 {
         }
     }
 
-    public struct RoutingRule: AWSShape {
+    public struct RoutingRule: AWSEncodableShape & AWSDecodableShape {
 
         /// A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error.
         public let condition: Condition?
@@ -7202,7 +6815,7 @@ extension S3 {
         }
     }
 
-    public struct Rule: AWSShape {
+    public struct Rule: AWSEncodableShape & AWSDecodableShape {
 
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object.
@@ -7241,7 +6854,7 @@ extension S3 {
         }
     }
 
-    public struct S3KeyFilter: AWSShape {
+    public struct S3KeyFilter: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filterRules", location: .body(locationName: "FilterRule"), encoding: .flatList)
         ]
@@ -7257,7 +6870,7 @@ extension S3 {
         }
     }
 
-    public struct S3Location: AWSShape {
+    public struct S3Location: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlList", location: .body(locationName: "AccessControlList"), encoding: .list(member:"Grant")), 
             AWSMemberEncoding(label: "userMetadata", location: .body(locationName: "UserMetadata"), encoding: .list(member:"MetadataEntry"))
@@ -7306,7 +6919,7 @@ extension S3 {
         }
     }
 
-    public struct SSEKMS: AWSShape {
+    public struct SSEKMS: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) to use for encrypting inventory reports.
         public let keyId: String
@@ -7320,7 +6933,7 @@ extension S3 {
         }
     }
 
-    public struct SSES3: AWSShape {
+    public struct SSES3: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -7328,7 +6941,7 @@ extension S3 {
 
     }
 
-    public struct ScanRange: AWSShape {
+    public struct ScanRange: AWSEncodableShape {
 
         /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried. If only the End parameter is supplied, it is interpreted to mean scan the last N bytes of the file. For example, &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; means scan the last 50 bytes.
         public let end: Int64?
@@ -7346,7 +6959,7 @@ extension S3 {
         }
     }
 
-    public struct SelectObjectContentEventStream: AWSShape {
+    public struct SelectObjectContentEventStream: AWSDecodableShape {
 
         /// The Continuation Event.
         public let cont: ContinuationEvent?
@@ -7376,7 +6989,7 @@ extension S3 {
         }
     }
 
-    public struct SelectObjectContentOutput: AWSShape {
+    public struct SelectObjectContentOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [
@@ -7395,7 +7008,7 @@ extension S3 {
         }
     }
 
-    public struct SelectObjectContentRequest: AWSShape {
+    public struct SelectObjectContentRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
@@ -7447,21 +7060,16 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
             case expression = "Expression"
             case expressionType = "ExpressionType"
             case inputSerialization = "InputSerialization"
-            case key = "Key"
             case outputSerialization = "OutputSerialization"
             case requestProgress = "RequestProgress"
             case scanRange = "ScanRange"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
         }
     }
 
-    public struct SelectParameters: AWSShape {
+    public struct SelectParameters: AWSEncodableShape {
 
         /// The expression that is used to query the object.
         public let expression: String
@@ -7487,7 +7095,7 @@ extension S3 {
         }
     }
 
-    public struct ServerSideEncryptionByDefault: AWSShape {
+    public struct ServerSideEncryptionByDefault: AWSEncodableShape & AWSDecodableShape {
 
         /// KMS master key ID to use for the default encryption. This parameter is allowed if and only if SSEAlgorithm is set to aws:kms.
         public let kMSMasterKeyID: String?
@@ -7505,7 +7113,7 @@ extension S3 {
         }
     }
 
-    public struct ServerSideEncryptionConfiguration: AWSShape {
+    public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rule"), encoding: .flatList)
@@ -7523,7 +7131,7 @@ extension S3 {
         }
     }
 
-    public struct ServerSideEncryptionRule: AWSShape {
+    public struct ServerSideEncryptionRule: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public let applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault?
@@ -7537,7 +7145,7 @@ extension S3 {
         }
     }
 
-    public struct SourceSelectionCriteria: AWSShape {
+    public struct SourceSelectionCriteria: AWSEncodableShape & AWSDecodableShape {
 
         ///  A container for filter information for the selection of Amazon S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required. 
         public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
@@ -7551,7 +7159,7 @@ extension S3 {
         }
     }
 
-    public struct SseKmsEncryptedObjects: AWSShape {
+    public struct SseKmsEncryptedObjects: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether Amazon S3 replicates objects created with server-side encryption using a customer master key (CMK) stored in AWS Key Management Service.
         public let status: SseKmsEncryptedObjectsStatus
@@ -7565,7 +7173,7 @@ extension S3 {
         }
     }
 
-    public struct Stats: AWSShape {
+    public struct Stats: AWSDecodableShape {
 
         /// The total number of uncompressed object bytes processed.
         public let bytesProcessed: Int64?
@@ -7587,7 +7195,7 @@ extension S3 {
         }
     }
 
-    public struct StatsEvent: AWSShape {
+    public struct StatsEvent: AWSDecodableShape {
 
         /// The Stats event details.
         public let details: Stats?
@@ -7601,7 +7209,7 @@ extension S3 {
         }
     }
 
-    public struct StorageClassAnalysis: AWSShape {
+    public struct StorageClassAnalysis: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported.
         public let dataExport: StorageClassAnalysisDataExport?
@@ -7615,7 +7223,7 @@ extension S3 {
         }
     }
 
-    public struct StorageClassAnalysisDataExport: AWSShape {
+    public struct StorageClassAnalysisDataExport: AWSEncodableShape & AWSDecodableShape {
 
         /// The place to store the data for an analysis.
         public let destination: AnalyticsExportDestination
@@ -7633,7 +7241,7 @@ extension S3 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of the tag.
         public let key: String
@@ -7655,7 +7263,7 @@ extension S3 {
         }
     }
 
-    public struct Tagging: AWSShape {
+    public struct Tagging: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "tagSet", location: .body(locationName: "TagSet"), encoding: .list(member:"Tag"))
@@ -7679,7 +7287,7 @@ extension S3 {
         }
     }
 
-    public struct TargetGrant: AWSShape {
+    public struct TargetGrant: AWSEncodableShape & AWSDecodableShape {
 
         /// Container for the person being granted permissions.
         public let grantee: Grantee?
@@ -7697,7 +7305,7 @@ extension S3 {
         }
     }
 
-    public struct TopicConfiguration: AWSShape {
+    public struct TopicConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList), 
             AWSMemberEncoding(label: "topicArn", location: .body(locationName: "Topic"))
@@ -7725,7 +7333,7 @@ extension S3 {
         }
     }
 
-    public struct TopicConfigurationDeprecated: AWSShape {
+    public struct TopicConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Event"), encoding: .flatList)
         ]
@@ -7749,7 +7357,7 @@ extension S3 {
         }
     }
 
-    public struct Transition: AWSShape {
+    public struct Transition: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         public let date: TimeStamp?
@@ -7771,7 +7379,7 @@ extension S3 {
         }
     }
 
-    public struct UploadPartCopyOutput: AWSShape {
+    public struct UploadPartCopyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "copyPartResult"
         public static var _encoding = [
@@ -7819,7 +7427,7 @@ extension S3 {
         }
     }
 
-    public struct UploadPartCopyRequest: AWSShape {
+    public struct UploadPartCopyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "copySource", location: .header(locationName: "x-amz-copy-source")), 
@@ -7899,28 +7507,10 @@ extension S3 {
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case copySource = "x-amz-copy-source"
-            case copySourceIfMatch = "x-amz-copy-source-if-match"
-            case copySourceIfModifiedSince = "x-amz-copy-source-if-modified-since"
-            case copySourceIfNoneMatch = "x-amz-copy-source-if-none-match"
-            case copySourceIfUnmodifiedSince = "x-amz-copy-source-if-unmodified-since"
-            case copySourceRange = "x-amz-copy-source-range"
-            case copySourceSSECustomerAlgorithm = "x-amz-copy-source-server-side-encryption-customer-algorithm"
-            case copySourceSSECustomerKey = "x-amz-copy-source-server-side-encryption-customer-key"
-            case copySourceSSECustomerKeyMD5 = "x-amz-copy-source-server-side-encryption-customer-key-MD5"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case uploadId = "uploadId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UploadPartOutput: AWSShape {
+    public struct UploadPartOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
@@ -7961,7 +7551,7 @@ extension S3 {
         }
     }
 
-    public struct UploadPartRequest: AWSShape {
+    public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -8020,20 +7610,10 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
-            case bucket = "Bucket"
-            case contentLength = "Content-Length"
-            case contentMD5 = "Content-MD5"
-            case key = "Key"
-            case partNumber = "partNumber"
-            case requestPayer = "x-amz-request-payer"
-            case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
-            case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case uploadId = "uploadId"
         }
     }
 
-    public struct VersioningConfiguration: AWSShape {
+    public struct VersioningConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "mFADelete", location: .body(locationName: "MfaDelete"))
@@ -8055,7 +7635,7 @@ extension S3 {
         }
     }
 
-    public struct WebsiteConfiguration: AWSShape {
+    public struct WebsiteConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "routingRules", location: .body(locationName: "RoutingRules"), encoding: .list(member:"RoutingRule"))

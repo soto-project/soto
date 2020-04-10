@@ -49,7 +49,7 @@ extension Health {
 
     //MARK: Shapes
 
-    public struct AffectedEntity: AWSShape {
+    public struct AffectedEntity: AWSDecodableShape {
 
         /// The 12-digit AWS account number that contains the affected entity.
         public let awsAccountId: String?
@@ -91,7 +91,7 @@ extension Health {
         }
     }
 
-    public struct DateTimeRange: AWSShape {
+    public struct DateTimeRange: AWSEncodableShape {
 
         /// The starting date and time of a time range.
         public let from: TimeStamp?
@@ -109,7 +109,7 @@ extension Health {
         }
     }
 
-    public struct DescribeAffectedAccountsForOrganizationRequest: AWSShape {
+    public struct DescribeAffectedAccountsForOrganizationRequest: AWSEncodableShape {
 
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String
@@ -141,7 +141,7 @@ extension Health {
         }
     }
 
-    public struct DescribeAffectedAccountsForOrganizationResponse: AWSShape {
+    public struct DescribeAffectedAccountsForOrganizationResponse: AWSDecodableShape {
 
         /// A JSON set of elements of the affected accounts.
         public let affectedAccounts: [String]?
@@ -159,7 +159,7 @@ extension Health {
         }
     }
 
-    public struct DescribeAffectedEntitiesForOrganizationRequest: AWSShape {
+    public struct DescribeAffectedEntitiesForOrganizationRequest: AWSEncodableShape {
 
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
@@ -201,7 +201,7 @@ extension Health {
         }
     }
 
-    public struct DescribeAffectedEntitiesForOrganizationResponse: AWSShape {
+    public struct DescribeAffectedEntitiesForOrganizationResponse: AWSDecodableShape {
 
         /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, statusCode, and tags.
         public let entities: [AffectedEntity]?
@@ -223,7 +223,7 @@ extension Health {
         }
     }
 
-    public struct DescribeAffectedEntitiesRequest: AWSShape {
+    public struct DescribeAffectedEntitiesRequest: AWSEncodableShape {
 
         /// Values to narrow the results returned. At least one event ARN is required.
         public let filter: EntityFilter
@@ -261,7 +261,7 @@ extension Health {
         }
     }
 
-    public struct DescribeAffectedEntitiesResponse: AWSShape {
+    public struct DescribeAffectedEntitiesResponse: AWSDecodableShape {
 
         /// The entities that match the filter criteria.
         public let entities: [AffectedEntity]?
@@ -279,7 +279,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEntityAggregatesRequest: AWSShape {
+    public struct DescribeEntityAggregatesRequest: AWSEncodableShape {
 
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]?
@@ -302,7 +302,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEntityAggregatesResponse: AWSShape {
+    public struct DescribeEntityAggregatesResponse: AWSDecodableShape {
 
         /// The number of entities that are affected by each of the specified events.
         public let entityAggregates: [EntityAggregate]?
@@ -316,7 +316,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventAggregatesRequest: AWSShape {
+    public struct DescribeEventAggregatesRequest: AWSEncodableShape {
 
         /// The only currently supported value is eventTypeCategory.
         public let aggregateField: EventAggregateField
@@ -351,7 +351,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventAggregatesResponse: AWSShape {
+    public struct DescribeEventAggregatesResponse: AWSDecodableShape {
 
         /// The number of events in each category that meet the optional filter criteria.
         public let eventAggregates: [EventAggregate]?
@@ -369,7 +369,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventDetailsForOrganizationRequest: AWSShape {
+    public struct DescribeEventDetailsForOrganizationRequest: AWSEncodableShape {
 
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
@@ -398,7 +398,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventDetailsForOrganizationResponse: AWSShape {
+    public struct DescribeEventDetailsForOrganizationResponse: AWSDecodableShape {
 
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [OrganizationEventDetailsErrorItem]?
@@ -416,7 +416,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventDetailsRequest: AWSShape {
+    public struct DescribeEventDetailsRequest: AWSEncodableShape {
 
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]
@@ -446,7 +446,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventDetailsResponse: AWSShape {
+    public struct DescribeEventDetailsResponse: AWSDecodableShape {
 
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [EventDetailsErrorItem]?
@@ -464,7 +464,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventTypesRequest: AWSShape {
+    public struct DescribeEventTypesRequest: AWSEncodableShape {
 
         /// Values to narrow the results returned.
         public let filter: EventTypeFilter?
@@ -502,7 +502,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventTypesResponse: AWSShape {
+    public struct DescribeEventTypesResponse: AWSDecodableShape {
 
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
         public let eventTypes: [EventType]?
@@ -520,7 +520,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventsForOrganizationRequest: AWSShape {
+    public struct DescribeEventsForOrganizationRequest: AWSEncodableShape {
 
         /// Values to narrow the results returned.
         public let filter: OrganizationEventFilter?
@@ -558,7 +558,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventsForOrganizationResponse: AWSShape {
+    public struct DescribeEventsForOrganizationResponse: AWSDecodableShape {
 
         /// The events that match the specified filter criteria.
         public let events: [OrganizationEvent]?
@@ -576,7 +576,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventsRequest: AWSShape {
+    public struct DescribeEventsRequest: AWSEncodableShape {
 
         /// Values to narrow the results returned.
         public let filter: EventFilter?
@@ -614,7 +614,7 @@ extension Health {
         }
     }
 
-    public struct DescribeEventsResponse: AWSShape {
+    public struct DescribeEventsResponse: AWSDecodableShape {
 
         /// The events that match the specified filter criteria.
         public let events: [Event]?
@@ -632,7 +632,7 @@ extension Health {
         }
     }
 
-    public struct DescribeHealthServiceStatusForOrganizationResponse: AWSShape {
+    public struct DescribeHealthServiceStatusForOrganizationResponse: AWSDecodableShape {
 
         /// Information about the status of enabling or disabling AWS Health Organizational View in your organization. Valid values are ENABLED | DISABLED | PENDING. 
         public let healthServiceAccessStatusForOrganization: String?
@@ -646,7 +646,7 @@ extension Health {
         }
     }
 
-    public struct EntityAggregate: AWSShape {
+    public struct EntityAggregate: AWSDecodableShape {
 
         /// The number entities that match the criteria for the specified events.
         public let count: Int?
@@ -664,7 +664,7 @@ extension Health {
         }
     }
 
-    public struct EntityFilter: AWSShape {
+    public struct EntityFilter: AWSEncodableShape {
 
         /// A list of entity ARNs (unique identifiers).
         public let entityArns: [String]?
@@ -724,7 +724,7 @@ extension Health {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSDecodableShape {
 
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let arn: String?
@@ -774,7 +774,7 @@ extension Health {
         }
     }
 
-    public struct EventAccountFilter: AWSShape {
+    public struct EventAccountFilter: AWSEncodableShape {
 
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String
@@ -799,7 +799,7 @@ extension Health {
         }
     }
 
-    public struct EventAggregate: AWSShape {
+    public struct EventAggregate: AWSDecodableShape {
 
         /// The issue type for the associated count.
         public let aggregateValue: String?
@@ -817,7 +817,7 @@ extension Health {
         }
     }
 
-    public struct EventDescription: AWSShape {
+    public struct EventDescription: AWSDecodableShape {
 
         /// The most recent description of the event.
         public let latestDescription: String?
@@ -831,7 +831,7 @@ extension Health {
         }
     }
 
-    public struct EventDetails: AWSShape {
+    public struct EventDetails: AWSDecodableShape {
 
         /// Summary information about the event.
         public let event: Event?
@@ -853,7 +853,7 @@ extension Health {
         }
     }
 
-    public struct EventDetailsErrorItem: AWSShape {
+    public struct EventDetailsErrorItem: AWSDecodableShape {
 
         /// A message that describes the error.
         public let errorMessage: String?
@@ -875,7 +875,7 @@ extension Health {
         }
     }
 
-    public struct EventFilter: AWSShape {
+    public struct EventFilter: AWSEncodableShape {
 
         /// A list of AWS availability zones.
         public let availabilityZones: [String]?
@@ -995,7 +995,7 @@ extension Health {
         }
     }
 
-    public struct EventType: AWSShape {
+    public struct EventType: AWSDecodableShape {
 
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let category: EventTypeCategory?
@@ -1017,7 +1017,7 @@ extension Health {
         }
     }
 
-    public struct EventTypeFilter: AWSShape {
+    public struct EventTypeFilter: AWSEncodableShape {
 
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
@@ -1058,7 +1058,7 @@ extension Health {
         }
     }
 
-    public struct OrganizationAffectedEntitiesErrorItem: AWSShape {
+    public struct OrganizationAffectedEntitiesErrorItem: AWSDecodableShape {
 
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String?
@@ -1084,7 +1084,7 @@ extension Health {
         }
     }
 
-    public struct OrganizationEvent: AWSShape {
+    public struct OrganizationEvent: AWSDecodableShape {
 
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let arn: String?
@@ -1130,7 +1130,7 @@ extension Health {
         }
     }
 
-    public struct OrganizationEventDetails: AWSShape {
+    public struct OrganizationEventDetails: AWSDecodableShape {
 
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String?
@@ -1154,7 +1154,7 @@ extension Health {
         }
     }
 
-    public struct OrganizationEventDetailsErrorItem: AWSShape {
+    public struct OrganizationEventDetailsErrorItem: AWSDecodableShape {
 
         /// Error information returned when a DescribeEventDetailsForOrganization operation cannot find a specified event.
         public let awsAccountId: String?
@@ -1180,7 +1180,7 @@ extension Health {
         }
     }
 
-    public struct OrganizationEventFilter: AWSShape {
+    public struct OrganizationEventFilter: AWSEncodableShape {
 
         /// A list of 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountIds: [String]?

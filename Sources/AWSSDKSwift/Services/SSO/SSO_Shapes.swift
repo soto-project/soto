@@ -22,7 +22,7 @@ extension SSO {
 
     //MARK: Shapes
 
-    public struct AccountInfo: AWSShape {
+    public struct AccountInfo: AWSDecodableShape {
 
         /// The identifier of the AWS account that is assigned to the user.
         public let accountId: String?
@@ -44,7 +44,7 @@ extension SSO {
         }
     }
 
-    public struct GetRoleCredentialsRequest: AWSShape {
+    public struct GetRoleCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
             AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")), 
@@ -64,14 +64,10 @@ extension SSO {
             self.roleName = roleName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-            case accountId = "account_id"
-            case roleName = "role_name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetRoleCredentialsResponse: AWSShape {
+    public struct GetRoleCredentialsResponse: AWSDecodableShape {
 
         /// The credentials for the role that is assigned to the user.
         public let roleCredentials: RoleCredentials?
@@ -85,7 +81,7 @@ extension SSO {
         }
     }
 
-    public struct ListAccountRolesRequest: AWSShape {
+    public struct ListAccountRolesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
             AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")), 
@@ -114,15 +110,10 @@ extension SSO {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-            case accountId = "account_id"
-            case maxResults = "max_result"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAccountRolesResponse: AWSShape {
+    public struct ListAccountRolesResponse: AWSDecodableShape {
 
         /// The page token client that is used to retrieve the list of accounts.
         public let nextToken: String?
@@ -140,7 +131,7 @@ extension SSO {
         }
     }
 
-    public struct ListAccountsRequest: AWSShape {
+    public struct ListAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")), 
@@ -165,14 +156,10 @@ extension SSO {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-            case maxResults = "max_result"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAccountsResponse: AWSShape {
+    public struct ListAccountsResponse: AWSDecodableShape {
 
         /// A paginated response with the list of account information and the next token if more results are available.
         public let accountList: [AccountInfo]?
@@ -190,7 +177,7 @@ extension SSO {
         }
     }
 
-    public struct LogoutRequest: AWSShape {
+    public struct LogoutRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token"))
         ]
@@ -202,12 +189,10 @@ extension SSO {
             self.accessToken = accessToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "x-amz-sso_bearer_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RoleCredentials: AWSShape {
+    public struct RoleCredentials: AWSDecodableShape {
 
         /// The identifier used for the temporary security credentials. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
         public let accessKeyId: String?
@@ -233,7 +218,7 @@ extension SSO {
         }
     }
 
-    public struct RoleInfo: AWSShape {
+    public struct RoleInfo: AWSDecodableShape {
 
         /// The identifier of the AWS account assigned to the user.
         public let accountId: String?

@@ -130,7 +130,7 @@ extension CodeCommit {
 
     //MARK: Shapes
 
-    public struct Approval: AWSShape {
+    public struct Approval: AWSDecodableShape {
 
         /// The state of the approval, APPROVE or REVOKE. REVOKE states are not stored.
         public let approvalState: ApprovalState?
@@ -148,7 +148,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ApprovalRule: AWSShape {
+    public struct ApprovalRule: AWSDecodableShape {
 
         /// The content of the approval rule.
         public let approvalRuleContent: String?
@@ -190,7 +190,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ApprovalRuleEventMetadata: AWSShape {
+    public struct ApprovalRuleEventMetadata: AWSDecodableShape {
 
         /// The content of the approval rule.
         public let approvalRuleContent: String?
@@ -212,7 +212,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ApprovalRuleOverriddenEventMetadata: AWSShape {
+    public struct ApprovalRuleOverriddenEventMetadata: AWSDecodableShape {
 
         /// The status of the override event.
         public let overrideStatus: OverrideStatus?
@@ -230,7 +230,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ApprovalRuleTemplate: AWSShape {
+    public struct ApprovalRuleTemplate: AWSDecodableShape {
 
         /// The content of the approval rule template.
         public let approvalRuleTemplateContent: String?
@@ -272,7 +272,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ApprovalStateChangedEventMetadata: AWSShape {
+    public struct ApprovalStateChangedEventMetadata: AWSDecodableShape {
 
         /// The approval status for the pull request.
         public let approvalStatus: ApprovalState?
@@ -290,7 +290,7 @@ extension CodeCommit {
         }
     }
 
-    public struct AssociateApprovalRuleTemplateWithRepositoryInput: AWSShape {
+    public struct AssociateApprovalRuleTemplateWithRepositoryInput: AWSEncodableShape {
 
         /// The name for the approval rule template. 
         public let approvalRuleTemplateName: String
@@ -316,7 +316,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchAssociateApprovalRuleTemplateWithRepositoriesError: AWSShape {
+    public struct BatchAssociateApprovalRuleTemplateWithRepositoriesError: AWSDecodableShape {
 
         /// An error code that specifies whether the repository name was not valid or not found.
         public let errorCode: String?
@@ -338,7 +338,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchAssociateApprovalRuleTemplateWithRepositoriesInput: AWSShape {
+    public struct BatchAssociateApprovalRuleTemplateWithRepositoriesInput: AWSEncodableShape {
 
         /// The name of the template you want to associate with one or more repositories.
         public let approvalRuleTemplateName: String
@@ -366,7 +366,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutput: AWSShape {
+    public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutput: AWSDecodableShape {
 
         /// A list of names of the repositories that have been associated with the template.
         public let associatedRepositoryNames: [String]
@@ -384,7 +384,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchDescribeMergeConflictsError: AWSShape {
+    public struct BatchDescribeMergeConflictsError: AWSDecodableShape {
 
         /// The name of the exception.
         public let exceptionName: String
@@ -406,7 +406,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchDescribeMergeConflictsInput: AWSShape {
+    public struct BatchDescribeMergeConflictsInput: AWSEncodableShape {
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -462,7 +462,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchDescribeMergeConflictsOutput: AWSShape {
+    public struct BatchDescribeMergeConflictsOutput: AWSDecodableShape {
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -496,7 +496,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesError: AWSShape {
+    public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesError: AWSDecodableShape {
 
         /// An error code that specifies whether the repository name was not valid or not found.
         public let errorCode: String?
@@ -518,7 +518,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: AWSShape {
+    public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: AWSEncodableShape {
 
         /// The name of the template that you want to disassociate from one or more repositories.
         public let approvalRuleTemplateName: String
@@ -546,7 +546,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput: AWSShape {
+    public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput: AWSDecodableShape {
 
         /// A list of repository names that have had their association with the template removed.
         public let disassociatedRepositoryNames: [String]
@@ -564,7 +564,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchGetCommitsError: AWSShape {
+    public struct BatchGetCommitsError: AWSDecodableShape {
 
         /// A commit ID that either could not be found or was not in a valid format.
         public let commitId: String?
@@ -586,7 +586,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchGetCommitsInput: AWSShape {
+    public struct BatchGetCommitsInput: AWSEncodableShape {
 
         /// The full commit IDs of the commits to get information about.  You must supply the full SHA IDs of each commit. You cannot use shortened SHA IDs. 
         public let commitIds: [String]
@@ -610,7 +610,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchGetCommitsOutput: AWSShape {
+    public struct BatchGetCommitsOutput: AWSDecodableShape {
 
         /// An array of commit data type objects, each of which contains information about a specified commit.
         public let commits: [Commit]?
@@ -628,7 +628,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchGetRepositoriesInput: AWSShape {
+    public struct BatchGetRepositoriesInput: AWSEncodableShape {
 
         /// The names of the repositories to get information about.  The length constraint limit is for each string in the array. The array itself can be empty. 
         public let repositoryNames: [String]
@@ -650,7 +650,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BatchGetRepositoriesOutput: AWSShape {
+    public struct BatchGetRepositoriesOutput: AWSDecodableShape {
 
         /// A list of repositories returned by the batch get repositories operation.
         public let repositories: [RepositoryMetadata]?
@@ -668,7 +668,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BlobMetadata: AWSShape {
+    public struct BlobMetadata: AWSDecodableShape {
 
         /// The full ID of the blob.
         public let blobId: String?
@@ -690,7 +690,7 @@ extension CodeCommit {
         }
     }
 
-    public struct BranchInfo: AWSShape {
+    public struct BranchInfo: AWSDecodableShape {
 
         /// The name of the branch.
         public let branchName: String?
@@ -708,7 +708,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Comment: AWSShape {
+    public struct Comment: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the person who posted the comment.
         public let authorArn: String?
@@ -750,7 +750,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CommentsForComparedCommit: AWSShape {
+    public struct CommentsForComparedCommit: AWSDecodableShape {
 
         /// The full blob ID of the commit used to establish the after of the comparison.
         public let afterBlobId: String?
@@ -788,7 +788,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CommentsForPullRequest: AWSShape {
+    public struct CommentsForPullRequest: AWSDecodableShape {
 
         /// The full blob ID of the file on which you want to comment on the source commit.
         public let afterBlobId: String?
@@ -830,7 +830,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Commit: AWSShape {
+    public struct Commit: AWSDecodableShape {
 
         /// Any other data associated with the specified commit.
         public let additionalData: String?
@@ -868,7 +868,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Conflict: AWSShape {
+    public struct Conflict: AWSDecodableShape {
 
         /// Metadata about a conflict in a merge operation.
         public let conflictMetadata: ConflictMetadata?
@@ -886,7 +886,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ConflictMetadata: AWSShape {
+    public struct ConflictMetadata: AWSDecodableShape {
 
         /// A boolean value indicating whether there are conflicts in the content of a file.
         public let contentConflict: Bool?
@@ -936,7 +936,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ConflictResolution: AWSShape {
+    public struct ConflictResolution: AWSEncodableShape {
 
         /// Files to be deleted as part of the merge conflict resolution.
         public let deleteFiles: [DeleteFileEntry]?
@@ -964,7 +964,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateApprovalRuleTemplateInput: AWSShape {
+    public struct CreateApprovalRuleTemplateInput: AWSEncodableShape {
 
         /// The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination references (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template.  When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide. 
         public let approvalRuleTemplateContent: String
@@ -995,7 +995,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateApprovalRuleTemplateOutput: AWSShape {
+    public struct CreateApprovalRuleTemplateOutput: AWSDecodableShape {
 
         /// The content and structure of the created approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -1009,7 +1009,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateBranchInput: AWSShape {
+    public struct CreateBranchInput: AWSEncodableShape {
 
         /// The name of the new branch to create.
         public let branchName: String
@@ -1039,7 +1039,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateCommitInput: AWSShape {
+    public struct CreateCommitInput: AWSEncodableShape {
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -1100,7 +1100,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateCommitOutput: AWSShape {
+    public struct CreateCommitOutput: AWSDecodableShape {
 
         /// The full commit ID of the commit that contains your committed file changes.
         public let commitId: String?
@@ -1130,7 +1130,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreatePullRequestApprovalRuleInput: AWSShape {
+    public struct CreatePullRequestApprovalRuleInput: AWSEncodableShape {
 
         /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the AWS CodeCommit User Guide.  When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following would be counted as approvals coming from that user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an active session of someone assuming the role of CodeCommitReview with a role session name of Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide. 
         public let approvalRuleContent: String
@@ -1159,7 +1159,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreatePullRequestApprovalRuleOutput: AWSShape {
+    public struct CreatePullRequestApprovalRuleOutput: AWSDecodableShape {
 
         /// Information about the created approval rule.
         public let approvalRule: ApprovalRule
@@ -1173,7 +1173,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreatePullRequestInput: AWSShape {
+    public struct CreatePullRequestInput: AWSEncodableShape {
 
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you. 
         public let clientRequestToken: String?
@@ -1207,7 +1207,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreatePullRequestOutput: AWSShape {
+    public struct CreatePullRequestOutput: AWSDecodableShape {
 
         /// Information about the newly created pull request.
         public let pullRequest: PullRequest
@@ -1221,7 +1221,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateRepositoryInput: AWSShape {
+    public struct CreateRepositoryInput: AWSEncodableShape {
 
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. 
         public let repositoryDescription: String?
@@ -1256,7 +1256,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateRepositoryOutput: AWSShape {
+    public struct CreateRepositoryOutput: AWSDecodableShape {
 
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -1270,7 +1270,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateUnreferencedMergeCommitInput: AWSShape {
+    public struct CreateUnreferencedMergeCommitInput: AWSEncodableShape {
 
         /// The name of the author who created the unreferenced commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -1331,7 +1331,7 @@ extension CodeCommit {
         }
     }
 
-    public struct CreateUnreferencedMergeCommitOutput: AWSShape {
+    public struct CreateUnreferencedMergeCommitOutput: AWSDecodableShape {
 
         /// The full commit ID of the commit that contains your merge results.
         public let commitId: String?
@@ -1349,7 +1349,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteApprovalRuleTemplateInput: AWSShape {
+    public struct DeleteApprovalRuleTemplateInput: AWSEncodableShape {
 
         /// The name of the approval rule template to delete.
         public let approvalRuleTemplateName: String
@@ -1368,7 +1368,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteApprovalRuleTemplateOutput: AWSShape {
+    public struct DeleteApprovalRuleTemplateOutput: AWSDecodableShape {
 
         /// The system-generated ID of the deleted approval rule template. If the template has been previously deleted, the only response is a 200 OK.
         public let approvalRuleTemplateId: String
@@ -1382,7 +1382,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteBranchInput: AWSShape {
+    public struct DeleteBranchInput: AWSEncodableShape {
 
         /// The name of the branch to delete.
         public let branchName: String
@@ -1408,7 +1408,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteBranchOutput: AWSShape {
+    public struct DeleteBranchOutput: AWSDecodableShape {
 
         /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
         public let deletedBranch: BranchInfo?
@@ -1422,7 +1422,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteCommentContentInput: AWSShape {
+    public struct DeleteCommentContentInput: AWSEncodableShape {
 
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
@@ -1436,7 +1436,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteCommentContentOutput: AWSShape {
+    public struct DeleteCommentContentOutput: AWSDecodableShape {
 
         /// Information about the comment you just deleted.
         public let comment: Comment?
@@ -1450,7 +1450,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteFileEntry: AWSShape {
+    public struct DeleteFileEntry: AWSEncodableShape {
 
         /// The full path of the file to be deleted, including the name of the file.
         public let filePath: String
@@ -1464,7 +1464,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteFileInput: AWSShape {
+    public struct DeleteFileInput: AWSEncodableShape {
 
         /// The name of the branch where the commit that deletes the file is made.
         public let branchName: String
@@ -1514,7 +1514,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteFileOutput: AWSShape {
+    public struct DeleteFileOutput: AWSDecodableShape {
 
         /// The blob ID removed from the tree as part of deleting the file.
         public let blobId: String
@@ -1540,7 +1540,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeletePullRequestApprovalRuleInput: AWSShape {
+    public struct DeletePullRequestApprovalRuleInput: AWSEncodableShape {
 
         /// The name of the approval rule you want to delete.
         public let approvalRuleName: String
@@ -1563,7 +1563,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeletePullRequestApprovalRuleOutput: AWSShape {
+    public struct DeletePullRequestApprovalRuleOutput: AWSDecodableShape {
 
         /// The ID of the deleted approval rule.   If the approval rule was deleted in an earlier API call, the response is 200 OK without content. 
         public let approvalRuleId: String
@@ -1577,7 +1577,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteRepositoryInput: AWSShape {
+    public struct DeleteRepositoryInput: AWSEncodableShape {
 
         /// The name of the repository to delete.
         public let repositoryName: String
@@ -1597,7 +1597,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DeleteRepositoryOutput: AWSShape {
+    public struct DeleteRepositoryOutput: AWSDecodableShape {
 
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
@@ -1611,7 +1611,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DescribeMergeConflictsInput: AWSShape {
+    public struct DescribeMergeConflictsInput: AWSEncodableShape {
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -1663,7 +1663,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DescribeMergeConflictsOutput: AWSShape {
+    public struct DescribeMergeConflictsOutput: AWSDecodableShape {
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -1697,7 +1697,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DescribePullRequestEventsInput: AWSShape {
+    public struct DescribePullRequestEventsInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with more commits or changing the status of a pull request.
         public let actorArn: String?
@@ -1727,7 +1727,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DescribePullRequestEventsOutput: AWSShape {
+    public struct DescribePullRequestEventsOutput: AWSDecodableShape {
 
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
@@ -1745,7 +1745,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Difference: AWSShape {
+    public struct Difference: AWSDecodableShape {
 
         /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
         public let afterBlob: BlobMetadata?
@@ -1767,7 +1767,7 @@ extension CodeCommit {
         }
     }
 
-    public struct DisassociateApprovalRuleTemplateFromRepositoryInput: AWSShape {
+    public struct DisassociateApprovalRuleTemplateFromRepositoryInput: AWSEncodableShape {
 
         /// The name of the approval rule template to disassociate from a specified repository.
         public let approvalRuleTemplateName: String
@@ -1793,7 +1793,7 @@ extension CodeCommit {
         }
     }
 
-    public struct EvaluatePullRequestApprovalRulesInput: AWSShape {
+    public struct EvaluatePullRequestApprovalRulesInput: AWSEncodableShape {
 
         /// The system-generated ID of the pull request you want to evaluate.
         public let pullRequestId: String
@@ -1811,7 +1811,7 @@ extension CodeCommit {
         }
     }
 
-    public struct EvaluatePullRequestApprovalRulesOutput: AWSShape {
+    public struct EvaluatePullRequestApprovalRulesOutput: AWSDecodableShape {
 
         /// The result of the evaluation, including the names of the rules whose conditions have been met (if any), the names of the rules whose conditions have not been met (if any), whether the pull request is in the approved state, and whether the pull request approval rule has been set aside by an override. 
         public let evaluation: Evaluation
@@ -1825,7 +1825,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Evaluation: AWSShape {
+    public struct Evaluation: AWSDecodableShape {
 
         /// The names of the approval rules that have not had their conditions met.
         public let approvalRulesNotSatisfied: [String]?
@@ -1851,7 +1851,7 @@ extension CodeCommit {
         }
     }
 
-    public struct File: AWSShape {
+    public struct File: AWSDecodableShape {
 
         /// The fully qualified path to the file in the repository.
         public let absolutePath: String?
@@ -1877,7 +1877,7 @@ extension CodeCommit {
         }
     }
 
-    public struct FileMetadata: AWSShape {
+    public struct FileMetadata: AWSDecodableShape {
 
         /// The full path to the file to be added or updated, including the name of the file.
         public let absolutePath: String?
@@ -1899,7 +1899,7 @@ extension CodeCommit {
         }
     }
 
-    public struct FileModes: AWSShape {
+    public struct FileModes: AWSDecodableShape {
 
         /// The file mode of a file in the base of a merge or pull request.
         public let base: FileModeTypeEnum?
@@ -1921,7 +1921,7 @@ extension CodeCommit {
         }
     }
 
-    public struct FileSizes: AWSShape {
+    public struct FileSizes: AWSDecodableShape {
 
         /// The size of a file in the base of a merge or pull request.
         public let base: Int64?
@@ -1943,7 +1943,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Folder: AWSShape {
+    public struct Folder: AWSDecodableShape {
 
         /// The fully qualified path of the folder in the repository.
         public let absolutePath: String?
@@ -1965,7 +1965,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetApprovalRuleTemplateInput: AWSShape {
+    public struct GetApprovalRuleTemplateInput: AWSEncodableShape {
 
         /// The name of the approval rule template for which you want to get information.
         public let approvalRuleTemplateName: String
@@ -1984,7 +1984,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetApprovalRuleTemplateOutput: AWSShape {
+    public struct GetApprovalRuleTemplateOutput: AWSDecodableShape {
 
         /// The content and structure of the approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -1998,7 +1998,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetBlobInput: AWSShape {
+    public struct GetBlobInput: AWSEncodableShape {
 
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
@@ -2022,7 +2022,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetBlobOutput: AWSShape {
+    public struct GetBlobOutput: AWSDecodableShape {
 
         /// The content of the blob, usually a file.
         public let content: Data
@@ -2036,7 +2036,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetBranchInput: AWSShape {
+    public struct GetBranchInput: AWSEncodableShape {
 
         /// The name of the branch for which you want to retrieve information.
         public let branchName: String?
@@ -2062,7 +2062,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetBranchOutput: AWSShape {
+    public struct GetBranchOutput: AWSDecodableShape {
 
         /// The name of the branch.
         public let branch: BranchInfo?
@@ -2076,7 +2076,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommentInput: AWSShape {
+    public struct GetCommentInput: AWSEncodableShape {
 
         /// The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
@@ -2090,7 +2090,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommentOutput: AWSShape {
+    public struct GetCommentOutput: AWSDecodableShape {
 
         /// The contents of the comment.
         public let comment: Comment?
@@ -2104,7 +2104,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommentsForComparedCommitInput: AWSShape {
+    public struct GetCommentsForComparedCommitInput: AWSEncodableShape {
 
         /// To establish the directionality of the comparison, the full commit ID of the after commit.
         public let afterCommitId: String
@@ -2140,7 +2140,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommentsForComparedCommitOutput: AWSShape {
+    public struct GetCommentsForComparedCommitOutput: AWSDecodableShape {
 
         /// A list of comment objects on the compared commit.
         public let commentsForComparedCommitData: [CommentsForComparedCommit]?
@@ -2158,7 +2158,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommentsForPullRequestInput: AWSShape {
+    public struct GetCommentsForPullRequestInput: AWSEncodableShape {
 
         /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
         public let afterCommitId: String?
@@ -2198,7 +2198,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommentsForPullRequestOutput: AWSShape {
+    public struct GetCommentsForPullRequestOutput: AWSDecodableShape {
 
         /// An array of comment objects on the pull request.
         public let commentsForPullRequestData: [CommentsForPullRequest]?
@@ -2216,7 +2216,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommitInput: AWSShape {
+    public struct GetCommitInput: AWSEncodableShape {
 
         /// The commit ID. Commit IDs are the full SHA ID of the commit.
         public let commitId: String
@@ -2240,7 +2240,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetCommitOutput: AWSShape {
+    public struct GetCommitOutput: AWSDecodableShape {
 
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
@@ -2254,7 +2254,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetDifferencesInput: AWSShape {
+    public struct GetDifferencesInput: AWSEncodableShape {
 
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         public let afterCommitSpecifier: String
@@ -2298,7 +2298,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetDifferencesOutput: AWSShape {
+    public struct GetDifferencesOutput: AWSDecodableShape {
 
         /// A data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
         public let differences: [Difference]?
@@ -2316,7 +2316,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetFileInput: AWSShape {
+    public struct GetFileInput: AWSEncodableShape {
 
         /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/master. If none is provided, the head commit is used.
         public let commitSpecifier: String?
@@ -2344,7 +2344,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetFileOutput: AWSShape {
+    public struct GetFileOutput: AWSDecodableShape {
 
         /// The blob ID of the object that represents the file content.
         public let blobId: String
@@ -2378,7 +2378,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetFolderInput: AWSShape {
+    public struct GetFolderInput: AWSEncodableShape {
 
         /// A fully qualified reference used to identify a commit that contains the version of the folder's content to return. A fully qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content is returned as it exists in the HEAD commit.
         public let commitSpecifier: String?
@@ -2406,7 +2406,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetFolderOutput: AWSShape {
+    public struct GetFolderOutput: AWSDecodableShape {
 
         /// The full commit ID used as a reference for the returned version of the folder content.
         public let commitId: String
@@ -2444,7 +2444,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeCommitInput: AWSShape {
+    public struct GetMergeCommitInput: AWSEncodableShape {
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -2480,7 +2480,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeCommitOutput: AWSShape {
+    public struct GetMergeCommitOutput: AWSDecodableShape {
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -2506,7 +2506,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeConflictsInput: AWSShape {
+    public struct GetMergeConflictsInput: AWSEncodableShape {
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -2554,7 +2554,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeConflictsOutput: AWSShape {
+    public struct GetMergeConflictsOutput: AWSDecodableShape {
 
         /// The commit ID of the merge base.
         public let baseCommitId: String?
@@ -2588,7 +2588,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeOptionsInput: AWSShape {
+    public struct GetMergeOptionsInput: AWSEncodableShape {
 
         /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
         public let conflictDetailLevel: ConflictDetailLevelTypeEnum?
@@ -2624,7 +2624,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetMergeOptionsOutput: AWSShape {
+    public struct GetMergeOptionsOutput: AWSDecodableShape {
 
         /// The commit ID of the merge base.
         public let baseCommitId: String
@@ -2650,7 +2650,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetPullRequestApprovalStatesInput: AWSShape {
+    public struct GetPullRequestApprovalStatesInput: AWSEncodableShape {
 
         /// The system-generated ID for the pull request.
         public let pullRequestId: String
@@ -2668,7 +2668,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetPullRequestApprovalStatesOutput: AWSShape {
+    public struct GetPullRequestApprovalStatesOutput: AWSDecodableShape {
 
         /// Information about users who have approved the pull request.
         public let approvals: [Approval]?
@@ -2682,7 +2682,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetPullRequestInput: AWSShape {
+    public struct GetPullRequestInput: AWSEncodableShape {
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -2696,7 +2696,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetPullRequestOutput: AWSShape {
+    public struct GetPullRequestOutput: AWSDecodableShape {
 
         /// Information about the specified pull request.
         public let pullRequest: PullRequest
@@ -2710,7 +2710,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetPullRequestOverrideStateInput: AWSShape {
+    public struct GetPullRequestOverrideStateInput: AWSEncodableShape {
 
         /// The ID of the pull request for which you want to get information about whether approval rules have been set aside (overridden).
         public let pullRequestId: String
@@ -2728,7 +2728,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetPullRequestOverrideStateOutput: AWSShape {
+    public struct GetPullRequestOverrideStateOutput: AWSDecodableShape {
 
         /// A Boolean value that indicates whether a pull request has had its rules set aside (TRUE) or whether all approval rules still apply (FALSE).
         public let overridden: Bool?
@@ -2746,7 +2746,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetRepositoryInput: AWSShape {
+    public struct GetRepositoryInput: AWSEncodableShape {
 
         /// The name of the repository to get information about.
         public let repositoryName: String
@@ -2766,7 +2766,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetRepositoryOutput: AWSShape {
+    public struct GetRepositoryOutput: AWSDecodableShape {
 
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -2780,7 +2780,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetRepositoryTriggersInput: AWSShape {
+    public struct GetRepositoryTriggersInput: AWSEncodableShape {
 
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
@@ -2800,7 +2800,7 @@ extension CodeCommit {
         }
     }
 
-    public struct GetRepositoryTriggersOutput: AWSShape {
+    public struct GetRepositoryTriggersOutput: AWSDecodableShape {
 
         /// The system-generated unique ID for the trigger.
         public let configurationId: String?
@@ -2818,7 +2818,7 @@ extension CodeCommit {
         }
     }
 
-    public struct IsBinaryFile: AWSShape {
+    public struct IsBinaryFile: AWSDecodableShape {
 
         /// The binary or non-binary status of a file in the base of a merge or pull request.
         public let base: Bool?
@@ -2840,7 +2840,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListApprovalRuleTemplatesInput: AWSShape {
+    public struct ListApprovalRuleTemplatesInput: AWSEncodableShape {
 
         /// A non-zero, non-negative integer used to limit the number of returned results.
         public let maxResults: Int?
@@ -2858,7 +2858,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListApprovalRuleTemplatesOutput: AWSShape {
+    public struct ListApprovalRuleTemplatesOutput: AWSDecodableShape {
 
         /// The names of all the approval rule templates found in the AWS Region for your AWS account.
         public let approvalRuleTemplateNames: [String]?
@@ -2876,7 +2876,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSShape {
+    public struct ListAssociatedApprovalRuleTemplatesForRepositoryInput: AWSEncodableShape {
 
         /// A non-zero, non-negative integer used to limit the number of returned results.
         public let maxResults: Int?
@@ -2904,7 +2904,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutput: AWSShape {
+    public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutput: AWSDecodableShape {
 
         /// The names of all approval rule templates associated with the repository.
         public let approvalRuleTemplateNames: [String]?
@@ -2922,7 +2922,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListBranchesInput: AWSShape {
+    public struct ListBranchesInput: AWSEncodableShape {
 
         /// An enumeration token that allows the operation to batch the results.
         public let nextToken: String?
@@ -2946,7 +2946,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListBranchesOutput: AWSShape {
+    public struct ListBranchesOutput: AWSDecodableShape {
 
         /// The list of branch names.
         public let branches: [String]?
@@ -2964,7 +2964,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListPullRequestsInput: AWSShape {
+    public struct ListPullRequestsInput: AWSEncodableShape {
 
         /// Optional. The Amazon Resource Name (ARN) of the user who created the pull request. If used, this filters the results to pull requests created by that user.
         public let authorArn: String?
@@ -3000,7 +3000,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListPullRequestsOutput: AWSShape {
+    public struct ListPullRequestsOutput: AWSDecodableShape {
 
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -3018,7 +3018,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListRepositoriesForApprovalRuleTemplateInput: AWSShape {
+    public struct ListRepositoriesForApprovalRuleTemplateInput: AWSEncodableShape {
 
         /// The name of the approval rule template for which you want to list repositories that are associated with that template.
         public let approvalRuleTemplateName: String
@@ -3045,7 +3045,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListRepositoriesForApprovalRuleTemplateOutput: AWSShape {
+    public struct ListRepositoriesForApprovalRuleTemplateOutput: AWSDecodableShape {
 
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -3063,7 +3063,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListRepositoriesInput: AWSShape {
+    public struct ListRepositoriesInput: AWSEncodableShape {
 
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
@@ -3085,7 +3085,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListRepositoriesOutput: AWSShape {
+    public struct ListRepositoriesOutput: AWSDecodableShape {
 
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
@@ -3103,7 +3103,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
@@ -3121,7 +3121,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
@@ -3139,7 +3139,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Location: AWSShape {
+    public struct Location: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the file being compared, including its extension and subdirectory, if any.
         public let filePath: String?
@@ -3161,7 +3161,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeBranchesByFastForwardInput: AWSShape {
+    public struct MergeBranchesByFastForwardInput: AWSEncodableShape {
 
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let destinationCommitSpecifier: String
@@ -3195,7 +3195,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeBranchesByFastForwardOutput: AWSShape {
+    public struct MergeBranchesByFastForwardOutput: AWSDecodableShape {
 
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
@@ -3213,7 +3213,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeBranchesBySquashInput: AWSShape {
+    public struct MergeBranchesBySquashInput: AWSEncodableShape {
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -3276,7 +3276,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeBranchesBySquashOutput: AWSShape {
+    public struct MergeBranchesBySquashOutput: AWSDecodableShape {
 
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
@@ -3294,7 +3294,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeBranchesByThreeWayInput: AWSShape {
+    public struct MergeBranchesByThreeWayInput: AWSEncodableShape {
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -3357,7 +3357,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeBranchesByThreeWayOutput: AWSShape {
+    public struct MergeBranchesByThreeWayOutput: AWSDecodableShape {
 
         /// The commit ID of the merge in the destination or target branch.
         public let commitId: String?
@@ -3375,7 +3375,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeHunk: AWSShape {
+    public struct MergeHunk: AWSDecodableShape {
 
         /// Information about the merge hunk in the base of a merge or pull request.
         public let base: MergeHunkDetail?
@@ -3401,7 +3401,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeHunkDetail: AWSShape {
+    public struct MergeHunkDetail: AWSDecodableShape {
 
         /// The end position of the hunk in the merge result.
         public let endLine: Int?
@@ -3423,7 +3423,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeMetadata: AWSShape {
+    public struct MergeMetadata: AWSDecodableShape {
 
         /// A Boolean value indicating whether the merge has been made.
         public let isMerged: Bool?
@@ -3449,7 +3449,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergeOperations: AWSShape {
+    public struct MergeOperations: AWSDecodableShape {
 
         /// The operation on a file in the destination of a merge or pull request.
         public let destination: ChangeTypeEnum?
@@ -3467,7 +3467,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergePullRequestByFastForwardInput: AWSShape {
+    public struct MergePullRequestByFastForwardInput: AWSEncodableShape {
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -3495,7 +3495,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergePullRequestByFastForwardOutput: AWSShape {
+    public struct MergePullRequestByFastForwardOutput: AWSDecodableShape {
 
         /// Information about the specified pull request, including the merge.
         public let pullRequest: PullRequest?
@@ -3509,7 +3509,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergePullRequestBySquashInput: AWSShape {
+    public struct MergePullRequestBySquashInput: AWSEncodableShape {
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -3566,7 +3566,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergePullRequestBySquashOutput: AWSShape {
+    public struct MergePullRequestBySquashOutput: AWSDecodableShape {
 
         public let pullRequest: PullRequest?
 
@@ -3579,7 +3579,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergePullRequestByThreeWayInput: AWSShape {
+    public struct MergePullRequestByThreeWayInput: AWSEncodableShape {
 
         /// The name of the author who created the commit. This information is used as both the author and committer for the commit.
         public let authorName: String?
@@ -3636,7 +3636,7 @@ extension CodeCommit {
         }
     }
 
-    public struct MergePullRequestByThreeWayOutput: AWSShape {
+    public struct MergePullRequestByThreeWayOutput: AWSDecodableShape {
 
         public let pullRequest: PullRequest?
 
@@ -3649,7 +3649,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ObjectTypes: AWSShape {
+    public struct ObjectTypes: AWSDecodableShape {
 
         /// The type of the object in the base commit of the merge.
         public let base: ObjectTypeEnum?
@@ -3671,7 +3671,7 @@ extension CodeCommit {
         }
     }
 
-    public struct OriginApprovalRuleTemplate: AWSShape {
+    public struct OriginApprovalRuleTemplate: AWSDecodableShape {
 
         /// The ID of the template that created the approval rule.
         public let approvalRuleTemplateId: String?
@@ -3689,7 +3689,7 @@ extension CodeCommit {
         }
     }
 
-    public struct OverridePullRequestApprovalRulesInput: AWSShape {
+    public struct OverridePullRequestApprovalRulesInput: AWSEncodableShape {
 
         /// Whether you want to set aside approval rule requirements for the pull request (OVERRIDE) or revoke a previous override and apply approval rule requirements (REVOKE). REVOKE status is not stored.
         public let overrideStatus: OverrideStatus
@@ -3711,7 +3711,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentForComparedCommitInput: AWSShape {
+    public struct PostCommentForComparedCommitInput: AWSEncodableShape {
 
         /// To establish the directionality of the comparison, the full commit ID of the after commit.
         public let afterCommitId: String
@@ -3751,7 +3751,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentForComparedCommitOutput: AWSShape {
+    public struct PostCommentForComparedCommitOutput: AWSDecodableShape {
 
         /// In the directionality you established, the blob ID of the after blob.
         public let afterBlobId: String?
@@ -3789,7 +3789,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentForPullRequestInput: AWSShape {
+    public struct PostCommentForPullRequestInput: AWSEncodableShape {
 
         /// The full commit ID of the commit in the source branch that is the current tip of the branch for the pull request when you post the comment.
         public let afterCommitId: String
@@ -3833,7 +3833,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentForPullRequestOutput: AWSShape {
+    public struct PostCommentForPullRequestOutput: AWSDecodableShape {
 
         /// In the directionality of the pull request, the blob ID of the after blob.
         public let afterBlobId: String?
@@ -3875,7 +3875,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentReplyInput: AWSShape {
+    public struct PostCommentReplyInput: AWSEncodableShape {
 
         /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
         public let clientRequestToken: String?
@@ -3897,7 +3897,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PostCommentReplyOutput: AWSShape {
+    public struct PostCommentReplyOutput: AWSDecodableShape {
 
         /// Information about the reply to a comment.
         public let comment: Comment?
@@ -3911,7 +3911,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequest: AWSShape {
+    public struct PullRequest: AWSDecodableShape {
 
         /// The approval rules applied to the pull request.
         public let approvalRules: [ApprovalRule]?
@@ -3965,7 +3965,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestCreatedEventMetadata: AWSShape {
+    public struct PullRequestCreatedEventMetadata: AWSDecodableShape {
 
         /// The commit ID of the tip of the branch specified as the destination branch when the pull request was created.
         public let destinationCommitId: String?
@@ -3991,7 +3991,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestEvent: AWSShape {
+    public struct PullRequestEvent: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples include updating the pull request with more commits or changing the status of a pull request.
         public let actorArn: String?
@@ -4045,7 +4045,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestMergedStateChangedEventMetadata: AWSShape {
+    public struct PullRequestMergedStateChangedEventMetadata: AWSDecodableShape {
 
         /// The name of the branch that the pull request is merged into.
         public let destinationReference: String?
@@ -4067,7 +4067,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestSourceReferenceUpdatedEventMetadata: AWSShape {
+    public struct PullRequestSourceReferenceUpdatedEventMetadata: AWSDecodableShape {
 
         /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the pull request was updated.
         public let afterCommitId: String?
@@ -4093,7 +4093,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestStatusChangedEventMetadata: AWSShape {
+    public struct PullRequestStatusChangedEventMetadata: AWSDecodableShape {
 
         /// The changed status of the pull request.
         public let pullRequestStatus: PullRequestStatusEnum?
@@ -4107,7 +4107,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PullRequestTarget: AWSShape {
+    public struct PullRequestTarget: AWSDecodableShape {
 
         /// The full commit ID that is the tip of the destination branch. This is the commit where the pull request was or will be merged.
         public let destinationCommit: String?
@@ -4145,7 +4145,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PutFileEntry: AWSShape {
+    public struct PutFileEntry: AWSEncodableShape {
 
         /// The content of the file, if a source file is not specified.
         public let fileContent: Data?
@@ -4175,7 +4175,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PutFileInput: AWSShape {
+    public struct PutFileInput: AWSEncodableShape {
 
         /// The name of the branch where you want to add or update the file. If this is an empty repository, this branch is created.
         public let branchName: String
@@ -4230,7 +4230,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PutFileOutput: AWSShape {
+    public struct PutFileOutput: AWSDecodableShape {
 
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
@@ -4252,7 +4252,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PutRepositoryTriggersInput: AWSShape {
+    public struct PutRepositoryTriggersInput: AWSEncodableShape {
 
         /// The name of the repository where you want to create or update the trigger.
         public let repositoryName: String
@@ -4279,7 +4279,7 @@ extension CodeCommit {
         }
     }
 
-    public struct PutRepositoryTriggersOutput: AWSShape {
+    public struct PutRepositoryTriggersOutput: AWSDecodableShape {
 
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
@@ -4293,7 +4293,7 @@ extension CodeCommit {
         }
     }
 
-    public struct ReplaceContentEntry: AWSShape {
+    public struct ReplaceContentEntry: AWSEncodableShape {
 
         /// The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT.
         public let content: Data?
@@ -4323,7 +4323,7 @@ extension CodeCommit {
         }
     }
 
-    public struct RepositoryMetadata: AWSShape {
+    public struct RepositoryMetadata: AWSDecodableShape {
 
         /// The ID of the AWS account associated with the repository.
         public let accountId: String?
@@ -4373,7 +4373,7 @@ extension CodeCommit {
         }
     }
 
-    public struct RepositoryNameIdPair: AWSShape {
+    public struct RepositoryNameIdPair: AWSDecodableShape {
 
         /// The ID associated with the repository.
         public let repositoryId: String?
@@ -4391,7 +4391,7 @@ extension CodeCommit {
         }
     }
 
-    public struct RepositoryTrigger: AWSShape {
+    public struct RepositoryTrigger: AWSEncodableShape & AWSDecodableShape {
 
         /// The branches to be included in the trigger configuration. If you specify an empty array, the trigger applies to all branches.  Although no content is required in the array, you must include the array itself. 
         public let branches: [String]?
@@ -4428,7 +4428,7 @@ extension CodeCommit {
         }
     }
 
-    public struct RepositoryTriggerExecutionFailure: AWSShape {
+    public struct RepositoryTriggerExecutionFailure: AWSDecodableShape {
 
         /// Message information about the trigger that did not run.
         public let failureMessage: String?
@@ -4446,7 +4446,7 @@ extension CodeCommit {
         }
     }
 
-    public struct SetFileModeEntry: AWSShape {
+    public struct SetFileModeEntry: AWSEncodableShape {
 
         /// The file mode for the file.
         public let fileMode: FileModeTypeEnum
@@ -4464,7 +4464,7 @@ extension CodeCommit {
         }
     }
 
-    public struct SourceFileSpecifier: AWSShape {
+    public struct SourceFileSpecifier: AWSEncodableShape {
 
         /// The full path to the file, including the name of the file.
         public let filePath: String
@@ -4482,7 +4482,7 @@ extension CodeCommit {
         }
     }
 
-    public struct SubModule: AWSShape {
+    public struct SubModule: AWSDecodableShape {
 
         /// The fully qualified path to the folder that contains the reference to the submodule.
         public let absolutePath: String?
@@ -4504,7 +4504,7 @@ extension CodeCommit {
         }
     }
 
-    public struct SymbolicLink: AWSShape {
+    public struct SymbolicLink: AWSDecodableShape {
 
         /// The fully qualified path to the folder that contains the symbolic link.
         public let absolutePath: String?
@@ -4530,7 +4530,7 @@ extension CodeCommit {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
         public let resourceArn: String
@@ -4557,7 +4557,7 @@ extension CodeCommit {
         }
     }
 
-    public struct Target: AWSShape {
+    public struct Target: AWSEncodableShape {
 
         /// The branch of the repository where the pull request changes are merged. Also known as the destination branch.
         public let destinationReference: String?
@@ -4585,7 +4585,7 @@ extension CodeCommit {
         }
     }
 
-    public struct TestRepositoryTriggersInput: AWSShape {
+    public struct TestRepositoryTriggersInput: AWSEncodableShape {
 
         /// The name of the repository in which to test the triggers.
         public let repositoryName: String
@@ -4612,7 +4612,7 @@ extension CodeCommit {
         }
     }
 
-    public struct TestRepositoryTriggersOutput: AWSShape {
+    public struct TestRepositoryTriggersOutput: AWSDecodableShape {
 
         /// The list of triggers that were not tested. This list provides the names of the triggers that could not be tested, separated by commas.
         public let failedExecutions: [RepositoryTriggerExecutionFailure]?
@@ -4630,7 +4630,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to which you want to remove tags.
         public let resourceArn: String
@@ -4655,7 +4655,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateApprovalRuleTemplateContentInput: AWSShape {
+    public struct UpdateApprovalRuleTemplateContentInput: AWSEncodableShape {
 
         /// The name of the approval rule template where you want to update the content of the rule. 
         public let approvalRuleTemplateName: String
@@ -4684,7 +4684,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateApprovalRuleTemplateContentOutput: AWSShape {
+    public struct UpdateApprovalRuleTemplateContentOutput: AWSDecodableShape {
 
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
@@ -4697,7 +4697,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateApprovalRuleTemplateDescriptionInput: AWSShape {
+    public struct UpdateApprovalRuleTemplateDescriptionInput: AWSEncodableShape {
 
         /// The updated description of the approval rule template.
         public let approvalRuleTemplateDescription: String
@@ -4722,7 +4722,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateApprovalRuleTemplateDescriptionOutput: AWSShape {
+    public struct UpdateApprovalRuleTemplateDescriptionOutput: AWSDecodableShape {
 
         /// The structure and content of the updated approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -4736,7 +4736,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateApprovalRuleTemplateNameInput: AWSShape {
+    public struct UpdateApprovalRuleTemplateNameInput: AWSEncodableShape {
 
         /// The new name you want to apply to the approval rule template.
         public let newApprovalRuleTemplateName: String
@@ -4761,7 +4761,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateApprovalRuleTemplateNameOutput: AWSShape {
+    public struct UpdateApprovalRuleTemplateNameOutput: AWSDecodableShape {
 
         /// The structure and content of the updated approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
@@ -4775,7 +4775,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateCommentInput: AWSShape {
+    public struct UpdateCommentInput: AWSEncodableShape {
 
         /// The system-generated ID of the comment you want to update. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
@@ -4793,7 +4793,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateCommentOutput: AWSShape {
+    public struct UpdateCommentOutput: AWSDecodableShape {
 
         /// Information about the updated comment.
         public let comment: Comment?
@@ -4807,7 +4807,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateDefaultBranchInput: AWSShape {
+    public struct UpdateDefaultBranchInput: AWSEncodableShape {
 
         /// The name of the branch to set as the default.
         public let defaultBranchName: String
@@ -4833,7 +4833,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestApprovalRuleContentInput: AWSShape {
+    public struct UpdatePullRequestApprovalRuleContentInput: AWSEncodableShape {
 
         /// The name of the approval rule you want to update.
         public let approvalRuleName: String
@@ -4866,7 +4866,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestApprovalRuleContentOutput: AWSShape {
+    public struct UpdatePullRequestApprovalRuleContentOutput: AWSDecodableShape {
 
         /// Information about the updated approval rule.
         public let approvalRule: ApprovalRule
@@ -4880,7 +4880,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestApprovalStateInput: AWSShape {
+    public struct UpdatePullRequestApprovalStateInput: AWSEncodableShape {
 
         /// The approval state to associate with the user on the pull request.
         public let approvalState: ApprovalState
@@ -4902,7 +4902,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestDescriptionInput: AWSShape {
+    public struct UpdatePullRequestDescriptionInput: AWSEncodableShape {
 
         /// The updated content of the description for the pull request. This content replaces the existing description.
         public let description: String
@@ -4924,7 +4924,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestDescriptionOutput: AWSShape {
+    public struct UpdatePullRequestDescriptionOutput: AWSDecodableShape {
 
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
@@ -4938,7 +4938,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestStatusInput: AWSShape {
+    public struct UpdatePullRequestStatusInput: AWSEncodableShape {
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -4956,7 +4956,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestStatusOutput: AWSShape {
+    public struct UpdatePullRequestStatusOutput: AWSDecodableShape {
 
         /// Information about the pull request.
         public let pullRequest: PullRequest
@@ -4970,7 +4970,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestTitleInput: AWSShape {
+    public struct UpdatePullRequestTitleInput: AWSEncodableShape {
 
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
@@ -4992,7 +4992,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdatePullRequestTitleOutput: AWSShape {
+    public struct UpdatePullRequestTitleOutput: AWSDecodableShape {
 
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
@@ -5006,7 +5006,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateRepositoryDescriptionInput: AWSShape {
+    public struct UpdateRepositoryDescriptionInput: AWSEncodableShape {
 
         /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
         public let repositoryDescription: String?
@@ -5031,7 +5031,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UpdateRepositoryNameInput: AWSShape {
+    public struct UpdateRepositoryNameInput: AWSEncodableShape {
 
         /// The new name for the repository.
         public let newName: String
@@ -5058,7 +5058,7 @@ extension CodeCommit {
         }
     }
 
-    public struct UserInfo: AWSShape {
+    public struct UserInfo: AWSDecodableShape {
 
         /// The date when the specified commit was commited, in timestamp format with GMT offset.
         public let date: String?

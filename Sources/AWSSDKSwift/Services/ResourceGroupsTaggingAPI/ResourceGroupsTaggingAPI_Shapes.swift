@@ -42,7 +42,7 @@ extension ResourceGroupsTaggingAPI {
 
     //MARK: Shapes
 
-    public struct ComplianceDetails: AWSShape {
+    public struct ComplianceDetails: AWSDecodableShape {
 
         /// Whether a resource is compliant with the effective tag policy.
         public let complianceStatus: Bool?
@@ -64,7 +64,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct DescribeReportCreationInput: AWSShape {
+    public struct DescribeReportCreationInput: AWSEncodableShape {
 
 
         public init() {
@@ -72,7 +72,7 @@ extension ResourceGroupsTaggingAPI {
 
     }
 
-    public struct DescribeReportCreationOutput: AWSShape {
+    public struct DescribeReportCreationOutput: AWSDecodableShape {
 
         /// Details of the common errors that all operations return.
         public let errorMessage: String?
@@ -94,7 +94,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct FailureInfo: AWSShape {
+    public struct FailureInfo: AWSDecodableShape {
 
         /// The code of the common error. Valid values include InternalServiceException, InvalidParameterException, and any valid error code returned by the AWS service that hosts the resource that you want to tag.
         public let errorCode: ErrorCode?
@@ -116,7 +116,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetComplianceSummaryInput: AWSShape {
+    public struct GetComplianceSummaryInput: AWSEncodableShape {
 
         /// A list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes.
         public let groupBy: [GroupByAttribute]?
@@ -188,7 +188,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetComplianceSummaryOutput: AWSShape {
+    public struct GetComplianceSummaryOutput: AWSDecodableShape {
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -206,7 +206,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetResourcesInput: AWSShape {
+    public struct GetResourcesInput: AWSEncodableShape {
 
         /// Specifies whether to exclude resources that are compliant with the tag policy. Set this to true if you are interested in retrieving information on noncompliant resources only. You can use this parameter only if the IncludeComplianceDetails parameter is also set to true.
         public let excludeCompliantResources: Bool?
@@ -260,7 +260,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetResourcesOutput: AWSShape {
+    public struct GetResourcesOutput: AWSDecodableShape {
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -278,7 +278,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetTagKeysInput: AWSShape {
+    public struct GetTagKeysInput: AWSEncodableShape {
 
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
@@ -298,7 +298,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetTagKeysOutput: AWSShape {
+    public struct GetTagKeysOutput: AWSDecodableShape {
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -316,7 +316,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetTagValuesInput: AWSShape {
+    public struct GetTagValuesInput: AWSEncodableShape {
 
         /// The key for which you want to list all existing values in the specified Region for the AWS account.
         public let key: String
@@ -343,7 +343,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct GetTagValuesOutput: AWSShape {
+    public struct GetTagValuesOutput: AWSDecodableShape {
 
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -361,7 +361,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct ResourceTagMapping: AWSShape {
+    public struct ResourceTagMapping: AWSDecodableShape {
 
         /// Information that shows whether a resource is compliant with the effective tag policy, including details on any noncompliant tag keys.
         public let complianceDetails: ComplianceDetails?
@@ -383,7 +383,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct StartReportCreationInput: AWSShape {
+    public struct StartReportCreationInput: AWSEncodableShape {
 
         /// The name of the Amazon S3 bucket where the report will be stored; for example:  awsexamplebucket  For more information on S3 bucket requirements, including an example bucket policy, see the example S3 bucket policy on this page.
         public let s3Bucket: String
@@ -403,7 +403,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct StartReportCreationOutput: AWSShape {
+    public struct StartReportCreationOutput: AWSDecodableShape {
 
 
         public init() {
@@ -411,7 +411,7 @@ extension ResourceGroupsTaggingAPI {
 
     }
 
-    public struct Summary: AWSShape {
+    public struct Summary: AWSDecodableShape {
 
         /// The timestamp that shows when this summary was generated in this Region. 
         public let lastUpdated: String?
@@ -445,7 +445,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSDecodableShape {
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
@@ -463,7 +463,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct TagFilter: AWSShape {
+    public struct TagFilter: AWSEncodableShape {
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -494,7 +494,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct TagResourcesInput: AWSShape {
+    public struct TagResourcesInput: AWSEncodableShape {
 
         /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. You can specify a minimum of 1 and a maximum of 20 ARNs (resources) to tag. An ARN can be set to a maximum of 1600 characters. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
@@ -530,7 +530,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct TagResourcesOutput: AWSShape {
+    public struct TagResourcesOutput: AWSDecodableShape {
 
         /// A map containing a key-value pair for each failed item that couldn't be tagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
         public let failedResourcesMap: [String: FailureInfo]?
@@ -544,7 +544,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct UntagResourcesInput: AWSShape {
+    public struct UntagResourcesInput: AWSEncodableShape {
 
         /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. You can specify a minimum of 1 and a maximum of 20 ARNs (resources) to untag. An ARN can be set to a maximum of 1600 characters. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
@@ -579,7 +579,7 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct UntagResourcesOutput: AWSShape {
+    public struct UntagResourcesOutput: AWSDecodableShape {
 
         /// Details of resources that could not be untagged. An error code, status code, and error message are returned for each failed item. 
         public let failedResourcesMap: [String: FailureInfo]?

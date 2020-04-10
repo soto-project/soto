@@ -96,7 +96,7 @@ extension GroundStation {
 
     //MARK: Shapes
 
-    public struct AntennaDownlinkConfig: AWSShape {
+    public struct AntennaDownlinkConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Object that describes a spectral Config.
         public let spectrumConfig: SpectrumConfig
@@ -110,7 +110,7 @@ extension GroundStation {
         }
     }
 
-    public struct AntennaDownlinkDemodDecodeConfig: AWSShape {
+    public struct AntennaDownlinkDemodDecodeConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about the decode Config.
         public let decodeConfig: DecodeConfig
@@ -137,7 +137,7 @@ extension GroundStation {
         }
     }
 
-    public struct AntennaUplinkConfig: AWSShape {
+    public struct AntennaUplinkConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about the uplink spectral Config.
         public let spectrumConfig: UplinkSpectrumConfig
@@ -155,7 +155,7 @@ extension GroundStation {
         }
     }
 
-    public struct CancelContactRequest: AWSShape {
+    public struct CancelContactRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactId", location: .uri(locationName: "contactId"))
         ]
@@ -167,12 +167,10 @@ extension GroundStation {
             self.contactId = contactId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contactId = "contactId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ConfigIdResponse: AWSShape {
+    public struct ConfigIdResponse: AWSDecodableShape {
 
         /// ARN of a Config.
         public let configArn: String?
@@ -194,7 +192,7 @@ extension GroundStation {
         }
     }
 
-    public struct ConfigListItem: AWSShape {
+    public struct ConfigListItem: AWSDecodableShape {
 
         /// ARN of a Config.
         public let configArn: String?
@@ -220,7 +218,7 @@ extension GroundStation {
         }
     }
 
-    public struct ConfigTypeData: AWSShape {
+    public struct ConfigTypeData: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about how AWS Ground Station should configure an antenna for downlink during a contact.
         public let antennaDownlinkConfig: AntennaDownlinkConfig?
@@ -258,7 +256,7 @@ extension GroundStation {
         }
     }
 
-    public struct ContactData: AWSShape {
+    public struct ContactData: AWSDecodableShape {
 
         /// UUID of a contact.
         public let contactId: String?
@@ -320,7 +318,7 @@ extension GroundStation {
         }
     }
 
-    public struct ContactIdResponse: AWSShape {
+    public struct ContactIdResponse: AWSDecodableShape {
 
         /// UUID of a contact.
         public let contactId: String?
@@ -334,7 +332,7 @@ extension GroundStation {
         }
     }
 
-    public struct CreateConfigRequest: AWSShape {
+    public struct CreateConfigRequest: AWSEncodableShape {
 
         /// Parameters of a Config.
         public let configData: ConfigTypeData
@@ -363,7 +361,7 @@ extension GroundStation {
         }
     }
 
-    public struct CreateDataflowEndpointGroupRequest: AWSShape {
+    public struct CreateDataflowEndpointGroupRequest: AWSEncodableShape {
 
         /// Endpoint details of each endpoint in the dataflow endpoint group.
         public let endpointDetails: [EndpointDetails]
@@ -387,7 +385,7 @@ extension GroundStation {
         }
     }
 
-    public struct CreateMissionProfileRequest: AWSShape {
+    public struct CreateMissionProfileRequest: AWSEncodableShape {
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int?
@@ -441,7 +439,7 @@ extension GroundStation {
         }
     }
 
-    public struct DataflowEndpoint: AWSShape {
+    public struct DataflowEndpoint: AWSEncodableShape & AWSDecodableShape {
 
         /// Socket address of a dataflow endpoint.
         public let address: SocketAddress?
@@ -469,7 +467,7 @@ extension GroundStation {
         }
     }
 
-    public struct DataflowEndpointConfig: AWSShape {
+    public struct DataflowEndpointConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of a dataflow endpoint.
         public let dataflowEndpointName: String
@@ -487,7 +485,7 @@ extension GroundStation {
         }
     }
 
-    public struct DataflowEndpointGroupIdResponse: AWSShape {
+    public struct DataflowEndpointGroupIdResponse: AWSDecodableShape {
 
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
@@ -501,7 +499,7 @@ extension GroundStation {
         }
     }
 
-    public struct DataflowEndpointListItem: AWSShape {
+    public struct DataflowEndpointListItem: AWSDecodableShape {
 
         /// ARN of a dataflow endpoint group.
         public let dataflowEndpointGroupArn: String?
@@ -519,7 +517,7 @@ extension GroundStation {
         }
     }
 
-    public struct DecodeConfig: AWSShape {
+    public struct DecodeConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Unvalidated JSON of a decode Config.
         public let unvalidatedJSON: String
@@ -539,7 +537,7 @@ extension GroundStation {
         }
     }
 
-    public struct DeleteConfigRequest: AWSShape {
+    public struct DeleteConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")), 
             AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
@@ -555,13 +553,10 @@ extension GroundStation {
             self.configType = configType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configId = "configId"
-            case configType = "configType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDataflowEndpointGroupRequest: AWSShape {
+    public struct DeleteDataflowEndpointGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
         ]
@@ -573,12 +568,10 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMissionProfileRequest: AWSShape {
+    public struct DeleteMissionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
         ]
@@ -590,12 +583,10 @@ extension GroundStation {
             self.missionProfileId = missionProfileId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case missionProfileId = "missionProfileId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DemodulationConfig: AWSShape {
+    public struct DemodulationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Unvalidated JSON of a demodulation Config.
         public let unvalidatedJSON: String
@@ -615,7 +606,7 @@ extension GroundStation {
         }
     }
 
-    public struct DescribeContactRequest: AWSShape {
+    public struct DescribeContactRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactId", location: .uri(locationName: "contactId"))
         ]
@@ -627,12 +618,10 @@ extension GroundStation {
             self.contactId = contactId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contactId = "contactId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeContactResponse: AWSShape {
+    public struct DescribeContactResponse: AWSDecodableShape {
 
         /// UUID of a contact.
         public let contactId: String?
@@ -694,7 +683,7 @@ extension GroundStation {
         }
     }
 
-    public struct Eirp: AWSShape {
+    public struct Eirp: AWSEncodableShape & AWSDecodableShape {
 
         /// Units of an EIRP.
         public let units: EirpUnits
@@ -712,7 +701,7 @@ extension GroundStation {
         }
     }
 
-    public struct Elevation: AWSShape {
+    public struct Elevation: AWSDecodableShape {
 
         /// Elevation angle units.
         public let unit: AngleUnits
@@ -730,7 +719,7 @@ extension GroundStation {
         }
     }
 
-    public struct EndpointDetails: AWSShape {
+    public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
 
         /// A dataflow endpoint.
         public let endpoint: DataflowEndpoint?
@@ -752,7 +741,7 @@ extension GroundStation {
         }
     }
 
-    public struct Frequency: AWSShape {
+    public struct Frequency: AWSEncodableShape & AWSDecodableShape {
 
         /// Frequency units.
         public let units: FrequencyUnits
@@ -770,7 +759,7 @@ extension GroundStation {
         }
     }
 
-    public struct FrequencyBandwidth: AWSShape {
+    public struct FrequencyBandwidth: AWSEncodableShape & AWSDecodableShape {
 
         /// Frequency bandwidth units.
         public let units: BandwidthUnits
@@ -788,7 +777,7 @@ extension GroundStation {
         }
     }
 
-    public struct GetConfigRequest: AWSShape {
+    public struct GetConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")), 
             AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
@@ -804,13 +793,10 @@ extension GroundStation {
             self.configType = configType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configId = "configId"
-            case configType = "configType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConfigResponse: AWSShape {
+    public struct GetConfigResponse: AWSDecodableShape {
 
         /// ARN of a Config 
         public let configArn: String
@@ -844,7 +830,7 @@ extension GroundStation {
         }
     }
 
-    public struct GetDataflowEndpointGroupRequest: AWSShape {
+    public struct GetDataflowEndpointGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dataflowEndpointGroupId", location: .uri(locationName: "dataflowEndpointGroupId"))
         ]
@@ -856,12 +842,10 @@ extension GroundStation {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDataflowEndpointGroupResponse: AWSShape {
+    public struct GetDataflowEndpointGroupResponse: AWSDecodableShape {
 
         /// ARN of a dataflow endpoint group.
         public let dataflowEndpointGroupArn: String?
@@ -887,7 +871,7 @@ extension GroundStation {
         }
     }
 
-    public struct GetMinuteUsageRequest: AWSShape {
+    public struct GetMinuteUsageRequest: AWSEncodableShape {
 
         /// The month being requested, with a value of 1-12.
         public let month: Int
@@ -905,7 +889,7 @@ extension GroundStation {
         }
     }
 
-    public struct GetMinuteUsageResponse: AWSShape {
+    public struct GetMinuteUsageResponse: AWSDecodableShape {
 
         /// Estimated number of minutes remaining for an account, specific to the month being requested.
         public let estimatedMinutesRemaining: Int?
@@ -935,7 +919,7 @@ extension GroundStation {
         }
     }
 
-    public struct GetMissionProfileRequest: AWSShape {
+    public struct GetMissionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
         ]
@@ -947,12 +931,10 @@ extension GroundStation {
             self.missionProfileId = missionProfileId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case missionProfileId = "missionProfileId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMissionProfileResponse: AWSShape {
+    public struct GetMissionProfileResponse: AWSDecodableShape {
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int?
@@ -1002,7 +984,7 @@ extension GroundStation {
         }
     }
 
-    public struct GetSatelliteRequest: AWSShape {
+    public struct GetSatelliteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "satelliteId", location: .uri(locationName: "satelliteId"))
         ]
@@ -1014,12 +996,10 @@ extension GroundStation {
             self.satelliteId = satelliteId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case satelliteId = "satelliteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSatelliteResponse: AWSShape {
+    public struct GetSatelliteResponse: AWSDecodableShape {
 
         /// A list of ground stations to which the satellite is on-boarded.
         public let groundStations: [String]?
@@ -1045,7 +1025,7 @@ extension GroundStation {
         }
     }
 
-    public struct GroundStationData: AWSShape {
+    public struct GroundStationData: AWSDecodableShape {
 
         /// UUID of a ground station.
         public let groundStationId: String?
@@ -1067,7 +1047,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListConfigsRequest: AWSShape {
+    public struct ListConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1083,13 +1063,10 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListConfigsResponse: AWSShape {
+    public struct ListConfigsResponse: AWSDecodableShape {
 
         /// List of Config items.
         public let configList: [ConfigListItem]?
@@ -1107,7 +1084,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListContactsRequest: AWSShape {
+    public struct ListContactsRequest: AWSEncodableShape {
 
         /// End time of a contact.
         public let endTime: TimeStamp
@@ -1149,7 +1126,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListContactsResponse: AWSShape {
+    public struct ListContactsResponse: AWSDecodableShape {
 
         /// List of contacts.
         public let contactList: [ContactData]?
@@ -1167,7 +1144,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListDataflowEndpointGroupsRequest: AWSShape {
+    public struct ListDataflowEndpointGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1183,13 +1160,10 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDataflowEndpointGroupsResponse: AWSShape {
+    public struct ListDataflowEndpointGroupsResponse: AWSDecodableShape {
 
         /// A list of dataflow endpoint groups.
         public let dataflowEndpointGroupList: [DataflowEndpointListItem]?
@@ -1207,7 +1181,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListGroundStationsRequest: AWSShape {
+    public struct ListGroundStationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -1227,14 +1201,10 @@ extension GroundStation {
             self.satelliteId = satelliteId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case satelliteId = "satelliteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListGroundStationsResponse: AWSShape {
+    public struct ListGroundStationsResponse: AWSDecodableShape {
 
         /// List of ground stations.
         public let groundStationList: [GroundStationData]?
@@ -1252,7 +1222,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListMissionProfilesRequest: AWSShape {
+    public struct ListMissionProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1268,13 +1238,10 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListMissionProfilesResponse: AWSShape {
+    public struct ListMissionProfilesResponse: AWSDecodableShape {
 
         /// List of mission profiles.
         public let missionProfileList: [MissionProfileListItem]?
@@ -1292,7 +1259,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListSatellitesRequest: AWSShape {
+    public struct ListSatellitesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1308,13 +1275,10 @@ extension GroundStation {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSatellitesResponse: AWSShape {
+    public struct ListSatellitesResponse: AWSDecodableShape {
 
         /// Next token that can be supplied in the next call to get the next page of satellites.
         public let nextToken: String?
@@ -1332,7 +1296,7 @@ extension GroundStation {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1344,12 +1308,10 @@ extension GroundStation {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// Tags assigned to a resource.
         public let tags: [String: String]?
@@ -1363,7 +1325,7 @@ extension GroundStation {
         }
     }
 
-    public struct MissionProfileIdResponse: AWSShape {
+    public struct MissionProfileIdResponse: AWSDecodableShape {
 
         /// UUID of a mission profile.
         public let missionProfileId: String?
@@ -1377,7 +1339,7 @@ extension GroundStation {
         }
     }
 
-    public struct MissionProfileListItem: AWSShape {
+    public struct MissionProfileListItem: AWSDecodableShape {
 
         /// ARN of a mission profile.
         public let missionProfileArn: String?
@@ -1403,7 +1365,7 @@ extension GroundStation {
         }
     }
 
-    public struct ReserveContactRequest: AWSShape {
+    public struct ReserveContactRequest: AWSEncodableShape {
 
         /// End time of a contact.
         public let endTime: TimeStamp
@@ -1437,7 +1399,7 @@ extension GroundStation {
         }
     }
 
-    public struct SatelliteListItem: AWSShape {
+    public struct SatelliteListItem: AWSDecodableShape {
 
         /// A list of ground stations to which the satellite is on-boarded.
         public let groundStations: [String]?
@@ -1463,7 +1425,7 @@ extension GroundStation {
         }
     }
 
-    public struct SecurityDetails: AWSShape {
+    public struct SecurityDetails: AWSEncodableShape & AWSDecodableShape {
 
         /// ARN to a role needed for connecting streams to your instances. 
         public let roleArn: String
@@ -1485,7 +1447,7 @@ extension GroundStation {
         }
     }
 
-    public struct SocketAddress: AWSShape {
+    public struct SocketAddress: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of a socket address.
         public let name: String
@@ -1503,7 +1465,7 @@ extension GroundStation {
         }
     }
 
-    public struct SpectrumConfig: AWSShape {
+    public struct SpectrumConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Bandwidth of a spectral Config.
         public let bandwidth: FrequencyBandwidth
@@ -1525,7 +1487,7 @@ extension GroundStation {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1541,12 +1503,11 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1554,7 +1515,7 @@ extension GroundStation {
 
     }
 
-    public struct TrackingConfig: AWSShape {
+    public struct TrackingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Current setting for autotrack.
         public let autotrack: Criticality
@@ -1568,7 +1529,7 @@ extension GroundStation {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1584,13 +1545,10 @@ extension GroundStation {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1598,7 +1556,7 @@ extension GroundStation {
 
     }
 
-    public struct UpdateConfigRequest: AWSShape {
+    public struct UpdateConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configId", location: .uri(locationName: "configId")), 
             AWSMemberEncoding(label: "configType", location: .uri(locationName: "configType"))
@@ -1629,13 +1587,11 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case configData = "configData"
-            case configId = "configId"
-            case configType = "configType"
             case name = "name"
         }
     }
 
-    public struct UpdateMissionProfileRequest: AWSShape {
+    public struct UpdateMissionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "missionProfileId", location: .uri(locationName: "missionProfileId"))
         ]
@@ -1686,13 +1642,12 @@ extension GroundStation {
             case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
             case dataflowEdges = "dataflowEdges"
             case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
-            case missionProfileId = "missionProfileId"
             case name = "name"
             case trackingConfigArn = "trackingConfigArn"
         }
     }
 
-    public struct UplinkEchoConfig: AWSShape {
+    public struct UplinkEchoConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// ARN of an uplink Config.
         public let antennaUplinkConfigArn: String
@@ -1710,7 +1665,7 @@ extension GroundStation {
         }
     }
 
-    public struct UplinkSpectrumConfig: AWSShape {
+    public struct UplinkSpectrumConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Center frequency of an uplink spectral Config.
         public let centerFrequency: Frequency

@@ -22,7 +22,7 @@ extension SageMakerRuntime {
 
     //MARK: Shapes
 
-    public struct InvokeEndpointInput: AWSShape {
+    public struct InvokeEndpointInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -72,16 +72,11 @@ extension SageMakerRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
             case body = "Body"
-            case contentType = "Content-Type"
-            case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
-            case endpointName = "EndpointName"
-            case targetModel = "X-Amzn-SageMaker-Target-Model"
         }
     }
 
-    public struct InvokeEndpointOutput: AWSShape {
+    public struct InvokeEndpointOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [

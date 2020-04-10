@@ -163,14 +163,22 @@ extension AWSService {
         }
     }
 
+    struct CodingKeysContext {
+        let variable : String
+        let codingKey : String
+        var duplicate : Bool
+    }
+
     struct StructureContext {
-        let object : String
-        let name : String
-        let payload : String?
-        let namespace : String?
-        let members : [MemberContext]
-        let awsShapeMembers : [AWSShapeMemberContext]
-        let validation : [ValidationContext]
+        let object: String
+        let name: String
+        let shapeProtocol: String
+        let payload: String?
+        let namespace: String?
+        let members: [MemberContext]
+        let awsShapeMembers: [AWSShapeMemberContext]
+        let codingKeys: [CodingKeysContext]
+        let validation: [ValidationContext]
     }
 
     struct ResultContext {
@@ -408,6 +416,23 @@ extension AWSService {
         )
     }
     
+    /// Generate the context information for outputting a member variable
+    func generateCodingKeyContext(_ member: Shape.Member, name: String, shape: Shape) -> CodingKeysContext? {
+        switch member.location {
+        case .header, .headers, .querystring, .uri:
+            if !shape.usedInOutput {
+                return nil
+            }
+        default:
+            break
+        }
+        return CodingKeysContext(
+            variable: name.toSwiftVariableCase(),
+            codingKey: member.getLocationName() ?? name,
+            duplicate: false
+        )
+    }
+
     /// Return encoding string for shap member
     func getEncoding(for member: Shape.Member, isPayload: Bool) -> String? {
         if case .blob(_, _) = member.shape.type, isPayload {
@@ -436,12 +461,16 @@ extension AWSService {
     }
     
     /// Generate the context information for outputting a member variable
-    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape, isPayload: Bool) -> AWSShapeMemberContext? {
+    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> AWSShapeMemberContext? {
+        if shape.name == "GetJobOutputOutput" {
+            print("HELO")
+        }
+        let isPayload = (shape.payload == name)
         let encoding = getEncoding(for: member, isPayload: isPayload)
         var locationName: String? = member.getLocationName()
         let location = member.location ?? .body
 
-        if (isPayload || encoding != nil) && locationName == nil {
+        if ((isPayload && shape.usedInOutput) || encoding != nil || (location != .body && location != .statusCode)) && locationName == nil {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
@@ -527,9 +556,27 @@ extension AWSService {
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: Shape.ShapeType.StructureType) -> StructureContext {
         var memberContexts : [MemberContext] = []
+        var codingKeyContexts: [CodingKeysContext] = []
         var awsShapeMemberContexts : [AWSShapeMemberContext] = []
         var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
+        var shapeProtocol: String
+
+        if shape.usedInInput {
+            shapeProtocol = "AWSEncodableShape"
+            if shape.usedInOutput {
+                shapeProtocol += " & AWSDecodableShape"
+            }
+        } else if shape.usedInOutput {
+            shapeProtocol = "AWSDecodableShape"
+        } else {
+            preconditionFailure("AWSShape has to be used in either input or output")
+        }
+
+        if shape.payload != nil {
+           shapeProtocol += " & AWSShapeWithPayload"
+        }
+
         let members = type.members.map { (key:$0.key, value:$0.value)} .sorted {$0.key.lowercased() < $1.key.lowercased() }
         for member in members {
             var memberContext = generateMemberContext(member.value, name: member.key, shape: shape)
@@ -544,8 +591,16 @@ extension AWSService {
 
             memberContexts.append(memberContext)
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(member.value, name: member.key, shape: shape, isPayload: shape.payload == member.key) {
+            if let awsShapeMemberContext = generateAWSShapeMemberContext(
+                member.value,
+                name: member.key,
+                shape: shape) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
+            }
+
+            // CodingKey entry
+            if let codingKeyContext = generateCodingKeyContext(member.value, name:member.key, shape: shape) {
+                codingKeyContexts.append(codingKeyContext)
             }
 
             // only output validation for shapes used in inputs to service apis
@@ -559,10 +614,12 @@ extension AWSService {
         return StructureContext(
             object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
             name: shape.swiftTypeName,
+            shapeProtocol: shapeProtocol,
             payload: shape.payload?.toSwiftLabelCase(),
             namespace: shape.xmlNamespace?.uri,
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,
+            codingKeys: codingKeyContexts,
             validation: validationContexts)
     }
 

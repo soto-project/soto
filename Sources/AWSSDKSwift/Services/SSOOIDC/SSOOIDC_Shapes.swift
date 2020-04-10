@@ -22,7 +22,7 @@ extension SSOOIDC {
 
     //MARK: Shapes
 
-    public struct CreateTokenRequest: AWSShape {
+    public struct CreateTokenRequest: AWSEncodableShape {
 
         /// The unique identifier string for each client. This value should come from the persisted result of the RegisterClient API.
         public let clientId: String
@@ -64,7 +64,7 @@ extension SSOOIDC {
         }
     }
 
-    public struct CreateTokenResponse: AWSShape {
+    public struct CreateTokenResponse: AWSDecodableShape {
 
         /// An opaque token to access AWS SSO resources assigned to a user.
         public let accessToken: String?
@@ -94,7 +94,7 @@ extension SSOOIDC {
         }
     }
 
-    public struct RegisterClientRequest: AWSShape {
+    public struct RegisterClientRequest: AWSEncodableShape {
 
         /// The friendly name of the client.
         public let clientName: String
@@ -116,7 +116,7 @@ extension SSOOIDC {
         }
     }
 
-    public struct RegisterClientResponse: AWSShape {
+    public struct RegisterClientResponse: AWSDecodableShape {
 
         /// The endpoint where the client can request authorization.
         public let authorizationEndpoint: String?
@@ -150,7 +150,7 @@ extension SSOOIDC {
         }
     }
 
-    public struct StartDeviceAuthorizationRequest: AWSShape {
+    public struct StartDeviceAuthorizationRequest: AWSEncodableShape {
 
         /// The unique identifier string for the client that is registered with AWS SSO. This value should come from the persisted result of the RegisterClient API operation.
         public let clientId: String
@@ -172,7 +172,7 @@ extension SSOOIDC {
         }
     }
 
-    public struct StartDeviceAuthorizationResponse: AWSShape {
+    public struct StartDeviceAuthorizationResponse: AWSDecodableShape {
 
         /// The short-lived code that is used by the device when polling for a session token.
         public let deviceCode: String?

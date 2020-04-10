@@ -27,7 +27,7 @@ extension Pricing {
 
     //MARK: Shapes
 
-    public struct AttributeValue: AWSShape {
+    public struct AttributeValue: AWSDecodableShape {
 
         /// The specific value of an attributeName.
         public let value: String?
@@ -41,7 +41,7 @@ extension Pricing {
         }
     }
 
-    public struct DescribeServicesRequest: AWSShape {
+    public struct DescribeServicesRequest: AWSEncodableShape {
 
         /// The format version that you want the response to be in. Valid values are: aws_v1 
         public let formatVersion: String?
@@ -72,7 +72,7 @@ extension Pricing {
         }
     }
 
-    public struct DescribeServicesResponse: AWSShape {
+    public struct DescribeServicesResponse: AWSDecodableShape {
 
         /// The format version of the response. For example, aws_v1.
         public let formatVersion: String?
@@ -94,7 +94,7 @@ extension Pricing {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
         public let field: String
@@ -116,7 +116,7 @@ extension Pricing {
         }
     }
 
-    public struct GetAttributeValuesRequest: AWSShape {
+    public struct GetAttributeValuesRequest: AWSEncodableShape {
 
         /// The name of the attribute that you want to retrieve the values for, such as volumeType.
         public let attributeName: String
@@ -147,7 +147,7 @@ extension Pricing {
         }
     }
 
-    public struct GetAttributeValuesResponse: AWSShape {
+    public struct GetAttributeValuesResponse: AWSDecodableShape {
 
         /// The list of values for an attribute. For example, Throughput Optimized HDD and Provisioned IOPS are two available values for the AmazonEC2 volumeType.
         public let attributeValues: [AttributeValue]?
@@ -165,7 +165,7 @@ extension Pricing {
         }
     }
 
-    public struct GetProductsRequest: AWSShape {
+    public struct GetProductsRequest: AWSEncodableShape {
 
         /// The list of filters that limit the returned products. only products that match all filters are returned.
         public let filters: [Filter]?
@@ -200,7 +200,7 @@ extension Pricing {
         }
     }
 
-    public struct GetProductsResponse: AWSShape {
+    public struct GetProductsResponse: AWSDecodableShape {
 
         /// The format version of the response. For example, aws_v1.
         public let formatVersion: String?
@@ -222,7 +222,7 @@ extension Pricing {
         }
     }
 
-    public struct Service: AWSShape {
+    public struct Service: AWSDecodableShape {
 
         /// The attributes that are available for this service.
         public let attributeNames: [String]?

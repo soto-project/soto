@@ -212,7 +212,7 @@ extension Route53 {
 
     //MARK: Shapes
 
-    public struct AccountLimit: AWSShape {
+    public struct AccountLimit: AWSDecodableShape {
 
         /// The limit that you requested. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)  
         public let `type`: AccountLimitType
@@ -230,7 +230,7 @@ extension Route53 {
         }
     }
 
-    public struct AlarmIdentifier: AWSShape {
+    public struct AlarmIdentifier: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.  Route 53 supports CloudWatch alarms with the following features:   Standard-resolution metrics. High-resolution metrics aren't supported. For more information, see High-Resolution Metrics in the Amazon CloudWatch User Guide.   Statistics: Average, Minimum, Maximum, Sum, and SampleCount. Extended statistics aren't supported.   
         public let name: String
@@ -253,7 +253,7 @@ extension Route53 {
         }
     }
 
-    public struct AliasTarget: AWSShape {
+    public struct AliasTarget: AWSEncodableShape & AWSDecodableShape {
 
         ///  Alias resource record sets only: The value that you specify depends on where you want to route queries:  Amazon API Gateway custom regional APIs and edge-optimized APIs  Specify the applicable domain name for your API. You can get the applicable value using the AWS CLI command get-domain-names:   For regional APIs, specify the value of regionalDomainName.   For edge-optimized APIs, specify the value of distributionDomainName. This is the name of the associated CloudFront distribution, such as da1b2c3d4e5.cloudfront.net.    The name of the record that you're creating must match a custom domain name for your API, such as api.example.com.   Amazon Virtual Private Cloud interface VPC endpoint  Enter the API endpoint for the interface endpoint, such as vpce-123456789abcdef01-example-us-east-1a.elasticloadbalancing.us-east-1.vpce.amazonaws.com. For edge-optimized APIs, this is the domain name for the corresponding CloudFront distribution. You can get the value of DnsName using the AWS CLI command describe-vpc-endpoints.  CloudFront distribution  Specify the domain name that CloudFront assigned when you created your distribution. Your CloudFront distribution must include an alternate domain name that matches the name of the resource record set. For example, if the name of the resource record set is acme.example.com, your CloudFront distribution must include acme.example.com as one of the alternate domain names. For more information, see Using Alternate Domain Names (CNAMEs) in the Amazon CloudFront Developer Guide. You can't create a resource record set in a private hosted zone to route traffic to a CloudFront distribution.  For failover alias records, you can't specify a CloudFront distribution for both the primary and secondary records. A distribution must include an alternate domain name that matches the name of the record. However, the primary and secondary records have the same name, and you can't include the same alternate domain name in more than one distribution.    Elastic Beanstalk environment  If the domain name for your Elastic Beanstalk environment includes the region that you deployed the environment in, you can create an alias record that routes traffic to the environment. For example, the domain name my-environment.us-west-2.elasticbeanstalk.com is a regionalized domain name.   For environments that were created before early 2016, the domain name doesn't include the region. To route traffic to these environments, you must create a CNAME record instead of an alias record. Note that you can't create a CNAME record for the root domain name. For example, if your domain name is example.com, you can create a record that routes traffic for acme.example.com to your Elastic Beanstalk environment, but you can't create a record that routes traffic for example.com to your Elastic Beanstalk environment.  For Elastic Beanstalk environments that have regionalized subdomains, specify the CNAME attribute for the environment. You can use the following methods to get the value of the CNAME attribute:    AWS Management Console: For information about how to get the value by using the console, see Using Custom Domains with AWS Elastic Beanstalk in the AWS Elastic Beanstalk Developer Guide.    Elastic Beanstalk API: Use the DescribeEnvironments action to get the value of the CNAME attribute. For more information, see DescribeEnvironments in the AWS Elastic Beanstalk API Reference.    AWS CLI: Use the describe-environments command to get the value of the CNAME attribute. For more information, see describe-environments in the AWS CLI Command Reference.    ELB load balancer  Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.     AWS Management Console: Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field.  If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack. If you're routing traffic to another type of load balancer, get the value that applies to the record type, A or AAAA.    Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancers: DescribeLoadBalancers    Application and Network Load Balancers: DescribeLoadBalancers       AWS CLI: Use describe-load-balancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancers: describe-load-balancers    Application and Network Load Balancers: describe-load-balancers       AWS Global Accelerator accelerator  Specify the DNS name for your accelerator:    Global Accelerator API: To get the DNS name, use DescribeAccelerator.    AWS CLI: To get the DNS name, use describe-accelerator.    Amazon S3 bucket that is configured as a static website  Specify the domain name of the Amazon S3 website endpoint that you created the bucket in, for example, s3-website.us-east-2.amazonaws.com. For more information about valid values, see the table Amazon S3 Website Endpoints in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.   Another Route 53 resource record set  Specify the value of the Name element for a resource record set in the current hosted zone.  If you're creating an alias record that has the same name as the hosted zone (known as the zone apex), you can't specify the domain name for a record for which the value of Type is CNAME. This is because the alias record must have the same type as the record that you're routing traffic to, and creating a CNAME record for the zone apex isn't supported even for an alias record.   
         public let dNSName: String
@@ -280,7 +280,7 @@ extension Route53 {
         }
     }
 
-    public struct AssociateVPCWithHostedZoneRequest: AWSShape {
+    public struct AssociateVPCWithHostedZoneRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
@@ -306,12 +306,11 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
 
-    public struct AssociateVPCWithHostedZoneResponse: AWSShape {
+    public struct AssociateVPCWithHostedZoneResponse: AWSDecodableShape {
 
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
@@ -325,7 +324,7 @@ extension Route53 {
         }
     }
 
-    public struct Change: AWSShape {
+    public struct Change: AWSEncodableShape {
 
         /// The action to perform:    CREATE: Creates a resource record set that has the specified values.    DELETE: Deletes a existing resource record set.  To delete the resource record set that is associated with a traffic policy instance, use DeleteTrafficPolicyInstance. Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.      UPSERT: If a resource record set doesn't already exist, Route 53 creates it. If a resource record set does exist, Route 53 updates it with the values in the request.  
         public let action: ChangeAction
@@ -347,7 +346,7 @@ extension Route53 {
         }
     }
 
-    public struct ChangeBatch: AWSShape {
+    public struct ChangeBatch: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "changes", location: .body(locationName: "Changes"), encoding: .list(member:"Change"))
         ]
@@ -376,7 +375,7 @@ extension Route53 {
         }
     }
 
-    public struct ChangeInfo: AWSShape {
+    public struct ChangeInfo: AWSDecodableShape {
 
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let comment: String?
@@ -402,7 +401,7 @@ extension Route53 {
         }
     }
 
-    public struct ChangeResourceRecordSetsRequest: AWSShape {
+    public struct ChangeResourceRecordSetsRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
@@ -425,11 +424,10 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case changeBatch = "ChangeBatch"
-            case hostedZoneId = "Id"
         }
     }
 
-    public struct ChangeResourceRecordSetsResponse: AWSShape {
+    public struct ChangeResourceRecordSetsResponse: AWSDecodableShape {
 
         /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let changeInfo: ChangeInfo
@@ -443,7 +441,7 @@ extension Route53 {
         }
     }
 
-    public struct ChangeTagsForResourceRequest: AWSShape {
+    public struct ChangeTagsForResourceRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "addTags", location: .body(locationName: "AddTags"), encoding: .list(member:"Tag")), 
@@ -485,12 +483,10 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case addTags = "AddTags"
             case removeTagKeys = "RemoveTagKeys"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
         }
     }
 
-    public struct ChangeTagsForResourceResponse: AWSShape {
+    public struct ChangeTagsForResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -498,7 +494,7 @@ extension Route53 {
 
     }
 
-    public struct CloudWatchAlarmConfiguration: AWSShape {
+    public struct CloudWatchAlarmConfiguration: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"Dimension"))
         ]
@@ -543,7 +539,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateHealthCheckRequest: AWSShape {
+    public struct CreateHealthCheckRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:   If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the settings for the existing health check.   If you send a CreateHealthCheck request with the same CallerReference as a deleted health check, regardless of the settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with the same CallerReference as an existing health check but with different settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with a unique CallerReference but settings identical to an existing health check, Route 53 creates the health check.  
@@ -568,7 +564,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateHealthCheckResponse: AWSShape {
+    public struct CreateHealthCheckResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -589,7 +585,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateHostedZoneRequest: AWSShape {
+    public struct CreateHostedZoneRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
@@ -629,7 +625,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateHostedZoneResponse: AWSShape {
+    public struct CreateHostedZoneResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -662,7 +658,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateQueryLoggingConfigRequest: AWSShape {
+    public struct CreateQueryLoggingConfigRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region:account-id:log-group:log_group_name  To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the AWS SDKs.
@@ -685,7 +681,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateQueryLoggingConfigResponse: AWSShape {
+    public struct CreateQueryLoggingConfigResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -706,7 +702,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateReusableDelegationSetRequest: AWSShape {
+    public struct CreateReusableDelegationSetRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
@@ -731,7 +727,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateReusableDelegationSetResponse: AWSShape {
+    public struct CreateReusableDelegationSetResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -752,7 +748,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateTrafficPolicyInstanceRequest: AWSShape {
+    public struct CreateTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy.
@@ -794,7 +790,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateTrafficPolicyInstanceResponse: AWSShape {
+    public struct CreateTrafficPolicyInstanceResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -815,7 +811,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateTrafficPolicyRequest: AWSShape {
+    public struct CreateTrafficPolicyRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
         /// (Optional) Any comments that you want to include about the traffic policy.
@@ -844,7 +840,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateTrafficPolicyResponse: AWSShape {
+    public struct CreateTrafficPolicyResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -865,7 +861,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateTrafficPolicyVersionRequest: AWSShape {
+    public struct CreateTrafficPolicyVersionRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -894,11 +890,10 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case document = "Document"
-            case id = "Id"
         }
     }
 
-    public struct CreateTrafficPolicyVersionResponse: AWSShape {
+    public struct CreateTrafficPolicyVersionResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
@@ -919,7 +914,7 @@ extension Route53 {
         }
     }
 
-    public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
+    public struct CreateVPCAssociationAuthorizationRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
@@ -941,12 +936,11 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
 
-    public struct CreateVPCAssociationAuthorizationResponse: AWSShape {
+    public struct CreateVPCAssociationAuthorizationResponse: AWSDecodableShape {
 
         /// The ID of the hosted zone that you authorized associating a VPC with.
         public let hostedZoneId: String
@@ -964,7 +958,7 @@ extension Route53 {
         }
     }
 
-    public struct DelegationSet: AWSShape {
+    public struct DelegationSet: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nameServers", location: .body(locationName: "NameServers"), encoding: .list(member:"NameServer"))
         ]
@@ -989,7 +983,7 @@ extension Route53 {
         }
     }
 
-    public struct DeleteHealthCheckRequest: AWSShape {
+    public struct DeleteHealthCheckRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
@@ -1005,12 +999,10 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteHealthCheckResponse: AWSShape {
+    public struct DeleteHealthCheckResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1018,7 +1010,7 @@ extension Route53 {
 
     }
 
-    public struct DeleteHostedZoneRequest: AWSShape {
+    public struct DeleteHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1034,12 +1026,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteHostedZoneResponse: AWSShape {
+    public struct DeleteHostedZoneResponse: AWSDecodableShape {
 
         /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
         public let changeInfo: ChangeInfo
@@ -1053,7 +1043,7 @@ extension Route53 {
         }
     }
 
-    public struct DeleteQueryLoggingConfigRequest: AWSShape {
+    public struct DeleteQueryLoggingConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1070,12 +1060,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteQueryLoggingConfigResponse: AWSShape {
+    public struct DeleteQueryLoggingConfigResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1083,7 +1071,7 @@ extension Route53 {
 
     }
 
-    public struct DeleteReusableDelegationSetRequest: AWSShape {
+    public struct DeleteReusableDelegationSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1099,12 +1087,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteReusableDelegationSetResponse: AWSShape {
+    public struct DeleteReusableDelegationSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1112,7 +1098,7 @@ extension Route53 {
 
     }
 
-    public struct DeleteTrafficPolicyInstanceRequest: AWSShape {
+    public struct DeleteTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1129,12 +1115,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteTrafficPolicyInstanceResponse: AWSShape {
+    public struct DeleteTrafficPolicyInstanceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1142,7 +1126,7 @@ extension Route53 {
 
     }
 
-    public struct DeleteTrafficPolicyRequest: AWSShape {
+    public struct DeleteTrafficPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
@@ -1165,13 +1149,10 @@ extension Route53 {
             try validate(self.version, name:"version", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case version = "Version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteTrafficPolicyResponse: AWSShape {
+    public struct DeleteTrafficPolicyResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1179,7 +1160,7 @@ extension Route53 {
 
     }
 
-    public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
+    public struct DeleteVPCAssociationAuthorizationRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
@@ -1201,12 +1182,11 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
 
-    public struct DeleteVPCAssociationAuthorizationResponse: AWSShape {
+    public struct DeleteVPCAssociationAuthorizationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1214,7 +1194,7 @@ extension Route53 {
 
     }
 
-    public struct Dimension: AWSShape {
+    public struct Dimension: AWSDecodableShape {
 
         /// For the metric that the CloudWatch alarm is associated with, the name of one dimension.
         public let name: String
@@ -1232,7 +1212,7 @@ extension Route53 {
         }
     }
 
-    public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
+    public struct DisassociateVPCFromHostedZoneRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
@@ -1258,12 +1238,11 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case hostedZoneId = "Id"
             case vpc = "VPC"
         }
     }
 
-    public struct DisassociateVPCFromHostedZoneResponse: AWSShape {
+    public struct DisassociateVPCFromHostedZoneResponse: AWSDecodableShape {
 
         /// A complex type that describes the changes made to the specified private hosted zone.
         public let changeInfo: ChangeInfo
@@ -1277,7 +1256,7 @@ extension Route53 {
         }
     }
 
-    public struct GeoLocation: AWSShape {
+    public struct GeoLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The two-letter code for the continent. Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America   Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public let continentCode: String?
@@ -1308,7 +1287,7 @@ extension Route53 {
         }
     }
 
-    public struct GeoLocationDetails: AWSShape {
+    public struct GeoLocationDetails: AWSDecodableShape {
 
         /// The two-letter code for the continent.
         public let continentCode: String?
@@ -1342,7 +1321,7 @@ extension Route53 {
         }
     }
 
-    public struct GetAccountLimitRequest: AWSShape {
+    public struct GetAccountLimitRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
         ]
@@ -1354,12 +1333,10 @@ extension Route53 {
             self.`type` = `type`
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAccountLimitResponse: AWSShape {
+    public struct GetAccountLimitResponse: AWSDecodableShape {
 
         /// The current number of entities that you have created of the specified type. For example, if you specified MAX_HEALTH_CHECKS_BY_OWNER for the value of Type in the request, the value of Count is the current number of health checks that you have created using the current account.
         public let count: Int64
@@ -1377,7 +1354,7 @@ extension Route53 {
         }
     }
 
-    public struct GetChangeRequest: AWSShape {
+    public struct GetChangeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1393,12 +1370,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetChangeResponse: AWSShape {
+    public struct GetChangeResponse: AWSDecodableShape {
 
         /// A complex type that contains information about the specified change batch.
         public let changeInfo: ChangeInfo
@@ -1412,7 +1387,7 @@ extension Route53 {
         }
     }
 
-    public struct GetCheckerIpRangesRequest: AWSShape {
+    public struct GetCheckerIpRangesRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1420,7 +1395,7 @@ extension Route53 {
 
     }
 
-    public struct GetCheckerIpRangesResponse: AWSShape {
+    public struct GetCheckerIpRangesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "checkerIpRanges", location: .body(locationName: "CheckerIpRanges"), encoding: .list(member:"member"))
         ]
@@ -1437,7 +1412,7 @@ extension Route53 {
         }
     }
 
-    public struct GetGeoLocationRequest: AWSShape {
+    public struct GetGeoLocationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "continentCode", location: .querystring(locationName: "continentcode")), 
             AWSMemberEncoding(label: "countryCode", location: .querystring(locationName: "countrycode")), 
@@ -1466,14 +1441,10 @@ extension Route53 {
             try validate(self.subdivisionCode, name:"subdivisionCode", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continentCode = "continentcode"
-            case countryCode = "countrycode"
-            case subdivisionCode = "subdivisioncode"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGeoLocationResponse: AWSShape {
+    public struct GetGeoLocationResponse: AWSDecodableShape {
 
         /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
         public let geoLocationDetails: GeoLocationDetails
@@ -1487,7 +1458,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHealthCheckCountRequest: AWSShape {
+    public struct GetHealthCheckCountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1495,7 +1466,7 @@ extension Route53 {
 
     }
 
-    public struct GetHealthCheckCountResponse: AWSShape {
+    public struct GetHealthCheckCountResponse: AWSDecodableShape {
 
         /// The number of health checks associated with the current AWS account.
         public let healthCheckCount: Int64
@@ -1509,7 +1480,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHealthCheckLastFailureReasonRequest: AWSShape {
+    public struct GetHealthCheckLastFailureReasonRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
@@ -1525,12 +1496,10 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetHealthCheckLastFailureReasonResponse: AWSShape {
+    public struct GetHealthCheckLastFailureReasonResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckObservations", location: .body(locationName: "HealthCheckObservations"), encoding: .list(member:"HealthCheckObservation"))
         ]
@@ -1547,7 +1516,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHealthCheckRequest: AWSShape {
+    public struct GetHealthCheckRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
@@ -1563,12 +1532,10 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetHealthCheckResponse: AWSShape {
+    public struct GetHealthCheckResponse: AWSDecodableShape {
 
         /// A complex type that contains information about one health check that is associated with the current AWS account.
         public let healthCheck: HealthCheck
@@ -1582,7 +1549,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHealthCheckStatusRequest: AWSShape {
+    public struct GetHealthCheckStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckId", location: .uri(locationName: "HealthCheckId"))
         ]
@@ -1598,12 +1565,10 @@ extension Route53 {
             try validate(self.healthCheckId, name:"healthCheckId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckId = "HealthCheckId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetHealthCheckStatusResponse: AWSShape {
+    public struct GetHealthCheckStatusResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckObservations", location: .body(locationName: "HealthCheckObservations"), encoding: .list(member:"HealthCheckObservation"))
         ]
@@ -1620,7 +1585,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHostedZoneCountRequest: AWSShape {
+    public struct GetHostedZoneCountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1628,7 +1593,7 @@ extension Route53 {
 
     }
 
-    public struct GetHostedZoneCountResponse: AWSShape {
+    public struct GetHostedZoneCountResponse: AWSDecodableShape {
 
         /// The total number of public and private hosted zones that are associated with the current AWS account.
         public let hostedZoneCount: Int64
@@ -1642,7 +1607,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHostedZoneLimitRequest: AWSShape {
+    public struct GetHostedZoneLimitRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
@@ -1662,13 +1627,10 @@ extension Route53 {
             try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
-            case `type` = "Type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetHostedZoneLimitResponse: AWSShape {
+    public struct GetHostedZoneLimitResponse: AWSDecodableShape {
 
         /// The current number of entities that you have created of the specified type. For example, if you specified MAX_RRSETS_BY_ZONE for the value of Type in the request, the value of Count is the current number of records that you have created in the specified hosted zone.
         public let count: Int64
@@ -1686,7 +1648,7 @@ extension Route53 {
         }
     }
 
-    public struct GetHostedZoneRequest: AWSShape {
+    public struct GetHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1702,12 +1664,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetHostedZoneResponse: AWSShape {
+    public struct GetHostedZoneResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vPCs", location: .body(locationName: "VPCs"), encoding: .list(member:"VPC"))
         ]
@@ -1732,7 +1692,7 @@ extension Route53 {
         }
     }
 
-    public struct GetQueryLoggingConfigRequest: AWSShape {
+    public struct GetQueryLoggingConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1749,12 +1709,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetQueryLoggingConfigResponse: AWSShape {
+    public struct GetQueryLoggingConfigResponse: AWSDecodableShape {
 
         /// A complex type that contains information about the query logging configuration that you specified in a GetQueryLoggingConfig request.
         public let queryLoggingConfig: QueryLoggingConfig
@@ -1768,7 +1726,7 @@ extension Route53 {
         }
     }
 
-    public struct GetReusableDelegationSetLimitRequest: AWSShape {
+    public struct GetReusableDelegationSetLimitRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "delegationSetId", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "type", location: .uri(locationName: "Type"))
@@ -1788,13 +1746,10 @@ extension Route53 {
             try validate(self.delegationSetId, name:"delegationSetId", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case delegationSetId = "Id"
-            case `type` = "Type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetReusableDelegationSetLimitResponse: AWSShape {
+    public struct GetReusableDelegationSetLimitResponse: AWSDecodableShape {
 
         /// The current number of hosted zones that you can associate with the specified reusable delegation set.
         public let count: Int64
@@ -1812,7 +1767,7 @@ extension Route53 {
         }
     }
 
-    public struct GetReusableDelegationSetRequest: AWSShape {
+    public struct GetReusableDelegationSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1828,12 +1783,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetReusableDelegationSetResponse: AWSShape {
+    public struct GetReusableDelegationSetResponse: AWSDecodableShape {
 
         /// A complex type that contains information about the reusable delegation set.
         public let delegationSet: DelegationSet
@@ -1847,7 +1800,7 @@ extension Route53 {
         }
     }
 
-    public struct GetTrafficPolicyInstanceCountRequest: AWSShape {
+    public struct GetTrafficPolicyInstanceCountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1855,7 +1808,7 @@ extension Route53 {
 
     }
 
-    public struct GetTrafficPolicyInstanceCountResponse: AWSShape {
+    public struct GetTrafficPolicyInstanceCountResponse: AWSDecodableShape {
 
         /// The number of traffic policy instances that are associated with the current AWS account.
         public let trafficPolicyInstanceCount: Int
@@ -1869,7 +1822,7 @@ extension Route53 {
         }
     }
 
-    public struct GetTrafficPolicyInstanceRequest: AWSShape {
+    public struct GetTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1886,12 +1839,10 @@ extension Route53 {
             try validate(self.id, name:"id", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTrafficPolicyInstanceResponse: AWSShape {
+    public struct GetTrafficPolicyInstanceResponse: AWSDecodableShape {
 
         /// A complex type that contains settings for the traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -1905,7 +1856,7 @@ extension Route53 {
         }
     }
 
-    public struct GetTrafficPolicyRequest: AWSShape {
+    public struct GetTrafficPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "Version"))
@@ -1928,13 +1879,10 @@ extension Route53 {
             try validate(self.version, name:"version", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case version = "Version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTrafficPolicyResponse: AWSShape {
+    public struct GetTrafficPolicyResponse: AWSDecodableShape {
 
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -1948,7 +1896,7 @@ extension Route53 {
         }
     }
 
-    public struct HealthCheck: AWSShape {
+    public struct HealthCheck: AWSDecodableShape {
 
         /// A unique string that you specified when you created the health check.
         public let callerReference: String
@@ -1982,7 +1930,7 @@ extension Route53 {
         }
     }
 
-    public struct HealthCheckConfig: AWSShape {
+    public struct HealthCheckConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "childHealthChecks", location: .body(locationName: "ChildHealthChecks"), encoding: .list(member:"ChildHealthCheck")), 
             AWSMemberEncoding(label: "regions", location: .body(locationName: "Regions"), encoding: .list(member:"Region"))
@@ -2087,7 +2035,7 @@ extension Route53 {
         }
     }
 
-    public struct HealthCheckObservation: AWSShape {
+    public struct HealthCheckObservation: AWSDecodableShape {
 
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
         public let iPAddress: String?
@@ -2109,7 +2057,7 @@ extension Route53 {
         }
     }
 
-    public struct HostedZone: AWSShape {
+    public struct HostedZone: AWSDecodableShape {
 
         /// The value that you specified for CallerReference when you created the hosted zone.
         public let callerReference: String
@@ -2143,7 +2091,7 @@ extension Route53 {
         }
     }
 
-    public struct HostedZoneConfig: AWSShape {
+    public struct HostedZoneConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Any comments that you want to include about the hosted zone.
         public let comment: String?
@@ -2165,7 +2113,7 @@ extension Route53 {
         }
     }
 
-    public struct HostedZoneLimit: AWSShape {
+    public struct HostedZoneLimit: AWSDecodableShape {
 
         /// The limit that you requested. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  
         public let `type`: HostedZoneLimitType
@@ -2183,7 +2131,7 @@ extension Route53 {
         }
     }
 
-    public struct LinkedService: AWSShape {
+    public struct LinkedService: AWSDecodableShape {
 
         /// If the health check or hosted zone was created by another service, an optional description that can be provided by the other service. When a resource is created by another service, you can't edit or delete it using Amazon Route 53. 
         public let description: String?
@@ -2201,7 +2149,7 @@ extension Route53 {
         }
     }
 
-    public struct ListGeoLocationsRequest: AWSShape {
+    public struct ListGeoLocationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
             AWSMemberEncoding(label: "startContinentCode", location: .querystring(locationName: "startcontinentcode")), 
@@ -2234,15 +2182,10 @@ extension Route53 {
             try validate(self.startSubdivisionCode, name:"startSubdivisionCode", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "maxitems"
-            case startContinentCode = "startcontinentcode"
-            case startCountryCode = "startcountrycode"
-            case startSubdivisionCode = "startsubdivisioncode"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListGeoLocationsResponse: AWSShape {
+    public struct ListGeoLocationsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "geoLocationDetailsList", location: .body(locationName: "GeoLocationDetailsList"), encoding: .list(member:"GeoLocationDetails"))
         ]
@@ -2279,7 +2222,7 @@ extension Route53 {
         }
     }
 
-    public struct ListHealthChecksRequest: AWSShape {
+    public struct ListHealthChecksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
@@ -2299,13 +2242,10 @@ extension Route53 {
             try validate(self.marker, name:"marker", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListHealthChecksResponse: AWSShape {
+    public struct ListHealthChecksResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthChecks", location: .body(locationName: "HealthChecks"), encoding: .list(member:"HealthCheck"))
         ]
@@ -2338,7 +2278,7 @@ extension Route53 {
         }
     }
 
-    public struct ListHostedZonesByNameRequest: AWSShape {
+    public struct ListHostedZonesByNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dNSName", location: .querystring(locationName: "dnsname")), 
             AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")), 
@@ -2363,14 +2303,10 @@ extension Route53 {
             try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dNSName = "dnsname"
-            case hostedZoneId = "hostedzoneid"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListHostedZonesByNameResponse: AWSShape {
+    public struct ListHostedZonesByNameResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZones", location: .body(locationName: "HostedZones"), encoding: .list(member:"HostedZone"))
         ]
@@ -2411,7 +2347,7 @@ extension Route53 {
         }
     }
 
-    public struct ListHostedZonesRequest: AWSShape {
+    public struct ListHostedZonesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "delegationSetId", location: .querystring(locationName: "delegationsetid")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -2436,14 +2372,10 @@ extension Route53 {
             try validate(self.marker, name:"marker", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case delegationSetId = "delegationsetid"
-            case marker = "marker"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListHostedZonesResponse: AWSShape {
+    public struct ListHostedZonesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZones", location: .body(locationName: "HostedZones"), encoding: .list(member:"HostedZone"))
         ]
@@ -2476,7 +2408,7 @@ extension Route53 {
         }
     }
 
-    public struct ListQueryLoggingConfigsRequest: AWSShape {
+    public struct ListQueryLoggingConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "hostedzoneid")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")), 
@@ -2501,14 +2433,10 @@ extension Route53 {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "hostedzoneid"
-            case maxResults = "maxresults"
-            case nextToken = "nexttoken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListQueryLoggingConfigsResponse: AWSShape {
+    public struct ListQueryLoggingConfigsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "queryLoggingConfigs", location: .body(locationName: "QueryLoggingConfigs"), encoding: .list(member:"QueryLoggingConfig"))
         ]
@@ -2529,7 +2457,7 @@ extension Route53 {
         }
     }
 
-    public struct ListResourceRecordSetsRequest: AWSShape {
+    public struct ListResourceRecordSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
@@ -2564,16 +2492,10 @@ extension Route53 {
             try validate(self.startRecordName, name:"startRecordName", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
-            case maxItems = "maxitems"
-            case startRecordIdentifier = "identifier"
-            case startRecordName = "name"
-            case startRecordType = "type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListResourceRecordSetsResponse: AWSShape {
+    public struct ListResourceRecordSetsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceRecordSets", location: .body(locationName: "ResourceRecordSets"), encoding: .list(member:"ResourceRecordSet"))
         ]
@@ -2610,7 +2532,7 @@ extension Route53 {
         }
     }
 
-    public struct ListReusableDelegationSetsRequest: AWSShape {
+    public struct ListReusableDelegationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems"))
@@ -2630,13 +2552,10 @@ extension Route53 {
             try validate(self.marker, name:"marker", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case maxItems = "maxitems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListReusableDelegationSetsResponse: AWSShape {
+    public struct ListReusableDelegationSetsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "delegationSets", location: .body(locationName: "DelegationSets"), encoding: .list(member:"DelegationSet"))
         ]
@@ -2669,7 +2588,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
             AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "ResourceType"))
@@ -2689,13 +2608,10 @@ extension Route53 {
             try validate(self.resourceId, name:"resourceId", parent: name, max: 64)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// A ResourceTagSet containing tags associated with the specified resource.
         public let resourceTagSet: ResourceTagSet
@@ -2709,7 +2625,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTagsForResourcesRequest: AWSShape {
+    public struct ListTagsForResourcesRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceIds", location: .body(locationName: "ResourceIds"), encoding: .list(member:"ResourceId")), 
@@ -2736,11 +2652,10 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case resourceIds = "ResourceIds"
-            case resourceType = "ResourceType"
         }
     }
 
-    public struct ListTagsForResourcesResponse: AWSShape {
+    public struct ListTagsForResourcesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceTagSets", location: .body(locationName: "ResourceTagSets"), encoding: .list(member:"ResourceTagSet"))
         ]
@@ -2757,7 +2672,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTrafficPoliciesRequest: AWSShape {
+    public struct ListTrafficPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
             AWSMemberEncoding(label: "trafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"))
@@ -2778,13 +2693,10 @@ extension Route53 {
             try validate(self.trafficPolicyIdMarker, name:"trafficPolicyIdMarker", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "maxitems"
-            case trafficPolicyIdMarker = "trafficpolicyid"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTrafficPoliciesResponse: AWSShape {
+    public struct ListTrafficPoliciesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "trafficPolicySummaries", location: .body(locationName: "TrafficPolicySummaries"), encoding: .list(member:"TrafficPolicySummary"))
         ]
@@ -2813,7 +2725,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSShape {
+    public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .querystring(locationName: "id")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
@@ -2842,15 +2754,10 @@ extension Route53 {
             try validate(self.trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "id"
-            case maxItems = "maxitems"
-            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
-            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSShape {
+    public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
         ]
@@ -2883,7 +2790,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTrafficPolicyInstancesByPolicyRequest: AWSShape {
+    public struct ListTrafficPolicyInstancesByPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
@@ -2924,17 +2831,10 @@ extension Route53 {
             try validate(self.trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneIdMarker = "hostedzoneid"
-            case maxItems = "maxitems"
-            case trafficPolicyId = "id"
-            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
-            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
-            case trafficPolicyVersion = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
+    public struct ListTrafficPolicyInstancesByPolicyResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
         ]
@@ -2971,7 +2871,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTrafficPolicyInstancesRequest: AWSShape {
+    public struct ListTrafficPolicyInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
@@ -3000,15 +2900,10 @@ extension Route53 {
             try validate(self.trafficPolicyInstanceNameMarker, name:"trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneIdMarker = "hostedzoneid"
-            case maxItems = "maxitems"
-            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
-            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTrafficPolicyInstancesResponse: AWSShape {
+    public struct ListTrafficPolicyInstancesResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "trafficPolicyInstances", location: .body(locationName: "TrafficPolicyInstances"), encoding: .list(member:"TrafficPolicyInstance"))
         ]
@@ -3045,7 +2940,7 @@ extension Route53 {
         }
     }
 
-    public struct ListTrafficPolicyVersionsRequest: AWSShape {
+    public struct ListTrafficPolicyVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxitems")), 
@@ -3071,14 +2966,10 @@ extension Route53 {
             try validate(self.trafficPolicyVersionMarker, name:"trafficPolicyVersionMarker", parent: name, max: 4)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case maxItems = "maxitems"
-            case trafficPolicyVersionMarker = "trafficpolicyversion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTrafficPolicyVersionsResponse: AWSShape {
+    public struct ListTrafficPolicyVersionsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "trafficPolicies", location: .body(locationName: "TrafficPolicies"), encoding: .list(member:"TrafficPolicy"))
         ]
@@ -3107,7 +2998,7 @@ extension Route53 {
         }
     }
 
-    public struct ListVPCAssociationAuthorizationsRequest: AWSShape {
+    public struct ListVPCAssociationAuthorizationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxresults")), 
@@ -3132,14 +3023,10 @@ extension Route53 {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case hostedZoneId = "Id"
-            case maxResults = "maxresults"
-            case nextToken = "nexttoken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListVPCAssociationAuthorizationsResponse: AWSShape {
+    public struct ListVPCAssociationAuthorizationsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vPCs", location: .body(locationName: "VPCs"), encoding: .list(member:"VPC"))
         ]
@@ -3164,7 +3051,7 @@ extension Route53 {
         }
     }
 
-    public struct QueryLoggingConfig: AWSShape {
+    public struct QueryLoggingConfig: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon Route 53 is publishing logs to.
         public let cloudWatchLogsLogGroupArn: String
@@ -3186,7 +3073,7 @@ extension Route53 {
         }
     }
 
-    public struct ResourceRecord: AWSShape {
+    public struct ResourceRecord: AWSEncodableShape & AWSDecodableShape {
 
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA.   If you're creating an alias resource record set, omit Value. 
         public let value: String
@@ -3204,7 +3091,7 @@ extension Route53 {
         }
     }
 
-    public struct ResourceRecordSet: AWSShape {
+    public struct ResourceRecordSet: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceRecords", location: .body(locationName: "ResourceRecords"), encoding: .list(member:"ResourceRecord"))
         ]
@@ -3288,7 +3175,7 @@ extension Route53 {
         }
     }
 
-    public struct ResourceTagSet: AWSShape {
+    public struct ResourceTagSet: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -3313,7 +3200,7 @@ extension Route53 {
         }
     }
 
-    public struct ReusableDelegationSetLimit: AWSShape {
+    public struct ReusableDelegationSetLimit: AWSDecodableShape {
 
         /// The limit that you requested: MAX_ZONES_BY_REUSABLE_DELEGATION_SET, the maximum number of hosted zones that you can associate with the specified reusable delegation set.
         public let `type`: ReusableDelegationSetLimitType
@@ -3331,7 +3218,7 @@ extension Route53 {
         }
     }
 
-    public struct StatusReport: AWSShape {
+    public struct StatusReport: AWSDecodableShape {
 
         /// The date and time that the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         public let checkedTime: TimeStamp?
@@ -3349,7 +3236,7 @@ extension Route53 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The value of Key depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.    Edit a tag: Key is the name of the tag that you want to change the Value for.     Delete a key: Key is the name of the tag you want to remove.    Give a name to a health check: Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check.  
         public let key: String?
@@ -3372,7 +3259,7 @@ extension Route53 {
         }
     }
 
-    public struct TestDNSAnswerRequest: AWSShape {
+    public struct TestDNSAnswerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip")), 
             AWSMemberEncoding(label: "eDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask")), 
@@ -3415,17 +3302,10 @@ extension Route53 {
             try validate(self.resolverIP, name:"resolverIP", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eDNS0ClientSubnetIP = "edns0clientsubnetip"
-            case eDNS0ClientSubnetMask = "edns0clientsubnetmask"
-            case hostedZoneId = "hostedzoneid"
-            case recordName = "recordname"
-            case recordType = "recordtype"
-            case resolverIP = "resolverip"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct TestDNSAnswerResponse: AWSShape {
+    public struct TestDNSAnswerResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "recordData", location: .body(locationName: "RecordData"), encoding: .list(member:"RecordDataEntry"))
         ]
@@ -3462,7 +3342,7 @@ extension Route53 {
         }
     }
 
-    public struct TrafficPolicy: AWSShape {
+    public struct TrafficPolicy: AWSDecodableShape {
 
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public let comment: String?
@@ -3496,7 +3376,7 @@ extension Route53 {
         }
     }
 
-    public struct TrafficPolicyInstance: AWSShape {
+    public struct TrafficPolicyInstance: AWSDecodableShape {
 
         /// The ID of the hosted zone that Amazon Route 53 created resource record sets in.
         public let hostedZoneId: String
@@ -3542,7 +3422,7 @@ extension Route53 {
         }
     }
 
-    public struct TrafficPolicySummary: AWSShape {
+    public struct TrafficPolicySummary: AWSDecodableShape {
 
         /// The ID that Amazon Route 53 assigned to the traffic policy when you created it.
         public let id: String
@@ -3572,7 +3452,7 @@ extension Route53 {
         }
     }
 
-    public struct UpdateHealthCheckRequest: AWSShape {
+    public struct UpdateHealthCheckRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "childHealthChecks", location: .body(locationName: "ChildHealthChecks"), encoding: .list(member:"ChildHealthCheck")), 
@@ -3667,7 +3547,6 @@ extension Route53 {
             case enableSNI = "EnableSNI"
             case failureThreshold = "FailureThreshold"
             case fullyQualifiedDomainName = "FullyQualifiedDomainName"
-            case healthCheckId = "HealthCheckId"
             case healthCheckVersion = "HealthCheckVersion"
             case healthThreshold = "HealthThreshold"
             case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
@@ -3681,7 +3560,7 @@ extension Route53 {
         }
     }
 
-    public struct UpdateHealthCheckResponse: AWSShape {
+    public struct UpdateHealthCheckResponse: AWSDecodableShape {
 
         /// A complex type that contains the response to an UpdateHealthCheck request.
         public let healthCheck: HealthCheck
@@ -3695,7 +3574,7 @@ extension Route53 {
         }
     }
 
-    public struct UpdateHostedZoneCommentRequest: AWSShape {
+    public struct UpdateHostedZoneCommentRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -3718,11 +3597,10 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case id = "Id"
         }
     }
 
-    public struct UpdateHostedZoneCommentResponse: AWSShape {
+    public struct UpdateHostedZoneCommentResponse: AWSDecodableShape {
 
         /// A complex type that contains the response to the UpdateHostedZoneComment request.
         public let hostedZone: HostedZone
@@ -3736,7 +3614,7 @@ extension Route53 {
         }
     }
 
-    public struct UpdateTrafficPolicyCommentRequest: AWSShape {
+    public struct UpdateTrafficPolicyCommentRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
@@ -3766,12 +3644,10 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
-            case id = "Id"
-            case version = "Version"
         }
     }
 
-    public struct UpdateTrafficPolicyCommentResponse: AWSShape {
+    public struct UpdateTrafficPolicyCommentResponse: AWSDecodableShape {
 
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -3785,7 +3661,7 @@ extension Route53 {
         }
     }
 
-    public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
+    public struct UpdateTrafficPolicyInstanceRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -3819,14 +3695,13 @@ extension Route53 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case trafficPolicyId = "TrafficPolicyId"
             case trafficPolicyVersion = "TrafficPolicyVersion"
             case ttl = "TTL"
         }
     }
 
-    public struct UpdateTrafficPolicyInstanceResponse: AWSShape {
+    public struct UpdateTrafficPolicyInstanceResponse: AWSDecodableShape {
 
         /// A complex type that contains settings for the updated traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -3840,7 +3715,7 @@ extension Route53 {
         }
     }
 
-    public struct VPC: AWSShape {
+    public struct VPC: AWSEncodableShape & AWSDecodableShape {
 
         public let vPCId: String?
         /// (Private hosted zones only) The region that an Amazon VPC was created in.

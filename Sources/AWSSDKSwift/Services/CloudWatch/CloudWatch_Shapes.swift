@@ -113,7 +113,7 @@ extension CloudWatch {
 
     //MARK: Shapes
 
-    public struct AlarmHistoryItem: AWSShape {
+    public struct AlarmHistoryItem: AWSDecodableShape {
 
         /// The descriptive name for the alarm.
         public let alarmName: String?
@@ -147,7 +147,7 @@ extension CloudWatch {
         }
     }
 
-    public struct AnomalyDetector: AWSShape {
+    public struct AnomalyDetector: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -184,7 +184,7 @@ extension CloudWatch {
         }
     }
 
-    public struct AnomalyDetectorConfiguration: AWSShape {
+    public struct AnomalyDetectorConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "excludedTimeRanges", location: .body(locationName: "ExcludedTimeRanges"), encoding: .list(member:"member"))
         ]
@@ -210,7 +210,7 @@ extension CloudWatch {
         }
     }
 
-    public struct CompositeAlarm: AWSShape {
+    public struct CompositeAlarm: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmActions", location: .body(locationName: "AlarmActions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "insufficientDataActions", location: .body(locationName: "InsufficientDataActions"), encoding: .list(member:"member")), 
@@ -277,7 +277,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DashboardEntry: AWSShape {
+    public struct DashboardEntry: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -303,7 +303,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DashboardValidationMessage: AWSShape {
+    public struct DashboardValidationMessage: AWSDecodableShape {
 
         /// The data path related to the message.
         public let dataPath: String?
@@ -321,7 +321,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Datapoint: AWSShape {
+    public struct Datapoint: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "extendedStatistics", location: .body(locationName: "ExtendedStatistics"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -366,7 +366,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteAlarmsInput: AWSShape {
+    public struct DeleteAlarmsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
@@ -391,7 +391,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteAnomalyDetectorInput: AWSShape {
+    public struct DeleteAnomalyDetectorInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -433,7 +433,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteAnomalyDetectorOutput: AWSShape {
+    public struct DeleteAnomalyDetectorOutput: AWSDecodableShape {
 
 
         public init() {
@@ -441,7 +441,7 @@ extension CloudWatch {
 
     }
 
-    public struct DeleteDashboardsInput: AWSShape {
+    public struct DeleteDashboardsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dashboardNames", location: .body(locationName: "DashboardNames"), encoding: .list(member:"member"))
         ]
@@ -458,7 +458,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteDashboardsOutput: AWSShape {
+    public struct DeleteDashboardsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -466,7 +466,7 @@ extension CloudWatch {
 
     }
 
-    public struct DeleteInsightRulesInput: AWSShape {
+    public struct DeleteInsightRulesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
@@ -491,7 +491,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteInsightRulesOutput: AWSShape {
+    public struct DeleteInsightRulesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
@@ -508,7 +508,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmHistoryInput: AWSShape {
+    public struct DescribeAlarmHistoryInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmTypes", location: .body(locationName: "AlarmTypes"), encoding: .list(member:"member"))
         ]
@@ -560,7 +560,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmHistoryOutput: AWSShape {
+    public struct DescribeAlarmHistoryOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmHistoryItems", location: .body(locationName: "AlarmHistoryItems"), encoding: .list(member:"member"))
         ]
@@ -581,7 +581,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsForMetricInput: AWSShape {
+    public struct DescribeAlarmsForMetricInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -636,7 +636,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsForMetricOutput: AWSShape {
+    public struct DescribeAlarmsForMetricOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metricAlarms", location: .body(locationName: "MetricAlarms"), encoding: .list(member:"member"))
         ]
@@ -653,7 +653,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsInput: AWSShape {
+    public struct DescribeAlarmsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "alarmTypes", location: .body(locationName: "AlarmTypes"), encoding: .list(member:"member"))
@@ -721,7 +721,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsOutput: AWSShape {
+    public struct DescribeAlarmsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "compositeAlarms", location: .body(locationName: "CompositeAlarms"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "metricAlarms", location: .body(locationName: "MetricAlarms"), encoding: .list(member:"member"))
@@ -747,7 +747,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAnomalyDetectorsInput: AWSShape {
+    public struct DescribeAnomalyDetectorsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -793,7 +793,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAnomalyDetectorsOutput: AWSShape {
+    public struct DescribeAnomalyDetectorsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "anomalyDetectors", location: .body(locationName: "AnomalyDetectors"), encoding: .list(member:"member"))
         ]
@@ -814,7 +814,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeInsightRulesInput: AWSShape {
+    public struct DescribeInsightRulesInput: AWSEncodableShape {
 
         /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value may be different.
         public let maxResults: Int?
@@ -837,7 +837,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeInsightRulesOutput: AWSShape {
+    public struct DescribeInsightRulesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "insightRules", location: .body(locationName: "InsightRules"), encoding: .list(member:"member"))
         ]
@@ -858,7 +858,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Dimension: AWSShape {
+    public struct Dimension: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the dimension.
         public let name: String
@@ -883,7 +883,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DimensionFilter: AWSShape {
+    public struct DimensionFilter: AWSEncodableShape {
 
         /// The dimension name to be matched.
         public let name: String
@@ -908,7 +908,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DisableAlarmActionsInput: AWSShape {
+    public struct DisableAlarmActionsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
@@ -933,7 +933,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DisableInsightRulesInput: AWSShape {
+    public struct DisableInsightRulesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
@@ -958,7 +958,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DisableInsightRulesOutput: AWSShape {
+    public struct DisableInsightRulesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
@@ -975,7 +975,7 @@ extension CloudWatch {
         }
     }
 
-    public struct EnableAlarmActionsInput: AWSShape {
+    public struct EnableAlarmActionsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmNames", location: .body(locationName: "AlarmNames"), encoding: .list(member:"member"))
         ]
@@ -1000,7 +1000,7 @@ extension CloudWatch {
         }
     }
 
-    public struct EnableInsightRulesInput: AWSShape {
+    public struct EnableInsightRulesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleNames", location: .body(locationName: "RuleNames"), encoding: .list(member:"member"))
         ]
@@ -1025,7 +1025,7 @@ extension CloudWatch {
         }
     }
 
-    public struct EnableInsightRulesOutput: AWSShape {
+    public struct EnableInsightRulesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failures", location: .body(locationName: "Failures"), encoding: .list(member:"member"))
         ]
@@ -1042,7 +1042,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetDashboardInput: AWSShape {
+    public struct GetDashboardInput: AWSEncodableShape {
 
         /// The name of the dashboard to be described.
         public let dashboardName: String
@@ -1056,7 +1056,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetDashboardOutput: AWSShape {
+    public struct GetDashboardOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -1078,7 +1078,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetInsightRuleReportInput: AWSShape {
+    public struct GetInsightRuleReportInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
@@ -1134,7 +1134,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetInsightRuleReportOutput: AWSShape {
+    public struct GetInsightRuleReportOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contributors", location: .body(locationName: "Contributors"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "keyLabels", location: .body(locationName: "KeyLabels"), encoding: .list(member:"member")), 
@@ -1173,7 +1173,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricDataInput: AWSShape {
+    public struct GetMetricDataInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metricDataQueries", location: .body(locationName: "MetricDataQueries"), encoding: .list(member:"member"))
         ]
@@ -1216,7 +1216,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricDataOutput: AWSShape {
+    public struct GetMetricDataOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messages", location: .body(locationName: "Messages"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "metricDataResults", location: .body(locationName: "MetricDataResults"), encoding: .list(member:"member"))
@@ -1242,7 +1242,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricStatisticsInput: AWSShape {
+    public struct GetMetricStatisticsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "extendedStatistics", location: .body(locationName: "ExtendedStatistics"), encoding: .list(member:"member")), 
@@ -1313,7 +1313,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricStatisticsOutput: AWSShape {
+    public struct GetMetricStatisticsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datapoints", location: .body(locationName: "Datapoints"), encoding: .list(member:"member"))
         ]
@@ -1334,7 +1334,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricWidgetImageInput: AWSShape {
+    public struct GetMetricWidgetImageInput: AWSEncodableShape {
 
         /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
         public let metricWidget: String
@@ -1352,7 +1352,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricWidgetImageOutput: AWSShape {
+    public struct GetMetricWidgetImageOutput: AWSDecodableShape {
 
         /// The image of the graph, in the output format specified.
         public let metricWidgetImage: Data?
@@ -1366,7 +1366,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRule: AWSShape {
+    public struct InsightRule: AWSDecodableShape {
 
         /// The definition of the rule, as a JSON object. The definition contains the keywords used to define contributors, the value to aggregate on if this rule returns a sum instead of a count, and the filters. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let definition: String
@@ -1392,7 +1392,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRuleContributor: AWSShape {
+    public struct InsightRuleContributor: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "datapoints", location: .body(locationName: "Datapoints"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "keys", location: .body(locationName: "Keys"), encoding: .list(member:"member"))
@@ -1418,7 +1418,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRuleContributorDatapoint: AWSShape {
+    public struct InsightRuleContributorDatapoint: AWSDecodableShape {
 
         /// The approximate value that this contributor added during this timestamp.
         public let approximateValue: Double
@@ -1436,7 +1436,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRuleMetricDatapoint: AWSShape {
+    public struct InsightRuleMetricDatapoint: AWSDecodableShape {
 
         /// The average value from all contributors during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
         public let average: Double?
@@ -1478,7 +1478,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListDashboardsInput: AWSShape {
+    public struct ListDashboardsInput: AWSEncodableShape {
 
         /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_". 
         public let dashboardNamePrefix: String?
@@ -1496,7 +1496,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListDashboardsOutput: AWSShape {
+    public struct ListDashboardsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dashboardEntries", location: .body(locationName: "DashboardEntries"), encoding: .list(member:"member"))
         ]
@@ -1517,7 +1517,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListMetricsInput: AWSShape {
+    public struct ListMetricsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -1558,7 +1558,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListMetricsOutput: AWSShape {
+    public struct ListMetricsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
@@ -1579,7 +1579,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
@@ -1598,7 +1598,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -1615,7 +1615,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MessageData: AWSShape {
+    public struct MessageData: AWSDecodableShape {
 
         /// The error code or status code associated with the message.
         public let code: String?
@@ -1633,7 +1633,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Metric: AWSShape {
+    public struct Metric: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -1670,7 +1670,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricAlarm: AWSShape {
+    public struct MetricAlarm: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmActions", location: .body(locationName: "AlarmActions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
@@ -1795,7 +1795,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDataQuery: AWSShape {
+    public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
 
         /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let expression: String?
@@ -1838,7 +1838,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDataResult: AWSShape {
+    public struct MetricDataResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messages", location: .body(locationName: "Messages"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "timestamps", location: .body(locationName: "Timestamps"), encoding: .list(member:"member")), 
@@ -1877,7 +1877,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDatum: AWSShape {
+    public struct MetricDatum: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "counts", location: .body(locationName: "Counts"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
@@ -1938,7 +1938,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricStat: AWSShape {
+    public struct MetricStat: AWSEncodableShape & AWSDecodableShape {
 
         /// The metric to return, including the metric name, namespace, and dimensions.
         public let metric: Metric
@@ -1969,7 +1969,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PartialFailure: AWSShape {
+    public struct PartialFailure: AWSDecodableShape {
 
         /// The type of error.
         public let exceptionType: String?
@@ -1995,7 +1995,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutAnomalyDetectorInput: AWSShape {
+    public struct PutAnomalyDetectorInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -2042,7 +2042,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutAnomalyDetectorOutput: AWSShape {
+    public struct PutAnomalyDetectorOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2050,7 +2050,7 @@ extension CloudWatch {
 
     }
 
-    public struct PutCompositeAlarmInput: AWSShape {
+    public struct PutCompositeAlarmInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmActions", location: .body(locationName: "AlarmActions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "insufficientDataActions", location: .body(locationName: "InsufficientDataActions"), encoding: .list(member:"member")), 
@@ -2125,7 +2125,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutDashboardInput: AWSShape {
+    public struct PutDashboardInput: AWSEncodableShape {
 
         /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see Dashboard Body Structure and Syntax.
         public let dashboardBody: String
@@ -2143,7 +2143,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutDashboardOutput: AWSShape {
+    public struct PutDashboardOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dashboardValidationMessages", location: .body(locationName: "DashboardValidationMessages"), encoding: .list(member:"member"))
         ]
@@ -2160,7 +2160,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutInsightRuleInput: AWSShape {
+    public struct PutInsightRuleInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -2204,7 +2204,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutInsightRuleOutput: AWSShape {
+    public struct PutInsightRuleOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2212,7 +2212,7 @@ extension CloudWatch {
 
     }
 
-    public struct PutMetricAlarmInput: AWSShape {
+    public struct PutMetricAlarmInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarmActions", location: .body(locationName: "AlarmActions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member")), 
@@ -2365,7 +2365,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutMetricDataInput: AWSShape {
+    public struct PutMetricDataInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metricData", location: .body(locationName: "MetricData"), encoding: .list(member:"member"))
         ]
@@ -2395,7 +2395,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Range: AWSShape {
+    public struct Range: AWSEncodableShape & AWSDecodableShape {
 
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let endTime: TimeStamp
@@ -2413,7 +2413,7 @@ extension CloudWatch {
         }
     }
 
-    public struct SetAlarmStateInput: AWSShape {
+    public struct SetAlarmStateInput: AWSEncodableShape {
 
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
         public let alarmName: String
@@ -2448,7 +2448,7 @@ extension CloudWatch {
         }
     }
 
-    public struct StatisticSet: AWSShape {
+    public struct StatisticSet: AWSEncodableShape {
 
         /// The maximum value of the sample set.
         public let maximum: Double
@@ -2474,7 +2474,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
@@ -2499,7 +2499,7 @@ extension CloudWatch {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -2528,7 +2528,7 @@ extension CloudWatch {
         }
     }
 
-    public struct TagResourceOutput: AWSShape {
+    public struct TagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2536,7 +2536,7 @@ extension CloudWatch {
 
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
@@ -2566,7 +2566,7 @@ extension CloudWatch {
         }
     }
 
-    public struct UntagResourceOutput: AWSShape {
+    public struct UntagResourceOutput: AWSDecodableShape {
 
 
         public init() {

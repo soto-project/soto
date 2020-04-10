@@ -32,7 +32,7 @@ extension KinesisVideoMedia {
 
     //MARK: Shapes
 
-    public struct GetMediaInput: AWSShape {
+    public struct GetMediaInput: AWSEncodableShape {
 
         /// Identifies the starting chunk to get from the specified stream. 
         public let startSelector: StartSelector
@@ -64,7 +64,7 @@ extension KinesisVideoMedia {
         }
     }
 
-    public struct GetMediaOutput: AWSShape {
+    public struct GetMediaOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
         public static var _encoding = [
@@ -88,7 +88,7 @@ extension KinesisVideoMedia {
         }
     }
 
-    public struct StartSelector: AWSShape {
+    public struct StartSelector: AWSEncodableShape {
 
         /// Specifies the fragment number from where you want the GetMedia API to start returning the fragments. 
         public let afterFragmentNumber: String?

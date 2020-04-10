@@ -22,7 +22,7 @@ extension EC2InstanceConnect {
 
     //MARK: Shapes
 
-    public struct SendSSHPublicKeyRequest: AWSShape {
+    public struct SendSSHPublicKeyRequest: AWSEncodableShape {
 
         /// The availability zone the EC2 instance was launched in.
         public let availabilityZone: String
@@ -62,7 +62,7 @@ extension EC2InstanceConnect {
         }
     }
 
-    public struct SendSSHPublicKeyResponse: AWSShape {
+    public struct SendSSHPublicKeyResponse: AWSDecodableShape {
 
         /// The request ID as logged by EC2 Connect. Please provide this when contacting AWS Support.
         public let requestId: String?

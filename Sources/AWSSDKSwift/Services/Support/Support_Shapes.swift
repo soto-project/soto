@@ -22,7 +22,7 @@ extension Support {
 
     //MARK: Shapes
 
-    public struct AddAttachmentsToSetRequest: AWSShape {
+    public struct AddAttachmentsToSetRequest: AWSEncodableShape {
 
         /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
         public let attachments: [Attachment]
@@ -40,7 +40,7 @@ extension Support {
         }
     }
 
-    public struct AddAttachmentsToSetResponse: AWSShape {
+    public struct AddAttachmentsToSetResponse: AWSDecodableShape {
 
         /// The ID of the attachment set. If an attachmentSetId was not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId was specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
@@ -58,7 +58,7 @@ extension Support {
         }
     }
 
-    public struct AddCommunicationToCaseRequest: AWSShape {
+    public struct AddCommunicationToCaseRequest: AWSEncodableShape {
 
         /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet 
         public let attachmentSetId: String?
@@ -91,7 +91,7 @@ extension Support {
         }
     }
 
-    public struct AddCommunicationToCaseResponse: AWSShape {
+    public struct AddCommunicationToCaseResponse: AWSDecodableShape {
 
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
@@ -105,7 +105,7 @@ extension Support {
         }
     }
 
-    public struct Attachment: AWSShape {
+    public struct Attachment: AWSEncodableShape & AWSDecodableShape {
 
         /// The content of the attachment file.
         public let data: Data?
@@ -123,7 +123,7 @@ extension Support {
         }
     }
 
-    public struct AttachmentDetails: AWSShape {
+    public struct AttachmentDetails: AWSDecodableShape {
 
         /// The ID of the attachment.
         public let attachmentId: String?
@@ -141,7 +141,7 @@ extension Support {
         }
     }
 
-    public struct CaseDetails: AWSShape {
+    public struct CaseDetails: AWSDecodableShape {
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -199,7 +199,7 @@ extension Support {
         }
     }
 
-    public struct Category: AWSShape {
+    public struct Category: AWSDecodableShape {
 
         /// The category code for the support case.
         public let code: String?
@@ -217,7 +217,7 @@ extension Support {
         }
     }
 
-    public struct Communication: AWSShape {
+    public struct Communication: AWSDecodableShape {
 
         /// Information about the attachments to the case communication.
         public let attachmentSet: [AttachmentDetails]?
@@ -247,7 +247,7 @@ extension Support {
         }
     }
 
-    public struct CreateCaseRequest: AWSShape {
+    public struct CreateCaseRequest: AWSEncodableShape {
 
         /// The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.
         public let attachmentSetId: String?
@@ -300,7 +300,7 @@ extension Support {
         }
     }
 
-    public struct CreateCaseResponse: AWSShape {
+    public struct CreateCaseResponse: AWSDecodableShape {
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -314,7 +314,7 @@ extension Support {
         }
     }
 
-    public struct DescribeAttachmentRequest: AWSShape {
+    public struct DescribeAttachmentRequest: AWSEncodableShape {
 
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
@@ -328,7 +328,7 @@ extension Support {
         }
     }
 
-    public struct DescribeAttachmentResponse: AWSShape {
+    public struct DescribeAttachmentResponse: AWSDecodableShape {
 
         /// The attachment content and file name.
         public let attachment: Attachment?
@@ -342,7 +342,7 @@ extension Support {
         }
     }
 
-    public struct DescribeCasesRequest: AWSShape {
+    public struct DescribeCasesRequest: AWSEncodableShape {
 
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
@@ -395,7 +395,7 @@ extension Support {
         }
     }
 
-    public struct DescribeCasesResponse: AWSShape {
+    public struct DescribeCasesResponse: AWSDecodableShape {
 
         /// The details for the cases that match the request.
         public let cases: [CaseDetails]?
@@ -413,7 +413,7 @@ extension Support {
         }
     }
 
-    public struct DescribeCommunicationsRequest: AWSShape {
+    public struct DescribeCommunicationsRequest: AWSEncodableShape {
 
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
@@ -448,7 +448,7 @@ extension Support {
         }
     }
 
-    public struct DescribeCommunicationsResponse: AWSShape {
+    public struct DescribeCommunicationsResponse: AWSDecodableShape {
 
         /// The communications for the case.
         public let communications: [Communication]?
@@ -466,7 +466,7 @@ extension Support {
         }
     }
 
-    public struct DescribeServicesRequest: AWSShape {
+    public struct DescribeServicesRequest: AWSEncodableShape {
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -489,7 +489,7 @@ extension Support {
         }
     }
 
-    public struct DescribeServicesResponse: AWSShape {
+    public struct DescribeServicesResponse: AWSDecodableShape {
 
         /// A JSON-formatted list of AWS services.
         public let services: [Service]?
@@ -503,7 +503,7 @@ extension Support {
         }
     }
 
-    public struct DescribeSeverityLevelsRequest: AWSShape {
+    public struct DescribeSeverityLevelsRequest: AWSEncodableShape {
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -517,7 +517,7 @@ extension Support {
         }
     }
 
-    public struct DescribeSeverityLevelsResponse: AWSShape {
+    public struct DescribeSeverityLevelsResponse: AWSDecodableShape {
 
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
         public let severityLevels: [SeverityLevel]?
@@ -531,7 +531,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
+    public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSEncodableShape {
 
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkIds: [String]
@@ -545,7 +545,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
+    public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSDecodableShape {
 
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
@@ -559,7 +559,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
+    public struct DescribeTrustedAdvisorCheckResultRequest: AWSEncodableShape {
 
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
@@ -577,7 +577,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
+    public struct DescribeTrustedAdvisorCheckResultResponse: AWSDecodableShape {
 
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
@@ -591,7 +591,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
+    public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSEncodableShape {
 
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
@@ -605,7 +605,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
+    public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSDecodableShape {
 
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
@@ -619,7 +619,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
+    public struct DescribeTrustedAdvisorChecksRequest: AWSEncodableShape {
 
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
@@ -633,7 +633,7 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
+    public struct DescribeTrustedAdvisorChecksResponse: AWSDecodableShape {
 
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
@@ -647,7 +647,7 @@ extension Support {
         }
     }
 
-    public struct RecentCaseCommunications: AWSShape {
+    public struct RecentCaseCommunications: AWSDecodableShape {
 
         /// The five most recent communications associated with the case.
         public let communications: [Communication]?
@@ -665,7 +665,7 @@ extension Support {
         }
     }
 
-    public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
+    public struct RefreshTrustedAdvisorCheckRequest: AWSEncodableShape {
 
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
@@ -679,7 +679,7 @@ extension Support {
         }
     }
 
-    public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
+    public struct RefreshTrustedAdvisorCheckResponse: AWSDecodableShape {
 
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
@@ -693,7 +693,7 @@ extension Support {
         }
     }
 
-    public struct ResolveCaseRequest: AWSShape {
+    public struct ResolveCaseRequest: AWSEncodableShape {
 
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -707,7 +707,7 @@ extension Support {
         }
     }
 
-    public struct ResolveCaseResponse: AWSShape {
+    public struct ResolveCaseResponse: AWSDecodableShape {
 
         /// The status of the case after the ResolveCase request was processed.
         public let finalCaseStatus: String?
@@ -725,7 +725,7 @@ extension Support {
         }
     }
 
-    public struct Service: AWSShape {
+    public struct Service: AWSDecodableShape {
 
         /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
         public let categories: [Category]?
@@ -747,7 +747,7 @@ extension Support {
         }
     }
 
-    public struct SeverityLevel: AWSShape {
+    public struct SeverityLevel: AWSDecodableShape {
 
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical 
         public let code: String?
@@ -765,7 +765,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
+    public struct TrustedAdvisorCategorySpecificSummary: AWSDecodableShape {
 
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
@@ -779,7 +779,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCheckDescription: AWSShape {
+    public struct TrustedAdvisorCheckDescription: AWSDecodableShape {
 
         /// The category of the Trusted Advisor check.
         public let category: String
@@ -809,7 +809,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
+    public struct TrustedAdvisorCheckRefreshStatus: AWSDecodableShape {
 
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
@@ -831,7 +831,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCheckResult: AWSShape {
+    public struct TrustedAdvisorCheckResult: AWSDecodableShape {
 
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
         public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
@@ -864,7 +864,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCheckSummary: AWSShape {
+    public struct TrustedAdvisorCheckSummary: AWSDecodableShape {
 
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
         public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
@@ -897,7 +897,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
+    public struct TrustedAdvisorCostOptimizingSummary: AWSDecodableShape {
 
         /// The estimated monthly savings that might be realized if the recommended actions are taken.
         public let estimatedMonthlySavings: Double
@@ -915,7 +915,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorResourceDetail: AWSShape {
+    public struct TrustedAdvisorResourceDetail: AWSDecodableShape {
 
         /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
         public let isSuppressed: Bool?
@@ -945,7 +945,7 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorResourcesSummary: AWSShape {
+    public struct TrustedAdvisorResourcesSummary: AWSDecodableShape {
 
         /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
         public let resourcesFlagged: Int64

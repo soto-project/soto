@@ -49,7 +49,7 @@ extension Translate {
 
     //MARK: Shapes
 
-    public struct AppliedTerminology: AWSShape {
+    public struct AppliedTerminology: AWSDecodableShape {
 
         /// The name of the custom terminology applied to the input text by Amazon Translate for the translated text response.
         public let name: String?
@@ -67,7 +67,7 @@ extension Translate {
         }
     }
 
-    public struct DeleteTerminologyRequest: AWSShape {
+    public struct DeleteTerminologyRequest: AWSEncodableShape {
 
         /// The name of the custom terminology being deleted. 
         public let name: String
@@ -87,7 +87,7 @@ extension Translate {
         }
     }
 
-    public struct DescribeTextTranslationJobRequest: AWSShape {
+    public struct DescribeTextTranslationJobRequest: AWSEncodableShape {
 
         /// The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its response.
         public let jobId: String
@@ -107,7 +107,7 @@ extension Translate {
         }
     }
 
-    public struct DescribeTextTranslationJobResponse: AWSShape {
+    public struct DescribeTextTranslationJobResponse: AWSDecodableShape {
 
         /// An object that contains the properties associated with an asynchronous batch translation job.
         public let textTranslationJobProperties: TextTranslationJobProperties?
@@ -121,7 +121,7 @@ extension Translate {
         }
     }
 
-    public struct EncryptionKey: AWSShape {
+    public struct EncryptionKey: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt the custom terminology.
         public let id: String
@@ -145,7 +145,7 @@ extension Translate {
         }
     }
 
-    public struct GetTerminologyRequest: AWSShape {
+    public struct GetTerminologyRequest: AWSEncodableShape {
 
         /// The name of the custom terminology being retrieved.
         public let name: String
@@ -169,7 +169,7 @@ extension Translate {
         }
     }
 
-    public struct GetTerminologyResponse: AWSShape {
+    public struct GetTerminologyResponse: AWSDecodableShape {
 
         /// The data location of the custom terminology being retrieved. The custom terminology file is returned in a presigned url that has a 30 minute expiration.
         public let terminologyDataLocation: TerminologyDataLocation?
@@ -187,7 +187,7 @@ extension Translate {
         }
     }
 
-    public struct ImportTerminologyRequest: AWSShape {
+    public struct ImportTerminologyRequest: AWSEncodableShape {
 
         /// The description of the custom terminology being imported.
         public let description: String?
@@ -227,7 +227,7 @@ extension Translate {
         }
     }
 
-    public struct ImportTerminologyResponse: AWSShape {
+    public struct ImportTerminologyResponse: AWSDecodableShape {
 
         /// The properties of the custom terminology being imported.
         public let terminologyProperties: TerminologyProperties?
@@ -241,7 +241,7 @@ extension Translate {
         }
     }
 
-    public struct InputDataConfig: AWSShape {
+    public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The multipurpose internet mail extension (MIME) type of the input files. Valid values are text/plain for plaintext files and text/html for HTML files.
         public let contentType: String
@@ -266,7 +266,7 @@ extension Translate {
         }
     }
 
-    public struct JobDetails: AWSShape {
+    public struct JobDetails: AWSDecodableShape {
 
         /// The number of documents that could not be processed during a translation job.
         public let documentsWithErrorsCount: Int?
@@ -288,7 +288,7 @@ extension Translate {
         }
     }
 
-    public struct ListTerminologiesRequest: AWSShape {
+    public struct ListTerminologiesRequest: AWSEncodableShape {
 
         /// The maximum number of custom terminologies returned per list request.
         public let maxResults: Int?
@@ -313,7 +313,7 @@ extension Translate {
         }
     }
 
-    public struct ListTerminologiesResponse: AWSShape {
+    public struct ListTerminologiesResponse: AWSDecodableShape {
 
         ///  If the response to the ListTerminologies was truncated, the NextToken fetches the next group of custom terminologies.
         public let nextToken: String?
@@ -331,7 +331,7 @@ extension Translate {
         }
     }
 
-    public struct ListTextTranslationJobsRequest: AWSShape {
+    public struct ListTextTranslationJobsRequest: AWSEncodableShape {
 
         /// The parameters that specify which batch translation jobs to retrieve. Filters include job name, job status, and submission time. You can only set one filter at a time.
         public let filter: TextTranslationJobFilter?
@@ -361,7 +361,7 @@ extension Translate {
         }
     }
 
-    public struct ListTextTranslationJobsResponse: AWSShape {
+    public struct ListTextTranslationJobsResponse: AWSDecodableShape {
 
         /// The token to use to retreive the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -379,7 +379,7 @@ extension Translate {
         }
     }
 
-    public struct OutputDataConfig: AWSShape {
+    public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The URI of the S3 folder that contains a translation job's output file. The folder must be in the same Region as the API endpoint that you are calling.
         public let s3Uri: String
@@ -398,7 +398,7 @@ extension Translate {
         }
     }
 
-    public struct StartTextTranslationJobRequest: AWSShape {
+    public struct StartTextTranslationJobRequest: AWSEncodableShape {
 
         /// The client token of the EC2 instance calling the request. This token is auto-generated when using the Amazon Translate SDK. Otherwise, use the DescribeInstances EC2 operation to retreive an instance's client token. For more information, see Client Tokens in the EC2 User Guide.
         public let clientToken: String
@@ -467,7 +467,7 @@ extension Translate {
         }
     }
 
-    public struct StartTextTranslationJobResponse: AWSShape {
+    public struct StartTextTranslationJobResponse: AWSDecodableShape {
 
         /// The identifier generated for the job. To get the status of a job, use this ID with the DescribeTextTranslationJob operation.
         public let jobId: String?
@@ -485,7 +485,7 @@ extension Translate {
         }
     }
 
-    public struct StopTextTranslationJobRequest: AWSShape {
+    public struct StopTextTranslationJobRequest: AWSEncodableShape {
 
         /// The job ID of the job to be stopped.
         public let jobId: String
@@ -505,7 +505,7 @@ extension Translate {
         }
     }
 
-    public struct StopTextTranslationJobResponse: AWSShape {
+    public struct StopTextTranslationJobResponse: AWSDecodableShape {
 
         /// The job ID of the stopped batch translation job.
         public let jobId: String?
@@ -523,7 +523,7 @@ extension Translate {
         }
     }
 
-    public struct Term: AWSShape {
+    public struct Term: AWSDecodableShape {
 
         /// The source text of the term being translated by the custom terminology.
         public let sourceText: String?
@@ -541,7 +541,7 @@ extension Translate {
         }
     }
 
-    public struct TerminologyData: AWSShape {
+    public struct TerminologyData: AWSEncodableShape {
 
         /// The file containing the custom terminology data. Your version of the AWS SDK performs a Base64-encoding on this field before sending a request to the AWS service. Users of the SDK should not perform Base64-encoding themselves.
         public let file: Data
@@ -563,7 +563,7 @@ extension Translate {
         }
     }
 
-    public struct TerminologyDataLocation: AWSShape {
+    public struct TerminologyDataLocation: AWSDecodableShape {
 
         /// The location of the custom terminology data.
         public let location: String
@@ -581,7 +581,7 @@ extension Translate {
         }
     }
 
-    public struct TerminologyProperties: AWSShape {
+    public struct TerminologyProperties: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the custom terminology. 
         public let arn: String?
@@ -631,7 +631,7 @@ extension Translate {
         }
     }
 
-    public struct TextTranslationJobFilter: AWSShape {
+    public struct TextTranslationJobFilter: AWSEncodableShape {
 
         /// Filters the list of jobs by name.
         public let jobName: String?
@@ -663,7 +663,7 @@ extension Translate {
         }
     }
 
-    public struct TextTranslationJobProperties: AWSShape {
+    public struct TextTranslationJobProperties: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that granted Amazon Translate read access to the job's input data.
         public let dataAccessRoleArn: String?
@@ -725,7 +725,7 @@ extension Translate {
         }
     }
 
-    public struct TranslateTextRequest: AWSShape {
+    public struct TranslateTextRequest: AWSEncodableShape {
 
         /// The language code for the language of the source text. The language must be a language supported by Amazon Translate. For a list of language codes, see what-is-languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
         public let sourceLanguageCode: String
@@ -766,7 +766,7 @@ extension Translate {
         }
     }
 
-    public struct TranslateTextResponse: AWSShape {
+    public struct TranslateTextResponse: AWSDecodableShape {
 
         /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
         public let appliedTerminologies: [AppliedTerminology]?

@@ -61,7 +61,7 @@ extension WorkMail {
 
     //MARK: Shapes
 
-    public struct AccessControlRule: AWSShape {
+    public struct AccessControlRule: AWSDecodableShape {
 
         /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let actions: [String]?
@@ -115,7 +115,7 @@ extension WorkMail {
         }
     }
 
-    public struct AssociateDelegateToResourceRequest: AWSShape {
+    public struct AssociateDelegateToResourceRequest: AWSEncodableShape {
 
         /// The member (user or group) to associate to the resource.
         public let entityId: String
@@ -144,7 +144,7 @@ extension WorkMail {
         }
     }
 
-    public struct AssociateDelegateToResourceResponse: AWSShape {
+    public struct AssociateDelegateToResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -152,7 +152,7 @@ extension WorkMail {
 
     }
 
-    public struct AssociateMemberToGroupRequest: AWSShape {
+    public struct AssociateMemberToGroupRequest: AWSEncodableShape {
 
         /// The group to which the member (user or group) is associated.
         public let groupId: String
@@ -182,7 +182,7 @@ extension WorkMail {
         }
     }
 
-    public struct AssociateMemberToGroupResponse: AWSShape {
+    public struct AssociateMemberToGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -190,7 +190,7 @@ extension WorkMail {
 
     }
 
-    public struct BookingOptions: AWSShape {
+    public struct BookingOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The resource's ability to automatically reply to requests. If disabled, delegates must be associated to the resource.
         public let autoAcceptRequests: Bool?
@@ -212,7 +212,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateAliasRequest: AWSShape {
+    public struct CreateAliasRequest: AWSEncodableShape {
 
         /// The alias to add to the member set.
         public let alias: String
@@ -243,7 +243,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateAliasResponse: AWSShape {
+    public struct CreateAliasResponse: AWSDecodableShape {
 
 
         public init() {
@@ -251,7 +251,7 @@ extension WorkMail {
 
     }
 
-    public struct CreateGroupRequest: AWSShape {
+    public struct CreateGroupRequest: AWSEncodableShape {
 
         /// The name of the group.
         public let name: String
@@ -276,7 +276,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateGroupResponse: AWSShape {
+    public struct CreateGroupResponse: AWSDecodableShape {
 
         /// The identifier of the group.
         public let groupId: String?
@@ -290,7 +290,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateResourceRequest: AWSShape {
+    public struct CreateResourceRequest: AWSEncodableShape {
 
         /// The name of the new resource.
         public let name: String
@@ -319,7 +319,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateResourceResponse: AWSShape {
+    public struct CreateResourceResponse: AWSDecodableShape {
 
         /// The identifier of the new resource.
         public let resourceId: String?
@@ -333,7 +333,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
 
         /// The display name for the new user.
         public let displayName: String
@@ -369,7 +369,7 @@ extension WorkMail {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
         /// The identifier for the new user.
         public let userId: String?
@@ -383,7 +383,7 @@ extension WorkMail {
         }
     }
 
-    public struct Delegate: AWSShape {
+    public struct Delegate: AWSDecodableShape {
 
         /// The identifier for the user or group associated as the resource's delegate.
         public let id: String
@@ -401,7 +401,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteAccessControlRuleRequest: AWSShape {
+    public struct DeleteAccessControlRuleRequest: AWSEncodableShape {
 
         /// The name of the access control rule.
         public let name: String
@@ -426,7 +426,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteAccessControlRuleResponse: AWSShape {
+    public struct DeleteAccessControlRuleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -434,7 +434,7 @@ extension WorkMail {
 
     }
 
-    public struct DeleteAliasRequest: AWSShape {
+    public struct DeleteAliasRequest: AWSEncodableShape {
 
         /// The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set).
         public let alias: String
@@ -465,7 +465,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteAliasResponse: AWSShape {
+    public struct DeleteAliasResponse: AWSDecodableShape {
 
 
         public init() {
@@ -473,7 +473,7 @@ extension WorkMail {
 
     }
 
-    public struct DeleteGroupRequest: AWSShape {
+    public struct DeleteGroupRequest: AWSEncodableShape {
 
         /// The identifier of the group to be deleted.
         public let groupId: String
@@ -497,7 +497,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteGroupResponse: AWSShape {
+    public struct DeleteGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -505,7 +505,7 @@ extension WorkMail {
 
     }
 
-    public struct DeleteMailboxPermissionsRequest: AWSShape {
+    public struct DeleteMailboxPermissionsRequest: AWSEncodableShape {
 
         /// The identifier of the member (user or group)that owns the mailbox.
         public let entityId: String
@@ -535,7 +535,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteMailboxPermissionsResponse: AWSShape {
+    public struct DeleteMailboxPermissionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -543,7 +543,7 @@ extension WorkMail {
 
     }
 
-    public struct DeleteResourceRequest: AWSShape {
+    public struct DeleteResourceRequest: AWSEncodableShape {
 
         /// The identifier associated with the organization from which the resource is deleted.
         public let organizationId: String
@@ -566,7 +566,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteResourceResponse: AWSShape {
+    public struct DeleteResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -574,7 +574,7 @@ extension WorkMail {
 
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
 
         /// The organization that contains the user to be deleted.
         public let organizationId: String
@@ -598,7 +598,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeleteUserResponse: AWSShape {
+    public struct DeleteUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -606,7 +606,7 @@ extension WorkMail {
 
     }
 
-    public struct DeregisterFromWorkMailRequest: AWSShape {
+    public struct DeregisterFromWorkMailRequest: AWSEncodableShape {
 
         /// The identifier for the member (user or group) to be updated.
         public let entityId: String
@@ -630,7 +630,7 @@ extension WorkMail {
         }
     }
 
-    public struct DeregisterFromWorkMailResponse: AWSShape {
+    public struct DeregisterFromWorkMailResponse: AWSDecodableShape {
 
 
         public init() {
@@ -638,7 +638,7 @@ extension WorkMail {
 
     }
 
-    public struct DescribeGroupRequest: AWSShape {
+    public struct DescribeGroupRequest: AWSEncodableShape {
 
         /// The identifier for the group to be described.
         public let groupId: String
@@ -662,7 +662,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeGroupResponse: AWSShape {
+    public struct DescribeGroupResponse: AWSDecodableShape {
 
         /// The date and time when a user was deregistered from WorkMail, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
@@ -696,7 +696,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeOrganizationRequest: AWSShape {
+    public struct DescribeOrganizationRequest: AWSEncodableShape {
 
         /// The identifier for the organization to be described.
         public let organizationId: String
@@ -714,7 +714,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeOrganizationResponse: AWSShape {
+    public struct DescribeOrganizationResponse: AWSDecodableShape {
 
         /// The alias for an organization.
         public let alias: String?
@@ -760,7 +760,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeResourceRequest: AWSShape {
+    public struct DescribeResourceRequest: AWSEncodableShape {
 
         /// The identifier associated with the organization for which the resource is described.
         public let organizationId: String
@@ -783,7 +783,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeResourceResponse: AWSShape {
+    public struct DescribeResourceResponse: AWSDecodableShape {
 
         /// The booking options for the described resource.
         public let bookingOptions: BookingOptions?
@@ -825,7 +825,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeUserRequest: AWSShape {
+    public struct DescribeUserRequest: AWSEncodableShape {
 
         /// The identifier for the organization under which the user exists.
         public let organizationId: String
@@ -849,7 +849,7 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeUserResponse: AWSShape {
+    public struct DescribeUserResponse: AWSDecodableShape {
 
         /// The date and time at which the user was disabled for Amazon WorkMail usage, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
@@ -891,7 +891,7 @@ extension WorkMail {
         }
     }
 
-    public struct DisassociateDelegateFromResourceRequest: AWSShape {
+    public struct DisassociateDelegateFromResourceRequest: AWSEncodableShape {
 
         /// The identifier for the member (user, group) to be removed from the resource's delegates.
         public let entityId: String
@@ -920,7 +920,7 @@ extension WorkMail {
         }
     }
 
-    public struct DisassociateDelegateFromResourceResponse: AWSShape {
+    public struct DisassociateDelegateFromResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -928,7 +928,7 @@ extension WorkMail {
 
     }
 
-    public struct DisassociateMemberFromGroupRequest: AWSShape {
+    public struct DisassociateMemberFromGroupRequest: AWSEncodableShape {
 
         /// The identifier for the group from which members are removed.
         public let groupId: String
@@ -958,7 +958,7 @@ extension WorkMail {
         }
     }
 
-    public struct DisassociateMemberFromGroupResponse: AWSShape {
+    public struct DisassociateMemberFromGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -966,7 +966,7 @@ extension WorkMail {
 
     }
 
-    public struct GetAccessControlEffectRequest: AWSShape {
+    public struct GetAccessControlEffectRequest: AWSEncodableShape {
 
         /// The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let action: String
@@ -1004,7 +1004,7 @@ extension WorkMail {
         }
     }
 
-    public struct GetAccessControlEffectResponse: AWSShape {
+    public struct GetAccessControlEffectResponse: AWSDecodableShape {
 
         /// The rule effect.
         public let effect: AccessControlRuleEffect?
@@ -1022,7 +1022,7 @@ extension WorkMail {
         }
     }
 
-    public struct GetMailboxDetailsRequest: AWSShape {
+    public struct GetMailboxDetailsRequest: AWSEncodableShape {
 
         /// The identifier for the organization that contains the user whose mailbox details are being requested.
         public let organizationId: String
@@ -1046,7 +1046,7 @@ extension WorkMail {
         }
     }
 
-    public struct GetMailboxDetailsResponse: AWSShape {
+    public struct GetMailboxDetailsResponse: AWSDecodableShape {
 
         /// The maximum allowed mailbox size, in MB, for the specified user.
         public let mailboxQuota: Int?
@@ -1064,7 +1064,7 @@ extension WorkMail {
         }
     }
 
-    public struct Group: AWSShape {
+    public struct Group: AWSDecodableShape {
 
         /// The date indicating when the group was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
@@ -1098,7 +1098,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListAccessControlRulesRequest: AWSShape {
+    public struct ListAccessControlRulesRequest: AWSEncodableShape {
 
         /// The identifier for the organization.
         public let organizationId: String
@@ -1116,7 +1116,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListAccessControlRulesResponse: AWSShape {
+    public struct ListAccessControlRulesResponse: AWSDecodableShape {
 
         /// The access control rules.
         public let rules: [AccessControlRule]?
@@ -1130,7 +1130,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListAliasesRequest: AWSShape {
+    public struct ListAliasesRequest: AWSEncodableShape {
 
         /// The identifier for the entity for which to list the aliases.
         public let entityId: String
@@ -1166,7 +1166,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListAliasesResponse: AWSShape {
+    public struct ListAliasesResponse: AWSDecodableShape {
 
         /// The entity's paginated aliases.
         public let aliases: [String]?
@@ -1184,7 +1184,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListGroupMembersRequest: AWSShape {
+    public struct ListGroupMembersRequest: AWSEncodableShape {
 
         /// The identifier for the group to which the members (users or groups) are associated.
         public let groupId: String
@@ -1220,7 +1220,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListGroupMembersResponse: AWSShape {
+    public struct ListGroupMembersResponse: AWSDecodableShape {
 
         /// The members associated to the group.
         public let members: [Member]?
@@ -1238,7 +1238,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListGroupsRequest: AWSShape {
+    public struct ListGroupsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -1268,7 +1268,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListGroupsResponse: AWSShape {
+    public struct ListGroupsResponse: AWSDecodableShape {
 
         /// The overview of groups for an organization.
         public let groups: [Group]?
@@ -1286,7 +1286,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListMailboxPermissionsRequest: AWSShape {
+    public struct ListMailboxPermissionsRequest: AWSEncodableShape {
 
         /// The identifier of the user, group, or resource for which to list mailbox permissions.
         public let entityId: String
@@ -1322,7 +1322,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListMailboxPermissionsResponse: AWSShape {
+    public struct ListMailboxPermissionsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
@@ -1340,7 +1340,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListOrganizationsRequest: AWSShape {
+    public struct ListOrganizationsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -1365,7 +1365,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListOrganizationsResponse: AWSShape {
+    public struct ListOrganizationsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
@@ -1383,7 +1383,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListResourceDelegatesRequest: AWSShape {
+    public struct ListResourceDelegatesRequest: AWSEncodableShape {
 
         /// The number of maximum results in a page.
         public let maxResults: Int?
@@ -1419,7 +1419,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListResourceDelegatesResponse: AWSShape {
+    public struct ListResourceDelegatesResponse: AWSDecodableShape {
 
         /// One page of the resource's delegates.
         public let delegates: [Delegate]?
@@ -1437,7 +1437,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListResourcesRequest: AWSShape {
+    public struct ListResourcesRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -1467,7 +1467,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListResourcesResponse: AWSShape {
+    public struct ListResourcesResponse: AWSDecodableShape {
 
         ///  The token used to paginate through all the organization's resources. While results are still available, it has an associated value. When the last page is reached, the token is empty.
         public let nextToken: String?
@@ -1485,7 +1485,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceARN: String
@@ -1504,7 +1504,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// A list of tag key-value pairs.
         public let tags: [Tag]?
@@ -1518,7 +1518,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListUsersRequest: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -1548,7 +1548,7 @@ extension WorkMail {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListUsersResponse: AWSDecodableShape {
 
         ///  The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
         public let nextToken: String?
@@ -1566,7 +1566,7 @@ extension WorkMail {
         }
     }
 
-    public struct Member: AWSShape {
+    public struct Member: AWSDecodableShape {
 
         /// The date indicating when the member was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
@@ -1600,7 +1600,7 @@ extension WorkMail {
         }
     }
 
-    public struct OrganizationSummary: AWSShape {
+    public struct OrganizationSummary: AWSDecodableShape {
 
         /// The alias associated with the organization.
         public let alias: String?
@@ -1626,7 +1626,7 @@ extension WorkMail {
         }
     }
 
-    public struct Permission: AWSShape {
+    public struct Permission: AWSDecodableShape {
 
         /// The identifier of the user, group, or resource to which the permissions are granted.
         public let granteeId: String
@@ -1648,7 +1648,7 @@ extension WorkMail {
         }
     }
 
-    public struct PutAccessControlRuleRequest: AWSShape {
+    public struct PutAccessControlRuleRequest: AWSEncodableShape {
 
         /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let actions: [String]?
@@ -1748,7 +1748,7 @@ extension WorkMail {
         }
     }
 
-    public struct PutAccessControlRuleResponse: AWSShape {
+    public struct PutAccessControlRuleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1756,7 +1756,7 @@ extension WorkMail {
 
     }
 
-    public struct PutMailboxPermissionsRequest: AWSShape {
+    public struct PutMailboxPermissionsRequest: AWSEncodableShape {
 
         /// The identifier of the user, group, or resource for which to update mailbox permissions.
         public let entityId: String
@@ -1790,7 +1790,7 @@ extension WorkMail {
         }
     }
 
-    public struct PutMailboxPermissionsResponse: AWSShape {
+    public struct PutMailboxPermissionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1798,7 +1798,7 @@ extension WorkMail {
 
     }
 
-    public struct RegisterToWorkMailRequest: AWSShape {
+    public struct RegisterToWorkMailRequest: AWSEncodableShape {
 
         /// The email for the user, group, or resource to be updated.
         public let email: String
@@ -1829,7 +1829,7 @@ extension WorkMail {
         }
     }
 
-    public struct RegisterToWorkMailResponse: AWSShape {
+    public struct RegisterToWorkMailResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1837,7 +1837,7 @@ extension WorkMail {
 
     }
 
-    public struct ResetPasswordRequest: AWSShape {
+    public struct ResetPasswordRequest: AWSEncodableShape {
 
         /// The identifier of the organization that contains the user for which the password is reset.
         public let organizationId: String
@@ -1867,7 +1867,7 @@ extension WorkMail {
         }
     }
 
-    public struct ResetPasswordResponse: AWSShape {
+    public struct ResetPasswordResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1875,7 +1875,7 @@ extension WorkMail {
 
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSDecodableShape {
 
         /// The date indicating when the resource was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
@@ -1913,7 +1913,7 @@ extension WorkMail {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String
@@ -1938,7 +1938,7 @@ extension WorkMail {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceARN: String
@@ -1966,7 +1966,7 @@ extension WorkMail {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1974,7 +1974,7 @@ extension WorkMail {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceARN: String
@@ -2003,7 +2003,7 @@ extension WorkMail {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2011,7 +2011,7 @@ extension WorkMail {
 
     }
 
-    public struct UpdateMailboxQuotaRequest: AWSShape {
+    public struct UpdateMailboxQuotaRequest: AWSEncodableShape {
 
         /// The updated mailbox quota, in MB, for the specified user.
         public let mailboxQuota: Int
@@ -2040,7 +2040,7 @@ extension WorkMail {
         }
     }
 
-    public struct UpdateMailboxQuotaResponse: AWSShape {
+    public struct UpdateMailboxQuotaResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2048,7 +2048,7 @@ extension WorkMail {
 
     }
 
-    public struct UpdatePrimaryEmailAddressRequest: AWSShape {
+    public struct UpdatePrimaryEmailAddressRequest: AWSEncodableShape {
 
         /// The value of the email to be updated as primary.
         public let email: String
@@ -2079,7 +2079,7 @@ extension WorkMail {
         }
     }
 
-    public struct UpdatePrimaryEmailAddressResponse: AWSShape {
+    public struct UpdatePrimaryEmailAddressResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2087,7 +2087,7 @@ extension WorkMail {
 
     }
 
-    public struct UpdateResourceRequest: AWSShape {
+    public struct UpdateResourceRequest: AWSEncodableShape {
 
         /// The resource's booking options to be updated.
         public let bookingOptions: BookingOptions?
@@ -2121,7 +2121,7 @@ extension WorkMail {
         }
     }
 
-    public struct UpdateResourceResponse: AWSShape {
+    public struct UpdateResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2129,7 +2129,7 @@ extension WorkMail {
 
     }
 
-    public struct User: AWSShape {
+    public struct User: AWSDecodableShape {
 
         /// The date indicating when the user was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?

@@ -137,7 +137,7 @@ extension CostExplorer {
 
     //MARK: Shapes
 
-    public struct CostCategory: AWSShape {
+    public struct CostCategory: AWSDecodableShape {
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String
@@ -169,7 +169,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CostCategoryReference: AWSShape {
+    public struct CostCategoryReference: AWSDecodableShape {
 
         ///  The unique identifier for your Cost Category Reference. 
         public let costCategoryArn: String?
@@ -194,7 +194,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CostCategoryRule: AWSShape {
+    public struct CostCategoryRule: AWSEncodableShape & AWSDecodableShape {
 
         /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead.
         public let rule: Expression
@@ -218,7 +218,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CostCategoryValues: AWSShape {
+    public struct CostCategoryValues: AWSEncodableShape & AWSDecodableShape {
 
         public let key: String?
         /// The specific value of the Cost Category.
@@ -241,7 +241,7 @@ extension CostExplorer {
         }
     }
 
-    public struct Coverage: AWSShape {
+    public struct Coverage: AWSDecodableShape {
 
         /// The amount of cost that the reservation covered.
         public let coverageCost: CoverageCost?
@@ -263,7 +263,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CoverageByTime: AWSShape {
+    public struct CoverageByTime: AWSDecodableShape {
 
         /// The groups of instances that the reservation covered.
         public let groups: [ReservationCoverageGroup]?
@@ -285,7 +285,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CoverageCost: AWSShape {
+    public struct CoverageCost: AWSDecodableShape {
 
         /// How much an On-Demand instance cost.
         public let onDemandCost: String?
@@ -299,7 +299,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CoverageHours: AWSShape {
+    public struct CoverageHours: AWSDecodableShape {
 
         /// The percentage of instance hours that a reservation covered.
         public let coverageHoursPercentage: String?
@@ -325,7 +325,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CoverageNormalizedUnits: AWSShape {
+    public struct CoverageNormalizedUnits: AWSDecodableShape {
 
         /// The percentage of your used instance normalized units that a reservation covers.
         public let coverageNormalizedUnitsPercentage: String?
@@ -351,7 +351,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CreateCostCategoryDefinitionRequest: AWSShape {
+    public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
 
         public let name: String
         ///  CreateCostCategoryDefinition supports dimensions, Tags, and nested expressions. Currently the only dimensions supported is LINKED_ACCOUNT. Root level OR is not supported. We recommend you create a separate rule instead. Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
@@ -382,7 +382,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CreateCostCategoryDefinitionResponse: AWSShape {
+    public struct CreateCostCategoryDefinitionResponse: AWSDecodableShape {
 
         ///  The unique identifier for your newly created Cost Category. 
         public let costCategoryArn: String?
@@ -400,7 +400,7 @@ extension CostExplorer {
         }
     }
 
-    public struct CurrentInstance: AWSShape {
+    public struct CurrentInstance: AWSDecodableShape {
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
@@ -450,7 +450,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DateInterval: AWSShape {
+    public struct DateInterval: AWSEncodableShape & AWSDecodableShape {
 
         /// The end of the time period that you want the usage and costs for. The end date is exclusive. For example, if end is 2017-05-01, AWS retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
         public let end: String
@@ -473,7 +473,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DeleteCostCategoryDefinitionRequest: AWSShape {
+    public struct DeleteCostCategoryDefinitionRequest: AWSEncodableShape {
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String
@@ -493,7 +493,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DeleteCostCategoryDefinitionResponse: AWSShape {
+    public struct DeleteCostCategoryDefinitionResponse: AWSDecodableShape {
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String?
@@ -511,7 +511,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DescribeCostCategoryDefinitionRequest: AWSShape {
+    public struct DescribeCostCategoryDefinitionRequest: AWSEncodableShape {
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String
@@ -538,7 +538,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DescribeCostCategoryDefinitionResponse: AWSShape {
+    public struct DescribeCostCategoryDefinitionResponse: AWSDecodableShape {
 
         public let costCategory: CostCategory?
 
@@ -551,7 +551,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DimensionValues: AWSShape {
+    public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
 
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones.
         public let key: Dimension?
@@ -569,7 +569,7 @@ extension CostExplorer {
         }
     }
 
-    public struct DimensionValuesWithAttributes: AWSShape {
+    public struct DimensionValuesWithAttributes: AWSDecodableShape {
 
         /// The attribute that applies to a specific Dimension.
         public let attributes: [String: String]?
@@ -587,7 +587,7 @@ extension CostExplorer {
         }
     }
 
-    public struct EC2InstanceDetails: AWSShape {
+    public struct EC2InstanceDetails: AWSDecodableShape {
 
         /// The Availability Zone of the recommended reservation.
         public let availabilityZone: String?
@@ -629,7 +629,7 @@ extension CostExplorer {
         }
     }
 
-    public struct EC2ResourceDetails: AWSShape {
+    public struct EC2ResourceDetails: AWSDecodableShape {
 
         ///  Hourly public On Demand rate for the instance type.
         public let hourlyOnDemandRate: String?
@@ -675,7 +675,7 @@ extension CostExplorer {
         }
     }
 
-    public struct EC2ResourceUtilization: AWSShape {
+    public struct EC2ResourceUtilization: AWSDecodableShape {
 
         ///  Maximum observed or expected CPU utilization of the instance.
         public let maxCpuUtilizationPercentage: String?
@@ -697,7 +697,7 @@ extension CostExplorer {
         }
     }
 
-    public struct EC2Specification: AWSShape {
+    public struct EC2Specification: AWSEncodableShape & AWSDecodableShape {
 
         /// Whether you want a recommendation for standard or convertible reservations.
         public let offeringClass: OfferingClass?
@@ -711,7 +711,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ESInstanceDetails: AWSShape {
+    public struct ESInstanceDetails: AWSDecodableShape {
 
         /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
@@ -741,7 +741,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ElastiCacheInstanceDetails: AWSShape {
+    public struct ElastiCacheInstanceDetails: AWSDecodableShape {
 
         /// Whether the recommendation is for a current generation instance.
         public let currentGeneration: Bool?
@@ -775,7 +775,7 @@ extension CostExplorer {
         }
     }
 
-    public class Expression: AWSShape {
+    public class Expression: AWSEncodableShape & AWSDecodableShape {
 
         /// Return results that match both Dimension objects.
         public let and: [Expression]?
@@ -820,7 +820,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ForecastResult: AWSShape {
+    public struct ForecastResult: AWSDecodableShape {
 
         /// The mean value of the forecast.
         public let meanValue: String?
@@ -846,7 +846,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetCostAndUsageRequest: AWSShape {
+    public struct GetCostAndUsageRequest: AWSEncodableShape {
 
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
         public let filter: Expression?
@@ -885,7 +885,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetCostAndUsageResponse: AWSShape {
+    public struct GetCostAndUsageResponse: AWSDecodableShape {
 
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
@@ -907,7 +907,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetCostAndUsageWithResourcesRequest: AWSShape {
+    public struct GetCostAndUsageWithResourcesRequest: AWSEncodableShape {
 
         /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId.
         public let filter: Expression?
@@ -946,7 +946,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetCostAndUsageWithResourcesResponse: AWSShape {
+    public struct GetCostAndUsageWithResourcesResponse: AWSDecodableShape {
 
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
@@ -968,7 +968,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetCostForecastRequest: AWSShape {
+    public struct GetCostForecastRequest: AWSEncodableShape {
 
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
@@ -1005,7 +1005,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetCostForecastResponse: AWSShape {
+    public struct GetCostForecastResponse: AWSDecodableShape {
 
         /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
@@ -1023,7 +1023,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetDimensionValuesRequest: AWSShape {
+    public struct GetDimensionValuesRequest: AWSEncodableShape {
 
         /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let context: Context?
@@ -1057,7 +1057,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetDimensionValuesResponse: AWSShape {
+    public struct GetDimensionValuesResponse: AWSDecodableShape {
 
         /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let dimensionValues: [DimensionValuesWithAttributes]
@@ -1083,7 +1083,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetReservationCoverageRequest: AWSShape {
+    public struct GetReservationCoverageRequest: AWSEncodableShape {
 
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
         public let filter: Expression?
@@ -1122,7 +1122,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetReservationCoverageResponse: AWSShape {
+    public struct GetReservationCoverageResponse: AWSDecodableShape {
 
         /// The amount of time that your reservations covered.
         public let coveragesByTime: [CoverageByTime]
@@ -1144,7 +1144,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetReservationPurchaseRecommendationRequest: AWSShape {
+    public struct GetReservationPurchaseRecommendationRequest: AWSEncodableShape {
 
         /// The account ID that is associated with the recommendation. 
         public let accountId: String?
@@ -1194,7 +1194,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetReservationPurchaseRecommendationResponse: AWSShape {
+    public struct GetReservationPurchaseRecommendationResponse: AWSDecodableShape {
 
         /// Information about this specific recommendation call, such as the time stamp for when Cost Explorer generated this recommendation.
         public let metadata: ReservationPurchaseRecommendationMetadata?
@@ -1216,7 +1216,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetReservationUtilizationRequest: AWSShape {
+    public struct GetReservationUtilizationRequest: AWSEncodableShape {
 
         /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
@@ -1251,7 +1251,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetReservationUtilizationResponse: AWSShape {
+    public struct GetReservationUtilizationResponse: AWSDecodableShape {
 
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1273,7 +1273,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetRightsizingRecommendationRequest: AWSShape {
+    public struct GetRightsizingRecommendationRequest: AWSEncodableShape {
 
         public let filter: Expression?
         /// The pagination token that indicates the next set of results that you want to retrieve.
@@ -1303,7 +1303,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetRightsizingRecommendationResponse: AWSShape {
+    public struct GetRightsizingRecommendationResponse: AWSDecodableShape {
 
         /// Information regarding this specific recommendation set.
         public let metadata: RightsizingRecommendationMetadata?
@@ -1329,7 +1329,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansCoverageRequest: AWSShape {
+    public struct GetSavingsPlansCoverageRequest: AWSEncodableShape {
 
         /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
@@ -1373,7 +1373,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansCoverageResponse: AWSShape {
+    public struct GetSavingsPlansCoverageResponse: AWSDecodableShape {
 
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
@@ -1391,7 +1391,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansPurchaseRecommendationRequest: AWSShape {
+    public struct GetSavingsPlansPurchaseRecommendationRequest: AWSEncodableShape {
 
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
         public let accountScope: AccountScope?
@@ -1438,7 +1438,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansPurchaseRecommendationResponse: AWSShape {
+    public struct GetSavingsPlansPurchaseRecommendationResponse: AWSDecodableShape {
 
         /// Information regarding this specific recommendation set.
         public let metadata: SavingsPlansPurchaseRecommendationMetadata?
@@ -1460,7 +1460,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansUtilizationDetailsRequest: AWSShape {
+    public struct GetSavingsPlansUtilizationDetailsRequest: AWSEncodableShape {
 
         /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilizationDetails uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
@@ -1492,7 +1492,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansUtilizationDetailsResponse: AWSShape {
+    public struct GetSavingsPlansUtilizationDetailsResponse: AWSDecodableShape {
 
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
@@ -1517,7 +1517,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansUtilizationRequest: AWSShape {
+    public struct GetSavingsPlansUtilizationRequest: AWSEncodableShape {
 
         /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
@@ -1544,7 +1544,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetSavingsPlansUtilizationResponse: AWSShape {
+    public struct GetSavingsPlansUtilizationResponse: AWSDecodableShape {
 
         /// The amount of cost/commitment you used your Savings Plans. This allows you to specify date ranges.
         public let savingsPlansUtilizationsByTime: [SavingsPlansUtilizationByTime]?
@@ -1562,7 +1562,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetTagsRequest: AWSShape {
+    public struct GetTagsRequest: AWSEncodableShape {
 
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1592,7 +1592,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetTagsResponse: AWSShape {
+    public struct GetTagsResponse: AWSDecodableShape {
 
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1618,7 +1618,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetUsageForecastRequest: AWSShape {
+    public struct GetUsageForecastRequest: AWSEncodableShape {
 
         /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
         public let filter: Expression?
@@ -1655,7 +1655,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GetUsageForecastResponse: AWSShape {
+    public struct GetUsageForecastResponse: AWSDecodableShape {
 
         /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
@@ -1673,7 +1673,7 @@ extension CostExplorer {
         }
     }
 
-    public struct Group: AWSShape {
+    public struct Group: AWSDecodableShape {
 
         /// The keys that are included in this group.
         public let keys: [String]?
@@ -1691,7 +1691,7 @@ extension CostExplorer {
         }
     }
 
-    public struct GroupDefinition: AWSShape {
+    public struct GroupDefinition: AWSEncodableShape & AWSDecodableShape {
 
         /// The string that represents a key for a specified group.
         public let key: String?
@@ -1709,7 +1709,7 @@ extension CostExplorer {
         }
     }
 
-    public struct InstanceDetails: AWSShape {
+    public struct InstanceDetails: AWSDecodableShape {
 
         /// The Amazon EC2 instances that AWS recommends that you purchase.
         public let eC2InstanceDetails: EC2InstanceDetails?
@@ -1739,7 +1739,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ListCostCategoryDefinitionsRequest: AWSShape {
+    public struct ListCostCategoryDefinitionsRequest: AWSEncodableShape {
 
         ///  The date when the Cost Category was effective. 
         public let effectiveOn: String?
@@ -1763,7 +1763,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ListCostCategoryDefinitionsResponse: AWSShape {
+    public struct ListCostCategoryDefinitionsResponse: AWSDecodableShape {
 
         ///  A reference to a Cost Category containing enough information to identify the Cost Category. 
         public let costCategoryReferences: [CostCategoryReference]?
@@ -1781,7 +1781,7 @@ extension CostExplorer {
         }
     }
 
-    public struct MetricValue: AWSShape {
+    public struct MetricValue: AWSDecodableShape {
 
         /// The actual number that represents the metric.
         public let amount: String?
@@ -1799,7 +1799,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ModifyRecommendationDetail: AWSShape {
+    public struct ModifyRecommendationDetail: AWSDecodableShape {
 
         /// Identifies whether this instance type is the Amazon Web Services default recommendation.
         public let targetInstances: [TargetInstance]?
@@ -1813,7 +1813,7 @@ extension CostExplorer {
         }
     }
 
-    public struct RDSInstanceDetails: AWSShape {
+    public struct RDSInstanceDetails: AWSDecodableShape {
 
         /// Whether the recommendation is for a current-generation instance. 
         public let currentGeneration: Bool?
@@ -1859,7 +1859,7 @@ extension CostExplorer {
         }
     }
 
-    public struct RedshiftInstanceDetails: AWSShape {
+    public struct RedshiftInstanceDetails: AWSDecodableShape {
 
         /// Whether the recommendation is for a current-generation instance.
         public let currentGeneration: Bool?
@@ -1889,7 +1889,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationAggregates: AWSShape {
+    public struct ReservationAggregates: AWSDecodableShape {
 
         /// The monthly cost of your reservation, amortized over the reservation period.
         public let amortizedRecurringFee: String?
@@ -1955,7 +1955,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationCoverageGroup: AWSShape {
+    public struct ReservationCoverageGroup: AWSDecodableShape {
 
         /// The attributes for this group of reservations.
         public let attributes: [String: String]?
@@ -1973,7 +1973,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationPurchaseRecommendation: AWSShape {
+    public struct ReservationPurchaseRecommendation: AWSDecodableShape {
 
         /// The account scope that AWS recommends that you purchase this instance for. For example, you can purchase this reservation for an entire organization in AWS Organizations.
         public let accountScope: AccountScope?
@@ -2011,7 +2011,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationPurchaseRecommendationDetail: AWSShape {
+    public struct ReservationPurchaseRecommendationDetail: AWSDecodableShape {
 
         /// The account that this RI recommendation is for.
         public let accountId: String?
@@ -2097,7 +2097,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationPurchaseRecommendationMetadata: AWSShape {
+    public struct ReservationPurchaseRecommendationMetadata: AWSDecodableShape {
 
         /// The time stamp for when AWS made this recommendation.
         public let generationTimestamp: String?
@@ -2115,7 +2115,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationPurchaseRecommendationSummary: AWSShape {
+    public struct ReservationPurchaseRecommendationSummary: AWSDecodableShape {
 
         /// The currency code used for this recommendation.
         public let currencyCode: String?
@@ -2137,7 +2137,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ReservationUtilizationGroup: AWSShape {
+    public struct ReservationUtilizationGroup: AWSDecodableShape {
 
         /// The attributes for this group of reservations.
         public let attributes: [String: String]?
@@ -2163,7 +2163,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ResourceDetails: AWSShape {
+    public struct ResourceDetails: AWSDecodableShape {
 
         /// Details on the Amazon EC2 resource.
         public let eC2ResourceDetails: EC2ResourceDetails?
@@ -2177,7 +2177,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ResourceUtilization: AWSShape {
+    public struct ResourceUtilization: AWSDecodableShape {
 
         /// Utilization of current Amazon EC2 Instance 
         public let eC2ResourceUtilization: EC2ResourceUtilization?
@@ -2191,7 +2191,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ResultByTime: AWSShape {
+    public struct ResultByTime: AWSDecodableShape {
 
         /// Whether the result is estimated.
         public let estimated: Bool?
@@ -2217,7 +2217,7 @@ extension CostExplorer {
         }
     }
 
-    public struct RightsizingRecommendation: AWSShape {
+    public struct RightsizingRecommendation: AWSDecodableShape {
 
         /// The account that this recommendation is for.
         public let accountId: String?
@@ -2247,7 +2247,7 @@ extension CostExplorer {
         }
     }
 
-    public struct RightsizingRecommendationMetadata: AWSShape {
+    public struct RightsizingRecommendationMetadata: AWSDecodableShape {
 
         ///  The time stamp for when Amazon Web Services made this recommendation.
         public let generationTimestamp: String?
@@ -2269,7 +2269,7 @@ extension CostExplorer {
         }
     }
 
-    public struct RightsizingRecommendationSummary: AWSShape {
+    public struct RightsizingRecommendationSummary: AWSDecodableShape {
 
         ///  Estimated total savings resulting from modifications, on a monthly basis.
         public let estimatedTotalMonthlySavingsAmount: String?
@@ -2295,7 +2295,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansAmortizedCommitment: AWSShape {
+    public struct SavingsPlansAmortizedCommitment: AWSDecodableShape {
 
         /// The amortized amount of your Savings Plans commitment that was purchased with either a Partial or a NoUpfront.
         public let amortizedRecurringCommitment: String?
@@ -2317,7 +2317,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansCoverage: AWSShape {
+    public struct SavingsPlansCoverage: AWSDecodableShape {
 
         /// The attribute that applies to a specific Dimension.
         public let attributes: [String: String]?
@@ -2338,7 +2338,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansCoverageData: AWSShape {
+    public struct SavingsPlansCoverageData: AWSDecodableShape {
 
         /// The percentage of your existing Savings Planscovered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
         public let coveragePercentage: String?
@@ -2364,7 +2364,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansDetails: AWSShape {
+    public struct SavingsPlansDetails: AWSDecodableShape {
 
         /// A group of instance types that Savings Plans applies to.
         public let instanceFamily: String?
@@ -2386,7 +2386,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansPurchaseRecommendation: AWSShape {
+    public struct SavingsPlansPurchaseRecommendation: AWSDecodableShape {
 
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
         public let accountScope: AccountScope?
@@ -2424,7 +2424,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansPurchaseRecommendationDetail: AWSShape {
+    public struct SavingsPlansPurchaseRecommendationDetail: AWSDecodableShape {
 
         /// The AccountID the recommendation is generated for.
         public let accountId: String?
@@ -2498,7 +2498,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansPurchaseRecommendationMetadata: AWSShape {
+    public struct SavingsPlansPurchaseRecommendationMetadata: AWSDecodableShape {
 
         /// The timestamp showing when the recommendations were generated.
         public let generationTimestamp: String?
@@ -2516,7 +2516,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansPurchaseRecommendationSummary: AWSShape {
+    public struct SavingsPlansPurchaseRecommendationSummary: AWSDecodableShape {
 
         /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
         public let currencyCode: String?
@@ -2570,7 +2570,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansSavings: AWSShape {
+    public struct SavingsPlansSavings: AWSDecodableShape {
 
         /// The savings amount that you are accumulating for the usage that is covered by a Savings Plans, when compared to the On-Demand equivalent of the same usage.
         public let netSavings: String?
@@ -2588,7 +2588,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansUtilization: AWSShape {
+    public struct SavingsPlansUtilization: AWSDecodableShape {
 
         /// The total amount of Savings Plans commitment that's been purchased in an account (or set of accounts).
         public let totalCommitment: String?
@@ -2614,7 +2614,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansUtilizationAggregates: AWSShape {
+    public struct SavingsPlansUtilizationAggregates: AWSDecodableShape {
 
         /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
@@ -2636,7 +2636,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansUtilizationByTime: AWSShape {
+    public struct SavingsPlansUtilizationByTime: AWSDecodableShape {
 
         /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
@@ -2661,7 +2661,7 @@ extension CostExplorer {
         }
     }
 
-    public struct SavingsPlansUtilizationDetail: AWSShape {
+    public struct SavingsPlansUtilizationDetail: AWSDecodableShape {
 
         /// The total amortized commitment for a Savings Plans. Includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
@@ -2691,7 +2691,7 @@ extension CostExplorer {
         }
     }
 
-    public struct ServiceSpecification: AWSShape {
+    public struct ServiceSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon EC2 hardware specifications that you want AWS to provide recommendations for.
         public let eC2Specification: EC2Specification?
@@ -2705,7 +2705,7 @@ extension CostExplorer {
         }
     }
 
-    public struct TagValues: AWSShape {
+    public struct TagValues: AWSEncodableShape & AWSDecodableShape {
 
         /// The key for the tag.
         public let key: String?
@@ -2723,7 +2723,7 @@ extension CostExplorer {
         }
     }
 
-    public struct TargetInstance: AWSShape {
+    public struct TargetInstance: AWSDecodableShape {
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
@@ -2757,7 +2757,7 @@ extension CostExplorer {
         }
     }
 
-    public struct TerminateRecommendationDetail: AWSShape {
+    public struct TerminateRecommendationDetail: AWSDecodableShape {
 
         ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
@@ -2775,7 +2775,7 @@ extension CostExplorer {
         }
     }
 
-    public struct UpdateCostCategoryDefinitionRequest: AWSShape {
+    public struct UpdateCostCategoryDefinitionRequest: AWSEncodableShape {
 
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
@@ -2807,7 +2807,7 @@ extension CostExplorer {
         }
     }
 
-    public struct UpdateCostCategoryDefinitionResponse: AWSShape {
+    public struct UpdateCostCategoryDefinitionResponse: AWSDecodableShape {
 
         ///  The unique identifier for your Cost Category. 
         public let costCategoryArn: String?
@@ -2825,7 +2825,7 @@ extension CostExplorer {
         }
     }
 
-    public struct UtilizationByTime: AWSShape {
+    public struct UtilizationByTime: AWSDecodableShape {
 
         /// The groups that this utilization result uses.
         public let groups: [ReservationUtilizationGroup]?

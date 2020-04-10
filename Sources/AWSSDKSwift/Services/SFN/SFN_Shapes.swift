@@ -110,7 +110,7 @@ extension SFN {
 
     //MARK: Shapes
 
-    public struct ActivityFailedEventDetails: AWSShape {
+    public struct ActivityFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -128,7 +128,7 @@ extension SFN {
         }
     }
 
-    public struct ActivityListItem: AWSShape {
+    public struct ActivityListItem: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
@@ -150,7 +150,7 @@ extension SFN {
         }
     }
 
-    public struct ActivityScheduleFailedEventDetails: AWSShape {
+    public struct ActivityScheduleFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -168,7 +168,7 @@ extension SFN {
         }
     }
 
-    public struct ActivityScheduledEventDetails: AWSShape {
+    public struct ActivityScheduledEventDetails: AWSDecodableShape {
 
         /// The maximum allowed duration between two heartbeats for the activity task.
         public let heartbeatInSeconds: Int64?
@@ -194,7 +194,7 @@ extension SFN {
         }
     }
 
-    public struct ActivityStartedEventDetails: AWSShape {
+    public struct ActivityStartedEventDetails: AWSDecodableShape {
 
         /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
@@ -208,7 +208,7 @@ extension SFN {
         }
     }
 
-    public struct ActivitySucceededEventDetails: AWSShape {
+    public struct ActivitySucceededEventDetails: AWSDecodableShape {
 
         /// The JSON data output by the activity task.
         public let output: String?
@@ -222,7 +222,7 @@ extension SFN {
         }
     }
 
-    public struct ActivityTimedOutEventDetails: AWSShape {
+    public struct ActivityTimedOutEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -240,7 +240,7 @@ extension SFN {
         }
     }
 
-    public struct CloudWatchLogsLogGroup: AWSShape {
+    public struct CloudWatchLogsLogGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* 
         public let logGroupArn: String?
@@ -259,7 +259,7 @@ extension SFN {
         }
     }
 
-    public struct CreateActivityInput: AWSShape {
+    public struct CreateActivityInput: AWSEncodableShape {
 
         /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
@@ -285,7 +285,7 @@ extension SFN {
         }
     }
 
-    public struct CreateActivityOutput: AWSShape {
+    public struct CreateActivityOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
@@ -303,7 +303,7 @@ extension SFN {
         }
     }
 
-    public struct CreateStateMachineInput: AWSShape {
+    public struct CreateStateMachineInput: AWSEncodableShape {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
@@ -350,7 +350,7 @@ extension SFN {
         }
     }
 
-    public struct CreateStateMachineOutput: AWSShape {
+    public struct CreateStateMachineOutput: AWSDecodableShape {
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
@@ -368,7 +368,7 @@ extension SFN {
         }
     }
 
-    public struct DeleteActivityInput: AWSShape {
+    public struct DeleteActivityInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
@@ -387,7 +387,7 @@ extension SFN {
         }
     }
 
-    public struct DeleteActivityOutput: AWSShape {
+    public struct DeleteActivityOutput: AWSDecodableShape {
 
 
         public init() {
@@ -395,7 +395,7 @@ extension SFN {
 
     }
 
-    public struct DeleteStateMachineInput: AWSShape {
+    public struct DeleteStateMachineInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
@@ -414,7 +414,7 @@ extension SFN {
         }
     }
 
-    public struct DeleteStateMachineOutput: AWSShape {
+    public struct DeleteStateMachineOutput: AWSDecodableShape {
 
 
         public init() {
@@ -422,7 +422,7 @@ extension SFN {
 
     }
 
-    public struct DescribeActivityInput: AWSShape {
+    public struct DescribeActivityInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
@@ -441,7 +441,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeActivityOutput: AWSShape {
+    public struct DescribeActivityOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
@@ -463,7 +463,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeExecutionInput: AWSShape {
+    public struct DescribeExecutionInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
@@ -482,7 +482,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeExecutionOutput: AWSShape {
+    public struct DescribeExecutionOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
@@ -524,7 +524,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeStateMachineForExecutionInput: AWSShape {
+    public struct DescribeStateMachineForExecutionInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
         public let executionArn: String
@@ -543,7 +543,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeStateMachineForExecutionOutput: AWSShape {
+    public struct DescribeStateMachineForExecutionOutput: AWSDecodableShape {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
@@ -576,7 +576,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeStateMachineInput: AWSShape {
+    public struct DescribeStateMachineInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
@@ -595,7 +595,7 @@ extension SFN {
         }
     }
 
-    public struct DescribeStateMachineOutput: AWSShape {
+    public struct DescribeStateMachineOutput: AWSDecodableShape {
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
@@ -636,7 +636,7 @@ extension SFN {
         }
     }
 
-    public struct ExecutionAbortedEventDetails: AWSShape {
+    public struct ExecutionAbortedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -654,7 +654,7 @@ extension SFN {
         }
     }
 
-    public struct ExecutionFailedEventDetails: AWSShape {
+    public struct ExecutionFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -672,7 +672,7 @@ extension SFN {
         }
     }
 
-    public struct ExecutionListItem: AWSShape {
+    public struct ExecutionListItem: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
@@ -706,7 +706,7 @@ extension SFN {
         }
     }
 
-    public struct ExecutionStartedEventDetails: AWSShape {
+    public struct ExecutionStartedEventDetails: AWSDecodableShape {
 
         /// The JSON data input to the execution.
         public let input: String?
@@ -724,7 +724,7 @@ extension SFN {
         }
     }
 
-    public struct ExecutionSucceededEventDetails: AWSShape {
+    public struct ExecutionSucceededEventDetails: AWSDecodableShape {
 
         /// The JSON data output by the execution.
         public let output: String?
@@ -738,7 +738,7 @@ extension SFN {
         }
     }
 
-    public struct ExecutionTimedOutEventDetails: AWSShape {
+    public struct ExecutionTimedOutEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -756,7 +756,7 @@ extension SFN {
         }
     }
 
-    public struct GetActivityTaskInput: AWSShape {
+    public struct GetActivityTaskInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity.)
         public let activityArn: String
@@ -781,7 +781,7 @@ extension SFN {
         }
     }
 
-    public struct GetActivityTaskOutput: AWSShape {
+    public struct GetActivityTaskOutput: AWSDecodableShape {
 
         /// The string that contains the JSON input data for the task.
         public let input: String?
@@ -799,7 +799,7 @@ extension SFN {
         }
     }
 
-    public struct GetExecutionHistoryInput: AWSShape {
+    public struct GetExecutionHistoryInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the execution.
         public let executionArn: String
@@ -834,7 +834,7 @@ extension SFN {
         }
     }
 
-    public struct GetExecutionHistoryOutput: AWSShape {
+    public struct GetExecutionHistoryOutput: AWSDecodableShape {
 
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
@@ -852,7 +852,7 @@ extension SFN {
         }
     }
 
-    public struct HistoryEvent: AWSShape {
+    public struct HistoryEvent: AWSDecodableShape {
 
         public let activityFailedEventDetails: ActivityFailedEventDetails?
         public let activityScheduledEventDetails: ActivityScheduledEventDetails?
@@ -990,7 +990,7 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionFailedEventDetails: AWSShape {
+    public struct LambdaFunctionFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1008,7 +1008,7 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionScheduleFailedEventDetails: AWSShape {
+    public struct LambdaFunctionScheduleFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1026,7 +1026,7 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionScheduledEventDetails: AWSShape {
+    public struct LambdaFunctionScheduledEventDetails: AWSDecodableShape {
 
         /// The JSON data input to the lambda function.
         public let input: String?
@@ -1048,7 +1048,7 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionStartFailedEventDetails: AWSShape {
+    public struct LambdaFunctionStartFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1066,7 +1066,7 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionSucceededEventDetails: AWSShape {
+    public struct LambdaFunctionSucceededEventDetails: AWSDecodableShape {
 
         /// The JSON data output by the lambda function.
         public let output: String?
@@ -1080,7 +1080,7 @@ extension SFN {
         }
     }
 
-    public struct LambdaFunctionTimedOutEventDetails: AWSShape {
+    public struct LambdaFunctionTimedOutEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -1098,7 +1098,7 @@ extension SFN {
         }
     }
 
-    public struct ListActivitiesInput: AWSShape {
+    public struct ListActivitiesInput: AWSEncodableShape {
 
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
@@ -1123,7 +1123,7 @@ extension SFN {
         }
     }
 
-    public struct ListActivitiesOutput: AWSShape {
+    public struct ListActivitiesOutput: AWSDecodableShape {
 
         /// The list of activities.
         public let activities: [ActivityListItem]
@@ -1141,7 +1141,7 @@ extension SFN {
         }
     }
 
-    public struct ListExecutionsInput: AWSShape {
+    public struct ListExecutionsInput: AWSEncodableShape {
 
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
@@ -1176,7 +1176,7 @@ extension SFN {
         }
     }
 
-    public struct ListExecutionsOutput: AWSShape {
+    public struct ListExecutionsOutput: AWSDecodableShape {
 
         /// The list of matching executions.
         public let executions: [ExecutionListItem]
@@ -1194,7 +1194,7 @@ extension SFN {
         }
     }
 
-    public struct ListStateMachinesInput: AWSShape {
+    public struct ListStateMachinesInput: AWSEncodableShape {
 
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
@@ -1219,7 +1219,7 @@ extension SFN {
         }
     }
 
-    public struct ListStateMachinesOutput: AWSShape {
+    public struct ListStateMachinesOutput: AWSDecodableShape {
 
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1236,7 +1236,7 @@ extension SFN {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -1255,7 +1255,7 @@ extension SFN {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// An array of tags associated with the resource.
         public let tags: [Tag]?
@@ -1269,7 +1269,7 @@ extension SFN {
         }
     }
 
-    public struct LogDestination: AWSShape {
+    public struct LogDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the AWS CloudFormation User Guide.
         public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
@@ -1287,7 +1287,7 @@ extension SFN {
         }
     }
 
-    public struct LoggingConfiguration: AWSShape {
+    public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
         public let destinations: [LogDestination]?
@@ -1315,7 +1315,7 @@ extension SFN {
         }
     }
 
-    public struct MapIterationEventDetails: AWSShape {
+    public struct MapIterationEventDetails: AWSDecodableShape {
 
         /// The index of the array belonging to the Map state iteration.
         public let index: Int?
@@ -1333,7 +1333,7 @@ extension SFN {
         }
     }
 
-    public struct MapStateStartedEventDetails: AWSShape {
+    public struct MapStateStartedEventDetails: AWSDecodableShape {
 
         /// The size of the array for Map state iterations.
         public let length: Int?
@@ -1347,7 +1347,7 @@ extension SFN {
         }
     }
 
-    public struct SendTaskFailureInput: AWSShape {
+    public struct SendTaskFailureInput: AWSEncodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1378,7 +1378,7 @@ extension SFN {
         }
     }
 
-    public struct SendTaskFailureOutput: AWSShape {
+    public struct SendTaskFailureOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1386,7 +1386,7 @@ extension SFN {
 
     }
 
-    public struct SendTaskHeartbeatInput: AWSShape {
+    public struct SendTaskHeartbeatInput: AWSEncodableShape {
 
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
@@ -1405,7 +1405,7 @@ extension SFN {
         }
     }
 
-    public struct SendTaskHeartbeatOutput: AWSShape {
+    public struct SendTaskHeartbeatOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1413,7 +1413,7 @@ extension SFN {
 
     }
 
-    public struct SendTaskSuccessInput: AWSShape {
+    public struct SendTaskSuccessInput: AWSEncodableShape {
 
         /// The JSON output of the task.
         public let output: String
@@ -1437,7 +1437,7 @@ extension SFN {
         }
     }
 
-    public struct SendTaskSuccessOutput: AWSShape {
+    public struct SendTaskSuccessOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1445,7 +1445,7 @@ extension SFN {
 
     }
 
-    public struct StartExecutionInput: AWSShape {
+    public struct StartExecutionInput: AWSEncodableShape {
 
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
         public let input: String?
@@ -1475,7 +1475,7 @@ extension SFN {
         }
     }
 
-    public struct StartExecutionOutput: AWSShape {
+    public struct StartExecutionOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that id entifies the execution.
         public let executionArn: String
@@ -1493,7 +1493,7 @@ extension SFN {
         }
     }
 
-    public struct StateEnteredEventDetails: AWSShape {
+    public struct StateEnteredEventDetails: AWSDecodableShape {
 
         /// The string that contains the JSON input data for the state.
         public let input: String?
@@ -1511,7 +1511,7 @@ extension SFN {
         }
     }
 
-    public struct StateExitedEventDetails: AWSShape {
+    public struct StateExitedEventDetails: AWSDecodableShape {
 
         /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
@@ -1529,7 +1529,7 @@ extension SFN {
         }
     }
 
-    public struct StateMachineListItem: AWSShape {
+    public struct StateMachineListItem: AWSDecodableShape {
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
@@ -1554,7 +1554,7 @@ extension SFN {
         }
     }
 
-    public struct StopExecutionInput: AWSShape {
+    public struct StopExecutionInput: AWSEncodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1585,7 +1585,7 @@ extension SFN {
         }
     }
 
-    public struct StopExecutionOutput: AWSShape {
+    public struct StopExecutionOutput: AWSDecodableShape {
 
         /// The date the execution is stopped.
         public let stopDate: TimeStamp
@@ -1599,7 +1599,7 @@ extension SFN {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of a tag.
         public let key: String?
@@ -1624,7 +1624,7 @@ extension SFN {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -1650,7 +1650,7 @@ extension SFN {
         }
     }
 
-    public struct TagResourceOutput: AWSShape {
+    public struct TagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1658,7 +1658,7 @@ extension SFN {
 
     }
 
-    public struct TaskFailedEventDetails: AWSShape {
+    public struct TaskFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1684,7 +1684,7 @@ extension SFN {
         }
     }
 
-    public struct TaskScheduledEventDetails: AWSShape {
+    public struct TaskScheduledEventDetails: AWSDecodableShape {
 
         /// The JSON data passed to the resource referenced in a task state.
         public let parameters: String
@@ -1714,7 +1714,7 @@ extension SFN {
         }
     }
 
-    public struct TaskStartFailedEventDetails: AWSShape {
+    public struct TaskStartFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1740,7 +1740,7 @@ extension SFN {
         }
     }
 
-    public struct TaskStartedEventDetails: AWSShape {
+    public struct TaskStartedEventDetails: AWSDecodableShape {
 
         /// The service name of the resource in a task state.
         public let resource: String
@@ -1758,7 +1758,7 @@ extension SFN {
         }
     }
 
-    public struct TaskSubmitFailedEventDetails: AWSShape {
+    public struct TaskSubmitFailedEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1784,7 +1784,7 @@ extension SFN {
         }
     }
 
-    public struct TaskSubmittedEventDetails: AWSShape {
+    public struct TaskSubmittedEventDetails: AWSDecodableShape {
 
         /// The response from a resource when a task has started.
         public let output: String?
@@ -1806,7 +1806,7 @@ extension SFN {
         }
     }
 
-    public struct TaskSucceededEventDetails: AWSShape {
+    public struct TaskSucceededEventDetails: AWSDecodableShape {
 
         /// The full JSON response from a resource when a task has succeeded. This response becomes the output of the related task.
         public let output: String?
@@ -1828,7 +1828,7 @@ extension SFN {
         }
     }
 
-    public struct TaskTimedOutEventDetails: AWSShape {
+    public struct TaskTimedOutEventDetails: AWSDecodableShape {
 
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1854,7 +1854,7 @@ extension SFN {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
@@ -1881,7 +1881,7 @@ extension SFN {
         }
     }
 
-    public struct UntagResourceOutput: AWSShape {
+    public struct UntagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1889,7 +1889,7 @@ extension SFN {
 
     }
 
-    public struct UpdateStateMachineInput: AWSShape {
+    public struct UpdateStateMachineInput: AWSEncodableShape {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
@@ -1925,7 +1925,7 @@ extension SFN {
         }
     }
 
-    public struct UpdateStateMachineOutput: AWSShape {
+    public struct UpdateStateMachineOutput: AWSDecodableShape {
 
         /// The date and time the state machine was updated.
         public let updateDate: TimeStamp

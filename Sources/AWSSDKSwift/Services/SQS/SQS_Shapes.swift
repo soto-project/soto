@@ -61,7 +61,7 @@ extension SQS {
 
     //MARK: Shapes
 
-    public struct AddPermissionRequest: AWSShape {
+    public struct AddPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actions", location: .body(locationName: "ActionName"), encoding: .flatList), 
             AWSMemberEncoding(label: "aWSAccountIds", location: .body(locationName: "AWSAccountId"), encoding: .flatList)
@@ -91,7 +91,7 @@ extension SQS {
         }
     }
 
-    public struct BatchResultErrorEntry: AWSShape {
+    public struct BatchResultErrorEntry: AWSDecodableShape {
 
         /// An error code representing why the action failed on this entry.
         public let code: String
@@ -117,7 +117,7 @@ extension SQS {
         }
     }
 
-    public struct ChangeMessageVisibilityBatchRequest: AWSShape {
+    public struct ChangeMessageVisibilityBatchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "entries", location: .body(locationName: "ChangeMessageVisibilityBatchRequestEntry"), encoding: .flatList)
         ]
@@ -138,7 +138,7 @@ extension SQS {
         }
     }
 
-    public struct ChangeMessageVisibilityBatchRequestEntry: AWSShape {
+    public struct ChangeMessageVisibilityBatchRequestEntry: AWSEncodableShape {
 
         /// An identifier for this particular receipt handle used to communicate the result.  The Ids of a batch request need to be unique within a request 
         public let id: String
@@ -160,7 +160,7 @@ extension SQS {
         }
     }
 
-    public struct ChangeMessageVisibilityBatchResult: AWSShape {
+    public struct ChangeMessageVisibilityBatchResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failed", location: .body(locationName: "BatchResultErrorEntry"), encoding: .flatList), 
             AWSMemberEncoding(label: "successful", location: .body(locationName: "ChangeMessageVisibilityBatchResultEntry"), encoding: .flatList)
@@ -182,7 +182,7 @@ extension SQS {
         }
     }
 
-    public struct ChangeMessageVisibilityBatchResultEntry: AWSShape {
+    public struct ChangeMessageVisibilityBatchResultEntry: AWSDecodableShape {
 
         /// Represents a message whose visibility timeout has been changed successfully.
         public let id: String
@@ -196,7 +196,7 @@ extension SQS {
         }
     }
 
-    public struct ChangeMessageVisibilityRequest: AWSShape {
+    public struct ChangeMessageVisibilityRequest: AWSEncodableShape {
 
         /// The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.
         public let queueUrl: String
@@ -218,7 +218,7 @@ extension SQS {
         }
     }
 
-    public struct CreateQueueRequest: AWSShape {
+    public struct CreateQueueRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatMap(key: "Name", value: "Value")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatMap(key: "Key", value: "Value"))
@@ -244,7 +244,7 @@ extension SQS {
         }
     }
 
-    public struct CreateQueueResult: AWSShape {
+    public struct CreateQueueResult: AWSDecodableShape {
 
         /// The URL of the created Amazon SQS queue.
         public let queueUrl: String?
@@ -258,7 +258,7 @@ extension SQS {
         }
     }
 
-    public struct DeleteMessageBatchRequest: AWSShape {
+    public struct DeleteMessageBatchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "entries", location: .body(locationName: "DeleteMessageBatchRequestEntry"), encoding: .flatList)
         ]
@@ -279,7 +279,7 @@ extension SQS {
         }
     }
 
-    public struct DeleteMessageBatchRequestEntry: AWSShape {
+    public struct DeleteMessageBatchRequestEntry: AWSEncodableShape {
 
         /// An identifier for this particular receipt handle. This is used to communicate the result.  The Ids of a batch request need to be unique within a request 
         public let id: String
@@ -297,7 +297,7 @@ extension SQS {
         }
     }
 
-    public struct DeleteMessageBatchResult: AWSShape {
+    public struct DeleteMessageBatchResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failed", location: .body(locationName: "BatchResultErrorEntry"), encoding: .flatList), 
             AWSMemberEncoding(label: "successful", location: .body(locationName: "DeleteMessageBatchResultEntry"), encoding: .flatList)
@@ -319,7 +319,7 @@ extension SQS {
         }
     }
 
-    public struct DeleteMessageBatchResultEntry: AWSShape {
+    public struct DeleteMessageBatchResultEntry: AWSDecodableShape {
 
         /// Represents a successfully deleted message.
         public let id: String
@@ -333,7 +333,7 @@ extension SQS {
         }
     }
 
-    public struct DeleteMessageRequest: AWSShape {
+    public struct DeleteMessageRequest: AWSEncodableShape {
 
         /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
         public let queueUrl: String
@@ -351,7 +351,7 @@ extension SQS {
         }
     }
 
-    public struct DeleteQueueRequest: AWSShape {
+    public struct DeleteQueueRequest: AWSEncodableShape {
 
         /// The URL of the Amazon SQS queue to delete. Queue URLs and names are case-sensitive.
         public let queueUrl: String
@@ -365,7 +365,7 @@ extension SQS {
         }
     }
 
-    public struct GetQueueAttributesRequest: AWSShape {
+    public struct GetQueueAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeName"), encoding: .flatList)
         ]
@@ -386,7 +386,7 @@ extension SQS {
         }
     }
 
-    public struct GetQueueAttributesResult: AWSShape {
+    public struct GetQueueAttributesResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatMap(key: "Name", value: "Value"))
         ]
@@ -403,7 +403,7 @@ extension SQS {
         }
     }
 
-    public struct GetQueueUrlRequest: AWSShape {
+    public struct GetQueueUrlRequest: AWSEncodableShape {
 
         /// The name of the queue whose URL must be fetched. Maximum 80 characters. Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
         public let queueName: String
@@ -421,7 +421,7 @@ extension SQS {
         }
     }
 
-    public struct GetQueueUrlResult: AWSShape {
+    public struct GetQueueUrlResult: AWSDecodableShape {
 
         /// The URL of the queue.
         public let queueUrl: String?
@@ -435,7 +435,7 @@ extension SQS {
         }
     }
 
-    public struct ListDeadLetterSourceQueuesRequest: AWSShape {
+    public struct ListDeadLetterSourceQueuesRequest: AWSEncodableShape {
 
         /// The URL of a dead-letter queue. Queue URLs and names are case-sensitive.
         public let queueUrl: String
@@ -449,7 +449,7 @@ extension SQS {
         }
     }
 
-    public struct ListDeadLetterSourceQueuesResult: AWSShape {
+    public struct ListDeadLetterSourceQueuesResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "queueUrls", location: .body(locationName: "QueueUrl"), encoding: .flatList)
         ]
@@ -466,7 +466,7 @@ extension SQS {
         }
     }
 
-    public struct ListQueueTagsRequest: AWSShape {
+    public struct ListQueueTagsRequest: AWSEncodableShape {
 
         /// The URL of the queue.
         public let queueUrl: String
@@ -480,7 +480,7 @@ extension SQS {
         }
     }
 
-    public struct ListQueueTagsResult: AWSShape {
+    public struct ListQueueTagsResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tag"), encoding: .flatMap(key: "Key", value: "Value"))
         ]
@@ -497,7 +497,7 @@ extension SQS {
         }
     }
 
-    public struct ListQueuesRequest: AWSShape {
+    public struct ListQueuesRequest: AWSEncodableShape {
 
         /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue URLs and names are case-sensitive.
         public let queueNamePrefix: String?
@@ -511,7 +511,7 @@ extension SQS {
         }
     }
 
-    public struct ListQueuesResult: AWSShape {
+    public struct ListQueuesResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "queueUrls", location: .body(locationName: "QueueUrl"), encoding: .flatList)
         ]
@@ -528,7 +528,7 @@ extension SQS {
         }
     }
 
-    public struct Message: AWSShape {
+    public struct Message: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatMap(key: "Name", value: "Value")), 
             AWSMemberEncoding(label: "messageAttributes", location: .body(locationName: "MessageAttribute"), encoding: .flatMap(key: "Name", value: "Value"))
@@ -570,7 +570,7 @@ extension SQS {
         }
     }
 
-    public struct MessageAttributeValue: AWSShape {
+    public struct MessageAttributeValue: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "binaryListValues", location: .body(locationName: "BinaryListValue"), encoding: .flatList), 
             AWSMemberEncoding(label: "stringListValues", location: .body(locationName: "StringListValue"), encoding: .flatList)
@@ -604,7 +604,7 @@ extension SQS {
         }
     }
 
-    public struct MessageSystemAttributeValue: AWSShape {
+    public struct MessageSystemAttributeValue: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "binaryListValues", location: .body(locationName: "BinaryListValue"), encoding: .flatList), 
             AWSMemberEncoding(label: "stringListValues", location: .body(locationName: "StringListValue"), encoding: .flatList)
@@ -638,7 +638,7 @@ extension SQS {
         }
     }
 
-    public struct PurgeQueueRequest: AWSShape {
+    public struct PurgeQueueRequest: AWSEncodableShape {
 
         /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs and names are case-sensitive.
         public let queueUrl: String
@@ -652,7 +652,7 @@ extension SQS {
         }
     }
 
-    public struct ReceiveMessageRequest: AWSShape {
+    public struct ReceiveMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributeNames", location: .body(locationName: "AttributeName"), encoding: .flatList), 
             AWSMemberEncoding(label: "messageAttributeNames", location: .body(locationName: "MessageAttributeName"), encoding: .flatList)
@@ -694,7 +694,7 @@ extension SQS {
         }
     }
 
-    public struct ReceiveMessageResult: AWSShape {
+    public struct ReceiveMessageResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messages", location: .body(locationName: "Message"), encoding: .flatList)
         ]
@@ -711,7 +711,7 @@ extension SQS {
         }
     }
 
-    public struct RemovePermissionRequest: AWSShape {
+    public struct RemovePermissionRequest: AWSEncodableShape {
 
         /// The identification of the permission to remove. This is the label added using the  AddPermission  action.
         public let label: String
@@ -729,7 +729,7 @@ extension SQS {
         }
     }
 
-    public struct SendMessageBatchRequest: AWSShape {
+    public struct SendMessageBatchRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "entries", location: .body(locationName: "SendMessageBatchRequestEntry"), encoding: .flatList)
         ]
@@ -750,7 +750,7 @@ extension SQS {
         }
     }
 
-    public struct SendMessageBatchRequestEntry: AWSShape {
+    public struct SendMessageBatchRequestEntry: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messageAttributes", location: .body(locationName: "MessageAttribute"), encoding: .flatMap(key: "Name", value: "Value")), 
             AWSMemberEncoding(label: "messageSystemAttributes", location: .body(locationName: "MessageSystemAttribute"), encoding: .flatMap(key: "Name", value: "Value"))
@@ -792,7 +792,7 @@ extension SQS {
         }
     }
 
-    public struct SendMessageBatchResult: AWSShape {
+    public struct SendMessageBatchResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failed", location: .body(locationName: "BatchResultErrorEntry"), encoding: .flatList), 
             AWSMemberEncoding(label: "successful", location: .body(locationName: "SendMessageBatchResultEntry"), encoding: .flatList)
@@ -814,7 +814,7 @@ extension SQS {
         }
     }
 
-    public struct SendMessageBatchResultEntry: AWSShape {
+    public struct SendMessageBatchResultEntry: AWSDecodableShape {
 
         /// An identifier for the message in this batch.
         public let id: String
@@ -848,7 +848,7 @@ extension SQS {
         }
     }
 
-    public struct SendMessageRequest: AWSShape {
+    public struct SendMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messageAttributes", location: .body(locationName: "MessageAttribute"), encoding: .flatMap(key: "Name", value: "Value")), 
             AWSMemberEncoding(label: "messageSystemAttributes", location: .body(locationName: "MessageSystemAttribute"), encoding: .flatMap(key: "Name", value: "Value"))
@@ -890,7 +890,7 @@ extension SQS {
         }
     }
 
-    public struct SendMessageResult: AWSShape {
+    public struct SendMessageResult: AWSDecodableShape {
 
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
         public let mD5OfMessageAttributes: String?
@@ -920,7 +920,7 @@ extension SQS {
         }
     }
 
-    public struct SetQueueAttributesRequest: AWSShape {
+    public struct SetQueueAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attribute"), encoding: .flatMap(key: "Name", value: "Value"))
         ]
@@ -941,7 +941,7 @@ extension SQS {
         }
     }
 
-    public struct TagQueueRequest: AWSShape {
+    public struct TagQueueRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .flatMap(key: "Key", value: "Value"))
         ]
@@ -962,7 +962,7 @@ extension SQS {
         }
     }
 
-    public struct UntagQueueRequest: AWSShape {
+    public struct UntagQueueRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKey"), encoding: .flatList)
         ]

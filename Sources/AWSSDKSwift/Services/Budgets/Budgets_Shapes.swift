@@ -71,7 +71,7 @@ extension Budgets {
 
     //MARK: Shapes
 
-    public struct Budget: AWSShape {
+    public struct Budget: AWSEncodableShape & AWSDecodableShape {
 
         /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100, which is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions. 
         public let budgetLimit: Spend?
@@ -140,7 +140,7 @@ extension Budgets {
         }
     }
 
-    public struct BudgetPerformanceHistory: AWSShape {
+    public struct BudgetPerformanceHistory: AWSDecodableShape {
 
         /// A list of amounts of cost or usage that you created budgets for, compared to your actual costs or usage.
         public let budgetedAndActualAmountsList: [BudgetedAndActualAmounts]?
@@ -171,7 +171,7 @@ extension Budgets {
         }
     }
 
-    public struct BudgetedAndActualAmounts: AWSShape {
+    public struct BudgetedAndActualAmounts: AWSDecodableShape {
 
         /// Your actual costs or usage for a budget period.
         public let actualAmount: Spend?
@@ -193,7 +193,7 @@ extension Budgets {
         }
     }
 
-    public struct CalculatedSpend: AWSShape {
+    public struct CalculatedSpend: AWSEncodableShape & AWSDecodableShape {
 
         /// The amount of cost, usage, or RI units that you have used.
         public let actualSpend: Spend
@@ -216,7 +216,7 @@ extension Budgets {
         }
     }
 
-    public struct CostTypes: AWSShape {
+    public struct CostTypes: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether a budget includes credits. The default value is true.
         public let includeCredit: Bool?
@@ -270,7 +270,7 @@ extension Budgets {
         }
     }
 
-    public struct CreateBudgetRequest: AWSShape {
+    public struct CreateBudgetRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget.
         public let accountId: String
@@ -303,7 +303,7 @@ extension Budgets {
         }
     }
 
-    public struct CreateBudgetResponse: AWSShape {
+    public struct CreateBudgetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -311,7 +311,7 @@ extension Budgets {
 
     }
 
-    public struct CreateNotificationRequest: AWSShape {
+    public struct CreateNotificationRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget that you want to create a notification for.
         public let accountId: String
@@ -352,7 +352,7 @@ extension Budgets {
         }
     }
 
-    public struct CreateNotificationResponse: AWSShape {
+    public struct CreateNotificationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -360,7 +360,7 @@ extension Budgets {
 
     }
 
-    public struct CreateSubscriberRequest: AWSShape {
+    public struct CreateSubscriberRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget that you want to create a subscriber for.
         public let accountId: String
@@ -397,7 +397,7 @@ extension Budgets {
         }
     }
 
-    public struct CreateSubscriberResponse: AWSShape {
+    public struct CreateSubscriberResponse: AWSDecodableShape {
 
 
         public init() {
@@ -405,7 +405,7 @@ extension Budgets {
 
     }
 
-    public struct DeleteBudgetRequest: AWSShape {
+    public struct DeleteBudgetRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget that you want to delete.
         public let accountId: String
@@ -432,7 +432,7 @@ extension Budgets {
         }
     }
 
-    public struct DeleteBudgetResponse: AWSShape {
+    public struct DeleteBudgetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -440,7 +440,7 @@ extension Budgets {
 
     }
 
-    public struct DeleteNotificationRequest: AWSShape {
+    public struct DeleteNotificationRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget whose notification you want to delete.
         public let accountId: String
@@ -472,7 +472,7 @@ extension Budgets {
         }
     }
 
-    public struct DeleteNotificationResponse: AWSShape {
+    public struct DeleteNotificationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -480,7 +480,7 @@ extension Budgets {
 
     }
 
-    public struct DeleteSubscriberRequest: AWSShape {
+    public struct DeleteSubscriberRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget whose subscriber you want to delete.
         public let accountId: String
@@ -517,7 +517,7 @@ extension Budgets {
         }
     }
 
-    public struct DeleteSubscriberResponse: AWSShape {
+    public struct DeleteSubscriberResponse: AWSDecodableShape {
 
 
         public init() {
@@ -525,7 +525,7 @@ extension Budgets {
 
     }
 
-    public struct DescribeBudgetPerformanceHistoryRequest: AWSShape {
+    public struct DescribeBudgetPerformanceHistoryRequest: AWSEncodableShape {
 
         public let accountId: String
         public let budgetName: String
@@ -565,7 +565,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetPerformanceHistoryResponse: AWSShape {
+    public struct DescribeBudgetPerformanceHistoryResponse: AWSDecodableShape {
 
         /// The history of how often the budget has gone into an ALARM state. For DAILY budgets, the history saves the state of the budget for the last 60 days. For MONTHLY budgets, the history saves the state of the budget for the current month plus the last 12 months. For QUARTERLY budgets, the history saves the state of the budget for the last four quarters.
         public let budgetPerformanceHistory: BudgetPerformanceHistory?
@@ -582,7 +582,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetRequest: AWSShape {
+    public struct DescribeBudgetRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget that you want a description of.
         public let accountId: String
@@ -609,7 +609,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetResponse: AWSShape {
+    public struct DescribeBudgetResponse: AWSDecodableShape {
 
         /// The description of the budget.
         public let budget: Budget?
@@ -623,7 +623,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetsRequest: AWSShape {
+    public struct DescribeBudgetsRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budgets that you want descriptions of.
         public let accountId: String
@@ -656,7 +656,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeBudgetsResponse: AWSShape {
+    public struct DescribeBudgetsResponse: AWSDecodableShape {
 
         /// A list of budgets.
         public let budgets: [Budget]?
@@ -674,7 +674,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeNotificationsForBudgetRequest: AWSShape {
+    public struct DescribeNotificationsForBudgetRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget whose notifications you want descriptions of.
         public let accountId: String
@@ -714,7 +714,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeNotificationsForBudgetResponse: AWSShape {
+    public struct DescribeNotificationsForBudgetResponse: AWSDecodableShape {
 
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
@@ -732,7 +732,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeSubscribersForNotificationRequest: AWSShape {
+    public struct DescribeSubscribersForNotificationRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget whose subscribers you want descriptions of.
         public let accountId: String
@@ -777,7 +777,7 @@ extension Budgets {
         }
     }
 
-    public struct DescribeSubscribersForNotificationResponse: AWSShape {
+    public struct DescribeSubscribersForNotificationResponse: AWSDecodableShape {
 
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
@@ -795,7 +795,7 @@ extension Budgets {
         }
     }
 
-    public struct Notification: AWSShape {
+    public struct Notification: AWSEncodableShape & AWSDecodableShape {
 
         /// The comparison that is used for this notification.
         public let comparisonOperator: ComparisonOperator
@@ -830,7 +830,7 @@ extension Budgets {
         }
     }
 
-    public struct NotificationWithSubscribers: AWSShape {
+    public struct NotificationWithSubscribers: AWSEncodableShape {
 
         /// The notification that is associated with a budget.
         public let notification: Notification
@@ -857,7 +857,7 @@ extension Budgets {
         }
     }
 
-    public struct Spend: AWSShape {
+    public struct Spend: AWSEncodableShape & AWSDecodableShape {
 
         /// The cost or usage amount that is associated with a budget forecast, actual spend, or budget threshold.
         public let amount: String
@@ -884,7 +884,7 @@ extension Budgets {
         }
     }
 
-    public struct Subscriber: AWSShape {
+    public struct Subscriber: AWSEncodableShape & AWSDecodableShape {
 
         /// The address that AWS sends budget notifications to, either an SNS topic or an email. When you create a subscriber, the value of Address can't contain line breaks.
         public let address: String
@@ -908,7 +908,7 @@ extension Budgets {
         }
     }
 
-    public struct TimePeriod: AWSShape {
+    public struct TimePeriod: AWSEncodableShape & AWSDecodableShape {
 
         /// The end date for a budget. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. After the end date, AWS deletes the budget and all associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
         public let end: TimeStamp?
@@ -926,7 +926,7 @@ extension Budgets {
         }
     }
 
-    public struct UpdateBudgetRequest: AWSShape {
+    public struct UpdateBudgetRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget that you want to update.
         public let accountId: String
@@ -951,7 +951,7 @@ extension Budgets {
         }
     }
 
-    public struct UpdateBudgetResponse: AWSShape {
+    public struct UpdateBudgetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -959,7 +959,7 @@ extension Budgets {
 
     }
 
-    public struct UpdateNotificationRequest: AWSShape {
+    public struct UpdateNotificationRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget whose notification you want to update.
         public let accountId: String
@@ -996,7 +996,7 @@ extension Budgets {
         }
     }
 
-    public struct UpdateNotificationResponse: AWSShape {
+    public struct UpdateNotificationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1004,7 +1004,7 @@ extension Budgets {
 
     }
 
-    public struct UpdateSubscriberRequest: AWSShape {
+    public struct UpdateSubscriberRequest: AWSEncodableShape {
 
         /// The accountId that is associated with the budget whose subscriber you want to update.
         public let accountId: String
@@ -1046,7 +1046,7 @@ extension Budgets {
         }
     }
 
-    public struct UpdateSubscriberResponse: AWSShape {
+    public struct UpdateSubscriberResponse: AWSDecodableShape {
 
 
         public init() {

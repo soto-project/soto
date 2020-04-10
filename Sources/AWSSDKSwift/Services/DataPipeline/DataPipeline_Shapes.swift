@@ -38,7 +38,7 @@ extension DataPipeline {
 
     //MARK: Shapes
 
-    public struct ActivatePipelineInput: AWSShape {
+    public struct ActivatePipelineInput: AWSEncodableShape {
 
         /// A list of parameter values to pass to the pipeline at activation.
         public let parameterValues: [ParameterValue]?
@@ -69,7 +69,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ActivatePipelineOutput: AWSShape {
+    public struct ActivatePipelineOutput: AWSDecodableShape {
 
 
         public init() {
@@ -77,7 +77,7 @@ extension DataPipeline {
 
     }
 
-    public struct AddTagsInput: AWSShape {
+    public struct AddTagsInput: AWSEncodableShape {
 
         /// The ID of the pipeline.
         public let pipelineId: String
@@ -106,7 +106,7 @@ extension DataPipeline {
         }
     }
 
-    public struct AddTagsOutput: AWSShape {
+    public struct AddTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -114,7 +114,7 @@ extension DataPipeline {
 
     }
 
-    public struct CreatePipelineInput: AWSShape {
+    public struct CreatePipelineInput: AWSEncodableShape {
 
         /// The description for the pipeline.
         public let description: String?
@@ -157,7 +157,7 @@ extension DataPipeline {
         }
     }
 
-    public struct CreatePipelineOutput: AWSShape {
+    public struct CreatePipelineOutput: AWSDecodableShape {
 
         /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
         public let pipelineId: String
@@ -171,7 +171,7 @@ extension DataPipeline {
         }
     }
 
-    public struct DeactivatePipelineInput: AWSShape {
+    public struct DeactivatePipelineInput: AWSEncodableShape {
 
         /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
         public let cancelActive: Bool?
@@ -195,7 +195,7 @@ extension DataPipeline {
         }
     }
 
-    public struct DeactivatePipelineOutput: AWSShape {
+    public struct DeactivatePipelineOutput: AWSDecodableShape {
 
 
         public init() {
@@ -203,7 +203,7 @@ extension DataPipeline {
 
     }
 
-    public struct DeletePipelineInput: AWSShape {
+    public struct DeletePipelineInput: AWSEncodableShape {
 
         /// The ID of the pipeline.
         public let pipelineId: String
@@ -223,7 +223,7 @@ extension DataPipeline {
         }
     }
 
-    public struct DescribeObjectsInput: AWSShape {
+    public struct DescribeObjectsInput: AWSEncodableShape {
 
         /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
         public let evaluateExpressions: Bool?
@@ -263,7 +263,7 @@ extension DataPipeline {
         }
     }
 
-    public struct DescribeObjectsOutput: AWSShape {
+    public struct DescribeObjectsOutput: AWSDecodableShape {
 
         /// Indicates whether there are more results to return.
         public let hasMoreResults: Bool?
@@ -285,7 +285,7 @@ extension DataPipeline {
         }
     }
 
-    public struct DescribePipelinesInput: AWSShape {
+    public struct DescribePipelinesInput: AWSEncodableShape {
 
         /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
         public let pipelineIds: [String]
@@ -307,7 +307,7 @@ extension DataPipeline {
         }
     }
 
-    public struct DescribePipelinesOutput: AWSShape {
+    public struct DescribePipelinesOutput: AWSDecodableShape {
 
         /// An array of descriptions for the specified pipelines.
         public let pipelineDescriptionList: [PipelineDescription]
@@ -321,7 +321,7 @@ extension DataPipeline {
         }
     }
 
-    public struct EvaluateExpressionInput: AWSShape {
+    public struct EvaluateExpressionInput: AWSEncodableShape {
 
         /// The expression to evaluate.
         public let expression: String
@@ -355,7 +355,7 @@ extension DataPipeline {
         }
     }
 
-    public struct EvaluateExpressionOutput: AWSShape {
+    public struct EvaluateExpressionOutput: AWSDecodableShape {
 
         /// The evaluated expression.
         public let evaluatedExpression: String
@@ -369,7 +369,7 @@ extension DataPipeline {
         }
     }
 
-    public struct Field: AWSShape {
+    public struct Field: AWSEncodableShape & AWSDecodableShape {
 
         /// The field identifier.
         public let key: String
@@ -403,7 +403,7 @@ extension DataPipeline {
         }
     }
 
-    public struct GetPipelineDefinitionInput: AWSShape {
+    public struct GetPipelineDefinitionInput: AWSEncodableShape {
 
         /// The ID of the pipeline.
         public let pipelineId: String
@@ -430,7 +430,7 @@ extension DataPipeline {
         }
     }
 
-    public struct GetPipelineDefinitionOutput: AWSShape {
+    public struct GetPipelineDefinitionOutput: AWSDecodableShape {
 
         /// The parameter objects used in the pipeline definition.
         public let parameterObjects: [ParameterObject]?
@@ -452,7 +452,7 @@ extension DataPipeline {
         }
     }
 
-    public struct InstanceIdentity: AWSShape {
+    public struct InstanceIdentity: AWSEncodableShape {
 
         /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
         public let document: String?
@@ -479,7 +479,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ListPipelinesInput: AWSShape {
+    public struct ListPipelinesInput: AWSEncodableShape {
 
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
         public let marker: String?
@@ -499,7 +499,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ListPipelinesOutput: AWSShape {
+    public struct ListPipelinesOutput: AWSDecodableShape {
 
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
@@ -521,7 +521,7 @@ extension DataPipeline {
         }
     }
 
-    public struct Operator: AWSShape {
+    public struct Operator: AWSEncodableShape {
 
         ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
         public let `type`: OperatorType?
@@ -547,7 +547,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ParameterAttribute: AWSShape {
+    public struct ParameterAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// The field identifier.
         public let key: String
@@ -574,7 +574,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ParameterObject: AWSShape {
+    public struct ParameterObject: AWSEncodableShape & AWSDecodableShape {
 
         /// The attributes of the parameter object.
         public let attributes: [ParameterAttribute]
@@ -601,7 +601,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ParameterValue: AWSShape {
+    public struct ParameterValue: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the parameter value.
         public let id: String
@@ -628,7 +628,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PipelineDescription: AWSShape {
+    public struct PipelineDescription: AWSDecodableShape {
 
         /// Description of the pipeline.
         public let description: String?
@@ -658,7 +658,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PipelineIdName: AWSShape {
+    public struct PipelineIdName: AWSDecodableShape {
 
         /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
         public let id: String?
@@ -676,7 +676,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PipelineObject: AWSShape {
+    public struct PipelineObject: AWSEncodableShape & AWSDecodableShape {
 
         /// Key-value pairs that define the properties of the object.
         public let fields: [Field]
@@ -710,7 +710,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PollForTaskInput: AWSShape {
+    public struct PollForTaskInput: AWSEncodableShape {
 
         /// The public DNS name of the calling task runner.
         public let hostname: String?
@@ -742,7 +742,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PollForTaskOutput: AWSShape {
+    public struct PollForTaskOutput: AWSDecodableShape {
 
         /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to ReportTaskProgress and SetTaskStatus.
         public let taskObject: TaskObject?
@@ -756,7 +756,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PutPipelineDefinitionInput: AWSShape {
+    public struct PutPipelineDefinitionInput: AWSEncodableShape {
 
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
@@ -797,7 +797,7 @@ extension DataPipeline {
         }
     }
 
-    public struct PutPipelineDefinitionOutput: AWSShape {
+    public struct PutPipelineDefinitionOutput: AWSDecodableShape {
 
         /// Indicates whether there were validation errors, and the pipeline definition is stored but cannot be activated until you correct the pipeline and call PutPipelineDefinition to commit the corrected pipeline.
         public let errored: Bool
@@ -819,7 +819,7 @@ extension DataPipeline {
         }
     }
 
-    public struct Query: AWSShape {
+    public struct Query: AWSEncodableShape {
 
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
         public let selectors: [Selector]?
@@ -839,7 +839,7 @@ extension DataPipeline {
         }
     }
 
-    public struct QueryObjectsInput: AWSShape {
+    public struct QueryObjectsInput: AWSEncodableShape {
 
         /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100. 
         public let limit: Int?
@@ -882,7 +882,7 @@ extension DataPipeline {
         }
     }
 
-    public struct QueryObjectsOutput: AWSShape {
+    public struct QueryObjectsOutput: AWSDecodableShape {
 
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
@@ -904,7 +904,7 @@ extension DataPipeline {
         }
     }
 
-    public struct RemoveTagsInput: AWSShape {
+    public struct RemoveTagsInput: AWSEncodableShape {
 
         /// The ID of the pipeline.
         public let pipelineId: String
@@ -933,7 +933,7 @@ extension DataPipeline {
         }
     }
 
-    public struct RemoveTagsOutput: AWSShape {
+    public struct RemoveTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -941,7 +941,7 @@ extension DataPipeline {
 
     }
 
-    public struct ReportTaskProgressInput: AWSShape {
+    public struct ReportTaskProgressInput: AWSEncodableShape {
 
         /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
         public let fields: [Field]?
@@ -968,7 +968,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ReportTaskProgressOutput: AWSShape {
+    public struct ReportTaskProgressOutput: AWSDecodableShape {
 
         /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
         public let canceled: Bool
@@ -982,7 +982,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ReportTaskRunnerHeartbeatInput: AWSShape {
+    public struct ReportTaskRunnerHeartbeatInput: AWSEncodableShape {
 
         /// The public DNS name of the task runner.
         public let hostname: String?
@@ -1016,7 +1016,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ReportTaskRunnerHeartbeatOutput: AWSShape {
+    public struct ReportTaskRunnerHeartbeatOutput: AWSDecodableShape {
 
         /// Indicates whether the calling task runner should terminate.
         public let terminate: Bool
@@ -1030,7 +1030,7 @@ extension DataPipeline {
         }
     }
 
-    public struct Selector: AWSShape {
+    public struct Selector: AWSEncodableShape {
 
         /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
         public let fieldName: String?
@@ -1054,7 +1054,7 @@ extension DataPipeline {
         }
     }
 
-    public struct SetStatusInput: AWSShape {
+    public struct SetStatusInput: AWSEncodableShape {
 
         /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
         public let objectIds: [String]
@@ -1090,7 +1090,7 @@ extension DataPipeline {
         }
     }
 
-    public struct SetTaskStatusInput: AWSShape {
+    public struct SetTaskStatusInput: AWSEncodableShape {
 
         /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
         public let errorId: String?
@@ -1132,7 +1132,7 @@ extension DataPipeline {
         }
     }
 
-    public struct SetTaskStatusOutput: AWSShape {
+    public struct SetTaskStatusOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1140,7 +1140,7 @@ extension DataPipeline {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
         public let key: String
@@ -1165,7 +1165,7 @@ extension DataPipeline {
         }
     }
 
-    public struct TaskObject: AWSShape {
+    public struct TaskObject: AWSDecodableShape {
 
         /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
         public let attemptId: String?
@@ -1191,7 +1191,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ValidatePipelineDefinitionInput: AWSShape {
+    public struct ValidatePipelineDefinitionInput: AWSEncodableShape {
 
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
@@ -1232,7 +1232,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ValidatePipelineDefinitionOutput: AWSShape {
+    public struct ValidatePipelineDefinitionOutput: AWSDecodableShape {
 
         /// Indicates whether there were validation errors.
         public let errored: Bool
@@ -1254,7 +1254,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ValidationError: AWSShape {
+    public struct ValidationError: AWSDecodableShape {
 
         /// A description of the validation error.
         public let errors: [String]?
@@ -1272,7 +1272,7 @@ extension DataPipeline {
         }
     }
 
-    public struct ValidationWarning: AWSShape {
+    public struct ValidationWarning: AWSDecodableShape {
 
         /// The identifier of the object that contains the validation warning.
         public let id: String?

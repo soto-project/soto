@@ -148,7 +148,7 @@ extension DirectConnect {
 
     //MARK: Shapes
 
-    public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSShape {
+    public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
 
         /// The ID of the AWS account that owns the virtual private gateway or transit gateway.
         public let associatedGatewayOwnerAccount: String
@@ -174,7 +174,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AcceptDirectConnectGatewayAssociationProposalResult: AWSShape {
+    public struct AcceptDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
 
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
@@ -187,7 +187,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AllocateConnectionOnInterconnectRequest: AWSShape {
+    public struct AllocateConnectionOnInterconnectRequest: AWSEncodableShape {
 
         /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
@@ -217,7 +217,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AllocateHostedConnectionRequest: AWSShape {
+    public struct AllocateHostedConnectionRequest: AWSEncodableShape {
 
         /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection. 
         public let bandwidth: String
@@ -258,7 +258,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
+    public struct AllocatePrivateVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the connection on which the private virtual interface is provisioned.
         public let connectionId: String
@@ -284,7 +284,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
+    public struct AllocatePublicVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the connection on which the public virtual interface is provisioned.
         public let connectionId: String
@@ -310,7 +310,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AllocateTransitVirtualInterfaceRequest: AWSShape {
+    public struct AllocateTransitVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the connection on which the transit virtual interface is provisioned.
         public let connectionId: String
@@ -336,7 +336,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AllocateTransitVirtualInterfaceResult: AWSShape {
+    public struct AllocateTransitVirtualInterfaceResult: AWSDecodableShape {
 
         public let virtualInterface: VirtualInterface?
 
@@ -349,7 +349,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AssociateConnectionWithLagRequest: AWSShape {
+    public struct AssociateConnectionWithLagRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -367,7 +367,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AssociateHostedConnectionRequest: AWSShape {
+    public struct AssociateHostedConnectionRequest: AWSEncodableShape {
 
         /// The ID of the hosted connection.
         public let connectionId: String
@@ -385,7 +385,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AssociateVirtualInterfaceRequest: AWSShape {
+    public struct AssociateVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the LAG or connection.
         public let connectionId: String
@@ -403,7 +403,7 @@ extension DirectConnect {
         }
     }
 
-    public struct AssociatedGateway: AWSShape {
+    public struct AssociatedGateway: AWSDecodableShape {
 
         /// The ID of the associated gateway.
         public let id: String?
@@ -429,7 +429,7 @@ extension DirectConnect {
         }
     }
 
-    public struct BGPPeer: AWSShape {
+    public struct BGPPeer: AWSDecodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -475,7 +475,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmConnectionRequest: AWSShape {
+    public struct ConfirmConnectionRequest: AWSEncodableShape {
 
         /// The ID of the hosted connection.
         public let connectionId: String
@@ -489,7 +489,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmConnectionResponse: AWSShape {
+    public struct ConfirmConnectionResponse: AWSDecodableShape {
 
         /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
         public let connectionState: ConnectionState?
@@ -503,7 +503,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
+    public struct ConfirmPrivateVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -525,7 +525,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
+    public struct ConfirmPrivateVirtualInterfaceResponse: AWSDecodableShape {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -539,7 +539,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
+    public struct ConfirmPublicVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
@@ -553,7 +553,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
+    public struct ConfirmPublicVirtualInterfaceResponse: AWSDecodableShape {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -567,7 +567,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmTransitVirtualInterfaceRequest: AWSShape {
+    public struct ConfirmTransitVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
@@ -585,7 +585,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ConfirmTransitVirtualInterfaceResponse: AWSShape {
+    public struct ConfirmTransitVirtualInterfaceResponse: AWSDecodableShape {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -599,7 +599,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Connection: AWSShape {
+    public struct Connection: AWSDecodableShape {
 
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
@@ -677,7 +677,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Connections: AWSShape {
+    public struct Connections: AWSDecodableShape {
 
         /// The connections.
         public let connections: [Connection]?
@@ -691,7 +691,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateBGPPeerRequest: AWSShape {
+    public struct CreateBGPPeerRequest: AWSEncodableShape {
 
         /// Information about the BGP peer.
         public let newBGPPeer: NewBGPPeer?
@@ -709,7 +709,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateBGPPeerResponse: AWSShape {
+    public struct CreateBGPPeerResponse: AWSDecodableShape {
 
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
@@ -723,7 +723,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateConnectionRequest: AWSShape {
+    public struct CreateConnectionRequest: AWSEncodableShape {
 
         /// The bandwidth of the connection.
         public let bandwidth: String
@@ -764,7 +764,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayAssociationProposalRequest: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
 
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -794,7 +794,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayAssociationProposalResult: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
 
         /// Information about the Direct Connect gateway proposal.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
@@ -808,7 +808,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayAssociationRequest: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
 
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -834,7 +834,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayAssociationResult: AWSShape {
+    public struct CreateDirectConnectGatewayAssociationResult: AWSDecodableShape {
 
         /// The association to be created.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
@@ -848,7 +848,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayRequest: AWSShape {
+    public struct CreateDirectConnectGatewayRequest: AWSEncodableShape {
 
         /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
         public let amazonSideAsn: Int64?
@@ -866,7 +866,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateDirectConnectGatewayResult: AWSShape {
+    public struct CreateDirectConnectGatewayResult: AWSDecodableShape {
 
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
@@ -880,7 +880,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateInterconnectRequest: AWSShape {
+    public struct CreateInterconnectRequest: AWSEncodableShape {
 
         /// The port bandwidth, in Gbps. The possible values are 1 and 10.
         public let bandwidth: String
@@ -921,7 +921,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateLagRequest: AWSShape {
+    public struct CreateLagRequest: AWSEncodableShape {
 
         /// The tags to associate with the automtically created LAGs.
         public let childConnectionTags: [Tag]?
@@ -974,7 +974,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
+    public struct CreatePrivateVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -996,7 +996,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreatePublicVirtualInterfaceRequest: AWSShape {
+    public struct CreatePublicVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -1018,7 +1018,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateTransitVirtualInterfaceRequest: AWSShape {
+    public struct CreateTransitVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -1040,7 +1040,7 @@ extension DirectConnect {
         }
     }
 
-    public struct CreateTransitVirtualInterfaceResult: AWSShape {
+    public struct CreateTransitVirtualInterfaceResult: AWSDecodableShape {
 
         public let virtualInterface: VirtualInterface?
 
@@ -1053,7 +1053,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteBGPPeerRequest: AWSShape {
+    public struct DeleteBGPPeerRequest: AWSEncodableShape {
 
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
         public let asn: Int?
@@ -1079,7 +1079,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteBGPPeerResponse: AWSShape {
+    public struct DeleteBGPPeerResponse: AWSDecodableShape {
 
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
@@ -1093,7 +1093,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteConnectionRequest: AWSShape {
+    public struct DeleteConnectionRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -1107,7 +1107,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteDirectConnectGatewayAssociationProposalRequest: AWSShape {
+    public struct DeleteDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
 
         /// The ID of the proposal.
         public let proposalId: String
@@ -1121,7 +1121,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteDirectConnectGatewayAssociationProposalResult: AWSShape {
+    public struct DeleteDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
 
         /// The ID of the associated gateway.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
@@ -1135,7 +1135,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteDirectConnectGatewayAssociationRequest: AWSShape {
+    public struct DeleteDirectConnectGatewayAssociationRequest: AWSEncodableShape {
 
         /// The ID of the Direct Connect gateway association.
         public let associationId: String?
@@ -1157,7 +1157,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteDirectConnectGatewayAssociationResult: AWSShape {
+    public struct DeleteDirectConnectGatewayAssociationResult: AWSDecodableShape {
 
         /// Information about the deleted association.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
@@ -1171,7 +1171,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteDirectConnectGatewayRequest: AWSShape {
+    public struct DeleteDirectConnectGatewayRequest: AWSEncodableShape {
 
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
@@ -1185,7 +1185,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteDirectConnectGatewayResult: AWSShape {
+    public struct DeleteDirectConnectGatewayResult: AWSDecodableShape {
 
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
@@ -1199,7 +1199,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteInterconnectRequest: AWSShape {
+    public struct DeleteInterconnectRequest: AWSEncodableShape {
 
         /// The ID of the interconnect.
         public let interconnectId: String
@@ -1213,7 +1213,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteInterconnectResponse: AWSShape {
+    public struct DeleteInterconnectResponse: AWSDecodableShape {
 
         /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
         public let interconnectState: InterconnectState?
@@ -1227,7 +1227,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteLagRequest: AWSShape {
+    public struct DeleteLagRequest: AWSEncodableShape {
 
         /// The ID of the LAG.
         public let lagId: String
@@ -1241,7 +1241,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteVirtualInterfaceRequest: AWSShape {
+    public struct DeleteVirtualInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
@@ -1255,7 +1255,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DeleteVirtualInterfaceResponse: AWSShape {
+    public struct DeleteVirtualInterfaceResponse: AWSDecodableShape {
 
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -1269,7 +1269,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeConnectionLoaRequest: AWSShape {
+    public struct DescribeConnectionLoaRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -1291,7 +1291,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeConnectionLoaResponse: AWSShape {
+    public struct DescribeConnectionLoaResponse: AWSDecodableShape {
 
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
@@ -1305,7 +1305,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
+    public struct DescribeConnectionsOnInterconnectRequest: AWSEncodableShape {
 
         /// The ID of the interconnect.
         public let interconnectId: String
@@ -1319,7 +1319,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeConnectionsRequest: AWSShape {
+    public struct DescribeConnectionsRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String?
@@ -1333,7 +1333,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewayAssociationProposalsRequest: AWSShape {
+    public struct DescribeDirectConnectGatewayAssociationProposalsRequest: AWSEncodableShape {
 
         /// The ID of the associated gateway.
         public let associatedGatewayId: String?
@@ -1363,7 +1363,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewayAssociationProposalsResult: AWSShape {
+    public struct DescribeDirectConnectGatewayAssociationProposalsResult: AWSDecodableShape {
 
         /// Describes the Direct Connect gateway association proposals.
         public let directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]?
@@ -1381,7 +1381,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewayAssociationsRequest: AWSShape {
+    public struct DescribeDirectConnectGatewayAssociationsRequest: AWSEncodableShape {
 
         /// The ID of the associated gateway.
         public let associatedGatewayId: String?
@@ -1415,7 +1415,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewayAssociationsResult: AWSShape {
+    public struct DescribeDirectConnectGatewayAssociationsResult: AWSDecodableShape {
 
         /// Information about the associations.
         public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
@@ -1433,7 +1433,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewayAttachmentsRequest: AWSShape {
+    public struct DescribeDirectConnectGatewayAttachmentsRequest: AWSEncodableShape {
 
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -1459,7 +1459,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewayAttachmentsResult: AWSShape {
+    public struct DescribeDirectConnectGatewayAttachmentsResult: AWSDecodableShape {
 
         /// The attachments.
         public let directConnectGatewayAttachments: [DirectConnectGatewayAttachment]?
@@ -1477,7 +1477,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewaysRequest: AWSShape {
+    public struct DescribeDirectConnectGatewaysRequest: AWSEncodableShape {
 
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -1499,7 +1499,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeDirectConnectGatewaysResult: AWSShape {
+    public struct DescribeDirectConnectGatewaysResult: AWSDecodableShape {
 
         /// The Direct Connect gateways.
         public let directConnectGateways: [DirectConnectGateway]?
@@ -1517,7 +1517,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeHostedConnectionsRequest: AWSShape {
+    public struct DescribeHostedConnectionsRequest: AWSEncodableShape {
 
         /// The ID of the interconnect or LAG.
         public let connectionId: String
@@ -1531,7 +1531,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeInterconnectLoaRequest: AWSShape {
+    public struct DescribeInterconnectLoaRequest: AWSEncodableShape {
 
         /// The ID of the interconnect.
         public let interconnectId: String
@@ -1553,7 +1553,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeInterconnectLoaResponse: AWSShape {
+    public struct DescribeInterconnectLoaResponse: AWSDecodableShape {
 
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
@@ -1567,7 +1567,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeInterconnectsRequest: AWSShape {
+    public struct DescribeInterconnectsRequest: AWSEncodableShape {
 
         /// The ID of the interconnect.
         public let interconnectId: String?
@@ -1581,7 +1581,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeLagsRequest: AWSShape {
+    public struct DescribeLagsRequest: AWSEncodableShape {
 
         /// The ID of the LAG.
         public let lagId: String?
@@ -1595,7 +1595,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeLoaRequest: AWSShape {
+    public struct DescribeLoaRequest: AWSEncodableShape {
 
         /// The ID of a connection, LAG, or interconnect.
         public let connectionId: String
@@ -1617,7 +1617,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeTagsRequest: AWSShape {
+    public struct DescribeTagsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]
@@ -1631,7 +1631,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeTagsResponse: AWSShape {
+    public struct DescribeTagsResponse: AWSDecodableShape {
 
         /// Information about the tags.
         public let resourceTags: [ResourceTag]?
@@ -1645,7 +1645,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DescribeVirtualInterfacesRequest: AWSShape {
+    public struct DescribeVirtualInterfacesRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String?
@@ -1663,7 +1663,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DirectConnectGateway: AWSShape {
+    public struct DirectConnectGateway: AWSDecodableShape {
 
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
@@ -1697,7 +1697,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DirectConnectGatewayAssociation: AWSShape {
+    public struct DirectConnectGatewayAssociation: AWSDecodableShape {
 
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -1747,7 +1747,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DirectConnectGatewayAssociationProposal: AWSShape {
+    public struct DirectConnectGatewayAssociationProposal: AWSDecodableShape {
 
         /// Information about the associated gateway.
         public let associatedGateway: AssociatedGateway?
@@ -1785,7 +1785,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DirectConnectGatewayAttachment: AWSShape {
+    public struct DirectConnectGatewayAttachment: AWSDecodableShape {
 
         /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.  
         public let attachmentState: DirectConnectGatewayAttachmentState?
@@ -1823,7 +1823,7 @@ extension DirectConnect {
         }
     }
 
-    public struct DisassociateConnectionFromLagRequest: AWSShape {
+    public struct DisassociateConnectionFromLagRequest: AWSEncodableShape {
 
         /// The ID of the connection.
         public let connectionId: String
@@ -1841,7 +1841,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Interconnect: AWSShape {
+    public struct Interconnect: AWSDecodableShape {
 
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
@@ -1907,7 +1907,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Interconnects: AWSShape {
+    public struct Interconnects: AWSDecodableShape {
 
         /// The interconnects.
         public let interconnects: [Interconnect]?
@@ -1921,7 +1921,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Lag: AWSShape {
+    public struct Lag: AWSDecodableShape {
 
         /// Indicates whether the LAG can host other connections.
         public let allowsHostedConnections: Bool?
@@ -1999,7 +1999,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Lags: AWSShape {
+    public struct Lags: AWSDecodableShape {
 
         /// The LAGs.
         public let lags: [Lag]?
@@ -2013,7 +2013,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Loa: AWSShape {
+    public struct Loa: AWSDecodableShape {
 
         /// The binary contents of the LOA-CFA document.
         public let loaContent: Data?
@@ -2031,7 +2031,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Location: AWSShape {
+    public struct Location: AWSDecodableShape {
 
         /// The available port speeds for the location.
         public let availablePortSpeeds: [String]?
@@ -2061,7 +2061,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Locations: AWSShape {
+    public struct Locations: AWSDecodableShape {
 
         /// The locations.
         public let locations: [Location]?
@@ -2075,7 +2075,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewBGPPeer: AWSShape {
+    public struct NewBGPPeer: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2105,7 +2105,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewPrivateVirtualInterface: AWSShape {
+    public struct NewPrivateVirtualInterface: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2166,7 +2166,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
+    public struct NewPrivateVirtualInterfaceAllocation: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2219,7 +2219,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewPublicVirtualInterface: AWSShape {
+    public struct NewPublicVirtualInterface: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2272,7 +2272,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewPublicVirtualInterfaceAllocation: AWSShape {
+    public struct NewPublicVirtualInterfaceAllocation: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2325,7 +2325,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewTransitVirtualInterface: AWSShape {
+    public struct NewTransitVirtualInterface: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2382,7 +2382,7 @@ extension DirectConnect {
         }
     }
 
-    public struct NewTransitVirtualInterfaceAllocation: AWSShape {
+    public struct NewTransitVirtualInterfaceAllocation: AWSEncodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2435,7 +2435,7 @@ extension DirectConnect {
         }
     }
 
-    public struct ResourceTag: AWSShape {
+    public struct ResourceTag: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -2453,7 +2453,7 @@ extension DirectConnect {
         }
     }
 
-    public struct RouteFilterPrefix: AWSShape {
+    public struct RouteFilterPrefix: AWSEncodableShape & AWSDecodableShape {
 
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public let cidr: String?
@@ -2467,7 +2467,7 @@ extension DirectConnect {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key.
         public let key: String
@@ -2494,7 +2494,7 @@ extension DirectConnect {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2519,7 +2519,7 @@ extension DirectConnect {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2527,7 +2527,7 @@ extension DirectConnect {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2553,7 +2553,7 @@ extension DirectConnect {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2561,7 +2561,7 @@ extension DirectConnect {
 
     }
 
-    public struct UpdateDirectConnectGatewayAssociationRequest: AWSShape {
+    public struct UpdateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
 
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -2583,7 +2583,7 @@ extension DirectConnect {
         }
     }
 
-    public struct UpdateDirectConnectGatewayAssociationResult: AWSShape {
+    public struct UpdateDirectConnectGatewayAssociationResult: AWSDecodableShape {
 
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
@@ -2596,7 +2596,7 @@ extension DirectConnect {
         }
     }
 
-    public struct UpdateLagRequest: AWSShape {
+    public struct UpdateLagRequest: AWSEncodableShape {
 
         /// The ID of the LAG.
         public let lagId: String
@@ -2618,7 +2618,7 @@ extension DirectConnect {
         }
     }
 
-    public struct UpdateVirtualInterfaceAttributesRequest: AWSShape {
+    public struct UpdateVirtualInterfaceAttributesRequest: AWSEncodableShape {
 
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
@@ -2636,7 +2636,7 @@ extension DirectConnect {
         }
     }
 
-    public struct VirtualGateway: AWSShape {
+    public struct VirtualGateway: AWSDecodableShape {
 
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
@@ -2654,7 +2654,7 @@ extension DirectConnect {
         }
     }
 
-    public struct VirtualGateways: AWSShape {
+    public struct VirtualGateways: AWSDecodableShape {
 
         /// The virtual private gateways.
         public let virtualGateways: [VirtualGateway]?
@@ -2668,7 +2668,7 @@ extension DirectConnect {
         }
     }
 
-    public struct VirtualInterface: AWSShape {
+    public struct VirtualInterface: AWSDecodableShape {
 
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
@@ -2774,7 +2774,7 @@ extension DirectConnect {
         }
     }
 
-    public struct VirtualInterfaces: AWSShape {
+    public struct VirtualInterfaces: AWSDecodableShape {
 
         /// The virtual interfaces
         public let virtualInterfaces: [VirtualInterface]?

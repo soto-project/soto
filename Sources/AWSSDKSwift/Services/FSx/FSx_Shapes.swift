@@ -115,7 +115,7 @@ extension FSx {
 
     //MARK: Shapes
 
-    public struct ActiveDirectoryBackupAttributes: AWSShape {
+    public struct ActiveDirectoryBackupAttributes: AWSDecodableShape {
 
         /// The ID of the AWS Managed Microsoft Active Directory instance to which the file system is joined.
         public let activeDirectoryId: String?
@@ -133,7 +133,7 @@ extension FSx {
         }
     }
 
-    public struct Backup: AWSShape {
+    public struct Backup: AWSDecodableShape {
 
         /// The ID of the backup.
         public let backupId: String
@@ -186,7 +186,7 @@ extension FSx {
         }
     }
 
-    public struct BackupFailureDetails: AWSShape {
+    public struct BackupFailureDetails: AWSDecodableShape {
 
         /// A message describing the backup creation failure.
         public let message: String?
@@ -200,7 +200,7 @@ extension FSx {
         }
     }
 
-    public struct CancelDataRepositoryTaskRequest: AWSShape {
+    public struct CancelDataRepositoryTaskRequest: AWSEncodableShape {
 
         /// Specifies the data repository task to cancel.
         public let taskId: String
@@ -220,7 +220,7 @@ extension FSx {
         }
     }
 
-    public struct CancelDataRepositoryTaskResponse: AWSShape {
+    public struct CancelDataRepositoryTaskResponse: AWSDecodableShape {
 
         /// The lifecycle status of the data repository task, as follows:    PENDING - Amazon FSx has not started the task.    EXECUTING - Amazon FSx is processing the task.    FAILED - Amazon FSx was not able to complete the task. For example, there may be files the task failed to process. The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - FSx completed the task successfully.    CANCELED - Amazon FSx canceled the task and it did not complete.    CANCELING - FSx is in process of canceling the task.  
         public let lifecycle: DataRepositoryTaskLifecycle?
@@ -238,7 +238,7 @@ extension FSx {
         }
     }
 
-    public struct CompletionReport: AWSShape {
+    public struct CompletionReport: AWSEncodableShape & AWSDecodableShape {
 
         /// Set Enabled to True to generate a CompletionReport when the task completes. If set to true, then you need to provide a report Scope, Path, and Format. Set Enabled to False if you do not want a CompletionReport generated when the task completes.
         public let enabled: Bool
@@ -270,7 +270,7 @@ extension FSx {
         }
     }
 
-    public struct CreateBackupRequest: AWSShape {
+    public struct CreateBackupRequest: AWSEncodableShape {
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -306,7 +306,7 @@ extension FSx {
         }
     }
 
-    public struct CreateBackupResponse: AWSShape {
+    public struct CreateBackupResponse: AWSDecodableShape {
 
         /// A description of the backup.
         public let backup: Backup?
@@ -320,7 +320,7 @@ extension FSx {
         }
     }
 
-    public struct CreateDataRepositoryTaskRequest: AWSShape {
+    public struct CreateDataRepositoryTaskRequest: AWSEncodableShape {
 
         public let clientRequestToken: String?
         public let fileSystemId: String
@@ -372,7 +372,7 @@ extension FSx {
         }
     }
 
-    public struct CreateDataRepositoryTaskResponse: AWSShape {
+    public struct CreateDataRepositoryTaskResponse: AWSDecodableShape {
 
         /// The description of the data repository task that you just created.
         public let dataRepositoryTask: DataRepositoryTask?
@@ -386,7 +386,7 @@ extension FSx {
         }
     }
 
-    public struct CreateFileSystemFromBackupRequest: AWSShape {
+    public struct CreateFileSystemFromBackupRequest: AWSEncodableShape {
 
         public let backupId: String
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
@@ -450,7 +450,7 @@ extension FSx {
         }
     }
 
-    public struct CreateFileSystemFromBackupResponse: AWSShape {
+    public struct CreateFileSystemFromBackupResponse: AWSDecodableShape {
 
         /// A description of the file system.
         public let fileSystem: FileSystem?
@@ -464,7 +464,7 @@ extension FSx {
         }
     }
 
-    public struct CreateFileSystemLustreConfiguration: AWSShape {
+    public struct CreateFileSystemLustreConfiguration: AWSEncodableShape {
 
         /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 deployment type for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. Encryption of data in-transit is automatically enabled when you access a SCRATCH_2 or PERSISTENT_1 file system from Amazon EC2 instances that support this feature. (Default = SCRATCH_1)  Encryption of data in-transit for SCRATCH_2 and PERSISTENT_1 deployment types is supported when accessed from supported instance types in supported AWS Regions. To learn more, Encrypting Data in Transit.
         public let deploymentType: LustreDeploymentType?
@@ -514,7 +514,7 @@ extension FSx {
         }
     }
 
-    public struct CreateFileSystemRequest: AWSShape {
+    public struct CreateFileSystemRequest: AWSEncodableShape {
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -591,7 +591,7 @@ extension FSx {
         }
     }
 
-    public struct CreateFileSystemResponse: AWSShape {
+    public struct CreateFileSystemResponse: AWSDecodableShape {
 
         /// The configuration of the file system that was created.
         public let fileSystem: FileSystem?
@@ -605,7 +605,7 @@ extension FSx {
         }
     }
 
-    public struct CreateFileSystemWindowsConfiguration: AWSShape {
+    public struct CreateFileSystemWindowsConfiguration: AWSEncodableShape {
 
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
@@ -670,7 +670,7 @@ extension FSx {
         }
     }
 
-    public struct DataRepositoryConfiguration: AWSShape {
+    public struct DataRepositoryConfiguration: AWSDecodableShape {
 
         /// The export path to the Amazon S3 bucket (and prefix) that you are using to store new and changed Lustre file system files in S3.
         public let exportPath: String?
@@ -692,7 +692,7 @@ extension FSx {
         }
     }
 
-    public struct DataRepositoryTask: AWSShape {
+    public struct DataRepositoryTask: AWSDecodableShape {
 
         public let creationTime: TimeStamp
         /// The time that Amazon FSx completed processing the task, populated after the task is complete.
@@ -749,7 +749,7 @@ extension FSx {
         }
     }
 
-    public struct DataRepositoryTaskFailureDetails: AWSShape {
+    public struct DataRepositoryTaskFailureDetails: AWSDecodableShape {
 
         public let message: String?
 
@@ -762,7 +762,7 @@ extension FSx {
         }
     }
 
-    public struct DataRepositoryTaskFilter: AWSShape {
+    public struct DataRepositoryTaskFilter: AWSEncodableShape {
 
         /// Name of the task property to use in filtering the tasks returned in the response.   Use file-system-id to retrieve data repository tasks for specific file systems.   Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CANCELED, EXECUTING, FAILED, PENDING, and SUCCEEDED.  
         public let name: DataRepositoryTaskFilterName?
@@ -789,7 +789,7 @@ extension FSx {
         }
     }
 
-    public struct DataRepositoryTaskStatus: AWSShape {
+    public struct DataRepositoryTaskStatus: AWSDecodableShape {
 
         /// A running total of the number of files that the task failed to process.
         public let failedCount: Int64?
@@ -815,7 +815,7 @@ extension FSx {
         }
     }
 
-    public struct DeleteBackupRequest: AWSShape {
+    public struct DeleteBackupRequest: AWSEncodableShape {
 
         /// The ID of the backup you want to delete.
         public let backupId: String
@@ -842,7 +842,7 @@ extension FSx {
         }
     }
 
-    public struct DeleteBackupResponse: AWSShape {
+    public struct DeleteBackupResponse: AWSDecodableShape {
 
         /// The ID of the backup deleted.
         public let backupId: String?
@@ -860,7 +860,7 @@ extension FSx {
         }
     }
 
-    public struct DeleteFileSystemRequest: AWSShape {
+    public struct DeleteFileSystemRequest: AWSEncodableShape {
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
@@ -891,7 +891,7 @@ extension FSx {
         }
     }
 
-    public struct DeleteFileSystemResponse: AWSShape {
+    public struct DeleteFileSystemResponse: AWSDecodableShape {
 
         /// The ID of the file system being deleted.
         public let fileSystemId: String?
@@ -912,7 +912,7 @@ extension FSx {
         }
     }
 
-    public struct DeleteFileSystemWindowsConfiguration: AWSShape {
+    public struct DeleteFileSystemWindowsConfiguration: AWSEncodableShape {
 
         /// A set of tags for your final backup.
         public let finalBackupTags: [Tag]?
@@ -938,7 +938,7 @@ extension FSx {
         }
     }
 
-    public struct DeleteFileSystemWindowsResponse: AWSShape {
+    public struct DeleteFileSystemWindowsResponse: AWSDecodableShape {
 
         /// The ID of the final backup for this file system.
         public let finalBackupId: String?
@@ -956,7 +956,7 @@ extension FSx {
         }
     }
 
-    public struct DescribeBackupsRequest: AWSShape {
+    public struct DescribeBackupsRequest: AWSEncodableShape {
 
         /// (Optional) IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
         public let backupIds: [String]?
@@ -999,7 +999,7 @@ extension FSx {
         }
     }
 
-    public struct DescribeBackupsResponse: AWSShape {
+    public struct DescribeBackupsResponse: AWSDecodableShape {
 
         /// Any array of backups.
         public let backups: [Backup]?
@@ -1017,7 +1017,7 @@ extension FSx {
         }
     }
 
-    public struct DescribeDataRepositoryTasksRequest: AWSShape {
+    public struct DescribeDataRepositoryTasksRequest: AWSEncodableShape {
 
         /// (Optional) You can use filters to narrow the DescribeDataRepositoryTasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state.
         public let filters: [DataRepositoryTaskFilter]?
@@ -1058,7 +1058,7 @@ extension FSx {
         }
     }
 
-    public struct DescribeDataRepositoryTasksResponse: AWSShape {
+    public struct DescribeDataRepositoryTasksResponse: AWSDecodableShape {
 
         /// The collection of data repository task descriptions returned.
         public let dataRepositoryTasks: [DataRepositoryTask]?
@@ -1075,7 +1075,7 @@ extension FSx {
         }
     }
 
-    public struct DescribeFileSystemsRequest: AWSShape {
+    public struct DescribeFileSystemsRequest: AWSEncodableShape {
 
         /// (Optional) IDs of the file systems whose descriptions you want to retrieve (String).
         public let fileSystemIds: [String]?
@@ -1110,7 +1110,7 @@ extension FSx {
         }
     }
 
-    public struct DescribeFileSystemsResponse: AWSShape {
+    public struct DescribeFileSystemsResponse: AWSDecodableShape {
 
         /// An array of file system descriptions.
         public let fileSystems: [FileSystem]?
@@ -1128,7 +1128,7 @@ extension FSx {
         }
     }
 
-    public struct FileSystem: AWSShape {
+    public struct FileSystem: AWSDecodableShape {
 
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
         public let creationTime: TimeStamp?
@@ -1204,7 +1204,7 @@ extension FSx {
         }
     }
 
-    public struct FileSystemFailureDetails: AWSShape {
+    public struct FileSystemFailureDetails: AWSDecodableShape {
 
         /// A message describing any failures that occurred during file system creation.
         public let message: String?
@@ -1218,7 +1218,7 @@ extension FSx {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         /// The name for this filter.
         public let name: FilterName?
@@ -1245,7 +1245,7 @@ extension FSx {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// (Optional) Maximum number of tags to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
         public let maxResults: Int?
@@ -1277,7 +1277,7 @@ extension FSx {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// This is present if there are more tags than returned in the response (String). You can use the NextToken value in the later request to fetch the tags. 
         public let nextToken: String?
@@ -1295,7 +1295,7 @@ extension FSx {
         }
     }
 
-    public struct LustreFileSystemConfiguration: AWSShape {
+    public struct LustreFileSystemConfiguration: AWSDecodableShape {
 
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
         /// The deployment type of the FSX for Lustre file system.
@@ -1324,7 +1324,7 @@ extension FSx {
         }
     }
 
-    public struct SelfManagedActiveDirectoryAttributes: AWSShape {
+    public struct SelfManagedActiveDirectoryAttributes: AWSDecodableShape {
 
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
@@ -1354,7 +1354,7 @@ extension FSx {
         }
     }
 
-    public struct SelfManagedActiveDirectoryConfiguration: AWSShape {
+    public struct SelfManagedActiveDirectoryConfiguration: AWSEncodableShape {
 
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory. The IP addresses need to be either in the same VPC CIDR range as the one in which your Amazon FSx file system is being created, or in the private IP version 4 (IPv4) address ranges, as specified in RFC 1918:   10.0.0.0 - 10.255.255.255 (10/8 prefix)   172.16.0.0 - 172.31.255.255 (172.16/12 prefix)   192.168.0.0 - 192.168.255.255 (192.168/16 prefix)  
         public let dnsIps: [String]
@@ -1413,7 +1413,7 @@ extension FSx {
         }
     }
 
-    public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSShape {
+    public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSEncodableShape {
 
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
@@ -1451,7 +1451,7 @@ extension FSx {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
         public let key: String?
@@ -1478,7 +1478,7 @@ extension FSx {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon FSx resource that you want to tag.
         public let resourceARN: String
@@ -1507,7 +1507,7 @@ extension FSx {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1515,7 +1515,7 @@ extension FSx {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the Amazon FSx resource to untag.
         public let resourceARN: String
@@ -1546,7 +1546,7 @@ extension FSx {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1554,7 +1554,7 @@ extension FSx {
 
     }
 
-    public struct UpdateFileSystemLustreConfiguration: AWSShape {
+    public struct UpdateFileSystemLustreConfiguration: AWSEncodableShape {
 
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
@@ -1574,7 +1574,7 @@ extension FSx {
         }
     }
 
-    public struct UpdateFileSystemRequest: AWSShape {
+    public struct UpdateFileSystemRequest: AWSEncodableShape {
 
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -1609,7 +1609,7 @@ extension FSx {
         }
     }
 
-    public struct UpdateFileSystemResponse: AWSShape {
+    public struct UpdateFileSystemResponse: AWSDecodableShape {
 
         /// A description of the file system that was updated.
         public let fileSystem: FileSystem?
@@ -1623,7 +1623,7 @@ extension FSx {
         }
     }
 
-    public struct UpdateFileSystemWindowsConfiguration: AWSShape {
+    public struct UpdateFileSystemWindowsConfiguration: AWSEncodableShape {
 
         /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 35 days.
         public let automaticBackupRetentionDays: Int?
@@ -1661,7 +1661,7 @@ extension FSx {
         }
     }
 
-    public struct WindowsFileSystemConfiguration: AWSShape {
+    public struct WindowsFileSystemConfiguration: AWSDecodableShape {
 
         /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
         public let activeDirectoryId: String?

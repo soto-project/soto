@@ -131,7 +131,7 @@ extension AppSync {
 
     //MARK: Shapes
 
-    public struct AdditionalAuthenticationProvider: AWSShape {
+    public struct AdditionalAuthenticationProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
         public let authenticationType: AuthenticationType?
@@ -153,7 +153,7 @@ extension AppSync {
         }
     }
 
-    public struct ApiCache: AWSShape {
+    public struct ApiCache: AWSDecodableShape {
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
         public let apiCachingBehavior: ApiCachingBehavior?
@@ -187,7 +187,7 @@ extension AppSync {
         }
     }
 
-    public struct ApiKey: AWSShape {
+    public struct ApiKey: AWSDecodableShape {
 
         /// A description of the purpose of the API key.
         public let description: String?
@@ -209,7 +209,7 @@ extension AppSync {
         }
     }
 
-    public struct AuthorizationConfig: AWSShape {
+    public struct AuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.  
         public let authorizationType: AuthorizationType
@@ -227,7 +227,7 @@ extension AppSync {
         }
     }
 
-    public struct AwsIamConfig: AWSShape {
+    public struct AwsIamConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The signing region for AWS IAM authorization.
         public let signingRegion: String?
@@ -245,7 +245,7 @@ extension AppSync {
         }
     }
 
-    public struct CachingConfig: AWSShape {
+    public struct CachingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.identity and $context.arguments maps.
         public let cachingKeys: [String]?
@@ -263,7 +263,7 @@ extension AppSync {
         }
     }
 
-    public struct CognitoUserPoolConfig: AWSShape {
+    public struct CognitoUserPoolConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
@@ -285,7 +285,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateApiCacheRequest: AWSShape {
+    public struct CreateApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -314,7 +314,6 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiCachingBehavior = "apiCachingBehavior"
-            case apiId = "apiId"
             case atRestEncryptionEnabled = "atRestEncryptionEnabled"
             case transitEncryptionEnabled = "transitEncryptionEnabled"
             case ttl = "ttl"
@@ -322,7 +321,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateApiCacheResponse: AWSShape {
+    public struct CreateApiCacheResponse: AWSDecodableShape {
 
         /// The ApiCache object.
         public let apiCache: ApiCache?
@@ -336,7 +335,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateApiKeyRequest: AWSShape {
+    public struct CreateApiKeyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -355,13 +354,12 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case expires = "expires"
         }
     }
 
-    public struct CreateApiKeyResponse: AWSShape {
+    public struct CreateApiKeyResponse: AWSDecodableShape {
 
         /// The API key.
         public let apiKey: ApiKey?
@@ -375,7 +373,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateDataSourceRequest: AWSShape {
+    public struct CreateDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -421,7 +419,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
@@ -434,7 +431,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateDataSourceResponse: AWSShape {
+    public struct CreateDataSourceResponse: AWSDecodableShape {
 
         /// The DataSource object.
         public let dataSource: DataSource?
@@ -448,7 +445,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateFunctionRequest: AWSShape {
+    public struct CreateFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -492,7 +489,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case dataSourceName = "dataSourceName"
             case description = "description"
             case functionVersion = "functionVersion"
@@ -502,7 +498,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateFunctionResponse: AWSShape {
+    public struct CreateFunctionResponse: AWSDecodableShape {
 
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
@@ -516,7 +512,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateGraphqlApiRequest: AWSShape {
+    public struct CreateGraphqlApiRequest: AWSEncodableShape {
 
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
@@ -567,7 +563,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateGraphqlApiResponse: AWSShape {
+    public struct CreateGraphqlApiResponse: AWSDecodableShape {
 
         /// The GraphqlApi.
         public let graphqlApi: GraphqlApi?
@@ -581,7 +577,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateResolverRequest: AWSShape {
+    public struct CreateResolverRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
@@ -638,7 +634,6 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
             case fieldName = "fieldName"
@@ -647,11 +642,10 @@ extension AppSync {
             case requestMappingTemplate = "requestMappingTemplate"
             case responseMappingTemplate = "responseMappingTemplate"
             case syncConfig = "syncConfig"
-            case typeName = "typeName"
         }
     }
 
-    public struct CreateResolverResponse: AWSShape {
+    public struct CreateResolverResponse: AWSDecodableShape {
 
         /// The Resolver object.
         public let resolver: Resolver?
@@ -665,7 +659,7 @@ extension AppSync {
         }
     }
 
-    public struct CreateTypeRequest: AWSShape {
+    public struct CreateTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -684,13 +678,12 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case definition = "definition"
             case format = "format"
         }
     }
 
-    public struct CreateTypeResponse: AWSShape {
+    public struct CreateTypeResponse: AWSDecodableShape {
 
         /// The Type object.
         public let `type`: `Type`?
@@ -704,7 +697,7 @@ extension AppSync {
         }
     }
 
-    public struct DataSource: AWSShape {
+    public struct DataSource: AWSDecodableShape {
 
         /// The data source ARN.
         public let dataSourceArn: String?
@@ -754,7 +747,7 @@ extension AppSync {
         }
     }
 
-    public struct DeleteApiCacheRequest: AWSShape {
+    public struct DeleteApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -766,12 +759,10 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteApiCacheResponse: AWSShape {
+    public struct DeleteApiCacheResponse: AWSDecodableShape {
 
 
         public init() {
@@ -779,7 +770,7 @@ extension AppSync {
 
     }
 
-    public struct DeleteApiKeyRequest: AWSShape {
+    public struct DeleteApiKeyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
@@ -795,13 +786,10 @@ extension AppSync {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteApiKeyResponse: AWSShape {
+    public struct DeleteApiKeyResponse: AWSDecodableShape {
 
 
         public init() {
@@ -809,7 +797,7 @@ extension AppSync {
 
     }
 
-    public struct DeleteDataSourceRequest: AWSShape {
+    public struct DeleteDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -831,13 +819,10 @@ extension AppSync {
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDataSourceResponse: AWSShape {
+    public struct DeleteDataSourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -845,7 +830,7 @@ extension AppSync {
 
     }
 
-    public struct DeleteFunctionRequest: AWSShape {
+    public struct DeleteFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
@@ -867,13 +852,10 @@ extension AppSync {
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case functionId = "functionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFunctionResponse: AWSShape {
+    public struct DeleteFunctionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -881,7 +863,7 @@ extension AppSync {
 
     }
 
-    public struct DeleteGraphqlApiRequest: AWSShape {
+    public struct DeleteGraphqlApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -893,12 +875,10 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteGraphqlApiResponse: AWSShape {
+    public struct DeleteGraphqlApiResponse: AWSDecodableShape {
 
 
         public init() {
@@ -906,7 +886,7 @@ extension AppSync {
 
     }
 
-    public struct DeleteResolverRequest: AWSShape {
+    public struct DeleteResolverRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")), 
@@ -935,14 +915,10 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case fieldName = "fieldName"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteResolverResponse: AWSShape {
+    public struct DeleteResolverResponse: AWSDecodableShape {
 
 
         public init() {
@@ -950,7 +926,7 @@ extension AppSync {
 
     }
 
-    public struct DeleteTypeRequest: AWSShape {
+    public struct DeleteTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
@@ -972,13 +948,10 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteTypeResponse: AWSShape {
+    public struct DeleteTypeResponse: AWSDecodableShape {
 
 
         public init() {
@@ -986,7 +959,7 @@ extension AppSync {
 
     }
 
-    public struct DeltaSyncConfig: AWSShape {
+    public struct DeltaSyncConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of minutes an Item is stored in the datasource.
         public let baseTableTTL: Int64?
@@ -1008,7 +981,7 @@ extension AppSync {
         }
     }
 
-    public struct DynamodbDataSourceConfig: AWSShape {
+    public struct DynamodbDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The AWS Region.
         public let awsRegion: String
@@ -1038,7 +1011,7 @@ extension AppSync {
         }
     }
 
-    public struct ElasticsearchDataSourceConfig: AWSShape {
+    public struct ElasticsearchDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The AWS Region.
         public let awsRegion: String
@@ -1056,7 +1029,7 @@ extension AppSync {
         }
     }
 
-    public struct FlushApiCacheRequest: AWSShape {
+    public struct FlushApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1068,12 +1041,10 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct FlushApiCacheResponse: AWSShape {
+    public struct FlushApiCacheResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1081,7 +1052,7 @@ extension AppSync {
 
     }
 
-    public struct FunctionConfiguration: AWSShape {
+    public struct FunctionConfiguration: AWSDecodableShape {
 
         /// The name of the DataSource.
         public let dataSourceName: String?
@@ -1123,7 +1094,7 @@ extension AppSync {
         }
     }
 
-    public struct GetApiCacheRequest: AWSShape {
+    public struct GetApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1135,12 +1106,10 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApiCacheResponse: AWSShape {
+    public struct GetApiCacheResponse: AWSDecodableShape {
 
         /// The ApiCache object.
         public let apiCache: ApiCache?
@@ -1154,7 +1123,7 @@ extension AppSync {
         }
     }
 
-    public struct GetDataSourceRequest: AWSShape {
+    public struct GetDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -1176,13 +1145,10 @@ extension AppSync {
             try validate(self.name, name:"name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDataSourceResponse: AWSShape {
+    public struct GetDataSourceResponse: AWSDecodableShape {
 
         /// The DataSource object.
         public let dataSource: DataSource?
@@ -1196,7 +1162,7 @@ extension AppSync {
         }
     }
 
-    public struct GetFunctionRequest: AWSShape {
+    public struct GetFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
@@ -1218,13 +1184,10 @@ extension AppSync {
             try validate(self.functionId, name:"functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case functionId = "functionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFunctionResponse: AWSShape {
+    public struct GetFunctionResponse: AWSDecodableShape {
 
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
@@ -1238,7 +1201,7 @@ extension AppSync {
         }
     }
 
-    public struct GetGraphqlApiRequest: AWSShape {
+    public struct GetGraphqlApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1250,12 +1213,10 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGraphqlApiResponse: AWSShape {
+    public struct GetGraphqlApiResponse: AWSDecodableShape {
 
         /// The GraphqlApi object.
         public let graphqlApi: GraphqlApi?
@@ -1269,7 +1230,7 @@ extension AppSync {
         }
     }
 
-    public struct GetIntrospectionSchemaRequest: AWSShape {
+    public struct GetIntrospectionSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
@@ -1289,14 +1250,10 @@ extension AppSync {
             self.includeDirectives = includeDirectives
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case format = "format"
-            case includeDirectives = "includeDirectives"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetIntrospectionSchemaResponse: AWSShape {
+    public struct GetIntrospectionSchemaResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "schema"
         public static var _encoding = [
@@ -1315,7 +1272,7 @@ extension AppSync {
         }
     }
 
-    public struct GetResolverRequest: AWSShape {
+    public struct GetResolverRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")), 
@@ -1344,14 +1301,10 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case fieldName = "fieldName"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResolverResponse: AWSShape {
+    public struct GetResolverResponse: AWSDecodableShape {
 
         /// The Resolver object.
         public let resolver: Resolver?
@@ -1365,7 +1318,7 @@ extension AppSync {
         }
     }
 
-    public struct GetSchemaCreationStatusRequest: AWSShape {
+    public struct GetSchemaCreationStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -1377,12 +1330,10 @@ extension AppSync {
             self.apiId = apiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSchemaCreationStatusResponse: AWSShape {
+    public struct GetSchemaCreationStatusResponse: AWSDecodableShape {
 
         /// Detailed information about the status of the schema creation operation.
         public let details: String?
@@ -1400,7 +1351,7 @@ extension AppSync {
         }
     }
 
-    public struct GetTypeRequest: AWSShape {
+    public struct GetTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
@@ -1426,14 +1377,10 @@ extension AppSync {
             try validate(self.typeName, name:"typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case format = "format"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTypeResponse: AWSShape {
+    public struct GetTypeResponse: AWSDecodableShape {
 
         /// The Type object.
         public let `type`: `Type`?
@@ -1447,7 +1394,7 @@ extension AppSync {
         }
     }
 
-    public struct GraphqlApi: AWSShape {
+    public struct GraphqlApi: AWSDecodableShape {
 
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
@@ -1501,7 +1448,7 @@ extension AppSync {
         }
     }
 
-    public struct HttpDataSourceConfig: AWSShape {
+    public struct HttpDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The authorization config in case the HTTP endpoint requires authorization.
         public let authorizationConfig: AuthorizationConfig?
@@ -1519,7 +1466,7 @@ extension AppSync {
         }
     }
 
-    public struct LambdaConflictHandlerConfig: AWSShape {
+    public struct LambdaConflictHandlerConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Arn for the Lambda function to use as the Conflict Handler.
         public let lambdaConflictHandlerArn: String?
@@ -1533,7 +1480,7 @@ extension AppSync {
         }
     }
 
-    public struct LambdaDataSourceConfig: AWSShape {
+    public struct LambdaDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN for the Lambda function.
         public let lambdaFunctionArn: String
@@ -1547,7 +1494,7 @@ extension AppSync {
         }
     }
 
-    public struct ListApiKeysRequest: AWSShape {
+    public struct ListApiKeysRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1575,14 +1522,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListApiKeysResponse: AWSShape {
+    public struct ListApiKeysResponse: AWSDecodableShape {
 
         /// The ApiKey objects.
         public let apiKeys: [ApiKey]?
@@ -1600,7 +1543,7 @@ extension AppSync {
         }
     }
 
-    public struct ListDataSourcesRequest: AWSShape {
+    public struct ListDataSourcesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1628,14 +1571,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDataSourcesResponse: AWSShape {
+    public struct ListDataSourcesResponse: AWSDecodableShape {
 
         /// The DataSource objects.
         public let dataSources: [DataSource]?
@@ -1653,7 +1592,7 @@ extension AppSync {
         }
     }
 
-    public struct ListFunctionsRequest: AWSShape {
+    public struct ListFunctionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1681,14 +1620,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFunctionsResponse: AWSShape {
+    public struct ListFunctionsResponse: AWSDecodableShape {
 
         /// A list of Function objects.
         public let functions: [FunctionConfiguration]?
@@ -1706,7 +1641,7 @@ extension AppSync {
         }
     }
 
-    public struct ListGraphqlApisRequest: AWSShape {
+    public struct ListGraphqlApisRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1730,13 +1665,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListGraphqlApisResponse: AWSShape {
+    public struct ListGraphqlApisResponse: AWSDecodableShape {
 
         /// The GraphqlApi objects.
         public let graphqlApis: [GraphqlApi]?
@@ -1754,7 +1686,7 @@ extension AppSync {
         }
     }
 
-    public struct ListResolversByFunctionRequest: AWSShape {
+    public struct ListResolversByFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId")), 
@@ -1786,15 +1718,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case functionId = "functionId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListResolversByFunctionResponse: AWSShape {
+    public struct ListResolversByFunctionResponse: AWSDecodableShape {
 
         /// An identifier that can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1812,7 +1739,7 @@ extension AppSync {
         }
     }
 
-    public struct ListResolversRequest: AWSShape {
+    public struct ListResolversRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1844,15 +1771,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case typeName = "typeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListResolversResponse: AWSShape {
+    public struct ListResolversResponse: AWSDecodableShape {
 
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -1870,7 +1792,7 @@ extension AppSync {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -1888,12 +1810,10 @@ extension AppSync {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// A TagMap object.
         public let tags: [String: String]?
@@ -1907,7 +1827,7 @@ extension AppSync {
         }
     }
 
-    public struct ListTypesRequest: AWSShape {
+    public struct ListTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
@@ -1939,15 +1859,10 @@ extension AppSync {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\\\S]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case format = "format"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTypesResponse: AWSShape {
+    public struct ListTypesResponse: AWSDecodableShape {
 
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -1965,7 +1880,7 @@ extension AppSync {
         }
     }
 
-    public struct LogConfig: AWSShape {
+    public struct LogConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account. 
         public let cloudWatchLogsRoleArn: String
@@ -1987,7 +1902,7 @@ extension AppSync {
         }
     }
 
-    public struct OpenIDConnectConfig: AWSShape {
+    public struct OpenIDConnectConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of milliseconds a token is valid after being authenticated.
         public let authTTL: Int64?
@@ -2013,7 +1928,7 @@ extension AppSync {
         }
     }
 
-    public struct PipelineConfig: AWSShape {
+    public struct PipelineConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of Function objects.
         public let functions: [String]?
@@ -2027,7 +1942,7 @@ extension AppSync {
         }
     }
 
-    public struct RdsHttpEndpointConfig: AWSShape {
+    public struct RdsHttpEndpointConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// AWS Region for RDS HTTP endpoint.
         public let awsRegion: String?
@@ -2057,7 +1972,7 @@ extension AppSync {
         }
     }
 
-    public struct RelationalDatabaseDataSourceConfig: AWSShape {
+    public struct RelationalDatabaseDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Amazon RDS HTTP endpoint settings.
         public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
@@ -2075,7 +1990,7 @@ extension AppSync {
         }
     }
 
-    public struct Resolver: AWSShape {
+    public struct Resolver: AWSDecodableShape {
 
         /// The caching configuration for the resolver.
         public let cachingConfig: CachingConfig?
@@ -2125,7 +2040,7 @@ extension AppSync {
         }
     }
 
-    public struct StartSchemaCreationRequest: AWSShape {
+    public struct StartSchemaCreationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -2141,12 +2056,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case definition = "definition"
         }
     }
 
-    public struct StartSchemaCreationResponse: AWSShape {
+    public struct StartSchemaCreationResponse: AWSDecodableShape {
 
         /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
         public let status: SchemaStatus?
@@ -2160,7 +2074,7 @@ extension AppSync {
         }
     }
 
-    public struct SyncConfig: AWSShape {
+    public struct SyncConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Conflict Detection strategy to use.    VERSION: Detect conflicts based on object versions for this resolver.    NONE: Do not detect conflicts when executing this resolver.  
         public let conflictDetection: ConflictDetectionType?
@@ -2182,7 +2096,7 @@ extension AppSync {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2210,12 +2124,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2223,7 +2136,7 @@ extension AppSync {
 
     }
 
-    public struct `Type`: AWSShape {
+    public struct `Type`: AWSDecodableShape {
 
         /// The type ARN.
         public let arn: String?
@@ -2253,7 +2166,7 @@ extension AppSync {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -2282,13 +2195,10 @@ extension AppSync {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2296,7 +2206,7 @@ extension AppSync {
 
     }
 
-    public struct UpdateApiCacheRequest: AWSShape {
+    public struct UpdateApiCacheRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -2319,13 +2229,12 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiCachingBehavior = "apiCachingBehavior"
-            case apiId = "apiId"
             case ttl = "ttl"
             case `type` = "type"
         }
     }
 
-    public struct UpdateApiCacheResponse: AWSShape {
+    public struct UpdateApiCacheResponse: AWSDecodableShape {
 
         /// The ApiCache object.
         public let apiCache: ApiCache?
@@ -2339,7 +2248,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateApiKeyRequest: AWSShape {
+    public struct UpdateApiKeyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
@@ -2362,14 +2271,12 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case expires = "expires"
-            case id = "id"
         }
     }
 
-    public struct UpdateApiKeyResponse: AWSShape {
+    public struct UpdateApiKeyResponse: AWSDecodableShape {
 
         /// The API key.
         public let apiKey: ApiKey?
@@ -2383,7 +2290,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateDataSourceRequest: AWSShape {
+    public struct UpdateDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -2430,20 +2337,18 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
             case httpConfig = "httpConfig"
             case lambdaConfig = "lambdaConfig"
-            case name = "name"
             case relationalDatabaseConfig = "relationalDatabaseConfig"
             case serviceRoleArn = "serviceRoleArn"
             case `type` = "type"
         }
     }
 
-    public struct UpdateDataSourceResponse: AWSShape {
+    public struct UpdateDataSourceResponse: AWSDecodableShape {
 
         /// The updated DataSource object.
         public let dataSource: DataSource?
@@ -2457,7 +2362,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateFunctionRequest: AWSShape {
+    public struct UpdateFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "functionId", location: .uri(locationName: "functionId"))
@@ -2508,10 +2413,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case dataSourceName = "dataSourceName"
             case description = "description"
-            case functionId = "functionId"
             case functionVersion = "functionVersion"
             case name = "name"
             case requestMappingTemplate = "requestMappingTemplate"
@@ -2519,7 +2422,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateFunctionResponse: AWSShape {
+    public struct UpdateFunctionResponse: AWSDecodableShape {
 
         /// The Function object.
         public let functionConfiguration: FunctionConfiguration?
@@ -2533,7 +2436,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateGraphqlApiRequest: AWSShape {
+    public struct UpdateGraphqlApiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId"))
         ]
@@ -2568,7 +2471,6 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case additionalAuthenticationProviders = "additionalAuthenticationProviders"
-            case apiId = "apiId"
             case authenticationType = "authenticationType"
             case logConfig = "logConfig"
             case name = "name"
@@ -2578,7 +2480,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateGraphqlApiResponse: AWSShape {
+    public struct UpdateGraphqlApiResponse: AWSDecodableShape {
 
         /// The updated GraphqlApi object.
         public let graphqlApi: GraphqlApi?
@@ -2592,7 +2494,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateResolverRequest: AWSShape {
+    public struct UpdateResolverRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "fieldName", location: .uri(locationName: "fieldName")), 
@@ -2650,20 +2552,17 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case cachingConfig = "cachingConfig"
             case dataSourceName = "dataSourceName"
-            case fieldName = "fieldName"
             case kind = "kind"
             case pipelineConfig = "pipelineConfig"
             case requestMappingTemplate = "requestMappingTemplate"
             case responseMappingTemplate = "responseMappingTemplate"
             case syncConfig = "syncConfig"
-            case typeName = "typeName"
         }
     }
 
-    public struct UpdateResolverResponse: AWSShape {
+    public struct UpdateResolverResponse: AWSDecodableShape {
 
         /// The updated Resolver object.
         public let resolver: Resolver?
@@ -2677,7 +2576,7 @@ extension AppSync {
         }
     }
 
-    public struct UpdateTypeRequest: AWSShape {
+    public struct UpdateTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "typeName", location: .uri(locationName: "typeName"))
@@ -2706,14 +2605,12 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
             case definition = "definition"
             case format = "format"
-            case typeName = "typeName"
         }
     }
 
-    public struct UpdateTypeResponse: AWSShape {
+    public struct UpdateTypeResponse: AWSDecodableShape {
 
         /// The updated Type object.
         public let `type`: `Type`?
@@ -2727,7 +2624,7 @@ extension AppSync {
         }
     }
 
-    public struct UserPoolConfig: AWSShape {
+    public struct UserPoolConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
         public let appIdClientRegex: String?
