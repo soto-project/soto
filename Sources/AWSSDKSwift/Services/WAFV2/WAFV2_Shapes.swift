@@ -327,7 +327,7 @@ extension WAFV2 {
 
     //MARK: Shapes
 
-    public struct AllQueryArguments: AWSShape {
+    public struct AllQueryArguments: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -335,7 +335,7 @@ extension WAFV2 {
 
     }
 
-    public struct AllowAction: AWSShape {
+    public struct AllowAction: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -343,7 +343,7 @@ extension WAFV2 {
 
     }
 
-    public struct AndStatement: AWSShape {
+    public struct AndStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The statements to combine with AND logic. You can use any statements that can be nested. 
         public let statements: [Statement]
@@ -363,7 +363,7 @@ extension WAFV2 {
         }
     }
 
-    public struct AssociateWebACLRequest: AWSShape {
+    public struct AssociateWebACLRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name    
         public let resourceArn: String
@@ -390,7 +390,7 @@ extension WAFV2 {
         }
     }
 
-    public struct AssociateWebACLResponse: AWSShape {
+    public struct AssociateWebACLResponse: AWSDecodableShape {
 
 
         public init() {
@@ -398,7 +398,7 @@ extension WAFV2 {
 
     }
 
-    public struct BlockAction: AWSShape {
+    public struct BlockAction: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -406,7 +406,7 @@ extension WAFV2 {
 
     }
 
-    public struct Body: AWSShape {
+    public struct Body: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -414,7 +414,7 @@ extension WAFV2 {
 
     }
 
-    public struct ByteMatchStatement: AWSShape {
+    public struct ByteMatchStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
         public let fieldToMatch: FieldToMatch
@@ -448,7 +448,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CheckCapacityRequest: AWSShape {
+    public struct CheckCapacityRequest: AWSEncodableShape {
 
         /// An array of Rule that you're configuring to use in a rule group or web ACL. 
         public let rules: [Rule]
@@ -472,7 +472,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CheckCapacityResponse: AWSShape {
+    public struct CheckCapacityResponse: AWSDecodableShape {
 
         /// The capacity required by the rules and scope.
         public let capacity: Int64?
@@ -486,7 +486,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CountAction: AWSShape {
+    public struct CountAction: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -494,7 +494,7 @@ extension WAFV2 {
 
     }
 
-    public struct CreateIPSetRequest: AWSShape {
+    public struct CreateIPSetRequest: AWSEncodableShape {
 
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
@@ -546,7 +546,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateIPSetResponse: AWSShape {
+    public struct CreateIPSetResponse: AWSDecodableShape {
 
         /// High-level information about an IPSet, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage an IPSet, and the ARN, that you provide to the IPSetReferenceStatement to use the address set in a Rule.
         public let summary: IPSetSummary?
@@ -560,7 +560,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateRegexPatternSetRequest: AWSShape {
+    public struct CreateRegexPatternSetRequest: AWSEncodableShape {
 
         /// A description of the set that helps with identification. You cannot change the description of a set after you create it.
         public let description: String?
@@ -606,7 +606,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateRegexPatternSetResponse: AWSShape {
+    public struct CreateRegexPatternSetResponse: AWSDecodableShape {
 
         /// High-level information about a RegexPatternSet, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RegexPatternSet, and the ARN, that you provide to the RegexPatternSetReferenceStatement to use the pattern set in a Rule.
         public let summary: RegexPatternSetSummary?
@@ -620,7 +620,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateRuleGroupRequest: AWSShape {
+    public struct CreateRuleGroupRequest: AWSEncodableShape {
 
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, AWS WAF enforces this limit. You can check the capacity for a set of rules using CheckCapacity. AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500. 
         public let capacity: Int64
@@ -676,7 +676,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateRuleGroupResponse: AWSShape {
+    public struct CreateRuleGroupResponse: AWSDecodableShape {
 
         /// High-level information about a RuleGroup, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the RuleGroupReferenceStatement to use the rule group in a Rule.
         public let summary: RuleGroupSummary?
@@ -690,7 +690,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateWebACLRequest: AWSShape {
+    public struct CreateWebACLRequest: AWSEncodableShape {
 
         /// The action to perform if none of the Rules contained in the WebACL match. 
         public let defaultAction: DefaultAction
@@ -745,7 +745,7 @@ extension WAFV2 {
         }
     }
 
-    public struct CreateWebACLResponse: AWSShape {
+    public struct CreateWebACLResponse: AWSDecodableShape {
 
         /// High-level information about a WebACL, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a WebACL, and the ARN, that you provide to operations like AssociateWebACL.
         public let summary: WebACLSummary?
@@ -759,7 +759,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DefaultAction: AWSShape {
+    public struct DefaultAction: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies that AWS WAF should allow requests by default.
         public let allow: AllowAction?
@@ -777,7 +777,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteFirewallManagerRuleGroupsRequest: AWSShape {
+    public struct DeleteFirewallManagerRuleGroupsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the web ACL.
         public let webACLArn: String
@@ -804,7 +804,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteFirewallManagerRuleGroupsResponse: AWSShape {
+    public struct DeleteFirewallManagerRuleGroupsResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let nextWebACLLockToken: String?
@@ -818,7 +818,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteIPSetRequest: AWSShape {
+    public struct DeleteIPSetRequest: AWSEncodableShape {
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -856,7 +856,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteIPSetResponse: AWSShape {
+    public struct DeleteIPSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -864,7 +864,7 @@ extension WAFV2 {
 
     }
 
-    public struct DeleteLoggingConfigurationRequest: AWSShape {
+    public struct DeleteLoggingConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
         public let resourceArn: String
@@ -884,7 +884,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteLoggingConfigurationResponse: AWSShape {
+    public struct DeleteLoggingConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -892,7 +892,7 @@ extension WAFV2 {
 
     }
 
-    public struct DeletePermissionPolicyRequest: AWSShape {
+    public struct DeletePermissionPolicyRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the rule group from which you want to delete the policy. You must be the owner of the rule group to perform this operation.
         public let resourceArn: String
@@ -912,7 +912,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeletePermissionPolicyResponse: AWSShape {
+    public struct DeletePermissionPolicyResponse: AWSDecodableShape {
 
 
         public init() {
@@ -920,7 +920,7 @@ extension WAFV2 {
 
     }
 
-    public struct DeleteRegexPatternSetRequest: AWSShape {
+    public struct DeleteRegexPatternSetRequest: AWSEncodableShape {
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -958,7 +958,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteRegexPatternSetResponse: AWSShape {
+    public struct DeleteRegexPatternSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -966,7 +966,7 @@ extension WAFV2 {
 
     }
 
-    public struct DeleteRuleGroupRequest: AWSShape {
+    public struct DeleteRuleGroupRequest: AWSEncodableShape {
 
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1004,7 +1004,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteRuleGroupResponse: AWSShape {
+    public struct DeleteRuleGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1012,7 +1012,7 @@ extension WAFV2 {
 
     }
 
-    public struct DeleteWebACLRequest: AWSShape {
+    public struct DeleteWebACLRequest: AWSEncodableShape {
 
         /// The unique identifier for the Web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1050,7 +1050,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DeleteWebACLResponse: AWSShape {
+    public struct DeleteWebACLResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1058,7 +1058,7 @@ extension WAFV2 {
 
     }
 
-    public struct DescribeManagedRuleGroupRequest: AWSShape {
+    public struct DescribeManagedRuleGroupRequest: AWSEncodableShape {
 
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
@@ -1089,7 +1089,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DescribeManagedRuleGroupResponse: AWSShape {
+    public struct DescribeManagedRuleGroupResponse: AWSDecodableShape {
 
         /// The web ACL capacity units (WCUs) required for this rule group. AWS WAF uses web ACL capacity units (WCU) to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect each rule's relative cost. Rule group capacity is fixed at creation, so users can plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500. 
         public let capacity: Int64?
@@ -1106,7 +1106,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DisassociateWebACLRequest: AWSShape {
+    public struct DisassociateWebACLRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name    
         public let resourceArn: String
@@ -1126,7 +1126,7 @@ extension WAFV2 {
         }
     }
 
-    public struct DisassociateWebACLResponse: AWSShape {
+    public struct DisassociateWebACLResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1134,7 +1134,7 @@ extension WAFV2 {
 
     }
 
-    public struct ExcludedRule: AWSShape {
+    public struct ExcludedRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the rule to exclude.
         public let name: String
@@ -1154,7 +1154,7 @@ extension WAFV2 {
         }
     }
 
-    public struct FieldToMatch: AWSShape {
+    public struct FieldToMatch: AWSEncodableShape & AWSDecodableShape {
 
         /// Inspect all query arguments. 
         public let allQueryArguments: AllQueryArguments?
@@ -1197,7 +1197,7 @@ extension WAFV2 {
         }
     }
 
-    public struct FirewallManagerRuleGroup: AWSShape {
+    public struct FirewallManagerRuleGroup: AWSDecodableShape {
 
         /// The processing guidance for an AWS Firewall Manager rule. This is like a regular rule Statement, but it can only contain a rule group reference.
         public let firewallManagerStatement: FirewallManagerStatement
@@ -1225,7 +1225,7 @@ extension WAFV2 {
         }
     }
 
-    public struct FirewallManagerStatement: AWSShape {
+    public struct FirewallManagerStatement: AWSDecodableShape {
 
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
         public let ruleGroupReferenceStatement: RuleGroupReferenceStatement?
@@ -1241,7 +1241,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GeoMatchStatement: AWSShape {
+    public struct GeoMatchStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of two-character country codes, for example, [ "US", "CN" ], from the alpha-2 country ISO codes of the ISO 3166 international standard. 
         public let countryCodes: [CountryCode]?
@@ -1259,7 +1259,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetIPSetRequest: AWSShape {
+    public struct GetIPSetRequest: AWSEncodableShape {
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1290,7 +1290,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetIPSetResponse: AWSShape {
+    public struct GetIPSetResponse: AWSDecodableShape {
 
         public let iPSet: IPSet?
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
@@ -1307,7 +1307,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetLoggingConfigurationRequest: AWSShape {
+    public struct GetLoggingConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
         public let resourceArn: String
@@ -1327,7 +1327,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetLoggingConfigurationResponse: AWSShape {
+    public struct GetLoggingConfigurationResponse: AWSDecodableShape {
 
         /// The LoggingConfiguration for the specified web ACL.
         public let loggingConfiguration: LoggingConfiguration?
@@ -1341,7 +1341,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetPermissionPolicyRequest: AWSShape {
+    public struct GetPermissionPolicyRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the rule group for which you want to get the policy.
         public let resourceArn: String
@@ -1361,7 +1361,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetPermissionPolicyResponse: AWSShape {
+    public struct GetPermissionPolicyResponse: AWSDecodableShape {
 
         /// The IAM policy that is attached to the specified rule group.
         public let policy: String?
@@ -1375,7 +1375,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetRateBasedStatementManagedKeysRequest: AWSShape {
+    public struct GetRateBasedStatementManagedKeysRequest: AWSEncodableShape {
 
         /// The name of the rate-based rule to get the keys for.
         public let ruleName: String
@@ -1413,7 +1413,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetRateBasedStatementManagedKeysResponse: AWSShape {
+    public struct GetRateBasedStatementManagedKeysResponse: AWSDecodableShape {
 
         /// The keys that are of Internet Protocol version 4 (IPv4). 
         public let managedKeysIPV4: RateBasedStatementManagedKeysIPSet?
@@ -1431,7 +1431,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetRegexPatternSetRequest: AWSShape {
+    public struct GetRegexPatternSetRequest: AWSEncodableShape {
 
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1462,7 +1462,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetRegexPatternSetResponse: AWSShape {
+    public struct GetRegexPatternSetResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let lockToken: String?
@@ -1479,7 +1479,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetRuleGroupRequest: AWSShape {
+    public struct GetRuleGroupRequest: AWSEncodableShape {
 
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1510,7 +1510,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetRuleGroupResponse: AWSShape {
+    public struct GetRuleGroupResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let lockToken: String?
@@ -1527,7 +1527,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetSampledRequestsRequest: AWSShape {
+    public struct GetSampledRequestsRequest: AWSEncodableShape {
 
         /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
         public let maxItems: Int64
@@ -1568,7 +1568,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetSampledRequestsResponse: AWSShape {
+    public struct GetSampledRequestsResponse: AWSDecodableShape {
 
         /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
         public let populationSize: Int64?
@@ -1590,7 +1590,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetWebACLForResourceRequest: AWSShape {
+    public struct GetWebACLForResourceRequest: AWSEncodableShape {
 
         /// The ARN (Amazon Resource Name) of the resource.
         public let resourceArn: String
@@ -1610,7 +1610,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetWebACLForResourceResponse: AWSShape {
+    public struct GetWebACLForResourceResponse: AWSDecodableShape {
 
         /// The Web ACL that is associated with the resource. If there is no associated resource, AWS WAF returns a null Web ACL.
         public let webACL: WebACL?
@@ -1624,7 +1624,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetWebACLRequest: AWSShape {
+    public struct GetWebACLRequest: AWSEncodableShape {
 
         /// The unique identifier for the Web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1655,7 +1655,7 @@ extension WAFV2 {
         }
     }
 
-    public struct GetWebACLResponse: AWSShape {
+    public struct GetWebACLResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
         public let lockToken: String?
@@ -1673,7 +1673,7 @@ extension WAFV2 {
         }
     }
 
-    public struct HTTPHeader: AWSShape {
+    public struct HTTPHeader: AWSDecodableShape {
 
         /// The name of the HTTP header.
         public let name: String?
@@ -1691,7 +1691,7 @@ extension WAFV2 {
         }
     }
 
-    public struct HTTPRequest: AWSShape {
+    public struct HTTPRequest: AWSDecodableShape {
 
         /// The IP address that the request originated from. If the web ACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
         public let clientIP: String?
@@ -1725,7 +1725,7 @@ extension WAFV2 {
         }
     }
 
-    public struct IPSet: AWSShape {
+    public struct IPSet: AWSDecodableShape {
 
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
@@ -1759,7 +1759,7 @@ extension WAFV2 {
         }
     }
 
-    public struct IPSetReferenceStatement: AWSShape {
+    public struct IPSetReferenceStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the IPSet that this statement references.
         public let arn: String
@@ -1779,7 +1779,7 @@ extension WAFV2 {
         }
     }
 
-    public struct IPSetSummary: AWSShape {
+    public struct IPSetSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -1809,7 +1809,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListAvailableManagedRuleGroupsRequest: AWSShape {
+    public struct ListAvailableManagedRuleGroupsRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -1839,7 +1839,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListAvailableManagedRuleGroupsResponse: AWSShape {
+    public struct ListAvailableManagedRuleGroupsResponse: AWSDecodableShape {
 
         public let managedRuleGroups: [ManagedRuleGroupSummary]?
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -1856,7 +1856,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListIPSetsRequest: AWSShape {
+    public struct ListIPSetsRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -1886,7 +1886,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListIPSetsResponse: AWSShape {
+    public struct ListIPSetsResponse: AWSDecodableShape {
 
         /// Array of IPSets. This may not be the full list of IPSets that you have defined. See the Limit specification for this request.
         public let iPSets: [IPSetSummary]?
@@ -1904,7 +1904,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListLoggingConfigurationsRequest: AWSShape {
+    public struct ListLoggingConfigurationsRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -1934,7 +1934,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListLoggingConfigurationsResponse: AWSShape {
+    public struct ListLoggingConfigurationsResponse: AWSDecodableShape {
 
         public let loggingConfigurations: [LoggingConfiguration]?
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -1951,7 +1951,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListRegexPatternSetsRequest: AWSShape {
+    public struct ListRegexPatternSetsRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -1981,7 +1981,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListRegexPatternSetsResponse: AWSShape {
+    public struct ListRegexPatternSetsResponse: AWSDecodableShape {
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -1998,7 +1998,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListResourcesForWebACLRequest: AWSShape {
+    public struct ListResourcesForWebACLRequest: AWSEncodableShape {
 
         /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB) or an API Gateway stage. 
         public let resourceType: ResourceType?
@@ -2022,7 +2022,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListResourcesForWebACLResponse: AWSShape {
+    public struct ListResourcesForWebACLResponse: AWSDecodableShape {
 
         /// The array of Amazon Resource Names (ARNs) of the associated resources.
         public let resourceArns: [String]?
@@ -2036,7 +2036,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListRuleGroupsRequest: AWSShape {
+    public struct ListRuleGroupsRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2066,7 +2066,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListRuleGroupsResponse: AWSShape {
+    public struct ListRuleGroupsResponse: AWSDecodableShape {
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2083,7 +2083,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2116,7 +2116,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2134,7 +2134,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListWebACLsRequest: AWSShape {
+    public struct ListWebACLsRequest: AWSEncodableShape {
 
         /// The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2164,7 +2164,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ListWebACLsResponse: AWSShape {
+    public struct ListWebACLsResponse: AWSDecodableShape {
 
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
@@ -2181,7 +2181,7 @@ extension WAFV2 {
         }
     }
 
-    public struct LoggingConfiguration: AWSShape {
+    public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL.
         public let logDestinationConfigs: [String]
@@ -2220,7 +2220,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ManagedRuleGroupStatement: AWSShape {
+    public struct ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The rules whose actions are set to COUNT by the web ACL, regardless of the action that is set on the rule. This effectively excludes the rule from acting on web requests. 
         public let excludedRules: [ExcludedRule]?
@@ -2254,7 +2254,7 @@ extension WAFV2 {
         }
     }
 
-    public struct ManagedRuleGroupSummary: AWSShape {
+    public struct ManagedRuleGroupSummary: AWSDecodableShape {
 
         /// The description of the managed rule group, provided by AWS Managed Rules or the AWS Marketplace seller who manages it.
         public let description: String?
@@ -2276,7 +2276,7 @@ extension WAFV2 {
         }
     }
 
-    public struct Method: AWSShape {
+    public struct Method: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -2284,7 +2284,7 @@ extension WAFV2 {
 
     }
 
-    public struct NoneAction: AWSShape {
+    public struct NoneAction: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -2292,7 +2292,7 @@ extension WAFV2 {
 
     }
 
-    public class NotStatement: AWSShape {
+    public class NotStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The statement to negate. You can use any statement that can be nested.
         public let statement: Statement
@@ -2310,7 +2310,7 @@ extension WAFV2 {
         }
     }
 
-    public struct OrStatement: AWSShape {
+    public struct OrStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The statements to combine with OR logic. You can use any statements that can be nested.
         public let statements: [Statement]
@@ -2330,7 +2330,7 @@ extension WAFV2 {
         }
     }
 
-    public struct OverrideAction: AWSShape {
+    public struct OverrideAction: AWSEncodableShape & AWSDecodableShape {
 
         /// Override the rule action setting to count.
         public let count: CountAction?
@@ -2348,7 +2348,7 @@ extension WAFV2 {
         }
     }
 
-    public struct PutLoggingConfigurationRequest: AWSShape {
+    public struct PutLoggingConfigurationRequest: AWSEncodableShape {
 
         public let loggingConfiguration: LoggingConfiguration
 
@@ -2365,7 +2365,7 @@ extension WAFV2 {
         }
     }
 
-    public struct PutLoggingConfigurationResponse: AWSShape {
+    public struct PutLoggingConfigurationResponse: AWSDecodableShape {
 
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -2378,7 +2378,7 @@ extension WAFV2 {
         }
     }
 
-    public struct PutPermissionPolicyRequest: AWSShape {
+    public struct PutPermissionPolicyRequest: AWSEncodableShape {
 
         /// The policy to attach to the specified rule group.  The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups. AWS WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies. 
         public let policy: String
@@ -2403,7 +2403,7 @@ extension WAFV2 {
         }
     }
 
-    public struct PutPermissionPolicyResponse: AWSShape {
+    public struct PutPermissionPolicyResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2411,7 +2411,7 @@ extension WAFV2 {
 
     }
 
-    public struct QueryString: AWSShape {
+    public struct QueryString: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -2419,7 +2419,7 @@ extension WAFV2 {
 
     }
 
-    public class RateBasedStatement: AWSShape {
+    public class RateBasedStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// Setting that indicates how to aggregate the request counts. Currently, you must set this to IP. The request counts are aggregated on IP addresses. 
         public let aggregateKeyType: RateBasedStatementAggregateKeyType
@@ -2447,7 +2447,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RateBasedStatementManagedKeysIPSet: AWSShape {
+    public struct RateBasedStatementManagedKeysIPSet: AWSDecodableShape {
 
         /// The IP addresses that are currently blocked.
         public let addresses: [String]?
@@ -2464,7 +2464,7 @@ extension WAFV2 {
         }
     }
 
-    public struct Regex: AWSShape {
+    public struct Regex: AWSEncodableShape & AWSDecodableShape {
 
         /// The string representing the regular expression.
         public let regexString: String?
@@ -2484,7 +2484,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RegexPatternSet: AWSShape {
+    public struct RegexPatternSet: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -2514,7 +2514,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RegexPatternSetReferenceStatement: AWSShape {
+    public struct RegexPatternSetReferenceStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the RegexPatternSet that this statement references.
         public let arn: String
@@ -2547,7 +2547,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RegexPatternSetSummary: AWSShape {
+    public struct RegexPatternSetSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -2577,7 +2577,7 @@ extension WAFV2 {
         }
     }
 
-    public struct Rule: AWSShape {
+    public struct Rule: AWSEncodableShape & AWSDecodableShape {
 
         /// The action that AWS WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.  This is used only for rules whose statements do not reference a rule group. Rule statements that reference a rule group include RuleGroupReferenceStatement and ManagedRuleGroupStatement.  You must specify either this Action setting or the rule OverrideAction setting, but not both:   If the rule statement does not reference a rule group, use this rule action setting and not the rule override action setting.    If the rule statement references a rule group, use the override action setting and not this action setting.   
         public let action: RuleAction?
@@ -2620,7 +2620,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RuleAction: AWSShape {
+    public struct RuleAction: AWSEncodableShape & AWSDecodableShape {
 
         /// Instructs AWS WAF to allow the web request.
         public let allow: AllowAction?
@@ -2642,7 +2642,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RuleGroup: AWSShape {
+    public struct RuleGroup: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2680,7 +2680,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RuleGroupReferenceStatement: AWSShape {
+    public struct RuleGroupReferenceStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2707,7 +2707,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RuleGroupSummary: AWSShape {
+    public struct RuleGroupSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -2737,7 +2737,7 @@ extension WAFV2 {
         }
     }
 
-    public struct RuleSummary: AWSShape {
+    public struct RuleSummary: AWSDecodableShape {
 
         public let action: RuleAction?
         /// The name of the rule. 
@@ -2754,7 +2754,7 @@ extension WAFV2 {
         }
     }
 
-    public struct SampledHTTPRequest: AWSShape {
+    public struct SampledHTTPRequest: AWSDecodableShape {
 
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
@@ -2784,7 +2784,7 @@ extension WAFV2 {
         }
     }
 
-    public struct SingleHeader: AWSShape {
+    public struct SingleHeader: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the query header to inspect.
         public let name: String
@@ -2804,7 +2804,7 @@ extension WAFV2 {
         }
     }
 
-    public struct SingleQueryArgument: AWSShape {
+    public struct SingleQueryArgument: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the query argument to inspect.
         public let name: String
@@ -2824,7 +2824,7 @@ extension WAFV2 {
         }
     }
 
-    public struct SizeConstraintStatement: AWSShape {
+    public struct SizeConstraintStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The operator to use to compare the request part to the size setting. 
         public let comparisonOperator: ComparisonOperator
@@ -2860,7 +2860,7 @@ extension WAFV2 {
         }
     }
 
-    public struct SqliMatchStatement: AWSShape {
+    public struct SqliMatchStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
         public let fieldToMatch: FieldToMatch
@@ -2886,7 +2886,7 @@ extension WAFV2 {
         }
     }
 
-    public class Statement: AWSShape {
+    public class Statement: AWSEncodableShape & AWSDecodableShape {
 
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one Statement within the AndStatement. 
         public let andStatement: AndStatement?
@@ -2964,7 +2964,7 @@ extension WAFV2 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
@@ -2991,7 +2991,7 @@ extension WAFV2 {
         }
     }
 
-    public struct TagInfoForResource: AWSShape {
+    public struct TagInfoForResource: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String?
@@ -3009,7 +3009,7 @@ extension WAFV2 {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
@@ -3037,7 +3037,7 @@ extension WAFV2 {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3045,7 +3045,7 @@ extension WAFV2 {
 
     }
 
-    public struct TextTransformation: AWSShape {
+    public struct TextTransformation: AWSEncodableShape & AWSDecodableShape {
 
         /// Sets the relative processing order for multiple transformations that are defined for a rule statement. AWS WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different. 
         public let priority: Int
@@ -3067,7 +3067,7 @@ extension WAFV2 {
         }
     }
 
-    public struct TimeWindow: AWSShape {
+    public struct TimeWindow: AWSEncodableShape & AWSDecodableShape {
 
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: TimeStamp
@@ -3085,7 +3085,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
@@ -3115,7 +3115,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3123,7 +3123,7 @@ extension WAFV2 {
 
     }
 
-    public struct UpdateIPSetRequest: AWSShape {
+    public struct UpdateIPSetRequest: AWSEncodableShape {
 
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
@@ -3177,7 +3177,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateIPSetResponse: AWSShape {
+    public struct UpdateIPSetResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3191,7 +3191,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateRegexPatternSetRequest: AWSShape {
+    public struct UpdateRegexPatternSetRequest: AWSEncodableShape {
 
         /// A description of the set that helps with identification. You cannot change the description of a set after you create it.
         public let description: String?
@@ -3242,7 +3242,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateRegexPatternSetResponse: AWSShape {
+    public struct UpdateRegexPatternSetResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3256,7 +3256,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateRuleGroupRequest: AWSShape {
+    public struct UpdateRuleGroupRequest: AWSEncodableShape {
 
         /// A description of the rule group that helps with identification. You cannot change the description of a rule group after you create it.
         public let description: String?
@@ -3313,7 +3313,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateRuleGroupResponse: AWSShape {
+    public struct UpdateRuleGroupResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3327,7 +3327,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateWebACLRequest: AWSShape {
+    public struct UpdateWebACLRequest: AWSEncodableShape {
 
         /// The action to perform if none of the Rules contained in the WebACL match. 
         public let defaultAction: DefaultAction
@@ -3388,7 +3388,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UpdateWebACLResponse: AWSShape {
+    public struct UpdateWebACLResponse: AWSDecodableShape {
 
         /// A token used for optimistic locking. AWS WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken. 
         public let nextLockToken: String?
@@ -3402,7 +3402,7 @@ extension WAFV2 {
         }
     }
 
-    public struct UriPath: AWSShape {
+    public struct UriPath: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -3410,7 +3410,7 @@ extension WAFV2 {
 
     }
 
-    public struct VisibilityConfig: AWSShape {
+    public struct VisibilityConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A boolean indicating whether the associated resource sends metrics to CloudWatch. For the list of available metrics, see AWS WAF Metrics.
         public let cloudWatchMetricsEnabled: Bool
@@ -3438,7 +3438,7 @@ extension WAFV2 {
         }
     }
 
-    public struct WebACL: AWSShape {
+    public struct WebACL: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate with the resource.
         public let arn: String
@@ -3492,7 +3492,7 @@ extension WAFV2 {
         }
     }
 
-    public struct WebACLSummary: AWSShape {
+    public struct WebACLSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -3522,7 +3522,7 @@ extension WAFV2 {
         }
     }
 
-    public struct XssMatchStatement: AWSShape {
+    public struct XssMatchStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// The part of a web request that you want AWS WAF to inspect. For more information, see FieldToMatch. 
         public let fieldToMatch: FieldToMatch

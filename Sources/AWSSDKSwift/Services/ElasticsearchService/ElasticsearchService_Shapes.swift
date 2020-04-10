@@ -181,7 +181,7 @@ extension ElasticsearchService {
 
     //MARK: Shapes
 
-    public struct AccessPoliciesStatus: AWSShape {
+    public struct AccessPoliciesStatus: AWSDecodableShape {
 
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
         public let options: String
@@ -199,7 +199,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AddTagsRequest: AWSShape {
+    public struct AddTagsRequest: AWSEncodableShape {
 
         ///  Specify the ARN for which you want to add the tags.
         public let arn: String
@@ -223,7 +223,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AdditionalLimit: AWSShape {
+    public struct AdditionalLimit: AWSDecodableShape {
 
         ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
         public let limitName: String?
@@ -241,7 +241,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AdvancedOptionsStatus: AWSShape {
+    public struct AdvancedOptionsStatus: AWSDecodableShape {
 
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
         public let options: [String: String]
@@ -259,7 +259,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AdvancedSecurityOptions: AWSShape {
+    public struct AdvancedSecurityOptions: AWSDecodableShape {
 
         /// True if advanced security is enabled.
         public let enabled: Bool?
@@ -277,7 +277,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AdvancedSecurityOptionsInput: AWSShape {
+    public struct AdvancedSecurityOptionsInput: AWSEncodableShape {
 
         /// True if advanced security is enabled.
         public let enabled: Bool?
@@ -303,7 +303,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AdvancedSecurityOptionsStatus: AWSShape {
+    public struct AdvancedSecurityOptionsStatus: AWSDecodableShape {
 
         ///  Specifies advanced security options for the specified Elasticsearch domain.
         public let options: AdvancedSecurityOptions
@@ -321,7 +321,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct AssociatePackageRequest: AWSShape {
+    public struct AssociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
             AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
@@ -343,13 +343,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AssociatePackageResponse: AWSShape {
+    public struct AssociatePackageResponse: AWSDecodableShape {
 
         /// DomainPackageDetails
         public let domainPackageDetails: DomainPackageDetails?
@@ -363,7 +360,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CancelElasticsearchServiceSoftwareUpdateRequest: AWSShape {
+    public struct CancelElasticsearchServiceSoftwareUpdateRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to stop the latest service software update on.
         public let domainName: String
@@ -383,7 +380,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CancelElasticsearchServiceSoftwareUpdateResponse: AWSShape {
+    public struct CancelElasticsearchServiceSoftwareUpdateResponse: AWSDecodableShape {
 
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
@@ -397,7 +394,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CognitoOptions: AWSShape {
+    public struct CognitoOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the option to enable Cognito for Kibana authentication.
         public let enabled: Bool?
@@ -434,7 +431,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CognitoOptionsStatus: AWSShape {
+    public struct CognitoOptionsStatus: AWSDecodableShape {
 
         /// Specifies the Cognito options for the specified Elasticsearch domain.
         public let options: CognitoOptions
@@ -452,7 +449,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CompatibleVersionsMap: AWSShape {
+    public struct CompatibleVersionsMap: AWSDecodableShape {
 
         /// The current version of Elasticsearch on which a domain is.
         public let sourceVersion: String?
@@ -469,7 +466,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CreateElasticsearchDomainRequest: AWSShape {
+    public struct CreateElasticsearchDomainRequest: AWSEncodableShape {
 
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
@@ -544,7 +541,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CreateElasticsearchDomainResponse: AWSShape {
+    public struct CreateElasticsearchDomainResponse: AWSDecodableShape {
 
         /// The status of the newly created Elasticsearch domain. 
         public let domainStatus: ElasticsearchDomainStatus?
@@ -558,7 +555,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CreatePackageRequest: AWSShape {
+    public struct CreatePackageRequest: AWSEncodableShape {
 
         /// Description of the package.
         public let packageDescription: String?
@@ -592,7 +589,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct CreatePackageResponse: AWSShape {
+    public struct CreatePackageResponse: AWSDecodableShape {
 
         /// Information about the package PackageDetails.
         public let packageDetails: PackageDetails?
@@ -606,7 +603,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DeleteElasticsearchDomainRequest: AWSShape {
+    public struct DeleteElasticsearchDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
@@ -624,12 +621,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteElasticsearchDomainResponse: AWSShape {
+    public struct DeleteElasticsearchDomainResponse: AWSDecodableShape {
 
         /// The status of the Elasticsearch domain being deleted.
         public let domainStatus: ElasticsearchDomainStatus?
@@ -643,7 +638,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DeletePackageRequest: AWSShape {
+    public struct DeletePackageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
         ]
@@ -655,12 +650,10 @@ extension ElasticsearchService {
             self.packageID = packageID
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePackageResponse: AWSShape {
+    public struct DeletePackageResponse: AWSDecodableShape {
 
         /// PackageDetails
         public let packageDetails: PackageDetails?
@@ -674,7 +667,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
+    public struct DescribeElasticsearchDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
@@ -692,12 +685,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeElasticsearchDomainConfigResponse: AWSShape {
+    public struct DescribeElasticsearchDomainConfigResponse: AWSDecodableShape {
 
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
         public let domainConfig: ElasticsearchDomainConfig
@@ -711,7 +702,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeElasticsearchDomainRequest: AWSShape {
+    public struct DescribeElasticsearchDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
@@ -729,12 +720,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeElasticsearchDomainResponse: AWSShape {
+    public struct DescribeElasticsearchDomainResponse: AWSDecodableShape {
 
         /// The current status of the Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus
@@ -748,7 +737,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeElasticsearchDomainsRequest: AWSShape {
+    public struct DescribeElasticsearchDomainsRequest: AWSEncodableShape {
 
         /// The Elasticsearch domains for which you want information.
         public let domainNames: [String]
@@ -770,7 +759,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeElasticsearchDomainsResponse: AWSShape {
+    public struct DescribeElasticsearchDomainsResponse: AWSDecodableShape {
 
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
         public let domainStatusList: [ElasticsearchDomainStatus]
@@ -784,7 +773,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSShape {
+    public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")), 
             AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
@@ -810,14 +799,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case elasticsearchVersion = "ElasticsearchVersion"
-            case instanceType = "InstanceType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
+    public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSDecodableShape {
 
         public let limitsByRole: [String: Limits]?
 
@@ -830,7 +815,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribePackagesFilter: AWSShape {
+    public struct DescribePackagesFilter: AWSEncodableShape {
 
         /// Any field from PackageDetails.
         public let name: DescribePackagesFilterName?
@@ -854,7 +839,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribePackagesRequest: AWSShape {
+    public struct DescribePackagesRequest: AWSEncodableShape {
 
         /// Only returns packages that match the DescribePackagesFilterList values.
         public let filters: [DescribePackagesFilter]?
@@ -883,7 +868,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribePackagesResponse: AWSShape {
+    public struct DescribePackagesResponse: AWSDecodableShape {
 
         public let nextToken: String?
         /// List of PackageDetails objects.
@@ -900,7 +885,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSShape {
+    public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -925,14 +910,10 @@ extension ElasticsearchService {
             try validate(self.reservedElasticsearchInstanceOfferingId, name:"reservedElasticsearchInstanceOfferingId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case reservedElasticsearchInstanceOfferingId = "offeringId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeReservedElasticsearchInstanceOfferingsResponse: AWSShape {
+    public struct DescribeReservedElasticsearchInstanceOfferingsResponse: AWSDecodableShape {
 
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -950,7 +931,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DescribeReservedElasticsearchInstancesRequest: AWSShape {
+    public struct DescribeReservedElasticsearchInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -975,14 +956,10 @@ extension ElasticsearchService {
             try validate(self.reservedElasticsearchInstanceId, name:"reservedElasticsearchInstanceId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case reservedElasticsearchInstanceId = "reservationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeReservedElasticsearchInstancesResponse: AWSShape {
+    public struct DescribeReservedElasticsearchInstancesResponse: AWSDecodableShape {
 
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -1000,7 +977,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DissociatePackageRequest: AWSShape {
+    public struct DissociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
             AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
@@ -1022,13 +999,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DissociatePackageResponse: AWSShape {
+    public struct DissociatePackageResponse: AWSDecodableShape {
 
         /// DomainPackageDetails
         public let domainPackageDetails: DomainPackageDetails?
@@ -1042,7 +1016,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DomainEndpointOptions: AWSShape {
+    public struct DomainEndpointOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
         public let enforceHTTPS: Bool?
@@ -1060,7 +1034,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DomainEndpointOptionsStatus: AWSShape {
+    public struct DomainEndpointOptionsStatus: AWSDecodableShape {
 
         /// Options to configure endpoint for the Elasticsearch domain.
         public let options: DomainEndpointOptions
@@ -1078,7 +1052,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DomainInfo: AWSShape {
+    public struct DomainInfo: AWSDecodableShape {
 
         ///  Specifies the DomainName.
         public let domainName: String?
@@ -1092,7 +1066,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct DomainPackageDetails: AWSShape {
+    public struct DomainPackageDetails: AWSDecodableShape {
 
         /// Name of the domain you've associated a package with.
         public let domainName: String?
@@ -1134,7 +1108,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct EBSOptions: AWSShape {
+    public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
@@ -1160,7 +1134,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct EBSOptionsStatus: AWSShape {
+    public struct EBSOptionsStatus: AWSDecodableShape {
 
         ///  Specifies the EBS options for the specified Elasticsearch domain.
         public let options: EBSOptions
@@ -1178,7 +1152,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ElasticsearchClusterConfig: AWSShape {
+    public struct ElasticsearchClusterConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int?
@@ -1228,7 +1202,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ElasticsearchClusterConfigStatus: AWSShape {
+    public struct ElasticsearchClusterConfigStatus: AWSDecodableShape {
 
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
         public let options: ElasticsearchClusterConfig
@@ -1246,7 +1220,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ElasticsearchDomainConfig: AWSShape {
+    public struct ElasticsearchDomainConfig: AWSDecodableShape {
 
         /// IAM access policy as a JSON-formatted string.
         public let accessPolicies: AccessPoliciesStatus?
@@ -1308,7 +1282,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ElasticsearchDomainStatus: AWSShape {
+    public struct ElasticsearchDomainStatus: AWSDecodableShape {
 
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
@@ -1409,7 +1383,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ElasticsearchVersionStatus: AWSShape {
+    public struct ElasticsearchVersionStatus: AWSDecodableShape {
 
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
         public let options: String
@@ -1427,7 +1401,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct EncryptionAtRestOptions: AWSShape {
+    public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the option to enable Encryption At Rest.
         public let enabled: Bool?
@@ -1450,7 +1424,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct EncryptionAtRestOptionsStatus: AWSShape {
+    public struct EncryptionAtRestOptionsStatus: AWSDecodableShape {
 
         ///  Specifies the Encryption At Rest options for the specified Elasticsearch domain.
         public let options: EncryptionAtRestOptions
@@ -1468,7 +1442,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ErrorDetails: AWSShape {
+    public struct ErrorDetails: AWSDecodableShape {
 
         public let errorMessage: String?
         public let errorType: String?
@@ -1484,7 +1458,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct GetCompatibleElasticsearchVersionsRequest: AWSShape {
+    public struct GetCompatibleElasticsearchVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName"))
         ]
@@ -1501,12 +1475,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCompatibleElasticsearchVersionsResponse: AWSShape {
+    public struct GetCompatibleElasticsearchVersionsResponse: AWSDecodableShape {
 
         ///  A map of compatible Elasticsearch versions returned as part of the  GetCompatibleElasticsearchVersions  operation. 
         public let compatibleElasticsearchVersions: [CompatibleVersionsMap]?
@@ -1520,7 +1492,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct GetUpgradeHistoryRequest: AWSShape {
+    public struct GetUpgradeHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1544,14 +1516,10 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetUpgradeHistoryResponse: AWSShape {
+    public struct GetUpgradeHistoryResponse: AWSDecodableShape {
 
         /// Pagination token that needs to be supplied to the next call to get the next page of results
         public let nextToken: String?
@@ -1569,7 +1537,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct GetUpgradeStatusRequest: AWSShape {
+    public struct GetUpgradeStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
@@ -1586,12 +1554,10 @@ extension ElasticsearchService {
             try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetUpgradeStatusResponse: AWSShape {
+    public struct GetUpgradeStatusResponse: AWSDecodableShape {
 
         ///  One of 4 statuses that a step can go through returned as part of the  GetUpgradeStatusResponse  object. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed  
         public let stepStatus: UpgradeStatus?
@@ -1613,7 +1579,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct InstanceCountLimits: AWSShape {
+    public struct InstanceCountLimits: AWSDecodableShape {
 
         public let maximumInstanceCount: Int?
         public let minimumInstanceCount: Int?
@@ -1629,7 +1595,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct InstanceLimits: AWSShape {
+    public struct InstanceLimits: AWSDecodableShape {
 
         public let instanceCountLimits: InstanceCountLimits?
 
@@ -1642,7 +1608,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct Limits: AWSShape {
+    public struct Limits: AWSDecodableShape {
 
         ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
         public let additionalLimits: [AdditionalLimit]?
@@ -1663,7 +1629,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ListDomainNamesResponse: AWSShape {
+    public struct ListDomainNamesResponse: AWSDecodableShape {
 
         /// List of Elasticsearch domain names.
         public let domainNames: [DomainInfo]?
@@ -1677,7 +1643,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ListDomainsForPackageRequest: AWSShape {
+    public struct ListDomainsForPackageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -1701,14 +1667,10 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case packageID = "PackageID"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDomainsForPackageResponse: AWSShape {
+    public struct ListDomainsForPackageResponse: AWSDecodableShape {
 
         /// List of DomainPackageDetails objects.
         public let domainPackageDetailsList: [DomainPackageDetails]?
@@ -1725,7 +1687,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ListElasticsearchInstanceTypesRequest: AWSShape {
+    public struct ListElasticsearchInstanceTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")), 
             AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
@@ -1756,15 +1718,10 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case elasticsearchVersion = "ElasticsearchVersion"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListElasticsearchInstanceTypesResponse: AWSShape {
+    public struct ListElasticsearchInstanceTypesResponse: AWSDecodableShape {
 
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
         public let elasticsearchInstanceTypes: [ESPartitionInstanceType]?
@@ -1782,7 +1739,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ListElasticsearchVersionsRequest: AWSShape {
+    public struct ListElasticsearchVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1801,13 +1758,10 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListElasticsearchVersionsResponse: AWSShape {
+    public struct ListElasticsearchVersionsResponse: AWSDecodableShape {
 
         public let elasticsearchVersions: [String]?
         public let nextToken: String?
@@ -1823,7 +1777,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ListPackagesForDomainRequest: AWSShape {
+    public struct ListPackagesForDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1850,14 +1804,10 @@ extension ElasticsearchService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPackagesForDomainResponse: AWSShape {
+    public struct ListPackagesForDomainResponse: AWSDecodableShape {
 
         /// List of DomainPackageDetails objects.
         public let domainPackageDetailsList: [DomainPackageDetails]?
@@ -1875,7 +1825,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ListTagsRequest: AWSShape {
+    public struct ListTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .querystring(locationName: "arn"))
         ]
@@ -1887,12 +1837,10 @@ extension ElasticsearchService {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsResponse: AWSShape {
+    public struct ListTagsResponse: AWSDecodableShape {
 
         ///  List of Tag for the requested Elasticsearch domain.
         public let tagList: [Tag]?
@@ -1906,7 +1854,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct LogPublishingOption: AWSShape {
+    public struct LogPublishingOption: AWSEncodableShape & AWSDecodableShape {
 
         public let cloudWatchLogsLogGroupArn: String?
         ///  Specifies whether given log publishing option is enabled or not.
@@ -1923,7 +1871,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct LogPublishingOptionsStatus: AWSShape {
+    public struct LogPublishingOptionsStatus: AWSDecodableShape {
 
         /// The log publishing options configured for the Elasticsearch domain.
         public let options: [LogType: LogPublishingOption]?
@@ -1941,7 +1889,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct MasterUserOptions: AWSShape {
+    public struct MasterUserOptions: AWSEncodableShape {
 
         /// ARN for the master user (if IAM is enabled).
         public let masterUserARN: String?
@@ -1968,7 +1916,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct NodeToNodeEncryptionOptions: AWSShape {
+    public struct NodeToNodeEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify true to enable node-to-node encryption.
         public let enabled: Bool?
@@ -1982,7 +1930,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct NodeToNodeEncryptionOptionsStatus: AWSShape {
+    public struct NodeToNodeEncryptionOptionsStatus: AWSDecodableShape {
 
         /// Specifies the node-to-node encryption options for the specified Elasticsearch domain.
         public let options: NodeToNodeEncryptionOptions
@@ -2000,7 +1948,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct OptionStatus: AWSShape {
+    public struct OptionStatus: AWSDecodableShape {
 
         /// Timestamp which tells the creation date for the entity.
         public let creationDate: TimeStamp
@@ -2030,7 +1978,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct PackageDetails: AWSShape {
+    public struct PackageDetails: AWSDecodableShape {
 
         /// Timestamp which tells creation date of the package.
         public let createdAt: TimeStamp?
@@ -2068,7 +2016,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct PackageSource: AWSShape {
+    public struct PackageSource: AWSEncodableShape {
 
         /// Name of the bucket containing the package.
         public let s3BucketName: String?
@@ -2091,7 +2039,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct PurchaseReservedElasticsearchInstanceOfferingRequest: AWSShape {
+    public struct PurchaseReservedElasticsearchInstanceOfferingRequest: AWSEncodableShape {
 
         /// The number of Elasticsearch instances to reserve.
         public let instanceCount: Int?
@@ -2120,7 +2068,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct PurchaseReservedElasticsearchInstanceOfferingResponse: AWSShape {
+    public struct PurchaseReservedElasticsearchInstanceOfferingResponse: AWSDecodableShape {
 
         /// The customer-specified identifier used to track this reservation.
         public let reservationName: String?
@@ -2138,7 +2086,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct RecurringCharge: AWSShape {
+    public struct RecurringCharge: AWSDecodableShape {
 
         /// The monetary amount of the recurring charge.
         public let recurringChargeAmount: Double?
@@ -2156,7 +2104,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct RemoveTagsRequest: AWSShape {
+    public struct RemoveTagsRequest: AWSEncodableShape {
 
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
         public let arn: String
@@ -2174,7 +2122,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ReservedElasticsearchInstance: AWSShape {
+    public struct ReservedElasticsearchInstance: AWSDecodableShape {
 
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
@@ -2236,7 +2184,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ReservedElasticsearchInstanceOffering: AWSShape {
+    public struct ReservedElasticsearchInstanceOffering: AWSDecodableShape {
 
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
@@ -2278,7 +2226,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ServiceSoftwareOptions: AWSShape {
+    public struct ServiceSoftwareOptions: AWSDecodableShape {
 
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: TimeStamp?
@@ -2316,7 +2264,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct SnapshotOptions: AWSShape {
+    public struct SnapshotOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
         public let automatedSnapshotStartHour: Int?
@@ -2330,7 +2278,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct SnapshotOptionsStatus: AWSShape {
+    public struct SnapshotOptionsStatus: AWSDecodableShape {
 
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
         public let options: SnapshotOptions
@@ -2348,7 +2296,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct StartElasticsearchServiceSoftwareUpdateRequest: AWSShape {
+    public struct StartElasticsearchServiceSoftwareUpdateRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to update to the latest service software.
         public let domainName: String
@@ -2368,7 +2316,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct StartElasticsearchServiceSoftwareUpdateResponse: AWSShape {
+    public struct StartElasticsearchServiceSoftwareUpdateResponse: AWSDecodableShape {
 
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
@@ -2382,7 +2330,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct StorageType: AWSShape {
+    public struct StorageType: AWSDecodableShape {
 
         public let storageSubTypeName: String?
         /// List of limits that are applicable for given storage type. 
@@ -2402,7 +2350,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct StorageTypeLimit: AWSShape {
+    public struct StorageTypeLimit: AWSDecodableShape {
 
         ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
         public let limitName: String?
@@ -2420,7 +2368,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the TagKey, the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
         public let key: String
@@ -2445,7 +2393,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct UpdateElasticsearchDomainConfigRequest: AWSShape {
+    public struct UpdateElasticsearchDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
@@ -2501,7 +2449,6 @@ extension ElasticsearchService {
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
-            case domainName = "DomainName"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case logPublishingOptions = "LogPublishingOptions"
@@ -2510,7 +2457,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct UpdateElasticsearchDomainConfigResponse: AWSShape {
+    public struct UpdateElasticsearchDomainConfigResponse: AWSDecodableShape {
 
         /// The status of the updated Elasticsearch domain. 
         public let domainConfig: ElasticsearchDomainConfig
@@ -2524,7 +2471,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct UpgradeElasticsearchDomainRequest: AWSShape {
+    public struct UpgradeElasticsearchDomainRequest: AWSEncodableShape {
 
         public let domainName: String
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
@@ -2551,7 +2498,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct UpgradeElasticsearchDomainResponse: AWSShape {
+    public struct UpgradeElasticsearchDomainResponse: AWSDecodableShape {
 
         public let domainName: String?
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
@@ -2572,7 +2519,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct UpgradeHistory: AWSShape {
+    public struct UpgradeHistory: AWSDecodableShape {
 
         /// UTC Timestamp at which the Upgrade API call was made in "yyyy-MM-ddTHH:mm:ssZ" format.
         public let startTimestamp: TimeStamp?
@@ -2598,7 +2545,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct UpgradeStepItem: AWSShape {
+    public struct UpgradeStepItem: AWSDecodableShape {
 
         /// A list of strings containing detailed information about the errors encountered in a particular step.
         public let issues: [String]?
@@ -2624,7 +2571,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct VPCDerivedInfo: AWSShape {
+    public struct VPCDerivedInfo: AWSDecodableShape {
 
         /// The availability zones for the Elasticsearch domain. Exists only if the domain was created with VPCOptions.
         public let availabilityZones: [String]?
@@ -2650,7 +2597,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct VPCDerivedInfoStatus: AWSShape {
+    public struct VPCDerivedInfoStatus: AWSDecodableShape {
 
         ///  Specifies the VPC options for the specified Elasticsearch domain.
         public let options: VPCDerivedInfo
@@ -2668,7 +2615,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct VPCOptions: AWSShape {
+    public struct VPCOptions: AWSEncodableShape {
 
         /// Specifies the security groups for VPC endpoint.
         public let securityGroupIds: [String]?
@@ -2686,7 +2633,7 @@ extension ElasticsearchService {
         }
     }
 
-    public struct ZoneAwarenessConfig: AWSShape {
+    public struct ZoneAwarenessConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
         public let availabilityZoneCount: Int?

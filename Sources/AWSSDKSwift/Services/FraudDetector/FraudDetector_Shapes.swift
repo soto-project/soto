@@ -89,7 +89,7 @@ extension FraudDetector {
 
     //MARK: Shapes
 
-    public struct BatchCreateVariableError: AWSShape {
+    public struct BatchCreateVariableError: AWSDecodableShape {
 
         /// The error code. 
         public let code: Int?
@@ -111,7 +111,7 @@ extension FraudDetector {
         }
     }
 
-    public struct BatchCreateVariableRequest: AWSShape {
+    public struct BatchCreateVariableRequest: AWSEncodableShape {
 
         /// The list of variables for the batch create variable request.
         public let variableEntries: [VariableEntry]
@@ -130,7 +130,7 @@ extension FraudDetector {
         }
     }
 
-    public struct BatchCreateVariableResult: AWSShape {
+    public struct BatchCreateVariableResult: AWSDecodableShape {
 
         /// Provides the errors for the BatchCreateVariable request.
         public let errors: [BatchCreateVariableError]?
@@ -144,7 +144,7 @@ extension FraudDetector {
         }
     }
 
-    public struct BatchGetVariableError: AWSShape {
+    public struct BatchGetVariableError: AWSDecodableShape {
 
         /// The error code. 
         public let code: Int?
@@ -166,7 +166,7 @@ extension FraudDetector {
         }
     }
 
-    public struct BatchGetVariableRequest: AWSShape {
+    public struct BatchGetVariableRequest: AWSEncodableShape {
 
         /// The list of variable names to get.
         public let names: [String]
@@ -185,7 +185,7 @@ extension FraudDetector {
         }
     }
 
-    public struct BatchGetVariableResult: AWSShape {
+    public struct BatchGetVariableResult: AWSDecodableShape {
 
         /// The errors from the request.
         public let errors: [BatchGetVariableError]?
@@ -203,7 +203,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateDetectorVersionRequest: AWSShape {
+    public struct CreateDetectorVersionRequest: AWSEncodableShape {
 
         /// The description of the detector version.
         public let description: String?
@@ -247,7 +247,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateDetectorVersionResult: AWSShape {
+    public struct CreateDetectorVersionResult: AWSDecodableShape {
 
         /// The ID for the created version's parent detector.
         public let detectorId: String?
@@ -269,7 +269,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateModelVersionRequest: AWSShape {
+    public struct CreateModelVersionRequest: AWSEncodableShape {
 
         /// The model version description.
         public let description: String?
@@ -299,7 +299,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateModelVersionResult: AWSShape {
+    public struct CreateModelVersionResult: AWSDecodableShape {
 
         /// The model ID. 
         public let modelId: String?
@@ -325,7 +325,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateRuleRequest: AWSShape {
+    public struct CreateRuleRequest: AWSEncodableShape {
 
         /// The rule description.
         public let description: String?
@@ -373,7 +373,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateRuleResult: AWSShape {
+    public struct CreateRuleResult: AWSDecodableShape {
 
         /// The created rule.
         public let rule: Rule?
@@ -387,7 +387,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateVariableRequest: AWSShape {
+    public struct CreateVariableRequest: AWSEncodableShape {
 
         /// The source of the data.
         public let dataSource: DataSource
@@ -421,7 +421,7 @@ extension FraudDetector {
         }
     }
 
-    public struct CreateVariableResult: AWSShape {
+    public struct CreateVariableResult: AWSDecodableShape {
 
 
         public init() {
@@ -429,7 +429,7 @@ extension FraudDetector {
 
     }
 
-    public struct DeleteDetectorVersionRequest: AWSShape {
+    public struct DeleteDetectorVersionRequest: AWSEncodableShape {
 
         /// The ID of the parent detector for the detector version to delete.
         public let detectorId: String
@@ -454,7 +454,7 @@ extension FraudDetector {
         }
     }
 
-    public struct DeleteDetectorVersionResult: AWSShape {
+    public struct DeleteDetectorVersionResult: AWSDecodableShape {
 
 
         public init() {
@@ -462,7 +462,7 @@ extension FraudDetector {
 
     }
 
-    public struct DeleteEventRequest: AWSShape {
+    public struct DeleteEventRequest: AWSEncodableShape {
 
         /// The ID of the event to delete.
         public let eventId: String
@@ -476,7 +476,7 @@ extension FraudDetector {
         }
     }
 
-    public struct DeleteEventResult: AWSShape {
+    public struct DeleteEventResult: AWSDecodableShape {
 
 
         public init() {
@@ -484,7 +484,7 @@ extension FraudDetector {
 
     }
 
-    public struct DescribeDetectorRequest: AWSShape {
+    public struct DescribeDetectorRequest: AWSEncodableShape {
 
         /// The detector ID.
         public let detectorId: String
@@ -514,7 +514,7 @@ extension FraudDetector {
         }
     }
 
-    public struct DescribeDetectorResult: AWSShape {
+    public struct DescribeDetectorResult: AWSDecodableShape {
 
         /// The detector ID.
         public let detectorId: String?
@@ -536,7 +536,7 @@ extension FraudDetector {
         }
     }
 
-    public struct DescribeModelVersionsRequest: AWSShape {
+    public struct DescribeModelVersionsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -575,7 +575,7 @@ extension FraudDetector {
         }
     }
 
-    public struct DescribeModelVersionsResult: AWSShape {
+    public struct DescribeModelVersionsResult: AWSDecodableShape {
 
         /// The model version details.
         public let modelVersionDetails: [ModelVersionDetail]?
@@ -593,7 +593,7 @@ extension FraudDetector {
         }
     }
 
-    public struct Detector: AWSShape {
+    public struct Detector: AWSDecodableShape {
 
         /// Timestamp of when the detector was created.
         public let createdTime: String?
@@ -619,7 +619,7 @@ extension FraudDetector {
         }
     }
 
-    public struct DetectorVersionSummary: AWSShape {
+    public struct DetectorVersionSummary: AWSDecodableShape {
 
         /// The detector version description. 
         public let description: String?
@@ -645,7 +645,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ExternalModel: AWSShape {
+    public struct ExternalModel: AWSDecodableShape {
 
         /// Timestamp of when the model was last created.
         public let createdTime: String?
@@ -687,7 +687,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetDetectorVersionRequest: AWSShape {
+    public struct GetDetectorVersionRequest: AWSEncodableShape {
 
         /// The detector ID.
         public let detectorId: String
@@ -712,7 +712,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetDetectorVersionResult: AWSShape {
+    public struct GetDetectorVersionResult: AWSDecodableShape {
 
         /// The timestamp when the detector version was created. 
         public let createdTime: String?
@@ -758,7 +758,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetDetectorsRequest: AWSShape {
+    public struct GetDetectorsRequest: AWSEncodableShape {
 
         /// The detector ID.
         public let detectorId: String?
@@ -788,7 +788,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetDetectorsResult: AWSShape {
+    public struct GetDetectorsResult: AWSDecodableShape {
 
         /// The detectors.
         public let detectors: [Detector]?
@@ -806,7 +806,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetExternalModelsRequest: AWSShape {
+    public struct GetExternalModelsRequest: AWSEncodableShape {
 
         /// The maximum number of objects to return for the request.
         public let maxResults: Int?
@@ -833,7 +833,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetExternalModelsResult: AWSShape {
+    public struct GetExternalModelsResult: AWSDecodableShape {
 
         /// Gets the Amazon SageMaker models.
         public let externalModels: [ExternalModel]?
@@ -851,7 +851,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetModelVersionRequest: AWSShape {
+    public struct GetModelVersionRequest: AWSEncodableShape {
 
         /// The model ID. 
         public let modelId: String
@@ -880,7 +880,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetModelVersionResult: AWSShape {
+    public struct GetModelVersionResult: AWSDecodableShape {
 
         /// The model version description.
         public let description: String?
@@ -910,7 +910,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetModelsRequest: AWSShape {
+    public struct GetModelsRequest: AWSEncodableShape {
 
         /// The maximum results to return for the request.
         public let maxResults: Int?
@@ -944,7 +944,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetModelsResult: AWSShape {
+    public struct GetModelsResult: AWSDecodableShape {
 
         /// The returned models. 
         public let models: [Model]?
@@ -962,7 +962,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetOutcomesRequest: AWSShape {
+    public struct GetOutcomesRequest: AWSEncodableShape {
 
         /// The maximum number of objects to return for the request. 
         public let maxResults: Int?
@@ -992,7 +992,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetOutcomesResult: AWSShape {
+    public struct GetOutcomesResult: AWSDecodableShape {
 
         /// The next page token for subsequent requests.
         public let nextToken: String?
@@ -1010,7 +1010,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetPredictionRequest: AWSShape {
+    public struct GetPredictionRequest: AWSEncodableShape {
 
         /// The detector ID. 
         public let detectorId: String
@@ -1052,7 +1052,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetPredictionResult: AWSShape {
+    public struct GetPredictionResult: AWSDecodableShape {
 
         /// The model scores for models used in the detector version.
         public let modelScores: [ModelScores]?
@@ -1070,7 +1070,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetRulesRequest: AWSShape {
+    public struct GetRulesRequest: AWSEncodableShape {
 
         /// The detector ID.
         public let detectorId: String
@@ -1112,7 +1112,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetRulesResult: AWSShape {
+    public struct GetRulesResult: AWSDecodableShape {
 
         /// The next page token to be used in subsequent requests.
         public let nextToken: String?
@@ -1130,7 +1130,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetVariablesRequest: AWSShape {
+    public struct GetVariablesRequest: AWSEncodableShape {
 
         /// The max size per page determined for the get variable request. 
         public let maxResults: Int?
@@ -1157,7 +1157,7 @@ extension FraudDetector {
         }
     }
 
-    public struct GetVariablesResult: AWSShape {
+    public struct GetVariablesResult: AWSDecodableShape {
 
         /// The next page token to be used in subsequent requests. 
         public let nextToken: String?
@@ -1175,7 +1175,7 @@ extension FraudDetector {
         }
     }
 
-    public struct LabelSchema: AWSShape {
+    public struct LabelSchema: AWSEncodableShape & AWSDecodableShape {
 
         /// The label key.
         public let labelKey: String
@@ -1193,7 +1193,7 @@ extension FraudDetector {
         }
     }
 
-    public struct Model: AWSShape {
+    public struct Model: AWSDecodableShape {
 
         /// Timestamp of when the model was created.
         public let createdTime: String?
@@ -1235,7 +1235,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelEndpointDataBlob: AWSShape {
+    public struct ModelEndpointDataBlob: AWSEncodableShape {
 
         /// The byte buffer of the Amazon SageMaker model endpoint input data blob.
         public let byteBuffer: Data?
@@ -1258,7 +1258,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelInputConfiguration: AWSShape {
+    public struct ModelInputConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         ///  Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker. 
         public let csvInputTemplate: String?
@@ -1284,7 +1284,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelOutputConfiguration: AWSShape {
+    public struct ModelOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A map of CSV index values in the SageMaker response to the Amazon Fraud Detector variables. 
         public let csvIndexToVariableMap: [String: String]?
@@ -1306,7 +1306,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelScores: AWSShape {
+    public struct ModelScores: AWSDecodableShape {
 
         /// The model version.
         public let modelVersion: ModelVersion?
@@ -1324,7 +1324,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelVariable: AWSShape {
+    public struct ModelVariable: AWSEncodableShape & AWSDecodableShape {
 
         /// The model variable's index.&gt;
         public let index: Int?
@@ -1342,7 +1342,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelVersion: AWSShape {
+    public struct ModelVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// The parent model ID.
         public let modelId: String
@@ -1371,7 +1371,7 @@ extension FraudDetector {
         }
     }
 
-    public struct ModelVersionDetail: AWSShape {
+    public struct ModelVersionDetail: AWSDecodableShape {
 
         /// The timestamp when the model was created.
         public let createdTime: String?
@@ -1429,7 +1429,7 @@ extension FraudDetector {
         }
     }
 
-    public struct Outcome: AWSShape {
+    public struct Outcome: AWSDecodableShape {
 
         /// The timestamp when the outcome was created.
         public let createdTime: String?
@@ -1455,7 +1455,7 @@ extension FraudDetector {
         }
     }
 
-    public struct PutDetectorRequest: AWSShape {
+    public struct PutDetectorRequest: AWSEncodableShape {
 
         /// The description of the detector.
         public let description: String?
@@ -1481,7 +1481,7 @@ extension FraudDetector {
         }
     }
 
-    public struct PutDetectorResult: AWSShape {
+    public struct PutDetectorResult: AWSDecodableShape {
 
 
         public init() {
@@ -1489,7 +1489,7 @@ extension FraudDetector {
 
     }
 
-    public struct PutExternalModelRequest: AWSShape {
+    public struct PutExternalModelRequest: AWSEncodableShape {
 
         /// The model endpoint input configuration.
         public let inputConfiguration: ModelInputConfiguration
@@ -1523,7 +1523,7 @@ extension FraudDetector {
         }
     }
 
-    public struct PutExternalModelResult: AWSShape {
+    public struct PutExternalModelResult: AWSDecodableShape {
 
 
         public init() {
@@ -1531,7 +1531,7 @@ extension FraudDetector {
 
     }
 
-    public struct PutModelRequest: AWSShape {
+    public struct PutModelRequest: AWSEncodableShape {
 
         /// The model description. 
         public let description: String?
@@ -1574,7 +1574,7 @@ extension FraudDetector {
         }
     }
 
-    public struct PutModelResult: AWSShape {
+    public struct PutModelResult: AWSDecodableShape {
 
 
         public init() {
@@ -1582,7 +1582,7 @@ extension FraudDetector {
 
     }
 
-    public struct PutOutcomeRequest: AWSShape {
+    public struct PutOutcomeRequest: AWSEncodableShape {
 
         /// The outcome description.
         public let description: String?
@@ -1608,7 +1608,7 @@ extension FraudDetector {
         }
     }
 
-    public struct PutOutcomeResult: AWSShape {
+    public struct PutOutcomeResult: AWSDecodableShape {
 
 
         public init() {
@@ -1616,7 +1616,7 @@ extension FraudDetector {
 
     }
 
-    public struct Role: AWSShape {
+    public struct Role: AWSEncodableShape & AWSDecodableShape {
 
         /// The role ARN.
         public let arn: String
@@ -1634,7 +1634,7 @@ extension FraudDetector {
         }
     }
 
-    public struct Rule: AWSShape {
+    public struct Rule: AWSEncodableShape & AWSDecodableShape {
 
         /// The detector for which the rule is associated.
         public let detectorId: String
@@ -1666,7 +1666,7 @@ extension FraudDetector {
         }
     }
 
-    public struct RuleDetail: AWSShape {
+    public struct RuleDetail: AWSDecodableShape {
 
         /// The timestamp of when the rule was created.
         public let createdTime: String?
@@ -1712,7 +1712,7 @@ extension FraudDetector {
         }
     }
 
-    public struct TrainingDataSource: AWSShape {
+    public struct TrainingDataSource: AWSEncodableShape & AWSDecodableShape {
 
         /// The data access role ARN for the training data source.
         public let dataAccessRoleArn: String
@@ -1739,7 +1739,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateDetectorVersionMetadataRequest: AWSShape {
+    public struct UpdateDetectorVersionMetadataRequest: AWSEncodableShape {
 
         /// The description.
         public let description: String
@@ -1770,7 +1770,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateDetectorVersionMetadataResult: AWSShape {
+    public struct UpdateDetectorVersionMetadataResult: AWSDecodableShape {
 
 
         public init() {
@@ -1778,7 +1778,7 @@ extension FraudDetector {
 
     }
 
-    public struct UpdateDetectorVersionRequest: AWSShape {
+    public struct UpdateDetectorVersionRequest: AWSEncodableShape {
 
         /// The detector version description. 
         public let description: String?
@@ -1827,7 +1827,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateDetectorVersionResult: AWSShape {
+    public struct UpdateDetectorVersionResult: AWSDecodableShape {
 
 
         public init() {
@@ -1835,7 +1835,7 @@ extension FraudDetector {
 
     }
 
-    public struct UpdateDetectorVersionStatusRequest: AWSShape {
+    public struct UpdateDetectorVersionStatusRequest: AWSEncodableShape {
 
         /// The detector ID. 
         public let detectorId: String
@@ -1864,7 +1864,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateDetectorVersionStatusResult: AWSShape {
+    public struct UpdateDetectorVersionStatusResult: AWSDecodableShape {
 
 
         public init() {
@@ -1872,7 +1872,7 @@ extension FraudDetector {
 
     }
 
-    public struct UpdateModelVersionRequest: AWSShape {
+    public struct UpdateModelVersionRequest: AWSEncodableShape {
 
         /// The model description.
         public let description: String
@@ -1911,7 +1911,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateModelVersionResult: AWSShape {
+    public struct UpdateModelVersionResult: AWSDecodableShape {
 
 
         public init() {
@@ -1919,7 +1919,7 @@ extension FraudDetector {
 
     }
 
-    public struct UpdateRuleMetadataRequest: AWSShape {
+    public struct UpdateRuleMetadataRequest: AWSEncodableShape {
 
         /// The rule description.
         public let description: String
@@ -1943,7 +1943,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateRuleMetadataResult: AWSShape {
+    public struct UpdateRuleMetadataResult: AWSDecodableShape {
 
 
         public init() {
@@ -1951,7 +1951,7 @@ extension FraudDetector {
 
     }
 
-    public struct UpdateRuleVersionRequest: AWSShape {
+    public struct UpdateRuleVersionRequest: AWSEncodableShape {
 
         /// The description.
         public let description: String?
@@ -1990,7 +1990,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateRuleVersionResult: AWSShape {
+    public struct UpdateRuleVersionResult: AWSDecodableShape {
 
         /// The new rule version that was created.
         public let rule: Rule?
@@ -2004,7 +2004,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateVariableRequest: AWSShape {
+    public struct UpdateVariableRequest: AWSEncodableShape {
 
         /// The new default value of the variable.
         public let defaultValue: String?
@@ -2030,7 +2030,7 @@ extension FraudDetector {
         }
     }
 
-    public struct UpdateVariableResult: AWSShape {
+    public struct UpdateVariableResult: AWSDecodableShape {
 
 
         public init() {
@@ -2038,7 +2038,7 @@ extension FraudDetector {
 
     }
 
-    public struct Variable: AWSShape {
+    public struct Variable: AWSDecodableShape {
 
         /// The time when the variable was created.
         public let createdTime: String?
@@ -2080,7 +2080,7 @@ extension FraudDetector {
         }
     }
 
-    public struct VariableEntry: AWSShape {
+    public struct VariableEntry: AWSEncodableShape {
 
         /// The data source of the variable entry.
         public let dataSource: String?

@@ -51,7 +51,7 @@ extension CloudHSM {
 
     //MARK: Shapes
 
-    public struct AddTagsToResourceRequest: AWSShape {
+    public struct AddTagsToResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
         public let resourceArn: String
@@ -76,7 +76,7 @@ extension CloudHSM {
         }
     }
 
-    public struct AddTagsToResourceResponse: AWSShape {
+    public struct AddTagsToResourceResponse: AWSDecodableShape {
 
         /// The status of the operation.
         public let status: String
@@ -90,7 +90,7 @@ extension CloudHSM {
         }
     }
 
-    public struct CreateHapgRequest: AWSShape {
+    public struct CreateHapgRequest: AWSEncodableShape {
 
         /// The label of the new high-availability partition group.
         public let label: String
@@ -108,7 +108,7 @@ extension CloudHSM {
         }
     }
 
-    public struct CreateHapgResponse: AWSShape {
+    public struct CreateHapgResponse: AWSDecodableShape {
 
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -122,7 +122,7 @@ extension CloudHSM {
         }
     }
 
-    public struct CreateHsmRequest: AWSShape {
+    public struct CreateHsmRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .body(locationName: "ClientToken")), 
             AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
@@ -183,7 +183,7 @@ extension CloudHSM {
         }
     }
 
-    public struct CreateHsmResponse: AWSShape {
+    public struct CreateHsmResponse: AWSDecodableShape {
 
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -197,7 +197,7 @@ extension CloudHSM {
         }
     }
 
-    public struct CreateLunaClientRequest: AWSShape {
+    public struct CreateLunaClientRequest: AWSEncodableShape {
 
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
         public let certificate: String
@@ -222,7 +222,7 @@ extension CloudHSM {
         }
     }
 
-    public struct CreateLunaClientResponse: AWSShape {
+    public struct CreateLunaClientResponse: AWSDecodableShape {
 
         /// The ARN of the client.
         public let clientArn: String?
@@ -236,7 +236,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DeleteHapgRequest: AWSShape {
+    public struct DeleteHapgRequest: AWSEncodableShape {
 
         /// The ARN of the high-availability partition group to delete.
         public let hapgArn: String
@@ -254,7 +254,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DeleteHapgResponse: AWSShape {
+    public struct DeleteHapgResponse: AWSDecodableShape {
 
         /// The status of the action.
         public let status: String
@@ -268,7 +268,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DeleteHsmRequest: AWSShape {
+    public struct DeleteHsmRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hsmArn", location: .body(locationName: "HsmArn"))
         ]
@@ -289,7 +289,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DeleteHsmResponse: AWSShape {
+    public struct DeleteHsmResponse: AWSDecodableShape {
 
         /// The status of the operation.
         public let status: String
@@ -303,7 +303,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DeleteLunaClientRequest: AWSShape {
+    public struct DeleteLunaClientRequest: AWSEncodableShape {
 
         /// The ARN of the client to delete.
         public let clientArn: String
@@ -321,7 +321,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DeleteLunaClientResponse: AWSShape {
+    public struct DeleteLunaClientResponse: AWSDecodableShape {
 
         /// The status of the action.
         public let status: String
@@ -335,7 +335,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DescribeHapgRequest: AWSShape {
+    public struct DescribeHapgRequest: AWSEncodableShape {
 
         /// The ARN of the high-availability partition group to describe.
         public let hapgArn: String
@@ -353,7 +353,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DescribeHapgResponse: AWSShape {
+    public struct DescribeHapgResponse: AWSDecodableShape {
 
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -396,7 +396,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DescribeHsmRequest: AWSShape {
+    public struct DescribeHsmRequest: AWSEncodableShape {
 
         /// The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
         public let hsmArn: String?
@@ -419,7 +419,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DescribeHsmResponse: AWSShape {
+    public struct DescribeHsmResponse: AWSDecodableShape {
 
         /// The Availability Zone that the HSM is in.
         public let availabilityZone: String?
@@ -512,7 +512,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DescribeLunaClientRequest: AWSShape {
+    public struct DescribeLunaClientRequest: AWSEncodableShape {
 
         /// The certificate fingerprint.
         public let certificateFingerprint: String?
@@ -535,7 +535,7 @@ extension CloudHSM {
         }
     }
 
-    public struct DescribeLunaClientResponse: AWSShape {
+    public struct DescribeLunaClientResponse: AWSDecodableShape {
 
         /// The certificate installed on the HSMs used by this client.
         public let certificate: String?
@@ -565,7 +565,7 @@ extension CloudHSM {
         }
     }
 
-    public struct GetConfigRequest: AWSShape {
+    public struct GetConfigRequest: AWSEncodableShape {
 
         /// The ARN of the client.
         public let clientArn: String
@@ -594,7 +594,7 @@ extension CloudHSM {
         }
     }
 
-    public struct GetConfigResponse: AWSShape {
+    public struct GetConfigResponse: AWSDecodableShape {
 
         /// The certificate file containing the server.pem files of the HSMs.
         public let configCred: String?
@@ -616,7 +616,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListAvailableZonesRequest: AWSShape {
+    public struct ListAvailableZonesRequest: AWSEncodableShape {
 
 
         public init() {
@@ -624,7 +624,7 @@ extension CloudHSM {
 
     }
 
-    public struct ListAvailableZonesResponse: AWSShape {
+    public struct ListAvailableZonesResponse: AWSDecodableShape {
 
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let aZList: [String]?
@@ -638,7 +638,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListHapgsRequest: AWSShape {
+    public struct ListHapgsRequest: AWSEncodableShape {
 
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public let nextToken: String?
@@ -656,7 +656,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListHapgsResponse: AWSShape {
+    public struct ListHapgsResponse: AWSDecodableShape {
 
         /// The list of high-availability partition groups.
         public let hapgList: [String]
@@ -674,7 +674,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListHsmsRequest: AWSShape {
+    public struct ListHsmsRequest: AWSEncodableShape {
 
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public let nextToken: String?
@@ -692,7 +692,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListHsmsResponse: AWSShape {
+    public struct ListHsmsResponse: AWSDecodableShape {
 
         /// The list of ARNs that identify the HSMs.
         public let hsmList: [String]?
@@ -710,7 +710,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListLunaClientsRequest: AWSShape {
+    public struct ListLunaClientsRequest: AWSEncodableShape {
 
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public let nextToken: String?
@@ -728,7 +728,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListLunaClientsResponse: AWSShape {
+    public struct ListLunaClientsResponse: AWSDecodableShape {
 
         /// The list of clients.
         public let clientList: [String]
@@ -746,7 +746,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
@@ -764,7 +764,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// One or more tags.
         public let tagList: [Tag]
@@ -778,7 +778,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ModifyHapgRequest: AWSShape {
+    public struct ModifyHapgRequest: AWSEncodableShape {
 
         /// The ARN of the high-availability partition group to modify.
         public let hapgArn: String
@@ -808,7 +808,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ModifyHapgResponse: AWSShape {
+    public struct ModifyHapgResponse: AWSDecodableShape {
 
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -822,7 +822,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ModifyHsmRequest: AWSShape {
+    public struct ModifyHsmRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eniIp", location: .body(locationName: "EniIp")), 
             AWSMemberEncoding(label: "externalId", location: .body(locationName: "ExternalId")), 
@@ -873,7 +873,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ModifyHsmResponse: AWSShape {
+    public struct ModifyHsmResponse: AWSDecodableShape {
 
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -887,7 +887,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ModifyLunaClientRequest: AWSShape {
+    public struct ModifyLunaClientRequest: AWSEncodableShape {
 
         /// The new certificate for the client.
         public let certificate: String
@@ -912,7 +912,7 @@ extension CloudHSM {
         }
     }
 
-    public struct ModifyLunaClientResponse: AWSShape {
+    public struct ModifyLunaClientResponse: AWSDecodableShape {
 
         /// The ARN of the client.
         public let clientArn: String?
@@ -926,7 +926,7 @@ extension CloudHSM {
         }
     }
 
-    public struct RemoveTagsFromResourceRequest: AWSShape {
+    public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
@@ -952,7 +952,7 @@ extension CloudHSM {
         }
     }
 
-    public struct RemoveTagsFromResourceResponse: AWSShape {
+    public struct RemoveTagsFromResourceResponse: AWSDecodableShape {
 
         /// The status of the operation.
         public let status: String
@@ -966,7 +966,7 @@ extension CloudHSM {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String

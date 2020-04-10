@@ -141,7 +141,7 @@ extension LexModelBuildingService {
 
     //MARK: Shapes
 
-    public struct BotAliasMetadata: AWSShape {
+    public struct BotAliasMetadata: AWSDecodableShape {
 
         /// The name of the bot to which the alias points.
         public let botName: String?
@@ -183,7 +183,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct BotChannelAssociation: AWSShape {
+    public struct BotChannelAssociation: AWSDecodableShape {
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made. 
         public let botAlias: String?
@@ -229,7 +229,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct BotMetadata: AWSShape {
+    public struct BotMetadata: AWSDecodableShape {
 
         /// The date that the bot was created.
         public let createdDate: TimeStamp?
@@ -263,7 +263,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct BuiltinIntentMetadata: AWSShape {
+    public struct BuiltinIntentMetadata: AWSDecodableShape {
 
         /// A unique identifier for the built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String?
@@ -281,7 +281,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct BuiltinIntentSlot: AWSShape {
+    public struct BuiltinIntentSlot: AWSDecodableShape {
 
         /// A list of the slots defined for the intent.
         public let name: String?
@@ -295,7 +295,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct BuiltinSlotTypeMetadata: AWSShape {
+    public struct BuiltinSlotTypeMetadata: AWSDecodableShape {
 
         /// A unique identifier for the built-in slot type. To find the signature for a slot type, see Slot Type Reference in the Alexa Skills Kit.
         public let signature: String?
@@ -313,7 +313,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct CodeHook: AWSShape {
+    public struct CodeHook: AWSEncodableShape & AWSDecodableShape {
 
         /// The version of the request-response that you want Amazon Lex to use to invoke your Lambda function. For more information, see using-lambda.
         public let messageVersion: String
@@ -339,7 +339,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct ConversationLogsRequest: AWSShape {
+    public struct ConversationLogsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of an IAM role with permission to write to your CloudWatch Logs for text logs and your S3 bucket for audio logs. If audio encryption is enabled, this role also provides access permission for the AWS KMS key used for encrypting audio logs. For more information, see Creating an IAM Role and Policy for Conversation Logs.
         public let iamRoleArn: String
@@ -366,7 +366,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct ConversationLogsResponse: AWSShape {
+    public struct ConversationLogsResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to CloudWatch Logs or an S3 bucket.
         public let iamRoleArn: String?
@@ -384,7 +384,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct CreateBotVersionRequest: AWSShape {
+    public struct CreateBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -407,11 +407,10 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
-            case name = "name"
         }
     }
 
-    public struct CreateBotVersionResponse: AWSShape {
+    public struct CreateBotVersionResponse: AWSDecodableShape {
 
         /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
         public let abortStatement: Statement?
@@ -485,7 +484,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct CreateIntentVersionRequest: AWSShape {
+    public struct CreateIntentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -508,11 +507,10 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
-            case name = "name"
         }
     }
 
-    public struct CreateIntentVersionResponse: AWSShape {
+    public struct CreateIntentVersionResponse: AWSDecodableShape {
 
         /// Checksum of the intent version created.
         public let checksum: String?
@@ -582,7 +580,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct CreateSlotTypeVersionRequest: AWSShape {
+    public struct CreateSlotTypeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -605,11 +603,10 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case checksum = "checksum"
-            case name = "name"
         }
     }
 
-    public struct CreateSlotTypeVersionResponse: AWSShape {
+    public struct CreateSlotTypeVersionResponse: AWSDecodableShape {
 
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
@@ -659,7 +656,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct DeleteBotAliasRequest: AWSShape {
+    public struct DeleteBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -684,13 +681,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBotChannelAssociationRequest: AWSShape {
+    public struct DeleteBotChannelAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "aliasName")), 
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
@@ -722,14 +716,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "aliasName"
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBotRequest: AWSShape {
+    public struct DeleteBotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -747,12 +737,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBotVersionRequest: AWSShape {
+    public struct DeleteBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
@@ -777,13 +765,10 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteIntentRequest: AWSShape {
+    public struct DeleteIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -801,12 +786,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteIntentVersionRequest: AWSShape {
+    public struct DeleteIntentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
@@ -831,13 +814,10 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSlotTypeRequest: AWSShape {
+    public struct DeleteSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -855,12 +835,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSlotTypeVersionRequest: AWSShape {
+    public struct DeleteSlotTypeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
@@ -885,13 +863,10 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteUtterancesRequest: AWSShape {
+    public struct DeleteUtterancesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -915,13 +890,10 @@ extension LexModelBuildingService {
             try validate(self.userId, name:"userId", parent: name, min: 2)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct EnumerationValue: AWSShape {
+    public struct EnumerationValue: AWSEncodableShape & AWSDecodableShape {
 
         /// Additional values related to the slot type value.
         public let synonyms: [String]?
@@ -948,7 +920,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct FollowUpPrompt: AWSShape {
+    public struct FollowUpPrompt: AWSEncodableShape & AWSDecodableShape {
 
         /// Prompts for information from the user. 
         public let prompt: Prompt
@@ -971,7 +943,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct FulfillmentActivity: AWSShape {
+    public struct FulfillmentActivity: AWSEncodableShape & AWSDecodableShape {
 
         ///  A description of the Lambda function that is run to fulfill the intent. 
         public let codeHook: CodeHook?
@@ -993,7 +965,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotAliasRequest: AWSShape {
+    public struct GetBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -1018,13 +990,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotAliasResponse: AWSShape {
+    public struct GetBotAliasResponse: AWSDecodableShape {
 
         /// The name of the bot that the alias points to.
         public let botName: String?
@@ -1066,7 +1035,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotAliasesRequest: AWSShape {
+    public struct GetBotAliasesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1101,15 +1070,10 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotAliasesResponse: AWSShape {
+    public struct GetBotAliasesResponse: AWSDecodableShape {
 
         /// An array of BotAliasMetadata objects, each describing a bot alias.
         public let botAliases: [BotAliasMetadata]?
@@ -1127,7 +1091,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotChannelAssociationRequest: AWSShape {
+    public struct GetBotChannelAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "aliasName")), 
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
@@ -1159,14 +1123,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "aliasName"
-            case botName = "botName"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotChannelAssociationResponse: AWSShape {
+    public struct GetBotChannelAssociationResponse: AWSDecodableShape {
 
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String?
@@ -1212,7 +1172,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotChannelAssociationsRequest: AWSShape {
+    public struct GetBotChannelAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "aliasName")), 
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
@@ -1254,16 +1214,10 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "aliasName"
-            case botName = "botName"
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotChannelAssociationsResponse: AWSShape {
+    public struct GetBotChannelAssociationsResponse: AWSDecodableShape {
 
         /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel. 
         public let botChannelAssociations: [BotChannelAssociation]?
@@ -1281,7 +1235,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotRequest: AWSShape {
+    public struct GetBotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "versionOrAlias", location: .uri(locationName: "versionoralias"))
@@ -1303,13 +1257,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case versionOrAlias = "versionoralias"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotResponse: AWSShape {
+    public struct GetBotResponse: AWSDecodableShape {
 
         /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see PutBot.
         public let abortStatement: Statement?
@@ -1383,7 +1334,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotVersionsRequest: AWSShape {
+    public struct GetBotVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
@@ -1411,14 +1362,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotVersionsResponse: AWSShape {
+    public struct GetBotVersionsResponse: AWSDecodableShape {
 
         /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
         public let bots: [BotMetadata]?
@@ -1436,7 +1383,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotsRequest: AWSShape {
+    public struct GetBotsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")), 
@@ -1464,14 +1411,10 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotsResponse: AWSShape {
+    public struct GetBotsResponse: AWSDecodableShape {
 
         /// An array of botMetadata objects, with one entry for each bot. 
         public let bots: [BotMetadata]?
@@ -1489,7 +1432,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBuiltinIntentRequest: AWSShape {
+    public struct GetBuiltinIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "signature", location: .uri(locationName: "signature"))
         ]
@@ -1501,12 +1444,10 @@ extension LexModelBuildingService {
             self.signature = signature
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case signature = "signature"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBuiltinIntentResponse: AWSShape {
+    public struct GetBuiltinIntentResponse: AWSDecodableShape {
 
         /// The unique identifier for a built-in intent.
         public let signature: String?
@@ -1528,7 +1469,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBuiltinIntentsRequest: AWSShape {
+    public struct GetBuiltinIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1557,15 +1498,10 @@ extension LexModelBuildingService {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case locale = "locale"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case signatureContains = "signatureContains"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBuiltinIntentsResponse: AWSShape {
+    public struct GetBuiltinIntentsResponse: AWSDecodableShape {
 
         /// An array of builtinIntentMetadata objects, one for each intent in the response.
         public let intents: [BuiltinIntentMetadata]?
@@ -1583,7 +1519,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBuiltinSlotTypesRequest: AWSShape {
+    public struct GetBuiltinSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1612,15 +1548,10 @@ extension LexModelBuildingService {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case locale = "locale"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case signatureContains = "signatureContains"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBuiltinSlotTypesResponse: AWSShape {
+    public struct GetBuiltinSlotTypesResponse: AWSDecodableShape {
 
         /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
         public let nextToken: String?
@@ -1638,7 +1569,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetExportRequest: AWSShape {
+    public struct GetExportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "exportType", location: .querystring(locationName: "exportType")), 
             AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
@@ -1671,15 +1602,10 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportType = "exportType"
-            case name = "name"
-            case resourceType = "resourceType"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetExportResponse: AWSShape {
+    public struct GetExportResponse: AWSDecodableShape {
 
         /// The status of the export.     IN_PROGRESS - The export is in progress.    READY - The export is complete.    FAILED - The export could not be completed.  
         public let exportStatus: ExportStatus?
@@ -1717,7 +1643,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetImportRequest: AWSShape {
+    public struct GetImportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "importId", location: .uri(locationName: "importId"))
         ]
@@ -1729,12 +1655,10 @@ extension LexModelBuildingService {
             self.importId = importId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importId = "importId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImportResponse: AWSShape {
+    public struct GetImportResponse: AWSDecodableShape {
 
         /// A timestamp for the date and time that the import job was created.
         public let createdDate: TimeStamp?
@@ -1772,7 +1696,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetIntentRequest: AWSShape {
+    public struct GetIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
@@ -1797,13 +1721,10 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetIntentResponse: AWSShape {
+    public struct GetIntentResponse: AWSDecodableShape {
 
         /// Checksum of the intent.
         public let checksum: String?
@@ -1873,7 +1794,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetIntentVersionsRequest: AWSShape {
+    public struct GetIntentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
@@ -1901,14 +1822,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetIntentVersionsResponse: AWSShape {
+    public struct GetIntentVersionsResponse: AWSDecodableShape {
 
         /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
         public let intents: [IntentMetadata]?
@@ -1926,7 +1843,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetIntentsRequest: AWSShape {
+    public struct GetIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")), 
@@ -1954,14 +1871,10 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetIntentsResponse: AWSShape {
+    public struct GetIntentsResponse: AWSDecodableShape {
 
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [IntentMetadata]?
@@ -1979,7 +1892,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetSlotTypeRequest: AWSShape {
+    public struct GetSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
@@ -2004,13 +1917,10 @@ extension LexModelBuildingService {
             try validate(self.version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSlotTypeResponse: AWSShape {
+    public struct GetSlotTypeResponse: AWSDecodableShape {
 
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
@@ -2060,7 +1970,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetSlotTypeVersionsRequest: AWSShape {
+    public struct GetSlotTypeVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
@@ -2088,14 +1998,10 @@ extension LexModelBuildingService {
             try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case name = "name"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSlotTypeVersionsResponse: AWSShape {
+    public struct GetSlotTypeVersionsResponse: AWSDecodableShape {
 
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
@@ -2113,7 +2019,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetSlotTypesRequest: AWSShape {
+    public struct GetSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nameContains", location: .querystring(locationName: "nameContains")), 
@@ -2141,14 +2047,10 @@ extension LexModelBuildingService {
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nameContains = "nameContains"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSlotTypesResponse: AWSShape {
+    public struct GetSlotTypesResponse: AWSDecodableShape {
 
         /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
         public let nextToken: String?
@@ -2166,7 +2068,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetUtterancesViewRequest: AWSShape {
+    public struct GetUtterancesViewRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botname")), 
             AWSMemberEncoding(label: "botVersions", location: .querystring(locationName: "bot_versions")), 
@@ -2199,14 +2101,10 @@ extension LexModelBuildingService {
             try validate(self.botVersions, name:"botVersions", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botname"
-            case botVersions = "bot_versions"
-            case statusType = "status_type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetUtterancesViewResponse: AWSShape {
+    public struct GetUtterancesViewResponse: AWSDecodableShape {
 
         /// The name of the bot for which utterance information was returned.
         public let botName: String?
@@ -2224,7 +2122,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct Intent: AWSShape {
+    public struct Intent: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the intent.
         public let intentName: String
@@ -2251,7 +2149,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct IntentMetadata: AWSShape {
+    public struct IntentMetadata: AWSDecodableShape {
 
         /// The date that the intent was created.
         public let createdDate: TimeStamp?
@@ -2281,7 +2179,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2298,12 +2196,10 @@ extension LexModelBuildingService {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags associated with a resource.
         public let tags: [Tag]?
@@ -2317,7 +2213,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct LogSettingsRequest: AWSShape {
+    public struct LogSettingsRequest: AWSEncodableShape {
 
         /// Where the logs will be delivered. Text logs are delivered to a CloudWatch Logs log group. Audio logs are delivered to an S3 bucket.
         public let destination: Destination
@@ -2352,7 +2248,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct LogSettingsResponse: AWSShape {
+    public struct LogSettingsResponse: AWSDecodableShape {
 
         /// The destination where logs are delivered.
         public let destination: Destination?
@@ -2382,7 +2278,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct Message: AWSShape {
+    public struct Message: AWSEncodableShape & AWSDecodableShape {
 
         /// The text of the message.
         public let content: String
@@ -2411,7 +2307,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct Prompt: AWSShape {
+    public struct Prompt: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of times to prompt the user for information.
         public let maxAttempts: Int
@@ -2445,7 +2341,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct PutBotAliasRequest: AWSShape {
+    public struct PutBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -2497,17 +2393,15 @@ extension LexModelBuildingService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
             case botVersion = "botVersion"
             case checksum = "checksum"
             case conversationLogs = "conversationLogs"
             case description = "description"
-            case name = "name"
             case tags = "tags"
         }
     }
 
-    public struct PutBotAliasResponse: AWSShape {
+    public struct PutBotAliasResponse: AWSDecodableShape {
 
         /// The name of the bot that the alias points to.
         public let botName: String?
@@ -2553,7 +2447,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct PutBotRequest: AWSShape {
+    public struct PutBotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -2635,14 +2529,13 @@ extension LexModelBuildingService {
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
             case locale = "locale"
-            case name = "name"
             case processBehavior = "processBehavior"
             case tags = "tags"
             case voiceId = "voiceId"
         }
     }
 
-    public struct PutBotResponse: AWSShape {
+    public struct PutBotResponse: AWSDecodableShape {
 
         /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
         public let abortStatement: Statement?
@@ -2724,7 +2617,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct PutIntentRequest: AWSShape {
+    public struct PutIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -2806,7 +2699,6 @@ extension LexModelBuildingService {
             case dialogCodeHook = "dialogCodeHook"
             case followUpPrompt = "followUpPrompt"
             case fulfillmentActivity = "fulfillmentActivity"
-            case name = "name"
             case parentIntentSignature = "parentIntentSignature"
             case rejectionStatement = "rejectionStatement"
             case sampleUtterances = "sampleUtterances"
@@ -2814,7 +2706,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct PutIntentResponse: AWSShape {
+    public struct PutIntentResponse: AWSDecodableShape {
 
         /// Checksum of the $LATESTversion of the intent created or updated.
         public let checksum: String?
@@ -2888,7 +2780,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct PutSlotTypeRequest: AWSShape {
+    public struct PutSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -2947,14 +2839,13 @@ extension LexModelBuildingService {
             case createVersion = "createVersion"
             case description = "description"
             case enumerationValues = "enumerationValues"
-            case name = "name"
             case parentSlotTypeSignature = "parentSlotTypeSignature"
             case slotTypeConfigurations = "slotTypeConfigurations"
             case valueSelectionStrategy = "valueSelectionStrategy"
         }
     }
 
-    public struct PutSlotTypeResponse: AWSShape {
+    public struct PutSlotTypeResponse: AWSDecodableShape {
 
         /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
@@ -3008,7 +2899,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct Slot: AWSShape {
+    public struct Slot: AWSEncodableShape & AWSDecodableShape {
 
         /// A description of the slot.
         public let description: String?
@@ -3083,7 +2974,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct SlotTypeConfiguration: AWSShape {
+    public struct SlotTypeConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A regular expression used to validate the value of a slot.
         public let regexConfiguration: SlotTypeRegexConfiguration?
@@ -3101,7 +2992,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct SlotTypeMetadata: AWSShape {
+    public struct SlotTypeMetadata: AWSDecodableShape {
 
         /// The date that the slot type was created.
         public let createdDate: TimeStamp?
@@ -3131,7 +3022,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct SlotTypeRegexConfiguration: AWSShape {
+    public struct SlotTypeRegexConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A regular expression used to validate the value of a slot.  Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:   A-Z, a-z   0-9   Unicode characters ("\ u&lt;Unicode&gt;")   Represent Unicode characters with four digits, for example "\u0041" or "\u005A". The following regular expression operators are not supported:   Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)  
         public let pattern: String
@@ -3150,7 +3041,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct StartImportRequest: AWSShape {
+    public struct StartImportRequest: AWSEncodableShape {
 
         /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.  
         public let mergeStrategy: MergeStrategy
@@ -3184,7 +3075,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct StartImportResponse: AWSShape {
+    public struct StartImportResponse: AWSDecodableShape {
 
         /// A timestamp for the date and time that the import job was requested.
         public let createdDate: TimeStamp?
@@ -3222,7 +3113,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct Statement: AWSShape {
+    public struct Statement: AWSEncodableShape & AWSDecodableShape {
 
         /// A collection of message objects.
         public let messages: [Message]
@@ -3250,7 +3141,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key for the tag. Keys are not case-sensitive and must be unique.
         public let key: String
@@ -3275,7 +3166,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -3301,12 +3192,11 @@ extension LexModelBuildingService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3314,7 +3204,7 @@ extension LexModelBuildingService {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -3341,13 +3231,10 @@ extension LexModelBuildingService {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3355,7 +3242,7 @@ extension LexModelBuildingService {
 
     }
 
-    public struct UtteranceData: AWSShape {
+    public struct UtteranceData: AWSDecodableShape {
 
         /// The number of times that the utterance was processed.
         public let count: Int?
@@ -3385,7 +3272,7 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct UtteranceList: AWSShape {
+    public struct UtteranceList: AWSDecodableShape {
 
         /// The version of the bot that processed the list.
         public let botVersion: String?

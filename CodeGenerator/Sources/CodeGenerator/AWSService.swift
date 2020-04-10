@@ -20,7 +20,7 @@ struct AWSService {
     var paginators: Paginators?
     var endpoints: Endpoints
     var errors: [Shape]
-    
+
     init(api: API, docs: Docs, paginators: Paginators?, endpoints: Endpoints) throws {
         self.api = api
         self.docs = docs
@@ -28,7 +28,7 @@ struct AWSService {
         self.endpoints = endpoints
         self.errors = try Self.getErrors(from: api)
     }
-    
+
     /// Return list of errors from API
     static func getErrors(from api: API) throws -> [Shape] {
         var errorsSet: Set<Shape> = []
@@ -39,7 +39,7 @@ struct AWSService {
         }
         return errorsSet.map { $0 }
     }
-    
+
     /// service protocol
     var serviceProtocol: String {
         var versionString: String = ""
@@ -48,7 +48,7 @@ struct AWSService {
         }
         return "ServiceProtocol(type: \(api.metadata.protocol.enumStringValue)\(versionString))"
     }
-    
+
     /// Service endpoints from API and Endpoints structure
     var serviceEndpoints: [(key: String, value: String)] {
         guard let serviceEndpoints = endpoints.partitions[0].services[api.metadata.endpointPrefix]?.endpoints else { return [] }
@@ -163,14 +163,22 @@ extension AWSService {
         }
     }
 
+    struct CodingKeysContext {
+        let variable : String
+        let codingKey : String
+        var duplicate : Bool
+    }
+
     struct StructureContext {
-        let object : String
-        let name : String
-        let payload : String?
-        let namespace : String?
-        let members : [MemberContext]
-        let awsShapeMembers : [AWSShapeMemberContext]
-        let validation : [ValidationContext]
+        let object: String
+        let name: String
+        let shapeProtocol: String
+        let payload: String?
+        let namespace: String?
+        let members: [MemberContext]
+        let awsShapeMembers: [AWSShapeMemberContext]
+        let codingKeys: [CodingKeysContext]
+        let validation: [ValidationContext]
     }
 
     struct ResultContext {
@@ -191,7 +199,7 @@ extension AWSService {
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil)
         )
     }
-    
+
     /// Generate the context information for outputting the service api calls
     func generateServiceContext() -> [String: Any] {
         var context: [String: Any] = [:]
@@ -252,7 +260,7 @@ extension AWSService {
         context["name"] = api.serviceName
 
         var paginatorContexts: [PaginatorContext] = []
-        
+
         for paginator in paginators {
             // get related operation and its input and output shapes
             guard let operation = api.operations[paginator.key],
@@ -273,10 +281,10 @@ extension AWSService {
                 let inputTokenMember = inputStructure.members[inputTokens[0]] else {
                     continue
             }
-            
+
             let paginatorProtocol = "AWSPaginateToken"
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(api.serviceName)
-            
+
             // process output tokens
             let processedOutputTokens = outputTokens.map { (token)->String in
                 var split = token.split(separator: ".")
@@ -284,7 +292,7 @@ extension AWSService {
                     // if string contains [-1] replace with '.last'.
                     if let negativeIndexRange = split[i].range(of: "[-1]") {
                         split[i].removeSubrange(negativeIndexRange)
-                        
+
                         var replacement = "last"
                         // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
                         if split.count > i+1 {
@@ -300,7 +308,7 @@ extension AWSService {
                 }
                 return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
             }
-                        
+
             var initParams: [String: String] = [:]
             for member in inputStructure.members {
                 initParams[member.key.toSwiftLabelCase()] = "self.\(member.key.toSwiftLabelCase())"
@@ -317,13 +325,13 @@ extension AWSService {
                 )
             )
         }
-        
+
         if paginatorContexts.count > 0 {
             context["paginators"] = paginatorContexts
         }
         return context
     }
-    
+
     /// Generate the context information for outputting an enum
     func generateEnumContext(_ shape: Shape, values: [String]) -> EnumContext {
 
@@ -367,7 +375,7 @@ extension AWSService {
                     if list.member.shape === shape {
                         return true
                     }
-                    
+
                 case .structure(let type):
                     // test children structures as well to see if they contain a member of same type as the parent shape
                     if type.members.values.contains(where: {
@@ -381,10 +389,10 @@ extension AWSService {
                 return false
             }
         })
-        
+
         return hasRecursiveOwnReference
     }
-    
+
     /// Generate the context information for outputting a member variable
     func generateMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> MemberContext {
         let defaultValue : String?
@@ -407,7 +415,24 @@ extension AWSService {
             duplicate: false
         )
     }
-    
+
+    /// Generate the context information for outputting a member variable
+    func generateCodingKeyContext(_ member: Shape.Member, name: String, shape: Shape) -> CodingKeysContext? {
+        switch member.location {
+        case .header, .headers, .querystring, .uri:
+            if !shape.usedInOutput {
+                return nil
+            }
+        default:
+            break
+        }
+        return CodingKeysContext(
+            variable: name.toSwiftVariableCase(),
+            codingKey: member.getLocationName() ?? name,
+            duplicate: false
+        )
+    }
+
     /// Return encoding string for shap member
     func getEncoding(for member: Shape.Member, isPayload: Bool) -> String? {
         switch member.shape.type {
@@ -418,9 +443,9 @@ extension AWSService {
         default:
             break
         }
-        
+
         guard api.metadata.protocol != .json && api.metadata.protocol != .restjson else { return nil }
-        
+
         switch member.shape.type {
         case .list(let list):
             if list.flattened == true || member.flattened == true {
@@ -439,7 +464,7 @@ extension AWSService {
         }
         return nil
     }
-    
+
     /// Generate the context information for outputting a member variable
     func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> AWSShapeMemberContext? {
         let isPayload = (shape.payload == name)
@@ -447,7 +472,7 @@ extension AWSService {
         var locationName: String? = member.getLocationName()
         let location = member.location ?? .body
 
-        if (isPayload || encoding != nil) && locationName == nil {
+        if ((isPayload && shape.usedInOutput) || encoding != nil || (location != .body && location != .statusCode)) && locationName == nil {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
@@ -533,9 +558,27 @@ extension AWSService {
     /// Generate the context for outputting a single AWSShape
     func generateStructureContext(_ shape: Shape, type: Shape.ShapeType.StructureType) -> StructureContext {
         var memberContexts : [MemberContext] = []
+        var codingKeyContexts: [CodingKeysContext] = []
         var awsShapeMemberContexts : [AWSShapeMemberContext] = []
         var validationContexts : [ValidationContext] = []
         var usedLocationPath : [String] = []
+        var shapeProtocol: String
+
+        if shape.usedInInput {
+            shapeProtocol = "AWSEncodableShape"
+            if shape.usedInOutput {
+                shapeProtocol += " & AWSDecodableShape"
+            }
+        } else if shape.usedInOutput {
+            shapeProtocol = "AWSDecodableShape"
+        } else {
+            preconditionFailure("AWSShape has to be used in either input or output")
+        }
+
+        if shape.payload != nil {
+           shapeProtocol += " & AWSShapeWithPayload"
+        }
+
         let members = type.members.map { (key:$0.key, value:$0.value)} .sorted {$0.key.lowercased() < $1.key.lowercased() }
         for member in members {
             var memberContext = generateMemberContext(member.value, name: member.key, shape: shape)
@@ -558,6 +601,11 @@ extension AWSService {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
 
+            // CodingKey entry
+            if let codingKeyContext = generateCodingKeyContext(member.value, name:member.key, shape: shape) {
+                codingKeyContexts.append(codingKeyContext)
+            }
+
             // only output validation for shapes used in inputs to service apis
             if shape.usedInInput {
                 if let validationContext = generateValidationContext(name:member.key, shape: member.value.shape, required: member.value.required) {
@@ -569,10 +617,12 @@ extension AWSService {
         return StructureContext(
             object: doesShapeHaveRecursiveOwnReference(shape, type: type) ? "class" : "struct",
             name: shape.swiftTypeName,
+            shapeProtocol: shapeProtocol,
             payload: shape.payload?.toSwiftLabelCase(),
             namespace: shape.xmlNamespace?.uri,
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,
+            codingKeys: codingKeyContexts,
             validation: validationContexts)
     }
 
@@ -673,19 +723,19 @@ extension Shape {
             return name.toSwiftClassCase()
         }
     }
-    
+
     /// return swift type name that would compile when referenced outside of service class. You need to prefix all shapes defined in the service class with the service name
     public func swiftTypeNameWithServiceNamePrefix(_ serviceName: String) -> String {
         switch self.type {
         case .structure(_), .enum(_):
             return "\(serviceName).\(name.toSwiftClassCase())"
-            
+
         case .list(let list):
             return "[\(list.member.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
-            
+
         case .map(let map):
             return "[\(map.key.shape.swiftTypeNameWithServiceNamePrefix(serviceName)): \(map.value.shape.swiftTypeNameWithServiceNamePrefix(serviceName))]"
-            
+
         default:
             return self.swiftTypeName
         }

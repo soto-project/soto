@@ -120,7 +120,7 @@ extension ELBV2 {
 
     //MARK: Shapes
 
-    public struct Action: AWSShape {
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
 
         /// [HTTPS listeners] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
         public let authenticateCognitoConfig: AuthenticateCognitoActionConfig?
@@ -169,7 +169,7 @@ extension ELBV2 {
         }
     }
 
-    public struct AddListenerCertificatesInput: AWSShape {
+    public struct AddListenerCertificatesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
@@ -190,7 +190,7 @@ extension ELBV2 {
         }
     }
 
-    public struct AddListenerCertificatesOutput: AWSShape {
+    public struct AddListenerCertificatesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
@@ -207,7 +207,7 @@ extension ELBV2 {
         }
     }
 
-    public struct AddTagsInput: AWSShape {
+    public struct AddTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
@@ -236,7 +236,7 @@ extension ELBV2 {
         }
     }
 
-    public struct AddTagsOutput: AWSShape {
+    public struct AddTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -244,7 +244,7 @@ extension ELBV2 {
 
     }
 
-    public struct AuthenticateCognitoActionConfig: AWSShape {
+    public struct AuthenticateCognitoActionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationRequestExtraParams", location: .body(locationName: "AuthenticationRequestExtraParams"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -289,7 +289,7 @@ extension ELBV2 {
         }
     }
 
-    public struct AuthenticateOidcActionConfig: AWSShape {
+    public struct AuthenticateOidcActionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationRequestExtraParams", location: .body(locationName: "AuthenticationRequestExtraParams"), encoding: .map(entry:"entry", key: "key", value: "value"))
         ]
@@ -350,7 +350,7 @@ extension ELBV2 {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerAddresses", location: .body(locationName: "LoadBalancerAddresses"), encoding: .list(member:"member"))
         ]
@@ -375,7 +375,7 @@ extension ELBV2 {
         }
     }
 
-    public struct Certificate: AWSShape {
+    public struct Certificate: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
@@ -393,7 +393,7 @@ extension ELBV2 {
         }
     }
 
-    public struct Cipher: AWSShape {
+    public struct Cipher: AWSDecodableShape {
 
         /// The name of the cipher.
         public let name: String?
@@ -411,7 +411,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateListenerInput: AWSShape {
+    public struct CreateListenerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
@@ -457,7 +457,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateListenerOutput: AWSShape {
+    public struct CreateListenerOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
@@ -474,7 +474,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateLoadBalancerInput: AWSShape {
+    public struct CreateLoadBalancerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "subnetMappings", location: .body(locationName: "SubnetMappings"), encoding: .list(member:"member")), 
@@ -529,7 +529,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateLoadBalancerOutput: AWSShape {
+    public struct CreateLoadBalancerOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
         ]
@@ -546,7 +546,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateRuleInput: AWSShape {
+    public struct CreateRuleInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
@@ -587,7 +587,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateRuleOutput: AWSShape {
+    public struct CreateRuleOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
@@ -604,7 +604,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateTargetGroupInput: AWSShape {
+    public struct CreateTargetGroupInput: AWSEncodableShape {
 
         /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance or ip, health checks are always enabled and cannot be disabled.
         public let healthCheckEnabled: Bool?
@@ -685,7 +685,7 @@ extension ELBV2 {
         }
     }
 
-    public struct CreateTargetGroupOutput: AWSShape {
+    public struct CreateTargetGroupOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
@@ -702,7 +702,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DeleteListenerInput: AWSShape {
+    public struct DeleteListenerInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -716,7 +716,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DeleteListenerOutput: AWSShape {
+    public struct DeleteListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -724,7 +724,7 @@ extension ELBV2 {
 
     }
 
-    public struct DeleteLoadBalancerInput: AWSShape {
+    public struct DeleteLoadBalancerInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -738,7 +738,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DeleteLoadBalancerOutput: AWSShape {
+    public struct DeleteLoadBalancerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -746,7 +746,7 @@ extension ELBV2 {
 
     }
 
-    public struct DeleteRuleInput: AWSShape {
+    public struct DeleteRuleInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
@@ -760,7 +760,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DeleteRuleOutput: AWSShape {
+    public struct DeleteRuleOutput: AWSDecodableShape {
 
 
         public init() {
@@ -768,7 +768,7 @@ extension ELBV2 {
 
     }
 
-    public struct DeleteTargetGroupInput: AWSShape {
+    public struct DeleteTargetGroupInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -782,7 +782,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DeleteTargetGroupOutput: AWSShape {
+    public struct DeleteTargetGroupOutput: AWSDecodableShape {
 
 
         public init() {
@@ -790,7 +790,7 @@ extension ELBV2 {
 
     }
 
-    public struct DeregisterTargetsInput: AWSShape {
+    public struct DeregisterTargetsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
@@ -817,7 +817,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DeregisterTargetsOutput: AWSShape {
+    public struct DeregisterTargetsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -825,7 +825,7 @@ extension ELBV2 {
 
     }
 
-    public struct DescribeAccountLimitsInput: AWSShape {
+    public struct DescribeAccountLimitsInput: AWSEncodableShape {
 
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -848,7 +848,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeAccountLimitsOutput: AWSShape {
+    public struct DescribeAccountLimitsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "limits", location: .body(locationName: "Limits"), encoding: .list(member:"member"))
         ]
@@ -869,7 +869,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeListenerCertificatesInput: AWSShape {
+    public struct DescribeListenerCertificatesInput: AWSEncodableShape {
 
         /// The Amazon Resource Names (ARN) of the listener.
         public let listenerArn: String
@@ -896,7 +896,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeListenerCertificatesOutput: AWSShape {
+    public struct DescribeListenerCertificatesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
@@ -917,7 +917,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeListenersInput: AWSShape {
+    public struct DescribeListenersInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "listenerArns", location: .body(locationName: "ListenerArns"), encoding: .list(member:"member"))
         ]
@@ -951,7 +951,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeListenersOutput: AWSShape {
+    public struct DescribeListenersOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
@@ -972,7 +972,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+    public struct DescribeLoadBalancerAttributesInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -986,7 +986,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
+    public struct DescribeLoadBalancerAttributesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
@@ -1003,7 +1003,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeLoadBalancersInput: AWSShape {
+    public struct DescribeLoadBalancersInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerArns", location: .body(locationName: "LoadBalancerArns"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member"))
@@ -1038,7 +1038,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeLoadBalancersOutput: AWSShape {
+    public struct DescribeLoadBalancersOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
         ]
@@ -1059,7 +1059,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeRulesInput: AWSShape {
+    public struct DescribeRulesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleArns", location: .body(locationName: "RuleArns"), encoding: .list(member:"member"))
         ]
@@ -1093,7 +1093,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeRulesOutput: AWSShape {
+    public struct DescribeRulesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
@@ -1114,7 +1114,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeSSLPoliciesInput: AWSShape {
+    public struct DescribeSSLPoliciesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member"))
         ]
@@ -1144,7 +1144,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeSSLPoliciesOutput: AWSShape {
+    public struct DescribeSSLPoliciesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "sslPolicies", location: .body(locationName: "SslPolicies"), encoding: .list(member:"member"))
         ]
@@ -1165,7 +1165,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTagsInput: AWSShape {
+    public struct DescribeTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member"))
         ]
@@ -1182,7 +1182,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTagsOutput: AWSShape {
+    public struct DescribeTagsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagDescriptions", location: .body(locationName: "TagDescriptions"), encoding: .list(member:"member"))
         ]
@@ -1199,7 +1199,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTargetGroupAttributesInput: AWSShape {
+    public struct DescribeTargetGroupAttributesInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1213,7 +1213,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTargetGroupAttributesOutput: AWSShape {
+    public struct DescribeTargetGroupAttributesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
@@ -1230,7 +1230,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTargetGroupsInput: AWSShape {
+    public struct DescribeTargetGroupsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "names", location: .body(locationName: "Names"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "targetGroupArns", location: .body(locationName: "TargetGroupArns"), encoding: .list(member:"member"))
@@ -1269,7 +1269,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTargetGroupsOutput: AWSShape {
+    public struct DescribeTargetGroupsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
@@ -1290,7 +1290,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTargetHealthInput: AWSShape {
+    public struct DescribeTargetHealthInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
@@ -1317,7 +1317,7 @@ extension ELBV2 {
         }
     }
 
-    public struct DescribeTargetHealthOutput: AWSShape {
+    public struct DescribeTargetHealthOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetHealthDescriptions", location: .body(locationName: "TargetHealthDescriptions"), encoding: .list(member:"member"))
         ]
@@ -1334,7 +1334,7 @@ extension ELBV2 {
         }
     }
 
-    public struct FixedResponseActionConfig: AWSShape {
+    public struct FixedResponseActionConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The content type. Valid Values: text/plain | text/css | text/html | application/javascript | application/json
         public let contentType: String?
@@ -1364,7 +1364,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ForwardActionConfig: AWSShape {
+    public struct ForwardActionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
@@ -1385,7 +1385,7 @@ extension ELBV2 {
         }
     }
 
-    public struct HostHeaderConditionConfig: AWSShape {
+    public struct HostHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -1402,7 +1402,7 @@ extension ELBV2 {
         }
     }
 
-    public struct HttpHeaderConditionConfig: AWSShape {
+    public struct HttpHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -1423,7 +1423,7 @@ extension ELBV2 {
         }
     }
 
-    public struct HttpRequestMethodConditionConfig: AWSShape {
+    public struct HttpRequestMethodConditionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -1440,7 +1440,7 @@ extension ELBV2 {
         }
     }
 
-    public struct Limit: AWSShape {
+    public struct Limit: AWSDecodableShape {
 
         /// The maximum value of the limit.
         public let max: String?
@@ -1458,7 +1458,7 @@ extension ELBV2 {
         }
     }
 
-    public struct Listener: AWSShape {
+    public struct Listener: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
@@ -1500,7 +1500,7 @@ extension ELBV2 {
         }
     }
 
-    public struct LoadBalancer: AWSShape {
+    public struct LoadBalancer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
@@ -1562,7 +1562,7 @@ extension ELBV2 {
         }
     }
 
-    public struct LoadBalancerAddress: AWSShape {
+    public struct LoadBalancerAddress: AWSDecodableShape {
 
         /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internal-facing load balancer.
         public let allocationId: String?
@@ -1584,7 +1584,7 @@ extension ELBV2 {
         }
     }
 
-    public struct LoadBalancerAttribute: AWSShape {
+    public struct LoadBalancerAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
         public let key: String?
@@ -1608,7 +1608,7 @@ extension ELBV2 {
         }
     }
 
-    public struct LoadBalancerState: AWSShape {
+    public struct LoadBalancerState: AWSDecodableShape {
 
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
         public let code: LoadBalancerStateEnum?
@@ -1626,7 +1626,7 @@ extension ELBV2 {
         }
     }
 
-    public struct Matcher: AWSShape {
+    public struct Matcher: AWSEncodableShape & AWSDecodableShape {
 
         /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200–399.
         public let httpCode: String
@@ -1640,7 +1640,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyListenerInput: AWSShape {
+    public struct ModifyListenerInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "defaultActions", location: .body(locationName: "DefaultActions"), encoding: .list(member:"member"))
@@ -1686,7 +1686,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyListenerOutput: AWSShape {
+    public struct ModifyListenerOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "listeners", location: .body(locationName: "Listeners"), encoding: .list(member:"member"))
         ]
@@ -1703,7 +1703,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyLoadBalancerAttributesInput: AWSShape {
+    public struct ModifyLoadBalancerAttributesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
@@ -1731,7 +1731,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
+    public struct ModifyLoadBalancerAttributesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
@@ -1748,7 +1748,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyRuleInput: AWSShape {
+    public struct ModifyRuleInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
@@ -1783,7 +1783,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyRuleOutput: AWSShape {
+    public struct ModifyRuleOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
@@ -1800,7 +1800,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyTargetGroupAttributesInput: AWSShape {
+    public struct ModifyTargetGroupAttributesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
@@ -1827,7 +1827,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyTargetGroupAttributesOutput: AWSShape {
+    public struct ModifyTargetGroupAttributesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributes", location: .body(locationName: "Attributes"), encoding: .list(member:"member"))
         ]
@@ -1844,7 +1844,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyTargetGroupInput: AWSShape {
+    public struct ModifyTargetGroupInput: AWSEncodableShape {
 
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
@@ -1907,7 +1907,7 @@ extension ELBV2 {
         }
     }
 
-    public struct ModifyTargetGroupOutput: AWSShape {
+    public struct ModifyTargetGroupOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGroups", location: .body(locationName: "TargetGroups"), encoding: .list(member:"member"))
         ]
@@ -1924,7 +1924,7 @@ extension ELBV2 {
         }
     }
 
-    public struct PathPatternConditionConfig: AWSShape {
+    public struct PathPatternConditionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -1941,7 +1941,7 @@ extension ELBV2 {
         }
     }
 
-    public struct QueryStringConditionConfig: AWSShape {
+    public struct QueryStringConditionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -1958,7 +1958,7 @@ extension ELBV2 {
         }
     }
 
-    public struct QueryStringKeyValuePair: AWSShape {
+    public struct QueryStringKeyValuePair: AWSEncodableShape & AWSDecodableShape {
 
         /// The key. You can omit the key.
         public let key: String?
@@ -1976,7 +1976,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RedirectActionConfig: AWSShape {
+    public struct RedirectActionConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The hostname. This component is not percent-encoded. The hostname can contain #{host}.
         public let host: String?
@@ -2020,7 +2020,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RegisterTargetsInput: AWSShape {
+    public struct RegisterTargetsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targets", location: .body(locationName: "Targets"), encoding: .list(member:"member"))
         ]
@@ -2047,7 +2047,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RegisterTargetsOutput: AWSShape {
+    public struct RegisterTargetsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2055,7 +2055,7 @@ extension ELBV2 {
 
     }
 
-    public struct RemoveListenerCertificatesInput: AWSShape {
+    public struct RemoveListenerCertificatesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"member"))
         ]
@@ -2076,7 +2076,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RemoveListenerCertificatesOutput: AWSShape {
+    public struct RemoveListenerCertificatesOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2084,7 +2084,7 @@ extension ELBV2 {
 
     }
 
-    public struct RemoveTagsInput: AWSShape {
+    public struct RemoveTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArns", location: .body(locationName: "ResourceArns"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
@@ -2114,7 +2114,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RemoveTagsOutput: AWSShape {
+    public struct RemoveTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2122,7 +2122,7 @@ extension ELBV2 {
 
     }
 
-    public struct Rule: AWSShape {
+    public struct Rule: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actions", location: .body(locationName: "Actions"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "conditions", location: .body(locationName: "Conditions"), encoding: .list(member:"member"))
@@ -2156,7 +2156,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RuleCondition: AWSShape {
+    public struct RuleCondition: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -2205,7 +2205,7 @@ extension ELBV2 {
         }
     }
 
-    public struct RulePriorityPair: AWSShape {
+    public struct RulePriorityPair: AWSEncodableShape {
 
         /// The rule priority.
         public let priority: Int?
@@ -2228,7 +2228,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetIpAddressTypeInput: AWSShape {
+    public struct SetIpAddressTypeInput: AWSEncodableShape {
 
         /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. Network Load Balancers must use ipv4.
         public let ipAddressType: IpAddressType
@@ -2246,7 +2246,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetIpAddressTypeOutput: AWSShape {
+    public struct SetIpAddressTypeOutput: AWSDecodableShape {
 
         /// The IP address type.
         public let ipAddressType: IpAddressType?
@@ -2260,7 +2260,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetRulePrioritiesInput: AWSShape {
+    public struct SetRulePrioritiesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rulePriorities", location: .body(locationName: "RulePriorities"), encoding: .list(member:"member"))
         ]
@@ -2283,7 +2283,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetRulePrioritiesOutput: AWSShape {
+    public struct SetRulePrioritiesOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "rules", location: .body(locationName: "Rules"), encoding: .list(member:"member"))
         ]
@@ -2300,7 +2300,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetSecurityGroupsInput: AWSShape {
+    public struct SetSecurityGroupsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityGroups", location: .body(locationName: "SecurityGroups"), encoding: .list(member:"member"))
         ]
@@ -2321,7 +2321,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetSecurityGroupsOutput: AWSShape {
+    public struct SetSecurityGroupsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityGroupIds", location: .body(locationName: "SecurityGroupIds"), encoding: .list(member:"member"))
         ]
@@ -2338,7 +2338,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetSubnetsInput: AWSShape {
+    public struct SetSubnetsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnetMappings", location: .body(locationName: "SubnetMappings"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"member"))
@@ -2364,7 +2364,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SetSubnetsOutput: AWSShape {
+    public struct SetSubnetsOutput: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member"))
         ]
@@ -2381,7 +2381,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SourceIpConditionConfig: AWSShape {
+    public struct SourceIpConditionConfig: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -2398,7 +2398,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SslPolicy: AWSShape {
+    public struct SslPolicy: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ciphers", location: .body(locationName: "Ciphers"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "sslProtocols", location: .body(locationName: "SslProtocols"), encoding: .list(member:"member"))
@@ -2424,7 +2424,7 @@ extension ELBV2 {
         }
     }
 
-    public struct SubnetMapping: AWSShape {
+    public struct SubnetMapping: AWSEncodableShape {
 
         /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer.
         public let allocationId: String?
@@ -2446,7 +2446,7 @@ extension ELBV2 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String
@@ -2473,7 +2473,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TagDescription: AWSShape {
+    public struct TagDescription: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -2494,7 +2494,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetDescription: AWSShape {
+    public struct TargetDescription: AWSEncodableShape & AWSDecodableShape {
 
         /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. This parameter is not supported if the target type of the target group is instance. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. With an Application Load Balancer, if the target type is ip and the IP address is outside the VPC for the target group, the only supported value is all. If the target type is lambda, this parameter is optional and the only supported value is all.
         public let availabilityZone: String?
@@ -2521,7 +2521,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetGroup: AWSShape {
+    public struct TargetGroup: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerArns", location: .body(locationName: "LoadBalancerArns"), encoding: .list(member:"member"))
         ]
@@ -2598,7 +2598,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetGroupAttribute: AWSShape {
+    public struct TargetGroupAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
         public let key: String?
@@ -2621,7 +2621,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetGroupStickinessConfig: AWSShape {
+    public struct TargetGroupStickinessConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
         public let durationSeconds: Int?
@@ -2639,7 +2639,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetGroupTuple: AWSShape {
+    public struct TargetGroupTuple: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
@@ -2657,7 +2657,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetHealth: AWSShape {
+    public struct TargetHealth: AWSDecodableShape {
 
         /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
         public let description: String?
@@ -2679,7 +2679,7 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetHealthDescription: AWSShape {
+    public struct TargetHealthDescription: AWSDecodableShape {
 
         /// The port to use to connect with the target.
         public let healthCheckPort: String?

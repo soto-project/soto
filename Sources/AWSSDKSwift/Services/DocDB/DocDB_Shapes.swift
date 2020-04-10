@@ -38,7 +38,7 @@ extension DocDB {
 
     //MARK: Shapes
 
-    public struct AddTagsToResourceMessage: AWSShape {
+    public struct AddTagsToResourceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -59,7 +59,7 @@ extension DocDB {
         }
     }
 
-    public struct ApplyPendingMaintenanceActionMessage: AWSShape {
+    public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
 
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
         public let applyAction: String
@@ -81,7 +81,7 @@ extension DocDB {
         }
     }
 
-    public struct ApplyPendingMaintenanceActionResult: AWSShape {
+    public struct ApplyPendingMaintenanceActionResult: AWSDecodableShape {
 
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
@@ -94,7 +94,7 @@ extension DocDB {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
 
         /// The name of the Availability Zone.
         public let name: String?
@@ -108,7 +108,7 @@ extension DocDB {
         }
     }
 
-    public struct Certificate: AWSShape {
+    public struct Certificate: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the certificate. Example: arn:aws:rds:us-east-1::cert:rds-ca-2019 
         public let certificateArn: String?
@@ -142,7 +142,7 @@ extension DocDB {
         }
     }
 
-    public struct CertificateMessage: AWSShape {
+    public struct CertificateMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificates", location: .body(locationName: "Certificates"), encoding: .list(member:"Certificate"))
         ]
@@ -163,7 +163,7 @@ extension DocDB {
         }
     }
 
-    public struct CloudwatchLogsExportConfiguration: AWSShape {
+    public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "disableLogTypes", location: .body(locationName: "DisableLogTypes"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "enableLogTypes", location: .body(locationName: "EnableLogTypes"), encoding: .list(member:"member"))
@@ -185,7 +185,7 @@ extension DocDB {
         }
     }
 
-    public struct CopyDBClusterParameterGroupMessage: AWSShape {
+    public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -214,7 +214,7 @@ extension DocDB {
         }
     }
 
-    public struct CopyDBClusterParameterGroupResult: AWSShape {
+    public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -227,7 +227,7 @@ extension DocDB {
         }
     }
 
-    public struct CopyDBClusterSnapshotMessage: AWSShape {
+    public struct CopyDBClusterSnapshotMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -264,7 +264,7 @@ extension DocDB {
         }
     }
 
-    public struct CopyDBClusterSnapshotResult: AWSShape {
+    public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -277,7 +277,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBClusterMessage: AWSShape {
+    public struct CreateDBClusterMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
@@ -365,7 +365,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBClusterParameterGroupMessage: AWSShape {
+    public struct CreateDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -394,7 +394,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBClusterParameterGroupResult: AWSShape {
+    public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
 
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
@@ -407,7 +407,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBClusterResult: AWSShape {
+    public struct CreateDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -420,7 +420,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBClusterSnapshotMessage: AWSShape {
+    public struct CreateDBClusterSnapshotMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -445,7 +445,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBClusterSnapshotResult: AWSShape {
+    public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -458,7 +458,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBInstanceMessage: AWSShape {
+    public struct CreateDBInstanceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
         ]
@@ -507,7 +507,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBInstanceResult: AWSShape {
+    public struct CreateDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -520,7 +520,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBSubnetGroupMessage: AWSShape {
+    public struct CreateDBSubnetGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag"))
@@ -550,7 +550,7 @@ extension DocDB {
         }
     }
 
-    public struct CreateDBSubnetGroupResult: AWSShape {
+    public struct CreateDBSubnetGroupResult: AWSDecodableShape {
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -563,7 +563,7 @@ extension DocDB {
         }
     }
 
-    public struct DBCluster: AWSShape {
+    public struct DBCluster: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "associatedRoles", location: .body(locationName: "AssociatedRoles"), encoding: .list(member:"DBClusterRole")), 
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
@@ -696,7 +696,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterMember: AWSShape {
+    public struct DBClusterMember: AWSDecodableShape {
 
         /// Specifies the status of the cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
@@ -722,7 +722,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterMessage: AWSShape {
+    public struct DBClusterMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusters", location: .body(locationName: "DBClusters"), encoding: .list(member:"DBCluster"))
         ]
@@ -743,7 +743,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterParameterGroup: AWSShape {
+    public struct DBClusterParameterGroup: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the cluster parameter group.
         public let dBClusterParameterGroupArn: String?
@@ -769,7 +769,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterParameterGroupDetails: AWSShape {
+    public struct DBClusterParameterGroupDetails: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -790,7 +790,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterParameterGroupNameMessage: AWSShape {
+    public struct DBClusterParameterGroupNameMessage: AWSDecodableShape {
 
         /// The name of a cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string. 
         public let dBClusterParameterGroupName: String?
@@ -804,7 +804,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterParameterGroupsMessage: AWSShape {
+    public struct DBClusterParameterGroupsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusterParameterGroups", location: .body(locationName: "DBClusterParameterGroups"), encoding: .list(member:"DBClusterParameterGroup"))
         ]
@@ -825,7 +825,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterRole: AWSShape {
+    public struct DBClusterRole: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
@@ -843,7 +843,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterSnapshot: AWSShape {
+    public struct DBClusterSnapshot: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
@@ -924,7 +924,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterSnapshotAttribute: AWSShape {
+    public struct DBClusterSnapshotAttribute: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributeValues", location: .body(locationName: "AttributeValues"), encoding: .list(member:"AttributeValue"))
         ]
@@ -945,7 +945,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterSnapshotAttributesResult: AWSShape {
+    public struct DBClusterSnapshotAttributesResult: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusterSnapshotAttributes", location: .body(locationName: "DBClusterSnapshotAttributes"), encoding: .list(member:"DBClusterSnapshotAttribute"))
         ]
@@ -966,7 +966,7 @@ extension DocDB {
         }
     }
 
-    public struct DBClusterSnapshotMessage: AWSShape {
+    public struct DBClusterSnapshotMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBClusterSnapshots", location: .body(locationName: "DBClusterSnapshots"), encoding: .list(member:"DBClusterSnapshot"))
         ]
@@ -987,7 +987,7 @@ extension DocDB {
         }
     }
 
-    public struct DBEngineVersion: AWSShape {
+    public struct DBEngineVersion: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "exportableLogTypes", location: .body(locationName: "ExportableLogTypes"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "validUpgradeTarget", location: .body(locationName: "ValidUpgradeTarget"), encoding: .list(member:"UpgradeTarget"))
@@ -1033,7 +1033,7 @@ extension DocDB {
         }
     }
 
-    public struct DBEngineVersionMessage: AWSShape {
+    public struct DBEngineVersionMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBEngineVersions", location: .body(locationName: "DBEngineVersions"), encoding: .list(member:"DBEngineVersion"))
         ]
@@ -1054,7 +1054,7 @@ extension DocDB {
         }
     }
 
-    public struct DBInstance: AWSShape {
+    public struct DBInstance: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "enabledCloudwatchLogsExports", location: .body(locationName: "EnabledCloudwatchLogsExports"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "statusInfos", location: .body(locationName: "StatusInfos"), encoding: .list(member:"DBInstanceStatusInfo")), 
@@ -1173,7 +1173,7 @@ extension DocDB {
         }
     }
 
-    public struct DBInstanceMessage: AWSShape {
+    public struct DBInstanceMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBInstances", location: .body(locationName: "DBInstances"), encoding: .list(member:"DBInstance"))
         ]
@@ -1194,7 +1194,7 @@ extension DocDB {
         }
     }
 
-    public struct DBInstanceStatusInfo: AWSShape {
+    public struct DBInstanceStatusInfo: AWSDecodableShape {
 
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public let message: String?
@@ -1220,7 +1220,7 @@ extension DocDB {
         }
     }
 
-    public struct DBSubnetGroup: AWSShape {
+    public struct DBSubnetGroup: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnets", location: .body(locationName: "Subnets"), encoding: .list(member:"Subnet"))
         ]
@@ -1257,7 +1257,7 @@ extension DocDB {
         }
     }
 
-    public struct DBSubnetGroupMessage: AWSShape {
+    public struct DBSubnetGroupMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dBSubnetGroups", location: .body(locationName: "DBSubnetGroups"), encoding: .list(member:"DBSubnetGroup"))
         ]
@@ -1278,7 +1278,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBClusterMessage: AWSShape {
+    public struct DeleteDBClusterMessage: AWSEncodableShape {
 
         /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String
@@ -1300,7 +1300,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBClusterParameterGroupMessage: AWSShape {
+    public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
 
         /// The name of the cluster parameter group. Constraints:   Must be the name of an existing cluster parameter group.   You can't delete a default cluster parameter group.   Cannot be associated with any clusters.  
         public let dBClusterParameterGroupName: String
@@ -1314,7 +1314,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBClusterResult: AWSShape {
+    public struct DeleteDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -1327,7 +1327,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBClusterSnapshotMessage: AWSShape {
+    public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
 
         /// The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
@@ -1341,7 +1341,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBClusterSnapshotResult: AWSShape {
+    public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
 
         public let dBClusterSnapshot: DBClusterSnapshot?
 
@@ -1354,7 +1354,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBInstanceMessage: AWSShape {
+    public struct DeleteDBInstanceMessage: AWSEncodableShape {
 
         /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing instance.  
         public let dBInstanceIdentifier: String
@@ -1368,7 +1368,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBInstanceResult: AWSShape {
+    public struct DeleteDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -1381,7 +1381,7 @@ extension DocDB {
         }
     }
 
-    public struct DeleteDBSubnetGroupMessage: AWSShape {
+    public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
 
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String
@@ -1395,7 +1395,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeCertificatesMessage: AWSShape {
+    public struct DescribeCertificatesMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1424,7 +1424,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
+    public struct DescribeDBClusterParameterGroupsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1453,7 +1453,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBClusterParametersMessage: AWSShape {
+    public struct DescribeDBClusterParametersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1486,7 +1486,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
+    public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
 
         /// The identifier for the cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
@@ -1500,7 +1500,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
+    public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -1513,7 +1513,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBClusterSnapshotsMessage: AWSShape {
+    public struct DescribeDBClusterSnapshotsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1558,7 +1558,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBClustersMessage: AWSShape {
+    public struct DescribeDBClustersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1587,7 +1587,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBEngineVersionsMessage: AWSShape {
+    public struct DescribeDBEngineVersionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1636,7 +1636,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBInstancesMessage: AWSShape {
+    public struct DescribeDBInstancesMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1665,7 +1665,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeDBSubnetGroupsMessage: AWSShape {
+    public struct DescribeDBSubnetGroupsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1694,7 +1694,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
+    public struct DescribeEngineDefaultClusterParametersMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1723,7 +1723,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
+    public struct DescribeEngineDefaultClusterParametersResult: AWSDecodableShape {
 
         public let engineDefaults: EngineDefaults?
 
@@ -1736,7 +1736,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeEventCategoriesMessage: AWSShape {
+    public struct DescribeEventCategoriesMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1757,7 +1757,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeEventsMessage: AWSShape {
+    public struct DescribeEventsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory")), 
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
@@ -1807,7 +1807,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
+    public struct DescribeOrderableDBInstanceOptionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1852,7 +1852,7 @@ extension DocDB {
         }
     }
 
-    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
+    public struct DescribePendingMaintenanceActionsMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -1881,7 +1881,7 @@ extension DocDB {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
 
         /// Specifies the DNS address of the instance.
         public let address: String?
@@ -1903,7 +1903,7 @@ extension DocDB {
         }
     }
 
-    public struct EngineDefaults: AWSShape {
+    public struct EngineDefaults: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -1928,7 +1928,7 @@ extension DocDB {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
@@ -1965,7 +1965,7 @@ extension DocDB {
         }
     }
 
-    public struct EventCategoriesMap: AWSShape {
+    public struct EventCategoriesMap: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategories", location: .body(locationName: "EventCategories"), encoding: .list(member:"EventCategory"))
         ]
@@ -1986,7 +1986,7 @@ extension DocDB {
         }
     }
 
-    public struct EventCategoriesMessage: AWSShape {
+    public struct EventCategoriesMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventCategoriesMapList", location: .body(locationName: "EventCategoriesMapList"), encoding: .list(member:"EventCategoriesMap"))
         ]
@@ -2003,7 +2003,7 @@ extension DocDB {
         }
     }
 
-    public struct EventsMessage: AWSShape {
+    public struct EventsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "events", location: .body(locationName: "Events"), encoding: .list(member:"Event"))
         ]
@@ -2024,7 +2024,7 @@ extension DocDB {
         }
     }
 
-    public struct FailoverDBClusterMessage: AWSShape {
+    public struct FailoverDBClusterMessage: AWSEncodableShape {
 
         /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
@@ -2042,7 +2042,7 @@ extension DocDB {
         }
     }
 
-    public struct FailoverDBClusterResult: AWSShape {
+    public struct FailoverDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2055,7 +2055,7 @@ extension DocDB {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"Value"))
         ]
@@ -2076,7 +2076,7 @@ extension DocDB {
         }
     }
 
-    public struct ListTagsForResourceMessage: AWSShape {
+    public struct ListTagsForResourceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"Filter"))
         ]
@@ -2097,7 +2097,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBClusterMessage: AWSShape {
+    public struct ModifyDBClusterMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "vpcSecurityGroupIds", location: .body(locationName: "VpcSecurityGroupIds"), encoding: .list(member:"VpcSecurityGroupId"))
         ]
@@ -2162,7 +2162,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBClusterParameterGroupMessage: AWSShape {
+    public struct ModifyDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -2183,7 +2183,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBClusterResult: AWSShape {
+    public struct ModifyDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2196,7 +2196,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
+    public struct ModifyDBClusterSnapshotAttributeMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "valuesToAdd", location: .body(locationName: "ValuesToAdd"), encoding: .list(member:"AttributeValue")), 
             AWSMemberEncoding(label: "valuesToRemove", location: .body(locationName: "ValuesToRemove"), encoding: .list(member:"AttributeValue"))
@@ -2226,7 +2226,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
+    public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
 
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
@@ -2239,7 +2239,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBInstanceMessage: AWSShape {
+    public struct ModifyDBInstanceMessage: AWSEncodableShape {
 
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the instance.   If this parameter is set to false, changes to the instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false 
         public let applyImmediately: Bool?
@@ -2281,7 +2281,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBInstanceResult: AWSShape {
+    public struct ModifyDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -2294,7 +2294,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBSubnetGroupMessage: AWSShape {
+    public struct ModifyDBSubnetGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subnetIds", location: .body(locationName: "SubnetIds"), encoding: .list(member:"SubnetIdentifier"))
         ]
@@ -2319,7 +2319,7 @@ extension DocDB {
         }
     }
 
-    public struct ModifyDBSubnetGroupResult: AWSShape {
+    public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
 
         public let dBSubnetGroup: DBSubnetGroup?
 
@@ -2332,7 +2332,7 @@ extension DocDB {
         }
     }
 
-    public struct OrderableDBInstanceOption: AWSShape {
+    public struct OrderableDBInstanceOption: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone"))
         ]
@@ -2369,7 +2369,7 @@ extension DocDB {
         }
     }
 
-    public struct OrderableDBInstanceOptionsMessage: AWSShape {
+    public struct OrderableDBInstanceOptionsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "orderableDBInstanceOptions", location: .body(locationName: "OrderableDBInstanceOptions"), encoding: .list(member:"OrderableDBInstanceOption"))
         ]
@@ -2390,7 +2390,7 @@ extension DocDB {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
@@ -2440,7 +2440,7 @@ extension DocDB {
         }
     }
 
-    public struct PendingCloudwatchLogsExports: AWSShape {
+    public struct PendingCloudwatchLogsExports: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "logTypesToDisable", location: .body(locationName: "LogTypesToDisable"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "logTypesToEnable", location: .body(locationName: "LogTypesToEnable"), encoding: .list(member:"member"))
@@ -2462,7 +2462,7 @@ extension DocDB {
         }
     }
 
-    public struct PendingMaintenanceAction: AWSShape {
+    public struct PendingMaintenanceAction: AWSDecodableShape {
 
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
@@ -2496,7 +2496,7 @@ extension DocDB {
         }
     }
 
-    public struct PendingMaintenanceActionsMessage: AWSShape {
+    public struct PendingMaintenanceActionsMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pendingMaintenanceActions", location: .body(locationName: "PendingMaintenanceActions"), encoding: .list(member:"ResourcePendingMaintenanceActions"))
         ]
@@ -2517,7 +2517,7 @@ extension DocDB {
         }
     }
 
-    public struct PendingModifiedValues: AWSShape {
+    public struct PendingModifiedValues: AWSDecodableShape {
 
         ///  Contains the new AllocatedStorage size for then instance that will be applied or is currently being applied. 
         public let allocatedStorage: Int?
@@ -2583,7 +2583,7 @@ extension DocDB {
         }
     }
 
-    public struct RebootDBInstanceMessage: AWSShape {
+    public struct RebootDBInstanceMessage: AWSEncodableShape {
 
         /// The instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String
@@ -2601,7 +2601,7 @@ extension DocDB {
         }
     }
 
-    public struct RebootDBInstanceResult: AWSShape {
+    public struct RebootDBInstanceResult: AWSDecodableShape {
 
         public let dBInstance: DBInstance?
 
@@ -2614,7 +2614,7 @@ extension DocDB {
         }
     }
 
-    public struct RemoveTagsFromResourceMessage: AWSShape {
+    public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagKeys", location: .body(locationName: "TagKeys"), encoding: .list(member:"member"))
         ]
@@ -2635,7 +2635,7 @@ extension DocDB {
         }
     }
 
-    public struct ResetDBClusterParameterGroupMessage: AWSShape {
+    public struct ResetDBClusterParameterGroupMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "parameters", location: .body(locationName: "Parameters"), encoding: .list(member:"Parameter"))
         ]
@@ -2660,7 +2660,7 @@ extension DocDB {
         }
     }
 
-    public struct ResourcePendingMaintenanceActions: AWSShape {
+    public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "pendingMaintenanceActionDetails", location: .body(locationName: "PendingMaintenanceActionDetails"), encoding: .list(member:"PendingMaintenanceAction"))
         ]
@@ -2681,7 +2681,7 @@ extension DocDB {
         }
     }
 
-    public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
+    public struct RestoreDBClusterFromSnapshotMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"AvailabilityZone")), 
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
@@ -2745,7 +2745,7 @@ extension DocDB {
         }
     }
 
-    public struct RestoreDBClusterFromSnapshotResult: AWSShape {
+    public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2758,7 +2758,7 @@ extension DocDB {
         }
     }
 
-    public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
+    public struct RestoreDBClusterToPointInTimeMessage: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "enableCloudwatchLogsExports", location: .body(locationName: "EnableCloudwatchLogsExports"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"Tag")), 
@@ -2817,7 +2817,7 @@ extension DocDB {
         }
     }
 
-    public struct RestoreDBClusterToPointInTimeResult: AWSShape {
+    public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2830,7 +2830,7 @@ extension DocDB {
         }
     }
 
-    public struct StartDBClusterMessage: AWSShape {
+    public struct StartDBClusterMessage: AWSEncodableShape {
 
         /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52 
         public let dBClusterIdentifier: String
@@ -2844,7 +2844,7 @@ extension DocDB {
         }
     }
 
-    public struct StartDBClusterResult: AWSShape {
+    public struct StartDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2857,7 +2857,7 @@ extension DocDB {
         }
     }
 
-    public struct StopDBClusterMessage: AWSShape {
+    public struct StopDBClusterMessage: AWSEncodableShape {
 
         /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52 
         public let dBClusterIdentifier: String
@@ -2871,7 +2871,7 @@ extension DocDB {
         }
     }
 
-    public struct StopDBClusterResult: AWSShape {
+    public struct StopDBClusterResult: AWSDecodableShape {
 
         public let dBCluster: DBCluster?
 
@@ -2884,7 +2884,7 @@ extension DocDB {
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct Subnet: AWSDecodableShape {
 
         /// Specifies the Availability Zone for the subnet.
         public let subnetAvailabilityZone: AvailabilityZone?
@@ -2906,7 +2906,7 @@ extension DocDB {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
@@ -2924,7 +2924,7 @@ extension DocDB {
         }
     }
 
-    public struct TagListMessage: AWSShape {
+    public struct TagListMessage: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tagList", location: .body(locationName: "TagList"), encoding: .list(member:"Tag"))
         ]
@@ -2941,7 +2941,7 @@ extension DocDB {
         }
     }
 
-    public struct UpgradeTarget: AWSShape {
+    public struct UpgradeTarget: AWSDecodableShape {
 
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
@@ -2971,7 +2971,7 @@ extension DocDB {
         }
     }
 
-    public struct VpcSecurityGroupMembership: AWSShape {
+    public struct VpcSecurityGroupMembership: AWSDecodableShape {
 
         /// The status of the VPC security group.
         public let status: String?

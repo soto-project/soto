@@ -37,7 +37,7 @@ extension ServerlessApplicationRepository {
 
     //MARK: Shapes
 
-    public struct ApplicationDependencySummary: AWSShape {
+    public struct ApplicationDependencySummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the nested application.
         public let applicationId: String
@@ -55,7 +55,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ApplicationPolicyStatement: AWSShape {
+    public struct ApplicationPolicyStatement: AWSEncodableShape & AWSDecodableShape {
 
         /// For the list of actions supported for this operation, see Application 
         ///  Permissions.
@@ -82,7 +82,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ApplicationSummary: AWSShape {
+    public struct ApplicationSummary: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
@@ -124,7 +124,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateApplicationRequest: AWSShape {
+    public struct CreateApplicationRequest: AWSEncodableShape {
 
         public let author: String
         public let description: String
@@ -179,7 +179,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateApplicationResponse: AWSShape {
+    public struct CreateApplicationResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let author: String?
@@ -228,7 +228,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateApplicationVersionRequest: AWSShape {
+    public struct CreateApplicationVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "semanticVersion", location: .uri(locationName: "semanticVersion"))
@@ -251,8 +251,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case semanticVersion = "semanticVersion"
             case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
             case sourceCodeUrl = "sourceCodeUrl"
             case templateBody = "templateBody"
@@ -260,7 +258,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateApplicationVersionResponse: AWSShape {
+    public struct CreateApplicationVersionResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let creationTime: String?
@@ -297,7 +295,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateCloudFormationChangeSetRequest: AWSShape {
+    public struct CreateCloudFormationChangeSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -333,7 +331,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case capabilities = "capabilities"
             case changeSetName = "changeSetName"
             case clientToken = "clientToken"
@@ -349,7 +346,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateCloudFormationChangeSetResponse: AWSShape {
+    public struct CreateCloudFormationChangeSetResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let changeSetId: String?
@@ -371,7 +368,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct CreateCloudFormationTemplateRequest: AWSShape {
+    public struct CreateCloudFormationTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -385,12 +382,11 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case semanticVersion = "semanticVersion"
         }
     }
 
-    public struct CreateCloudFormationTemplateResponse: AWSShape {
+    public struct CreateCloudFormationTemplateResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let creationTime: String?
@@ -421,7 +417,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct DeleteApplicationRequest: AWSShape {
+    public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -432,12 +428,10 @@ extension ServerlessApplicationRepository {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApplicationPolicyRequest: AWSShape {
+    public struct GetApplicationPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -448,12 +442,10 @@ extension ServerlessApplicationRepository {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApplicationPolicyResponse: AWSShape {
+    public struct GetApplicationPolicyResponse: AWSDecodableShape {
 
         public let statements: [ApplicationPolicyStatement]?
 
@@ -466,7 +458,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct GetApplicationRequest: AWSShape {
+    public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
@@ -480,13 +472,10 @@ extension ServerlessApplicationRepository {
             self.semanticVersion = semanticVersion
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case semanticVersion = "semanticVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApplicationResponse: AWSShape {
+    public struct GetApplicationResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let author: String?
@@ -535,7 +524,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct GetCloudFormationTemplateRequest: AWSShape {
+    public struct GetCloudFormationTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "templateId"))
@@ -549,13 +538,10 @@ extension ServerlessApplicationRepository {
             self.templateId = templateId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case templateId = "templateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCloudFormationTemplateResponse: AWSShape {
+    public struct GetCloudFormationTemplateResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let creationTime: String?
@@ -586,7 +572,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ListApplicationDependenciesRequest: AWSShape {
+    public struct ListApplicationDependenciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
@@ -611,15 +597,10 @@ extension ServerlessApplicationRepository {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case maxItems = "maxItems"
-            case nextToken = "nextToken"
-            case semanticVersion = "semanticVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListApplicationDependenciesResponse: AWSShape {
+    public struct ListApplicationDependenciesResponse: AWSDecodableShape {
 
         public let dependencies: [ApplicationDependencySummary]?
         public let nextToken: String?
@@ -635,7 +616,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ListApplicationVersionsRequest: AWSShape {
+    public struct ListApplicationVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
@@ -657,14 +638,10 @@ extension ServerlessApplicationRepository {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-            case maxItems = "maxItems"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListApplicationVersionsResponse: AWSShape {
+    public struct ListApplicationVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionSummary]?
@@ -680,7 +657,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ListApplicationsRequest: AWSShape {
+    public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -699,13 +676,10 @@ extension ServerlessApplicationRepository {
             try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "maxItems"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListApplicationsResponse: AWSShape {
+    public struct ListApplicationsResponse: AWSDecodableShape {
 
         public let applications: [ApplicationSummary]?
         public let nextToken: String?
@@ -721,7 +695,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ParameterDefinition: AWSShape {
+    public struct ParameterDefinition: AWSDecodableShape {
 
         /// A regular expression that represents the patterns to allow for String types.
         public let allowedPattern: String?
@@ -800,7 +774,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct ParameterValue: AWSShape {
+    public struct ParameterValue: AWSEncodableShape {
 
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation
         ///  uses the default value that is specified in your template.
@@ -819,7 +793,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct PutApplicationPolicyRequest: AWSShape {
+    public struct PutApplicationPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -833,12 +807,11 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case statements = "statements"
         }
     }
 
-    public struct PutApplicationPolicyResponse: AWSShape {
+    public struct PutApplicationPolicyResponse: AWSDecodableShape {
 
         public let statements: [ApplicationPolicyStatement]?
 
@@ -851,7 +824,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct RollbackConfiguration: AWSShape {
+    public struct RollbackConfiguration: AWSEncodableShape {
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
@@ -871,7 +844,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct RollbackTrigger: AWSShape {
+    public struct RollbackTrigger: AWSEncodableShape {
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
@@ -891,7 +864,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape {
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation Tag
         ///   Data Type.
@@ -913,7 +886,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct UnshareApplicationRequest: AWSShape {
+    public struct UnshareApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -927,12 +900,11 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case organizationId = "organizationId"
         }
     }
 
-    public struct UpdateApplicationRequest: AWSShape {
+    public struct UpdateApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId"))
         ]
@@ -956,7 +928,6 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
             case author = "author"
             case description = "description"
             case homePageUrl = "homePageUrl"
@@ -966,7 +937,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct UpdateApplicationResponse: AWSShape {
+    public struct UpdateApplicationResponse: AWSDecodableShape {
 
         public let applicationId: String?
         public let author: String?
@@ -1015,7 +986,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct Version: AWSShape {
+    public struct Version: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
@@ -1086,7 +1057,7 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct VersionSummary: AWSShape {
+    public struct VersionSummary: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String

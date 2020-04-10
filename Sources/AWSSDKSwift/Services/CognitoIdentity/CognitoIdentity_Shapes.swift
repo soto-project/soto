@@ -48,7 +48,7 @@ extension CognitoIdentity {
 
     //MARK: Shapes
 
-    public struct CognitoIdentityProvider: AWSShape {
+    public struct CognitoIdentityProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// The client ID for the Amazon Cognito user pool.
         public let clientId: String?
@@ -79,7 +79,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct CreateIdentityPoolInput: AWSShape {
+    public struct CreateIdentityPoolInput: AWSEncodableShape {
 
         /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide.
         public let allowClassicFlow: Bool?
@@ -158,7 +158,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct Credentials: AWSShape {
+    public struct Credentials: AWSDecodableShape {
 
         /// The Access Key portion of the credentials.
         public let accessKeyId: String?
@@ -184,7 +184,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct DeleteIdentitiesInput: AWSShape {
+    public struct DeleteIdentitiesInput: AWSEncodableShape {
 
         /// A list of 1-60 identities that you want to delete.
         public let identityIdsToDelete: [String]
@@ -208,7 +208,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct DeleteIdentitiesResponse: AWSShape {
+    public struct DeleteIdentitiesResponse: AWSDecodableShape {
 
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
         public let unprocessedIdentityIds: [UnprocessedIdentityId]?
@@ -222,7 +222,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct DeleteIdentityPoolInput: AWSShape {
+    public struct DeleteIdentityPoolInput: AWSEncodableShape {
 
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -242,7 +242,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct DescribeIdentityInput: AWSShape {
+    public struct DescribeIdentityInput: AWSEncodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
@@ -262,7 +262,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct DescribeIdentityPoolInput: AWSShape {
+    public struct DescribeIdentityPoolInput: AWSEncodableShape {
 
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -282,7 +282,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetCredentialsForIdentityInput: AWSShape {
+    public struct GetCredentialsForIdentityInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
         public let customRoleArn: String?
@@ -318,7 +318,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetCredentialsForIdentityResponse: AWSShape {
+    public struct GetCredentialsForIdentityResponse: AWSDecodableShape {
 
         /// Credentials for the provided identity ID.
         public let credentials: Credentials?
@@ -336,7 +336,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetIdInput: AWSShape {
+    public struct GetIdInput: AWSEncodableShape {
 
         /// A standard AWS account ID (9+ digits).
         public let accountId: String?
@@ -373,7 +373,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetIdResponse: AWSShape {
+    public struct GetIdResponse: AWSDecodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -387,7 +387,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetIdentityPoolRolesInput: AWSShape {
+    public struct GetIdentityPoolRolesInput: AWSEncodableShape {
 
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -407,7 +407,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetIdentityPoolRolesResponse: AWSShape {
+    public struct GetIdentityPoolRolesResponse: AWSDecodableShape {
 
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -429,7 +429,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
+    public struct GetOpenIdTokenForDeveloperIdentityInput: AWSEncodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -472,7 +472,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
+    public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSDecodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -490,7 +490,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetOpenIdTokenInput: AWSShape {
+    public struct GetOpenIdTokenInput: AWSEncodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
@@ -520,7 +520,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetOpenIdTokenResponse: AWSShape {
+    public struct GetOpenIdTokenResponse: AWSDecodableShape {
 
         /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
         public let identityId: String?
@@ -538,7 +538,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct IdentityDescription: AWSShape {
+    public struct IdentityDescription: AWSDecodableShape {
 
         /// Date on which the identity was created.
         public let creationDate: TimeStamp?
@@ -564,7 +564,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct IdentityPool: AWSShape {
+    public struct IdentityPool: AWSEncodableShape & AWSDecodableShape {
 
         /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide.
         public let allowClassicFlow: Bool?
@@ -650,7 +650,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct IdentityPoolShortDescription: AWSShape {
+    public struct IdentityPoolShortDescription: AWSDecodableShape {
 
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -668,7 +668,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct ListIdentitiesInput: AWSShape {
+    public struct ListIdentitiesInput: AWSEncodableShape {
 
         /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
         public let hideDisabled: Bool?
@@ -704,7 +704,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct ListIdentitiesResponse: AWSShape {
+    public struct ListIdentitiesResponse: AWSDecodableShape {
 
         /// An object containing a set of identities and associated mappings.
         public let identities: [IdentityDescription]?
@@ -726,7 +726,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct ListIdentityPoolsInput: AWSShape {
+    public struct ListIdentityPoolsInput: AWSEncodableShape {
 
         /// The maximum number of identities to return.
         public let maxResults: Int
@@ -751,7 +751,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct ListIdentityPoolsResponse: AWSShape {
+    public struct ListIdentityPoolsResponse: AWSDecodableShape {
 
         /// The identity pools returned by the ListIdentityPools action.
         public let identityPools: [IdentityPoolShortDescription]?
@@ -769,7 +769,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
         public let resourceArn: String
@@ -788,7 +788,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags that are assigned to the identity pool.
         public let tags: [String: String]?
@@ -802,7 +802,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct LookupDeveloperIdentityInput: AWSShape {
+    public struct LookupDeveloperIdentityInput: AWSEncodableShape {
 
         /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
         public let developerUserIdentifier: String?
@@ -847,7 +847,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct LookupDeveloperIdentityResponse: AWSShape {
+    public struct LookupDeveloperIdentityResponse: AWSDecodableShape {
 
         /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
         public let developerUserIdentifierList: [String]?
@@ -869,7 +869,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct MappingRule: AWSShape {
+    public struct MappingRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
         public let claim: String
@@ -905,7 +905,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct MergeDeveloperIdentitiesInput: AWSShape {
+    public struct MergeDeveloperIdentitiesInput: AWSEncodableShape {
 
         /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
         public let destinationUserIdentifier: String
@@ -944,7 +944,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct MergeDeveloperIdentitiesResponse: AWSShape {
+    public struct MergeDeveloperIdentitiesResponse: AWSDecodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -958,7 +958,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct RoleMapping: AWSShape {
+    public struct RoleMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// If you specify Token or Rules as the Type, AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
         public let ambiguousRoleResolution: AmbiguousRoleResolutionType?
@@ -984,7 +984,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct RulesConfigurationType: AWSShape {
+    public struct RulesConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
         public let rules: [MappingRule]
@@ -1006,7 +1006,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct SetIdentityPoolRolesInput: AWSShape {
+    public struct SetIdentityPoolRolesInput: AWSEncodableShape {
 
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -1044,7 +1044,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
         public let resourceArn: String
@@ -1073,7 +1073,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1081,7 +1081,7 @@ extension CognitoIdentity {
 
     }
 
-    public struct UnlinkDeveloperIdentityInput: AWSShape {
+    public struct UnlinkDeveloperIdentityInput: AWSEncodableShape {
 
         /// The "domain" by which Cognito will refer to your users.
         public let developerProviderName: String
@@ -1121,7 +1121,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct UnlinkIdentityInput: AWSShape {
+    public struct UnlinkIdentityInput: AWSEncodableShape {
 
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
@@ -1159,7 +1159,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct UnprocessedIdentityId: AWSShape {
+    public struct UnprocessedIdentityId: AWSDecodableShape {
 
         /// The error code indicating the type of error that occurred.
         public let errorCode: ErrorCode?
@@ -1177,7 +1177,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
         public let resourceArn: String
@@ -1204,7 +1204,7 @@ extension CognitoIdentity {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {

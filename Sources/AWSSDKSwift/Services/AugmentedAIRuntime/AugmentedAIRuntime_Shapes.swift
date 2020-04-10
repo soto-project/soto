@@ -43,7 +43,7 @@ extension AugmentedAIRuntime {
 
     //MARK: Shapes
 
-    public struct DeleteHumanLoopRequest: AWSShape {
+    public struct DeleteHumanLoopRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
@@ -61,12 +61,10 @@ extension AugmentedAIRuntime {
             try validate(self.humanLoopName, name:"humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case humanLoopName = "HumanLoopName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteHumanLoopResponse: AWSShape {
+    public struct DeleteHumanLoopResponse: AWSDecodableShape {
 
 
         public init() {
@@ -74,7 +72,7 @@ extension AugmentedAIRuntime {
 
     }
 
-    public struct DescribeHumanLoopRequest: AWSShape {
+    public struct DescribeHumanLoopRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "humanLoopName", location: .uri(locationName: "HumanLoopName"))
         ]
@@ -92,12 +90,10 @@ extension AugmentedAIRuntime {
             try validate(self.humanLoopName, name:"humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case humanLoopName = "HumanLoopName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeHumanLoopResponse: AWSShape {
+    public struct DescribeHumanLoopResponse: AWSDecodableShape {
 
         /// The creation time when Amazon Augmented AI created the human loop.
         public let creationTime: TimeStamp
@@ -139,7 +135,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct HumanLoopDataAttributes: AWSShape {
+    public struct HumanLoopDataAttributes: AWSEncodableShape {
 
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]
@@ -157,7 +153,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct HumanLoopInput: AWSShape {
+    public struct HumanLoopInput: AWSEncodableShape {
 
         /// Serialized input from the human loop. The input must be a string representation of a file in JSON format.
         public let inputContent: String
@@ -175,7 +171,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct HumanLoopOutput: AWSShape {
+    public struct HumanLoopOutput: AWSDecodableShape {
 
         /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output.
         public let outputS3Uri: String
@@ -189,7 +185,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct HumanLoopSummary: AWSShape {
+    public struct HumanLoopSummary: AWSDecodableShape {
 
         /// When Amazon Augmented AI created the human loop.
         public let creationTime: TimeStamp?
@@ -219,7 +215,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct ListHumanLoopsRequest: AWSShape {
+    public struct ListHumanLoopsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "creationTimeAfter", location: .querystring(locationName: "CreationTimeAfter")), 
             AWSMemberEncoding(label: "creationTimeBefore", location: .querystring(locationName: "CreationTimeBefore")), 
@@ -260,17 +256,10 @@ extension AugmentedAIRuntime {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case creationTimeAfter = "CreationTimeAfter"
-            case creationTimeBefore = "CreationTimeBefore"
-            case flowDefinitionArn = "FlowDefinitionArn"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case sortOrder = "SortOrder"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListHumanLoopsResponse: AWSShape {
+    public struct ListHumanLoopsResponse: AWSDecodableShape {
 
         /// An array of objects containing information about the human loops.
         public let humanLoopSummaries: [HumanLoopSummary]
@@ -288,7 +277,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct StartHumanLoopRequest: AWSShape {
+    public struct StartHumanLoopRequest: AWSEncodableShape {
 
         /// Attributes of the data specified by the customer.
         public let dataAttributes: HumanLoopDataAttributes?
@@ -324,7 +313,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct StartHumanLoopResponse: AWSShape {
+    public struct StartHumanLoopResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the human loop.
         public let humanLoopArn: String?
@@ -338,7 +327,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct StopHumanLoopRequest: AWSShape {
+    public struct StopHumanLoopRequest: AWSEncodableShape {
 
         /// The name of the human loop you want to stop.
         public let humanLoopName: String
@@ -358,7 +347,7 @@ extension AugmentedAIRuntime {
         }
     }
 
-    public struct StopHumanLoopResponse: AWSShape {
+    public struct StopHumanLoopResponse: AWSDecodableShape {
 
 
         public init() {

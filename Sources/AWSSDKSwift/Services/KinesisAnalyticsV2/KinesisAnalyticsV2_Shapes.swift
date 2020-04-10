@@ -95,7 +95,7 @@ extension KinesisAnalyticsV2 {
 
     //MARK: Shapes
 
-    public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
+    public struct AddApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
 
         /// The Kinesis Data Analytics application name.
         public let applicationName: String
@@ -126,7 +126,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationCloudWatchLoggingOptionResponse: AWSShape {
+    public struct AddApplicationCloudWatchLoggingOptionResponse: AWSDecodableShape {
 
         /// The application's ARN.
         public let applicationARN: String?
@@ -148,7 +148,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationInputProcessingConfigurationRequest: AWSShape {
+    public struct AddApplicationInputProcessingConfigurationRequest: AWSEncodableShape {
 
         /// The name of the application to which you want to add the input processing configuration.
         public let applicationName: String
@@ -186,7 +186,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationInputProcessingConfigurationResponse: AWSShape {
+    public struct AddApplicationInputProcessingConfigurationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
@@ -212,7 +212,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationInputRequest: AWSShape {
+    public struct AddApplicationInputRequest: AWSEncodableShape {
 
         /// The name of your existing application to which you want to add the streaming source.
         public let applicationName: String
@@ -243,7 +243,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationInputResponse: AWSShape {
+    public struct AddApplicationInputResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
@@ -265,7 +265,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationOutputRequest: AWSShape {
+    public struct AddApplicationOutputRequest: AWSEncodableShape {
 
         /// The name of the application to which you want to add the output configuration.
         public let applicationName: String
@@ -296,7 +296,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationOutputResponse: AWSShape {
+    public struct AddApplicationOutputResponse: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
@@ -318,7 +318,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationReferenceDataSourceRequest: AWSShape {
+    public struct AddApplicationReferenceDataSourceRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -349,7 +349,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationReferenceDataSourceResponse: AWSShape {
+    public struct AddApplicationReferenceDataSourceResponse: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
@@ -371,7 +371,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationVpcConfigurationRequest: AWSShape {
+    public struct AddApplicationVpcConfigurationRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -402,7 +402,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct AddApplicationVpcConfigurationResponse: AWSShape {
+    public struct AddApplicationVpcConfigurationResponse: AWSDecodableShape {
 
         /// The ARN of the application.
         public let applicationARN: String?
@@ -424,7 +424,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationCodeConfiguration: AWSShape {
+    public struct ApplicationCodeConfiguration: AWSEncodableShape {
 
         /// The location and type of the application code.
         public let codeContent: CodeContent?
@@ -446,7 +446,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationCodeConfigurationDescription: AWSShape {
+    public struct ApplicationCodeConfigurationDescription: AWSDecodableShape {
 
         /// Describes details about the location and format of the application code.
         public let codeContentDescription: CodeContentDescription?
@@ -464,7 +464,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationCodeConfigurationUpdate: AWSShape {
+    public struct ApplicationCodeConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to the code content type.
         public let codeContentTypeUpdate: CodeContentType?
@@ -486,7 +486,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationConfiguration: AWSShape {
+    public struct ApplicationConfiguration: AWSEncodableShape {
 
         /// The code location and type parameters for a Java-based Kinesis Data Analytics application.
         public let applicationCodeConfiguration: ApplicationCodeConfiguration
@@ -530,7 +530,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationConfigurationDescription: AWSShape {
+    public struct ApplicationConfigurationDescription: AWSDecodableShape {
 
         /// The details about the application code for a Java-based Kinesis Data Analytics application.
         public let applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription?
@@ -568,7 +568,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationConfigurationUpdate: AWSShape {
+    public struct ApplicationConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to a Java-based Kinesis Data Analytics application's code configuration.
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
@@ -612,7 +612,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationDetail: AWSShape {
+    public struct ApplicationDetail: AWSDecodableShape {
 
         /// The ARN of the application.
         public let applicationARN: String
@@ -666,7 +666,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationRestoreConfiguration: AWSShape {
+    public struct ApplicationRestoreConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies how the application should be restored.
         public let applicationRestoreType: ApplicationRestoreType
@@ -690,7 +690,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationSnapshotConfiguration: AWSShape {
+    public struct ApplicationSnapshotConfiguration: AWSEncodableShape {
 
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
@@ -704,7 +704,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationSnapshotConfigurationDescription: AWSShape {
+    public struct ApplicationSnapshotConfigurationDescription: AWSDecodableShape {
 
         /// Describes whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
@@ -718,7 +718,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationSnapshotConfigurationUpdate: AWSShape {
+    public struct ApplicationSnapshotConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to whether snapshots are enabled for a Java-based Kinesis Data Analytics application.
         public let snapshotsEnabledUpdate: Bool
@@ -732,7 +732,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ApplicationSummary: AWSShape {
+    public struct ApplicationSummary: AWSDecodableShape {
 
         /// The ARN of the application.
         public let applicationARN: String
@@ -762,7 +762,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CSVMappingParameters: AWSShape {
+    public struct CSVMappingParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
         public let recordColumnDelimiter: String
@@ -785,7 +785,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CheckpointConfiguration: AWSShape {
+    public struct CheckpointConfiguration: AWSEncodableShape {
 
         /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code. 
         public let checkpointingEnabled: Bool?
@@ -816,7 +816,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CheckpointConfigurationDescription: AWSShape {
+    public struct CheckpointConfigurationDescription: AWSDecodableShape {
 
         /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code. 
         public let checkpointingEnabled: Bool?
@@ -842,7 +842,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CheckpointConfigurationUpdate: AWSShape {
+    public struct CheckpointConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to whether checkpointing is enabled for an application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code. 
         public let checkpointingEnabledUpdate: Bool?
@@ -873,7 +873,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CloudWatchLoggingOption: AWSShape {
+    public struct CloudWatchLoggingOption: AWSEncodableShape {
 
         /// The ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
@@ -893,7 +893,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CloudWatchLoggingOptionDescription: AWSShape {
+    public struct CloudWatchLoggingOptionDescription: AWSDecodableShape {
 
         /// The ID of the CloudWatch logging option description.
         public let cloudWatchLoggingOptionId: String?
@@ -915,7 +915,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CloudWatchLoggingOptionUpdate: AWSShape {
+    public struct CloudWatchLoggingOptionUpdate: AWSEncodableShape {
 
         /// The ID of the CloudWatch logging option to update
         public let cloudWatchLoggingOptionId: String
@@ -942,7 +942,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CodeContent: AWSShape {
+    public struct CodeContent: AWSEncodableShape {
 
         /// Information about the Amazon S3 bucket containing the application code.
         public let s3ContentLocation: S3ContentLocation?
@@ -972,7 +972,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CodeContentDescription: AWSShape {
+    public struct CodeContentDescription: AWSDecodableShape {
 
         /// The checksum that can be used to validate zip-format code.
         public let codeMD5: String?
@@ -998,7 +998,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CodeContentUpdate: AWSShape {
+    public struct CodeContentUpdate: AWSEncodableShape {
 
         /// Describes an update to the location of code for an application.
         public let s3ContentLocationUpdate: S3ContentLocationUpdate?
@@ -1028,7 +1028,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CreateApplicationRequest: AWSShape {
+    public struct CreateApplicationRequest: AWSEncodableShape {
 
         /// Use this parameter to configure the application.
         public let applicationConfiguration: ApplicationConfiguration?
@@ -1086,7 +1086,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CreateApplicationResponse: AWSShape {
+    public struct CreateApplicationResponse: AWSDecodableShape {
 
         /// In response to your CreateApplication request, Kinesis Data Analytics returns a response with details of the application it created.
         public let applicationDetail: ApplicationDetail
@@ -1100,7 +1100,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CreateApplicationSnapshotRequest: AWSShape {
+    public struct CreateApplicationSnapshotRequest: AWSEncodableShape {
 
         /// The name of an existing application
         public let applicationName: String
@@ -1127,7 +1127,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct CreateApplicationSnapshotResponse: AWSShape {
+    public struct CreateApplicationSnapshotResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1135,7 +1135,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSShape {
+    public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
 
         /// The application name.
         public let applicationName: String
@@ -1168,7 +1168,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSShape {
+    public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSDecodableShape {
 
         /// The application's Amazon Resource Name (ARN).
         public let applicationARN: String?
@@ -1190,7 +1190,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationInputProcessingConfigurationRequest: AWSShape {
+    public struct DeleteApplicationInputProcessingConfigurationRequest: AWSEncodableShape {
 
         /// The name of the application.
         public let applicationName: String
@@ -1223,7 +1223,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationInputProcessingConfigurationResponse: AWSShape {
+    public struct DeleteApplicationInputProcessingConfigurationResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
@@ -1241,7 +1241,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationOutputRequest: AWSShape {
+    public struct DeleteApplicationOutputRequest: AWSEncodableShape {
 
         /// The application name.
         public let applicationName: String
@@ -1274,7 +1274,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationOutputResponse: AWSShape {
+    public struct DeleteApplicationOutputResponse: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
@@ -1292,7 +1292,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
+    public struct DeleteApplicationReferenceDataSourceRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -1325,7 +1325,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationReferenceDataSourceResponse: AWSShape {
+    public struct DeleteApplicationReferenceDataSourceResponse: AWSDecodableShape {
 
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
@@ -1343,7 +1343,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationRequest: AWSShape {
+    public struct DeleteApplicationRequest: AWSEncodableShape {
 
         /// The name of the application to delete.
         public let applicationName: String
@@ -1367,7 +1367,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationResponse: AWSShape {
+    public struct DeleteApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1375,7 +1375,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct DeleteApplicationSnapshotRequest: AWSShape {
+    public struct DeleteApplicationSnapshotRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -1406,7 +1406,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationSnapshotResponse: AWSShape {
+    public struct DeleteApplicationSnapshotResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1414,7 +1414,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct DeleteApplicationVpcConfigurationRequest: AWSShape {
+    public struct DeleteApplicationVpcConfigurationRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -1447,7 +1447,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DeleteApplicationVpcConfigurationResponse: AWSShape {
+    public struct DeleteApplicationVpcConfigurationResponse: AWSDecodableShape {
 
         /// The ARN of the Kinesis Data Analytics application.
         public let applicationARN: String?
@@ -1465,7 +1465,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DescribeApplicationRequest: AWSShape {
+    public struct DescribeApplicationRequest: AWSEncodableShape {
 
         /// The name of the application.
         public let applicationName: String
@@ -1489,7 +1489,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DescribeApplicationResponse: AWSShape {
+    public struct DescribeApplicationResponse: AWSDecodableShape {
 
         /// Provides a description of the application, such as the application's Amazon Resource Name (ARN), status, and latest version.
         public let applicationDetail: ApplicationDetail
@@ -1503,7 +1503,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DescribeApplicationSnapshotRequest: AWSShape {
+    public struct DescribeApplicationSnapshotRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -1530,7 +1530,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DescribeApplicationSnapshotResponse: AWSShape {
+    public struct DescribeApplicationSnapshotResponse: AWSDecodableShape {
 
         /// An object containing information about the application snapshot.
         public let snapshotDetails: SnapshotDetails
@@ -1544,7 +1544,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DestinationSchema: AWSShape {
+    public struct DestinationSchema: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType
@@ -1558,7 +1558,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DiscoverInputSchemaRequest: AWSShape {
+    public struct DiscoverInputSchemaRequest: AWSEncodableShape {
 
         /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
         public let inputProcessingConfiguration: InputProcessingConfiguration?
@@ -1599,7 +1599,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct DiscoverInputSchemaResponse: AWSShape {
+    public struct DiscoverInputSchemaResponse: AWSDecodableShape {
 
         /// The schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
         public let inputSchema: SourceSchema?
@@ -1625,7 +1625,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct EnvironmentProperties: AWSShape {
+    public struct EnvironmentProperties: AWSEncodableShape {
 
         /// Describes the execution property groups.
         public let propertyGroups: [PropertyGroup]
@@ -1646,7 +1646,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct EnvironmentPropertyDescriptions: AWSShape {
+    public struct EnvironmentPropertyDescriptions: AWSDecodableShape {
 
         /// Describes the execution property groups.
         public let propertyGroupDescriptions: [PropertyGroup]?
@@ -1660,7 +1660,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct EnvironmentPropertyUpdates: AWSShape {
+    public struct EnvironmentPropertyUpdates: AWSEncodableShape {
 
         /// Describes updates to the execution property groups.
         public let propertyGroups: [PropertyGroup]
@@ -1681,7 +1681,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct FlinkApplicationConfiguration: AWSShape {
+    public struct FlinkApplicationConfiguration: AWSEncodableShape {
 
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see  Checkpoints for Fault Tolerance in the Apache Flink Documentation. 
         public let checkpointConfiguration: CheckpointConfiguration?
@@ -1708,7 +1708,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct FlinkApplicationConfigurationDescription: AWSShape {
+    public struct FlinkApplicationConfigurationDescription: AWSDecodableShape {
 
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public let checkpointConfigurationDescription: CheckpointConfigurationDescription?
@@ -1734,7 +1734,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct FlinkApplicationConfigurationUpdate: AWSShape {
+    public struct FlinkApplicationConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public let checkpointConfigurationUpdate: CheckpointConfigurationUpdate?
@@ -1761,7 +1761,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct FlinkRunConfiguration: AWSShape {
+    public struct FlinkRunConfiguration: AWSEncodableShape {
 
         /// When restoring from a savepoint, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between savepoints to remove stateful parameters, and state data in the savepoint no longer corresponds to valid application data. For more information, see  Allowing Non-Restored State in the Apache Flink documentation.
         public let allowNonRestoredState: Bool?
@@ -1775,7 +1775,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct Input: AWSShape {
+    public struct Input: AWSEncodableShape {
 
         /// Describes the number of in-application streams to create. 
         public let inputParallelism: InputParallelism?
@@ -1819,7 +1819,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputDescription: AWSShape {
+    public struct InputDescription: AWSDecodableShape {
 
         /// Returns the in-application stream names that are mapped to the stream source. 
         public let inAppStreamNames: [String]?
@@ -1865,7 +1865,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputLambdaProcessor: AWSShape {
+    public struct InputLambdaProcessor: AWSEncodableShape {
 
         /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
@@ -1885,7 +1885,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputLambdaProcessorDescription: AWSShape {
+    public struct InputLambdaProcessorDescription: AWSDecodableShape {
 
         /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
@@ -1903,7 +1903,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputLambdaProcessorUpdate: AWSShape {
+    public struct InputLambdaProcessorUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String
@@ -1923,7 +1923,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputParallelism: AWSShape {
+    public struct InputParallelism: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of in-application streams to create.
         public let count: Int?
@@ -1942,7 +1942,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputParallelismUpdate: AWSShape {
+    public struct InputParallelismUpdate: AWSEncodableShape {
 
         /// The number of in-application streams to create for the specified streaming source.
         public let countUpdate: Int
@@ -1961,7 +1961,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputProcessingConfiguration: AWSShape {
+    public struct InputProcessingConfiguration: AWSEncodableShape {
 
         /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
         public let inputLambdaProcessor: InputLambdaProcessor
@@ -1979,7 +1979,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputProcessingConfigurationDescription: AWSShape {
+    public struct InputProcessingConfigurationDescription: AWSDecodableShape {
 
         /// Provides configuration information about the associated InputLambdaProcessorDescription 
         public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
@@ -1993,7 +1993,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputProcessingConfigurationUpdate: AWSShape {
+    public struct InputProcessingConfigurationUpdate: AWSEncodableShape {
 
         /// Provides update information for an InputLambdaProcessor.
         public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
@@ -2011,7 +2011,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputSchemaUpdate: AWSShape {
+    public struct InputSchemaUpdate: AWSEncodableShape {
 
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream.
         public let recordColumnUpdates: [RecordColumn]?
@@ -2043,7 +2043,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputStartingPositionConfiguration: AWSShape {
+    public struct InputStartingPositionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Data Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
@@ -2057,7 +2057,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct InputUpdate: AWSShape {
+    public struct InputUpdate: AWSEncodableShape {
 
         /// The input ID of the application input to be updated.
         public let inputId: String
@@ -2108,7 +2108,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct JSONMappingParameters: AWSShape {
+    public struct JSONMappingParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The path to the top-level parent that contains the records.
         public let recordRowPath: String
@@ -2126,7 +2126,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisFirehoseInput: AWSShape {
+    public struct KinesisFirehoseInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
@@ -2146,7 +2146,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisFirehoseInputDescription: AWSShape {
+    public struct KinesisFirehoseInputDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
@@ -2164,7 +2164,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisFirehoseInputUpdate: AWSShape {
+    public struct KinesisFirehoseInputUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the input delivery stream to read.
         public let resourceARNUpdate: String
@@ -2184,7 +2184,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisFirehoseOutput: AWSShape {
+    public struct KinesisFirehoseOutput: AWSEncodableShape {
 
         /// The ARN of the destination delivery stream to write to.
         public let resourceARN: String
@@ -2204,7 +2204,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisFirehoseOutputDescription: AWSShape {
+    public struct KinesisFirehoseOutputDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
@@ -2222,7 +2222,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisFirehoseOutputUpdate: AWSShape {
+    public struct KinesisFirehoseOutputUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the delivery stream to write to. 
         public let resourceARNUpdate: String
@@ -2242,7 +2242,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisStreamsInput: AWSShape {
+    public struct KinesisStreamsInput: AWSEncodableShape {
 
         /// The ARN of the input Kinesis data stream to read.
         public let resourceARN: String
@@ -2262,7 +2262,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisStreamsInputDescription: AWSShape {
+    public struct KinesisStreamsInputDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let resourceARN: String
@@ -2280,7 +2280,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisStreamsInputUpdate: AWSShape {
+    public struct KinesisStreamsInputUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the input Kinesis data stream to read.
         public let resourceARNUpdate: String
@@ -2300,7 +2300,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisStreamsOutput: AWSShape {
+    public struct KinesisStreamsOutput: AWSEncodableShape {
 
         /// The ARN of the destination Kinesis data stream to write to.
         public let resourceARN: String
@@ -2320,7 +2320,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisStreamsOutputDescription: AWSShape {
+    public struct KinesisStreamsOutputDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let resourceARN: String
@@ -2338,7 +2338,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct KinesisStreamsOutputUpdate: AWSShape {
+    public struct KinesisStreamsOutputUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Kinesis data stream where you want to write the output.
         public let resourceARNUpdate: String
@@ -2358,7 +2358,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct LambdaOutput: AWSShape {
+    public struct LambdaOutput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARN: String
@@ -2378,7 +2378,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct LambdaOutputDescription: AWSShape {
+    public struct LambdaOutputDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the destination Lambda function.
         public let resourceARN: String
@@ -2396,7 +2396,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct LambdaOutputUpdate: AWSShape {
+    public struct LambdaOutputUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda  
         public let resourceARNUpdate: String
@@ -2416,7 +2416,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ListApplicationSnapshotsRequest: AWSShape {
+    public struct ListApplicationSnapshotsRequest: AWSEncodableShape {
 
         /// The name of an existing application.
         public let applicationName: String
@@ -2448,7 +2448,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ListApplicationSnapshotsResponse: AWSShape {
+    public struct ListApplicationSnapshotsResponse: AWSDecodableShape {
 
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -2466,7 +2466,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ListApplicationsRequest: AWSShape {
+    public struct ListApplicationsRequest: AWSEncodableShape {
 
         /// The maximum number of applications to list.
         public let limit: Int?
@@ -2492,7 +2492,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ListApplicationsResponse: AWSShape {
+    public struct ListApplicationsResponse: AWSDecodableShape {
 
         /// A list of ApplicationSummary objects.
         public let applicationSummaries: [ApplicationSummary]
@@ -2510,7 +2510,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The ARN of the application for which to retrieve tags.
         public let resourceARN: String
@@ -2530,7 +2530,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The key-value tags assigned to the application.
         public let tags: [Tag]?
@@ -2544,7 +2544,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct MappingParameters: AWSShape {
+    public struct MappingParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
         public let cSVMappingParameters: CSVMappingParameters?
@@ -2567,7 +2567,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct MonitoringConfiguration: AWSShape {
+    public struct MonitoringConfiguration: AWSEncodableShape {
 
         /// Describes whether to use the default CloudWatch logging configuration for an application. You must set this property to CUSTOM in order to set the LogLevel or MetricsLevel parameters.
         public let configurationType: ConfigurationType
@@ -2589,7 +2589,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct MonitoringConfigurationDescription: AWSShape {
+    public struct MonitoringConfigurationDescription: AWSDecodableShape {
 
         /// Describes whether to use the default CloudWatch logging configuration for an application.
         public let configurationType: ConfigurationType?
@@ -2611,7 +2611,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct MonitoringConfigurationUpdate: AWSShape {
+    public struct MonitoringConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to whether to use the default CloudWatch logging configuration for an application. You must set this property to CUSTOM in order to set the LogLevel or MetricsLevel parameters.
         public let configurationTypeUpdate: ConfigurationType?
@@ -2633,7 +2633,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct Output: AWSShape {
+    public struct Output: AWSEncodableShape {
 
         /// Describes the data format when records are written to the destination. 
         public let destinationSchema: DestinationSchema
@@ -2671,7 +2671,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct OutputDescription: AWSShape {
+    public struct OutputDescription: AWSDecodableShape {
 
         /// The data format used for writing data to the destination.
         public let destinationSchema: DestinationSchema?
@@ -2705,7 +2705,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct OutputUpdate: AWSShape {
+    public struct OutputUpdate: AWSEncodableShape {
 
         /// Describes the data format when records are written to the destination. 
         public let destinationSchemaUpdate: DestinationSchema?
@@ -2750,7 +2750,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ParallelismConfiguration: AWSShape {
+    public struct ParallelismConfiguration: AWSEncodableShape {
 
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
@@ -2781,7 +2781,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ParallelismConfigurationDescription: AWSShape {
+    public struct ParallelismConfigurationDescription: AWSDecodableShape {
 
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
@@ -2811,7 +2811,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ParallelismConfigurationUpdate: AWSShape {
+    public struct ParallelismConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabledUpdate: Bool?
@@ -2842,7 +2842,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct PropertyGroup: AWSShape {
+    public struct PropertyGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// Describes the key of an application execution property key-value pair.
         public let propertyGroupId: String
@@ -2872,7 +2872,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct RecordColumn: AWSShape {
+    public struct RecordColumn: AWSEncodableShape & AWSDecodableShape {
 
         /// A reference to the data element in the streaming input or the reference data source.
         public let mapping: String?
@@ -2898,7 +2898,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct RecordFormat: AWSShape {
+    public struct RecordFormat: AWSEncodableShape & AWSDecodableShape {
 
         /// When you configure application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
         public let mappingParameters: MappingParameters?
@@ -2920,7 +2920,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ReferenceDataSource: AWSShape {
+    public struct ReferenceDataSource: AWSEncodableShape {
 
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         public let referenceSchema: SourceSchema
@@ -2949,7 +2949,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ReferenceDataSourceDescription: AWSShape {
+    public struct ReferenceDataSourceDescription: AWSDecodableShape {
 
         /// The ID of the reference data source. This is the ID that Kinesis Data Analytics assigns when you add the reference data source to your application using the CreateApplication or UpdateApplication operation.
         public let referenceId: String
@@ -2975,7 +2975,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct ReferenceDataSourceUpdate: AWSShape {
+    public struct ReferenceDataSourceUpdate: AWSEncodableShape {
 
         /// The ID of the reference data source that is being updated. You can use the DescribeApplication operation to get this value.
         public let referenceId: String
@@ -3011,7 +3011,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct RunConfiguration: AWSShape {
+    public struct RunConfiguration: AWSEncodableShape {
 
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
@@ -3040,7 +3040,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct RunConfigurationDescription: AWSShape {
+    public struct RunConfigurationDescription: AWSDecodableShape {
 
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration?
@@ -3054,7 +3054,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct RunConfigurationUpdate: AWSShape {
+    public struct RunConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
@@ -3076,7 +3076,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ApplicationCodeLocationDescription: AWSShape {
+    public struct S3ApplicationCodeLocationDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
@@ -3098,7 +3098,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3Configuration: AWSShape {
+    public struct S3Configuration: AWSEncodableShape {
 
         /// The ARN of the S3 bucket that contains the data.
         public let bucketARN: String
@@ -3124,7 +3124,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ContentLocation: AWSShape {
+    public struct S3ContentLocation: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
@@ -3154,7 +3154,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ContentLocationUpdate: AWSShape {
+    public struct S3ContentLocationUpdate: AWSEncodableShape {
 
         /// The new Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARNUpdate: String?
@@ -3184,7 +3184,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ReferenceDataSource: AWSShape {
+    public struct S3ReferenceDataSource: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String?
@@ -3210,7 +3210,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ReferenceDataSourceDescription: AWSShape {
+    public struct S3ReferenceDataSourceDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
@@ -3232,7 +3232,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ReferenceDataSourceUpdate: AWSShape {
+    public struct S3ReferenceDataSourceUpdate: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
@@ -3258,7 +3258,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct SnapshotDetails: AWSShape {
+    public struct SnapshotDetails: AWSDecodableShape {
 
         /// The current application version ID when the snapshot was created.
         public let applicationVersionId: Int64
@@ -3284,7 +3284,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct SourceSchema: AWSShape {
+    public struct SourceSchema: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of RecordColumn objects. 
         public let recordColumns: [RecordColumn]
@@ -3316,7 +3316,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct SqlApplicationConfiguration: AWSShape {
+    public struct SqlApplicationConfiguration: AWSEncodableShape {
 
         /// The array of Input objects describing the input streams used by the application.
         public let inputs: [Input]?
@@ -3350,7 +3350,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct SqlApplicationConfigurationDescription: AWSShape {
+    public struct SqlApplicationConfigurationDescription: AWSDecodableShape {
 
         /// The array of InputDescription objects describing the input streams used by the application.
         public let inputDescriptions: [InputDescription]?
@@ -3372,7 +3372,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct SqlApplicationConfigurationUpdate: AWSShape {
+    public struct SqlApplicationConfigurationUpdate: AWSEncodableShape {
 
         /// The array of InputUpdate objects describing the new input streams used by the application.
         public let inputUpdates: [InputUpdate]?
@@ -3406,7 +3406,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct SqlRunConfiguration: AWSShape {
+    public struct SqlRunConfiguration: AWSEncodableShape {
 
         /// The input source ID. You can get this ID by calling the DescribeApplication operation. 
         public let inputId: String
@@ -3430,7 +3430,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct StartApplicationRequest: AWSShape {
+    public struct StartApplicationRequest: AWSEncodableShape {
 
         /// The name of the application.
         public let applicationName: String
@@ -3455,7 +3455,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct StartApplicationResponse: AWSShape {
+    public struct StartApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3463,7 +3463,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct StopApplicationRequest: AWSShape {
+    public struct StopApplicationRequest: AWSEncodableShape {
 
         /// The name of the running application to stop.
         public let applicationName: String
@@ -3483,7 +3483,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct StopApplicationResponse: AWSShape {
+    public struct StopApplicationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3491,7 +3491,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the key-value tag.
         public let key: String
@@ -3516,7 +3516,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the application to assign the tags.
         public let resourceARN: String
@@ -3545,7 +3545,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3553,7 +3553,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the Kinesis Analytics application from which to remove the tags.
         public let resourceARN: String
@@ -3583,7 +3583,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3591,7 +3591,7 @@ extension KinesisAnalyticsV2 {
 
     }
 
-    public struct UpdateApplicationRequest: AWSShape {
+    public struct UpdateApplicationRequest: AWSEncodableShape {
 
         /// Describes application configuration updates.
         public let applicationConfigurationUpdate: ApplicationConfigurationUpdate?
@@ -3641,7 +3641,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct UpdateApplicationResponse: AWSShape {
+    public struct UpdateApplicationResponse: AWSDecodableShape {
 
         /// Describes application updates.
         public let applicationDetail: ApplicationDetail
@@ -3655,7 +3655,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct VpcConfiguration: AWSShape {
+    public struct VpcConfiguration: AWSEncodableShape {
 
         /// The array of SecurityGroup IDs used by the VPC configuration.
         public let securityGroupIds: [String]
@@ -3680,7 +3680,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct VpcConfigurationDescription: AWSShape {
+    public struct VpcConfigurationDescription: AWSDecodableShape {
 
         /// The array of SecurityGroup IDs used by the VPC configuration.
         public let securityGroupIds: [String]
@@ -3706,7 +3706,7 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct VpcConfigurationUpdate: AWSShape {
+    public struct VpcConfigurationUpdate: AWSEncodableShape {
 
         /// Describes updates to the array of SecurityGroup IDs used by the VPC configuration.
         public let securityGroupIdUpdates: [String]?

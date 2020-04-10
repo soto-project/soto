@@ -22,7 +22,7 @@ extension WorkMailMessageFlow {
 
     //MARK: Shapes
 
-    public struct GetRawMessageContentRequest: AWSShape {
+    public struct GetRawMessageContentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
@@ -40,12 +40,10 @@ extension WorkMailMessageFlow {
             try validate(self.messageId, name:"messageId", parent: name, pattern: "[a-z0-9\\-]*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageId = "messageId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetRawMessageContentResponse: AWSShape {
+    public struct GetRawMessageContentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "messageContent"
         public static var _encoding = [

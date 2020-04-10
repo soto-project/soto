@@ -117,7 +117,7 @@ extension CloudFront {
 
     //MARK: Shapes
 
-    public struct ActiveTrustedSigners: AWSShape {
+    public struct ActiveTrustedSigners: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Signer"))
         ]
@@ -142,7 +142,7 @@ extension CloudFront {
         }
     }
 
-    public struct AliasICPRecordal: AWSShape {
+    public struct AliasICPRecordal: AWSDecodableShape {
 
         /// A domain name associated with a distribution. 
         public let cname: String?
@@ -160,7 +160,7 @@ extension CloudFront {
         }
     }
 
-    public struct Aliases: AWSShape {
+    public struct Aliases: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CNAME"))
         ]
@@ -181,7 +181,7 @@ extension CloudFront {
         }
     }
 
-    public struct AllowedMethods: AWSShape {
+    public struct AllowedMethods: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Method"))
         ]
@@ -205,7 +205,7 @@ extension CloudFront {
         }
     }
 
-    public struct CacheBehavior: AWSShape {
+    public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
 
         public let allowedMethods: AllowedMethods?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
@@ -266,7 +266,7 @@ extension CloudFront {
         }
     }
 
-    public struct CacheBehaviors: AWSShape {
+    public struct CacheBehaviors: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CacheBehavior"))
         ]
@@ -287,7 +287,7 @@ extension CloudFront {
         }
     }
 
-    public struct CachedMethods: AWSShape {
+    public struct CachedMethods: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Method"))
         ]
@@ -308,7 +308,7 @@ extension CloudFront {
         }
     }
 
-    public struct CloudFrontOriginAccessIdentity: AWSShape {
+    public struct CloudFrontOriginAccessIdentity: AWSDecodableShape {
 
         /// The current configuration information for the identity. 
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
@@ -330,7 +330,7 @@ extension CloudFront {
         }
     }
 
-    public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
+    public struct CloudFrontOriginAccessIdentityConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. 
@@ -349,7 +349,7 @@ extension CloudFront {
         }
     }
 
-    public struct CloudFrontOriginAccessIdentityList: AWSShape {
+    public struct CloudFrontOriginAccessIdentityList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CloudFrontOriginAccessIdentitySummary"))
         ]
@@ -386,7 +386,7 @@ extension CloudFront {
         }
     }
 
-    public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
+    public struct CloudFrontOriginAccessIdentitySummary: AWSDecodableShape {
 
         /// The comment for this origin access identity, as originally specified when created.
         public let comment: String
@@ -408,7 +408,7 @@ extension CloudFront {
         }
     }
 
-    public struct ContentTypeProfile: AWSShape {
+    public struct ContentTypeProfile: AWSEncodableShape & AWSDecodableShape {
 
         /// The content type for a field-level encryption content type-profile mapping. 
         public let contentType: String
@@ -430,7 +430,7 @@ extension CloudFront {
         }
     }
 
-    public struct ContentTypeProfileConfig: AWSShape {
+    public struct ContentTypeProfileConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The configuration for a field-level encryption content type-profile. 
         public let contentTypeProfiles: ContentTypeProfiles?
@@ -448,7 +448,7 @@ extension CloudFront {
         }
     }
 
-    public struct ContentTypeProfiles: AWSShape {
+    public struct ContentTypeProfiles: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"ContentTypeProfile"))
         ]
@@ -469,7 +469,7 @@ extension CloudFront {
         }
     }
 
-    public struct CookieNames: AWSShape {
+    public struct CookieNames: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
         ]
@@ -490,7 +490,7 @@ extension CloudFront {
         }
     }
 
-    public struct CookiePreference: AWSShape {
+    public struct CookiePreference: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element.
         public let forward: ItemSelection
@@ -508,7 +508,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
+    public struct CreateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
@@ -527,7 +527,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
+    public struct CreateCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
@@ -556,7 +556,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateDistributionRequest: AWSShape {
+    public struct CreateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distributionConfig"
         public static var _encoding = [
@@ -579,7 +579,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateDistributionResult: AWSShape {
+    public struct CreateDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
@@ -608,7 +608,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateDistributionWithTagsRequest: AWSShape {
+    public struct CreateDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distributionConfigWithTags"
         public static var _encoding = [
@@ -631,7 +631,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateDistributionWithTagsResult: AWSShape {
+    public struct CreateDistributionWithTagsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
@@ -660,7 +660,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateFieldLevelEncryptionConfigRequest: AWSShape {
+    public struct CreateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static var _encoding = [
@@ -679,7 +679,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateFieldLevelEncryptionConfigResult: AWSShape {
+    public struct CreateFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
@@ -708,7 +708,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateFieldLevelEncryptionProfileRequest: AWSShape {
+    public struct CreateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
@@ -727,7 +727,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateFieldLevelEncryptionProfileResult: AWSShape {
+    public struct CreateFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
@@ -756,7 +756,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateInvalidationRequest: AWSShape {
+    public struct CreateInvalidationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "invalidationBatch"
         public static var _encoding = [
@@ -775,12 +775,11 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionId = "DistributionId"
             case invalidationBatch = "InvalidationBatch"
         }
     }
 
-    public struct CreateInvalidationResult: AWSShape {
+    public struct CreateInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "invalidation"
         public static var _encoding = [
@@ -804,7 +803,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreatePublicKeyRequest: AWSShape {
+    public struct CreatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKeyConfig"
         public static var _encoding = [
@@ -823,7 +822,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreatePublicKeyResult: AWSShape {
+    public struct CreatePublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
@@ -852,7 +851,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateStreamingDistributionRequest: AWSShape {
+    public struct CreateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionConfig"
         public static var _encoding = [
@@ -871,7 +870,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateStreamingDistributionResult: AWSShape {
+    public struct CreateStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
@@ -900,7 +899,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
+    public struct CreateStreamingDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionConfigWithTags"
         public static var _encoding = [
@@ -923,7 +922,7 @@ extension CloudFront {
         }
     }
 
-    public struct CreateStreamingDistributionWithTagsResult: AWSShape {
+    public struct CreateStreamingDistributionWithTagsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
@@ -952,7 +951,7 @@ extension CloudFront {
         }
     }
 
-    public struct CustomErrorResponse: AWSShape {
+    public struct CustomErrorResponse: AWSEncodableShape & AWSDecodableShape {
 
         /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public let errorCachingMinTTL: Int64?
@@ -978,7 +977,7 @@ extension CloudFront {
         }
     }
 
-    public struct CustomErrorResponses: AWSShape {
+    public struct CustomErrorResponses: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"CustomErrorResponse"))
         ]
@@ -999,7 +998,7 @@ extension CloudFront {
         }
     }
 
-    public struct CustomHeaders: AWSShape {
+    public struct CustomHeaders: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginCustomHeader"))
         ]
@@ -1020,7 +1019,7 @@ extension CloudFront {
         }
     }
 
-    public struct CustomOriginConfig: AWSShape {
+    public struct CustomOriginConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The HTTP port the custom origin listens on.
         public let hTTPPort: Int
@@ -1054,7 +1053,7 @@ extension CloudFront {
         }
     }
 
-    public struct DefaultCacheBehavior: AWSShape {
+    public struct DefaultCacheBehavior: AWSEncodableShape & AWSDecodableShape {
 
         public let allowedMethods: AllowedMethods?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
@@ -1111,7 +1110,7 @@ extension CloudFront {
         }
     }
 
-    public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
+    public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
@@ -1127,13 +1126,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDistributionRequest: AWSShape {
+    public struct DeleteDistributionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
@@ -1149,13 +1145,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFieldLevelEncryptionConfigRequest: AWSShape {
+    public struct DeleteFieldLevelEncryptionConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
@@ -1171,13 +1164,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFieldLevelEncryptionProfileRequest: AWSShape {
+    public struct DeleteFieldLevelEncryptionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
@@ -1193,13 +1183,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePublicKeyRequest: AWSShape {
+    public struct DeletePublicKeyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
@@ -1215,13 +1202,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteStreamingDistributionRequest: AWSShape {
+    public struct DeleteStreamingDistributionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id")), 
             AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match"))
@@ -1237,13 +1221,10 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct Distribution: AWSShape {
+    public struct Distribution: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasICPRecordals", location: .body(locationName: "AliasICPRecordals"), encoding: .list(member:"AliasICPRecordal"))
         ]
@@ -1292,7 +1273,7 @@ extension CloudFront {
         }
     }
 
-    public struct DistributionConfig: AWSShape {
+    public struct DistributionConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
@@ -1376,7 +1357,7 @@ extension CloudFront {
         }
     }
 
-    public struct DistributionConfigWithTags: AWSShape {
+    public struct DistributionConfigWithTags: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A distribution configuration.
@@ -1400,7 +1381,7 @@ extension CloudFront {
         }
     }
 
-    public struct DistributionList: AWSShape {
+    public struct DistributionList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"DistributionSummary"))
         ]
@@ -1437,7 +1418,7 @@ extension CloudFront {
         }
     }
 
-    public struct DistributionSummary: AWSShape {
+    public struct DistributionSummary: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasICPRecordals", location: .body(locationName: "AliasICPRecordals"), encoding: .list(member:"AliasICPRecordal"))
         ]
@@ -1530,7 +1511,7 @@ extension CloudFront {
         }
     }
 
-    public struct EncryptionEntities: AWSShape {
+    public struct EncryptionEntities: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"EncryptionEntity"))
         ]
@@ -1551,7 +1532,7 @@ extension CloudFront {
         }
     }
 
-    public struct EncryptionEntity: AWSShape {
+    public struct EncryptionEntity: AWSEncodableShape & AWSDecodableShape {
 
         /// Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive. 
         public let fieldPatterns: FieldPatterns
@@ -1573,7 +1554,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryption: AWSShape {
+    public struct FieldLevelEncryption: AWSDecodableShape {
 
         /// A complex data type that includes the profile configurations specified for field-level encryption. 
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
@@ -1595,7 +1576,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionConfig: AWSShape {
+    public struct FieldLevelEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A unique number that ensures the request can't be replayed.
@@ -1622,7 +1603,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionList: AWSShape {
+    public struct FieldLevelEncryptionList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldLevelEncryptionSummary"))
         ]
@@ -1651,7 +1632,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionProfile: AWSShape {
+    public struct FieldLevelEncryptionProfile: AWSDecodableShape {
 
         /// A complex data type that includes the profile name and the encryption entities for the field-level encryption profile.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
@@ -1673,7 +1654,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionProfileConfig: AWSShape {
+    public struct FieldLevelEncryptionProfileConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A unique number that ensures that the request can't be replayed.
@@ -1700,7 +1681,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionProfileList: AWSShape {
+    public struct FieldLevelEncryptionProfileList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldLevelEncryptionProfileSummary"))
         ]
@@ -1729,7 +1710,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionProfileSummary: AWSShape {
+    public struct FieldLevelEncryptionProfileSummary: AWSDecodableShape {
 
         /// An optional comment for the field-level encryption profile summary.
         public let comment: String?
@@ -1759,7 +1740,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldLevelEncryptionSummary: AWSShape {
+    public struct FieldLevelEncryptionSummary: AWSDecodableShape {
 
         /// An optional comment about the field-level encryption item.
         public let comment: String?
@@ -1789,7 +1770,7 @@ extension CloudFront {
         }
     }
 
-    public struct FieldPatterns: AWSShape {
+    public struct FieldPatterns: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"FieldPattern"))
         ]
@@ -1810,7 +1791,7 @@ extension CloudFront {
         }
     }
 
-    public struct ForwardedValues: AWSShape {
+    public struct ForwardedValues: AWSEncodableShape & AWSDecodableShape {
 
         /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
         public let cookies: CookiePreference
@@ -1836,7 +1817,7 @@ extension CloudFront {
         }
     }
 
-    public struct GeoRestriction: AWSShape {
+    public struct GeoRestriction: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Location"))
         ]
@@ -1861,7 +1842,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
+    public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1873,12 +1854,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
+    public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
@@ -1902,7 +1881,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
+    public struct GetCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1914,12 +1893,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
+    public struct GetCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
@@ -1943,7 +1920,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetDistributionConfigRequest: AWSShape {
+    public struct GetDistributionConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1955,12 +1932,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDistributionConfigResult: AWSShape {
+    public struct GetDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distributionConfig"
         public static var _encoding = [
@@ -1984,7 +1959,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetDistributionRequest: AWSShape {
+    public struct GetDistributionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -1996,12 +1971,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDistributionResult: AWSShape {
+    public struct GetDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
@@ -2025,7 +1998,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetFieldLevelEncryptionConfigRequest: AWSShape {
+    public struct GetFieldLevelEncryptionConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2037,12 +2010,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionConfigResult: AWSShape {
+    public struct GetFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static var _encoding = [
@@ -2066,7 +2037,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetFieldLevelEncryptionProfileConfigRequest: AWSShape {
+    public struct GetFieldLevelEncryptionProfileConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2078,12 +2049,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionProfileConfigResult: AWSShape {
+    public struct GetFieldLevelEncryptionProfileConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
@@ -2107,7 +2076,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetFieldLevelEncryptionProfileRequest: AWSShape {
+    public struct GetFieldLevelEncryptionProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2119,12 +2088,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionProfileResult: AWSShape {
+    public struct GetFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
@@ -2148,7 +2115,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetFieldLevelEncryptionRequest: AWSShape {
+    public struct GetFieldLevelEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2160,12 +2127,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionResult: AWSShape {
+    public struct GetFieldLevelEncryptionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
@@ -2189,7 +2154,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetInvalidationRequest: AWSShape {
+    public struct GetInvalidationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -2205,13 +2170,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionId = "DistributionId"
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetInvalidationResult: AWSShape {
+    public struct GetInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "invalidation"
         public static var _encoding = [
@@ -2230,7 +2192,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetPublicKeyConfigRequest: AWSShape {
+    public struct GetPublicKeyConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2242,12 +2204,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPublicKeyConfigResult: AWSShape {
+    public struct GetPublicKeyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKeyConfig"
         public static var _encoding = [
@@ -2271,7 +2231,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetPublicKeyRequest: AWSShape {
+    public struct GetPublicKeyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2283,12 +2243,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPublicKeyResult: AWSShape {
+    public struct GetPublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
@@ -2312,7 +2270,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetStreamingDistributionConfigRequest: AWSShape {
+    public struct GetStreamingDistributionConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2324,12 +2282,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetStreamingDistributionConfigResult: AWSShape {
+    public struct GetStreamingDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionConfig"
         public static var _encoding = [
@@ -2353,7 +2309,7 @@ extension CloudFront {
         }
     }
 
-    public struct GetStreamingDistributionRequest: AWSShape {
+    public struct GetStreamingDistributionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
         ]
@@ -2365,12 +2321,10 @@ extension CloudFront {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetStreamingDistributionResult: AWSShape {
+    public struct GetStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
@@ -2394,7 +2348,7 @@ extension CloudFront {
         }
     }
 
-    public struct Headers: AWSShape {
+    public struct Headers: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
         ]
@@ -2415,7 +2369,7 @@ extension CloudFront {
         }
     }
 
-    public struct Invalidation: AWSShape {
+    public struct Invalidation: AWSDecodableShape {
 
         /// The date and time the invalidation request was first made. 
         public let createTime: TimeStamp
@@ -2441,7 +2395,7 @@ extension CloudFront {
         }
     }
 
-    public struct InvalidationBatch: AWSShape {
+    public struct InvalidationBatch: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
@@ -2460,7 +2414,7 @@ extension CloudFront {
         }
     }
 
-    public struct InvalidationList: AWSShape {
+    public struct InvalidationList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"InvalidationSummary"))
         ]
@@ -2497,7 +2451,7 @@ extension CloudFront {
         }
     }
 
-    public struct InvalidationSummary: AWSShape {
+    public struct InvalidationSummary: AWSDecodableShape {
 
         /// The time that an invalidation request was created.
         public let createTime: TimeStamp
@@ -2519,7 +2473,7 @@ extension CloudFront {
         }
     }
 
-    public struct KeyPairIds: AWSShape {
+    public struct KeyPairIds: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"KeyPairId"))
         ]
@@ -2540,7 +2494,7 @@ extension CloudFront {
         }
     }
 
-    public struct LambdaFunctionAssociation: AWSShape {
+    public struct LambdaFunctionAssociation: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
         public let eventType: EventType
@@ -2562,7 +2516,7 @@ extension CloudFront {
         }
     }
 
-    public struct LambdaFunctionAssociations: AWSShape {
+    public struct LambdaFunctionAssociations: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"LambdaFunctionAssociation"))
         ]
@@ -2583,7 +2537,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
+    public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
@@ -2599,13 +2553,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
+    public struct ListCloudFrontOriginAccessIdentitiesResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentityList"
         public static var _encoding = [
@@ -2624,7 +2575,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListDistributionsByWebACLIdRequest: AWSShape {
+    public struct ListDistributionsByWebACLIdRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")), 
@@ -2644,14 +2595,10 @@ extension CloudFront {
             self.webACLId = webACLId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case webACLId = "WebACLId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsByWebACLIdResult: AWSShape {
+    public struct ListDistributionsByWebACLIdResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distributionList"
         public static var _encoding = [
@@ -2670,7 +2617,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListDistributionsRequest: AWSShape {
+    public struct ListDistributionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
@@ -2686,13 +2633,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsResult: AWSShape {
+    public struct ListDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distributionList"
         public static var _encoding = [
@@ -2711,7 +2655,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListFieldLevelEncryptionConfigsRequest: AWSShape {
+    public struct ListFieldLevelEncryptionConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
@@ -2727,13 +2671,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFieldLevelEncryptionConfigsResult: AWSShape {
+    public struct ListFieldLevelEncryptionConfigsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionList"
         public static var _encoding = [
@@ -2752,7 +2693,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListFieldLevelEncryptionProfilesRequest: AWSShape {
+    public struct ListFieldLevelEncryptionProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
@@ -2768,13 +2709,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFieldLevelEncryptionProfilesResult: AWSShape {
+    public struct ListFieldLevelEncryptionProfilesResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfileList"
         public static var _encoding = [
@@ -2793,7 +2731,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListInvalidationsRequest: AWSShape {
+    public struct ListInvalidationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
@@ -2813,14 +2751,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionId = "DistributionId"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListInvalidationsResult: AWSShape {
+    public struct ListInvalidationsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "invalidationList"
         public static var _encoding = [
@@ -2839,7 +2773,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListPublicKeysRequest: AWSShape {
+    public struct ListPublicKeysRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
@@ -2855,13 +2789,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPublicKeysResult: AWSShape {
+    public struct ListPublicKeysResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKeyList"
         public static var _encoding = [
@@ -2880,7 +2811,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListStreamingDistributionsRequest: AWSShape {
+    public struct ListStreamingDistributionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
@@ -2896,13 +2827,10 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListStreamingDistributionsResult: AWSShape {
+    public struct ListStreamingDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionList"
         public static var _encoding = [
@@ -2921,7 +2849,7 @@ extension CloudFront {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resource", location: .querystring(locationName: "Resource"))
         ]
@@ -2937,12 +2865,10 @@ extension CloudFront {
             try validate(self.resource, name:"resource", parent: name, pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResult: AWSShape {
+    public struct ListTagsForResourceResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "tags"
         public static var _encoding = [
@@ -2961,7 +2887,7 @@ extension CloudFront {
         }
     }
 
-    public struct LoggingConfig: AWSShape {
+    public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
@@ -2987,7 +2913,7 @@ extension CloudFront {
         }
     }
 
-    public struct Origin: AWSShape {
+    public struct Origin: AWSEncodableShape & AWSDecodableShape {
 
         /// A complex type that contains names and values for the custom headers that you want.
         public let customHeaders: CustomHeaders?
@@ -3021,7 +2947,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginCustomHeader: AWSShape {
+    public struct OriginCustomHeader: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the  Amazon CloudFront Developer Guide.
         public let headerName: String
@@ -3039,7 +2965,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroup: AWSShape {
+    public struct OriginGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// A complex type that contains information about the failover criteria for an origin group.
         public let failoverCriteria: OriginGroupFailoverCriteria
@@ -3066,7 +2992,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroupFailoverCriteria: AWSShape {
+    public struct OriginGroupFailoverCriteria: AWSEncodableShape & AWSDecodableShape {
 
         /// The status codes that, when returned from the primary origin, will trigger CloudFront to failover to the second origin.
         public let statusCodes: StatusCodes
@@ -3084,7 +3010,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroupMember: AWSShape {
+    public struct OriginGroupMember: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID for an origin in an origin group.
         public let originId: String
@@ -3098,7 +3024,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroupMembers: AWSShape {
+    public struct OriginGroupMembers: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginGroupMember"))
         ]
@@ -3124,7 +3050,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginGroups: AWSShape {
+    public struct OriginGroups: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"OriginGroup"))
         ]
@@ -3151,7 +3077,7 @@ extension CloudFront {
         }
     }
 
-    public struct OriginSslProtocols: AWSShape {
+    public struct OriginSslProtocols: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"SslProtocol"))
         ]
@@ -3172,7 +3098,7 @@ extension CloudFront {
         }
     }
 
-    public struct Origins: AWSShape {
+    public struct Origins: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Origin"))
         ]
@@ -3197,7 +3123,7 @@ extension CloudFront {
         }
     }
 
-    public struct Paths: AWSShape {
+    public struct Paths: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Path"))
         ]
@@ -3218,7 +3144,7 @@ extension CloudFront {
         }
     }
 
-    public struct PublicKey: AWSShape {
+    public struct PublicKey: AWSDecodableShape {
 
         /// A time you added a public key to CloudFront.
         public let createdTime: TimeStamp
@@ -3240,7 +3166,7 @@ extension CloudFront {
         }
     }
 
-    public struct PublicKeyConfig: AWSShape {
+    public struct PublicKeyConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A unique number that ensures that the request can't be replayed.
@@ -3267,7 +3193,7 @@ extension CloudFront {
         }
     }
 
-    public struct PublicKeyList: AWSShape {
+    public struct PublicKeyList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"PublicKeySummary"))
         ]
@@ -3296,7 +3222,7 @@ extension CloudFront {
         }
     }
 
-    public struct PublicKeySummary: AWSShape {
+    public struct PublicKeySummary: AWSDecodableShape {
 
         ///  Comment for public key information summary. 
         public let comment: String?
@@ -3326,7 +3252,7 @@ extension CloudFront {
         }
     }
 
-    public struct QueryArgProfile: AWSShape {
+    public struct QueryArgProfile: AWSEncodableShape & AWSDecodableShape {
 
         /// ID of profile to use for field-level encryption query argument-profile mapping
         public let profileId: String
@@ -3344,7 +3270,7 @@ extension CloudFront {
         }
     }
 
-    public struct QueryArgProfileConfig: AWSShape {
+    public struct QueryArgProfileConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Flag to set if you want a request to be forwarded to the origin even if the profile specified by the field-level encryption query argument, fle-profile, is unknown.
         public let forwardWhenQueryArgProfileIsUnknown: Bool
@@ -3362,7 +3288,7 @@ extension CloudFront {
         }
     }
 
-    public struct QueryArgProfiles: AWSShape {
+    public struct QueryArgProfiles: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"QueryArgProfile"))
         ]
@@ -3383,7 +3309,7 @@ extension CloudFront {
         }
     }
 
-    public struct QueryStringCacheKeys: AWSShape {
+    public struct QueryStringCacheKeys: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Name"))
         ]
@@ -3404,7 +3330,7 @@ extension CloudFront {
         }
     }
 
-    public struct Restrictions: AWSShape {
+    public struct Restrictions: AWSEncodableShape & AWSDecodableShape {
 
         /// A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
         public let geoRestriction: GeoRestriction
@@ -3418,7 +3344,7 @@ extension CloudFront {
         }
     }
 
-    public struct S3Origin: AWSShape {
+    public struct S3Origin: AWSEncodableShape & AWSDecodableShape {
 
         /// The DNS name of the Amazon S3 origin. 
         public let domainName: String
@@ -3436,7 +3362,7 @@ extension CloudFront {
         }
     }
 
-    public struct S3OriginConfig: AWSShape {
+    public struct S3OriginConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
@@ -3450,7 +3376,7 @@ extension CloudFront {
         }
     }
 
-    public struct Signer: AWSShape {
+    public struct Signer: AWSDecodableShape {
 
         /// An AWS account that is included in the TrustedSigners complex type for this distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
         public let awsAccountNumber: String?
@@ -3468,7 +3394,7 @@ extension CloudFront {
         }
     }
 
-    public struct StatusCodes: AWSShape {
+    public struct StatusCodes: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"StatusCode"))
         ]
@@ -3493,7 +3419,7 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingDistribution: AWSShape {
+    public struct StreamingDistribution: AWSDecodableShape {
 
         /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let activeTrustedSigners: ActiveTrustedSigners
@@ -3531,7 +3457,7 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingDistributionConfig: AWSShape {
+    public struct StreamingDistributionConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. 
@@ -3574,7 +3500,7 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingDistributionConfigWithTags: AWSShape {
+    public struct StreamingDistributionConfigWithTags: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
 
         /// A streaming distribution Configuration.
@@ -3597,7 +3523,7 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingDistributionList: AWSShape {
+    public struct StreamingDistributionList: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"StreamingDistributionSummary"))
         ]
@@ -3634,7 +3560,7 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingDistributionSummary: AWSShape {
+    public struct StreamingDistributionSummary: AWSDecodableShape {
 
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases
@@ -3688,7 +3614,7 @@ extension CloudFront {
         }
     }
 
-    public struct StreamingLoggingConfig: AWSShape {
+    public struct StreamingLoggingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
@@ -3710,7 +3636,7 @@ extension CloudFront {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let key: String
@@ -3737,7 +3663,7 @@ extension CloudFront {
         }
     }
 
-    public struct TagKeys: AWSShape {
+    public struct TagKeys: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Key"))
@@ -3763,7 +3689,7 @@ extension CloudFront {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "tags"
         public static var _encoding = [
@@ -3787,12 +3713,11 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
             case tags = "Tags"
         }
     }
 
-    public struct Tags: AWSShape {
+    public struct Tags: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2019-03-26/"
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"Tag"))
@@ -3816,7 +3741,7 @@ extension CloudFront {
         }
     }
 
-    public struct TrustedSigners: AWSShape {
+    public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "items", location: .body(locationName: "Items"), encoding: .list(member:"AwsAccountNumber"))
         ]
@@ -3841,7 +3766,7 @@ extension CloudFront {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "tagKeys"
         public static var _encoding = [
@@ -3865,12 +3790,11 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
             case tagKeys = "TagKeys"
         }
     }
 
-    public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
+    public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentityConfig"
         public static var _encoding = [
@@ -3894,12 +3818,10 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
-    public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
+    public struct UpdateCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "cloudFrontOriginAccessIdentity"
         public static var _encoding = [
@@ -3923,7 +3845,7 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateDistributionRequest: AWSShape {
+    public struct UpdateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distributionConfig"
         public static var _encoding = [
@@ -3951,12 +3873,10 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case distributionConfig = "DistributionConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
-    public struct UpdateDistributionResult: AWSShape {
+    public struct UpdateDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "distribution"
         public static var _encoding = [
@@ -3980,7 +3900,7 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateFieldLevelEncryptionConfigRequest: AWSShape {
+    public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionConfig"
         public static var _encoding = [
@@ -4004,12 +3924,10 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
-    public struct UpdateFieldLevelEncryptionConfigResult: AWSShape {
+    public struct UpdateFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryption"
         public static var _encoding = [
@@ -4033,7 +3951,7 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateFieldLevelEncryptionProfileRequest: AWSShape {
+    public struct UpdateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfileConfig"
         public static var _encoding = [
@@ -4057,12 +3975,10 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-            case id = "Id"
-            case ifMatch = "If-Match"
         }
     }
 
-    public struct UpdateFieldLevelEncryptionProfileResult: AWSShape {
+    public struct UpdateFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "fieldLevelEncryptionProfile"
         public static var _encoding = [
@@ -4086,7 +4002,7 @@ extension CloudFront {
         }
     }
 
-    public struct UpdatePublicKeyRequest: AWSShape {
+    public struct UpdatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKeyConfig"
         public static var _encoding = [
@@ -4109,13 +4025,11 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
             case publicKeyConfig = "PublicKeyConfig"
         }
     }
 
-    public struct UpdatePublicKeyResult: AWSShape {
+    public struct UpdatePublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "publicKey"
         public static var _encoding = [
@@ -4139,7 +4053,7 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateStreamingDistributionRequest: AWSShape {
+    public struct UpdateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistributionConfig"
         public static var _encoding = [
@@ -4162,13 +4076,11 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case ifMatch = "If-Match"
             case streamingDistributionConfig = "StreamingDistributionConfig"
         }
     }
 
-    public struct UpdateStreamingDistributionResult: AWSShape {
+    public struct UpdateStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "streamingDistribution"
         public static var _encoding = [
@@ -4192,7 +4104,7 @@ extension CloudFront {
         }
     }
 
-    public struct ViewerCertificate: AWSShape {
+    public struct ViewerCertificate: AWSEncodableShape & AWSDecodableShape {
 
         /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in AWS Certificate Manager (ACM), provide the Amazon Resource Name (ARN) of the ACM certificate. CloudFront only supports ACM certificates in the US East (N. Virginia) Region (us-east-1). If you specify an ACM certificate ARN, you must also specify values for MinimumProtocolVerison and SSLSupportMethod. 
         public let aCMCertificateArn: String?

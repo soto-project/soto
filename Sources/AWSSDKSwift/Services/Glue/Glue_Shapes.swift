@@ -294,7 +294,7 @@ extension Glue {
 
     //MARK: Shapes
 
-    public struct Action: AWSShape {
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
 
         /// The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -342,7 +342,7 @@ extension Glue {
         }
     }
 
-    public struct BatchCreatePartitionRequest: AWSShape {
+    public struct BatchCreatePartitionRequest: AWSEncodableShape {
 
         /// The ID of the catalog in which the partition is to be created. Currently, this should be the AWS account ID.
         public let catalogId: String?
@@ -385,7 +385,7 @@ extension Glue {
         }
     }
 
-    public struct BatchCreatePartitionResponse: AWSShape {
+    public struct BatchCreatePartitionResponse: AWSDecodableShape {
 
         /// The errors encountered when trying to create the requested partitions.
         public let errors: [PartitionError]?
@@ -399,7 +399,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeleteConnectionRequest: AWSShape {
+    public struct BatchDeleteConnectionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -430,7 +430,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeleteConnectionResponse: AWSShape {
+    public struct BatchDeleteConnectionResponse: AWSDecodableShape {
 
         /// A map of the names of connections that were not successfully deleted to error details.
         public let errors: [String: ErrorDetail]?
@@ -448,7 +448,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeletePartitionRequest: AWSShape {
+    public struct BatchDeletePartitionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -491,7 +491,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeletePartitionResponse: AWSShape {
+    public struct BatchDeletePartitionResponse: AWSDecodableShape {
 
         /// The errors encountered when trying to delete the requested partitions.
         public let errors: [PartitionError]?
@@ -505,7 +505,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeleteTableRequest: AWSShape {
+    public struct BatchDeleteTableRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -543,7 +543,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeleteTableResponse: AWSShape {
+    public struct BatchDeleteTableResponse: AWSDecodableShape {
 
         /// A list of errors encountered in attempting to delete the specified tables.
         public let errors: [TableError]?
@@ -557,7 +557,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeleteTableVersionRequest: AWSShape {
+    public struct BatchDeleteTableVersionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -602,7 +602,7 @@ extension Glue {
         }
     }
 
-    public struct BatchDeleteTableVersionResponse: AWSShape {
+    public struct BatchDeleteTableVersionResponse: AWSDecodableShape {
 
         /// A list of errors encountered while trying to delete the specified table versions.
         public let errors: [TableVersionError]?
@@ -616,7 +616,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetCrawlersRequest: AWSShape {
+    public struct BatchGetCrawlersRequest: AWSEncodableShape {
 
         /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
         public let crawlerNames: [String]
@@ -640,7 +640,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetCrawlersResponse: AWSShape {
+    public struct BatchGetCrawlersResponse: AWSDecodableShape {
 
         /// A list of crawler definitions.
         public let crawlers: [Crawler]?
@@ -658,7 +658,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetDevEndpointsRequest: AWSShape {
+    public struct BatchGetDevEndpointsRequest: AWSEncodableShape {
 
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
@@ -677,7 +677,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetDevEndpointsResponse: AWSShape {
+    public struct BatchGetDevEndpointsResponse: AWSDecodableShape {
 
         /// A list of DevEndpoint definitions.
         public let devEndpoints: [DevEndpoint]?
@@ -695,7 +695,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetJobsRequest: AWSShape {
+    public struct BatchGetJobsRequest: AWSEncodableShape {
 
         /// A list of job names, which might be the names returned from the ListJobs operation.
         public let jobNames: [String]
@@ -717,7 +717,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetJobsResponse: AWSShape {
+    public struct BatchGetJobsResponse: AWSDecodableShape {
 
         /// A list of job definitions.
         public let jobs: [Job]?
@@ -735,7 +735,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetPartitionRequest: AWSShape {
+    public struct BatchGetPartitionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
@@ -778,7 +778,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetPartitionResponse: AWSShape {
+    public struct BatchGetPartitionResponse: AWSDecodableShape {
 
         /// A list of the requested partitions.
         public let partitions: [Partition]?
@@ -796,7 +796,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetTriggersRequest: AWSShape {
+    public struct BatchGetTriggersRequest: AWSEncodableShape {
 
         /// A list of trigger names, which may be the names returned from the ListTriggers operation.
         public let triggerNames: [String]
@@ -818,7 +818,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetTriggersResponse: AWSShape {
+    public struct BatchGetTriggersResponse: AWSDecodableShape {
 
         /// A list of trigger definitions.
         public let triggers: [Trigger]?
@@ -836,7 +836,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetWorkflowsRequest: AWSShape {
+    public struct BatchGetWorkflowsRequest: AWSEncodableShape {
 
         /// Specifies whether to include a graph when returning the workflow resource metadata.
         public let includeGraph: Bool?
@@ -864,7 +864,7 @@ extension Glue {
         }
     }
 
-    public struct BatchGetWorkflowsResponse: AWSShape {
+    public struct BatchGetWorkflowsResponse: AWSDecodableShape {
 
         /// A list of names of workflows not found.
         public let missingWorkflows: [String]?
@@ -882,7 +882,7 @@ extension Glue {
         }
     }
 
-    public struct BatchStopJobRunError: AWSShape {
+    public struct BatchStopJobRunError: AWSDecodableShape {
 
         /// Specifies details about the error that was encountered.
         public let errorDetail: ErrorDetail?
@@ -904,7 +904,7 @@ extension Glue {
         }
     }
 
-    public struct BatchStopJobRunRequest: AWSShape {
+    public struct BatchStopJobRunRequest: AWSEncodableShape {
 
         /// The name of the job definition for which to stop job runs.
         public let jobName: String
@@ -935,7 +935,7 @@ extension Glue {
         }
     }
 
-    public struct BatchStopJobRunResponse: AWSShape {
+    public struct BatchStopJobRunResponse: AWSDecodableShape {
 
         /// A list of the errors that were encountered in trying to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
         public let errors: [BatchStopJobRunError]?
@@ -953,7 +953,7 @@ extension Glue {
         }
     }
 
-    public struct BatchStopJobRunSuccessfulSubmission: AWSShape {
+    public struct BatchStopJobRunSuccessfulSubmission: AWSDecodableShape {
 
         /// The name of the job definition used in the job run that was stopped.
         public let jobName: String?
@@ -971,7 +971,7 @@ extension Glue {
         }
     }
 
-    public struct CancelMLTaskRunRequest: AWSShape {
+    public struct CancelMLTaskRunRequest: AWSEncodableShape {
 
         /// A unique identifier for the task run.
         public let taskRunId: String
@@ -998,7 +998,7 @@ extension Glue {
         }
     }
 
-    public struct CancelMLTaskRunResponse: AWSShape {
+    public struct CancelMLTaskRunResponse: AWSDecodableShape {
 
         /// The status for this run.
         public let status: TaskStatusType?
@@ -1020,7 +1020,7 @@ extension Glue {
         }
     }
 
-    public struct CatalogEntry: AWSShape {
+    public struct CatalogEntry: AWSEncodableShape {
 
         /// The database in which the table metadata resides.
         public let databaseName: String
@@ -1047,7 +1047,7 @@ extension Glue {
         }
     }
 
-    public struct CatalogImportStatus: AWSShape {
+    public struct CatalogImportStatus: AWSDecodableShape {
 
         ///  True if the migration has completed, or False otherwise.
         public let importCompleted: Bool?
@@ -1069,7 +1069,7 @@ extension Glue {
         }
     }
 
-    public struct CatalogTarget: AWSShape {
+    public struct CatalogTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the database to be synchronized.
         public let databaseName: String
@@ -1099,7 +1099,7 @@ extension Glue {
         }
     }
 
-    public struct Classifier: AWSShape {
+    public struct Classifier: AWSDecodableShape {
 
         /// A classifier for comma-separated values (CSV).
         public let csvClassifier: CsvClassifier?
@@ -1125,7 +1125,7 @@ extension Glue {
         }
     }
 
-    public struct CloudWatchEncryption: AWSShape {
+    public struct CloudWatchEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// The encryption mode to use for CloudWatch data.
         public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
@@ -1147,7 +1147,7 @@ extension Glue {
         }
     }
 
-    public struct CodeGenEdge: AWSShape {
+    public struct CodeGenEdge: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the node at which the edge starts.
         public let source: String
@@ -1178,7 +1178,7 @@ extension Glue {
         }
     }
 
-    public struct CodeGenNode: AWSShape {
+    public struct CodeGenNode: AWSEncodableShape & AWSDecodableShape {
 
         /// Properties of the node, in the form of name-value pairs.
         public let args: [CodeGenNodeArg]
@@ -1212,7 +1212,7 @@ extension Glue {
         }
     }
 
-    public struct CodeGenNodeArg: AWSShape {
+    public struct CodeGenNodeArg: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the argument or property.
         public let name: String
@@ -1234,7 +1234,7 @@ extension Glue {
         }
     }
 
-    public struct Column: AWSShape {
+    public struct Column: AWSEncodableShape & AWSDecodableShape {
 
         /// A free-form text comment.
         public let comment: String?
@@ -1278,7 +1278,7 @@ extension Glue {
         }
     }
 
-    public struct Condition: AWSShape {
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the crawler to which this condition applies.
         public let crawlerName: String?
@@ -1317,7 +1317,7 @@ extension Glue {
         }
     }
 
-    public struct ConfusionMatrix: AWSShape {
+    public struct ConfusionMatrix: AWSDecodableShape {
 
         /// The number of matches in the data that the transform didn't find, in the confusion matrix for your transform.
         public let numFalseNegatives: Int64?
@@ -1343,7 +1343,7 @@ extension Glue {
         }
     }
 
-    public struct Connection: AWSShape {
+    public struct Connection: AWSDecodableShape {
 
         /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
@@ -1389,7 +1389,7 @@ extension Glue {
         }
     }
 
-    public struct ConnectionInput: AWSShape {
+    public struct ConnectionInput: AWSEncodableShape {
 
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
@@ -1443,7 +1443,7 @@ extension Glue {
         }
     }
 
-    public struct ConnectionPasswordEncryption: AWSShape {
+    public struct ConnectionPasswordEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// An AWS KMS key that is used to encrypt the connection password.  If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified AWS KMS key, to encrypt passwords before storing them in the Data Catalog.  You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
         public let awsKmsKeyId: String?
@@ -1467,7 +1467,7 @@ extension Glue {
         }
     }
 
-    public struct ConnectionsList: AWSShape {
+    public struct ConnectionsList: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of connections used by the job.
         public let connections: [String]?
@@ -1481,7 +1481,7 @@ extension Glue {
         }
     }
 
-    public struct Crawl: AWSShape {
+    public struct Crawl: AWSDecodableShape {
 
         /// The date and time on which the crawl completed.
         public let completedOn: TimeStamp?
@@ -1515,7 +1515,7 @@ extension Glue {
         }
     }
 
-    public struct Crawler: AWSShape {
+    public struct Crawler: AWSDecodableShape {
 
         /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public let classifiers: [String]?
@@ -1593,7 +1593,7 @@ extension Glue {
         }
     }
 
-    public struct CrawlerMetrics: AWSShape {
+    public struct CrawlerMetrics: AWSDecodableShape {
 
         /// The name of the crawler.
         public let crawlerName: String?
@@ -1635,7 +1635,7 @@ extension Glue {
         }
     }
 
-    public struct CrawlerNodeDetails: AWSShape {
+    public struct CrawlerNodeDetails: AWSDecodableShape {
 
         /// A list of crawls represented by the crawl node.
         public let crawls: [Crawl]?
@@ -1649,7 +1649,7 @@ extension Glue {
         }
     }
 
-    public struct CrawlerTargets: AWSShape {
+    public struct CrawlerTargets: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies AWS Glue Data Catalog targets.
         public let catalogTargets: [CatalogTarget]?
@@ -1681,7 +1681,7 @@ extension Glue {
         }
     }
 
-    public struct CreateClassifierRequest: AWSShape {
+    public struct CreateClassifierRequest: AWSEncodableShape {
 
         /// A CsvClassifier object specifying the classifier to create.
         public let csvClassifier: CreateCsvClassifierRequest?
@@ -1714,7 +1714,7 @@ extension Glue {
         }
     }
 
-    public struct CreateClassifierResponse: AWSShape {
+    public struct CreateClassifierResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1722,7 +1722,7 @@ extension Glue {
 
     }
 
-    public struct CreateConnectionRequest: AWSShape {
+    public struct CreateConnectionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which to create the connection. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -1747,7 +1747,7 @@ extension Glue {
         }
     }
 
-    public struct CreateConnectionResponse: AWSShape {
+    public struct CreateConnectionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1755,7 +1755,7 @@ extension Glue {
 
     }
 
-    public struct CreateCrawlerRequest: AWSShape {
+    public struct CreateCrawlerRequest: AWSEncodableShape {
 
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
@@ -1838,7 +1838,7 @@ extension Glue {
         }
     }
 
-    public struct CreateCrawlerResponse: AWSShape {
+    public struct CreateCrawlerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1846,7 +1846,7 @@ extension Glue {
 
     }
 
-    public struct CreateCsvClassifierRequest: AWSShape {
+    public struct CreateCsvClassifierRequest: AWSEncodableShape {
 
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
@@ -1901,7 +1901,7 @@ extension Glue {
         }
     }
 
-    public struct CreateDatabaseRequest: AWSShape {
+    public struct CreateDatabaseRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which to create the database. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -1926,7 +1926,7 @@ extension Glue {
         }
     }
 
-    public struct CreateDatabaseResponse: AWSShape {
+    public struct CreateDatabaseResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1934,7 +1934,7 @@ extension Glue {
 
     }
 
-    public struct CreateDevEndpointRequest: AWSShape {
+    public struct CreateDevEndpointRequest: AWSEncodableShape {
 
         /// A map of arguments used to configure the DevEndpoint.
         public let arguments: [String: String]?
@@ -2021,7 +2021,7 @@ extension Glue {
         }
     }
 
-    public struct CreateDevEndpointResponse: AWSShape {
+    public struct CreateDevEndpointResponse: AWSDecodableShape {
 
         /// The map of arguments used to configure this DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
@@ -2107,7 +2107,7 @@ extension Glue {
         }
     }
 
-    public struct CreateGrokClassifierRequest: AWSShape {
+    public struct CreateGrokClassifierRequest: AWSEncodableShape {
 
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String
@@ -2145,7 +2145,7 @@ extension Glue {
         }
     }
 
-    public struct CreateJobRequest: AWSShape {
+    public struct CreateJobRequest: AWSEncodableShape {
 
         /// The JobCommand that executes this job.
         public let command: JobCommand
@@ -2251,7 +2251,7 @@ extension Glue {
         }
     }
 
-    public struct CreateJobResponse: AWSShape {
+    public struct CreateJobResponse: AWSDecodableShape {
 
         /// The unique name that was provided for this job definition.
         public let name: String?
@@ -2265,7 +2265,7 @@ extension Glue {
         }
     }
 
-    public struct CreateJsonClassifierRequest: AWSShape {
+    public struct CreateJsonClassifierRequest: AWSEncodableShape {
 
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String
@@ -2289,7 +2289,7 @@ extension Glue {
         }
     }
 
-    public struct CreateMLTransformRequest: AWSShape {
+    public struct CreateMLTransformRequest: AWSEncodableShape {
 
         /// A description of the machine learning transform that is being defined. The default is an empty string.
         public let description: String?
@@ -2372,7 +2372,7 @@ extension Glue {
         }
     }
 
-    public struct CreateMLTransformResponse: AWSShape {
+    public struct CreateMLTransformResponse: AWSDecodableShape {
 
         /// A unique identifier that is generated for the transform.
         public let transformId: String?
@@ -2386,7 +2386,7 @@ extension Glue {
         }
     }
 
-    public struct CreatePartitionRequest: AWSShape {
+    public struct CreatePartitionRequest: AWSEncodableShape {
 
         /// The AWS account ID of the catalog in which the partition is to be created.
         public let catalogId: String?
@@ -2425,7 +2425,7 @@ extension Glue {
         }
     }
 
-    public struct CreatePartitionResponse: AWSShape {
+    public struct CreatePartitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2433,7 +2433,7 @@ extension Glue {
 
     }
 
-    public struct CreateScriptRequest: AWSShape {
+    public struct CreateScriptRequest: AWSEncodableShape {
 
         /// A list of the edges in the DAG.
         public let dagEdges: [CodeGenEdge]?
@@ -2464,7 +2464,7 @@ extension Glue {
         }
     }
 
-    public struct CreateScriptResponse: AWSShape {
+    public struct CreateScriptResponse: AWSDecodableShape {
 
         /// The Python script generated from the DAG.
         public let pythonScript: String?
@@ -2482,7 +2482,7 @@ extension Glue {
         }
     }
 
-    public struct CreateSecurityConfigurationRequest: AWSShape {
+    public struct CreateSecurityConfigurationRequest: AWSEncodableShape {
 
         /// The encryption configuration for the new security configuration.
         public let encryptionConfiguration: EncryptionConfiguration
@@ -2507,7 +2507,7 @@ extension Glue {
         }
     }
 
-    public struct CreateSecurityConfigurationResponse: AWSShape {
+    public struct CreateSecurityConfigurationResponse: AWSDecodableShape {
 
         /// The time at which the new security configuration was created.
         public let createdTimestamp: TimeStamp?
@@ -2525,7 +2525,7 @@ extension Glue {
         }
     }
 
-    public struct CreateTableRequest: AWSShape {
+    public struct CreateTableRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which to create the Table. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2557,7 +2557,7 @@ extension Glue {
         }
     }
 
-    public struct CreateTableResponse: AWSShape {
+    public struct CreateTableResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2565,7 +2565,7 @@ extension Glue {
 
     }
 
-    public struct CreateTriggerRequest: AWSShape {
+    public struct CreateTriggerRequest: AWSEncodableShape {
 
         /// The actions initiated by this trigger when it fires.
         public let actions: [Action]
@@ -2633,7 +2633,7 @@ extension Glue {
         }
     }
 
-    public struct CreateTriggerResponse: AWSShape {
+    public struct CreateTriggerResponse: AWSDecodableShape {
 
         /// The name of the trigger.
         public let name: String?
@@ -2647,7 +2647,7 @@ extension Glue {
         }
     }
 
-    public struct CreateUserDefinedFunctionRequest: AWSShape {
+    public struct CreateUserDefinedFunctionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which to create the function. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2679,7 +2679,7 @@ extension Glue {
         }
     }
 
-    public struct CreateUserDefinedFunctionResponse: AWSShape {
+    public struct CreateUserDefinedFunctionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2687,7 +2687,7 @@ extension Glue {
 
     }
 
-    public struct CreateWorkflowRequest: AWSShape {
+    public struct CreateWorkflowRequest: AWSEncodableShape {
 
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
@@ -2730,7 +2730,7 @@ extension Glue {
         }
     }
 
-    public struct CreateWorkflowResponse: AWSShape {
+    public struct CreateWorkflowResponse: AWSDecodableShape {
 
         /// The name of the workflow which was provided as part of the request.
         public let name: String?
@@ -2744,7 +2744,7 @@ extension Glue {
         }
     }
 
-    public struct CreateXMLClassifierRequest: AWSShape {
+    public struct CreateXMLClassifierRequest: AWSEncodableShape {
 
         /// An identifier of the data format that the classifier matches.
         public let classification: String
@@ -2772,7 +2772,7 @@ extension Glue {
         }
     }
 
-    public struct CsvClassifier: AWSShape {
+    public struct CsvClassifier: AWSDecodableShape {
 
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
@@ -2822,7 +2822,7 @@ extension Glue {
         }
     }
 
-    public struct DataCatalogEncryptionSettings: AWSShape {
+    public struct DataCatalogEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption.
         public let connectionPasswordEncryption: ConnectionPasswordEncryption?
@@ -2845,7 +2845,7 @@ extension Glue {
         }
     }
 
-    public struct DataLakePrincipal: AWSShape {
+    public struct DataLakePrincipal: AWSEncodableShape & AWSDecodableShape {
 
         /// An identifier for the AWS Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
@@ -2864,7 +2864,7 @@ extension Glue {
         }
     }
 
-    public struct Database: AWSShape {
+    public struct Database: AWSDecodableShape {
 
         /// Creates a set of default permissions on the table for principals. 
         public let createTableDefaultPermissions: [PrincipalPermissions]?
@@ -2898,7 +2898,7 @@ extension Glue {
         }
     }
 
-    public struct DatabaseInput: AWSShape {
+    public struct DatabaseInput: AWSEncodableShape {
 
         /// Creates a set of default permissions on the table for principals. 
         public let createTableDefaultPermissions: [PrincipalPermissions]?
@@ -2949,7 +2949,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteClassifierRequest: AWSShape {
+    public struct DeleteClassifierRequest: AWSEncodableShape {
 
         /// Name of the classifier to remove.
         public let name: String
@@ -2969,7 +2969,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteClassifierResponse: AWSShape {
+    public struct DeleteClassifierResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2977,7 +2977,7 @@ extension Glue {
 
     }
 
-    public struct DeleteConnectionRequest: AWSShape {
+    public struct DeleteConnectionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3004,7 +3004,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteConnectionResponse: AWSShape {
+    public struct DeleteConnectionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3012,7 +3012,7 @@ extension Glue {
 
     }
 
-    public struct DeleteCrawlerRequest: AWSShape {
+    public struct DeleteCrawlerRequest: AWSEncodableShape {
 
         /// The name of the crawler to remove.
         public let name: String
@@ -3032,7 +3032,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteCrawlerResponse: AWSShape {
+    public struct DeleteCrawlerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3040,7 +3040,7 @@ extension Glue {
 
     }
 
-    public struct DeleteDatabaseRequest: AWSShape {
+    public struct DeleteDatabaseRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3067,7 +3067,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteDatabaseResponse: AWSShape {
+    public struct DeleteDatabaseResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3075,7 +3075,7 @@ extension Glue {
 
     }
 
-    public struct DeleteDevEndpointRequest: AWSShape {
+    public struct DeleteDevEndpointRequest: AWSEncodableShape {
 
         /// The name of the DevEndpoint.
         public let endpointName: String
@@ -3089,7 +3089,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteDevEndpointResponse: AWSShape {
+    public struct DeleteDevEndpointResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3097,7 +3097,7 @@ extension Glue {
 
     }
 
-    public struct DeleteJobRequest: AWSShape {
+    public struct DeleteJobRequest: AWSEncodableShape {
 
         /// The name of the job definition to delete.
         public let jobName: String
@@ -3117,7 +3117,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteJobResponse: AWSShape {
+    public struct DeleteJobResponse: AWSDecodableShape {
 
         /// The name of the job definition that was deleted.
         public let jobName: String?
@@ -3131,7 +3131,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteMLTransformRequest: AWSShape {
+    public struct DeleteMLTransformRequest: AWSEncodableShape {
 
         /// The unique identifier of the transform to delete.
         public let transformId: String
@@ -3151,7 +3151,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteMLTransformResponse: AWSShape {
+    public struct DeleteMLTransformResponse: AWSDecodableShape {
 
         /// The unique identifier of the transform that was deleted.
         public let transformId: String?
@@ -3165,7 +3165,7 @@ extension Glue {
         }
     }
 
-    public struct DeletePartitionRequest: AWSShape {
+    public struct DeletePartitionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3206,7 +3206,7 @@ extension Glue {
         }
     }
 
-    public struct DeletePartitionResponse: AWSShape {
+    public struct DeletePartitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3214,7 +3214,7 @@ extension Glue {
 
     }
 
-    public struct DeleteResourcePolicyRequest: AWSShape {
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
 
         /// The hash value returned when this policy was set.
         public let policyHashCondition: String?
@@ -3234,7 +3234,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteResourcePolicyResponse: AWSShape {
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3242,7 +3242,7 @@ extension Glue {
 
     }
 
-    public struct DeleteSecurityConfigurationRequest: AWSShape {
+    public struct DeleteSecurityConfigurationRequest: AWSEncodableShape {
 
         /// The name of the security configuration to delete.
         public let name: String
@@ -3262,7 +3262,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteSecurityConfigurationResponse: AWSShape {
+    public struct DeleteSecurityConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3270,7 +3270,7 @@ extension Glue {
 
     }
 
-    public struct DeleteTableRequest: AWSShape {
+    public struct DeleteTableRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3304,7 +3304,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteTableResponse: AWSShape {
+    public struct DeleteTableResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3312,7 +3312,7 @@ extension Glue {
 
     }
 
-    public struct DeleteTableVersionRequest: AWSShape {
+    public struct DeleteTableVersionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3353,7 +3353,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteTableVersionResponse: AWSShape {
+    public struct DeleteTableVersionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3361,7 +3361,7 @@ extension Glue {
 
     }
 
-    public struct DeleteTriggerRequest: AWSShape {
+    public struct DeleteTriggerRequest: AWSEncodableShape {
 
         /// The name of the trigger to delete.
         public let name: String
@@ -3381,7 +3381,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteTriggerResponse: AWSShape {
+    public struct DeleteTriggerResponse: AWSDecodableShape {
 
         /// The name of the trigger that was deleted.
         public let name: String?
@@ -3395,7 +3395,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteUserDefinedFunctionRequest: AWSShape {
+    public struct DeleteUserDefinedFunctionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3429,7 +3429,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteUserDefinedFunctionResponse: AWSShape {
+    public struct DeleteUserDefinedFunctionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3437,7 +3437,7 @@ extension Glue {
 
     }
 
-    public struct DeleteWorkflowRequest: AWSShape {
+    public struct DeleteWorkflowRequest: AWSEncodableShape {
 
         /// Name of the workflow to be deleted.
         public let name: String
@@ -3457,7 +3457,7 @@ extension Glue {
         }
     }
 
-    public struct DeleteWorkflowResponse: AWSShape {
+    public struct DeleteWorkflowResponse: AWSDecodableShape {
 
         /// Name of the workflow specified in input.
         public let name: String?
@@ -3471,7 +3471,7 @@ extension Glue {
         }
     }
 
-    public struct DevEndpoint: AWSShape {
+    public struct DevEndpoint: AWSDecodableShape {
 
         /// A map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
@@ -3581,7 +3581,7 @@ extension Glue {
         }
     }
 
-    public struct DevEndpointCustomLibraries: AWSShape {
+    public struct DevEndpointCustomLibraries: AWSEncodableShape {
 
         /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint. 
         public let extraJarsS3Path: String?
@@ -3599,7 +3599,7 @@ extension Glue {
         }
     }
 
-    public struct DynamoDBTarget: AWSShape {
+    public struct DynamoDBTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the DynamoDB table to crawl.
         public let path: String?
@@ -3613,7 +3613,7 @@ extension Glue {
         }
     }
 
-    public struct Edge: AWSShape {
+    public struct Edge: AWSDecodableShape {
 
         /// The unique of the node within the workflow where the edge ends.
         public let destinationId: String?
@@ -3631,7 +3631,7 @@ extension Glue {
         }
     }
 
-    public struct EncryptionAtRest: AWSShape {
+    public struct EncryptionAtRest: AWSEncodableShape & AWSDecodableShape {
 
         /// The encryption-at-rest mode for encrypting Data Catalog data.
         public let catalogEncryptionMode: CatalogEncryptionMode
@@ -3655,7 +3655,7 @@ extension Glue {
         }
     }
 
-    public struct EncryptionConfiguration: AWSShape {
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The encryption configuration for Amazon CloudWatch.
         public let cloudWatchEncryption: CloudWatchEncryption?
@@ -3685,7 +3685,7 @@ extension Glue {
         }
     }
 
-    public struct ErrorDetail: AWSShape {
+    public struct ErrorDetail: AWSDecodableShape {
 
         /// The code associated with this error.
         public let errorCode: String?
@@ -3703,7 +3703,7 @@ extension Glue {
         }
     }
 
-    public struct EvaluationMetrics: AWSShape {
+    public struct EvaluationMetrics: AWSDecodableShape {
 
         /// The evaluation metrics for the find matches algorithm.
         public let findMatchesMetrics: FindMatchesMetrics?
@@ -3721,7 +3721,7 @@ extension Glue {
         }
     }
 
-    public struct ExecutionProperty: AWSShape {
+    public struct ExecutionProperty: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
         public let maxConcurrentRuns: Int?
@@ -3735,7 +3735,7 @@ extension Glue {
         }
     }
 
-    public struct ExportLabelsTaskRunProperties: AWSShape {
+    public struct ExportLabelsTaskRunProperties: AWSDecodableShape {
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you will export the labels.
         public let outputS3Path: String?
@@ -3749,7 +3749,7 @@ extension Glue {
         }
     }
 
-    public struct FindMatchesMetrics: AWSShape {
+    public struct FindMatchesMetrics: AWSDecodableShape {
 
         /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see Precision and recall in Wikipedia.
         public let areaUnderPRCurve: Double?
@@ -3779,7 +3779,7 @@ extension Glue {
         }
     }
 
-    public struct FindMatchesParameters: AWSShape {
+    public struct FindMatchesParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall.  Cost measures how many compute resources, and thus money, are consumed to run the transform.
         public let accuracyCostTradeoff: Double?
@@ -3815,7 +3815,7 @@ extension Glue {
         }
     }
 
-    public struct FindMatchesTaskRunProperties: AWSShape {
+    public struct FindMatchesTaskRunProperties: AWSDecodableShape {
 
         /// The job ID for the Find Matches task run.
         public let jobId: String?
@@ -3837,7 +3837,7 @@ extension Glue {
         }
     }
 
-    public struct GetCatalogImportStatusRequest: AWSShape {
+    public struct GetCatalogImportStatusRequest: AWSEncodableShape {
 
         /// The ID of the catalog to migrate. Currently, this should be the AWS account ID.
         public let catalogId: String?
@@ -3857,7 +3857,7 @@ extension Glue {
         }
     }
 
-    public struct GetCatalogImportStatusResponse: AWSShape {
+    public struct GetCatalogImportStatusResponse: AWSDecodableShape {
 
         /// The status of the specified catalog migration.
         public let importStatus: CatalogImportStatus?
@@ -3871,7 +3871,7 @@ extension Glue {
         }
     }
 
-    public struct GetClassifierRequest: AWSShape {
+    public struct GetClassifierRequest: AWSEncodableShape {
 
         /// Name of the classifier to retrieve.
         public let name: String
@@ -3891,7 +3891,7 @@ extension Glue {
         }
     }
 
-    public struct GetClassifierResponse: AWSShape {
+    public struct GetClassifierResponse: AWSDecodableShape {
 
         /// The requested classifier.
         public let classifier: Classifier?
@@ -3905,7 +3905,7 @@ extension Glue {
         }
     }
 
-    public struct GetClassifiersRequest: AWSShape {
+    public struct GetClassifiersRequest: AWSEncodableShape {
 
         /// The size of the list to return (optional).
         public let maxResults: Int?
@@ -3928,7 +3928,7 @@ extension Glue {
         }
     }
 
-    public struct GetClassifiersResponse: AWSShape {
+    public struct GetClassifiersResponse: AWSDecodableShape {
 
         /// The requested list of classifier objects.
         public let classifiers: [Classifier]?
@@ -3946,7 +3946,7 @@ extension Glue {
         }
     }
 
-    public struct GetConnectionRequest: AWSShape {
+    public struct GetConnectionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -3977,7 +3977,7 @@ extension Glue {
         }
     }
 
-    public struct GetConnectionResponse: AWSShape {
+    public struct GetConnectionResponse: AWSDecodableShape {
 
         /// The requested connection definition.
         public let connection: Connection?
@@ -3991,7 +3991,7 @@ extension Glue {
         }
     }
 
-    public struct GetConnectionsFilter: AWSShape {
+    public struct GetConnectionsFilter: AWSEncodableShape {
 
         /// The type of connections to return. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -4019,7 +4019,7 @@ extension Glue {
         }
     }
 
-    public struct GetConnectionsRequest: AWSShape {
+    public struct GetConnectionsRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4058,7 +4058,7 @@ extension Glue {
         }
     }
 
-    public struct GetConnectionsResponse: AWSShape {
+    public struct GetConnectionsResponse: AWSDecodableShape {
 
         /// A list of requested connection definitions.
         public let connectionList: [Connection]?
@@ -4076,7 +4076,7 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlerMetricsRequest: AWSShape {
+    public struct GetCrawlerMetricsRequest: AWSEncodableShape {
 
         /// A list of the names of crawlers about which to retrieve metrics.
         public let crawlerNameList: [String]?
@@ -4110,7 +4110,7 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlerMetricsResponse: AWSShape {
+    public struct GetCrawlerMetricsResponse: AWSDecodableShape {
 
         /// A list of metrics for the specified crawler.
         public let crawlerMetricsList: [CrawlerMetrics]?
@@ -4128,7 +4128,7 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlerRequest: AWSShape {
+    public struct GetCrawlerRequest: AWSEncodableShape {
 
         /// The name of the crawler to retrieve metadata for.
         public let name: String
@@ -4148,7 +4148,7 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlerResponse: AWSShape {
+    public struct GetCrawlerResponse: AWSDecodableShape {
 
         /// The metadata for the specified crawler.
         public let crawler: Crawler?
@@ -4162,7 +4162,7 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlersRequest: AWSShape {
+    public struct GetCrawlersRequest: AWSEncodableShape {
 
         /// The number of crawlers to return on each call.
         public let maxResults: Int?
@@ -4185,7 +4185,7 @@ extension Glue {
         }
     }
 
-    public struct GetCrawlersResponse: AWSShape {
+    public struct GetCrawlersResponse: AWSDecodableShape {
 
         /// A list of crawler metadata.
         public let crawlers: [Crawler]?
@@ -4203,7 +4203,7 @@ extension Glue {
         }
     }
 
-    public struct GetDataCatalogEncryptionSettingsRequest: AWSShape {
+    public struct GetDataCatalogEncryptionSettingsRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4223,7 +4223,7 @@ extension Glue {
         }
     }
 
-    public struct GetDataCatalogEncryptionSettingsResponse: AWSShape {
+    public struct GetDataCatalogEncryptionSettingsResponse: AWSDecodableShape {
 
         /// The requested security configuration.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
@@ -4237,7 +4237,7 @@ extension Glue {
         }
     }
 
-    public struct GetDatabaseRequest: AWSShape {
+    public struct GetDatabaseRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4264,7 +4264,7 @@ extension Glue {
         }
     }
 
-    public struct GetDatabaseResponse: AWSShape {
+    public struct GetDatabaseResponse: AWSDecodableShape {
 
         /// The definition of the specified database in the Data Catalog.
         public let database: Database?
@@ -4278,7 +4278,7 @@ extension Glue {
         }
     }
 
-    public struct GetDatabasesRequest: AWSShape {
+    public struct GetDatabasesRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4308,7 +4308,7 @@ extension Glue {
         }
     }
 
-    public struct GetDatabasesResponse: AWSShape {
+    public struct GetDatabasesResponse: AWSDecodableShape {
 
         /// A list of Database objects from the specified catalog.
         public let databaseList: [Database]
@@ -4326,7 +4326,7 @@ extension Glue {
         }
     }
 
-    public struct GetDataflowGraphRequest: AWSShape {
+    public struct GetDataflowGraphRequest: AWSEncodableShape {
 
         /// The Python script to transform.
         public let pythonScript: String?
@@ -4340,7 +4340,7 @@ extension Glue {
         }
     }
 
-    public struct GetDataflowGraphResponse: AWSShape {
+    public struct GetDataflowGraphResponse: AWSDecodableShape {
 
         /// A list of the edges in the resulting DAG.
         public let dagEdges: [CodeGenEdge]?
@@ -4358,7 +4358,7 @@ extension Glue {
         }
     }
 
-    public struct GetDevEndpointRequest: AWSShape {
+    public struct GetDevEndpointRequest: AWSEncodableShape {
 
         /// Name of the DevEndpoint to retrieve information for.
         public let endpointName: String
@@ -4372,7 +4372,7 @@ extension Glue {
         }
     }
 
-    public struct GetDevEndpointResponse: AWSShape {
+    public struct GetDevEndpointResponse: AWSDecodableShape {
 
         /// A DevEndpoint definition.
         public let devEndpoint: DevEndpoint?
@@ -4386,7 +4386,7 @@ extension Glue {
         }
     }
 
-    public struct GetDevEndpointsRequest: AWSShape {
+    public struct GetDevEndpointsRequest: AWSEncodableShape {
 
         /// The maximum size of information to return.
         public let maxResults: Int?
@@ -4409,7 +4409,7 @@ extension Glue {
         }
     }
 
-    public struct GetDevEndpointsResponse: AWSShape {
+    public struct GetDevEndpointsResponse: AWSDecodableShape {
 
         /// A list of DevEndpoint definitions.
         public let devEndpoints: [DevEndpoint]?
@@ -4427,7 +4427,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobBookmarkRequest: AWSShape {
+    public struct GetJobBookmarkRequest: AWSEncodableShape {
 
         /// The name of the job in question.
         public let jobName: String
@@ -4445,7 +4445,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobBookmarkResponse: AWSShape {
+    public struct GetJobBookmarkResponse: AWSDecodableShape {
 
         /// A structure that defines a point that a job can resume processing.
         public let jobBookmarkEntry: JobBookmarkEntry?
@@ -4459,7 +4459,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobRequest: AWSShape {
+    public struct GetJobRequest: AWSEncodableShape {
 
         /// The name of the job definition to retrieve.
         public let jobName: String
@@ -4479,7 +4479,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobResponse: AWSShape {
+    public struct GetJobResponse: AWSDecodableShape {
 
         /// The requested job definition.
         public let job: Job?
@@ -4493,7 +4493,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobRunRequest: AWSShape {
+    public struct GetJobRunRequest: AWSEncodableShape {
 
         /// Name of the job definition being run.
         public let jobName: String
@@ -4524,7 +4524,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobRunResponse: AWSShape {
+    public struct GetJobRunResponse: AWSDecodableShape {
 
         /// The requested job-run metadata.
         public let jobRun: JobRun?
@@ -4538,7 +4538,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobRunsRequest: AWSShape {
+    public struct GetJobRunsRequest: AWSEncodableShape {
 
         /// The name of the job definition for which to retrieve all job runs.
         public let jobName: String
@@ -4568,7 +4568,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobRunsResponse: AWSShape {
+    public struct GetJobRunsResponse: AWSDecodableShape {
 
         /// A list of job-run metadata objects.
         public let jobRuns: [JobRun]?
@@ -4586,7 +4586,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobsRequest: AWSShape {
+    public struct GetJobsRequest: AWSEncodableShape {
 
         /// The maximum size of the response.
         public let maxResults: Int?
@@ -4609,7 +4609,7 @@ extension Glue {
         }
     }
 
-    public struct GetJobsResponse: AWSShape {
+    public struct GetJobsResponse: AWSDecodableShape {
 
         /// A list of job definitions.
         public let jobs: [Job]?
@@ -4627,7 +4627,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTaskRunRequest: AWSShape {
+    public struct GetMLTaskRunRequest: AWSEncodableShape {
 
         /// The unique identifier of the task run.
         public let taskRunId: String
@@ -4654,7 +4654,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTaskRunResponse: AWSShape {
+    public struct GetMLTaskRunResponse: AWSDecodableShape {
 
         /// The date and time when this task run was completed.
         public let completedOn: TimeStamp?
@@ -4704,7 +4704,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTaskRunsRequest: AWSShape {
+    public struct GetMLTaskRunsRequest: AWSEncodableShape {
 
         /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run.
         public let filter: TaskRunFilterCriteria?
@@ -4742,7 +4742,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTaskRunsResponse: AWSShape {
+    public struct GetMLTaskRunsResponse: AWSDecodableShape {
 
         /// A pagination token, if more results are available.
         public let nextToken: String?
@@ -4760,7 +4760,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTransformRequest: AWSShape {
+    public struct GetMLTransformRequest: AWSEncodableShape {
 
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String
@@ -4780,7 +4780,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTransformResponse: AWSShape {
+    public struct GetMLTransformResponse: AWSDecodableShape {
 
         /// The date and time when the transform was created.
         public let createdOn: TimeStamp?
@@ -4862,7 +4862,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTransformsRequest: AWSShape {
+    public struct GetMLTransformsRequest: AWSEncodableShape {
 
         /// The filter transformation criteria.
         public let filter: TransformFilterCriteria?
@@ -4894,7 +4894,7 @@ extension Glue {
         }
     }
 
-    public struct GetMLTransformsResponse: AWSShape {
+    public struct GetMLTransformsResponse: AWSDecodableShape {
 
         /// A pagination token, if more results are available.
         public let nextToken: String?
@@ -4912,7 +4912,7 @@ extension Glue {
         }
     }
 
-    public struct GetMappingRequest: AWSShape {
+    public struct GetMappingRequest: AWSEncodableShape {
 
         /// Parameters for the mapping.
         public let location: Location?
@@ -4942,7 +4942,7 @@ extension Glue {
         }
     }
 
-    public struct GetMappingResponse: AWSShape {
+    public struct GetMappingResponse: AWSDecodableShape {
 
         /// A list of mappings to the specified targets.
         public let mapping: [MappingEntry]
@@ -4956,7 +4956,7 @@ extension Glue {
         }
     }
 
-    public struct GetPartitionRequest: AWSShape {
+    public struct GetPartitionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partition in question resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -4997,7 +4997,7 @@ extension Glue {
         }
     }
 
-    public struct GetPartitionResponse: AWSShape {
+    public struct GetPartitionResponse: AWSDecodableShape {
 
         /// The requested information, in the form of a Partition object.
         public let partition: Partition?
@@ -5011,7 +5011,7 @@ extension Glue {
         }
     }
 
-    public struct GetPartitionsRequest: AWSShape {
+    public struct GetPartitionsRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5067,7 +5067,7 @@ extension Glue {
         }
     }
 
-    public struct GetPartitionsResponse: AWSShape {
+    public struct GetPartitionsResponse: AWSDecodableShape {
 
         /// A continuation token, if the returned list of partitions does not include the last one.
         public let nextToken: String?
@@ -5085,7 +5085,7 @@ extension Glue {
         }
     }
 
-    public struct GetPlanRequest: AWSShape {
+    public struct GetPlanRequest: AWSEncodableShape {
 
         /// The programming language of the code to perform the mapping.
         public let language: Language?
@@ -5123,7 +5123,7 @@ extension Glue {
         }
     }
 
-    public struct GetPlanResponse: AWSShape {
+    public struct GetPlanResponse: AWSDecodableShape {
 
         /// A Python script to perform the mapping.
         public let pythonScript: String?
@@ -5141,7 +5141,7 @@ extension Glue {
         }
     }
 
-    public struct GetResourcePolicyRequest: AWSShape {
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
 
 
         public init() {
@@ -5149,7 +5149,7 @@ extension Glue {
 
     }
 
-    public struct GetResourcePolicyResponse: AWSShape {
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
 
         /// The date and time at which the policy was created.
         public let createTime: TimeStamp?
@@ -5175,7 +5175,7 @@ extension Glue {
         }
     }
 
-    public struct GetSecurityConfigurationRequest: AWSShape {
+    public struct GetSecurityConfigurationRequest: AWSEncodableShape {
 
         /// The name of the security configuration to retrieve.
         public let name: String
@@ -5195,7 +5195,7 @@ extension Glue {
         }
     }
 
-    public struct GetSecurityConfigurationResponse: AWSShape {
+    public struct GetSecurityConfigurationResponse: AWSDecodableShape {
 
         /// The requested security configuration.
         public let securityConfiguration: SecurityConfiguration?
@@ -5209,7 +5209,7 @@ extension Glue {
         }
     }
 
-    public struct GetSecurityConfigurationsRequest: AWSShape {
+    public struct GetSecurityConfigurationsRequest: AWSEncodableShape {
 
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -5232,7 +5232,7 @@ extension Glue {
         }
     }
 
-    public struct GetSecurityConfigurationsResponse: AWSShape {
+    public struct GetSecurityConfigurationsResponse: AWSDecodableShape {
 
         /// A continuation token, if there are more security configurations to return.
         public let nextToken: String?
@@ -5250,7 +5250,7 @@ extension Glue {
         }
     }
 
-    public struct GetTableRequest: AWSShape {
+    public struct GetTableRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5284,7 +5284,7 @@ extension Glue {
         }
     }
 
-    public struct GetTableResponse: AWSShape {
+    public struct GetTableResponse: AWSDecodableShape {
 
         /// The Table object that defines the specified table.
         public let table: Table?
@@ -5298,7 +5298,7 @@ extension Glue {
         }
     }
 
-    public struct GetTableVersionRequest: AWSShape {
+    public struct GetTableVersionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5339,7 +5339,7 @@ extension Glue {
         }
     }
 
-    public struct GetTableVersionResponse: AWSShape {
+    public struct GetTableVersionResponse: AWSDecodableShape {
 
         /// The requested table version.
         public let tableVersion: TableVersion?
@@ -5353,7 +5353,7 @@ extension Glue {
         }
     }
 
-    public struct GetTableVersionsRequest: AWSShape {
+    public struct GetTableVersionsRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5397,7 +5397,7 @@ extension Glue {
         }
     }
 
-    public struct GetTableVersionsResponse: AWSShape {
+    public struct GetTableVersionsResponse: AWSDecodableShape {
 
         /// A continuation token, if the list of available versions does not include the last one.
         public let nextToken: String?
@@ -5415,7 +5415,7 @@ extension Glue {
         }
     }
 
-    public struct GetTablesRequest: AWSShape {
+    public struct GetTablesRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5459,7 +5459,7 @@ extension Glue {
         }
     }
 
-    public struct GetTablesResponse: AWSShape {
+    public struct GetTablesResponse: AWSDecodableShape {
 
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
@@ -5477,7 +5477,7 @@ extension Glue {
         }
     }
 
-    public struct GetTagsRequest: AWSShape {
+    public struct GetTagsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
         public let resourceArn: String
@@ -5497,7 +5497,7 @@ extension Glue {
         }
     }
 
-    public struct GetTagsResponse: AWSShape {
+    public struct GetTagsResponse: AWSDecodableShape {
 
         /// The requested tags.
         public let tags: [String: String]?
@@ -5511,7 +5511,7 @@ extension Glue {
         }
     }
 
-    public struct GetTriggerRequest: AWSShape {
+    public struct GetTriggerRequest: AWSEncodableShape {
 
         /// The name of the trigger to retrieve.
         public let name: String
@@ -5531,7 +5531,7 @@ extension Glue {
         }
     }
 
-    public struct GetTriggerResponse: AWSShape {
+    public struct GetTriggerResponse: AWSDecodableShape {
 
         /// The requested trigger definition.
         public let trigger: Trigger?
@@ -5545,7 +5545,7 @@ extension Glue {
         }
     }
 
-    public struct GetTriggersRequest: AWSShape {
+    public struct GetTriggersRequest: AWSEncodableShape {
 
         /// The name of the job to retrieve triggers for. The trigger that can start this job is returned, and if there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
@@ -5575,7 +5575,7 @@ extension Glue {
         }
     }
 
-    public struct GetTriggersResponse: AWSShape {
+    public struct GetTriggersResponse: AWSDecodableShape {
 
         /// A continuation token, if not all the requested triggers have yet been returned.
         public let nextToken: String?
@@ -5593,7 +5593,7 @@ extension Glue {
         }
     }
 
-    public struct GetUserDefinedFunctionRequest: AWSShape {
+    public struct GetUserDefinedFunctionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5627,7 +5627,7 @@ extension Glue {
         }
     }
 
-    public struct GetUserDefinedFunctionResponse: AWSShape {
+    public struct GetUserDefinedFunctionResponse: AWSDecodableShape {
 
         /// The requested function definition.
         public let userDefinedFunction: UserDefinedFunction?
@@ -5641,7 +5641,7 @@ extension Glue {
         }
     }
 
-    public struct GetUserDefinedFunctionsRequest: AWSShape {
+    public struct GetUserDefinedFunctionsRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -5685,7 +5685,7 @@ extension Glue {
         }
     }
 
-    public struct GetUserDefinedFunctionsResponse: AWSShape {
+    public struct GetUserDefinedFunctionsResponse: AWSDecodableShape {
 
         /// A continuation token, if the list of functions returned does not include the last requested function.
         public let nextToken: String?
@@ -5703,7 +5703,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRequest: AWSShape {
+    public struct GetWorkflowRequest: AWSEncodableShape {
 
         /// Specifies whether to include a graph when returning the workflow resource metadata.
         public let includeGraph: Bool?
@@ -5727,7 +5727,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowResponse: AWSShape {
+    public struct GetWorkflowResponse: AWSDecodableShape {
 
         /// The resource metadata for the workflow.
         public let workflow: Workflow?
@@ -5741,7 +5741,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRunPropertiesRequest: AWSShape {
+    public struct GetWorkflowRunPropertiesRequest: AWSEncodableShape {
 
         /// Name of the workflow which was run.
         public let name: String
@@ -5768,7 +5768,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRunPropertiesResponse: AWSShape {
+    public struct GetWorkflowRunPropertiesResponse: AWSDecodableShape {
 
         /// The workflow run properties which were set during the specified run.
         public let runProperties: [String: String]?
@@ -5782,7 +5782,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRunRequest: AWSShape {
+    public struct GetWorkflowRunRequest: AWSEncodableShape {
 
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
@@ -5813,7 +5813,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRunResponse: AWSShape {
+    public struct GetWorkflowRunResponse: AWSDecodableShape {
 
         /// The requested workflow run metadata.
         public let run: WorkflowRun?
@@ -5827,7 +5827,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRunsRequest: AWSShape {
+    public struct GetWorkflowRunsRequest: AWSEncodableShape {
 
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
@@ -5861,7 +5861,7 @@ extension Glue {
         }
     }
 
-    public struct GetWorkflowRunsResponse: AWSShape {
+    public struct GetWorkflowRunsResponse: AWSDecodableShape {
 
         /// A continuation token, if not all requested workflow runs have been returned.
         public let nextToken: String?
@@ -5879,7 +5879,7 @@ extension Glue {
         }
     }
 
-    public struct GlueTable: AWSShape {
+    public struct GlueTable: AWSEncodableShape & AWSDecodableShape {
 
         /// A unique identifier for the AWS Glue Data Catalog.
         public let catalogId: String?
@@ -5920,7 +5920,7 @@ extension Glue {
         }
     }
 
-    public struct GrokClassifier: AWSShape {
+    public struct GrokClassifier: AWSDecodableShape {
 
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
         public let classification: String
@@ -5958,7 +5958,7 @@ extension Glue {
         }
     }
 
-    public struct ImportCatalogToGlueRequest: AWSShape {
+    public struct ImportCatalogToGlueRequest: AWSEncodableShape {
 
         /// The ID of the catalog to import. Currently, this should be the AWS account ID.
         public let catalogId: String?
@@ -5978,7 +5978,7 @@ extension Glue {
         }
     }
 
-    public struct ImportCatalogToGlueResponse: AWSShape {
+    public struct ImportCatalogToGlueResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5986,7 +5986,7 @@ extension Glue {
 
     }
 
-    public struct ImportLabelsTaskRunProperties: AWSShape {
+    public struct ImportLabelsTaskRunProperties: AWSDecodableShape {
 
         /// The Amazon Simple Storage Service (Amazon S3) path from where you will import the labels.
         public let inputS3Path: String?
@@ -6004,7 +6004,7 @@ extension Glue {
         }
     }
 
-    public struct JdbcTarget: AWSShape {
+    public struct JdbcTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
@@ -6026,7 +6026,7 @@ extension Glue {
         }
     }
 
-    public struct Job: AWSShape {
+    public struct Job: AWSDecodableShape {
 
         /// The JobCommand that executes this job.
         public let command: JobCommand?
@@ -6112,7 +6112,7 @@ extension Glue {
         }
     }
 
-    public struct JobBookmarkEntry: AWSShape {
+    public struct JobBookmarkEntry: AWSDecodableShape {
 
         /// The attempt ID number.
         public let attempt: Int?
@@ -6150,7 +6150,7 @@ extension Glue {
         }
     }
 
-    public struct JobBookmarksEncryption: AWSShape {
+    public struct JobBookmarksEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// The encryption mode to use for job bookmarks data.
         public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
@@ -6172,7 +6172,7 @@ extension Glue {
         }
     }
 
-    public struct JobCommand: AWSShape {
+    public struct JobCommand: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell.
         public let name: String?
@@ -6198,7 +6198,7 @@ extension Glue {
         }
     }
 
-    public struct JobNodeDetails: AWSShape {
+    public struct JobNodeDetails: AWSDecodableShape {
 
         /// The information for the job runs represented by the job node.
         public let jobRuns: [JobRun]?
@@ -6212,7 +6212,7 @@ extension Glue {
         }
     }
 
-    public struct JobRun: AWSShape {
+    public struct JobRun: AWSDecodableShape {
 
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -6306,7 +6306,7 @@ extension Glue {
         }
     }
 
-    public struct JobUpdate: AWSShape {
+    public struct JobUpdate: AWSEncodableShape {
 
         /// The JobCommand that executes this job (required).
         public let command: JobCommand?
@@ -6395,7 +6395,7 @@ extension Glue {
         }
     }
 
-    public struct JsonClassifier: AWSShape {
+    public struct JsonClassifier: AWSDecodableShape {
 
         /// The time that this classifier was registered.
         public let creationTime: TimeStamp?
@@ -6425,7 +6425,7 @@ extension Glue {
         }
     }
 
-    public struct LabelingSetGenerationTaskRunProperties: AWSShape {
+    public struct LabelingSetGenerationTaskRunProperties: AWSDecodableShape {
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
         public let outputS3Path: String?
@@ -6439,7 +6439,7 @@ extension Glue {
         }
     }
 
-    public struct LastCrawlInfo: AWSShape {
+    public struct LastCrawlInfo: AWSDecodableShape {
 
         /// If an error occurred, the error information about the last crawl.
         public let errorMessage: String?
@@ -6473,7 +6473,7 @@ extension Glue {
         }
     }
 
-    public struct ListCrawlersRequest: AWSShape {
+    public struct ListCrawlersRequest: AWSEncodableShape {
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -6506,7 +6506,7 @@ extension Glue {
         }
     }
 
-    public struct ListCrawlersResponse: AWSShape {
+    public struct ListCrawlersResponse: AWSDecodableShape {
 
         /// The names of all crawlers in the account, or the crawlers with the specified tags.
         public let crawlerNames: [String]?
@@ -6524,7 +6524,7 @@ extension Glue {
         }
     }
 
-    public struct ListDevEndpointsRequest: AWSShape {
+    public struct ListDevEndpointsRequest: AWSEncodableShape {
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -6557,7 +6557,7 @@ extension Glue {
         }
     }
 
-    public struct ListDevEndpointsResponse: AWSShape {
+    public struct ListDevEndpointsResponse: AWSDecodableShape {
 
         /// The names of all the DevEndpoints in the account, or the DevEndpoints with the specified tags.
         public let devEndpointNames: [String]?
@@ -6575,7 +6575,7 @@ extension Glue {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -6608,7 +6608,7 @@ extension Glue {
         }
     }
 
-    public struct ListJobsResponse: AWSShape {
+    public struct ListJobsResponse: AWSDecodableShape {
 
         /// The names of all jobs in the account, or the jobs with the specified tags.
         public let jobNames: [String]?
@@ -6626,7 +6626,7 @@ extension Glue {
         }
     }
 
-    public struct ListMLTransformsRequest: AWSShape {
+    public struct ListMLTransformsRequest: AWSEncodableShape {
 
         /// A TransformFilterCriteria used to filter the machine learning transforms.
         public let filter: TransformFilterCriteria?
@@ -6668,7 +6668,7 @@ extension Glue {
         }
     }
 
-    public struct ListMLTransformsResponse: AWSShape {
+    public struct ListMLTransformsResponse: AWSDecodableShape {
 
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
@@ -6686,7 +6686,7 @@ extension Glue {
         }
     }
 
-    public struct ListTriggersRequest: AWSShape {
+    public struct ListTriggersRequest: AWSEncodableShape {
 
         ///  The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
@@ -6726,7 +6726,7 @@ extension Glue {
         }
     }
 
-    public struct ListTriggersResponse: AWSShape {
+    public struct ListTriggersResponse: AWSDecodableShape {
 
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
@@ -6744,7 +6744,7 @@ extension Glue {
         }
     }
 
-    public struct ListWorkflowsRequest: AWSShape {
+    public struct ListWorkflowsRequest: AWSEncodableShape {
 
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -6767,7 +6767,7 @@ extension Glue {
         }
     }
 
-    public struct ListWorkflowsResponse: AWSShape {
+    public struct ListWorkflowsResponse: AWSDecodableShape {
 
         /// A continuation token, if not all workflow names have been returned.
         public let nextToken: String?
@@ -6785,7 +6785,7 @@ extension Glue {
         }
     }
 
-    public struct Location: AWSShape {
+    public struct Location: AWSEncodableShape {
 
         /// An Amazon DynamoDB table location.
         public let dynamoDB: [CodeGenNodeArg]?
@@ -6816,7 +6816,7 @@ extension Glue {
         }
     }
 
-    public struct MLTransform: AWSShape {
+    public struct MLTransform: AWSDecodableShape {
 
         /// A timestamp. The time and date that this machine learning transform was created.
         public let createdOn: TimeStamp?
@@ -6898,7 +6898,7 @@ extension Glue {
         }
     }
 
-    public struct MappingEntry: AWSShape {
+    public struct MappingEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// The source path.
         public let sourcePath: String?
@@ -6932,7 +6932,7 @@ extension Glue {
         }
     }
 
-    public struct Node: AWSShape {
+    public struct Node: AWSDecodableShape {
 
         /// Details of the crawler when the node represents a crawler.
         public let crawlerDetails: CrawlerNodeDetails?
@@ -6966,7 +6966,7 @@ extension Glue {
         }
     }
 
-    public struct NotificationProperty: AWSShape {
+    public struct NotificationProperty: AWSEncodableShape & AWSDecodableShape {
 
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
         public let notifyDelayAfter: Int?
@@ -6984,7 +6984,7 @@ extension Glue {
         }
     }
 
-    public struct Order: AWSShape {
+    public struct Order: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the column.
         public let column: String
@@ -7010,7 +7010,7 @@ extension Glue {
         }
     }
 
-    public struct Partition: AWSShape {
+    public struct Partition: AWSDecodableShape {
 
         /// The time at which the partition was created.
         public let creationTime: TimeStamp?
@@ -7052,7 +7052,7 @@ extension Glue {
         }
     }
 
-    public struct PartitionError: AWSShape {
+    public struct PartitionError: AWSDecodableShape {
 
         /// The details about the partition error.
         public let errorDetail: ErrorDetail?
@@ -7070,7 +7070,7 @@ extension Glue {
         }
     }
 
-    public struct PartitionInput: AWSShape {
+    public struct PartitionInput: AWSEncodableShape {
 
         /// The last time at which the partition was accessed.
         public let lastAccessTime: TimeStamp?
@@ -7113,7 +7113,7 @@ extension Glue {
         }
     }
 
-    public struct PartitionValueList: AWSShape {
+    public struct PartitionValueList: AWSEncodableShape & AWSDecodableShape {
 
         /// The list of values.
         public let values: [String]
@@ -7133,7 +7133,7 @@ extension Glue {
         }
     }
 
-    public struct PhysicalConnectionRequirements: AWSShape {
+    public struct PhysicalConnectionRequirements: AWSEncodableShape & AWSDecodableShape {
 
         /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
         public let availabilityZone: String?
@@ -7171,7 +7171,7 @@ extension Glue {
         }
     }
 
-    public struct Predecessor: AWSShape {
+    public struct Predecessor: AWSDecodableShape {
 
         /// The name of the job definition used by the predecessor job run.
         public let jobName: String?
@@ -7189,7 +7189,7 @@ extension Glue {
         }
     }
 
-    public struct Predicate: AWSShape {
+    public struct Predicate: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of the conditions that determine when the trigger will fire.
         public let conditions: [Condition]?
@@ -7213,7 +7213,7 @@ extension Glue {
         }
     }
 
-    public struct PrincipalPermissions: AWSShape {
+    public struct PrincipalPermissions: AWSEncodableShape & AWSDecodableShape {
 
         /// The permissions that are granted to the principal.
         public let permissions: [Permission]?
@@ -7235,7 +7235,7 @@ extension Glue {
         }
     }
 
-    public struct PropertyPredicate: AWSShape {
+    public struct PropertyPredicate: AWSEncodableShape {
 
         /// The comparator used to compare this property to others.
         public let comparator: Comparator?
@@ -7262,7 +7262,7 @@ extension Glue {
         }
     }
 
-    public struct PutDataCatalogEncryptionSettingsRequest: AWSShape {
+    public struct PutDataCatalogEncryptionSettingsRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -7287,7 +7287,7 @@ extension Glue {
         }
     }
 
-    public struct PutDataCatalogEncryptionSettingsResponse: AWSShape {
+    public struct PutDataCatalogEncryptionSettingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -7295,7 +7295,7 @@ extension Glue {
 
     }
 
-    public struct PutResourcePolicyRequest: AWSShape {
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
 
         /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
         public let policyExistsCondition: ExistCondition?
@@ -7325,7 +7325,7 @@ extension Glue {
         }
     }
 
-    public struct PutResourcePolicyResponse: AWSShape {
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
 
         /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
         public let policyHash: String?
@@ -7339,7 +7339,7 @@ extension Glue {
         }
     }
 
-    public struct PutWorkflowRunPropertiesRequest: AWSShape {
+    public struct PutWorkflowRunPropertiesRequest: AWSEncodableShape {
 
         /// Name of the workflow which was run.
         public let name: String
@@ -7375,7 +7375,7 @@ extension Glue {
         }
     }
 
-    public struct PutWorkflowRunPropertiesResponse: AWSShape {
+    public struct PutWorkflowRunPropertiesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -7383,7 +7383,7 @@ extension Glue {
 
     }
 
-    public struct ResetJobBookmarkRequest: AWSShape {
+    public struct ResetJobBookmarkRequest: AWSEncodableShape {
 
         /// The name of the job in question.
         public let jobName: String
@@ -7401,7 +7401,7 @@ extension Glue {
         }
     }
 
-    public struct ResetJobBookmarkResponse: AWSShape {
+    public struct ResetJobBookmarkResponse: AWSDecodableShape {
 
         /// The reset bookmark entry.
         public let jobBookmarkEntry: JobBookmarkEntry?
@@ -7415,7 +7415,7 @@ extension Glue {
         }
     }
 
-    public struct ResourceUri: AWSShape {
+    public struct ResourceUri: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of the resource.
         public let resourceType: ResourceType?
@@ -7439,7 +7439,7 @@ extension Glue {
         }
     }
 
-    public struct S3Encryption: AWSShape {
+    public struct S3Encryption: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
@@ -7461,7 +7461,7 @@ extension Glue {
         }
     }
 
-    public struct S3Target: AWSShape {
+    public struct S3Target: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
         public let exclusions: [String]?
@@ -7479,7 +7479,7 @@ extension Glue {
         }
     }
 
-    public struct Schedule: AWSShape {
+    public struct Schedule: AWSDecodableShape {
 
         /// A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).
         public let scheduleExpression: String?
@@ -7497,7 +7497,7 @@ extension Glue {
         }
     }
 
-    public struct SchemaChangePolicy: AWSShape {
+    public struct SchemaChangePolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The deletion behavior when the crawler finds a deleted object.
         public let deleteBehavior: DeleteBehavior?
@@ -7515,7 +7515,7 @@ extension Glue {
         }
     }
 
-    public struct SchemaColumn: AWSShape {
+    public struct SchemaColumn: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of data in the column.
         public let dataType: String?
@@ -7542,7 +7542,7 @@ extension Glue {
         }
     }
 
-    public struct SearchTablesRequest: AWSShape {
+    public struct SearchTablesRequest: AWSEncodableShape {
 
         /// A unique identifier, consisting of  account_id/datalake.
         public let catalogId: String?
@@ -7593,7 +7593,7 @@ extension Glue {
         }
     }
 
-    public struct SearchTablesResponse: AWSShape {
+    public struct SearchTablesResponse: AWSDecodableShape {
 
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
@@ -7611,7 +7611,7 @@ extension Glue {
         }
     }
 
-    public struct SecurityConfiguration: AWSShape {
+    public struct SecurityConfiguration: AWSDecodableShape {
 
         /// The time at which this security configuration was created.
         public let createdTimeStamp: TimeStamp?
@@ -7633,7 +7633,7 @@ extension Glue {
         }
     }
 
-    public struct Segment: AWSShape {
+    public struct Segment: AWSEncodableShape {
 
         /// The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3.
         public let segmentNumber: Int
@@ -7657,7 +7657,7 @@ extension Glue {
         }
     }
 
-    public struct SerDeInfo: AWSShape {
+    public struct SerDeInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of the SerDe.
         public let name: String?
@@ -7694,7 +7694,7 @@ extension Glue {
         }
     }
 
-    public struct SkewedInfo: AWSShape {
+    public struct SkewedInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of names of columns that contain skewed values.
         public let skewedColumnNames: [String]?
@@ -7724,7 +7724,7 @@ extension Glue {
         }
     }
 
-    public struct SortCriterion: AWSShape {
+    public struct SortCriterion: AWSEncodableShape {
 
         /// The name of the field on which to sort.
         public let fieldName: String?
@@ -7746,7 +7746,7 @@ extension Glue {
         }
     }
 
-    public struct StartCrawlerRequest: AWSShape {
+    public struct StartCrawlerRequest: AWSEncodableShape {
 
         /// Name of the crawler to start.
         public let name: String
@@ -7766,7 +7766,7 @@ extension Glue {
         }
     }
 
-    public struct StartCrawlerResponse: AWSShape {
+    public struct StartCrawlerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -7774,7 +7774,7 @@ extension Glue {
 
     }
 
-    public struct StartCrawlerScheduleRequest: AWSShape {
+    public struct StartCrawlerScheduleRequest: AWSEncodableShape {
 
         /// Name of the crawler to schedule.
         public let crawlerName: String
@@ -7794,7 +7794,7 @@ extension Glue {
         }
     }
 
-    public struct StartCrawlerScheduleResponse: AWSShape {
+    public struct StartCrawlerScheduleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -7802,7 +7802,7 @@ extension Glue {
 
     }
 
-    public struct StartExportLabelsTaskRunRequest: AWSShape {
+    public struct StartExportLabelsTaskRunRequest: AWSEncodableShape {
 
         /// The Amazon S3 path where you export the labels.
         public let outputS3Path: String
@@ -7826,7 +7826,7 @@ extension Glue {
         }
     }
 
-    public struct StartExportLabelsTaskRunResponse: AWSShape {
+    public struct StartExportLabelsTaskRunResponse: AWSDecodableShape {
 
         /// The unique identifier for the task run.
         public let taskRunId: String?
@@ -7840,7 +7840,7 @@ extension Glue {
         }
     }
 
-    public struct StartImportLabelsTaskRunRequest: AWSShape {
+    public struct StartImportLabelsTaskRunRequest: AWSEncodableShape {
 
         /// The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.
         public let inputS3Path: String
@@ -7868,7 +7868,7 @@ extension Glue {
         }
     }
 
-    public struct StartImportLabelsTaskRunResponse: AWSShape {
+    public struct StartImportLabelsTaskRunResponse: AWSDecodableShape {
 
         /// The unique identifier for the task run.
         public let taskRunId: String?
@@ -7882,7 +7882,7 @@ extension Glue {
         }
     }
 
-    public struct StartJobRunRequest: AWSShape {
+    public struct StartJobRunRequest: AWSEncodableShape {
 
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -7942,7 +7942,7 @@ extension Glue {
         }
     }
 
-    public struct StartJobRunResponse: AWSShape {
+    public struct StartJobRunResponse: AWSDecodableShape {
 
         /// The ID assigned to this job run.
         public let jobRunId: String?
@@ -7956,7 +7956,7 @@ extension Glue {
         }
     }
 
-    public struct StartMLEvaluationTaskRunRequest: AWSShape {
+    public struct StartMLEvaluationTaskRunRequest: AWSEncodableShape {
 
         /// The unique identifier of the machine learning transform.
         public let transformId: String
@@ -7976,7 +7976,7 @@ extension Glue {
         }
     }
 
-    public struct StartMLEvaluationTaskRunResponse: AWSShape {
+    public struct StartMLEvaluationTaskRunResponse: AWSDecodableShape {
 
         /// The unique identifier associated with this run.
         public let taskRunId: String?
@@ -7990,7 +7990,7 @@ extension Glue {
         }
     }
 
-    public struct StartMLLabelingSetGenerationTaskRunRequest: AWSShape {
+    public struct StartMLLabelingSetGenerationTaskRunRequest: AWSEncodableShape {
 
         /// The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
         public let outputS3Path: String
@@ -8014,7 +8014,7 @@ extension Glue {
         }
     }
 
-    public struct StartMLLabelingSetGenerationTaskRunResponse: AWSShape {
+    public struct StartMLLabelingSetGenerationTaskRunResponse: AWSDecodableShape {
 
         /// The unique run identifier that is associated with this task run.
         public let taskRunId: String?
@@ -8028,7 +8028,7 @@ extension Glue {
         }
     }
 
-    public struct StartTriggerRequest: AWSShape {
+    public struct StartTriggerRequest: AWSEncodableShape {
 
         /// The name of the trigger to start.
         public let name: String
@@ -8048,7 +8048,7 @@ extension Glue {
         }
     }
 
-    public struct StartTriggerResponse: AWSShape {
+    public struct StartTriggerResponse: AWSDecodableShape {
 
         /// The name of the trigger that was started.
         public let name: String?
@@ -8062,7 +8062,7 @@ extension Glue {
         }
     }
 
-    public struct StartWorkflowRunRequest: AWSShape {
+    public struct StartWorkflowRunRequest: AWSEncodableShape {
 
         /// The name of the workflow to start.
         public let name: String
@@ -8082,7 +8082,7 @@ extension Glue {
         }
     }
 
-    public struct StartWorkflowRunResponse: AWSShape {
+    public struct StartWorkflowRunResponse: AWSDecodableShape {
 
         /// An Id for the new run.
         public let runId: String?
@@ -8096,7 +8096,7 @@ extension Glue {
         }
     }
 
-    public struct StopCrawlerRequest: AWSShape {
+    public struct StopCrawlerRequest: AWSEncodableShape {
 
         /// Name of the crawler to stop.
         public let name: String
@@ -8116,7 +8116,7 @@ extension Glue {
         }
     }
 
-    public struct StopCrawlerResponse: AWSShape {
+    public struct StopCrawlerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8124,7 +8124,7 @@ extension Glue {
 
     }
 
-    public struct StopCrawlerScheduleRequest: AWSShape {
+    public struct StopCrawlerScheduleRequest: AWSEncodableShape {
 
         /// Name of the crawler whose schedule state to set.
         public let crawlerName: String
@@ -8144,7 +8144,7 @@ extension Glue {
         }
     }
 
-    public struct StopCrawlerScheduleResponse: AWSShape {
+    public struct StopCrawlerScheduleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8152,7 +8152,7 @@ extension Glue {
 
     }
 
-    public struct StopTriggerRequest: AWSShape {
+    public struct StopTriggerRequest: AWSEncodableShape {
 
         /// The name of the trigger to stop.
         public let name: String
@@ -8172,7 +8172,7 @@ extension Glue {
         }
     }
 
-    public struct StopTriggerResponse: AWSShape {
+    public struct StopTriggerResponse: AWSDecodableShape {
 
         /// The name of the trigger that was stopped.
         public let name: String?
@@ -8186,7 +8186,7 @@ extension Glue {
         }
     }
 
-    public struct StorageDescriptor: AWSShape {
+    public struct StorageDescriptor: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
         public let bucketColumns: [String]?
@@ -8272,7 +8272,7 @@ extension Glue {
         }
     }
 
-    public struct Table: AWSShape {
+    public struct Table: AWSDecodableShape {
 
         /// The person or entity who created the table.
         public let createdBy: String?
@@ -8350,7 +8350,7 @@ extension Glue {
         }
     }
 
-    public struct TableError: AWSShape {
+    public struct TableError: AWSDecodableShape {
 
         /// The details about the error.
         public let errorDetail: ErrorDetail?
@@ -8368,7 +8368,7 @@ extension Glue {
         }
     }
 
-    public struct TableInput: AWSShape {
+    public struct TableInput: AWSEncodableShape {
 
         /// A description of the table.
         public let description: String?
@@ -8452,7 +8452,7 @@ extension Glue {
         }
     }
 
-    public struct TableVersion: AWSShape {
+    public struct TableVersion: AWSDecodableShape {
 
         /// The table in question.
         public let table: Table?
@@ -8470,7 +8470,7 @@ extension Glue {
         }
     }
 
-    public struct TableVersionError: AWSShape {
+    public struct TableVersionError: AWSDecodableShape {
 
         /// The details about the error.
         public let errorDetail: ErrorDetail?
@@ -8492,7 +8492,7 @@ extension Glue {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the AWS Glue resource to which to add the tags. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern.
         public let resourceArn: String
@@ -8522,7 +8522,7 @@ extension Glue {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8530,7 +8530,7 @@ extension Glue {
 
     }
 
-    public struct TaskRun: AWSShape {
+    public struct TaskRun: AWSDecodableShape {
 
         /// The last point in time that the requested task run was completed.
         public let completedOn: TimeStamp?
@@ -8580,7 +8580,7 @@ extension Glue {
         }
     }
 
-    public struct TaskRunFilterCriteria: AWSShape {
+    public struct TaskRunFilterCriteria: AWSEncodableShape {
 
         /// Filter on task runs started after this date.
         public let startedAfter: TimeStamp?
@@ -8606,7 +8606,7 @@ extension Glue {
         }
     }
 
-    public struct TaskRunProperties: AWSShape {
+    public struct TaskRunProperties: AWSDecodableShape {
 
         /// The configuration properties for an exporting labels task run.
         public let exportLabelsTaskRunProperties: ExportLabelsTaskRunProperties?
@@ -8636,7 +8636,7 @@ extension Glue {
         }
     }
 
-    public struct TaskRunSortCriteria: AWSShape {
+    public struct TaskRunSortCriteria: AWSEncodableShape {
 
         /// The column to be used to sort the list of task runs for the machine learning transform.
         public let column: TaskRunSortColumnType
@@ -8654,7 +8654,7 @@ extension Glue {
         }
     }
 
-    public struct TransformFilterCriteria: AWSShape {
+    public struct TransformFilterCriteria: AWSEncodableShape {
 
         /// The time and date after which the transforms were created.
         public let createdAfter: TimeStamp?
@@ -8713,7 +8713,7 @@ extension Glue {
         }
     }
 
-    public struct TransformParameters: AWSShape {
+    public struct TransformParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The parameters for the find matches algorithm.
         public let findMatchesParameters: FindMatchesParameters?
@@ -8735,7 +8735,7 @@ extension Glue {
         }
     }
 
-    public struct TransformSortCriteria: AWSShape {
+    public struct TransformSortCriteria: AWSEncodableShape {
 
         /// The column to be used in the sorting criteria that are associated with the machine learning transform.
         public let column: TransformSortColumnType
@@ -8753,7 +8753,7 @@ extension Glue {
         }
     }
 
-    public struct Trigger: AWSShape {
+    public struct Trigger: AWSDecodableShape {
 
         /// The actions initiated by this trigger.
         public let actions: [Action]?
@@ -8799,7 +8799,7 @@ extension Glue {
         }
     }
 
-    public struct TriggerNodeDetails: AWSShape {
+    public struct TriggerNodeDetails: AWSDecodableShape {
 
         /// The information of the trigger represented by the trigger node.
         public let trigger: Trigger?
@@ -8813,7 +8813,7 @@ extension Glue {
         }
     }
 
-    public struct TriggerUpdate: AWSShape {
+    public struct TriggerUpdate: AWSEncodableShape {
 
         /// The actions initiated by this trigger.
         public let actions: [Action]?
@@ -8856,7 +8856,7 @@ extension Glue {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
         public let resourceArn: String
@@ -8886,7 +8886,7 @@ extension Glue {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8894,7 +8894,7 @@ extension Glue {
 
     }
 
-    public struct UpdateClassifierRequest: AWSShape {
+    public struct UpdateClassifierRequest: AWSEncodableShape {
 
         /// A CsvClassifier object with updated fields.
         public let csvClassifier: UpdateCsvClassifierRequest?
@@ -8927,7 +8927,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateClassifierResponse: AWSShape {
+    public struct UpdateClassifierResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8935,7 +8935,7 @@ extension Glue {
 
     }
 
-    public struct UpdateConnectionRequest: AWSShape {
+    public struct UpdateConnectionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -8967,7 +8967,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateConnectionResponse: AWSShape {
+    public struct UpdateConnectionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8975,7 +8975,7 @@ extension Glue {
 
     }
 
-    public struct UpdateCrawlerRequest: AWSShape {
+    public struct UpdateCrawlerRequest: AWSEncodableShape {
 
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
@@ -9048,7 +9048,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateCrawlerResponse: AWSShape {
+    public struct UpdateCrawlerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9056,7 +9056,7 @@ extension Glue {
 
     }
 
-    public struct UpdateCrawlerScheduleRequest: AWSShape {
+    public struct UpdateCrawlerScheduleRequest: AWSEncodableShape {
 
         /// The name of the crawler whose schedule to update.
         public let crawlerName: String
@@ -9080,7 +9080,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateCrawlerScheduleResponse: AWSShape {
+    public struct UpdateCrawlerScheduleResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9088,7 +9088,7 @@ extension Glue {
 
     }
 
-    public struct UpdateCsvClassifierRequest: AWSShape {
+    public struct UpdateCsvClassifierRequest: AWSEncodableShape {
 
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
@@ -9143,7 +9143,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateDatabaseRequest: AWSShape {
+    public struct UpdateDatabaseRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -9175,7 +9175,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateDatabaseResponse: AWSShape {
+    public struct UpdateDatabaseResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9183,7 +9183,7 @@ extension Glue {
 
     }
 
-    public struct UpdateDevEndpointRequest: AWSShape {
+    public struct UpdateDevEndpointRequest: AWSEncodableShape {
 
         /// The map of arguments to add the map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let addArguments: [String: String]?
@@ -9230,7 +9230,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateDevEndpointResponse: AWSShape {
+    public struct UpdateDevEndpointResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9238,7 +9238,7 @@ extension Glue {
 
     }
 
-    public struct UpdateGrokClassifierRequest: AWSShape {
+    public struct UpdateGrokClassifierRequest: AWSEncodableShape {
 
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String?
@@ -9276,7 +9276,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateJobRequest: AWSShape {
+    public struct UpdateJobRequest: AWSEncodableShape {
 
         /// The name of the job definition to update.
         public let jobName: String
@@ -9301,7 +9301,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateJobResponse: AWSShape {
+    public struct UpdateJobResponse: AWSDecodableShape {
 
         /// Returns the name of the updated job definition.
         public let jobName: String?
@@ -9315,7 +9315,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateJsonClassifierRequest: AWSShape {
+    public struct UpdateJsonClassifierRequest: AWSEncodableShape {
 
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String?
@@ -9339,7 +9339,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateMLTransformRequest: AWSShape {
+    public struct UpdateMLTransformRequest: AWSEncodableShape {
 
         /// A description of the transform. The default is an empty string.
         public let description: String?
@@ -9410,7 +9410,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateMLTransformResponse: AWSShape {
+    public struct UpdateMLTransformResponse: AWSDecodableShape {
 
         /// The unique identifier for the transform that was updated.
         public let transformId: String?
@@ -9424,7 +9424,7 @@ extension Glue {
         }
     }
 
-    public struct UpdatePartitionRequest: AWSShape {
+    public struct UpdatePartitionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the partition to be updated resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -9472,7 +9472,7 @@ extension Glue {
         }
     }
 
-    public struct UpdatePartitionResponse: AWSShape {
+    public struct UpdatePartitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9480,7 +9480,7 @@ extension Glue {
 
     }
 
-    public struct UpdateTableRequest: AWSShape {
+    public struct UpdateTableRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -9516,7 +9516,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateTableResponse: AWSShape {
+    public struct UpdateTableResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9524,7 +9524,7 @@ extension Glue {
 
     }
 
-    public struct UpdateTriggerRequest: AWSShape {
+    public struct UpdateTriggerRequest: AWSEncodableShape {
 
         /// The name of the trigger to update.
         public let name: String
@@ -9549,7 +9549,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateTriggerResponse: AWSShape {
+    public struct UpdateTriggerResponse: AWSDecodableShape {
 
         /// The resulting trigger definition.
         public let trigger: Trigger?
@@ -9563,7 +9563,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateUserDefinedFunctionRequest: AWSShape {
+    public struct UpdateUserDefinedFunctionRequest: AWSEncodableShape {
 
         /// The ID of the Data Catalog where the function to be updated is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
@@ -9602,7 +9602,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateUserDefinedFunctionResponse: AWSShape {
+    public struct UpdateUserDefinedFunctionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -9610,7 +9610,7 @@ extension Glue {
 
     }
 
-    public struct UpdateWorkflowRequest: AWSShape {
+    public struct UpdateWorkflowRequest: AWSEncodableShape {
 
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
@@ -9643,7 +9643,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateWorkflowResponse: AWSShape {
+    public struct UpdateWorkflowResponse: AWSDecodableShape {
 
         /// The name of the workflow which was specified in input.
         public let name: String?
@@ -9657,7 +9657,7 @@ extension Glue {
         }
     }
 
-    public struct UpdateXMLClassifierRequest: AWSShape {
+    public struct UpdateXMLClassifierRequest: AWSEncodableShape {
 
         /// An identifier of the data format that the classifier matches.
         public let classification: String?
@@ -9685,7 +9685,7 @@ extension Glue {
         }
     }
 
-    public struct UserDefinedFunction: AWSShape {
+    public struct UserDefinedFunction: AWSDecodableShape {
 
         /// The Java class that contains the function code.
         public let className: String?
@@ -9719,7 +9719,7 @@ extension Glue {
         }
     }
 
-    public struct UserDefinedFunctionInput: AWSShape {
+    public struct UserDefinedFunctionInput: AWSEncodableShape {
 
         /// The Java class that contains the function code.
         public let className: String?
@@ -9766,7 +9766,7 @@ extension Glue {
         }
     }
 
-    public struct Workflow: AWSShape {
+    public struct Workflow: AWSDecodableShape {
 
         /// The date and time when the workflow was created.
         public let createdOn: TimeStamp?
@@ -9804,7 +9804,7 @@ extension Glue {
         }
     }
 
-    public struct WorkflowGraph: AWSShape {
+    public struct WorkflowGraph: AWSDecodableShape {
 
         /// A list of all the directed connections between the nodes belonging to the workflow.
         public let edges: [Edge]?
@@ -9822,7 +9822,7 @@ extension Glue {
         }
     }
 
-    public struct WorkflowRun: AWSShape {
+    public struct WorkflowRun: AWSDecodableShape {
 
         /// The date and time when the workflow run completed.
         public let completedOn: TimeStamp?
@@ -9864,7 +9864,7 @@ extension Glue {
         }
     }
 
-    public struct WorkflowRunStatistics: AWSShape {
+    public struct WorkflowRunStatistics: AWSDecodableShape {
 
         /// Total number of Actions which have failed.
         public let failedActions: Int?
@@ -9898,7 +9898,7 @@ extension Glue {
         }
     }
 
-    public struct XMLClassifier: AWSShape {
+    public struct XMLClassifier: AWSDecodableShape {
 
         /// An identifier of the data format that the classifier matches.
         public let classification: String

@@ -349,7 +349,7 @@ extension Route53Domains {
 
     //MARK: Shapes
 
-    public struct BillingRecord: AWSShape {
+    public struct BillingRecord: AWSDecodableShape {
 
         /// The date that the operation was billed, in Unix format.
         public let billDate: TimeStamp?
@@ -379,7 +379,7 @@ extension Route53Domains {
         }
     }
 
-    public struct CheckDomainAvailabilityRequest: AWSShape {
+    public struct CheckDomainAvailabilityRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
@@ -402,7 +402,7 @@ extension Route53Domains {
         }
     }
 
-    public struct CheckDomainAvailabilityResponse: AWSShape {
+    public struct CheckDomainAvailabilityResponse: AWSDecodableShape {
 
         /// Whether the domain name is available for registering.  You can register only domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: DomainAvailability
@@ -416,7 +416,7 @@ extension Route53Domains {
         }
     }
 
-    public struct CheckDomainTransferabilityRequest: AWSShape {
+    public struct CheckDomainTransferabilityRequest: AWSEncodableShape {
 
         /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
         public let authCode: String?
@@ -439,7 +439,7 @@ extension Route53Domains {
         }
     }
 
-    public struct CheckDomainTransferabilityResponse: AWSShape {
+    public struct CheckDomainTransferabilityResponse: AWSDecodableShape {
 
         /// A complex type that contains information about whether the specified domain can be transferred to Amazon Route 53.
         public let transferability: DomainTransferability
@@ -453,7 +453,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ContactDetail: AWSShape {
+    public struct ContactDetail: AWSEncodableShape & AWSDecodableShape {
 
         /// First line of the contact's address.
         public let addressLine1: String?
@@ -536,7 +536,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DeleteTagsForDomainRequest: AWSShape {
+    public struct DeleteTagsForDomainRequest: AWSEncodableShape {
 
         /// The domain for which you want to delete one or more tags.
         public let domainName: String
@@ -558,7 +558,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DeleteTagsForDomainResponse: AWSShape {
+    public struct DeleteTagsForDomainResponse: AWSDecodableShape {
 
 
         public init() {
@@ -566,7 +566,7 @@ extension Route53Domains {
 
     }
 
-    public struct DisableDomainAutoRenewRequest: AWSShape {
+    public struct DisableDomainAutoRenewRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to disable automatic renewal for.
         public let domainName: String
@@ -584,7 +584,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DisableDomainAutoRenewResponse: AWSShape {
+    public struct DisableDomainAutoRenewResponse: AWSDecodableShape {
 
 
         public init() {
@@ -592,7 +592,7 @@ extension Route53Domains {
 
     }
 
-    public struct DisableDomainTransferLockRequest: AWSShape {
+    public struct DisableDomainTransferLockRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to remove the transfer lock for.
         public let domainName: String
@@ -610,7 +610,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DisableDomainTransferLockResponse: AWSShape {
+    public struct DisableDomainTransferLockResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -624,7 +624,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DomainSuggestion: AWSShape {
+    public struct DomainSuggestion: AWSDecodableShape {
 
         /// Whether the domain name is available for registering.  You can register only the domains that are designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: String?
@@ -642,7 +642,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DomainSummary: AWSShape {
+    public struct DomainSummary: AWSDecodableShape {
 
         /// Indicates whether the domain is automatically renewed upon expiration.
         public let autoRenew: Bool?
@@ -668,7 +668,7 @@ extension Route53Domains {
         }
     }
 
-    public struct DomainTransferability: AWSShape {
+    public struct DomainTransferability: AWSDecodableShape {
 
         public let transferable: Transferable?
 
@@ -681,7 +681,7 @@ extension Route53Domains {
         }
     }
 
-    public struct EnableDomainAutoRenewRequest: AWSShape {
+    public struct EnableDomainAutoRenewRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
@@ -699,7 +699,7 @@ extension Route53Domains {
         }
     }
 
-    public struct EnableDomainAutoRenewResponse: AWSShape {
+    public struct EnableDomainAutoRenewResponse: AWSDecodableShape {
 
 
         public init() {
@@ -707,7 +707,7 @@ extension Route53Domains {
 
     }
 
-    public struct EnableDomainTransferLockRequest: AWSShape {
+    public struct EnableDomainTransferLockRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to set the transfer lock for.
         public let domainName: String
@@ -725,7 +725,7 @@ extension Route53Domains {
         }
     }
 
-    public struct EnableDomainTransferLockResponse: AWSShape {
+    public struct EnableDomainTransferLockResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -739,7 +739,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ExtraParam: AWSShape {
+    public struct ExtraParam: AWSEncodableShape & AWSDecodableShape {
 
         /// Name of the additional parameter required by the top-level domain. Here are the top-level domains that require additional parameters and which parameters they require:    .com.au and .net.au: AU_ID_NUMBER and AU_ID_TYPE     .ca: BRAND_NUMBER, CA_LEGAL_TYPE, and CA_BUSINESS_ENTITY_TYPE     .es: ES_IDENTIFICATION, ES_IDENTIFICATION_TYPE, and ES_LEGAL_FORM     .fi: BIRTH_DATE_IN_YYYY_MM_DD, FI_BUSINESS_NUMBER, FI_ID_NUMBER, FI_NATIONALITY, and FI_ORGANIZATION_TYPE     .fr: BRAND_NUMBER, BIRTH_DEPARTMENT, BIRTH_DATE_IN_YYYY_MM_DD, BIRTH_COUNTRY, and BIRTH_CITY     .it: BIRTH_COUNTRY, IT_PIN, and IT_REGISTRANT_ENTITY_TYPE     .ru: BIRTH_DATE_IN_YYYY_MM_DD and RU_PASSPORT_DATA     .se: BIRTH_COUNTRY and SE_ID_NUMBER     .sg: SG_ID_NUMBER     .co.uk, .me.uk, and .org.uk: UK_CONTACT_TYPE and UK_COMPANY_NUMBER    In addition, many TLDs require VAT_NUMBER.
         public let name: ExtraParamName
@@ -761,7 +761,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetContactReachabilityStatusRequest: AWSShape {
+    public struct GetContactReachabilityStatusRequest: AWSEncodableShape {
 
         /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
         public let domainName: String?
@@ -779,7 +779,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetContactReachabilityStatusResponse: AWSShape {
+    public struct GetContactReachabilityStatusResponse: AWSDecodableShape {
 
         /// The domain name for which you requested the reachability status.
         public let domainName: String?
@@ -797,7 +797,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetDomainDetailRequest: AWSShape {
+    public struct GetDomainDetailRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to get detailed information about.
         public let domainName: String
@@ -815,7 +815,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetDomainDetailResponse: AWSShape {
+    public struct GetDomainDetailResponse: AWSDecodableShape {
 
         /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
         public let abuseContactEmail: String?
@@ -909,7 +909,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetDomainSuggestionsRequest: AWSShape {
+    public struct GetDomainSuggestionsRequest: AWSEncodableShape {
 
         /// A domain name that you want to use as the basis for a list of possible domain names. The domain name must contain a top-level domain (TLD), such as .com, that Amazon Route 53 supports. For a list of TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide.
         public let domainName: String
@@ -935,7 +935,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetDomainSuggestionsResponse: AWSShape {
+    public struct GetDomainSuggestionsResponse: AWSDecodableShape {
 
         /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
         public let suggestionsList: [DomainSuggestion]?
@@ -949,7 +949,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetOperationDetailRequest: AWSShape {
+    public struct GetOperationDetailRequest: AWSEncodableShape {
 
         /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
         public let operationId: String
@@ -967,7 +967,7 @@ extension Route53Domains {
         }
     }
 
-    public struct GetOperationDetailResponse: AWSShape {
+    public struct GetOperationDetailResponse: AWSDecodableShape {
 
         /// The name of a domain.
         public let domainName: String?
@@ -1001,7 +1001,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ListDomainsRequest: AWSShape {
+    public struct ListDomainsRequest: AWSEncodableShape {
 
         /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
         public let marker: String?
@@ -1024,7 +1024,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ListDomainsResponse: AWSShape {
+    public struct ListDomainsResponse: AWSDecodableShape {
 
         /// A summary of domains.
         public let domains: [DomainSummary]
@@ -1042,7 +1042,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ListOperationsRequest: AWSShape {
+    public struct ListOperationsRequest: AWSEncodableShape {
 
         /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
         public let marker: String?
@@ -1069,7 +1069,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ListOperationsResponse: AWSShape {
+    public struct ListOperationsResponse: AWSDecodableShape {
 
         /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
@@ -1087,7 +1087,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ListTagsForDomainRequest: AWSShape {
+    public struct ListTagsForDomainRequest: AWSEncodableShape {
 
         /// The domain for which you want to get a list of tags.
         public let domainName: String
@@ -1105,7 +1105,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ListTagsForDomainResponse: AWSShape {
+    public struct ListTagsForDomainResponse: AWSDecodableShape {
 
         /// A list of the tags that are associated with the specified domain.
         public let tagList: [Tag]
@@ -1119,7 +1119,7 @@ extension Route53Domains {
         }
     }
 
-    public struct Nameserver: AWSShape {
+    public struct Nameserver: AWSEncodableShape & AWSDecodableShape {
 
         /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
         public let glueIps: [String]?
@@ -1145,7 +1145,7 @@ extension Route53Domains {
         }
     }
 
-    public struct OperationSummary: AWSShape {
+    public struct OperationSummary: AWSDecodableShape {
 
         /// Identifier returned to track the requested action.
         public let operationId: String
@@ -1171,7 +1171,7 @@ extension Route53Domains {
         }
     }
 
-    public struct RegisterDomainRequest: AWSShape {
+    public struct RegisterDomainRequest: AWSEncodableShape {
 
         /// Provides detailed contact information.
         public let adminContact: ContactDetail
@@ -1231,7 +1231,7 @@ extension Route53Domains {
         }
     }
 
-    public struct RegisterDomainResponse: AWSShape {
+    public struct RegisterDomainResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1245,7 +1245,7 @@ extension Route53Domains {
         }
     }
 
-    public struct RenewDomainRequest: AWSShape {
+    public struct RenewDomainRequest: AWSEncodableShape {
 
         /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
         public let currentExpiryYear: Int
@@ -1273,7 +1273,7 @@ extension Route53Domains {
         }
     }
 
-    public struct RenewDomainResponse: AWSShape {
+    public struct RenewDomainResponse: AWSDecodableShape {
 
         /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1287,7 +1287,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ResendContactReachabilityEmailRequest: AWSShape {
+    public struct ResendContactReachabilityEmailRequest: AWSEncodableShape {
 
         /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
         public let domainName: String?
@@ -1305,7 +1305,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ResendContactReachabilityEmailResponse: AWSShape {
+    public struct ResendContactReachabilityEmailResponse: AWSDecodableShape {
 
         /// The domain name for which you requested a confirmation email.
         public let domainName: String?
@@ -1327,7 +1327,7 @@ extension Route53Domains {
         }
     }
 
-    public struct RetrieveDomainAuthCodeRequest: AWSShape {
+    public struct RetrieveDomainAuthCodeRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to get an authorization code for.
         public let domainName: String
@@ -1345,7 +1345,7 @@ extension Route53Domains {
         }
     }
 
-    public struct RetrieveDomainAuthCodeResponse: AWSShape {
+    public struct RetrieveDomainAuthCodeResponse: AWSDecodableShape {
 
         /// The authorization code for the domain.
         public let authCode: String
@@ -1359,7 +1359,7 @@ extension Route53Domains {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long.
         public let key: String?
@@ -1377,7 +1377,7 @@ extension Route53Domains {
         }
     }
 
-    public struct TransferDomainRequest: AWSShape {
+    public struct TransferDomainRequest: AWSEncodableShape {
 
         /// Provides detailed contact information.
         public let adminContact: ContactDetail
@@ -1449,7 +1449,7 @@ extension Route53Domains {
         }
     }
 
-    public struct TransferDomainResponse: AWSShape {
+    public struct TransferDomainResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1463,7 +1463,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainContactPrivacyRequest: AWSShape {
+    public struct UpdateDomainContactPrivacyRequest: AWSEncodableShape {
 
         /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.
         public let adminPrivacy: Bool?
@@ -1493,7 +1493,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainContactPrivacyResponse: AWSShape {
+    public struct UpdateDomainContactPrivacyResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1507,7 +1507,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainContactRequest: AWSShape {
+    public struct UpdateDomainContactRequest: AWSEncodableShape {
 
         /// Provides detailed contact information.
         public let adminContact: ContactDetail?
@@ -1540,7 +1540,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainContactResponse: AWSShape {
+    public struct UpdateDomainContactResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1554,7 +1554,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainNameserversRequest: AWSShape {
+    public struct UpdateDomainNameserversRequest: AWSEncodableShape {
 
         /// The name of the domain that you want to change name servers for.
         public let domainName: String
@@ -1579,7 +1579,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateDomainNameserversResponse: AWSShape {
+    public struct UpdateDomainNameserversResponse: AWSDecodableShape {
 
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1593,7 +1593,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateTagsForDomainRequest: AWSShape {
+    public struct UpdateTagsForDomainRequest: AWSEncodableShape {
 
         /// The domain for which you want to add or update tags.
         public let domainName: String
@@ -1615,7 +1615,7 @@ extension Route53Domains {
         }
     }
 
-    public struct UpdateTagsForDomainResponse: AWSShape {
+    public struct UpdateTagsForDomainResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1623,7 +1623,7 @@ extension Route53Domains {
 
     }
 
-    public struct ViewBillingRequest: AWSShape {
+    public struct ViewBillingRequest: AWSEncodableShape {
 
         /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Coordinated Universal time (UTC).
         public let end: TimeStamp?
@@ -1654,7 +1654,7 @@ extension Route53Domains {
         }
     }
 
-    public struct ViewBillingResponse: AWSShape {
+    public struct ViewBillingResponse: AWSDecodableShape {
 
         /// A summary of billing records.
         public let billingRecords: [BillingRecord]?

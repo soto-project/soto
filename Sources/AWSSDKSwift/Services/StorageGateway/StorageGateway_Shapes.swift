@@ -73,7 +73,7 @@ extension StorageGateway {
 
     //MARK: Shapes
 
-    public struct ActivateGatewayInput: AWSShape {
+    public struct ActivateGatewayInput: AWSEncodableShape {
 
         /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.  For more information, see https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html in the Storage Gateway User Guide.
         public let activationKey: String
@@ -136,7 +136,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ActivateGatewayOutput: AWSShape {
+    public struct ActivateGatewayOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -149,7 +149,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddCacheInput: AWSShape {
+    public struct AddCacheInput: AWSEncodableShape {
 
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
@@ -175,7 +175,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddCacheOutput: AWSShape {
+    public struct AddCacheOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -188,7 +188,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddTagsToResourceInput: AWSShape {
+    public struct AddTagsToResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String
@@ -214,7 +214,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddTagsToResourceOutput: AWSShape {
+    public struct AddTagsToResourceOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String?
@@ -228,7 +228,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddUploadBufferInput: AWSShape {
+    public struct AddUploadBufferInput: AWSEncodableShape {
 
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
@@ -254,7 +254,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddUploadBufferOutput: AWSShape {
+    public struct AddUploadBufferOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -267,7 +267,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddWorkingStorageInput: AWSShape {
+    public struct AddWorkingStorageInput: AWSEncodableShape {
 
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
         public let diskIds: [String]
@@ -293,7 +293,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AddWorkingStorageOutput: AWSShape {
+    public struct AddWorkingStorageOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -306,7 +306,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AssignTapePoolInput: AWSShape {
+    public struct AssignTapePoolInput: AWSEncodableShape {
 
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String
@@ -332,7 +332,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AssignTapePoolOutput: AWSShape {
+    public struct AssignTapePoolOutput: AWSDecodableShape {
 
         /// The unique Amazon Resource Names (ARN) of the virtual tape that was added to the tape pool.
         public let tapeARN: String?
@@ -346,7 +346,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AttachVolumeInput: AWSShape {
+    public struct AttachVolumeInput: AWSEncodableShape {
 
         /// The unique device ID or other distinguishing data that identifies the local disk used to create the volume. This value is only required when you are attaching a stored volume.
         public let diskId: String?
@@ -389,7 +389,7 @@ extension StorageGateway {
         }
     }
 
-    public struct AttachVolumeOutput: AWSShape {
+    public struct AttachVolumeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume target, which includes the iSCSI name for the initiator that was used to connect to the target.
         public let targetARN: String?
@@ -407,7 +407,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CachediSCSIVolume: AWSShape {
+    public struct CachediSCSIVolume: AWSDecodableShape {
 
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: TimeStamp?
@@ -468,7 +468,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CancelArchivalInput: AWSShape {
+    public struct CancelArchivalInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
@@ -493,7 +493,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CancelArchivalOutput: AWSShape {
+    public struct CancelArchivalOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
         public let tapeARN: String?
@@ -507,7 +507,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CancelRetrievalInput: AWSShape {
+    public struct CancelRetrievalInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
@@ -532,7 +532,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CancelRetrievalOutput: AWSShape {
+    public struct CancelRetrievalOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
         public let tapeARN: String?
@@ -546,7 +546,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ChapInfo: AWSShape {
+    public struct ChapInfo: AWSDecodableShape {
 
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String?
@@ -572,7 +572,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateCachediSCSIVolumeInput: AWSShape {
+    public struct CreateCachediSCSIVolumeInput: AWSEncodableShape {
 
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.
         public let clientToken: String
@@ -640,7 +640,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateCachediSCSIVolumeOutput: AWSShape {
+    public struct CreateCachediSCSIVolumeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume target, which includes the iSCSI name that initiators can use to connect to the target.
         public let targetARN: String?
@@ -658,7 +658,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateNFSFileShareInput: AWSShape {
+    public struct CreateNFSFileShareInput: AWSEncodableShape {
 
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks. 
         public let clientList: [String]?
@@ -754,7 +754,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateNFSFileShareOutput: AWSShape {
+    public struct CreateNFSFileShareOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the newly created file share. 
         public let fileShareARN: String?
@@ -768,7 +768,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateSMBFileShareInput: AWSShape {
+    public struct CreateSMBFileShareInput: AWSEncodableShape {
 
         /// A list of users in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user.   Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions. 
         public let adminUserList: [String]?
@@ -889,7 +889,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateSMBFileShareOutput: AWSShape {
+    public struct CreateSMBFileShareOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the newly created file share. 
         public let fileShareARN: String?
@@ -903,7 +903,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
+    public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSEncodableShape {
 
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
@@ -935,7 +935,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
+    public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSDecodableShape {
 
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -957,7 +957,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateSnapshotInput: AWSShape {
+    public struct CreateSnapshotInput: AWSEncodableShape {
 
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
@@ -989,7 +989,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateSnapshotOutput: AWSShape {
+    public struct CreateSnapshotOutput: AWSDecodableShape {
 
         /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
         public let snapshotId: String?
@@ -1007,7 +1007,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateStorediSCSIVolumeInput: AWSShape {
+    public struct CreateStorediSCSIVolumeInput: AWSEncodableShape {
 
         /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
         public let diskId: String
@@ -1069,7 +1069,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateStorediSCSIVolumeOutput: AWSShape {
+    public struct CreateStorediSCSIVolumeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume target, which includes the iSCSI name that initiators can use to connect to the target.
         public let targetARN: String?
@@ -1091,7 +1091,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateTapeWithBarcodeInput: AWSShape {
+    public struct CreateTapeWithBarcodeInput: AWSEncodableShape {
 
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
@@ -1144,7 +1144,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateTapeWithBarcodeOutput: AWSShape {
+    public struct CreateTapeWithBarcodeOutput: AWSDecodableShape {
 
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
         public let tapeARN: String?
@@ -1158,7 +1158,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateTapesInput: AWSShape {
+    public struct CreateTapesInput: AWSEncodableShape {
 
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times. 
         public let clientToken: String
@@ -1223,7 +1223,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateTapesOutput: AWSShape {
+    public struct CreateTapesOutput: AWSDecodableShape {
 
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
         public let tapeARNs: [String]?
@@ -1237,7 +1237,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteBandwidthRateLimitInput: AWSShape {
+    public struct DeleteBandwidthRateLimitInput: AWSEncodableShape {
 
         /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
         public let bandwidthType: String
@@ -1261,7 +1261,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteBandwidthRateLimitOutput: AWSShape {
+    public struct DeleteBandwidthRateLimitOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -1274,7 +1274,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteChapCredentialsInput: AWSShape {
+    public struct DeleteChapCredentialsInput: AWSEncodableShape {
 
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String
@@ -1300,7 +1300,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteChapCredentialsOutput: AWSShape {
+    public struct DeleteChapCredentialsOutput: AWSDecodableShape {
 
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String?
@@ -1318,7 +1318,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteFileShareInput: AWSShape {
+    public struct DeleteFileShareInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the file share to be deleted. 
         public let fileShareARN: String
@@ -1341,7 +1341,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteFileShareOutput: AWSShape {
+    public struct DeleteFileShareOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the deleted file share. 
         public let fileShareARN: String?
@@ -1355,7 +1355,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteGatewayInput: AWSShape {
+    public struct DeleteGatewayInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1373,7 +1373,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteGatewayOutput: AWSShape {
+    public struct DeleteGatewayOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -1386,7 +1386,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteSnapshotScheduleInput: AWSShape {
+    public struct DeleteSnapshotScheduleInput: AWSEncodableShape {
 
         /// The volume which snapshot schedule to delete.
         public let volumeARN: String
@@ -1405,7 +1405,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteSnapshotScheduleOutput: AWSShape {
+    public struct DeleteSnapshotScheduleOutput: AWSDecodableShape {
 
         /// The volume which snapshot schedule was deleted.
         public let volumeARN: String?
@@ -1419,7 +1419,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteTapeArchiveInput: AWSShape {
+    public struct DeleteTapeArchiveInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -1439,7 +1439,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteTapeArchiveOutput: AWSShape {
+    public struct DeleteTapeArchiveOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
         public let tapeARN: String?
@@ -1453,7 +1453,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteTapeInput: AWSShape {
+    public struct DeleteTapeInput: AWSEncodableShape {
 
         /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
@@ -1479,7 +1479,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteTapeOutput: AWSShape {
+    public struct DeleteTapeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
         public let tapeARN: String?
@@ -1493,7 +1493,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteVolumeInput: AWSShape {
+    public struct DeleteVolumeInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
@@ -1512,7 +1512,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteVolumeOutput: AWSShape {
+    public struct DeleteVolumeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
         public let volumeARN: String?
@@ -1526,7 +1526,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeAvailabilityMonitorTestInput: AWSShape {
+    public struct DescribeAvailabilityMonitorTestInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1544,7 +1544,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeAvailabilityMonitorTestOutput: AWSShape {
+    public struct DescribeAvailabilityMonitorTestOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// The time the High Availability monitoring test was started. If a test hasn't been performed, the value of this field is null.
@@ -1565,7 +1565,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeBandwidthRateLimitInput: AWSShape {
+    public struct DescribeBandwidthRateLimitInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1583,7 +1583,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeBandwidthRateLimitOutput: AWSShape {
+    public struct DescribeBandwidthRateLimitOutput: AWSDecodableShape {
 
         /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
@@ -1604,7 +1604,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeCacheInput: AWSShape {
+    public struct DescribeCacheInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1622,7 +1622,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeCacheOutput: AWSShape {
+    public struct DescribeCacheOutput: AWSDecodableShape {
 
         /// The amount of cache in bytes allocated to the a gateway.
         public let cacheAllocatedInBytes: Int64?
@@ -1659,7 +1659,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeCachediSCSIVolumesInput: AWSShape {
+    public struct DescribeCachediSCSIVolumesInput: AWSEncodableShape {
 
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a cached volume. All of the specified cached volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
@@ -1680,7 +1680,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeCachediSCSIVolumesOutput: AWSShape {
+    public struct DescribeCachediSCSIVolumesOutput: AWSDecodableShape {
 
         /// An array of objects where each object contains metadata about one cached volume.
         public let cachediSCSIVolumes: [CachediSCSIVolume]?
@@ -1694,7 +1694,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeChapCredentialsInput: AWSShape {
+    public struct DescribeChapCredentialsInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -1713,7 +1713,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeChapCredentialsOutput: AWSShape {
+    public struct DescribeChapCredentialsOutput: AWSDecodableShape {
 
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
         public let chapCredentials: [ChapInfo]?
@@ -1727,7 +1727,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeGatewayInformationInput: AWSShape {
+    public struct DescribeGatewayInformationInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1745,7 +1745,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeGatewayInformationOutput: AWSShape {
+    public struct DescribeGatewayInformationOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Log Group that is used to monitor events in the gateway.
         public let cloudWatchLogGroupARN: String?
@@ -1814,7 +1814,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeMaintenanceStartTimeInput: AWSShape {
+    public struct DescribeMaintenanceStartTimeInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1832,7 +1832,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeMaintenanceStartTimeOutput: AWSShape {
+    public struct DescribeMaintenanceStartTimeOutput: AWSDecodableShape {
 
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.  This value is only available for tape and volume gateways. 
         public let dayOfMonth: Int?
@@ -1865,7 +1865,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeNFSFileSharesInput: AWSShape {
+    public struct DescribeNFSFileSharesInput: AWSEncodableShape {
 
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
         public let fileShareARNList: [String]
@@ -1888,7 +1888,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeNFSFileSharesOutput: AWSShape {
+    public struct DescribeNFSFileSharesOutput: AWSDecodableShape {
 
         /// An array containing a description for each requested file share. 
         public let nFSFileShareInfoList: [NFSFileShareInfo]?
@@ -1902,7 +1902,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeSMBFileSharesInput: AWSShape {
+    public struct DescribeSMBFileSharesInput: AWSEncodableShape {
 
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
         public let fileShareARNList: [String]
@@ -1925,7 +1925,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeSMBFileSharesOutput: AWSShape {
+    public struct DescribeSMBFileSharesOutput: AWSDecodableShape {
 
         /// An array containing a description for each requested file share. 
         public let sMBFileShareInfoList: [SMBFileShareInfo]?
@@ -1939,7 +1939,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeSMBSettingsInput: AWSShape {
+    public struct DescribeSMBSettingsInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -1957,7 +1957,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeSMBSettingsOutput: AWSShape {
+    public struct DescribeSMBSettingsOutput: AWSDecodableShape {
 
         /// Indicates the status of a gateway that is a member of the Active Directory domain.   ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.   DETACHED: Indicates that gateway is not joined to a domain.   JOINED: Indicates that the gateway has successfully joined a domain.   JOINING: Indicates that a JoinDomain operation is in progress.   NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.   TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.   UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.  
         public let activeDirectoryStatus: ActiveDirectoryStatus?
@@ -1986,7 +1986,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeSnapshotScheduleInput: AWSShape {
+    public struct DescribeSnapshotScheduleInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
@@ -2005,7 +2005,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeSnapshotScheduleOutput: AWSShape {
+    public struct DescribeSnapshotScheduleOutput: AWSDecodableShape {
 
         /// The snapshot description.
         public let description: String?
@@ -2039,7 +2039,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeStorediSCSIVolumesInput: AWSShape {
+    public struct DescribeStorediSCSIVolumesInput: AWSEncodableShape {
 
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
@@ -2060,7 +2060,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeStorediSCSIVolumesOutput: AWSShape {
+    public struct DescribeStorediSCSIVolumesOutput: AWSDecodableShape {
 
         /// Describes a single unit of output from DescribeStorediSCSIVolumes. The following fields are returned:    ChapEnabled: Indicates whether mutual CHAP is enabled for the iSCSI target.    LunNumber: The logical disk number.    NetworkInterfaceId: The network interface ID of the stored volume that initiator use to map the stored volume as an iSCSI target.    NetworkInterfacePort: The port used to communicate with iSCSI targets.    PreservedExistingData: Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.    SourceSnapshotId: If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-1122aabb. Otherwise, this field is not included.    StorediSCSIVolumes: An array of StorediSCSIVolume objects where each object contains metadata about one stored volume.    TargetARN: The Amazon Resource Name (ARN) of the volume target.    VolumeARN: The Amazon Resource Name (ARN) of the stored volume.    VolumeDiskId: The disk ID of the local disk that was specified in the CreateStorediSCSIVolume operation.    VolumeId: The unique identifier of the storage volume, e.g. vol-1122AABB.    VolumeiSCSIAttributes: An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.    VolumeProgress: Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.    VolumeSizeInBytes: The size of the volume in bytes.    VolumeStatus: One of the VolumeStatus values that indicates the state of the volume.    VolumeType: One of the enumeration values describing the type of the volume. Currently, on STORED volumes are supported.  
         public let storediSCSIVolumes: [StorediSCSIVolume]?
@@ -2074,7 +2074,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapeArchivesInput: AWSShape {
+    public struct DescribeTapeArchivesInput: AWSEncodableShape {
 
         /// Specifies that the number of virtual tapes descried be limited to the specified number.
         public let limit: Int?
@@ -2107,7 +2107,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapeArchivesOutput: AWSShape {
+    public struct DescribeTapeArchivesOutput: AWSDecodableShape {
 
         /// An opaque string that indicates the position at which the virtual tapes that were fetched for description ended. Use this marker in your next request to fetch the next set of virtual tapes in the virtual tape shelf (VTS). If there are no more virtual tapes to describe, this field does not appear in the response.
         public let marker: String?
@@ -2125,7 +2125,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapeRecoveryPointsInput: AWSShape {
+    public struct DescribeTapeRecoveryPointsInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// Specifies that the number of virtual tape recovery points that are described be limited to the specified number.
@@ -2154,7 +2154,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapeRecoveryPointsOutput: AWSShape {
+    public struct DescribeTapeRecoveryPointsOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
@@ -2175,7 +2175,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapesInput: AWSShape {
+    public struct DescribeTapesInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
@@ -2213,7 +2213,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapesOutput: AWSShape {
+    public struct DescribeTapesOutput: AWSDecodableShape {
 
         /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
         public let marker: String?
@@ -2231,7 +2231,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeUploadBufferInput: AWSShape {
+    public struct DescribeUploadBufferInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -2249,7 +2249,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeUploadBufferOutput: AWSShape {
+    public struct DescribeUploadBufferOutput: AWSDecodableShape {
 
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
         public let diskIds: [String]?
@@ -2274,7 +2274,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeVTLDevicesInput: AWSShape {
+    public struct DescribeVTLDevicesInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// Specifies that the number of VTL devices described be limited to the specified number.
@@ -2311,7 +2311,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeVTLDevicesOutput: AWSShape {
+    public struct DescribeVTLDevicesOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
@@ -2332,7 +2332,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeWorkingStorageInput: AWSShape {
+    public struct DescribeWorkingStorageInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -2350,7 +2350,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeWorkingStorageOutput: AWSShape {
+    public struct DescribeWorkingStorageOutput: AWSDecodableShape {
 
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
         public let diskIds: [String]?
@@ -2375,7 +2375,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DetachVolumeInput: AWSShape {
+    public struct DetachVolumeInput: AWSEncodableShape {
 
         /// Set to true to forcibly remove the iSCSI connection of the target volume and detach the volume. The default is false. If this value is set to false, you must manually disconnect the iSCSI connection from the target volume.
         public let forceDetach: Bool?
@@ -2398,7 +2398,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DetachVolumeOutput: AWSShape {
+    public struct DetachVolumeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume that was detached.
         public let volumeARN: String?
@@ -2412,7 +2412,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeviceiSCSIAttributes: AWSShape {
+    public struct DeviceiSCSIAttributes: AWSDecodableShape {
 
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
         public let chapEnabled: Bool?
@@ -2438,7 +2438,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DisableGatewayInput: AWSShape {
+    public struct DisableGatewayInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -2456,7 +2456,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DisableGatewayOutput: AWSShape {
+    public struct DisableGatewayOutput: AWSDecodableShape {
 
         /// The unique Amazon Resource Name (ARN) of the disabled gateway.
         public let gatewayARN: String?
@@ -2470,7 +2470,7 @@ extension StorageGateway {
         }
     }
 
-    public struct Disk: AWSShape {
+    public struct Disk: AWSDecodableShape {
 
         /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not included in the response if the local disk is not defined as an iSCSI target. The format of this field is targetIqn::LUNNumber::region-volumeId. 
         public let diskAllocationResource: String?
@@ -2510,7 +2510,7 @@ extension StorageGateway {
         }
     }
 
-    public struct FileShareInfo: AWSShape {
+    public struct FileShareInfo: AWSDecodableShape {
 
         public let fileShareARN: String?
         public let fileShareId: String?
@@ -2535,7 +2535,7 @@ extension StorageGateway {
         }
     }
 
-    public struct GatewayInfo: AWSShape {
+    public struct GatewayInfo: AWSDecodableShape {
 
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
@@ -2573,7 +2573,7 @@ extension StorageGateway {
         }
     }
 
-    public struct JoinDomainInput: AWSShape {
+    public struct JoinDomainInput: AWSEncodableShape {
 
         /// List of IPv4 addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (“:”). For example, mydc.mydomain.com:389.
         public let domainControllers: [String]?
@@ -2632,7 +2632,7 @@ extension StorageGateway {
         }
     }
 
-    public struct JoinDomainOutput: AWSShape {
+    public struct JoinDomainOutput: AWSDecodableShape {
 
         /// Indicates the status of the gateway as a member of the Active Directory domain.   ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.   DETACHED: Indicates that gateway is not joined to a domain.   JOINED: Indicates that the gateway has successfully joined a domain.   JOINING: Indicates that a JoinDomain operation is in progress.   NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.   TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.   UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.  
         public let activeDirectoryStatus: ActiveDirectoryStatus?
@@ -2650,7 +2650,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListFileSharesInput: AWSShape {
+    public struct ListFileSharesInput: AWSEncodableShape {
 
         /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
         public let gatewayARN: String?
@@ -2680,7 +2680,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListFileSharesOutput: AWSShape {
+    public struct ListFileSharesOutput: AWSDecodableShape {
 
         /// An array of information about the file gateway's file shares. 
         public let fileShareInfoList: [FileShareInfo]?
@@ -2702,7 +2702,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListGatewaysInput: AWSShape {
+    public struct ListGatewaysInput: AWSEncodableShape {
 
         /// Specifies that the list of gateways returned be limited to the specified number of items.
         public let limit: Int?
@@ -2726,7 +2726,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListGatewaysOutput: AWSShape {
+    public struct ListGatewaysOutput: AWSDecodableShape {
 
         /// An array of GatewayInfo objects.
         public let gateways: [GatewayInfo]?
@@ -2744,7 +2744,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListLocalDisksInput: AWSShape {
+    public struct ListLocalDisksInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -2762,7 +2762,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListLocalDisksOutput: AWSShape {
+    public struct ListLocalDisksOutput: AWSDecodableShape {
 
         /// A JSON object containing the following fields:    ListLocalDisksOutput$Disks   
         public let disks: [Disk]?
@@ -2779,7 +2779,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// Specifies that the list of tags returned be limited to the specified number of items.
         public let limit: Int?
@@ -2809,7 +2809,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// An opaque string that indicates the position at which to stop returning the list of tags.
         public let marker: String?
@@ -2831,7 +2831,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListTapesInput: AWSShape {
+    public struct ListTapesInput: AWSEncodableShape {
 
         /// An optional number limit for the tapes in the list returned by this call.
         public let limit: Int?
@@ -2863,7 +2863,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListTapesOutput: AWSShape {
+    public struct ListTapesOutput: AWSDecodableShape {
 
         /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
         public let marker: String?
@@ -2880,7 +2880,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListVolumeInitiatorsInput: AWSShape {
+    public struct ListVolumeInitiatorsInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
         public let volumeARN: String
@@ -2899,7 +2899,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListVolumeInitiatorsOutput: AWSShape {
+    public struct ListVolumeInitiatorsOutput: AWSDecodableShape {
 
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
         public let initiators: [String]?
@@ -2913,7 +2913,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListVolumeRecoveryPointsInput: AWSShape {
+    public struct ListVolumeRecoveryPointsInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -2931,7 +2931,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListVolumeRecoveryPointsOutput: AWSShape {
+    public struct ListVolumeRecoveryPointsOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// An array of VolumeRecoveryPointInfo objects.
@@ -2948,7 +2948,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListVolumesInput: AWSShape {
+    public struct ListVolumesInput: AWSEncodableShape {
 
         public let gatewayARN: String?
         /// Specifies that the list of volumes returned be limited to the specified number of items.
@@ -2977,7 +2977,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ListVolumesOutput: AWSShape {
+    public struct ListVolumesOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// Use the marker in your next request to continue pagination of iSCSI volumes. If there are no more volumes to list, this field does not appear in the response body.
@@ -2998,7 +2998,7 @@ extension StorageGateway {
         }
     }
 
-    public struct NFSFileShareDefaults: AWSShape {
+    public struct NFSFileShareDefaults: AWSEncodableShape & AWSDecodableShape {
 
         /// The Unix directory mode in the form "nnnn". For example, "0666" represents the default access mode for all directories inside the file share. The default value is 0777.
         public let directoryMode: String?
@@ -3037,7 +3037,7 @@ extension StorageGateway {
         }
     }
 
-    public struct NFSFileShareInfo: AWSShape {
+    public struct NFSFileShareInfo: AWSDecodableShape {
 
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
@@ -3107,7 +3107,7 @@ extension StorageGateway {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
 
         /// The Internet Protocol version 4 (IPv4) address of the interface.
         public let ipv4Address: String?
@@ -3129,7 +3129,7 @@ extension StorageGateway {
         }
     }
 
-    public struct NotifyWhenUploadedInput: AWSShape {
+    public struct NotifyWhenUploadedInput: AWSEncodableShape {
 
         public let fileShareARN: String
 
@@ -3147,7 +3147,7 @@ extension StorageGateway {
         }
     }
 
-    public struct NotifyWhenUploadedOutput: AWSShape {
+    public struct NotifyWhenUploadedOutput: AWSDecodableShape {
 
         public let fileShareARN: String?
         public let notificationId: String?
@@ -3163,7 +3163,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RefreshCacheInput: AWSShape {
+    public struct RefreshCacheInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the file share you want to refresh.
         public let fileShareARN: String
@@ -3196,7 +3196,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RefreshCacheOutput: AWSShape {
+    public struct RefreshCacheOutput: AWSDecodableShape {
 
         public let fileShareARN: String?
         public let notificationId: String?
@@ -3212,7 +3212,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RemoveTagsFromResourceInput: AWSShape {
+    public struct RemoveTagsFromResourceInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
         public let resourceARN: String
@@ -3240,7 +3240,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RemoveTagsFromResourceOutput: AWSShape {
+    public struct RemoveTagsFromResourceOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
         public let resourceARN: String?
@@ -3254,7 +3254,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ResetCacheInput: AWSShape {
+    public struct ResetCacheInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -3272,7 +3272,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ResetCacheOutput: AWSShape {
+    public struct ResetCacheOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3285,7 +3285,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RetrieveTapeArchiveInput: AWSShape {
+    public struct RetrieveTapeArchiveInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and AWS Region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
         public let gatewayARN: String
@@ -3311,7 +3311,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RetrieveTapeArchiveOutput: AWSShape {
+    public struct RetrieveTapeArchiveOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
         public let tapeARN: String?
@@ -3325,7 +3325,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RetrieveTapeRecoveryPointInput: AWSShape {
+    public struct RetrieveTapeRecoveryPointInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
@@ -3350,7 +3350,7 @@ extension StorageGateway {
         }
     }
 
-    public struct RetrieveTapeRecoveryPointOutput: AWSShape {
+    public struct RetrieveTapeRecoveryPointOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
         public let tapeARN: String?
@@ -3364,7 +3364,7 @@ extension StorageGateway {
         }
     }
 
-    public struct SMBFileShareInfo: AWSShape {
+    public struct SMBFileShareInfo: AWSDecodableShape {
 
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
@@ -3449,7 +3449,7 @@ extension StorageGateway {
         }
     }
 
-    public struct SetLocalConsolePasswordInput: AWSShape {
+    public struct SetLocalConsolePasswordInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// The password you want to set for your VM local console.
@@ -3474,7 +3474,7 @@ extension StorageGateway {
         }
     }
 
-    public struct SetLocalConsolePasswordOutput: AWSShape {
+    public struct SetLocalConsolePasswordOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3487,7 +3487,7 @@ extension StorageGateway {
         }
     }
 
-    public struct SetSMBGuestPasswordInput: AWSShape {
+    public struct SetSMBGuestPasswordInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is associated with.
         public let gatewayARN: String
@@ -3513,7 +3513,7 @@ extension StorageGateway {
         }
     }
 
-    public struct SetSMBGuestPasswordOutput: AWSShape {
+    public struct SetSMBGuestPasswordOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3526,7 +3526,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ShutdownGatewayInput: AWSShape {
+    public struct ShutdownGatewayInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -3544,7 +3544,7 @@ extension StorageGateway {
         }
     }
 
-    public struct ShutdownGatewayOutput: AWSShape {
+    public struct ShutdownGatewayOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3557,7 +3557,7 @@ extension StorageGateway {
         }
     }
 
-    public struct StartAvailabilityMonitorTestInput: AWSShape {
+    public struct StartAvailabilityMonitorTestInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -3575,7 +3575,7 @@ extension StorageGateway {
         }
     }
 
-    public struct StartAvailabilityMonitorTestOutput: AWSShape {
+    public struct StartAvailabilityMonitorTestOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3588,7 +3588,7 @@ extension StorageGateway {
         }
     }
 
-    public struct StartGatewayInput: AWSShape {
+    public struct StartGatewayInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -3606,7 +3606,7 @@ extension StorageGateway {
         }
     }
 
-    public struct StartGatewayOutput: AWSShape {
+    public struct StartGatewayOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3619,7 +3619,7 @@ extension StorageGateway {
         }
     }
 
-    public struct StorediSCSIVolume: AWSShape {
+    public struct StorediSCSIVolume: AWSDecodableShape {
 
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: TimeStamp?
@@ -3688,7 +3688,7 @@ extension StorageGateway {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Tag key (String). The key can't start with aws:. 
         public let key: String
@@ -3713,7 +3713,7 @@ extension StorageGateway {
         }
     }
 
-    public struct Tape: AWSShape {
+    public struct Tape: AWSDecodableShape {
 
         public let kMSKey: String?
         /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
@@ -3762,7 +3762,7 @@ extension StorageGateway {
         }
     }
 
-    public struct TapeArchive: AWSShape {
+    public struct TapeArchive: AWSDecodableShape {
 
         /// The time that the archiving of the virtual tape was completed. The default time stamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let completionTime: TimeStamp?
@@ -3811,7 +3811,7 @@ extension StorageGateway {
         }
     }
 
-    public struct TapeInfo: AWSShape {
+    public struct TapeInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String?
@@ -3845,7 +3845,7 @@ extension StorageGateway {
         }
     }
 
-    public struct TapeRecoveryPointInfo: AWSShape {
+    public struct TapeRecoveryPointInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
@@ -3871,7 +3871,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateBandwidthRateLimitInput: AWSShape {
+    public struct UpdateBandwidthRateLimitInput: AWSEncodableShape {
 
         /// The average download bandwidth rate limit in bits per second.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
@@ -3899,7 +3899,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateBandwidthRateLimitOutput: AWSShape {
+    public struct UpdateBandwidthRateLimitOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -3912,7 +3912,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateChapCredentialsInput: AWSShape {
+    public struct UpdateChapCredentialsInput: AWSEncodableShape {
 
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String
@@ -3950,7 +3950,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateChapCredentialsOutput: AWSShape {
+    public struct UpdateChapCredentialsOutput: AWSDecodableShape {
 
         /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
         public let initiatorName: String?
@@ -3968,7 +3968,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateGatewayInformationInput: AWSShape {
+    public struct UpdateGatewayInformationInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway.  For more information, see What Is Amazon CloudWatch Logs?.
         public let cloudWatchLogGroupARN: String?
@@ -4003,7 +4003,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateGatewayInformationOutput: AWSShape {
+    public struct UpdateGatewayInformationOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// The name you configured for your gateway.
@@ -4020,7 +4020,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateGatewaySoftwareNowInput: AWSShape {
+    public struct UpdateGatewaySoftwareNowInput: AWSEncodableShape {
 
         public let gatewayARN: String
 
@@ -4038,7 +4038,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateGatewaySoftwareNowOutput: AWSShape {
+    public struct UpdateGatewaySoftwareNowOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -4051,7 +4051,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateMaintenanceStartTimeInput: AWSShape {
+    public struct UpdateMaintenanceStartTimeInput: AWSEncodableShape {
 
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.  This value is only available for tape and volume gateways. 
         public let dayOfMonth: Int?
@@ -4093,7 +4093,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateMaintenanceStartTimeOutput: AWSShape {
+    public struct UpdateMaintenanceStartTimeOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -4106,7 +4106,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateNFSFileShareInput: AWSShape {
+    public struct UpdateNFSFileShareInput: AWSEncodableShape {
 
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
@@ -4177,7 +4177,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateNFSFileShareOutput: AWSShape {
+    public struct UpdateNFSFileShareOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the updated file share. 
         public let fileShareARN: String?
@@ -4191,7 +4191,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateSMBFileShareInput: AWSShape {
+    public struct UpdateSMBFileShareInput: AWSEncodableShape {
 
         /// A list of users in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
@@ -4281,7 +4281,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateSMBFileShareOutput: AWSShape {
+    public struct UpdateSMBFileShareOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the updated SMB file share. 
         public let fileShareARN: String?
@@ -4295,7 +4295,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateSMBSecurityStrategyInput: AWSShape {
+    public struct UpdateSMBSecurityStrategyInput: AWSEncodableShape {
 
         public let gatewayARN: String
         /// Specifies the type of security strategy. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment.  MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.  MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer. 
@@ -4317,7 +4317,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateSMBSecurityStrategyOutput: AWSShape {
+    public struct UpdateSMBSecurityStrategyOutput: AWSDecodableShape {
 
         public let gatewayARN: String?
 
@@ -4330,7 +4330,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateSnapshotScheduleInput: AWSShape {
+    public struct UpdateSnapshotScheduleInput: AWSEncodableShape {
 
         /// Optional description of the snapshot that overwrites the existing description.
         public let description: String?
@@ -4374,7 +4374,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateSnapshotScheduleOutput: AWSShape {
+    public struct UpdateSnapshotScheduleOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String?
@@ -4388,7 +4388,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateVTLDeviceTypeInput: AWSShape {
+    public struct UpdateVTLDeviceTypeInput: AWSEncodableShape {
 
         /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         public let deviceType: String
@@ -4413,7 +4413,7 @@ extension StorageGateway {
         }
     }
 
-    public struct UpdateVTLDeviceTypeOutput: AWSShape {
+    public struct UpdateVTLDeviceTypeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
         public let vTLDeviceARN: String?
@@ -4427,7 +4427,7 @@ extension StorageGateway {
         }
     }
 
-    public struct VTLDevice: AWSShape {
+    public struct VTLDevice: AWSDecodableShape {
 
         /// A list of iSCSI information about a VTL device.
         public let deviceiSCSIAttributes: DeviceiSCSIAttributes?
@@ -4457,7 +4457,7 @@ extension StorageGateway {
         }
     }
 
-    public struct VolumeInfo: AWSShape {
+    public struct VolumeInfo: AWSDecodableShape {
 
         public let gatewayARN: String?
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
@@ -4494,7 +4494,7 @@ extension StorageGateway {
         }
     }
 
-    public struct VolumeRecoveryPointInfo: AWSShape {
+    public struct VolumeRecoveryPointInfo: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the volume target.
         public let volumeARN: String?
@@ -4520,7 +4520,7 @@ extension StorageGateway {
         }
     }
 
-    public struct VolumeiSCSIAttributes: AWSShape {
+    public struct VolumeiSCSIAttributes: AWSDecodableShape {
 
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
         public let chapEnabled: Bool?

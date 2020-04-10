@@ -113,7 +113,7 @@ extension Greengrass {
 
     //MARK: Shapes
 
-    public struct AssociateRoleToGroupRequest: AWSShape {
+    public struct AssociateRoleToGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -128,12 +128,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
             case roleArn = "RoleArn"
         }
     }
 
-    public struct AssociateRoleToGroupResponse: AWSShape {
+    public struct AssociateRoleToGroupResponse: AWSDecodableShape {
 
         /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
         public let associatedAt: String?
@@ -147,7 +146,7 @@ extension Greengrass {
         }
     }
 
-    public struct AssociateServiceRoleToAccountRequest: AWSShape {
+    public struct AssociateServiceRoleToAccountRequest: AWSEncodableShape {
 
         /// The ARN of the service role you wish to associate with your account.
         public let roleArn: String
@@ -161,7 +160,7 @@ extension Greengrass {
         }
     }
 
-    public struct AssociateServiceRoleToAccountResponse: AWSShape {
+    public struct AssociateServiceRoleToAccountResponse: AWSDecodableShape {
 
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
@@ -175,7 +174,7 @@ extension Greengrass {
         }
     }
 
-    public struct BulkDeployment: AWSShape {
+    public struct BulkDeployment: AWSDecodableShape {
 
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
@@ -197,7 +196,7 @@ extension Greengrass {
         }
     }
 
-    public struct BulkDeploymentMetrics: AWSShape {
+    public struct BulkDeploymentMetrics: AWSDecodableShape {
 
         /// The total number of records that returned a non-retryable error. For example, this can occur if a group record from the input file uses an invalid format or specifies a nonexistent group version, or if the execution role doesn't grant permission to deploy a group or group version.
         public let invalidInputRecords: Int?
@@ -219,7 +218,7 @@ extension Greengrass {
         }
     }
 
-    public struct BulkDeploymentResult: AWSShape {
+    public struct BulkDeploymentResult: AWSDecodableShape {
 
         /// The time, in ISO format, when the deployment was created.
         public let createdAt: String?
@@ -261,7 +260,7 @@ extension Greengrass {
         }
     }
 
-    public struct ConnectivityInfo: AWSShape {
+    public struct ConnectivityInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The endpoint for the Greengrass core. Can be an IP address or DNS.
         public let hostAddress: String?
@@ -287,7 +286,7 @@ extension Greengrass {
         }
     }
 
-    public struct Connector: AWSShape {
+    public struct Connector: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the connector.
         public let connectorArn: String
@@ -309,7 +308,7 @@ extension Greengrass {
         }
     }
 
-    public struct ConnectorDefinitionVersion: AWSShape {
+    public struct ConnectorDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of references to connectors in this version, with their corresponding configuration settings.
         public let connectors: [Connector]?
@@ -323,7 +322,7 @@ extension Greengrass {
         }
     }
 
-    public struct Core: AWSShape {
+    public struct Core: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the certificate associated with the core.
         public let certificateArn: String
@@ -349,7 +348,7 @@ extension Greengrass {
         }
     }
 
-    public struct CoreDefinitionVersion: AWSShape {
+    public struct CoreDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of cores in the core definition version.
         public let cores: [Core]?
@@ -363,7 +362,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateConnectorDefinitionRequest: AWSShape {
+    public struct CreateConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -381,14 +380,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateConnectorDefinitionResponse: AWSShape {
+    public struct CreateConnectorDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -419,7 +417,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateConnectorDefinitionVersionRequest: AWSShape {
+    public struct CreateConnectorDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
@@ -436,13 +434,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case connectorDefinitionId = "ConnectorDefinitionId"
             case connectors = "Connectors"
         }
     }
 
-    public struct CreateConnectorDefinitionVersionResponse: AWSShape {
+    public struct CreateConnectorDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -464,7 +460,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateCoreDefinitionRequest: AWSShape {
+    public struct CreateCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -482,14 +478,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateCoreDefinitionResponse: AWSShape {
+    public struct CreateCoreDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -520,7 +515,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateCoreDefinitionVersionRequest: AWSShape {
+    public struct CreateCoreDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
@@ -537,13 +532,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case coreDefinitionId = "CoreDefinitionId"
             case cores = "Cores"
         }
     }
 
-    public struct CreateCoreDefinitionVersionResponse: AWSShape {
+    public struct CreateCoreDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -565,7 +558,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateDeploymentRequest: AWSShape {
+    public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
@@ -589,15 +582,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case deploymentId = "DeploymentId"
             case deploymentType = "DeploymentType"
-            case groupId = "GroupId"
             case groupVersionId = "GroupVersionId"
         }
     }
 
-    public struct CreateDeploymentResponse: AWSShape {
+    public struct CreateDeploymentResponse: AWSDecodableShape {
 
         /// The ARN of the deployment.
         public let deploymentArn: String?
@@ -615,7 +606,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateDeviceDefinitionRequest: AWSShape {
+    public struct CreateDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -633,14 +624,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateDeviceDefinitionResponse: AWSShape {
+    public struct CreateDeviceDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -671,7 +661,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateDeviceDefinitionVersionRequest: AWSShape {
+    public struct CreateDeviceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
@@ -688,13 +678,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case deviceDefinitionId = "DeviceDefinitionId"
             case devices = "Devices"
         }
     }
 
-    public struct CreateDeviceDefinitionVersionResponse: AWSShape {
+    public struct CreateDeviceDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -716,7 +704,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateFunctionDefinitionRequest: AWSShape {
+    public struct CreateFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -734,14 +722,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateFunctionDefinitionResponse: AWSShape {
+    public struct CreateFunctionDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -772,7 +759,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateFunctionDefinitionVersionRequest: AWSShape {
+    public struct CreateFunctionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
@@ -791,14 +778,12 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case defaultConfig = "DefaultConfig"
-            case functionDefinitionId = "FunctionDefinitionId"
             case functions = "Functions"
         }
     }
 
-    public struct CreateFunctionDefinitionVersionResponse: AWSShape {
+    public struct CreateFunctionDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -820,7 +805,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateGroupCertificateAuthorityRequest: AWSShape {
+    public struct CreateGroupCertificateAuthorityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
@@ -834,13 +819,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateGroupCertificateAuthorityResponse: AWSShape {
+    public struct CreateGroupCertificateAuthorityResponse: AWSDecodableShape {
 
         /// The ARN of the group certificate authority.
         public let groupCertificateAuthorityArn: String?
@@ -854,7 +836,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateGroupRequest: AWSShape {
+    public struct CreateGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -872,14 +854,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateGroupResponse: AWSShape {
+    public struct CreateGroupResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -910,7 +891,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateGroupVersionRequest: AWSShape {
+    public struct CreateGroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
@@ -939,19 +920,17 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case connectorDefinitionVersionArn = "ConnectorDefinitionVersionArn"
             case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
             case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
             case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
-            case groupId = "GroupId"
             case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
             case resourceDefinitionVersionArn = "ResourceDefinitionVersionArn"
             case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
         }
     }
 
-    public struct CreateGroupVersionResponse: AWSShape {
+    public struct CreateGroupVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -973,7 +952,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateLoggerDefinitionRequest: AWSShape {
+    public struct CreateLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -991,14 +970,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateLoggerDefinitionResponse: AWSShape {
+    public struct CreateLoggerDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -1029,7 +1007,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateLoggerDefinitionVersionRequest: AWSShape {
+    public struct CreateLoggerDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
@@ -1046,13 +1024,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case loggerDefinitionId = "LoggerDefinitionId"
             case loggers = "Loggers"
         }
     }
 
-    public struct CreateLoggerDefinitionVersionResponse: AWSShape {
+    public struct CreateLoggerDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -1074,7 +1050,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateResourceDefinitionRequest: AWSShape {
+    public struct CreateResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -1092,14 +1068,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateResourceDefinitionResponse: AWSShape {
+    public struct CreateResourceDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -1130,7 +1105,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateResourceDefinitionVersionRequest: AWSShape {
+    public struct CreateResourceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
@@ -1147,13 +1122,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case resourceDefinitionId = "ResourceDefinitionId"
             case resources = "Resources"
         }
     }
 
-    public struct CreateResourceDefinitionVersionResponse: AWSShape {
+    public struct CreateResourceDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -1175,7 +1148,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateSoftwareUpdateJobRequest: AWSShape {
+    public struct CreateSoftwareUpdateJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -1199,7 +1172,6 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case s3UrlSignerRole = "S3UrlSignerRole"
             case softwareToUpdate = "SoftwareToUpdate"
             case updateAgentLogLevel = "UpdateAgentLogLevel"
@@ -1209,7 +1181,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateSoftwareUpdateJobResponse: AWSShape {
+    public struct CreateSoftwareUpdateJobResponse: AWSDecodableShape {
 
         /// The IoT Job ARN corresponding to this update.
         public let iotJobArn: String?
@@ -1231,7 +1203,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateSubscriptionDefinitionRequest: AWSShape {
+    public struct CreateSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -1249,14 +1221,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case initialVersion = "InitialVersion"
             case name = "Name"
             case tags = "tags"
         }
     }
 
-    public struct CreateSubscriptionDefinitionResponse: AWSShape {
+    public struct CreateSubscriptionDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -1287,7 +1258,7 @@ extension Greengrass {
         }
     }
 
-    public struct CreateSubscriptionDefinitionVersionRequest: AWSShape {
+    public struct CreateSubscriptionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
@@ -1304,13 +1275,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
             case subscriptions = "Subscriptions"
         }
     }
 
-    public struct CreateSubscriptionDefinitionVersionResponse: AWSShape {
+    public struct CreateSubscriptionDefinitionVersionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -1332,7 +1301,7 @@ extension Greengrass {
         }
     }
 
-    public struct DefinitionInformation: AWSShape {
+    public struct DefinitionInformation: AWSDecodableShape {
 
         /// The ARN of the definition.
         public let arn: String?
@@ -1374,7 +1343,7 @@ extension Greengrass {
         }
     }
 
-    public struct DeleteConnectorDefinitionRequest: AWSShape {
+    public struct DeleteConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
         ]
@@ -1385,12 +1354,10 @@ extension Greengrass {
             self.connectorDefinitionId = connectorDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteConnectorDefinitionResponse: AWSShape {
+    public struct DeleteConnectorDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1398,7 +1365,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteCoreDefinitionRequest: AWSShape {
+    public struct DeleteCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
         ]
@@ -1409,12 +1376,10 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteCoreDefinitionResponse: AWSShape {
+    public struct DeleteCoreDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1422,7 +1387,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteDeviceDefinitionRequest: AWSShape {
+    public struct DeleteDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
         ]
@@ -1433,12 +1398,10 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDeviceDefinitionResponse: AWSShape {
+    public struct DeleteDeviceDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1446,7 +1409,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteFunctionDefinitionRequest: AWSShape {
+    public struct DeleteFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
         ]
@@ -1457,12 +1420,10 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFunctionDefinitionResponse: AWSShape {
+    public struct DeleteFunctionDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1470,7 +1431,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteGroupRequest: AWSShape {
+    public struct DeleteGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -1481,12 +1442,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteGroupResponse: AWSShape {
+    public struct DeleteGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1494,7 +1453,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteLoggerDefinitionRequest: AWSShape {
+    public struct DeleteLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
         ]
@@ -1505,12 +1464,10 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteLoggerDefinitionResponse: AWSShape {
+    public struct DeleteLoggerDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1518,7 +1475,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteResourceDefinitionRequest: AWSShape {
+    public struct DeleteResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
         ]
@@ -1529,12 +1486,10 @@ extension Greengrass {
             self.resourceDefinitionId = resourceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteResourceDefinitionResponse: AWSShape {
+    public struct DeleteResourceDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1542,7 +1497,7 @@ extension Greengrass {
 
     }
 
-    public struct DeleteSubscriptionDefinitionRequest: AWSShape {
+    public struct DeleteSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
         ]
@@ -1553,12 +1508,10 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSubscriptionDefinitionResponse: AWSShape {
+    public struct DeleteSubscriptionDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1566,7 +1519,7 @@ extension Greengrass {
 
     }
 
-    public struct Deployment: AWSShape {
+    public struct Deployment: AWSDecodableShape {
 
         /// The time, in milliseconds since the epoch, when the deployment was created.
         public let createdAt: String?
@@ -1596,7 +1549,7 @@ extension Greengrass {
         }
     }
 
-    public struct Device: AWSShape {
+    public struct Device: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the certificate associated with the device.
         public let certificateArn: String
@@ -1622,7 +1575,7 @@ extension Greengrass {
         }
     }
 
-    public struct DeviceDefinitionVersion: AWSShape {
+    public struct DeviceDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of devices in the definition version.
         public let devices: [Device]?
@@ -1636,7 +1589,7 @@ extension Greengrass {
         }
     }
 
-    public struct DisassociateRoleFromGroupRequest: AWSShape {
+    public struct DisassociateRoleFromGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -1647,12 +1600,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DisassociateRoleFromGroupResponse: AWSShape {
+    public struct DisassociateRoleFromGroupResponse: AWSDecodableShape {
 
         /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
         public let disassociatedAt: String?
@@ -1666,7 +1617,7 @@ extension Greengrass {
         }
     }
 
-    public struct DisassociateServiceRoleFromAccountRequest: AWSShape {
+    public struct DisassociateServiceRoleFromAccountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1674,7 +1625,7 @@ extension Greengrass {
 
     }
 
-    public struct DisassociateServiceRoleFromAccountResponse: AWSShape {
+    public struct DisassociateServiceRoleFromAccountResponse: AWSDecodableShape {
 
         /// The time when the service role was disassociated from the account.
         public let disassociatedAt: String?
@@ -1688,7 +1639,7 @@ extension Greengrass {
         }
     }
 
-    public struct ErrorDetail: AWSShape {
+    public struct ErrorDetail: AWSDecodableShape {
 
         /// A detailed error code.
         public let detailedErrorCode: String?
@@ -1706,7 +1657,7 @@ extension Greengrass {
         }
     }
 
-    public struct Function: AWSShape {
+    public struct Function: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the Lambda function.
         public let functionArn: String?
@@ -1728,7 +1679,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionConfiguration: AWSShape {
+    public struct FunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The expected encoding type of the input payload for the function. The default is ''json''.
         public let encodingType: EncodingType?
@@ -1766,7 +1717,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionConfigurationEnvironment: AWSShape {
+    public struct FunctionConfigurationEnvironment: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys. This setting applies only when you run the Lambda function in a Greengrass container.
         public let accessSysfs: Bool?
@@ -1792,7 +1743,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionDefaultConfig: AWSShape {
+    public struct FunctionDefaultConfig: AWSEncodableShape & AWSDecodableShape {
 
         public let execution: FunctionDefaultExecutionConfig?
 
@@ -1805,7 +1756,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionDefaultExecutionConfig: AWSShape {
+    public struct FunctionDefaultExecutionConfig: AWSEncodableShape & AWSDecodableShape {
 
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
@@ -1821,7 +1772,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionDefinitionVersion: AWSShape {
+    public struct FunctionDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
         public let defaultConfig: FunctionDefaultConfig?
@@ -1839,7 +1790,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionExecutionConfig: AWSShape {
+    public struct FunctionExecutionConfig: AWSEncodableShape & AWSDecodableShape {
 
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
@@ -1855,7 +1806,7 @@ extension Greengrass {
         }
     }
 
-    public struct FunctionRunAsConfig: AWSShape {
+    public struct FunctionRunAsConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The group ID whose permissions are used to run a Lambda function.
         public let gid: Int?
@@ -1873,7 +1824,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetAssociatedRoleRequest: AWSShape {
+    public struct GetAssociatedRoleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -1884,12 +1835,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAssociatedRoleResponse: AWSShape {
+    public struct GetAssociatedRoleResponse: AWSDecodableShape {
 
         /// The time when the role was associated with the group.
         public let associatedAt: String?
@@ -1907,7 +1856,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetBulkDeploymentStatusRequest: AWSShape {
+    public struct GetBulkDeploymentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"))
         ]
@@ -1918,12 +1867,10 @@ extension Greengrass {
             self.bulkDeploymentId = bulkDeploymentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBulkDeploymentStatusResponse: AWSShape {
+    public struct GetBulkDeploymentStatusResponse: AWSDecodableShape {
 
         /// Relevant metrics on input records processed during bulk deployment.
         public let bulkDeploymentMetrics: BulkDeploymentMetrics?
@@ -1956,7 +1903,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetConnectivityInfoRequest: AWSShape {
+    public struct GetConnectivityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
         ]
@@ -1967,12 +1914,10 @@ extension Greengrass {
             self.thingName = thingName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "ThingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConnectivityInfoResponse: AWSShape {
+    public struct GetConnectivityInfoResponse: AWSDecodableShape {
 
         /// Connectivity info list.
         public let connectivityInfo: [ConnectivityInfo]?
@@ -1990,7 +1935,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetConnectorDefinitionRequest: AWSShape {
+    public struct GetConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
         ]
@@ -2001,12 +1946,10 @@ extension Greengrass {
             self.connectorDefinitionId = connectorDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConnectorDefinitionResponse: AWSShape {
+    public struct GetConnectorDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2040,7 +1983,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetConnectorDefinitionVersionRequest: AWSShape {
+    public struct GetConnectorDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")), 
             AWSMemberEncoding(label: "connectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId")), 
@@ -2057,14 +2000,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-            case connectorDefinitionVersionId = "ConnectorDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConnectorDefinitionVersionResponse: AWSShape {
+    public struct GetConnectorDefinitionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the connector definition version.
         public let arn: String?
@@ -2098,7 +2037,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetCoreDefinitionRequest: AWSShape {
+    public struct GetCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
         ]
@@ -2109,12 +2048,10 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCoreDefinitionResponse: AWSShape {
+    public struct GetCoreDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2148,7 +2085,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetCoreDefinitionVersionRequest: AWSShape {
+    public struct GetCoreDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")), 
             AWSMemberEncoding(label: "coreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"))
@@ -2162,13 +2099,10 @@ extension Greengrass {
             self.coreDefinitionVersionId = coreDefinitionVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case coreDefinitionVersionId = "CoreDefinitionVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCoreDefinitionVersionResponse: AWSShape {
+    public struct GetCoreDefinitionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the core definition version.
         public let arn: String?
@@ -2202,7 +2136,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetDeploymentStatusRequest: AWSShape {
+    public struct GetDeploymentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
@@ -2216,13 +2150,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "DeploymentId"
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDeploymentStatusResponse: AWSShape {
+    public struct GetDeploymentStatusResponse: AWSDecodableShape {
 
         /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or ''Failure''.
         public let deploymentStatus: String?
@@ -2252,7 +2183,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetDeviceDefinitionRequest: AWSShape {
+    public struct GetDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
         ]
@@ -2263,12 +2194,10 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDeviceDefinitionResponse: AWSShape {
+    public struct GetDeviceDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2302,7 +2231,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetDeviceDefinitionVersionRequest: AWSShape {
+    public struct GetDeviceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")), 
             AWSMemberEncoding(label: "deviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId")), 
@@ -2319,14 +2248,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case deviceDefinitionVersionId = "DeviceDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDeviceDefinitionVersionResponse: AWSShape {
+    public struct GetDeviceDefinitionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the device definition version.
         public let arn: String?
@@ -2360,7 +2285,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetFunctionDefinitionRequest: AWSShape {
+    public struct GetFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
         ]
@@ -2371,12 +2296,10 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFunctionDefinitionResponse: AWSShape {
+    public struct GetFunctionDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2410,7 +2333,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetFunctionDefinitionVersionRequest: AWSShape {
+    public struct GetFunctionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")), 
             AWSMemberEncoding(label: "functionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId")), 
@@ -2427,14 +2350,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-            case functionDefinitionVersionId = "FunctionDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFunctionDefinitionVersionResponse: AWSShape {
+    public struct GetFunctionDefinitionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the function definition version.
         public let arn: String?
@@ -2468,7 +2387,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetGroupCertificateAuthorityRequest: AWSShape {
+    public struct GetGroupCertificateAuthorityRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
@@ -2482,13 +2401,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityId = "CertificateAuthorityId"
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGroupCertificateAuthorityResponse: AWSShape {
+    public struct GetGroupCertificateAuthorityResponse: AWSDecodableShape {
 
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
@@ -2510,7 +2426,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetGroupCertificateConfigurationRequest: AWSShape {
+    public struct GetGroupCertificateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -2521,12 +2437,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGroupCertificateConfigurationResponse: AWSShape {
+    public struct GetGroupCertificateConfigurationResponse: AWSDecodableShape {
 
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
@@ -2545,7 +2459,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetGroupRequest: AWSShape {
+    public struct GetGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -2556,12 +2470,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGroupResponse: AWSShape {
+    public struct GetGroupResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2595,7 +2507,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetGroupVersionRequest: AWSShape {
+    public struct GetGroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")), 
             AWSMemberEncoding(label: "groupVersionId", location: .uri(locationName: "GroupVersionId"))
@@ -2609,13 +2521,10 @@ extension Greengrass {
             self.groupVersionId = groupVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case groupVersionId = "GroupVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGroupVersionResponse: AWSShape {
+    public struct GetGroupVersionResponse: AWSDecodableShape {
 
         /// The ARN of the group version.
         public let arn: String?
@@ -2645,7 +2554,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetLoggerDefinitionRequest: AWSShape {
+    public struct GetLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
         ]
@@ -2656,12 +2565,10 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLoggerDefinitionResponse: AWSShape {
+    public struct GetLoggerDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2695,7 +2602,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetLoggerDefinitionVersionRequest: AWSShape {
+    public struct GetLoggerDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")), 
             AWSMemberEncoding(label: "loggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId")), 
@@ -2712,14 +2619,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-            case loggerDefinitionVersionId = "LoggerDefinitionVersionId"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLoggerDefinitionVersionResponse: AWSShape {
+    public struct GetLoggerDefinitionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the logger definition version.
         public let arn: String?
@@ -2749,7 +2652,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetResourceDefinitionRequest: AWSShape {
+    public struct GetResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
         ]
@@ -2760,12 +2663,10 @@ extension Greengrass {
             self.resourceDefinitionId = resourceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResourceDefinitionResponse: AWSShape {
+    public struct GetResourceDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2799,7 +2700,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetResourceDefinitionVersionRequest: AWSShape {
+    public struct GetResourceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId")), 
             AWSMemberEncoding(label: "resourceDefinitionVersionId", location: .uri(locationName: "ResourceDefinitionVersionId"))
@@ -2813,13 +2714,10 @@ extension Greengrass {
             self.resourceDefinitionVersionId = resourceDefinitionVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceDefinitionId = "ResourceDefinitionId"
-            case resourceDefinitionVersionId = "ResourceDefinitionVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResourceDefinitionVersionResponse: AWSShape {
+    public struct GetResourceDefinitionVersionResponse: AWSDecodableShape {
 
         /// Arn of the resource definition version.
         public let arn: String?
@@ -2849,7 +2747,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetServiceRoleForAccountRequest: AWSShape {
+    public struct GetServiceRoleForAccountRequest: AWSEncodableShape {
 
 
         public init() {
@@ -2857,7 +2755,7 @@ extension Greengrass {
 
     }
 
-    public struct GetServiceRoleForAccountResponse: AWSShape {
+    public struct GetServiceRoleForAccountResponse: AWSDecodableShape {
 
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
@@ -2875,7 +2773,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetSubscriptionDefinitionRequest: AWSShape {
+    public struct GetSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
         ]
@@ -2886,12 +2784,10 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSubscriptionDefinitionResponse: AWSShape {
+    public struct GetSubscriptionDefinitionResponse: AWSDecodableShape {
 
         public let arn: String?
         public let creationTimestamp: String?
@@ -2925,7 +2821,7 @@ extension Greengrass {
         }
     }
 
-    public struct GetSubscriptionDefinitionVersionRequest: AWSShape {
+    public struct GetSubscriptionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId")), 
@@ -2942,14 +2838,10 @@ extension Greengrass {
             self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-            case subscriptionDefinitionVersionId = "SubscriptionDefinitionVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSubscriptionDefinitionVersionResponse: AWSShape {
+    public struct GetSubscriptionDefinitionVersionResponse: AWSDecodableShape {
 
         /// The ARN of the subscription definition version.
         public let arn: String?
@@ -2983,7 +2875,7 @@ extension Greengrass {
         }
     }
 
-    public struct GroupCertificateAuthorityProperties: AWSShape {
+    public struct GroupCertificateAuthorityProperties: AWSDecodableShape {
 
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
@@ -3001,7 +2893,7 @@ extension Greengrass {
         }
     }
 
-    public struct GroupInformation: AWSShape {
+    public struct GroupInformation: AWSDecodableShape {
 
         /// The ARN of the group.
         public let arn: String?
@@ -3039,7 +2931,7 @@ extension Greengrass {
         }
     }
 
-    public struct GroupOwnerSetting: AWSShape {
+    public struct GroupOwnerSetting: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
         public let autoAddGroupOwner: Bool?
@@ -3057,7 +2949,7 @@ extension Greengrass {
         }
     }
 
-    public struct GroupVersion: AWSShape {
+    public struct GroupVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the connector definition version for this group.
         public let connectorDefinitionVersionArn: String?
@@ -3095,7 +2987,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListBulkDeploymentDetailedReportsRequest: AWSShape {
+    public struct ListBulkDeploymentDetailedReportsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3112,14 +3004,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBulkDeploymentDetailedReportsResponse: AWSShape {
+    public struct ListBulkDeploymentDetailedReportsResponse: AWSDecodableShape {
 
         /// A list of the individual group deployments in the bulk deployment operation.
         public let deployments: [BulkDeploymentResult]?
@@ -3137,7 +3025,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListBulkDeploymentsRequest: AWSShape {
+    public struct ListBulkDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3151,13 +3039,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBulkDeploymentsResponse: AWSShape {
+    public struct ListBulkDeploymentsResponse: AWSDecodableShape {
 
         /// A list of bulk deployments.
         public let bulkDeployments: [BulkDeployment]?
@@ -3175,7 +3060,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListConnectorDefinitionVersionsRequest: AWSShape {
+    public struct ListConnectorDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3192,14 +3077,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListConnectorDefinitionVersionsResponse: AWSShape {
+    public struct ListConnectorDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3215,7 +3096,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListConnectorDefinitionsRequest: AWSShape {
+    public struct ListConnectorDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3229,13 +3110,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListConnectorDefinitionsResponse: AWSShape {
+    public struct ListConnectorDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3251,7 +3129,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListCoreDefinitionVersionsRequest: AWSShape {
+    public struct ListCoreDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3268,14 +3146,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCoreDefinitionVersionsResponse: AWSShape {
+    public struct ListCoreDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3291,7 +3165,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListCoreDefinitionsRequest: AWSShape {
+    public struct ListCoreDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3305,13 +3179,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCoreDefinitionsResponse: AWSShape {
+    public struct ListCoreDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3327,7 +3198,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListDeploymentsRequest: AWSShape {
+    public struct ListDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3344,14 +3215,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDeploymentsResponse: AWSShape {
+    public struct ListDeploymentsResponse: AWSDecodableShape {
 
         /// A list of deployments for the requested groups.
         public let deployments: [Deployment]?
@@ -3369,7 +3236,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListDeviceDefinitionVersionsRequest: AWSShape {
+    public struct ListDeviceDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3386,14 +3253,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDeviceDefinitionVersionsResponse: AWSShape {
+    public struct ListDeviceDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3409,7 +3272,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListDeviceDefinitionsRequest: AWSShape {
+    public struct ListDeviceDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3423,13 +3286,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDeviceDefinitionsResponse: AWSShape {
+    public struct ListDeviceDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3445,7 +3305,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListFunctionDefinitionVersionsRequest: AWSShape {
+    public struct ListFunctionDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3462,14 +3322,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFunctionDefinitionVersionsResponse: AWSShape {
+    public struct ListFunctionDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3485,7 +3341,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListFunctionDefinitionsRequest: AWSShape {
+    public struct ListFunctionDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3499,13 +3355,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFunctionDefinitionsResponse: AWSShape {
+    public struct ListFunctionDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3521,7 +3374,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListGroupCertificateAuthoritiesRequest: AWSShape {
+    public struct ListGroupCertificateAuthoritiesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -3532,12 +3385,10 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListGroupCertificateAuthoritiesResponse: AWSShape {
+    public struct ListGroupCertificateAuthoritiesResponse: AWSDecodableShape {
 
         /// A list of certificate authorities associated with the group.
         public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
@@ -3551,7 +3402,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListGroupVersionsRequest: AWSShape {
+    public struct ListGroupVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3568,14 +3419,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListGroupVersionsResponse: AWSShape {
+    public struct ListGroupVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3591,7 +3438,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListGroupsRequest: AWSShape {
+    public struct ListGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3605,13 +3452,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListGroupsResponse: AWSShape {
+    public struct ListGroupsResponse: AWSDecodableShape {
 
         /// Information about a group.
         public let groups: [GroupInformation]?
@@ -3629,7 +3473,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListLoggerDefinitionVersionsRequest: AWSShape {
+    public struct ListLoggerDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
@@ -3646,14 +3490,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListLoggerDefinitionVersionsResponse: AWSShape {
+    public struct ListLoggerDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3669,7 +3509,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListLoggerDefinitionsRequest: AWSShape {
+    public struct ListLoggerDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3683,13 +3523,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListLoggerDefinitionsResponse: AWSShape {
+    public struct ListLoggerDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3705,7 +3542,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListResourceDefinitionVersionsRequest: AWSShape {
+    public struct ListResourceDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -3722,14 +3559,10 @@ extension Greengrass {
             self.resourceDefinitionId = resourceDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceDefinitionId = "ResourceDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListResourceDefinitionVersionsResponse: AWSShape {
+    public struct ListResourceDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3745,7 +3578,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListResourceDefinitionsRequest: AWSShape {
+    public struct ListResourceDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3759,13 +3592,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListResourceDefinitionsResponse: AWSShape {
+    public struct ListResourceDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3781,7 +3611,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListSubscriptionDefinitionVersionsRequest: AWSShape {
+    public struct ListSubscriptionDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -3798,14 +3628,10 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSubscriptionDefinitionVersionsResponse: AWSShape {
+    public struct ListSubscriptionDefinitionVersionsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3821,7 +3647,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListSubscriptionDefinitionsRequest: AWSShape {
+    public struct ListSubscriptionDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -3835,13 +3661,10 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSubscriptionDefinitionsResponse: AWSShape {
+    public struct ListSubscriptionDefinitionsResponse: AWSDecodableShape {
 
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -3857,7 +3680,7 @@ extension Greengrass {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -3868,12 +3691,10 @@ extension Greengrass {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -3886,7 +3707,7 @@ extension Greengrass {
         }
     }
 
-    public struct LocalDeviceResourceData: AWSShape {
+    public struct LocalDeviceResourceData: AWSEncodableShape & AWSDecodableShape {
 
         /// Group/owner related settings for local resources.
         public let groupOwnerSetting: GroupOwnerSetting?
@@ -3904,7 +3725,7 @@ extension Greengrass {
         }
     }
 
-    public struct LocalVolumeResourceData: AWSShape {
+    public struct LocalVolumeResourceData: AWSEncodableShape & AWSDecodableShape {
 
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
@@ -3926,7 +3747,7 @@ extension Greengrass {
         }
     }
 
-    public struct Logger: AWSShape {
+    public struct Logger: AWSEncodableShape & AWSDecodableShape {
 
         /// The component that will be subject to logging.
         public let component: LoggerComponent
@@ -3956,7 +3777,7 @@ extension Greengrass {
         }
     }
 
-    public struct LoggerDefinitionVersion: AWSShape {
+    public struct LoggerDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of loggers.
         public let loggers: [Logger]?
@@ -3970,7 +3791,7 @@ extension Greengrass {
         }
     }
 
-    public struct ResetDeploymentsRequest: AWSShape {
+    public struct ResetDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
@@ -3988,13 +3809,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case force = "Force"
-            case groupId = "GroupId"
         }
     }
 
-    public struct ResetDeploymentsResponse: AWSShape {
+    public struct ResetDeploymentsResponse: AWSDecodableShape {
 
         /// The ARN of the deployment.
         public let deploymentArn: String?
@@ -4012,7 +3831,7 @@ extension Greengrass {
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSEncodableShape & AWSDecodableShape {
 
         /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         public let id: String
@@ -4034,7 +3853,7 @@ extension Greengrass {
         }
     }
 
-    public struct ResourceAccessPolicy: AWSShape {
+    public struct ResourceAccessPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
         public let permission: Permission?
@@ -4052,7 +3871,7 @@ extension Greengrass {
         }
     }
 
-    public struct ResourceDataContainer: AWSShape {
+    public struct ResourceDataContainer: AWSEncodableShape & AWSDecodableShape {
 
         /// Attributes that define the local device resource.
         public let localDeviceResourceData: LocalDeviceResourceData?
@@ -4082,7 +3901,7 @@ extension Greengrass {
         }
     }
 
-    public struct ResourceDefinitionVersion: AWSShape {
+    public struct ResourceDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of resources.
         public let resources: [Resource]?
@@ -4096,7 +3915,7 @@ extension Greengrass {
         }
     }
 
-    public struct ResourceDownloadOwnerSetting: AWSShape {
+    public struct ResourceDownloadOwnerSetting: AWSEncodableShape & AWSDecodableShape {
 
         /// The group owner of the resource. This is the name of an existing Linux OS group on the system or a GID. The group's permissions are added to the Lambda process.
         public let groupOwner: String
@@ -4114,7 +3933,7 @@ extension Greengrass {
         }
     }
 
-    public struct S3MachineLearningModelResourceData: AWSShape {
+    public struct S3MachineLearningModelResourceData: AWSEncodableShape & AWSDecodableShape {
 
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
@@ -4135,7 +3954,7 @@ extension Greengrass {
         }
     }
 
-    public struct SageMakerMachineLearningModelResourceData: AWSShape {
+    public struct SageMakerMachineLearningModelResourceData: AWSEncodableShape & AWSDecodableShape {
 
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
@@ -4156,7 +3975,7 @@ extension Greengrass {
         }
     }
 
-    public struct SecretsManagerSecretResourceData: AWSShape {
+    public struct SecretsManagerSecretResourceData: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional. The staging labels whose values you want to make available on the core, in addition to ''AWSCURRENT''.
         public let additionalStagingLabelsToDownload: [String]?
@@ -4174,7 +3993,7 @@ extension Greengrass {
         }
     }
 
-    public struct StartBulkDeploymentRequest: AWSShape {
+    public struct StartBulkDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token"))
         ]
@@ -4194,14 +4013,13 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amznClientToken = "X-Amzn-Client-Token"
             case executionRoleArn = "ExecutionRoleArn"
             case inputFileUri = "InputFileUri"
             case tags = "tags"
         }
     }
 
-    public struct StartBulkDeploymentResponse: AWSShape {
+    public struct StartBulkDeploymentResponse: AWSDecodableShape {
 
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
@@ -4219,7 +4037,7 @@ extension Greengrass {
         }
     }
 
-    public struct StopBulkDeploymentRequest: AWSShape {
+    public struct StopBulkDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId"))
         ]
@@ -4230,12 +4048,10 @@ extension Greengrass {
             self.bulkDeploymentId = bulkDeploymentId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bulkDeploymentId = "BulkDeploymentId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct StopBulkDeploymentResponse: AWSShape {
+    public struct StopBulkDeploymentResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4243,7 +4059,7 @@ extension Greengrass {
 
     }
 
-    public struct Subscription: AWSShape {
+    public struct Subscription: AWSEncodableShape & AWSDecodableShape {
 
         /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String
@@ -4269,7 +4085,7 @@ extension Greengrass {
         }
     }
 
-    public struct SubscriptionDefinitionVersion: AWSShape {
+    public struct SubscriptionDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of subscriptions.
         public let subscriptions: [Subscription]?
@@ -4283,7 +4099,7 @@ extension Greengrass {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -4297,12 +4113,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -4316,13 +4131,10 @@ extension Greengrass {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateConnectivityInfoRequest: AWSShape {
+    public struct UpdateConnectivityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "ThingName"))
         ]
@@ -4338,11 +4150,10 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case connectivityInfo = "ConnectivityInfo"
-            case thingName = "ThingName"
         }
     }
 
-    public struct UpdateConnectivityInfoResponse: AWSShape {
+    public struct UpdateConnectivityInfoResponse: AWSDecodableShape {
 
         /// A message about the connectivity info update request.
         public let message: String?
@@ -4360,7 +4171,7 @@ extension Greengrass {
         }
     }
 
-    public struct UpdateConnectorDefinitionRequest: AWSShape {
+    public struct UpdateConnectorDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
         ]
@@ -4374,12 +4185,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorDefinitionId = "ConnectorDefinitionId"
             case name = "Name"
         }
     }
 
-    public struct UpdateConnectorDefinitionResponse: AWSShape {
+    public struct UpdateConnectorDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4387,7 +4197,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateCoreDefinitionRequest: AWSShape {
+    public struct UpdateCoreDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
         ]
@@ -4401,12 +4211,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreDefinitionId = "CoreDefinitionId"
             case name = "Name"
         }
     }
 
-    public struct UpdateCoreDefinitionResponse: AWSShape {
+    public struct UpdateCoreDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4414,7 +4223,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateDeviceDefinitionRequest: AWSShape {
+    public struct UpdateDeviceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
         ]
@@ -4428,12 +4237,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceDefinitionId = "DeviceDefinitionId"
             case name = "Name"
         }
     }
 
-    public struct UpdateDeviceDefinitionResponse: AWSShape {
+    public struct UpdateDeviceDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4441,7 +4249,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateFunctionDefinitionRequest: AWSShape {
+    public struct UpdateFunctionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
         ]
@@ -4455,12 +4263,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionDefinitionId = "FunctionDefinitionId"
             case name = "Name"
         }
     }
 
-    public struct UpdateFunctionDefinitionResponse: AWSShape {
+    public struct UpdateFunctionDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4468,7 +4275,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateGroupCertificateConfigurationRequest: AWSShape {
+    public struct UpdateGroupCertificateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -4484,11 +4291,10 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
-            case groupId = "GroupId"
         }
     }
 
-    public struct UpdateGroupCertificateConfigurationResponse: AWSShape {
+    public struct UpdateGroupCertificateConfigurationResponse: AWSDecodableShape {
 
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
@@ -4507,7 +4313,7 @@ extension Greengrass {
         }
     }
 
-    public struct UpdateGroupRequest: AWSShape {
+    public struct UpdateGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
@@ -4521,12 +4327,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId = "GroupId"
             case name = "Name"
         }
     }
 
-    public struct UpdateGroupResponse: AWSShape {
+    public struct UpdateGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4534,7 +4339,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateLoggerDefinitionRequest: AWSShape {
+    public struct UpdateLoggerDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
         ]
@@ -4548,12 +4353,11 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggerDefinitionId = "LoggerDefinitionId"
             case name = "Name"
         }
     }
 
-    public struct UpdateLoggerDefinitionResponse: AWSShape {
+    public struct UpdateLoggerDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4561,7 +4365,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateResourceDefinitionRequest: AWSShape {
+    public struct UpdateResourceDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
         ]
@@ -4576,11 +4380,10 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case resourceDefinitionId = "ResourceDefinitionId"
         }
     }
 
-    public struct UpdateResourceDefinitionResponse: AWSShape {
+    public struct UpdateResourceDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4588,7 +4391,7 @@ extension Greengrass {
 
     }
 
-    public struct UpdateSubscriptionDefinitionRequest: AWSShape {
+    public struct UpdateSubscriptionDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
         ]
@@ -4603,11 +4406,10 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case subscriptionDefinitionId = "SubscriptionDefinitionId"
         }
     }
 
-    public struct UpdateSubscriptionDefinitionResponse: AWSShape {
+    public struct UpdateSubscriptionDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4615,7 +4417,7 @@ extension Greengrass {
 
     }
 
-    public struct VersionInformation: AWSShape {
+    public struct VersionInformation: AWSDecodableShape {
 
         /// The ARN of the version.
         public let arn: String?

@@ -72,7 +72,7 @@ extension AutoScaling {
 
     //MARK: Shapes
 
-    public struct ActivitiesType: AWSShape {
+    public struct ActivitiesType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
         ]
@@ -93,7 +93,7 @@ extension AutoScaling {
         }
     }
 
-    public struct Activity: AWSShape {
+    public struct Activity: AWSDecodableShape {
 
         /// The ID of the activity.
         public let activityId: String
@@ -143,7 +143,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ActivityType: AWSShape {
+    public struct ActivityType: AWSDecodableShape {
 
         /// A scaling activity.
         public let activity: Activity?
@@ -157,7 +157,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AdjustmentType: AWSShape {
+    public struct AdjustmentType: AWSDecodableShape {
 
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
@@ -171,7 +171,7 @@ extension AutoScaling {
         }
     }
 
-    public struct Alarm: AWSShape {
+    public struct Alarm: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmARN: String?
@@ -189,7 +189,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AttachInstancesQuery: AWSShape {
+    public struct AttachInstancesQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
         ]
@@ -221,7 +221,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
+    public struct AttachLoadBalancerTargetGroupsResultType: AWSDecodableShape {
 
 
         public init() {
@@ -229,7 +229,7 @@ extension AutoScaling {
 
     }
 
-    public struct AttachLoadBalancerTargetGroupsType: AWSShape {
+    public struct AttachLoadBalancerTargetGroupsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGroupARNs", location: .body(locationName: "TargetGroupARNs"), encoding: .list(member:"member"))
         ]
@@ -261,7 +261,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AttachLoadBalancersResultType: AWSShape {
+    public struct AttachLoadBalancersResultType: AWSDecodableShape {
 
 
         public init() {
@@ -269,7 +269,7 @@ extension AutoScaling {
 
     }
 
-    public struct AttachLoadBalancersType: AWSShape {
+    public struct AttachLoadBalancersType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
         ]
@@ -301,7 +301,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AutoScalingGroup: AWSShape {
+    public struct AutoScalingGroup: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "enabledMetrics", location: .body(locationName: "EnabledMetrics"), encoding: .list(member:"member")), 
@@ -425,7 +425,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AutoScalingGroupNamesType: AWSShape {
+    public struct AutoScalingGroupNamesType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "autoScalingGroupNames", location: .body(locationName: "AutoScalingGroupNames"), encoding: .list(member:"member"))
         ]
@@ -459,7 +459,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AutoScalingGroupsType: AWSShape {
+    public struct AutoScalingGroupsType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "autoScalingGroups", location: .body(locationName: "AutoScalingGroups"), encoding: .list(member:"member"))
         ]
@@ -480,7 +480,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AutoScalingInstanceDetails: AWSShape {
+    public struct AutoScalingInstanceDetails: AWSDecodableShape {
 
         /// The name of the Auto Scaling group for the instance.
         public let autoScalingGroupName: String
@@ -530,7 +530,7 @@ extension AutoScaling {
         }
     }
 
-    public struct AutoScalingInstancesType: AWSShape {
+    public struct AutoScalingInstancesType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "autoScalingInstances", location: .body(locationName: "AutoScalingInstances"), encoding: .list(member:"member"))
         ]
@@ -551,7 +551,7 @@ extension AutoScaling {
         }
     }
 
-    public struct BatchDeleteScheduledActionAnswer: AWSShape {
+    public struct BatchDeleteScheduledActionAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failedScheduledActions", location: .body(locationName: "FailedScheduledActions"), encoding: .list(member:"member"))
         ]
@@ -568,7 +568,7 @@ extension AutoScaling {
         }
     }
 
-    public struct BatchDeleteScheduledActionType: AWSShape {
+    public struct BatchDeleteScheduledActionType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledActionNames", location: .body(locationName: "ScheduledActionNames"), encoding: .list(member:"member"))
         ]
@@ -600,7 +600,7 @@ extension AutoScaling {
         }
     }
 
-    public struct BatchPutScheduledUpdateGroupActionAnswer: AWSShape {
+    public struct BatchPutScheduledUpdateGroupActionAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "failedScheduledUpdateGroupActions", location: .body(locationName: "FailedScheduledUpdateGroupActions"), encoding: .list(member:"member"))
         ]
@@ -617,7 +617,7 @@ extension AutoScaling {
         }
     }
 
-    public struct BatchPutScheduledUpdateGroupActionType: AWSShape {
+    public struct BatchPutScheduledUpdateGroupActionType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledUpdateGroupActions", location: .body(locationName: "ScheduledUpdateGroupActions"), encoding: .list(member:"member"))
         ]
@@ -647,7 +647,7 @@ extension AutoScaling {
         }
     }
 
-    public struct BlockDeviceMapping: AWSShape {
+    public struct BlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The device name exposed to the EC2 instance (for example, /dev/sdh or xvdh). For more information, see Device Naming on Linux Instances in the Amazon EC2 User Guide for Linux Instances.
         public let deviceName: String
@@ -683,7 +683,7 @@ extension AutoScaling {
         }
     }
 
-    public struct CompleteLifecycleActionAnswer: AWSShape {
+    public struct CompleteLifecycleActionAnswer: AWSDecodableShape {
 
 
         public init() {
@@ -691,7 +691,7 @@ extension AutoScaling {
 
     }
 
-    public struct CompleteLifecycleActionType: AWSShape {
+    public struct CompleteLifecycleActionType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -735,7 +735,7 @@ extension AutoScaling {
         }
     }
 
-    public struct CreateAutoScalingGroupType: AWSShape {
+    public struct CreateAutoScalingGroupType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "lifecycleHookSpecificationList", location: .body(locationName: "LifecycleHookSpecificationList"), encoding: .list(member:"member")), 
@@ -894,7 +894,7 @@ extension AutoScaling {
         }
     }
 
-    public struct CreateLaunchConfigurationType: AWSShape {
+    public struct CreateLaunchConfigurationType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMappings"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "classicLinkVPCSecurityGroups", location: .body(locationName: "ClassicLinkVPCSecurityGroups"), encoding: .list(member:"member")), 
@@ -1029,7 +1029,7 @@ extension AutoScaling {
         }
     }
 
-    public struct CreateOrUpdateTagsType: AWSShape {
+    public struct CreateOrUpdateTagsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -1052,7 +1052,7 @@ extension AutoScaling {
         }
     }
 
-    public struct CustomizedMetricSpecification: AWSShape {
+    public struct CustomizedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensions", location: .body(locationName: "Dimensions"), encoding: .list(member:"member"))
         ]
@@ -1085,7 +1085,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DeleteAutoScalingGroupType: AWSShape {
+    public struct DeleteAutoScalingGroupType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1109,7 +1109,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DeleteLifecycleHookAnswer: AWSShape {
+    public struct DeleteLifecycleHookAnswer: AWSDecodableShape {
 
 
         public init() {
@@ -1117,7 +1117,7 @@ extension AutoScaling {
 
     }
 
-    public struct DeleteLifecycleHookType: AWSShape {
+    public struct DeleteLifecycleHookType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1144,7 +1144,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DeleteNotificationConfigurationType: AWSShape {
+    public struct DeleteNotificationConfigurationType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1171,7 +1171,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DeletePolicyType: AWSShape {
+    public struct DeletePolicyType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -1198,7 +1198,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DeleteScheduledActionType: AWSShape {
+    public struct DeleteScheduledActionType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1225,7 +1225,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DeleteTagsType: AWSShape {
+    public struct DeleteTagsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -1248,7 +1248,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeAccountLimitsAnswer: AWSShape {
+    public struct DescribeAccountLimitsAnswer: AWSDecodableShape {
 
         /// The maximum number of groups allowed for your AWS account. The default is 200 groups per AWS Region.
         public let maxNumberOfAutoScalingGroups: Int?
@@ -1274,7 +1274,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeAdjustmentTypesAnswer: AWSShape {
+    public struct DescribeAdjustmentTypesAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "adjustmentTypes", location: .body(locationName: "AdjustmentTypes"), encoding: .list(member:"member"))
         ]
@@ -1291,7 +1291,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeAutoScalingInstancesType: AWSShape {
+    public struct DescribeAutoScalingInstancesType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
         ]
@@ -1325,7 +1325,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
+    public struct DescribeAutoScalingNotificationTypesAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "autoScalingNotificationTypes", location: .body(locationName: "AutoScalingNotificationTypes"), encoding: .list(member:"member"))
         ]
@@ -1342,7 +1342,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLifecycleHookTypesAnswer: AWSShape {
+    public struct DescribeLifecycleHookTypesAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "lifecycleHookTypes", location: .body(locationName: "LifecycleHookTypes"), encoding: .list(member:"member"))
         ]
@@ -1359,7 +1359,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLifecycleHooksAnswer: AWSShape {
+    public struct DescribeLifecycleHooksAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "lifecycleHooks", location: .body(locationName: "LifecycleHooks"), encoding: .list(member:"member"))
         ]
@@ -1376,7 +1376,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLifecycleHooksType: AWSShape {
+    public struct DescribeLifecycleHooksType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "lifecycleHookNames", location: .body(locationName: "LifecycleHookNames"), encoding: .list(member:"member"))
         ]
@@ -1409,7 +1409,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
+    public struct DescribeLoadBalancerTargetGroupsRequest: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1438,7 +1438,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
+    public struct DescribeLoadBalancerTargetGroupsResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerTargetGroups", location: .body(locationName: "LoadBalancerTargetGroups"), encoding: .list(member:"member"))
         ]
@@ -1459,7 +1459,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLoadBalancersRequest: AWSShape {
+    public struct DescribeLoadBalancersRequest: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -1488,7 +1488,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeLoadBalancersResponse: AWSShape {
+    public struct DescribeLoadBalancersResponse: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancers", location: .body(locationName: "LoadBalancers"), encoding: .list(member:"member"))
         ]
@@ -1509,7 +1509,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeMetricCollectionTypesAnswer: AWSShape {
+    public struct DescribeMetricCollectionTypesAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "granularities", location: .body(locationName: "Granularities"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
@@ -1531,7 +1531,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeNotificationConfigurationsAnswer: AWSShape {
+    public struct DescribeNotificationConfigurationsAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "notificationConfigurations", location: .body(locationName: "NotificationConfigurations"), encoding: .list(member:"member"))
         ]
@@ -1552,7 +1552,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeNotificationConfigurationsType: AWSShape {
+    public struct DescribeNotificationConfigurationsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "autoScalingGroupNames", location: .body(locationName: "AutoScalingGroupNames"), encoding: .list(member:"member"))
         ]
@@ -1586,7 +1586,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribePoliciesType: AWSShape {
+    public struct DescribePoliciesType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyNames", location: .body(locationName: "PolicyNames"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "policyTypes", location: .body(locationName: "PolicyTypes"), encoding: .list(member:"member"))
@@ -1637,7 +1637,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeScalingActivitiesType: AWSShape {
+    public struct DescribeScalingActivitiesType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "activityIds", location: .body(locationName: "ActivityIds"), encoding: .list(member:"member"))
         ]
@@ -1676,7 +1676,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeScheduledActionsType: AWSShape {
+    public struct DescribeScheduledActionsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledActionNames", location: .body(locationName: "ScheduledActionNames"), encoding: .list(member:"member"))
         ]
@@ -1725,7 +1725,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeTagsType: AWSShape {
+    public struct DescribeTagsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filters", location: .body(locationName: "Filters"), encoding: .list(member:"member"))
         ]
@@ -1757,7 +1757,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
+    public struct DescribeTerminationPolicyTypesAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "terminationPolicyTypes", location: .body(locationName: "TerminationPolicyTypes"), encoding: .list(member:"member"))
         ]
@@ -1774,7 +1774,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DetachInstancesAnswer: AWSShape {
+    public struct DetachInstancesAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
         ]
@@ -1791,7 +1791,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DetachInstancesQuery: AWSShape {
+    public struct DetachInstancesQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
         ]
@@ -1827,7 +1827,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
+    public struct DetachLoadBalancerTargetGroupsResultType: AWSDecodableShape {
 
 
         public init() {
@@ -1835,7 +1835,7 @@ extension AutoScaling {
 
     }
 
-    public struct DetachLoadBalancerTargetGroupsType: AWSShape {
+    public struct DetachLoadBalancerTargetGroupsType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetGroupARNs", location: .body(locationName: "TargetGroupARNs"), encoding: .list(member:"member"))
         ]
@@ -1867,7 +1867,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DetachLoadBalancersResultType: AWSShape {
+    public struct DetachLoadBalancersResultType: AWSDecodableShape {
 
 
         public init() {
@@ -1875,7 +1875,7 @@ extension AutoScaling {
 
     }
 
-    public struct DetachLoadBalancersType: AWSShape {
+    public struct DetachLoadBalancersType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "loadBalancerNames", location: .body(locationName: "LoadBalancerNames"), encoding: .list(member:"member"))
         ]
@@ -1907,7 +1907,7 @@ extension AutoScaling {
         }
     }
 
-    public struct DisableMetricsCollectionQuery: AWSShape {
+    public struct DisableMetricsCollectionQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
@@ -1939,7 +1939,7 @@ extension AutoScaling {
         }
     }
 
-    public struct Ebs: AWSShape {
+    public struct Ebs: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether the volume is deleted on instance termination. For Amazon EC2 Auto Scaling, the default value is true.
         public let deleteOnTermination: Bool?
@@ -1985,7 +1985,7 @@ extension AutoScaling {
         }
     }
 
-    public struct EnableMetricsCollectionQuery: AWSShape {
+    public struct EnableMetricsCollectionQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "metrics", location: .body(locationName: "Metrics"), encoding: .list(member:"member"))
         ]
@@ -2024,7 +2024,7 @@ extension AutoScaling {
         }
     }
 
-    public struct EnabledMetric: AWSShape {
+    public struct EnabledMetric: AWSDecodableShape {
 
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
@@ -2042,7 +2042,7 @@ extension AutoScaling {
         }
     }
 
-    public struct EnterStandbyAnswer: AWSShape {
+    public struct EnterStandbyAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
         ]
@@ -2059,7 +2059,7 @@ extension AutoScaling {
         }
     }
 
-    public struct EnterStandbyQuery: AWSShape {
+    public struct EnterStandbyQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
         ]
@@ -2095,7 +2095,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ExecutePolicyType: AWSShape {
+    public struct ExecutePolicyType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -2134,7 +2134,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ExitStandbyAnswer: AWSShape {
+    public struct ExitStandbyAnswer: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "activities", location: .body(locationName: "Activities"), encoding: .list(member:"member"))
         ]
@@ -2151,7 +2151,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ExitStandbyQuery: AWSShape {
+    public struct ExitStandbyQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
         ]
@@ -2183,7 +2183,7 @@ extension AutoScaling {
         }
     }
 
-    public struct FailedScheduledUpdateGroupActionRequest: AWSShape {
+    public struct FailedScheduledUpdateGroupActionRequest: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: String?
@@ -2205,7 +2205,7 @@ extension AutoScaling {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "values", location: .body(locationName: "Values"), encoding: .list(member:"member"))
         ]
@@ -2233,7 +2233,7 @@ extension AutoScaling {
         }
     }
 
-    public struct Instance: AWSShape {
+    public struct Instance: AWSDecodableShape {
 
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String
@@ -2279,7 +2279,7 @@ extension AutoScaling {
         }
     }
 
-    public struct InstanceMonitoring: AWSShape {
+    public struct InstanceMonitoring: AWSEncodableShape & AWSDecodableShape {
 
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
@@ -2293,7 +2293,7 @@ extension AutoScaling {
         }
     }
 
-    public struct InstancesDistribution: AWSShape {
+    public struct InstancesDistribution: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates how to allocate instance types to fulfill On-Demand capacity. The only valid value is prioritized, which is also the default value. This strategy uses the order of instance type overrides for the LaunchTemplate to define the launch priority of each instance type. The first instance type in the array is prioritized higher than the last. If all your On-Demand capacity cannot be fulfilled using your highest priority instance, then the Auto Scaling groups launches the remaining capacity using the second priority instance type, and so on.
         public let onDemandAllocationStrategy: String?
@@ -2334,7 +2334,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchConfiguration: AWSShape {
+    public struct LaunchConfiguration: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "blockDeviceMappings", location: .body(locationName: "BlockDeviceMappings"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "classicLinkVPCSecurityGroups", location: .body(locationName: "ClassicLinkVPCSecurityGroups"), encoding: .list(member:"member")), 
@@ -2425,7 +2425,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchConfigurationNameType: AWSShape {
+    public struct LaunchConfigurationNameType: AWSEncodableShape {
 
         /// The name of the launch configuration.
         public let launchConfigurationName: String
@@ -2445,7 +2445,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchConfigurationNamesType: AWSShape {
+    public struct LaunchConfigurationNamesType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "launchConfigurationNames", location: .body(locationName: "LaunchConfigurationNames"), encoding: .list(member:"member"))
         ]
@@ -2479,7 +2479,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchConfigurationsType: AWSShape {
+    public struct LaunchConfigurationsType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "launchConfigurations", location: .body(locationName: "LaunchConfigurations"), encoding: .list(member:"member"))
         ]
@@ -2500,7 +2500,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchTemplate: AWSShape {
+    public struct LaunchTemplate: AWSEncodableShape & AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "overrides", location: .body(locationName: "Overrides"), encoding: .list(member:"member"))
         ]
@@ -2528,7 +2528,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchTemplateOverrides: AWSShape {
+    public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
 
         /// The instance type. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
         public let instanceType: String?
@@ -2555,7 +2555,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LaunchTemplateSpecification: AWSShape {
+    public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the launch template. You must specify either a template ID or a template name.
         public let launchTemplateId: String?
@@ -2589,7 +2589,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LifecycleHook: AWSShape {
+    public struct LifecycleHook: AWSDecodableShape {
 
         /// The name of the Auto Scaling group for the lifecycle hook.
         public let autoScalingGroupName: String?
@@ -2635,7 +2635,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LifecycleHookSpecification: AWSShape {
+    public struct LifecycleHookSpecification: AWSEncodableShape {
 
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON. The default value is ABANDON.
         public let defaultResult: String?
@@ -2688,7 +2688,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LoadBalancerState: AWSShape {
+    public struct LoadBalancerState: AWSDecodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -2706,7 +2706,7 @@ extension AutoScaling {
         }
     }
 
-    public struct LoadBalancerTargetGroupState: AWSShape {
+    public struct LoadBalancerTargetGroupState: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let loadBalancerTargetGroupARN: String?
@@ -2724,7 +2724,7 @@ extension AutoScaling {
         }
     }
 
-    public struct MetricCollectionType: AWSShape {
+    public struct MetricCollectionType: AWSDecodableShape {
 
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metric: String?
@@ -2738,7 +2738,7 @@ extension AutoScaling {
         }
     }
 
-    public struct MetricDimension: AWSShape {
+    public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the dimension.
         public let name: String
@@ -2756,7 +2756,7 @@ extension AutoScaling {
         }
     }
 
-    public struct MetricGranularityType: AWSShape {
+    public struct MetricGranularityType: AWSDecodableShape {
 
         /// The granularity. The only valid value is 1Minute.
         public let granularity: String?
@@ -2770,7 +2770,7 @@ extension AutoScaling {
         }
     }
 
-    public struct MixedInstancesPolicy: AWSShape {
+    public struct MixedInstancesPolicy: AWSEncodableShape & AWSDecodableShape {
 
         /// The instances distribution to use. If you leave this parameter unspecified, the value for each parameter in InstancesDistribution uses a default value.
         public let instancesDistribution: InstancesDistribution?
@@ -2793,7 +2793,7 @@ extension AutoScaling {
         }
     }
 
-    public struct NotificationConfiguration: AWSShape {
+    public struct NotificationConfiguration: AWSDecodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -2815,7 +2815,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PoliciesType: AWSShape {
+    public struct PoliciesType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scalingPolicies", location: .body(locationName: "ScalingPolicies"), encoding: .list(member:"member"))
         ]
@@ -2836,7 +2836,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PolicyARNType: AWSShape {
+    public struct PolicyARNType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarms", location: .body(locationName: "Alarms"), encoding: .list(member:"member"))
         ]
@@ -2857,7 +2857,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PredefinedMetricSpecification: AWSShape {
+    public struct PredefinedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.  
         public let predefinedMetricType: MetricType
@@ -2881,7 +2881,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ProcessType: AWSShape {
+    public struct ProcessType: AWSDecodableShape {
 
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
         public let processName: String
@@ -2895,7 +2895,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ProcessesType: AWSShape {
+    public struct ProcessesType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "processes", location: .body(locationName: "Processes"), encoding: .list(member:"member"))
         ]
@@ -2912,7 +2912,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PutLifecycleHookAnswer: AWSShape {
+    public struct PutLifecycleHookAnswer: AWSDecodableShape {
 
 
         public init() {
@@ -2920,7 +2920,7 @@ extension AutoScaling {
 
     }
 
-    public struct PutLifecycleHookType: AWSShape {
+    public struct PutLifecycleHookType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -2980,7 +2980,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PutNotificationConfigurationType: AWSShape {
+    public struct PutNotificationConfigurationType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "notificationTypes", location: .body(locationName: "NotificationTypes"), encoding: .list(member:"member"))
         ]
@@ -3019,7 +3019,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PutScalingPolicyType: AWSShape {
+    public struct PutScalingPolicyType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "stepAdjustments", location: .body(locationName: "StepAdjustments"), encoding: .list(member:"member"))
         ]
@@ -3103,7 +3103,7 @@ extension AutoScaling {
         }
     }
 
-    public struct PutScheduledUpdateGroupActionType: AWSShape {
+    public struct PutScheduledUpdateGroupActionType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -3161,7 +3161,7 @@ extension AutoScaling {
         }
     }
 
-    public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
+    public struct RecordLifecycleActionHeartbeatAnswer: AWSDecodableShape {
 
 
         public init() {
@@ -3169,7 +3169,7 @@ extension AutoScaling {
 
     }
 
-    public struct RecordLifecycleActionHeartbeatType: AWSShape {
+    public struct RecordLifecycleActionHeartbeatType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -3209,7 +3209,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ScalingPolicy: AWSShape {
+    public struct ScalingPolicy: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "alarms", location: .body(locationName: "Alarms"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "stepAdjustments", location: .body(locationName: "StepAdjustments"), encoding: .list(member:"member"))
@@ -3283,7 +3283,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ScalingProcessQuery: AWSShape {
+    public struct ScalingProcessQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scalingProcesses", location: .body(locationName: "ScalingProcesses"), encoding: .list(member:"member"))
         ]
@@ -3315,7 +3315,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ScheduledActionsType: AWSShape {
+    public struct ScheduledActionsType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledUpdateGroupActions", location: .body(locationName: "ScheduledUpdateGroupActions"), encoding: .list(member:"member"))
         ]
@@ -3336,7 +3336,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ScheduledUpdateGroupAction: AWSShape {
+    public struct ScheduledUpdateGroupAction: AWSDecodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -3386,7 +3386,7 @@ extension AutoScaling {
         }
     }
 
-    public struct ScheduledUpdateGroupActionRequest: AWSShape {
+    public struct ScheduledUpdateGroupActionRequest: AWSEncodableShape {
 
         /// The number of EC2 instances that should be running in the group.
         public let desiredCapacity: Int?
@@ -3433,7 +3433,7 @@ extension AutoScaling {
         }
     }
 
-    public struct SetDesiredCapacityType: AWSShape {
+    public struct SetDesiredCapacityType: AWSEncodableShape {
 
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -3461,7 +3461,7 @@ extension AutoScaling {
         }
     }
 
-    public struct SetInstanceHealthQuery: AWSShape {
+    public struct SetInstanceHealthQuery: AWSEncodableShape {
 
         /// The health status of the instance. Set to Healthy to have the instance remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto Scaling terminates and replaces the unhealthy instance.
         public let healthStatus: String
@@ -3492,7 +3492,7 @@ extension AutoScaling {
         }
     }
 
-    public struct SetInstanceProtectionAnswer: AWSShape {
+    public struct SetInstanceProtectionAnswer: AWSDecodableShape {
 
 
         public init() {
@@ -3500,7 +3500,7 @@ extension AutoScaling {
 
     }
 
-    public struct SetInstanceProtectionQuery: AWSShape {
+    public struct SetInstanceProtectionQuery: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceIds", location: .body(locationName: "InstanceIds"), encoding: .list(member:"member"))
         ]
@@ -3536,7 +3536,7 @@ extension AutoScaling {
         }
     }
 
-    public struct StepAdjustment: AWSShape {
+    public struct StepAdjustment: AWSEncodableShape & AWSDecodableShape {
 
         /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public let metricIntervalLowerBound: Double?
@@ -3558,7 +3558,7 @@ extension AutoScaling {
         }
     }
 
-    public struct SuspendedProcess: AWSShape {
+    public struct SuspendedProcess: AWSDecodableShape {
 
         /// The name of the suspended process.
         public let processName: String?
@@ -3576,7 +3576,7 @@ extension AutoScaling {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape {
 
         /// The tag key.
         public let key: String
@@ -3617,7 +3617,7 @@ extension AutoScaling {
         }
     }
 
-    public struct TagDescription: AWSShape {
+    public struct TagDescription: AWSDecodableShape {
 
         /// The tag key.
         public let key: String?
@@ -3647,7 +3647,7 @@ extension AutoScaling {
         }
     }
 
-    public struct TagsType: AWSShape {
+    public struct TagsType: AWSDecodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "tags", location: .body(locationName: "Tags"), encoding: .list(member:"member"))
         ]
@@ -3668,7 +3668,7 @@ extension AutoScaling {
         }
     }
 
-    public struct TargetTrackingConfiguration: AWSShape {
+    public struct TargetTrackingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A customized metric. You must specify either a predefined metric or a customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?
@@ -3698,7 +3698,7 @@ extension AutoScaling {
         }
     }
 
-    public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
+    public struct TerminateInstanceInAutoScalingGroupType: AWSEncodableShape {
 
         /// The ID of the instance.
         public let instanceId: String
@@ -3722,7 +3722,7 @@ extension AutoScaling {
         }
     }
 
-    public struct UpdateAutoScalingGroupType: AWSShape {
+    public struct UpdateAutoScalingGroupType: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "availabilityZones", location: .body(locationName: "AvailabilityZones"), encoding: .list(member:"member")), 
             AWSMemberEncoding(label: "terminationPolicies", location: .body(locationName: "TerminationPolicies"), encoding: .list(member:"member"))

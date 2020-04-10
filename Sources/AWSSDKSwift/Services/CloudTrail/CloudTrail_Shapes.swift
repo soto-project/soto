@@ -51,7 +51,7 @@ extension CloudTrail {
 
     //MARK: Shapes
 
-    public struct AddTagsRequest: AWSShape {
+    public struct AddTagsRequest: AWSEncodableShape {
 
         /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let resourceId: String
@@ -69,7 +69,7 @@ extension CloudTrail {
         }
     }
 
-    public struct AddTagsResponse: AWSShape {
+    public struct AddTagsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -77,7 +77,7 @@ extension CloudTrail {
 
     }
 
-    public struct CreateTrailRequest: AWSShape {
+    public struct CreateTrailRequest: AWSEncodableShape {
 
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
         public let cloudWatchLogsLogGroupArn: String?
@@ -134,7 +134,7 @@ extension CloudTrail {
         }
     }
 
-    public struct CreateTrailResponse: AWSShape {
+    public struct CreateTrailResponse: AWSDecodableShape {
 
         /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?
@@ -192,7 +192,7 @@ extension CloudTrail {
         }
     }
 
-    public struct DataResource: AWSShape {
+    public struct DataResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The resource type in which you want to log data events. You can specify AWS::S3::Object or AWS::Lambda::Function resources.
         public let `type`: String?
@@ -210,7 +210,7 @@ extension CloudTrail {
         }
     }
 
-    public struct DeleteTrailRequest: AWSShape {
+    public struct DeleteTrailRequest: AWSEncodableShape {
 
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
@@ -224,7 +224,7 @@ extension CloudTrail {
         }
     }
 
-    public struct DeleteTrailResponse: AWSShape {
+    public struct DeleteTrailResponse: AWSDecodableShape {
 
 
         public init() {
@@ -232,7 +232,7 @@ extension CloudTrail {
 
     }
 
-    public struct DescribeTrailsRequest: AWSShape {
+    public struct DescribeTrailsRequest: AWSEncodableShape {
 
         /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
         public let includeShadowTrails: Bool?
@@ -250,7 +250,7 @@ extension CloudTrail {
         }
     }
 
-    public struct DescribeTrailsResponse: AWSShape {
+    public struct DescribeTrailsResponse: AWSDecodableShape {
 
         /// The list of trail objects. Trail objects with string values are only returned if values for the objects exist in a trail's configuration. For example, SNSTopicName and SNSTopicARN are only returned in results if a trail is configured to send SNS notifications. Similarly, KMSKeyId only appears in results if a trail's log files are encrypted with AWS KMS-managed keys.
         public let trailList: [Trail]?
@@ -264,7 +264,7 @@ extension CloudTrail {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSDecodableShape {
 
         /// The AWS access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
         public let accessKeyId: String?
@@ -310,7 +310,7 @@ extension CloudTrail {
         }
     }
 
-    public struct EventSelector: AWSShape {
+    public struct EventSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// CloudTrail supports data event logging for Amazon S3 objects and AWS Lambda functions. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events.  For more information, see Data Events and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
         public let dataResources: [DataResource]?
@@ -336,7 +336,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetEventSelectorsRequest: AWSShape {
+    public struct GetEventSelectorsRequest: AWSEncodableShape {
 
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailName: String
@@ -350,7 +350,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetEventSelectorsResponse: AWSShape {
+    public struct GetEventSelectorsResponse: AWSDecodableShape {
 
         /// The event selectors that are configured for the trail.
         public let eventSelectors: [EventSelector]?
@@ -368,7 +368,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetInsightSelectorsRequest: AWSShape {
+    public struct GetInsightSelectorsRequest: AWSEncodableShape {
 
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let trailName: String
@@ -382,7 +382,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetInsightSelectorsResponse: AWSShape {
+    public struct GetInsightSelectorsResponse: AWSDecodableShape {
 
         /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
         public let insightSelectors: [InsightSelector]?
@@ -400,7 +400,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetTrailRequest: AWSShape {
+    public struct GetTrailRequest: AWSEncodableShape {
 
         /// The name or the Amazon Resource Name (ARN) of the trail for which you want to retrieve settings information.
         public let name: String
@@ -414,7 +414,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetTrailResponse: AWSShape {
+    public struct GetTrailResponse: AWSDecodableShape {
 
         public let trail: Trail?
 
@@ -427,7 +427,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetTrailStatusRequest: AWSShape {
+    public struct GetTrailStatusRequest: AWSEncodableShape {
 
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
@@ -441,7 +441,7 @@ extension CloudTrail {
         }
     }
 
-    public struct GetTrailStatusResponse: AWSShape {
+    public struct GetTrailStatusResponse: AWSDecodableShape {
 
         /// Whether the CloudTrail is currently logging AWS API calls.
         public let isLogging: Bool?
@@ -519,7 +519,7 @@ extension CloudTrail {
         }
     }
 
-    public struct InsightSelector: AWSShape {
+    public struct InsightSelector: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of insights to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
         public let insightType: InsightType?
@@ -533,7 +533,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ListPublicKeysRequest: AWSShape {
+    public struct ListPublicKeysRequest: AWSEncodableShape {
 
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
         public let endTime: TimeStamp?
@@ -555,7 +555,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ListPublicKeysResponse: AWSShape {
+    public struct ListPublicKeysResponse: AWSDecodableShape {
 
         /// Reserved for future use.
         public let nextToken: String?
@@ -573,7 +573,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ListTagsRequest: AWSShape {
+    public struct ListTagsRequest: AWSEncodableShape {
 
         /// Reserved for future use.
         public let nextToken: String?
@@ -591,7 +591,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ListTagsResponse: AWSShape {
+    public struct ListTagsResponse: AWSDecodableShape {
 
         /// Reserved for future use.
         public let nextToken: String?
@@ -609,7 +609,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ListTrailsRequest: AWSShape {
+    public struct ListTrailsRequest: AWSEncodableShape {
 
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
@@ -623,7 +623,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ListTrailsResponse: AWSShape {
+    public struct ListTrailsResponse: AWSDecodableShape {
 
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
@@ -641,7 +641,7 @@ extension CloudTrail {
         }
     }
 
-    public struct LookupAttribute: AWSShape {
+    public struct LookupAttribute: AWSEncodableShape {
 
         /// Specifies an attribute on which to filter the events returned.
         public let attributeKey: LookupAttributeKey
@@ -659,7 +659,7 @@ extension CloudTrail {
         }
     }
 
-    public struct LookupEventsRequest: AWSShape {
+    public struct LookupEventsRequest: AWSEncodableShape {
 
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
         public let endTime: TimeStamp?
@@ -698,7 +698,7 @@ extension CloudTrail {
         }
     }
 
-    public struct LookupEventsResponse: AWSShape {
+    public struct LookupEventsResponse: AWSDecodableShape {
 
         /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.
         public let events: [Event]?
@@ -716,7 +716,7 @@ extension CloudTrail {
         }
     }
 
-    public struct PublicKey: AWSShape {
+    public struct PublicKey: AWSDecodableShape {
 
         /// The fingerprint of the public key.
         public let fingerprint: String?
@@ -742,7 +742,7 @@ extension CloudTrail {
         }
     }
 
-    public struct PutEventSelectorsRequest: AWSShape {
+    public struct PutEventSelectorsRequest: AWSEncodableShape {
 
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
         public let eventSelectors: [EventSelector]
@@ -760,7 +760,7 @@ extension CloudTrail {
         }
     }
 
-    public struct PutEventSelectorsResponse: AWSShape {
+    public struct PutEventSelectorsResponse: AWSDecodableShape {
 
         /// Specifies the event selectors configured for your trail.
         public let eventSelectors: [EventSelector]?
@@ -778,7 +778,7 @@ extension CloudTrail {
         }
     }
 
-    public struct PutInsightSelectorsRequest: AWSShape {
+    public struct PutInsightSelectorsRequest: AWSEncodableShape {
 
         /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
         public let insightSelectors: [InsightSelector]
@@ -796,7 +796,7 @@ extension CloudTrail {
         }
     }
 
-    public struct PutInsightSelectorsResponse: AWSShape {
+    public struct PutInsightSelectorsResponse: AWSDecodableShape {
 
         /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
         public let insightSelectors: [InsightSelector]?
@@ -814,7 +814,7 @@ extension CloudTrail {
         }
     }
 
-    public struct RemoveTagsRequest: AWSShape {
+    public struct RemoveTagsRequest: AWSEncodableShape {
 
         /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let resourceId: String
@@ -832,7 +832,7 @@ extension CloudTrail {
         }
     }
 
-    public struct RemoveTagsResponse: AWSShape {
+    public struct RemoveTagsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -840,7 +840,7 @@ extension CloudTrail {
 
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSDecodableShape {
 
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
         public let resourceName: String?
@@ -858,7 +858,7 @@ extension CloudTrail {
         }
     }
 
-    public struct ResourceTag: AWSShape {
+    public struct ResourceTag: AWSDecodableShape {
 
         /// Specifies the ARN of the resource.
         public let resourceId: String?
@@ -876,7 +876,7 @@ extension CloudTrail {
         }
     }
 
-    public struct StartLoggingRequest: AWSShape {
+    public struct StartLoggingRequest: AWSEncodableShape {
 
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
@@ -890,7 +890,7 @@ extension CloudTrail {
         }
     }
 
-    public struct StartLoggingResponse: AWSShape {
+    public struct StartLoggingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -898,7 +898,7 @@ extension CloudTrail {
 
     }
 
-    public struct StopLoggingRequest: AWSShape {
+    public struct StopLoggingRequest: AWSEncodableShape {
 
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
@@ -912,7 +912,7 @@ extension CloudTrail {
         }
     }
 
-    public struct StopLoggingResponse: AWSShape {
+    public struct StopLoggingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -920,7 +920,7 @@ extension CloudTrail {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
         public let key: String
@@ -938,7 +938,7 @@ extension CloudTrail {
         }
     }
 
-    public struct Trail: AWSShape {
+    public struct Trail: AWSDecodableShape {
 
         /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?
@@ -1008,7 +1008,7 @@ extension CloudTrail {
         }
     }
 
-    public struct TrailInfo: AWSShape {
+    public struct TrailInfo: AWSDecodableShape {
 
         /// The AWS region in which a trail was created.
         public let homeRegion: String?
@@ -1030,7 +1030,7 @@ extension CloudTrail {
         }
     }
 
-    public struct UpdateTrailRequest: AWSShape {
+    public struct UpdateTrailRequest: AWSEncodableShape {
 
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
         public let cloudWatchLogsLogGroupArn: String?
@@ -1084,7 +1084,7 @@ extension CloudTrail {
         }
     }
 
-    public struct UpdateTrailResponse: AWSShape {
+    public struct UpdateTrailResponse: AWSDecodableShape {
 
         /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?

@@ -106,7 +106,7 @@ extension MediaPackage {
 
     //MARK: Shapes
 
-    public struct Authorization: AWSShape {
+    public struct Authorization: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the secret in Secrets Manager that your Content Distribution Network (CDN) uses for authorization to access your endpoint.
         public let cdnIdentifierSecret: String
@@ -124,7 +124,7 @@ extension MediaPackage {
         }
     }
 
-    public struct Channel: AWSShape {
+    public struct Channel: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
@@ -152,7 +152,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CmafEncryption: AWSShape {
+    public struct CmafEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
@@ -169,7 +169,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CmafPackage: AWSShape {
+    public struct CmafPackage: AWSDecodableShape {
 
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations
@@ -198,7 +198,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CmafPackageCreateOrUpdateParameters: AWSShape {
+    public struct CmafPackageCreateOrUpdateParameters: AWSEncodableShape {
 
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations
@@ -227,7 +227,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CreateChannelRequest: AWSShape {
+    public struct CreateChannelRequest: AWSEncodableShape {
 
         public let description: String?
         public let id: String
@@ -246,7 +246,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CreateChannelResponse: AWSShape {
+    public struct CreateChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let description: String?
@@ -271,7 +271,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CreateHarvestJobRequest: AWSShape {
+    public struct CreateHarvestJobRequest: AWSEncodableShape {
 
         public let endTime: String
         public let id: String
@@ -296,7 +296,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CreateHarvestJobResponse: AWSShape {
+    public struct CreateHarvestJobResponse: AWSDecodableShape {
 
         public let arn: String?
         public let channelId: String?
@@ -333,7 +333,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CreateOriginEndpointRequest: AWSShape {
+    public struct CreateOriginEndpointRequest: AWSEncodableShape {
 
         public let authorization: Authorization?
         public let channelId: String
@@ -385,7 +385,7 @@ extension MediaPackage {
         }
     }
 
-    public struct CreateOriginEndpointResponse: AWSShape {
+    public struct CreateOriginEndpointResponse: AWSDecodableShape {
 
         public let arn: String?
         public let authorization: Authorization?
@@ -443,7 +443,7 @@ extension MediaPackage {
         }
     }
 
-    public struct DashEncryption: AWSShape {
+    public struct DashEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
@@ -460,7 +460,7 @@ extension MediaPackage {
         }
     }
 
-    public struct DashPackage: AWSShape {
+    public struct DashPackage: AWSEncodableShape & AWSDecodableShape {
 
         public let adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions?
         public let adTriggers: [Adtriggerselement]?
@@ -522,7 +522,7 @@ extension MediaPackage {
         }
     }
 
-    public struct DeleteChannelRequest: AWSShape {
+    public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -533,12 +533,10 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteChannelResponse: AWSShape {
+    public struct DeleteChannelResponse: AWSDecodableShape {
 
 
         public init() {
@@ -546,7 +544,7 @@ extension MediaPackage {
 
     }
 
-    public struct DeleteOriginEndpointRequest: AWSShape {
+    public struct DeleteOriginEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -557,12 +555,10 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteOriginEndpointResponse: AWSShape {
+    public struct DeleteOriginEndpointResponse: AWSDecodableShape {
 
 
         public init() {
@@ -570,7 +566,7 @@ extension MediaPackage {
 
     }
 
-    public struct DescribeChannelRequest: AWSShape {
+    public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -581,12 +577,10 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeChannelResponse: AWSShape {
+    public struct DescribeChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let description: String?
@@ -611,7 +605,7 @@ extension MediaPackage {
         }
     }
 
-    public struct DescribeHarvestJobRequest: AWSShape {
+    public struct DescribeHarvestJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -622,12 +616,10 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeHarvestJobResponse: AWSShape {
+    public struct DescribeHarvestJobResponse: AWSDecodableShape {
 
         public let arn: String?
         public let channelId: String?
@@ -664,7 +656,7 @@ extension MediaPackage {
         }
     }
 
-    public struct DescribeOriginEndpointRequest: AWSShape {
+    public struct DescribeOriginEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -675,12 +667,10 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeOriginEndpointResponse: AWSShape {
+    public struct DescribeOriginEndpointResponse: AWSDecodableShape {
 
         public let arn: String?
         public let authorization: Authorization?
@@ -738,7 +728,7 @@ extension MediaPackage {
         }
     }
 
-    public struct HarvestJob: AWSShape {
+    public struct HarvestJob: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
         public let arn: String?
@@ -787,7 +777,7 @@ extension MediaPackage {
         }
     }
 
-    public struct HlsEncryption: AWSShape {
+    public struct HlsEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// A constant initialization vector for encryption (optional).
         /// When not specified the initialization vector will be periodically rotated.
@@ -817,7 +807,7 @@ extension MediaPackage {
         }
     }
 
-    public struct HlsIngest: AWSShape {
+    public struct HlsIngest: AWSDecodableShape {
 
         /// A list of endpoints to which the source stream should be sent.
         public let ingestEndpoints: [IngestEndpoint]?
@@ -831,7 +821,7 @@ extension MediaPackage {
         }
     }
 
-    public struct HlsManifest: AWSShape {
+    public struct HlsManifest: AWSDecodableShape {
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -888,7 +878,7 @@ extension MediaPackage {
         }
     }
 
-    public struct HlsManifestCreateOrUpdateParameters: AWSShape {
+    public struct HlsManifestCreateOrUpdateParameters: AWSEncodableShape {
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -947,7 +937,7 @@ extension MediaPackage {
         }
     }
 
-    public struct HlsPackage: AWSShape {
+    public struct HlsPackage: AWSEncodableShape & AWSDecodableShape {
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -1013,7 +1003,7 @@ extension MediaPackage {
         }
     }
 
-    public struct IngestEndpoint: AWSShape {
+    public struct IngestEndpoint: AWSDecodableShape {
 
         /// The system generated unique identifier for the IngestEndpoint
         public let id: String?
@@ -1039,7 +1029,7 @@ extension MediaPackage {
         }
     }
 
-    public struct ListChannelsRequest: AWSShape {
+    public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -1058,13 +1048,10 @@ extension MediaPackage {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListChannelsResponse: AWSShape {
+    public struct ListChannelsResponse: AWSDecodableShape {
 
         public let channels: [Channel]?
         public let nextToken: String?
@@ -1080,7 +1067,7 @@ extension MediaPackage {
         }
     }
 
-    public struct ListHarvestJobsRequest: AWSShape {
+    public struct ListHarvestJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "includeChannelId", location: .querystring(locationName: "includeChannelId")), 
             AWSMemberEncoding(label: "includeStatus", location: .querystring(locationName: "includeStatus")), 
@@ -1105,15 +1092,10 @@ extension MediaPackage {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case includeChannelId = "includeChannelId"
-            case includeStatus = "includeStatus"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListHarvestJobsResponse: AWSShape {
+    public struct ListHarvestJobsResponse: AWSDecodableShape {
 
         public let harvestJobs: [HarvestJob]?
         public let nextToken: String?
@@ -1129,7 +1111,7 @@ extension MediaPackage {
         }
     }
 
-    public struct ListOriginEndpointsRequest: AWSShape {
+    public struct ListOriginEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelId", location: .querystring(locationName: "channelId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1151,14 +1133,10 @@ extension MediaPackage {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelId = "channelId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListOriginEndpointsResponse: AWSShape {
+    public struct ListOriginEndpointsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let originEndpoints: [OriginEndpoint]?
@@ -1174,7 +1152,7 @@ extension MediaPackage {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -1185,12 +1163,10 @@ extension MediaPackage {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         public let tags: [String: String]?
 
@@ -1203,7 +1179,7 @@ extension MediaPackage {
         }
     }
 
-    public struct MssEncryption: AWSShape {
+    public struct MssEncryption: AWSEncodableShape & AWSDecodableShape {
 
         public let spekeKeyProvider: SpekeKeyProvider
 
@@ -1216,7 +1192,7 @@ extension MediaPackage {
         }
     }
 
-    public struct MssPackage: AWSShape {
+    public struct MssPackage: AWSEncodableShape & AWSDecodableShape {
 
         public let encryption: MssEncryption?
         /// The time window (in seconds) contained in each manifest.
@@ -1240,7 +1216,7 @@ extension MediaPackage {
         }
     }
 
-    public struct OriginEndpoint: AWSShape {
+    public struct OriginEndpoint: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) assigned to the OriginEndpoint.
         public let arn: String?
@@ -1312,7 +1288,7 @@ extension MediaPackage {
         }
     }
 
-    public struct RotateChannelCredentialsRequest: AWSShape {
+    public struct RotateChannelCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -1323,12 +1299,10 @@ extension MediaPackage {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RotateChannelCredentialsResponse: AWSShape {
+    public struct RotateChannelCredentialsResponse: AWSDecodableShape {
 
         public let arn: String?
         public let description: String?
@@ -1353,7 +1327,7 @@ extension MediaPackage {
         }
     }
 
-    public struct RotateIngestEndpointCredentialsRequest: AWSShape {
+    public struct RotateIngestEndpointCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id")), 
             AWSMemberEncoding(label: "ingestEndpointId", location: .uri(locationName: "ingest_endpoint_id"))
@@ -1367,13 +1341,10 @@ extension MediaPackage {
             self.ingestEndpointId = ingestEndpointId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case ingestEndpointId = "ingest_endpoint_id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RotateIngestEndpointCredentialsResponse: AWSShape {
+    public struct RotateIngestEndpointCredentialsResponse: AWSDecodableShape {
 
         public let arn: String?
         public let description: String?
@@ -1398,7 +1369,7 @@ extension MediaPackage {
         }
     }
 
-    public struct S3Destination: AWSShape {
+    public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of an S3 bucket within which harvested content will be exported
         public let bucketName: String
@@ -1420,7 +1391,7 @@ extension MediaPackage {
         }
     }
 
-    public struct SpekeKeyProvider: AWSShape {
+    public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon Resource Name (ARN) of a Certificate Manager certificate
         /// that MediaPackage will use for enforcing secure end-to-end data
@@ -1453,7 +1424,7 @@ extension MediaPackage {
         }
     }
 
-    public struct StreamSelection: AWSShape {
+    public struct StreamSelection: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum video bitrate (bps) to include in output.
         public let maxVideoBitsPerSecond: Int?
@@ -1475,7 +1446,7 @@ extension MediaPackage {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
         ]
@@ -1489,12 +1460,11 @@ extension MediaPackage {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
             case tags = "tags"
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -1508,13 +1478,10 @@ extension MediaPackage {
             self.tagKeys = tagKeys
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resource-arn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateChannelRequest: AWSShape {
+    public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -1529,11 +1496,10 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
-            case id = "id"
         }
     }
 
-    public struct UpdateChannelResponse: AWSShape {
+    public struct UpdateChannelResponse: AWSDecodableShape {
 
         public let arn: String?
         public let description: String?
@@ -1558,7 +1524,7 @@ extension MediaPackage {
         }
     }
 
-    public struct UpdateOriginEndpointRequest: AWSShape {
+    public struct UpdateOriginEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -1597,7 +1563,6 @@ extension MediaPackage {
             case dashPackage = "dashPackage"
             case description = "description"
             case hlsPackage = "hlsPackage"
-            case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
             case origination = "origination"
@@ -1607,7 +1572,7 @@ extension MediaPackage {
         }
     }
 
-    public struct UpdateOriginEndpointResponse: AWSShape {
+    public struct UpdateOriginEndpointResponse: AWSDecodableShape {
 
         public let arn: String?
         public let authorization: Authorization?

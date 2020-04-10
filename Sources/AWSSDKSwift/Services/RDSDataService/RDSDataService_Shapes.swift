@@ -36,7 +36,7 @@ extension RDSDataService {
 
     //MARK: Shapes
 
-    public class ArrayValue: AWSShape {
+    public class ArrayValue: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of arrays.
         public let arrayValues: [ArrayValue]?
@@ -66,7 +66,7 @@ extension RDSDataService {
         }
     }
 
-    public struct BatchExecuteStatementRequest: AWSShape {
+    public struct BatchExecuteStatementRequest: AWSEncodableShape {
 
         /// The name of the database.
         public let database: String?
@@ -119,7 +119,7 @@ extension RDSDataService {
         }
     }
 
-    public struct BatchExecuteStatementResponse: AWSShape {
+    public struct BatchExecuteStatementResponse: AWSDecodableShape {
 
         /// The execution results of each batch entry.
         public let updateResults: [UpdateResult]?
@@ -133,7 +133,7 @@ extension RDSDataService {
         }
     }
 
-    public struct BeginTransactionRequest: AWSShape {
+    public struct BeginTransactionRequest: AWSEncodableShape {
 
         /// The name of the database.
         public let database: String?
@@ -170,7 +170,7 @@ extension RDSDataService {
         }
     }
 
-    public struct BeginTransactionResponse: AWSShape {
+    public struct BeginTransactionResponse: AWSDecodableShape {
 
         /// The transaction ID of the transaction started by the call.
         public let transactionId: String?
@@ -184,7 +184,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ColumnMetadata: AWSShape {
+    public struct ColumnMetadata: AWSDecodableShape {
 
         /// The type of the column.
         public let arrayBaseColumnType: Int?
@@ -250,7 +250,7 @@ extension RDSDataService {
         }
     }
 
-    public struct CommitTransactionRequest: AWSShape {
+    public struct CommitTransactionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -281,7 +281,7 @@ extension RDSDataService {
         }
     }
 
-    public struct CommitTransactionResponse: AWSShape {
+    public struct CommitTransactionResponse: AWSDecodableShape {
 
         /// The status of the commit operation.
         public let transactionStatus: String?
@@ -295,7 +295,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ExecuteSqlRequest: AWSShape {
+    public struct ExecuteSqlRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster.
         public let awsSecretStoreArn: String
@@ -338,7 +338,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ExecuteSqlResponse: AWSShape {
+    public struct ExecuteSqlResponse: AWSDecodableShape {
 
         /// The results of the SQL statement or statements.
         public let sqlStatementResults: [SqlStatementResult]?
@@ -352,7 +352,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ExecuteStatementRequest: AWSShape {
+    public struct ExecuteStatementRequest: AWSEncodableShape {
 
         /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out.  For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures. 
         public let continueAfterTimeout: Bool?
@@ -417,7 +417,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ExecuteStatementResponse: AWSShape {
+    public struct ExecuteStatementResponse: AWSDecodableShape {
 
         /// Metadata for the columns included in the results.
         public let columnMetadata: [ColumnMetadata]?
@@ -443,7 +443,7 @@ extension RDSDataService {
         }
     }
 
-    public struct Field: AWSShape {
+    public struct Field: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of values.
         public let arrayValue: ArrayValue?
@@ -481,7 +481,7 @@ extension RDSDataService {
         }
     }
 
-    public struct Record: AWSShape {
+    public struct Record: AWSDecodableShape {
 
         /// The values returned in the record.
         public let values: [Value]?
@@ -495,7 +495,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ResultFrame: AWSShape {
+    public struct ResultFrame: AWSDecodableShape {
 
         /// The records in the result set.
         public let records: [Record]?
@@ -513,7 +513,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ResultSetMetadata: AWSShape {
+    public struct ResultSetMetadata: AWSDecodableShape {
 
         /// The number of columns in the result set.
         public let columnCount: Int64?
@@ -531,7 +531,7 @@ extension RDSDataService {
         }
     }
 
-    public struct ResultSetOptions: AWSShape {
+    public struct ResultSetOptions: AWSEncodableShape {
 
         /// A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING, the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise.  Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values. 
         public let decimalReturnType: DecimalReturnType?
@@ -545,7 +545,7 @@ extension RDSDataService {
         }
     }
 
-    public struct RollbackTransactionRequest: AWSShape {
+    public struct RollbackTransactionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -576,7 +576,7 @@ extension RDSDataService {
         }
     }
 
-    public struct RollbackTransactionResponse: AWSShape {
+    public struct RollbackTransactionResponse: AWSDecodableShape {
 
         /// The status of the rollback operation.
         public let transactionStatus: String?
@@ -590,7 +590,7 @@ extension RDSDataService {
         }
     }
 
-    public struct SqlParameter: AWSShape {
+    public struct SqlParameter: AWSEncodableShape {
 
         /// The name of the parameter.
         public let name: String?
@@ -612,7 +612,7 @@ extension RDSDataService {
         }
     }
 
-    public struct SqlStatementResult: AWSShape {
+    public struct SqlStatementResult: AWSDecodableShape {
 
         /// The number of records updated by a SQL statement.
         public let numberOfRecordsUpdated: Int64?
@@ -630,7 +630,7 @@ extension RDSDataService {
         }
     }
 
-    public struct StructValue: AWSShape {
+    public struct StructValue: AWSDecodableShape {
 
         /// The attributes returned in the record.
         public let attributes: [Value]?
@@ -644,7 +644,7 @@ extension RDSDataService {
         }
     }
 
-    public struct UpdateResult: AWSShape {
+    public struct UpdateResult: AWSDecodableShape {
 
         /// Values for fields generated during the request.
         public let generatedFields: [Field]?
@@ -658,7 +658,7 @@ extension RDSDataService {
         }
     }
 
-    public class Value: AWSShape {
+    public class Value: AWSDecodableShape {
 
         /// An array of column values.
         public let arrayValues: [Value]?

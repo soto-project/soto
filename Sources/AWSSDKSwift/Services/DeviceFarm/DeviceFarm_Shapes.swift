@@ -327,7 +327,7 @@ extension DeviceFarm {
 
     //MARK: Shapes
 
-    public struct AccountSettings: AWSShape {
+    public struct AccountSettings: AWSDecodableShape {
 
         /// The AWS account number specified in the AccountSettings container.
         public let awsAccountNumber: String?
@@ -369,7 +369,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Artifact: AWSShape {
+    public struct Artifact: AWSDecodableShape {
 
         /// The artifact's ARN.
         public let arn: String?
@@ -399,7 +399,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CPU: AWSShape {
+    public struct CPU: AWSDecodableShape {
 
         /// The CPU's architecture (for example, x86 or ARM).
         public let architecture: String?
@@ -421,7 +421,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Counters: AWSShape {
+    public struct Counters: AWSDecodableShape {
 
         /// The number of errored entities.
         public let errored: Int?
@@ -459,7 +459,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateDevicePoolRequest: AWSShape {
+    public struct CreateDevicePoolRequest: AWSEncodableShape {
 
         /// The device pool's description.
         public let description: String?
@@ -499,7 +499,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateDevicePoolResult: AWSShape {
+    public struct CreateDevicePoolResult: AWSDecodableShape {
 
         /// The newly created device pool.
         public let devicePool: DevicePool?
@@ -513,7 +513,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateInstanceProfileRequest: AWSShape {
+    public struct CreateInstanceProfileRequest: AWSEncodableShape {
 
         /// The description of your instance profile.
         public let description: String?
@@ -550,7 +550,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateInstanceProfileResult: AWSShape {
+    public struct CreateInstanceProfileResult: AWSDecodableShape {
 
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
@@ -564,7 +564,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateNetworkProfileRequest: AWSShape {
+    public struct CreateNetworkProfileRequest: AWSEncodableShape {
 
         /// The description of the network profile.
         public let description: String?
@@ -636,7 +636,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateNetworkProfileResult: AWSShape {
+    public struct CreateNetworkProfileResult: AWSDecodableShape {
 
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
@@ -650,7 +650,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateProjectRequest: AWSShape {
+    public struct CreateProjectRequest: AWSEncodableShape {
 
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
         public let defaultJobTimeoutMinutes: Int?
@@ -673,7 +673,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateProjectResult: AWSShape {
+    public struct CreateProjectResult: AWSDecodableShape {
 
         /// The newly created project.
         public let project: Project?
@@ -687,7 +687,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateRemoteAccessSessionConfiguration: AWSShape {
+    public struct CreateRemoteAccessSessionConfiguration: AWSEncodableShape {
 
         /// The billing method for the remote access session.
         public let billingMethod: BillingMethod?
@@ -713,7 +713,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateRemoteAccessSessionRequest: AWSShape {
+    public struct CreateRemoteAccessSessionRequest: AWSEncodableShape {
 
         /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
         public let clientId: String?
@@ -793,7 +793,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateRemoteAccessSessionResult: AWSShape {
+    public struct CreateRemoteAccessSessionResult: AWSDecodableShape {
 
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
@@ -807,7 +807,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateTestGridProjectRequest: AWSShape {
+    public struct CreateTestGridProjectRequest: AWSEncodableShape {
 
         /// Human-readable description of the project.
         public let description: String?
@@ -834,7 +834,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateTestGridProjectResult: AWSShape {
+    public struct CreateTestGridProjectResult: AWSDecodableShape {
 
         /// ARN of the Selenium testing project that was created.
         public let testGridProject: TestGridProject?
@@ -848,7 +848,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateTestGridUrlRequest: AWSShape {
+    public struct CreateTestGridUrlRequest: AWSEncodableShape {
 
         /// Lifetime, in seconds, of the URL.
         public let expiresInSeconds: Int
@@ -874,7 +874,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateTestGridUrlResult: AWSShape {
+    public struct CreateTestGridUrlResult: AWSDecodableShape {
 
         /// The number of seconds the URL from CreateTestGridUrlResult$url stays active.
         public let expires: TimeStamp?
@@ -892,7 +892,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateUploadRequest: AWSShape {
+    public struct CreateUploadRequest: AWSEncodableShape {
 
         /// The upload's content type (for example, application/octet-stream).
         public let contentType: String?
@@ -928,7 +928,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateUploadResult: AWSShape {
+    public struct CreateUploadResult: AWSDecodableShape {
 
         /// The newly created upload.
         public let upload: Upload?
@@ -942,7 +942,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateVPCEConfigurationRequest: AWSShape {
+    public struct CreateVPCEConfigurationRequest: AWSEncodableShape {
 
         /// The DNS name of the service running in your VPC that you want Device Farm to test.
         public let serviceDnsName: String
@@ -979,7 +979,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CreateVPCEConfigurationResult: AWSShape {
+    public struct CreateVPCEConfigurationResult: AWSDecodableShape {
 
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
@@ -993,7 +993,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct CustomerArtifactPaths: AWSShape {
+    public struct CustomerArtifactPaths: AWSEncodableShape & AWSDecodableShape {
 
         /// Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests are pulled from.
         public let androidPaths: [String]?
@@ -1015,7 +1015,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteDevicePoolRequest: AWSShape {
+    public struct DeleteDevicePoolRequest: AWSEncodableShape {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
         public let arn: String
@@ -1035,7 +1035,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteDevicePoolResult: AWSShape {
+    public struct DeleteDevicePoolResult: AWSDecodableShape {
 
 
         public init() {
@@ -1043,7 +1043,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteInstanceProfileRequest: AWSShape {
+    public struct DeleteInstanceProfileRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
         public let arn: String
@@ -1063,7 +1063,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteInstanceProfileResult: AWSShape {
+    public struct DeleteInstanceProfileResult: AWSDecodableShape {
 
 
         public init() {
@@ -1071,7 +1071,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteNetworkProfileRequest: AWSShape {
+    public struct DeleteNetworkProfileRequest: AWSEncodableShape {
 
         /// The ARN of the network profile to delete.
         public let arn: String
@@ -1091,7 +1091,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteNetworkProfileResult: AWSShape {
+    public struct DeleteNetworkProfileResult: AWSDecodableShape {
 
 
         public init() {
@@ -1099,7 +1099,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteProjectRequest: AWSShape {
+    public struct DeleteProjectRequest: AWSEncodableShape {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
         public let arn: String
@@ -1119,7 +1119,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteProjectResult: AWSShape {
+    public struct DeleteProjectResult: AWSDecodableShape {
 
 
         public init() {
@@ -1127,7 +1127,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteRemoteAccessSessionRequest: AWSShape {
+    public struct DeleteRemoteAccessSessionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
         public let arn: String
@@ -1147,7 +1147,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteRemoteAccessSessionResult: AWSShape {
+    public struct DeleteRemoteAccessSessionResult: AWSDecodableShape {
 
 
         public init() {
@@ -1155,7 +1155,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteRunRequest: AWSShape {
+    public struct DeleteRunRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) for the run to delete.
         public let arn: String
@@ -1175,7 +1175,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteRunResult: AWSShape {
+    public struct DeleteRunResult: AWSDecodableShape {
 
 
         public init() {
@@ -1183,7 +1183,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteTestGridProjectRequest: AWSShape {
+    public struct DeleteTestGridProjectRequest: AWSEncodableShape {
 
         /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
@@ -1203,7 +1203,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteTestGridProjectResult: AWSShape {
+    public struct DeleteTestGridProjectResult: AWSDecodableShape {
 
 
         public init() {
@@ -1211,7 +1211,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteUploadRequest: AWSShape {
+    public struct DeleteUploadRequest: AWSEncodableShape {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
         public let arn: String
@@ -1231,7 +1231,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteUploadResult: AWSShape {
+    public struct DeleteUploadResult: AWSDecodableShape {
 
 
         public init() {
@@ -1239,7 +1239,7 @@ extension DeviceFarm {
 
     }
 
-    public struct DeleteVPCEConfigurationRequest: AWSShape {
+    public struct DeleteVPCEConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
         public let arn: String
@@ -1259,7 +1259,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeleteVPCEConfigurationResult: AWSShape {
+    public struct DeleteVPCEConfigurationResult: AWSDecodableShape {
 
 
         public init() {
@@ -1267,7 +1267,7 @@ extension DeviceFarm {
 
     }
 
-    public struct Device: AWSShape {
+    public struct Device: AWSDecodableShape {
 
         /// The device's ARN.
         public let arn: String?
@@ -1361,7 +1361,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeviceFilter: AWSShape {
+    public struct DeviceFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list.  ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   MODEL  The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.  INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS   
         public let attribute: DeviceFilterAttribute?
@@ -1383,7 +1383,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeviceInstance: AWSShape {
+    public struct DeviceInstance: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String?
@@ -1417,7 +1417,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeviceMinutes: AWSShape {
+    public struct DeviceMinutes: AWSDecodableShape {
 
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
         public let metered: Double?
@@ -1439,7 +1439,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DevicePool: AWSShape {
+    public struct DevicePool: AWSDecodableShape {
 
         /// The device pool's ARN.
         public let arn: String?
@@ -1473,7 +1473,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DevicePoolCompatibilityResult: AWSShape {
+    public struct DevicePoolCompatibilityResult: AWSDecodableShape {
 
         /// Whether the result was compatible with the device pool.
         public let compatible: Bool?
@@ -1495,7 +1495,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeviceSelectionConfiguration: AWSShape {
+    public struct DeviceSelectionConfiguration: AWSEncodableShape {
 
         /// Used to dynamically select a set of devices for a test run. A filter is made up of an attribute, an operator, and one or more values.    Attribute  The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example).   PLATFORM: The device platform. Valid values are ANDROID or IOS.   OS_VERSION: The operating system version (for example, 10.3.2).   MODEL: The device model (for example, iPad 5th Gen).   AVAILABILITY: The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.   MANUFACTURER: The device manufacturer (for example, Apple).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are TRUE or FALSE.   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Because remote debugging is no longer supported, this filter is ignored.   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.      Operator  The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.      Values  An array of one or more filter values.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to ANDROID or IOS.   The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   The FORM_FACTOR attribute can be set to PHONE or TABLET.   The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.    
         public let filters: [DeviceFilter]
@@ -1513,7 +1513,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct DeviceSelectionResult: AWSShape {
+    public struct DeviceSelectionResult: AWSDecodableShape {
 
         /// The filters in a device selection result.
         public let filters: [DeviceFilter]?
@@ -1535,7 +1535,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ExecutionConfiguration: AWSShape {
+    public struct ExecutionConfiguration: AWSEncodableShape {
 
         /// True if account cleanup is enabled at the beginning of the test. Otherwise, false.
         public let accountsCleanup: Bool?
@@ -1565,7 +1565,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSShape {
+    public struct GetAccountSettingsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1573,7 +1573,7 @@ extension DeviceFarm {
 
     }
 
-    public struct GetAccountSettingsResult: AWSShape {
+    public struct GetAccountSettingsResult: AWSDecodableShape {
 
         /// The account settings.
         public let accountSettings: AccountSettings?
@@ -1587,7 +1587,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDeviceInstanceRequest: AWSShape {
+    public struct GetDeviceInstanceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         public let arn: String
@@ -1607,7 +1607,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDeviceInstanceResult: AWSShape {
+    public struct GetDeviceInstanceResult: AWSDecodableShape {
 
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
@@ -1621,7 +1621,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDevicePoolCompatibilityRequest: AWSShape {
+    public struct GetDevicePoolCompatibilityRequest: AWSEncodableShape {
 
         /// The ARN of the app that is associated with the specified device pool.
         public let appArn: String?
@@ -1662,7 +1662,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDevicePoolCompatibilityResult: AWSShape {
+    public struct GetDevicePoolCompatibilityResult: AWSDecodableShape {
 
         /// Information about compatible devices.
         public let compatibleDevices: [DevicePoolCompatibilityResult]?
@@ -1680,7 +1680,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDevicePoolRequest: AWSShape {
+    public struct GetDevicePoolRequest: AWSEncodableShape {
 
         /// The device pool's ARN.
         public let arn: String
@@ -1700,7 +1700,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDevicePoolResult: AWSShape {
+    public struct GetDevicePoolResult: AWSDecodableShape {
 
         /// An object that contains information about the requested device pool.
         public let devicePool: DevicePool?
@@ -1714,7 +1714,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDeviceRequest: AWSShape {
+    public struct GetDeviceRequest: AWSEncodableShape {
 
         /// The device type's ARN.
         public let arn: String
@@ -1734,7 +1734,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetDeviceResult: AWSShape {
+    public struct GetDeviceResult: AWSDecodableShape {
 
         /// An object that contains information about the requested device.
         public let device: Device?
@@ -1748,7 +1748,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetInstanceProfileRequest: AWSShape {
+    public struct GetInstanceProfileRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of an instance profile.
         public let arn: String
@@ -1768,7 +1768,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetInstanceProfileResult: AWSShape {
+    public struct GetInstanceProfileResult: AWSDecodableShape {
 
         /// An object that contains information about an instance profile.
         public let instanceProfile: InstanceProfile?
@@ -1782,7 +1782,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetJobRequest: AWSShape {
+    public struct GetJobRequest: AWSEncodableShape {
 
         /// The job's ARN.
         public let arn: String
@@ -1802,7 +1802,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetJobResult: AWSShape {
+    public struct GetJobResult: AWSDecodableShape {
 
         /// An object that contains information about the requested job.
         public let job: Job?
@@ -1816,7 +1816,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetNetworkProfileRequest: AWSShape {
+    public struct GetNetworkProfileRequest: AWSEncodableShape {
 
         /// The ARN of the network profile to return information about.
         public let arn: String
@@ -1836,7 +1836,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetNetworkProfileResult: AWSShape {
+    public struct GetNetworkProfileResult: AWSDecodableShape {
 
         /// The network profile.
         public let networkProfile: NetworkProfile?
@@ -1850,7 +1850,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetOfferingStatusRequest: AWSShape {
+    public struct GetOfferingStatusRequest: AWSEncodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1869,7 +1869,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetOfferingStatusResult: AWSShape {
+    public struct GetOfferingStatusResult: AWSDecodableShape {
 
         /// When specified, gets the offering status for the current period.
         public let current: [String: OfferingStatus]?
@@ -1891,7 +1891,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetProjectRequest: AWSShape {
+    public struct GetProjectRequest: AWSEncodableShape {
 
         /// The project's ARN.
         public let arn: String
@@ -1911,7 +1911,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetProjectResult: AWSShape {
+    public struct GetProjectResult: AWSDecodableShape {
 
         /// The project to get information about.
         public let project: Project?
@@ -1925,7 +1925,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetRemoteAccessSessionRequest: AWSShape {
+    public struct GetRemoteAccessSessionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
@@ -1945,7 +1945,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetRemoteAccessSessionResult: AWSShape {
+    public struct GetRemoteAccessSessionResult: AWSDecodableShape {
 
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
@@ -1959,7 +1959,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetRunRequest: AWSShape {
+    public struct GetRunRequest: AWSEncodableShape {
 
         /// The run's ARN.
         public let arn: String
@@ -1979,7 +1979,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetRunResult: AWSShape {
+    public struct GetRunResult: AWSDecodableShape {
 
         /// The run to get results from.
         public let run: Run?
@@ -1993,7 +1993,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetSuiteRequest: AWSShape {
+    public struct GetSuiteRequest: AWSEncodableShape {
 
         /// The suite's ARN.
         public let arn: String
@@ -2013,7 +2013,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetSuiteResult: AWSShape {
+    public struct GetSuiteResult: AWSDecodableShape {
 
         /// A collection of one or more tests.
         public let suite: Suite?
@@ -2027,7 +2027,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetTestGridProjectRequest: AWSShape {
+    public struct GetTestGridProjectRequest: AWSEncodableShape {
 
         /// The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
@@ -2047,7 +2047,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetTestGridProjectResult: AWSShape {
+    public struct GetTestGridProjectResult: AWSDecodableShape {
 
         /// A TestGridProject.
         public let testGridProject: TestGridProject?
@@ -2061,7 +2061,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetTestGridSessionRequest: AWSShape {
+    public struct GetTestGridSessionRequest: AWSEncodableShape {
 
         /// The ARN for the project that this session belongs to. See CreateTestGridProject and ListTestGridProjects.
         public let projectArn: String?
@@ -2095,7 +2095,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetTestGridSessionResult: AWSShape {
+    public struct GetTestGridSessionResult: AWSDecodableShape {
 
         /// The TestGridSession that was requested.
         public let testGridSession: TestGridSession?
@@ -2109,7 +2109,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetTestRequest: AWSShape {
+    public struct GetTestRequest: AWSEncodableShape {
 
         /// The test's ARN.
         public let arn: String
@@ -2129,7 +2129,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetTestResult: AWSShape {
+    public struct GetTestResult: AWSDecodableShape {
 
         /// A test condition that is evaluated.
         public let test: Test?
@@ -2143,7 +2143,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetUploadRequest: AWSShape {
+    public struct GetUploadRequest: AWSEncodableShape {
 
         /// The upload's ARN.
         public let arn: String
@@ -2163,7 +2163,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetUploadResult: AWSShape {
+    public struct GetUploadResult: AWSDecodableShape {
 
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
@@ -2177,7 +2177,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetVPCEConfigurationRequest: AWSShape {
+    public struct GetVPCEConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
         public let arn: String
@@ -2197,7 +2197,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetVPCEConfigurationResult: AWSShape {
+    public struct GetVPCEConfigurationResult: AWSDecodableShape {
 
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
@@ -2211,7 +2211,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct IncompatibilityMessage: AWSShape {
+    public struct IncompatibilityMessage: AWSDecodableShape {
 
         /// A message about the incompatibility.
         public let message: String?
@@ -2229,7 +2229,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct InstallToRemoteAccessSessionRequest: AWSShape {
+    public struct InstallToRemoteAccessSessionRequest: AWSEncodableShape {
 
         /// The ARN of the app about which you are requesting information.
         public let appArn: String
@@ -2256,7 +2256,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct InstallToRemoteAccessSessionResult: AWSShape {
+    public struct InstallToRemoteAccessSessionResult: AWSDecodableShape {
 
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
@@ -2270,7 +2270,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct InstanceProfile: AWSShape {
+    public struct InstanceProfile: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -2304,7 +2304,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Job: AWSShape {
+    public struct Job: AWSDecodableShape {
 
         /// The job's ARN.
         public let arn: String?
@@ -2374,7 +2374,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListArtifactsRequest: AWSShape {
+    public struct ListArtifactsRequest: AWSEncodableShape {
 
         /// The run, job, suite, or test ARN.
         public let arn: String
@@ -2404,7 +2404,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListArtifactsResult: AWSShape {
+    public struct ListArtifactsResult: AWSDecodableShape {
 
         /// Information about the artifacts.
         public let artifacts: [Artifact]?
@@ -2422,7 +2422,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListDeviceInstancesRequest: AWSShape {
+    public struct ListDeviceInstancesRequest: AWSEncodableShape {
 
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
@@ -2445,7 +2445,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListDeviceInstancesResult: AWSShape {
+    public struct ListDeviceInstancesResult: AWSDecodableShape {
 
         /// An object that contains information about your device instances.
         public let deviceInstances: [DeviceInstance]?
@@ -2463,7 +2463,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListDevicePoolsRequest: AWSShape {
+    public struct ListDevicePoolsRequest: AWSEncodableShape {
 
         /// The project ARN.
         public let arn: String
@@ -2493,7 +2493,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListDevicePoolsResult: AWSShape {
+    public struct ListDevicePoolsResult: AWSDecodableShape {
 
         /// Information about the device pools.
         public let devicePools: [DevicePool]?
@@ -2511,7 +2511,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListDevicesRequest: AWSShape {
+    public struct ListDevicesRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project.
         public let arn: String?
@@ -2541,7 +2541,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListDevicesResult: AWSShape {
+    public struct ListDevicesResult: AWSDecodableShape {
 
         /// Information about the devices.
         public let devices: [Device]?
@@ -2559,7 +2559,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListInstanceProfilesRequest: AWSShape {
+    public struct ListInstanceProfilesRequest: AWSEncodableShape {
 
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
@@ -2582,7 +2582,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListInstanceProfilesResult: AWSShape {
+    public struct ListInstanceProfilesResult: AWSDecodableShape {
 
         /// An object that contains information about your instance profiles.
         public let instanceProfiles: [InstanceProfile]?
@@ -2600,7 +2600,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
 
         /// The run's Amazon Resource Name (ARN).
         public let arn: String
@@ -2626,7 +2626,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListJobsResult: AWSShape {
+    public struct ListJobsResult: AWSDecodableShape {
 
         /// Information about the jobs.
         public let jobs: [Job]?
@@ -2644,7 +2644,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListNetworkProfilesRequest: AWSShape {
+    public struct ListNetworkProfilesRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
         public let arn: String
@@ -2674,7 +2674,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListNetworkProfilesResult: AWSShape {
+    public struct ListNetworkProfilesResult: AWSDecodableShape {
 
         /// A list of the available network profiles.
         public let networkProfiles: [NetworkProfile]?
@@ -2692,7 +2692,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListOfferingPromotionsRequest: AWSShape {
+    public struct ListOfferingPromotionsRequest: AWSEncodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2711,7 +2711,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListOfferingPromotionsResult: AWSShape {
+    public struct ListOfferingPromotionsResult: AWSDecodableShape {
 
         /// An identifier to be used in the next call to this operation, to return the next set of items in the list.
         public let nextToken: String?
@@ -2729,7 +2729,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListOfferingTransactionsRequest: AWSShape {
+    public struct ListOfferingTransactionsRequest: AWSEncodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2748,7 +2748,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListOfferingTransactionsResult: AWSShape {
+    public struct ListOfferingTransactionsResult: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2766,7 +2766,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListOfferingsRequest: AWSShape {
+    public struct ListOfferingsRequest: AWSEncodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2785,7 +2785,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListOfferingsResult: AWSShape {
+    public struct ListOfferingsResult: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2803,7 +2803,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListProjectsRequest: AWSShape {
+    public struct ListProjectsRequest: AWSEncodableShape {
 
         /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
         public let arn: String?
@@ -2829,7 +2829,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListProjectsResult: AWSShape {
+    public struct ListProjectsResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2847,7 +2847,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListRemoteAccessSessionsRequest: AWSShape {
+    public struct ListRemoteAccessSessionsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project about which you are requesting information.
         public let arn: String
@@ -2873,7 +2873,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListRemoteAccessSessionsResult: AWSShape {
+    public struct ListRemoteAccessSessionsResult: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2891,7 +2891,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListRunsRequest: AWSShape {
+    public struct ListRunsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
         public let arn: String
@@ -2917,7 +2917,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListRunsResult: AWSShape {
+    public struct ListRunsResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2935,7 +2935,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListSamplesRequest: AWSShape {
+    public struct ListSamplesRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the job used to list samples.
         public let arn: String
@@ -2961,7 +2961,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListSamplesResult: AWSShape {
+    public struct ListSamplesResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2979,7 +2979,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListSuitesRequest: AWSShape {
+    public struct ListSuitesRequest: AWSEncodableShape {
 
         /// The job's Amazon Resource Name (ARN).
         public let arn: String
@@ -3005,7 +3005,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListSuitesResult: AWSShape {
+    public struct ListSuitesResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3023,7 +3023,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -3043,7 +3043,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
@@ -3057,7 +3057,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridProjectsRequest: AWSShape {
+    public struct ListTestGridProjectsRequest: AWSEncodableShape {
 
         /// Return no more than this number of results.
         public let maxResult: Int?
@@ -3082,7 +3082,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridProjectsResult: AWSShape {
+    public struct ListTestGridProjectsResult: AWSDecodableShape {
 
         /// Used for pagination. Pass into ListTestGridProjects to get more results in a paginated request.
         public let nextToken: String?
@@ -3100,7 +3100,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridSessionActionsRequest: AWSShape {
+    public struct ListTestGridSessionActionsRequest: AWSEncodableShape {
 
         /// The maximum number of sessions to return per response.
         public let maxResult: Int?
@@ -3132,7 +3132,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridSessionActionsResult: AWSShape {
+    public struct ListTestGridSessionActionsResult: AWSDecodableShape {
 
         /// The action taken by the session.
         public let actions: [TestGridSessionAction]?
@@ -3150,7 +3150,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridSessionArtifactsRequest: AWSShape {
+    public struct ListTestGridSessionArtifactsRequest: AWSEncodableShape {
 
         /// The maximum number of results to be returned by a request.
         public let maxResult: Int?
@@ -3186,7 +3186,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridSessionArtifactsResult: AWSShape {
+    public struct ListTestGridSessionArtifactsResult: AWSDecodableShape {
 
         /// A list of test grid session artifacts for a TestGridSession.
         public let artifacts: [TestGridSessionArtifact]?
@@ -3204,7 +3204,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridSessionsRequest: AWSShape {
+    public struct ListTestGridSessionsRequest: AWSEncodableShape {
 
         /// Return only sessions created after this time.
         public let creationTimeAfter: TimeStamp?
@@ -3256,7 +3256,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestGridSessionsResult: AWSShape {
+    public struct ListTestGridSessionsResult: AWSDecodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -3274,7 +3274,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestsRequest: AWSShape {
+    public struct ListTestsRequest: AWSEncodableShape {
 
         /// The test suite's Amazon Resource Name (ARN).
         public let arn: String
@@ -3300,7 +3300,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListTestsResult: AWSShape {
+    public struct ListTestsResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3318,7 +3318,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListUniqueProblemsRequest: AWSShape {
+    public struct ListUniqueProblemsRequest: AWSEncodableShape {
 
         /// The unique problems' ARNs.
         public let arn: String
@@ -3344,7 +3344,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListUniqueProblemsResult: AWSShape {
+    public struct ListUniqueProblemsResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3362,7 +3362,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListUploadsRequest: AWSShape {
+    public struct ListUploadsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
         public let arn: String
@@ -3392,7 +3392,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListUploadsResult: AWSShape {
+    public struct ListUploadsResult: AWSDecodableShape {
 
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -3410,7 +3410,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListVPCEConfigurationsRequest: AWSShape {
+    public struct ListVPCEConfigurationsRequest: AWSEncodableShape {
 
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
@@ -3433,7 +3433,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ListVPCEConfigurationsResult: AWSShape {
+    public struct ListVPCEConfigurationsResult: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3451,7 +3451,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Location: AWSShape {
+    public struct Location: AWSEncodableShape & AWSDecodableShape {
 
         /// The latitude.
         public let latitude: Double
@@ -3469,7 +3469,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct MonetaryAmount: AWSShape {
+    public struct MonetaryAmount: AWSDecodableShape {
 
         /// The numerical amount of an offering or transaction.
         public let amount: Double?
@@ -3487,7 +3487,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct NetworkProfile: AWSShape {
+    public struct NetworkProfile: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the network profile.
         public let arn: String?
@@ -3545,7 +3545,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Offering: AWSShape {
+    public struct Offering: AWSDecodableShape {
 
         /// A string that describes the offering.
         public let description: String?
@@ -3575,7 +3575,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct OfferingPromotion: AWSShape {
+    public struct OfferingPromotion: AWSDecodableShape {
 
         /// A string that describes the offering promotion.
         public let description: String?
@@ -3593,7 +3593,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct OfferingStatus: AWSShape {
+    public struct OfferingStatus: AWSDecodableShape {
 
         /// The date on which the offering is effective.
         public let effectiveOn: TimeStamp?
@@ -3619,7 +3619,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct OfferingTransaction: AWSShape {
+    public struct OfferingTransaction: AWSDecodableShape {
 
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
@@ -3649,7 +3649,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Problem: AWSShape {
+    public struct Problem: AWSDecodableShape {
 
         /// Information about the associated device.
         public let device: Device?
@@ -3687,7 +3687,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ProblemDetail: AWSShape {
+    public struct ProblemDetail: AWSDecodableShape {
 
         /// The problem detail's ARN.
         public let arn: String?
@@ -3705,7 +3705,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Project: AWSShape {
+    public struct Project: AWSDecodableShape {
 
         /// The project's ARN.
         public let arn: String?
@@ -3731,7 +3731,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct PurchaseOfferingRequest: AWSShape {
+    public struct PurchaseOfferingRequest: AWSEncodableShape {
 
         /// The ID of the offering.
         public let offeringId: String?
@@ -3758,7 +3758,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct PurchaseOfferingResult: AWSShape {
+    public struct PurchaseOfferingResult: AWSDecodableShape {
 
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
@@ -3772,7 +3772,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Radios: AWSShape {
+    public struct Radios: AWSEncodableShape & AWSDecodableShape {
 
         /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
         public let bluetooth: Bool?
@@ -3798,7 +3798,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct RecurringCharge: AWSShape {
+    public struct RecurringCharge: AWSDecodableShape {
 
         /// The cost of the recurring charge.
         public let cost: MonetaryAmount?
@@ -3816,7 +3816,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct RemoteAccessSession: AWSShape {
+    public struct RemoteAccessSession: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
@@ -3910,7 +3910,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct RenewOfferingRequest: AWSShape {
+    public struct RenewOfferingRequest: AWSEncodableShape {
 
         /// The ID of a request to renew an offering.
         public let offeringId: String?
@@ -3932,7 +3932,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct RenewOfferingResult: AWSShape {
+    public struct RenewOfferingResult: AWSDecodableShape {
 
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
@@ -3946,7 +3946,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Resolution: AWSShape {
+    public struct Resolution: AWSDecodableShape {
 
         /// The screen resolution's height, expressed in pixels.
         public let height: Int?
@@ -3964,7 +3964,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Rule: AWSShape {
+    public struct Rule: AWSEncodableShape & AWSDecodableShape {
 
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list.  APPIUM_VERSION  The Appium version for the test. Supported operators: CONTAINS   ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example. Supported operators: EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   MODEL  The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS, EQUALS, IN, NOT_IN   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.  
         public let attribute: DeviceAttribute?
@@ -3986,7 +3986,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Run: AWSShape {
+    public struct Run: AWSDecodableShape {
 
         /// An app to upload or that has been uploaded.
         public let appUpload: String?
@@ -4120,7 +4120,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Sample: AWSShape {
+    public struct Sample: AWSDecodableShape {
 
         /// The sample's ARN.
         public let arn: String?
@@ -4142,7 +4142,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ScheduleRunConfiguration: AWSShape {
+    public struct ScheduleRunConfiguration: AWSEncodableShape {
 
         /// A list of upload ARNs for app packages to be installed with your app.
         public let auxiliaryApps: [String]?
@@ -4207,7 +4207,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ScheduleRunRequest: AWSShape {
+    public struct ScheduleRunRequest: AWSEncodableShape {
 
         /// The ARN of an application package to run tests against, created with CreateUpload. See ListUploads.
         public let appArn: String?
@@ -4265,7 +4265,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ScheduleRunResult: AWSShape {
+    public struct ScheduleRunResult: AWSDecodableShape {
 
         /// Information about the scheduled run.
         public let run: Run?
@@ -4279,7 +4279,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct ScheduleRunTest: AWSShape {
+    public struct ScheduleRunTest: AWSEncodableShape {
 
         /// The test's filter.
         public let filter: String?
@@ -4320,7 +4320,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct StopJobRequest: AWSShape {
+    public struct StopJobRequest: AWSEncodableShape {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
         public let arn: String
@@ -4340,7 +4340,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct StopJobResult: AWSShape {
+    public struct StopJobResult: AWSDecodableShape {
 
         /// The job that was stopped.
         public let job: Job?
@@ -4354,7 +4354,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct StopRemoteAccessSessionRequest: AWSShape {
+    public struct StopRemoteAccessSessionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the remote access session to stop.
         public let arn: String
@@ -4374,7 +4374,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct StopRemoteAccessSessionResult: AWSShape {
+    public struct StopRemoteAccessSessionResult: AWSDecodableShape {
 
         /// A container that represents the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
@@ -4388,7 +4388,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct StopRunRequest: AWSShape {
+    public struct StopRunRequest: AWSEncodableShape {
 
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
         public let arn: String
@@ -4408,7 +4408,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct StopRunResult: AWSShape {
+    public struct StopRunResult: AWSDecodableShape {
 
         /// The run that was stopped.
         public let run: Run?
@@ -4422,7 +4422,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Suite: AWSShape {
+    public struct Suite: AWSDecodableShape {
 
         /// The suite's ARN.
         public let arn: String?
@@ -4476,7 +4476,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
@@ -4501,7 +4501,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -4529,7 +4529,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4537,7 +4537,7 @@ extension DeviceFarm {
 
     }
 
-    public struct Test: AWSShape {
+    public struct Test: AWSDecodableShape {
 
         /// The test's ARN.
         public let arn: String?
@@ -4591,7 +4591,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TestGridProject: AWSShape {
+    public struct TestGridProject: AWSDecodableShape {
 
         /// The ARN for the project.
         public let arn: String?
@@ -4617,7 +4617,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TestGridSession: AWSShape {
+    public struct TestGridSession: AWSDecodableShape {
 
         /// The ARN of the session.
         public let arn: String?
@@ -4651,7 +4651,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TestGridSessionAction: AWSShape {
+    public struct TestGridSessionAction: AWSDecodableShape {
 
         /// The action taken by the session.
         public let action: String?
@@ -4681,7 +4681,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TestGridSessionArtifact: AWSShape {
+    public struct TestGridSessionArtifact: AWSDecodableShape {
 
         /// The file name of the artifact.
         public let filename: String?
@@ -4703,7 +4703,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct TrialMinutes: AWSShape {
+    public struct TrialMinutes: AWSDecodableShape {
 
         /// The number of free trial minutes remaining in the account.
         public let remaining: Double?
@@ -4721,7 +4721,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UniqueProblem: AWSShape {
+    public struct UniqueProblem: AWSDecodableShape {
 
         /// A message about the unique problems' result.
         public let message: String?
@@ -4739,7 +4739,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -4768,7 +4768,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4776,7 +4776,7 @@ extension DeviceFarm {
 
     }
 
-    public struct UpdateDeviceInstanceRequest: AWSShape {
+    public struct UpdateDeviceInstanceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String
@@ -4807,7 +4807,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateDeviceInstanceResult: AWSShape {
+    public struct UpdateDeviceInstanceResult: AWSDecodableShape {
 
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
@@ -4821,7 +4821,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateDevicePoolRequest: AWSShape {
+    public struct UpdateDevicePoolRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Device Farm device pool to update.
         public let arn: String
@@ -4865,7 +4865,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateDevicePoolResult: AWSShape {
+    public struct UpdateDevicePoolResult: AWSDecodableShape {
 
         /// The device pool you just updated.
         public let devicePool: DevicePool?
@@ -4879,7 +4879,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateInstanceProfileRequest: AWSShape {
+    public struct UpdateInstanceProfileRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String
@@ -4923,7 +4923,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateInstanceProfileResult: AWSShape {
+    public struct UpdateInstanceProfileResult: AWSDecodableShape {
 
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
@@ -4937,7 +4937,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateNetworkProfileRequest: AWSShape {
+    public struct UpdateNetworkProfileRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
         public let arn: String
@@ -5009,7 +5009,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateNetworkProfileResult: AWSShape {
+    public struct UpdateNetworkProfileResult: AWSDecodableShape {
 
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
@@ -5023,7 +5023,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateProjectRequest: AWSShape {
+    public struct UpdateProjectRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the project whose name to update.
         public let arn: String
@@ -5053,7 +5053,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateProjectResult: AWSShape {
+    public struct UpdateProjectResult: AWSDecodableShape {
 
         /// The project to update.
         public let project: Project?
@@ -5067,7 +5067,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateTestGridProjectRequest: AWSShape {
+    public struct UpdateTestGridProjectRequest: AWSEncodableShape {
 
         /// Human-readable description for the project.
         public let description: String?
@@ -5101,7 +5101,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateTestGridProjectResult: AWSShape {
+    public struct UpdateTestGridProjectResult: AWSDecodableShape {
 
         /// The project, including updated information.
         public let testGridProject: TestGridProject?
@@ -5115,7 +5115,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateUploadRequest: AWSShape {
+    public struct UpdateUploadRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the uploaded test spec.
         public let arn: String
@@ -5151,7 +5151,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateUploadResult: AWSShape {
+    public struct UpdateUploadResult: AWSDecodableShape {
 
         /// A test spec uploaded to Device Farm.
         public let upload: Upload?
@@ -5165,7 +5165,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateVPCEConfigurationRequest: AWSShape {
+    public struct UpdateVPCEConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update.
         public let arn: String
@@ -5209,7 +5209,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct UpdateVPCEConfigurationResult: AWSShape {
+    public struct UpdateVPCEConfigurationResult: AWSDecodableShape {
 
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
@@ -5223,7 +5223,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct Upload: AWSShape {
+    public struct Upload: AWSDecodableShape {
 
         /// The upload's ARN.
         public let arn: String?
@@ -5273,7 +5273,7 @@ extension DeviceFarm {
         }
     }
 
-    public struct VPCEConfiguration: AWSShape {
+    public struct VPCEConfiguration: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
         public let arn: String?

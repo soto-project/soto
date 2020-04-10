@@ -51,7 +51,7 @@ extension Transfer {
 
     //MARK: Shapes
 
-    public struct CreateServerRequest: AWSShape {
+    public struct CreateServerRequest: AWSEncodableShape {
 
         /// The virtual private cloud (VPC) endpoint settings that are configured for your SFTP server. With a VPC endpoint, you can restrict access to your SFTP server to resources only within your VPC. To control incoming internet traffic, you will need to invoke the UpdateServer API and attach an Elastic IP to your server's endpoint. 
         public let endpointDetails: EndpointDetails?
@@ -103,7 +103,7 @@ extension Transfer {
         }
     }
 
-    public struct CreateServerResponse: AWSShape {
+    public struct CreateServerResponse: AWSDecodableShape {
 
         /// The service-assigned ID of the SFTP server that is created.
         public let serverId: String
@@ -117,7 +117,7 @@ extension Transfer {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
 
         /// The landing directory (folder) for a user when they log in to the server using their SFTP client.  An example is &lt;your-Amazon-S3-bucket-name&gt;/home/username.
         public let homeDirectory: String?
@@ -190,7 +190,7 @@ extension Transfer {
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
         /// The ID of the SFTP server that the user is attached to.
         public let serverId: String
@@ -208,7 +208,7 @@ extension Transfer {
         }
     }
 
-    public struct DeleteServerRequest: AWSShape {
+    public struct DeleteServerRequest: AWSEncodableShape {
 
         /// A unique system-assigned identifier for an SFTP server instance.
         public let serverId: String
@@ -228,7 +228,7 @@ extension Transfer {
         }
     }
 
-    public struct DeleteSshPublicKeyRequest: AWSShape {
+    public struct DeleteSshPublicKeyRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server instance that has the user assigned to it.
         public let serverId: String
@@ -262,7 +262,7 @@ extension Transfer {
         }
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for an SFTP server instance that has the user assigned to it.
         public let serverId: String
@@ -289,7 +289,7 @@ extension Transfer {
         }
     }
 
-    public struct DescribeServerRequest: AWSShape {
+    public struct DescribeServerRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
@@ -309,7 +309,7 @@ extension Transfer {
         }
     }
 
-    public struct DescribeServerResponse: AWSShape {
+    public struct DescribeServerResponse: AWSDecodableShape {
 
         /// An array containing the properties of the server with the ServerID you specified.
         public let server: DescribedServer
@@ -323,7 +323,7 @@ extension Transfer {
         }
     }
 
-    public struct DescribeUserRequest: AWSShape {
+    public struct DescribeUserRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for an SFTP server that has this user assigned.
         public let serverId: String
@@ -350,7 +350,7 @@ extension Transfer {
         }
     }
 
-    public struct DescribeUserResponse: AWSShape {
+    public struct DescribeUserResponse: AWSDecodableShape {
 
         /// A system-assigned unique identifier for an SFTP server that has this user assigned.
         public let serverId: String
@@ -368,7 +368,7 @@ extension Transfer {
         }
     }
 
-    public struct DescribedServer: AWSShape {
+    public struct DescribedServer: AWSDecodableShape {
 
         /// Specifies the unique Amazon Resource Name (ARN) for the server to be described.
         public let arn: String
@@ -422,7 +422,7 @@ extension Transfer {
         }
     }
 
-    public struct DescribedUser: AWSShape {
+    public struct DescribedUser: AWSDecodableShape {
 
         /// This property contains the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         public let arn: String
@@ -468,7 +468,7 @@ extension Transfer {
         }
     }
 
-    public struct EndpointDetails: AWSShape {
+    public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your SFTP server's endpoint. This is only valid in the UpdateServer API.  This property can only be use when EndpointType is set to VPC. 
         public let addressAllocationIds: [String]?
@@ -500,7 +500,7 @@ extension Transfer {
         }
     }
 
-    public struct HomeDirectoryMapEntry: AWSShape {
+    public struct HomeDirectoryMapEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// Represents an entry and a target for HomeDirectoryMappings.
         public let entry: String
@@ -525,7 +525,7 @@ extension Transfer {
         }
     }
 
-    public struct IdentityProviderDetails: AWSShape {
+    public struct IdentityProviderDetails: AWSEncodableShape & AWSDecodableShape {
 
         /// The InvocationRole parameter provides the type of InvocationRole used to authenticate the user account.
         public let invocationRole: String?
@@ -550,7 +550,7 @@ extension Transfer {
         }
     }
 
-    public struct ImportSshPublicKeyRequest: AWSShape {
+    public struct ImportSshPublicKeyRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
@@ -583,7 +583,7 @@ extension Transfer {
         }
     }
 
-    public struct ImportSshPublicKeyResponse: AWSShape {
+    public struct ImportSshPublicKeyResponse: AWSDecodableShape {
 
         /// A system-assigned unique identifier for an SFTP server.
         public let serverId: String
@@ -605,7 +605,7 @@ extension Transfer {
         }
     }
 
-    public struct ListServersRequest: AWSShape {
+    public struct ListServersRequest: AWSEncodableShape {
 
         /// Specifies the number of servers to return as a response to the ListServers query.
         public let maxResults: Int?
@@ -630,7 +630,7 @@ extension Transfer {
         }
     }
 
-    public struct ListServersResponse: AWSShape {
+    public struct ListServersResponse: AWSDecodableShape {
 
         /// When you can get additional results from the ListServers operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing additional servers.
         public let nextToken: String?
@@ -648,7 +648,7 @@ extension Transfer {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
@@ -680,7 +680,7 @@ extension Transfer {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// This value is the ARN you specified to list the tags of.
         public let arn: String?
@@ -702,7 +702,7 @@ extension Transfer {
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListUsersRequest: AWSEncodableShape {
 
         /// Specifies the number of users to return as a response to the ListUsers request.
         public let maxResults: Int?
@@ -734,7 +734,7 @@ extension Transfer {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListUsersResponse: AWSDecodableShape {
 
         /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
         public let nextToken: String?
@@ -756,7 +756,7 @@ extension Transfer {
         }
     }
 
-    public struct ListedServer: AWSShape {
+    public struct ListedServer: AWSDecodableShape {
 
         /// The unique Amazon Resource Name (ARN) for the server to be listed.
         public let arn: String
@@ -794,7 +794,7 @@ extension Transfer {
         }
     }
 
-    public struct ListedUser: AWSShape {
+    public struct ListedUser: AWSDecodableShape {
 
         /// This property is the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         public let arn: String
@@ -828,7 +828,7 @@ extension Transfer {
         }
     }
 
-    public struct SshPublicKey: AWSShape {
+    public struct SshPublicKey: AWSDecodableShape {
 
         /// The date that the public key was added to the user account.
         public let dateImported: TimeStamp
@@ -850,7 +850,7 @@ extension Transfer {
         }
     }
 
-    public struct StartServerRequest: AWSShape {
+    public struct StartServerRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for an SFTP server that you start.
         public let serverId: String
@@ -870,7 +870,7 @@ extension Transfer {
         }
     }
 
-    public struct StopServerRequest: AWSShape {
+    public struct StopServerRequest: AWSEncodableShape {
 
         /// A system-assigned unique identifier for an SFTP server that you stopped.
         public let serverId: String
@@ -890,7 +890,7 @@ extension Transfer {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The name assigned to the tag that you create.
         public let key: String
@@ -913,7 +913,7 @@ extension Transfer {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server, user, or role.
         public let arn: String
@@ -942,7 +942,7 @@ extension Transfer {
         }
     }
 
-    public struct TestIdentityProviderRequest: AWSShape {
+    public struct TestIdentityProviderRequest: AWSEncodableShape {
 
         /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
         public let serverId: String
@@ -974,7 +974,7 @@ extension Transfer {
         }
     }
 
-    public struct TestIdentityProviderResponse: AWSShape {
+    public struct TestIdentityProviderResponse: AWSDecodableShape {
 
         /// A message that indicates whether the test was successful or not. 
         public let message: String?
@@ -1000,7 +1000,7 @@ extension Transfer {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// This is the value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
@@ -1029,7 +1029,7 @@ extension Transfer {
         }
     }
 
-    public struct UpdateServerRequest: AWSShape {
+    public struct UpdateServerRequest: AWSEncodableShape {
 
         /// The virtual private cloud (VPC) endpoint settings that are configured for your SFTP server. With a VPC endpoint, you can restrict access to your SFTP server to resources only within your VPC. To control incoming internet traffic, you will need to associate one or more Elastic IP addresses with your server's endpoint. 
         public let endpointDetails: EndpointDetails?
@@ -1074,7 +1074,7 @@ extension Transfer {
         }
     }
 
-    public struct UpdateServerResponse: AWSShape {
+    public struct UpdateServerResponse: AWSDecodableShape {
 
         /// A system-assigned unique identifier for an SFTP server that the user account is assigned to.
         public let serverId: String
@@ -1088,7 +1088,7 @@ extension Transfer {
         }
     }
 
-    public struct UpdateUserRequest: AWSShape {
+    public struct UpdateUserRequest: AWSEncodableShape {
 
         /// A parameter that specifies the landing directory (folder) for a user when they log in to the server using their client.  An example is &lt;your-Amazon-S3-bucket-name&gt;/home/username.
         public let homeDirectory: String?
@@ -1146,7 +1146,7 @@ extension Transfer {
         }
     }
 
-    public struct UpdateUserResponse: AWSShape {
+    public struct UpdateUserResponse: AWSDecodableShape {
 
         /// A system-assigned unique identifier for an SFTP server instance that the user account is assigned to.
         public let serverId: String

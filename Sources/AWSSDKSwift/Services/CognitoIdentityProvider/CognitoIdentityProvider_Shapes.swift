@@ -270,7 +270,7 @@ extension CognitoIdentityProvider {
 
     //MARK: Shapes
 
-    public struct AccountRecoverySettingType: AWSShape {
+    public struct AccountRecoverySettingType: AWSEncodableShape & AWSDecodableShape {
 
         /// The list of RecoveryOptionTypes.
         public let recoveryMechanisms: [RecoveryOptionType]?
@@ -292,7 +292,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AccountTakeoverActionType: AWSShape {
+    public struct AccountTakeoverActionType: AWSEncodableShape & AWSDecodableShape {
 
         /// The event action.    BLOCK Choosing this action will block the request.    MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.    MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.    NO_ACTION Allow the user sign-in.  
         public let eventAction: AccountTakeoverEventActionType
@@ -310,7 +310,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AccountTakeoverActionsType: AWSShape {
+    public struct AccountTakeoverActionsType: AWSEncodableShape & AWSDecodableShape {
 
         /// Action to take for a high risk.
         public let highAction: AccountTakeoverActionType?
@@ -332,7 +332,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AccountTakeoverRiskConfigurationType: AWSShape {
+    public struct AccountTakeoverRiskConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// Account takeover risk configuration actions
         public let actions: AccountTakeoverActionsType
@@ -354,7 +354,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AddCustomAttributesRequest: AWSShape {
+    public struct AddCustomAttributesRequest: AWSEncodableShape {
 
         /// An array of custom attributes, such as Mutable and Name.
         public let customAttributes: [SchemaAttributeType]
@@ -383,7 +383,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AddCustomAttributesResponse: AWSShape {
+    public struct AddCustomAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -391,7 +391,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminAddUserToGroupRequest: AWSShape {
+    public struct AdminAddUserToGroupRequest: AWSEncodableShape {
 
         /// The group name.
         public let groupName: String
@@ -425,7 +425,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminConfirmSignUpRequest: AWSShape {
+    public struct AdminConfirmSignUpRequest: AWSEncodableShape {
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the AWS Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in AWS Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -456,7 +456,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminConfirmSignUpResponse: AWSShape {
+    public struct AdminConfirmSignUpResponse: AWSDecodableShape {
 
 
         public init() {
@@ -464,7 +464,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminCreateUserConfigType: AWSShape {
+    public struct AdminCreateUserConfigType: AWSEncodableShape & AWSDecodableShape {
 
         /// Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
         public let allowAdminCreateUserOnly: Bool?
@@ -492,7 +492,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminCreateUserRequest: AWSShape {
+    public struct AdminCreateUserRequest: AWSEncodableShape {
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -556,7 +556,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminCreateUserResponse: AWSShape {
+    public struct AdminCreateUserResponse: AWSDecodableShape {
 
         /// The newly created user.
         public let user: UserType?
@@ -570,7 +570,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminDeleteUserAttributesRequest: AWSShape {
+    public struct AdminDeleteUserAttributesRequest: AWSEncodableShape {
 
         /// An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
         public let userAttributeNames: [String]
@@ -606,7 +606,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminDeleteUserAttributesResponse: AWSShape {
+    public struct AdminDeleteUserAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -614,7 +614,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminDeleteUserRequest: AWSShape {
+    public struct AdminDeleteUserRequest: AWSEncodableShape {
 
         /// The user name of the user you wish to delete.
         public let username: String
@@ -641,7 +641,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminDisableProviderForUserRequest: AWSShape {
+    public struct AdminDisableProviderForUserRequest: AWSEncodableShape {
 
         /// The user to be disabled.
         public let user: ProviderUserIdentifierType
@@ -663,7 +663,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminDisableProviderForUserResponse: AWSShape {
+    public struct AdminDisableProviderForUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -671,7 +671,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminDisableUserRequest: AWSShape {
+    public struct AdminDisableUserRequest: AWSEncodableShape {
 
         /// The user name of the user you wish to disable.
         public let username: String
@@ -698,7 +698,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminDisableUserResponse: AWSShape {
+    public struct AdminDisableUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -706,7 +706,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminEnableUserRequest: AWSShape {
+    public struct AdminEnableUserRequest: AWSEncodableShape {
 
         /// The user name of the user you wish to enable.
         public let username: String
@@ -733,7 +733,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminEnableUserResponse: AWSShape {
+    public struct AdminEnableUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -741,7 +741,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminForgetDeviceRequest: AWSShape {
+    public struct AdminForgetDeviceRequest: AWSEncodableShape {
 
         /// The device key.
         public let deviceKey: String
@@ -775,7 +775,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminGetDeviceRequest: AWSShape {
+    public struct AdminGetDeviceRequest: AWSEncodableShape {
 
         /// The device key.
         public let deviceKey: String
@@ -809,7 +809,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminGetDeviceResponse: AWSShape {
+    public struct AdminGetDeviceResponse: AWSDecodableShape {
 
         /// The device.
         public let device: DeviceType
@@ -823,7 +823,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminGetUserRequest: AWSShape {
+    public struct AdminGetUserRequest: AWSEncodableShape {
 
         /// The user name of the user you wish to retrieve.
         public let username: String
@@ -850,7 +850,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminGetUserResponse: AWSShape {
+    public struct AdminGetUserResponse: AWSDecodableShape {
 
         /// Indicates that the status is enabled.
         public let enabled: Bool?
@@ -896,7 +896,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminInitiateAuthRequest: AWSShape {
+    public struct AdminInitiateAuthRequest: AWSEncodableShape {
 
         /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -943,7 +943,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminInitiateAuthResponse: AWSShape {
+    public struct AdminInitiateAuthResponse: AWSDecodableShape {
 
         /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
         public let authenticationResult: AuthenticationResultType?
@@ -969,7 +969,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminLinkProviderForUserRequest: AWSShape {
+    public struct AdminLinkProviderForUserRequest: AWSEncodableShape {
 
         /// The existing user in the user pool to be linked to the external identity provider user account. Can be a native (Username + Password) Cognito User Pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, an exception is thrown. This is the user that is returned when the new user (with the linked identity provider attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
         public let destinationUser: ProviderUserIdentifierType
@@ -996,7 +996,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminLinkProviderForUserResponse: AWSShape {
+    public struct AdminLinkProviderForUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1004,7 +1004,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminListDevicesRequest: AWSShape {
+    public struct AdminListDevicesRequest: AWSEncodableShape {
 
         /// The limit of the devices request.
         public let limit: Int?
@@ -1043,7 +1043,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminListDevicesResponse: AWSShape {
+    public struct AdminListDevicesResponse: AWSDecodableShape {
 
         /// The devices in the list of devices response.
         public let devices: [DeviceType]?
@@ -1061,7 +1061,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminListGroupsForUserRequest: AWSShape {
+    public struct AdminListGroupsForUserRequest: AWSEncodableShape {
 
         /// The limit of the request to list groups.
         public let limit: Int?
@@ -1100,7 +1100,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminListGroupsForUserResponse: AWSShape {
+    public struct AdminListGroupsForUserResponse: AWSDecodableShape {
 
         /// The groups that the user belongs to.
         public let groups: [GroupType]?
@@ -1118,7 +1118,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminListUserAuthEventsRequest: AWSShape {
+    public struct AdminListUserAuthEventsRequest: AWSEncodableShape {
 
         /// The maximum number of authentication events to return.
         public let maxResults: Int?
@@ -1157,7 +1157,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminListUserAuthEventsResponse: AWSShape {
+    public struct AdminListUserAuthEventsResponse: AWSDecodableShape {
 
         /// The response object. It includes the EventID, EventType, CreationDate, EventRisk, and EventResponse.
         public let authEvents: [AuthEventType]?
@@ -1175,7 +1175,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminRemoveUserFromGroupRequest: AWSShape {
+    public struct AdminRemoveUserFromGroupRequest: AWSEncodableShape {
 
         /// The group name.
         public let groupName: String
@@ -1209,7 +1209,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminResetUserPasswordRequest: AWSShape {
+    public struct AdminResetUserPasswordRequest: AWSEncodableShape {
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -1240,7 +1240,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminResetUserPasswordResponse: AWSShape {
+    public struct AdminResetUserPasswordResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1248,7 +1248,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminRespondToAuthChallengeRequest: AWSShape {
+    public struct AdminRespondToAuthChallengeRequest: AWSEncodableShape {
 
         /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -1301,7 +1301,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminRespondToAuthChallengeResponse: AWSShape {
+    public struct AdminRespondToAuthChallengeResponse: AWSDecodableShape {
 
         /// The result returned by the server in response to the authentication request.
         public let authenticationResult: AuthenticationResultType?
@@ -1327,7 +1327,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminSetUserMFAPreferenceRequest: AWSShape {
+    public struct AdminSetUserMFAPreferenceRequest: AWSEncodableShape {
 
         /// The SMS text message MFA settings.
         public let sMSMfaSettings: SMSMfaSettingsType?
@@ -1362,7 +1362,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminSetUserMFAPreferenceResponse: AWSShape {
+    public struct AdminSetUserMFAPreferenceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1370,7 +1370,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminSetUserPasswordRequest: AWSShape {
+    public struct AdminSetUserPasswordRequest: AWSEncodableShape {
 
         /// The password for the user.
         public let password: String
@@ -1408,7 +1408,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminSetUserPasswordResponse: AWSShape {
+    public struct AdminSetUserPasswordResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1416,7 +1416,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminSetUserSettingsRequest: AWSShape {
+    public struct AdminSetUserSettingsRequest: AWSEncodableShape {
 
         /// You can use this parameter only to set an SMS configuration that uses SMS for delivery.
         public let mFAOptions: [MFAOptionType]
@@ -1450,7 +1450,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminSetUserSettingsResponse: AWSShape {
+    public struct AdminSetUserSettingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1458,7 +1458,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminUpdateAuthEventFeedbackRequest: AWSShape {
+    public struct AdminUpdateAuthEventFeedbackRequest: AWSEncodableShape {
 
         /// The authentication event ID.
         public let eventId: String
@@ -1496,7 +1496,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminUpdateAuthEventFeedbackResponse: AWSShape {
+    public struct AdminUpdateAuthEventFeedbackResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1504,7 +1504,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminUpdateDeviceStatusRequest: AWSShape {
+    public struct AdminUpdateDeviceStatusRequest: AWSEncodableShape {
 
         /// The device key.
         public let deviceKey: String
@@ -1542,7 +1542,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminUpdateDeviceStatusResponse: AWSShape {
+    public struct AdminUpdateDeviceStatusResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1550,7 +1550,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminUpdateUserAttributesRequest: AWSShape {
+    public struct AdminUpdateUserAttributesRequest: AWSEncodableShape {
 
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
         public let clientMetadata: [String: String]?
@@ -1588,7 +1588,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminUpdateUserAttributesResponse: AWSShape {
+    public struct AdminUpdateUserAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1596,7 +1596,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AdminUserGlobalSignOutRequest: AWSShape {
+    public struct AdminUserGlobalSignOutRequest: AWSEncodableShape {
 
         /// The user name.
         public let username: String
@@ -1623,7 +1623,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminUserGlobalSignOutResponse: AWSShape {
+    public struct AdminUserGlobalSignOutResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1631,7 +1631,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct AnalyticsConfigurationType: AWSShape {
+    public struct AnalyticsConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// The application ID for an Amazon Pinpoint application.
         public let applicationId: String
@@ -1664,7 +1664,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AnalyticsMetadataType: AWSShape {
+    public struct AnalyticsMetadataType: AWSEncodableShape {
 
         /// The endpoint ID.
         public let analyticsEndpointId: String?
@@ -1678,7 +1678,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AssociateSoftwareTokenRequest: AWSShape {
+    public struct AssociateSoftwareTokenRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String?
@@ -1702,7 +1702,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AssociateSoftwareTokenResponse: AWSShape {
+    public struct AssociateSoftwareTokenResponse: AWSDecodableShape {
 
         /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one time code.
         public let secretCode: String?
@@ -1720,7 +1720,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AttributeType: AWSShape {
+    public struct AttributeType: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the attribute.
         public let name: String
@@ -1745,7 +1745,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AuthEventType: AWSShape {
+    public struct AuthEventType: AWSDecodableShape {
 
         /// The challenge responses.
         public let challengeResponses: [ChallengeResponseType]?
@@ -1787,7 +1787,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AuthenticationResultType: AWSShape {
+    public struct AuthenticationResultType: AWSDecodableShape {
 
         /// The access token.
         public let accessToken: String?
@@ -1821,7 +1821,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ChallengeResponseType: AWSShape {
+    public struct ChallengeResponseType: AWSDecodableShape {
 
         /// The challenge name
         public let challengeName: ChallengeName?
@@ -1839,7 +1839,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ChangePasswordRequest: AWSShape {
+    public struct ChangePasswordRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String
@@ -1871,7 +1871,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ChangePasswordResponse: AWSShape {
+    public struct ChangePasswordResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1879,7 +1879,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct CodeDeliveryDetailsType: AWSShape {
+    public struct CodeDeliveryDetailsType: AWSDecodableShape {
 
         /// The attribute name.
         public let attributeName: String?
@@ -1901,7 +1901,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CompromisedCredentialsActionsType: AWSShape {
+    public struct CompromisedCredentialsActionsType: AWSEncodableShape & AWSDecodableShape {
 
         /// The event action.
         public let eventAction: CompromisedCredentialsEventActionType
@@ -1915,7 +1915,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CompromisedCredentialsRiskConfigurationType: AWSShape {
+    public struct CompromisedCredentialsRiskConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// The compromised credentials risk configuration actions.
         public let actions: CompromisedCredentialsActionsType
@@ -1933,7 +1933,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ConfirmDeviceRequest: AWSShape {
+    public struct ConfirmDeviceRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String
@@ -1968,7 +1968,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ConfirmDeviceResponse: AWSShape {
+    public struct ConfirmDeviceResponse: AWSDecodableShape {
 
         /// Indicates whether the user confirmation is necessary to confirm the device response.
         public let userConfirmationNecessary: Bool?
@@ -1982,7 +1982,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ConfirmForgotPasswordRequest: AWSShape {
+    public struct ConfirmForgotPasswordRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -2042,7 +2042,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ConfirmForgotPasswordResponse: AWSShape {
+    public struct ConfirmForgotPasswordResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2050,7 +2050,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct ConfirmSignUpRequest: AWSShape {
+    public struct ConfirmSignUpRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmSignUp calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -2107,7 +2107,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ConfirmSignUpResponse: AWSShape {
+    public struct ConfirmSignUpResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2115,7 +2115,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct ContextDataType: AWSShape {
+    public struct ContextDataType: AWSEncodableShape {
 
         /// Encoded data containing device fingerprinting details, collected using the Amazon Cognito context data collection library.
         public let encodedData: String?
@@ -2145,7 +2145,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateGroupRequest: AWSShape {
+    public struct CreateGroupRequest: AWSEncodableShape {
 
         /// A string containing the description of the group.
         public let description: String?
@@ -2189,7 +2189,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateGroupResponse: AWSShape {
+    public struct CreateGroupResponse: AWSDecodableShape {
 
         /// The group object for the group.
         public let group: GroupType?
@@ -2203,7 +2203,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateIdentityProviderRequest: AWSShape {
+    public struct CreateIdentityProviderRequest: AWSEncodableShape {
 
         /// A mapping of identity provider attributes to standard and custom user pool attributes.
         public let attributeMapping: [String: String]?
@@ -2257,7 +2257,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateIdentityProviderResponse: AWSShape {
+    public struct CreateIdentityProviderResponse: AWSDecodableShape {
 
         /// The newly created identity provider object.
         public let identityProvider: IdentityProviderType
@@ -2271,7 +2271,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateResourceServerRequest: AWSShape {
+    public struct CreateResourceServerRequest: AWSEncodableShape {
 
         /// A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located. For example, https://my-weather-api.example.com.
         public let identifier: String
@@ -2313,7 +2313,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateResourceServerResponse: AWSShape {
+    public struct CreateResourceServerResponse: AWSDecodableShape {
 
         /// The newly created resource server.
         public let resourceServer: ResourceServerType
@@ -2327,7 +2327,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserImportJobRequest: AWSShape {
+    public struct CreateUserImportJobRequest: AWSEncodableShape {
 
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
         public let cloudWatchLogsRoleArn: String
@@ -2361,7 +2361,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserImportJobResponse: AWSShape {
+    public struct CreateUserImportJobResponse: AWSDecodableShape {
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -2375,7 +2375,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserPoolClientRequest: AWSShape {
+    public struct CreateUserPoolClientRequest: AWSEncodableShape {
 
         /// The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -2499,7 +2499,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserPoolClientResponse: AWSShape {
+    public struct CreateUserPoolClientResponse: AWSDecodableShape {
 
         /// The user pool client that was just created.
         public let userPoolClient: UserPoolClientType?
@@ -2513,7 +2513,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserPoolDomainRequest: AWSShape {
+    public struct CreateUserPoolDomainRequest: AWSEncodableShape {
 
         /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
         public let customDomainConfig: CustomDomainConfigType?
@@ -2545,7 +2545,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserPoolDomainResponse: AWSShape {
+    public struct CreateUserPoolDomainResponse: AWSDecodableShape {
 
         /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider.
         public let cloudFrontDomain: String?
@@ -2559,7 +2559,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserPoolRequest: AWSShape {
+    public struct CreateUserPoolRequest: AWSEncodableShape {
 
         /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.  Starting February 1, 2020, the value of AccountRecoverySetting will default to verified_email first and verified_phone_number as the second option for newly created user pools if no value is provided. 
         public let accountRecoverySetting: AccountRecoverySettingType?
@@ -2689,7 +2689,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateUserPoolResponse: AWSShape {
+    public struct CreateUserPoolResponse: AWSDecodableShape {
 
         /// A container for the user pool details.
         public let userPool: UserPoolType?
@@ -2703,7 +2703,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CustomDomainConfigType: AWSShape {
+    public struct CustomDomainConfigType: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an AWS Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         public let certificateArn: String
@@ -2723,7 +2723,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteGroupRequest: AWSShape {
+    public struct DeleteGroupRequest: AWSEncodableShape {
 
         /// The name of the group.
         public let groupName: String
@@ -2750,7 +2750,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteIdentityProviderRequest: AWSShape {
+    public struct DeleteIdentityProviderRequest: AWSEncodableShape {
 
         /// The identity provider name.
         public let providerName: String
@@ -2777,7 +2777,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteResourceServerRequest: AWSShape {
+    public struct DeleteResourceServerRequest: AWSEncodableShape {
 
         /// The identifier for the resource server.
         public let identifier: String
@@ -2804,7 +2804,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteUserAttributesRequest: AWSShape {
+    public struct DeleteUserAttributesRequest: AWSEncodableShape {
 
         /// The access token used in the request to delete user attributes.
         public let accessToken: String
@@ -2831,7 +2831,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteUserAttributesResponse: AWSShape {
+    public struct DeleteUserAttributesResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2839,7 +2839,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct DeleteUserPoolClientRequest: AWSShape {
+    public struct DeleteUserPoolClientRequest: AWSEncodableShape {
 
         /// The app client ID of the app associated with the user pool.
         public let clientId: String
@@ -2866,7 +2866,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteUserPoolDomainRequest: AWSShape {
+    public struct DeleteUserPoolDomainRequest: AWSEncodableShape {
 
         /// The domain string.
         public let domain: String
@@ -2893,7 +2893,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteUserPoolDomainResponse: AWSShape {
+    public struct DeleteUserPoolDomainResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2901,7 +2901,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct DeleteUserPoolRequest: AWSShape {
+    public struct DeleteUserPoolRequest: AWSEncodableShape {
 
         /// The user pool ID for the user pool you want to delete.
         public let userPoolId: String
@@ -2921,7 +2921,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct DeleteUserRequest: AWSEncodableShape {
 
         /// The access token from a request to delete a user.
         public let accessToken: String
@@ -2939,7 +2939,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeIdentityProviderRequest: AWSShape {
+    public struct DescribeIdentityProviderRequest: AWSEncodableShape {
 
         /// The identity provider name.
         public let providerName: String
@@ -2966,7 +2966,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeIdentityProviderResponse: AWSShape {
+    public struct DescribeIdentityProviderResponse: AWSDecodableShape {
 
         /// The identity provider that was deleted.
         public let identityProvider: IdentityProviderType
@@ -2980,7 +2980,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeResourceServerRequest: AWSShape {
+    public struct DescribeResourceServerRequest: AWSEncodableShape {
 
         /// The identifier for the resource server
         public let identifier: String
@@ -3007,7 +3007,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeResourceServerResponse: AWSShape {
+    public struct DescribeResourceServerResponse: AWSDecodableShape {
 
         /// The resource server.
         public let resourceServer: ResourceServerType
@@ -3021,7 +3021,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeRiskConfigurationRequest: AWSShape {
+    public struct DescribeRiskConfigurationRequest: AWSEncodableShape {
 
         /// The app client ID.
         public let clientId: String?
@@ -3048,7 +3048,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeRiskConfigurationResponse: AWSShape {
+    public struct DescribeRiskConfigurationResponse: AWSDecodableShape {
 
         /// The risk configuration.
         public let riskConfiguration: RiskConfigurationType
@@ -3062,7 +3062,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserImportJobRequest: AWSShape {
+    public struct DescribeUserImportJobRequest: AWSEncodableShape {
 
         /// The job ID for the user import job.
         public let jobId: String
@@ -3089,7 +3089,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserImportJobResponse: AWSShape {
+    public struct DescribeUserImportJobResponse: AWSDecodableShape {
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -3103,7 +3103,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolClientRequest: AWSShape {
+    public struct DescribeUserPoolClientRequest: AWSEncodableShape {
 
         /// The app client ID of the app associated with the user pool.
         public let clientId: String
@@ -3130,7 +3130,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolClientResponse: AWSShape {
+    public struct DescribeUserPoolClientResponse: AWSDecodableShape {
 
         /// The user pool client from a server response to describe the user pool client.
         public let userPoolClient: UserPoolClientType?
@@ -3144,7 +3144,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolDomainRequest: AWSShape {
+    public struct DescribeUserPoolDomainRequest: AWSEncodableShape {
 
         /// The domain string.
         public let domain: String
@@ -3164,7 +3164,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolDomainResponse: AWSShape {
+    public struct DescribeUserPoolDomainResponse: AWSDecodableShape {
 
         /// A domain description object containing information about the domain.
         public let domainDescription: DomainDescriptionType?
@@ -3178,7 +3178,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolRequest: AWSShape {
+    public struct DescribeUserPoolRequest: AWSEncodableShape {
 
         /// The user pool ID for the user pool you want to describe.
         public let userPoolId: String
@@ -3198,7 +3198,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolResponse: AWSShape {
+    public struct DescribeUserPoolResponse: AWSDecodableShape {
 
         /// The container of metadata returned by the server to describe the pool.
         public let userPool: UserPoolType?
@@ -3212,7 +3212,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeviceConfigurationType: AWSShape {
+    public struct DeviceConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether a challenge is required on a new device. Only applicable to a new device.
         public let challengeRequiredOnNewDevice: Bool?
@@ -3230,7 +3230,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeviceSecretVerifierConfigType: AWSShape {
+    public struct DeviceSecretVerifierConfigType: AWSEncodableShape {
 
         /// The password verifier.
         public let passwordVerifier: String?
@@ -3248,7 +3248,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeviceType: AWSShape {
+    public struct DeviceType: AWSDecodableShape {
 
         /// The device attributes.
         public let deviceAttributes: [AttributeType]?
@@ -3278,7 +3278,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DomainDescriptionType: AWSShape {
+    public struct DomainDescriptionType: AWSDecodableShape {
 
         /// The AWS account ID for the user pool owner.
         public let aWSAccountId: String?
@@ -3320,7 +3320,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct EmailConfigurationType: AWSShape {
+    public struct EmailConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// The set of configuration rules that can be applied to emails sent using Amazon SES. A configuration set is applied to an email by including a reference to the configuration set in the headers of the email. Once applied, all of the rules in that configuration set are applied to the email. Configuration sets can be used to apply the following types of rules to emails:    Event publishing – Amazon SES can track the number of send, delivery, open, click, bounce, and complaint events for each email sent. Use event publishing to send information about these events to other AWS services such as SNS and CloudWatch.   IP pool management – When leasing dedicated IP addresses with Amazon SES, you can create groups of IP addresses, called dedicated IP pools. You can then associate the dedicated IP pools with configuration sets.  
         public let configurationSet: String?
@@ -3360,7 +3360,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct EventContextDataType: AWSShape {
+    public struct EventContextDataType: AWSDecodableShape {
 
         /// The user's city.
         public let city: String?
@@ -3390,7 +3390,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct EventFeedbackType: AWSShape {
+    public struct EventFeedbackType: AWSDecodableShape {
 
         /// The event feedback date.
         public let feedbackDate: TimeStamp?
@@ -3412,7 +3412,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct EventRiskType: AWSShape {
+    public struct EventRiskType: AWSDecodableShape {
 
         /// Indicates whether compromised credentials were detected during an authentication event.
         public let compromisedCredentialsDetected: Bool?
@@ -3434,7 +3434,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ForgetDeviceRequest: AWSShape {
+    public struct ForgetDeviceRequest: AWSEncodableShape {
 
         /// The access token for the forgotten device request.
         public let accessToken: String?
@@ -3459,7 +3459,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ForgotPasswordRequest: AWSShape {
+    public struct ForgotPasswordRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ForgotPassword calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -3505,7 +3505,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ForgotPasswordResponse: AWSShape {
+    public struct ForgotPasswordResponse: AWSDecodableShape {
 
         /// The code delivery details returned by the server in response to the request to reset a password.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -3519,7 +3519,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetCSVHeaderRequest: AWSShape {
+    public struct GetCSVHeaderRequest: AWSEncodableShape {
 
         /// The user pool ID for the user pool that the users are to be imported into.
         public let userPoolId: String
@@ -3539,7 +3539,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetCSVHeaderResponse: AWSShape {
+    public struct GetCSVHeaderResponse: AWSDecodableShape {
 
         /// The header information for the .csv file for the user import job.
         public let cSVHeader: [String]?
@@ -3557,7 +3557,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetDeviceRequest: AWSShape {
+    public struct GetDeviceRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String?
@@ -3582,7 +3582,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetDeviceResponse: AWSShape {
+    public struct GetDeviceResponse: AWSDecodableShape {
 
         /// The device.
         public let device: DeviceType
@@ -3596,7 +3596,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetGroupRequest: AWSShape {
+    public struct GetGroupRequest: AWSEncodableShape {
 
         /// The name of the group.
         public let groupName: String
@@ -3623,7 +3623,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetGroupResponse: AWSShape {
+    public struct GetGroupResponse: AWSDecodableShape {
 
         /// The group object for the group.
         public let group: GroupType?
@@ -3637,7 +3637,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetIdentityProviderByIdentifierRequest: AWSShape {
+    public struct GetIdentityProviderByIdentifierRequest: AWSEncodableShape {
 
         /// The identity provider ID.
         public let idpIdentifier: String
@@ -3664,7 +3664,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetIdentityProviderByIdentifierResponse: AWSShape {
+    public struct GetIdentityProviderByIdentifierResponse: AWSDecodableShape {
 
         /// The identity provider object.
         public let identityProvider: IdentityProviderType
@@ -3678,7 +3678,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetSigningCertificateRequest: AWSShape {
+    public struct GetSigningCertificateRequest: AWSEncodableShape {
 
         /// The user pool ID.
         public let userPoolId: String
@@ -3698,7 +3698,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetSigningCertificateResponse: AWSShape {
+    public struct GetSigningCertificateResponse: AWSDecodableShape {
 
         /// The signing certificate.
         public let certificate: String?
@@ -3712,7 +3712,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUICustomizationRequest: AWSShape {
+    public struct GetUICustomizationRequest: AWSEncodableShape {
 
         /// The client ID for the client app.
         public let clientId: String?
@@ -3739,7 +3739,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUICustomizationResponse: AWSShape {
+    public struct GetUICustomizationResponse: AWSDecodableShape {
 
         /// The UI customization information.
         public let uICustomization: UICustomizationType
@@ -3753,7 +3753,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUserAttributeVerificationCodeRequest: AWSShape {
+    public struct GetUserAttributeVerificationCodeRequest: AWSEncodableShape {
 
         /// The access token returned by the server response to get the user attribute verification code.
         public let accessToken: String
@@ -3782,7 +3782,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUserAttributeVerificationCodeResponse: AWSShape {
+    public struct GetUserAttributeVerificationCodeResponse: AWSDecodableShape {
 
         /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -3796,7 +3796,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUserPoolMfaConfigRequest: AWSShape {
+    public struct GetUserPoolMfaConfigRequest: AWSEncodableShape {
 
         /// The user pool ID.
         public let userPoolId: String
@@ -3816,7 +3816,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUserPoolMfaConfigResponse: AWSShape {
+    public struct GetUserPoolMfaConfigResponse: AWSDecodableShape {
 
         /// The multi-factor (MFA) configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
         public let mfaConfiguration: UserPoolMfaType?
@@ -3838,7 +3838,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUserRequest: AWSShape {
+    public struct GetUserRequest: AWSEncodableShape {
 
         /// The access token returned by the server response to get information about the user.
         public let accessToken: String
@@ -3856,7 +3856,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GetUserResponse: AWSShape {
+    public struct GetUserResponse: AWSDecodableShape {
 
         ///  This response parameter is no longer supported. It provides information only about SMS MFA configurations. It doesn't provide information about TOTP software token MFA configurations. To look up information about either type of MFA configuration, use the use the GetUserResponse$UserMFASettingList response instead.
         public let mFAOptions: [MFAOptionType]?
@@ -3886,7 +3886,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GlobalSignOutRequest: AWSShape {
+    public struct GlobalSignOutRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String
@@ -3904,7 +3904,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct GlobalSignOutResponse: AWSShape {
+    public struct GlobalSignOutResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3912,7 +3912,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct GroupType: AWSShape {
+    public struct GroupType: AWSDecodableShape {
 
         /// The date the group was created.
         public let creationDate: TimeStamp?
@@ -3950,7 +3950,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct HttpHeader: AWSShape {
+    public struct HttpHeader: AWSEncodableShape {
 
         /// The header name
         public let headerName: String?
@@ -3968,7 +3968,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct IdentityProviderType: AWSShape {
+    public struct IdentityProviderType: AWSDecodableShape {
 
         /// A mapping of identity provider attributes to standard and custom user pool attributes.
         public let attributeMapping: [String: String]?
@@ -4010,7 +4010,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct InitiateAuthRequest: AWSShape {
+    public struct InitiateAuthRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -4050,7 +4050,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct InitiateAuthResponse: AWSShape {
+    public struct InitiateAuthResponse: AWSDecodableShape {
 
         /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
         public let authenticationResult: AuthenticationResultType?
@@ -4076,7 +4076,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct LambdaConfigType: AWSShape {
+    public struct LambdaConfigType: AWSEncodableShape & AWSDecodableShape {
 
         /// Creates an authentication challenge.
         public let createAuthChallenge: String?
@@ -4159,7 +4159,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListDevicesRequest: AWSShape {
+    public struct ListDevicesRequest: AWSEncodableShape {
 
         /// The access tokens for the request to list devices.
         public let accessToken: String
@@ -4189,7 +4189,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListDevicesResponse: AWSShape {
+    public struct ListDevicesResponse: AWSDecodableShape {
 
         /// The devices returned in the list devices response.
         public let devices: [DeviceType]?
@@ -4207,7 +4207,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListGroupsRequest: AWSShape {
+    public struct ListGroupsRequest: AWSEncodableShape {
 
         /// The limit of the request to list groups.
         public let limit: Int?
@@ -4239,7 +4239,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListGroupsResponse: AWSShape {
+    public struct ListGroupsResponse: AWSDecodableShape {
 
         /// The group objects for the groups.
         public let groups: [GroupType]?
@@ -4257,7 +4257,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListIdentityProvidersRequest: AWSShape {
+    public struct ListIdentityProvidersRequest: AWSEncodableShape {
 
         /// The maximum number of identity providers to return.
         public let maxResults: Int?
@@ -4289,7 +4289,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListIdentityProvidersResponse: AWSShape {
+    public struct ListIdentityProvidersResponse: AWSDecodableShape {
 
         /// A pagination token.
         public let nextToken: String?
@@ -4307,7 +4307,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListResourceServersRequest: AWSShape {
+    public struct ListResourceServersRequest: AWSEncodableShape {
 
         /// The maximum number of resource servers to return.
         public let maxResults: Int?
@@ -4339,7 +4339,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListResourceServersResponse: AWSShape {
+    public struct ListResourceServersResponse: AWSDecodableShape {
 
         /// A pagination token.
         public let nextToken: String?
@@ -4357,7 +4357,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
         public let resourceArn: String
@@ -4377,7 +4377,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags that are assigned to the user pool.
         public let tags: [String: String]?
@@ -4391,7 +4391,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserImportJobsRequest: AWSShape {
+    public struct ListUserImportJobsRequest: AWSEncodableShape {
 
         /// The maximum number of import jobs you want the request to return.
         public let maxResults: Int
@@ -4423,7 +4423,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserImportJobsResponse: AWSShape {
+    public struct ListUserImportJobsResponse: AWSDecodableShape {
 
         /// An identifier that can be used to return the next set of user import jobs in the list.
         public let paginationToken: String?
@@ -4441,7 +4441,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserPoolClientsRequest: AWSShape {
+    public struct ListUserPoolClientsRequest: AWSEncodableShape {
 
         /// The maximum number of results you want the request to return when listing the user pool clients.
         public let maxResults: Int?
@@ -4473,7 +4473,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserPoolClientsResponse: AWSShape {
+    public struct ListUserPoolClientsResponse: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -4491,7 +4491,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserPoolsRequest: AWSShape {
+    public struct ListUserPoolsRequest: AWSEncodableShape {
 
         /// The maximum number of results you want the request to return when listing the user pools.
         public let maxResults: Int
@@ -4516,7 +4516,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserPoolsResponse: AWSShape {
+    public struct ListUserPoolsResponse: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -4534,7 +4534,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUsersInGroupRequest: AWSShape {
+    public struct ListUsersInGroupRequest: AWSEncodableShape {
 
         /// The name of the group.
         public let groupName: String
@@ -4573,7 +4573,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUsersInGroupResponse: AWSShape {
+    public struct ListUsersInGroupResponse: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -4591,7 +4591,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListUsersRequest: AWSEncodableShape {
 
         /// An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is null, all attributes are returned.
         public let attributesToGet: [String]?
@@ -4637,7 +4637,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListUsersResponse: AWSDecodableShape {
 
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let paginationToken: String?
@@ -4655,7 +4655,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct MFAOptionType: AWSShape {
+    public struct MFAOptionType: AWSEncodableShape & AWSDecodableShape {
 
         /// The attribute name of the MFA option type. The only valid value is phone_number.
         public let attributeName: String?
@@ -4679,7 +4679,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct MessageTemplateType: AWSShape {
+    public struct MessageTemplateType: AWSEncodableShape & AWSDecodableShape {
 
         /// The message template for email messages.
         public let emailMessage: String?
@@ -4713,7 +4713,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct NewDeviceMetadataType: AWSShape {
+    public struct NewDeviceMetadataType: AWSDecodableShape {
 
         /// The device group key.
         public let deviceGroupKey: String?
@@ -4731,7 +4731,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct NotifyConfigurationType: AWSShape {
+    public struct NotifyConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// Email template used when a detected risk event is blocked.
         public let blockEmail: NotifyEmailType?
@@ -4774,7 +4774,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct NotifyEmailType: AWSShape {
+    public struct NotifyEmailType: AWSEncodableShape & AWSDecodableShape {
 
         /// The HTML body.
         public let htmlBody: String?
@@ -4808,7 +4808,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct NumberAttributeConstraintsType: AWSShape {
+    public struct NumberAttributeConstraintsType: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum value of an attribute that is of the number data type.
         public let maxValue: String?
@@ -4826,7 +4826,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct PasswordPolicyType: AWSShape {
+    public struct PasswordPolicyType: AWSEncodableShape & AWSDecodableShape {
 
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
         public let minimumLength: Int?
@@ -4867,7 +4867,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ProviderDescription: AWSShape {
+    public struct ProviderDescription: AWSDecodableShape {
 
         /// The date the provider was added to the user pool.
         public let creationDate: TimeStamp?
@@ -4893,7 +4893,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ProviderUserIdentifierType: AWSShape {
+    public struct ProviderUserIdentifierType: AWSEncodableShape {
 
         /// The name of the provider attribute to link to, for example, NameID.
         public let providerAttributeName: String?
@@ -4921,7 +4921,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct RecoveryOptionType: AWSShape {
+    public struct RecoveryOptionType: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the recovery method for a user.
         public let name: RecoveryOptionNameType
@@ -4944,7 +4944,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ResendConfirmationCodeRequest: AWSShape {
+    public struct ResendConfirmationCodeRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ResendConfirmationCode calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -4990,7 +4990,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ResendConfirmationCodeResponse: AWSShape {
+    public struct ResendConfirmationCodeResponse: AWSDecodableShape {
 
         /// The code delivery details returned by the server in response to the request to resend the confirmation code.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -5004,7 +5004,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ResourceServerScopeType: AWSShape {
+    public struct ResourceServerScopeType: AWSEncodableShape & AWSDecodableShape {
 
         /// A description of the scope.
         public let scopeDescription: String
@@ -5030,7 +5030,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ResourceServerType: AWSShape {
+    public struct ResourceServerType: AWSDecodableShape {
 
         /// The identifier for the resource server.
         public let identifier: String?
@@ -5056,7 +5056,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct RespondToAuthChallengeRequest: AWSShape {
+    public struct RespondToAuthChallengeRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for RespondToAuthChallenge calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -5102,7 +5102,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct RespondToAuthChallengeResponse: AWSShape {
+    public struct RespondToAuthChallengeResponse: AWSDecodableShape {
 
         /// The result returned by the server in response to the request to respond to the authentication challenge.
         public let authenticationResult: AuthenticationResultType?
@@ -5128,7 +5128,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct RiskConfigurationType: AWSShape {
+    public struct RiskConfigurationType: AWSDecodableShape {
 
         /// The account takeover risk configuration object including the NotifyConfiguration object and Actions to take in the case of an account takeover.
         public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
@@ -5162,7 +5162,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct RiskExceptionConfigurationType: AWSShape {
+    public struct RiskExceptionConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// Overrides the risk decision to always block the pre-authentication requests. The IP range is in CIDR notation: a compact representation of an IP address and its associated routing prefix.
         public let blockedIPRangeList: [String]?
@@ -5185,7 +5185,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SMSMfaSettingsType: AWSShape {
+    public struct SMSMfaSettingsType: AWSEncodableShape {
 
         /// Specifies whether SMS text message MFA is enabled.
         public let enabled: Bool?
@@ -5203,7 +5203,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SchemaAttributeType: AWSShape {
+    public struct SchemaAttributeType: AWSEncodableShape & AWSDecodableShape {
 
         /// The attribute data type.
         public let attributeDataType: AttributeDataType?
@@ -5247,7 +5247,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetRiskConfigurationRequest: AWSShape {
+    public struct SetRiskConfigurationRequest: AWSEncodableShape {
 
         /// The account takeover risk configuration.
         public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
@@ -5288,7 +5288,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetRiskConfigurationResponse: AWSShape {
+    public struct SetRiskConfigurationResponse: AWSDecodableShape {
 
         /// The risk configuration.
         public let riskConfiguration: RiskConfigurationType
@@ -5302,7 +5302,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUICustomizationRequest: AWSShape {
+    public struct SetUICustomizationRequest: AWSEncodableShape {
 
         /// The client ID for the client app.
         public let clientId: String?
@@ -5337,7 +5337,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUICustomizationResponse: AWSShape {
+    public struct SetUICustomizationResponse: AWSDecodableShape {
 
         /// The UI customization information.
         public let uICustomization: UICustomizationType
@@ -5351,7 +5351,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUserMFAPreferenceRequest: AWSShape {
+    public struct SetUserMFAPreferenceRequest: AWSEncodableShape {
 
         /// The access token for the user.
         public let accessToken: String
@@ -5377,7 +5377,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUserMFAPreferenceResponse: AWSShape {
+    public struct SetUserMFAPreferenceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5385,7 +5385,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct SetUserPoolMfaConfigRequest: AWSShape {
+    public struct SetUserPoolMfaConfigRequest: AWSEncodableShape {
 
         /// The MFA configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
         public let mfaConfiguration: UserPoolMfaType?
@@ -5418,7 +5418,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUserPoolMfaConfigResponse: AWSShape {
+    public struct SetUserPoolMfaConfigResponse: AWSDecodableShape {
 
         /// The MFA configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
         public let mfaConfiguration: UserPoolMfaType?
@@ -5440,7 +5440,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUserSettingsRequest: AWSShape {
+    public struct SetUserSettingsRequest: AWSEncodableShape {
 
         /// The access token for the set user settings request.
         public let accessToken: String
@@ -5465,7 +5465,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SetUserSettingsResponse: AWSShape {
+    public struct SetUserSettingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5473,7 +5473,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct SignUpRequest: AWSShape {
+    public struct SignUpRequest: AWSEncodableShape {
 
         /// The Amazon Pinpoint analytics metadata for collecting metrics for SignUp calls.
         public let analyticsMetadata: AnalyticsMetadataType?
@@ -5540,7 +5540,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SignUpResponse: AWSShape {
+    public struct SignUpResponse: AWSDecodableShape {
 
         /// The code delivery details returned by the server response to the user registration request.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
@@ -5562,7 +5562,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SmsConfigurationType: AWSShape {
+    public struct SmsConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// The external ID is a value that we recommend you use to add security to your IAM role which is used to call Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId, the Cognito User Pool will include it when attempting to assume your IAM role, so that you can set your roles trust policy to require the ExternalID. If you use the Cognito Management Console to create a role for SMS MFA, Cognito will create a role with the required permissions and a trust policy that demonstrates use of the ExternalId.
         public let externalId: String?
@@ -5586,7 +5586,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SmsMfaConfigType: AWSShape {
+    public struct SmsMfaConfigType: AWSEncodableShape & AWSDecodableShape {
 
         /// The SMS authentication message that will be sent to users with the code they need to sign in. The message must contain the ‘{####}’ placeholder, which will be replaced with the code. If the message is not included, and default message will be used.
         public let smsAuthenticationMessage: String?
@@ -5611,7 +5611,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SoftwareTokenMfaConfigType: AWSShape {
+    public struct SoftwareTokenMfaConfigType: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether software token MFA is enabled.
         public let enabled: Bool?
@@ -5625,7 +5625,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SoftwareTokenMfaSettingsType: AWSShape {
+    public struct SoftwareTokenMfaSettingsType: AWSEncodableShape {
 
         /// Specifies whether software token MFA is enabled.
         public let enabled: Bool?
@@ -5643,7 +5643,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct StartUserImportJobRequest: AWSShape {
+    public struct StartUserImportJobRequest: AWSEncodableShape {
 
         /// The job ID for the user import job.
         public let jobId: String
@@ -5670,7 +5670,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct StartUserImportJobResponse: AWSShape {
+    public struct StartUserImportJobResponse: AWSDecodableShape {
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -5684,7 +5684,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct StopUserImportJobRequest: AWSShape {
+    public struct StopUserImportJobRequest: AWSEncodableShape {
 
         /// The job ID for the user import job.
         public let jobId: String
@@ -5711,7 +5711,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct StopUserImportJobResponse: AWSShape {
+    public struct StopUserImportJobResponse: AWSDecodableShape {
 
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
@@ -5725,7 +5725,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct StringAttributeConstraintsType: AWSShape {
+    public struct StringAttributeConstraintsType: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum length.
         public let maxLength: String?
@@ -5743,7 +5743,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the user pool to assign the tags to.
         public let resourceArn: String
@@ -5773,7 +5773,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5781,7 +5781,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct UICustomizationType: AWSShape {
+    public struct UICustomizationType: AWSDecodableShape {
 
         /// The client ID for the client app.
         public let clientId: String?
@@ -5819,7 +5819,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
         public let resourceArn: String
@@ -5847,7 +5847,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5855,7 +5855,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct UpdateAuthEventFeedbackRequest: AWSShape {
+    public struct UpdateAuthEventFeedbackRequest: AWSEncodableShape {
 
         /// The event ID.
         public let eventId: String
@@ -5898,7 +5898,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateAuthEventFeedbackResponse: AWSShape {
+    public struct UpdateAuthEventFeedbackResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5906,7 +5906,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct UpdateDeviceStatusRequest: AWSShape {
+    public struct UpdateDeviceStatusRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String
@@ -5935,7 +5935,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateDeviceStatusResponse: AWSShape {
+    public struct UpdateDeviceStatusResponse: AWSDecodableShape {
 
 
         public init() {
@@ -5943,7 +5943,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct UpdateGroupRequest: AWSShape {
+    public struct UpdateGroupRequest: AWSEncodableShape {
 
         /// A string containing the new description of the group.
         public let description: String?
@@ -5987,7 +5987,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateGroupResponse: AWSShape {
+    public struct UpdateGroupResponse: AWSDecodableShape {
 
         /// The group object for the group.
         public let group: GroupType?
@@ -6001,7 +6001,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateIdentityProviderRequest: AWSShape {
+    public struct UpdateIdentityProviderRequest: AWSEncodableShape {
 
         /// The identity provider attribute mapping to be changed.
         public let attributeMapping: [String: String]?
@@ -6051,7 +6051,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateIdentityProviderResponse: AWSShape {
+    public struct UpdateIdentityProviderResponse: AWSDecodableShape {
 
         /// The identity provider object.
         public let identityProvider: IdentityProviderType
@@ -6065,7 +6065,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateResourceServerRequest: AWSShape {
+    public struct UpdateResourceServerRequest: AWSEncodableShape {
 
         /// The identifier for the resource server.
         public let identifier: String
@@ -6107,7 +6107,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateResourceServerResponse: AWSShape {
+    public struct UpdateResourceServerResponse: AWSDecodableShape {
 
         /// The resource server.
         public let resourceServer: ResourceServerType
@@ -6121,7 +6121,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserAttributesRequest: AWSShape {
+    public struct UpdateUserAttributesRequest: AWSEncodableShape {
 
         /// The access token for the request to update user attributes.
         public let accessToken: String
@@ -6150,7 +6150,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserAttributesResponse: AWSShape {
+    public struct UpdateUserAttributesResponse: AWSDecodableShape {
 
         /// The code delivery details list from the server for the request to update user attributes.
         public let codeDeliveryDetailsList: [CodeDeliveryDetailsType]?
@@ -6164,7 +6164,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserPoolClientRequest: AWSShape {
+    public struct UpdateUserPoolClientRequest: AWSEncodableShape {
 
         /// The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -6291,7 +6291,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserPoolClientResponse: AWSShape {
+    public struct UpdateUserPoolClientResponse: AWSDecodableShape {
 
         /// The user pool client value from the response from the server when an update user pool client request is made.
         public let userPoolClient: UserPoolClientType?
@@ -6305,7 +6305,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserPoolDomainRequest: AWSShape {
+    public struct UpdateUserPoolDomainRequest: AWSEncodableShape {
 
         /// The configuration for a custom domain that hosts the sign-up and sign-in pages for your application. Use this object to specify an SSL certificate that is managed by ACM.
         public let customDomainConfig: CustomDomainConfigType
@@ -6337,7 +6337,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserPoolDomainResponse: AWSShape {
+    public struct UpdateUserPoolDomainResponse: AWSDecodableShape {
 
         /// The Amazon CloudFront endpoint that Amazon Cognito set up when you added the custom domain to your user pool.
         public let cloudFrontDomain: String?
@@ -6351,7 +6351,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserPoolRequest: AWSShape {
+    public struct UpdateUserPoolRequest: AWSEncodableShape {
 
         /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
         public let accountRecoverySetting: AccountRecoverySettingType?
@@ -6460,7 +6460,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UpdateUserPoolResponse: AWSShape {
+    public struct UpdateUserPoolResponse: AWSDecodableShape {
 
 
         public init() {
@@ -6468,7 +6468,7 @@ extension CognitoIdentityProvider {
 
     }
 
-    public struct UserContextDataType: AWSShape {
+    public struct UserContextDataType: AWSEncodableShape {
 
         /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
         public let encodedData: String?
@@ -6482,7 +6482,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserImportJobType: AWSShape {
+    public struct UserImportJobType: AWSDecodableShape {
 
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
         public let cloudWatchLogsRoleArn: String?
@@ -6544,7 +6544,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserPoolAddOnsType: AWSShape {
+    public struct UserPoolAddOnsType: AWSEncodableShape & AWSDecodableShape {
 
         /// The advanced security mode.
         public let advancedSecurityMode: AdvancedSecurityModeType
@@ -6558,7 +6558,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserPoolClientDescription: AWSShape {
+    public struct UserPoolClientDescription: AWSDecodableShape {
 
         /// The ID of the client associated with the user pool.
         public let clientId: String?
@@ -6580,7 +6580,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserPoolClientType: AWSShape {
+    public struct UserPoolClientType: AWSDecodableShape {
 
         /// The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
         public let allowedOAuthFlows: [OAuthFlowType]?
@@ -6666,7 +6666,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserPoolDescriptionType: AWSShape {
+    public struct UserPoolDescriptionType: AWSDecodableShape {
 
         /// The date the user pool description was created.
         public let creationDate: TimeStamp?
@@ -6700,7 +6700,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserPoolPolicyType: AWSShape {
+    public struct UserPoolPolicyType: AWSEncodableShape & AWSDecodableShape {
 
         /// The password policy.
         public let passwordPolicy: PasswordPolicyType?
@@ -6718,7 +6718,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserPoolType: AWSShape {
+    public struct UserPoolType: AWSDecodableShape {
 
         /// Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
         public let accountRecoverySetting: AccountRecoverySettingType?
@@ -6852,7 +6852,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UserType: AWSShape {
+    public struct UserType: AWSDecodableShape {
 
         /// A container with information about the user type attributes.
         public let attributes: [AttributeType]?
@@ -6890,7 +6890,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct UsernameConfigurationType: AWSShape {
+    public struct UsernameConfigurationType: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether username case sensitivity will be applied for all users in the user pool through Cognito APIs. Valid values include:     True : Enables case sensitivity for all username input. When this option is set to True, users must sign in using the exact capitalization of their given username. For example, “UserName”. This is the default value.     False : Enables case insensitivity for all username input. For example, when this option is set to False, users will be able to sign in using either "username" or "Username". This option also enables both preferred_username and email alias to be case insensitive, in addition to the username attribute.  
         public let caseSensitive: Bool
@@ -6904,7 +6904,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct VerificationMessageTemplateType: AWSShape {
+    public struct VerificationMessageTemplateType: AWSEncodableShape & AWSDecodableShape {
 
         /// The default email option.
         public let defaultEmailOption: DefaultEmailOptionType?
@@ -6956,7 +6956,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct VerifySoftwareTokenRequest: AWSShape {
+    public struct VerifySoftwareTokenRequest: AWSEncodableShape {
 
         /// The access token.
         public let accessToken: String?
@@ -6991,7 +6991,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct VerifySoftwareTokenResponse: AWSShape {
+    public struct VerifySoftwareTokenResponse: AWSDecodableShape {
 
         /// The session which should be passed both ways in challenge-response calls to the service.
         public let session: String?
@@ -7009,7 +7009,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct VerifyUserAttributeRequest: AWSShape {
+    public struct VerifyUserAttributeRequest: AWSEncodableShape {
 
         /// Represents the access token of the request to verify user attributes.
         public let accessToken: String
@@ -7041,7 +7041,7 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct VerifyUserAttributeResponse: AWSShape {
+    public struct VerifyUserAttributeResponse: AWSDecodableShape {
 
 
         public init() {

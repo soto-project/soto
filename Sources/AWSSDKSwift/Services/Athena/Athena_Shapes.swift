@@ -58,7 +58,7 @@ extension Athena {
 
     //MARK: Shapes
 
-    public struct BatchGetNamedQueryInput: AWSShape {
+    public struct BatchGetNamedQueryInput: AWSEncodableShape {
 
         /// An array of query IDs.
         public let namedQueryIds: [String]
@@ -77,7 +77,7 @@ extension Athena {
         }
     }
 
-    public struct BatchGetNamedQueryOutput: AWSShape {
+    public struct BatchGetNamedQueryOutput: AWSDecodableShape {
 
         /// Information about the named query IDs submitted.
         public let namedQueries: [NamedQuery]?
@@ -95,7 +95,7 @@ extension Athena {
         }
     }
 
-    public struct BatchGetQueryExecutionInput: AWSShape {
+    public struct BatchGetQueryExecutionInput: AWSEncodableShape {
 
         /// An array of query execution IDs.
         public let queryExecutionIds: [String]
@@ -114,7 +114,7 @@ extension Athena {
         }
     }
 
-    public struct BatchGetQueryExecutionOutput: AWSShape {
+    public struct BatchGetQueryExecutionOutput: AWSDecodableShape {
 
         /// Information about a query execution.
         public let queryExecutions: [QueryExecution]?
@@ -132,7 +132,7 @@ extension Athena {
         }
     }
 
-    public struct ColumnInfo: AWSShape {
+    public struct ColumnInfo: AWSDecodableShape {
 
         /// Indicates whether values in the column are case-sensitive.
         public let caseSensitive: Bool?
@@ -182,7 +182,7 @@ extension Athena {
         }
     }
 
-    public struct CreateNamedQueryInput: AWSShape {
+    public struct CreateNamedQueryInput: AWSEncodableShape {
 
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
         public let clientRequestToken: String?
@@ -230,7 +230,7 @@ extension Athena {
         }
     }
 
-    public struct CreateNamedQueryOutput: AWSShape {
+    public struct CreateNamedQueryOutput: AWSDecodableShape {
 
         /// The unique ID of the query.
         public let namedQueryId: String?
@@ -244,7 +244,7 @@ extension Athena {
         }
     }
 
-    public struct CreateWorkGroupInput: AWSShape {
+    public struct CreateWorkGroupInput: AWSEncodableShape {
 
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
@@ -280,7 +280,7 @@ extension Athena {
         }
     }
 
-    public struct CreateWorkGroupOutput: AWSShape {
+    public struct CreateWorkGroupOutput: AWSDecodableShape {
 
 
         public init() {
@@ -288,7 +288,7 @@ extension Athena {
 
     }
 
-    public struct Datum: AWSShape {
+    public struct Datum: AWSDecodableShape {
 
         /// The value of the datum.
         public let varCharValue: String?
@@ -302,7 +302,7 @@ extension Athena {
         }
     }
 
-    public struct DeleteNamedQueryInput: AWSShape {
+    public struct DeleteNamedQueryInput: AWSEncodableShape {
 
         /// The unique ID of the query to delete.
         public let namedQueryId: String
@@ -316,7 +316,7 @@ extension Athena {
         }
     }
 
-    public struct DeleteNamedQueryOutput: AWSShape {
+    public struct DeleteNamedQueryOutput: AWSDecodableShape {
 
 
         public init() {
@@ -324,7 +324,7 @@ extension Athena {
 
     }
 
-    public struct DeleteWorkGroupInput: AWSShape {
+    public struct DeleteWorkGroupInput: AWSEncodableShape {
 
         /// The option to delete the workgroup and its contents even if the workgroup contains any named queries.
         public let recursiveDeleteOption: Bool?
@@ -346,7 +346,7 @@ extension Athena {
         }
     }
 
-    public struct DeleteWorkGroupOutput: AWSShape {
+    public struct DeleteWorkGroupOutput: AWSDecodableShape {
 
 
         public init() {
@@ -354,7 +354,7 @@ extension Athena {
 
     }
 
-    public struct EncryptionConfiguration: AWSShape {
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup. 
         public let encryptionOption: EncryptionOption
@@ -372,7 +372,7 @@ extension Athena {
         }
     }
 
-    public struct GetNamedQueryInput: AWSShape {
+    public struct GetNamedQueryInput: AWSEncodableShape {
 
         /// The unique ID of the query. Use ListNamedQueries to get query IDs.
         public let namedQueryId: String
@@ -386,7 +386,7 @@ extension Athena {
         }
     }
 
-    public struct GetNamedQueryOutput: AWSShape {
+    public struct GetNamedQueryOutput: AWSDecodableShape {
 
         /// Information about the query.
         public let namedQuery: NamedQuery?
@@ -400,7 +400,7 @@ extension Athena {
         }
     }
 
-    public struct GetQueryExecutionInput: AWSShape {
+    public struct GetQueryExecutionInput: AWSEncodableShape {
 
         /// The unique ID of the query execution.
         public let queryExecutionId: String
@@ -414,7 +414,7 @@ extension Athena {
         }
     }
 
-    public struct GetQueryExecutionOutput: AWSShape {
+    public struct GetQueryExecutionOutput: AWSDecodableShape {
 
         /// Information about the query execution.
         public let queryExecution: QueryExecution?
@@ -428,7 +428,7 @@ extension Athena {
         }
     }
 
-    public struct GetQueryResultsInput: AWSShape {
+    public struct GetQueryResultsInput: AWSEncodableShape {
 
         /// The maximum number of results (rows) to return in this request.
         public let maxResults: Int?
@@ -457,7 +457,7 @@ extension Athena {
         }
     }
 
-    public struct GetQueryResultsOutput: AWSShape {
+    public struct GetQueryResultsOutput: AWSDecodableShape {
 
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
@@ -479,7 +479,7 @@ extension Athena {
         }
     }
 
-    public struct GetWorkGroupInput: AWSShape {
+    public struct GetWorkGroupInput: AWSEncodableShape {
 
         /// The name of the workgroup.
         public let workGroup: String
@@ -497,7 +497,7 @@ extension Athena {
         }
     }
 
-    public struct GetWorkGroupOutput: AWSShape {
+    public struct GetWorkGroupOutput: AWSDecodableShape {
 
         /// Information about the workgroup.
         public let workGroup: WorkGroup?
@@ -511,7 +511,7 @@ extension Athena {
         }
     }
 
-    public struct ListNamedQueriesInput: AWSShape {
+    public struct ListNamedQueriesInput: AWSEncodableShape {
 
         /// The maximum number of queries to return in this request.
         public let maxResults: Int?
@@ -541,7 +541,7 @@ extension Athena {
         }
     }
 
-    public struct ListNamedQueriesOutput: AWSShape {
+    public struct ListNamedQueriesOutput: AWSDecodableShape {
 
         /// The list of unique query IDs.
         public let namedQueryIds: [String]?
@@ -559,7 +559,7 @@ extension Athena {
         }
     }
 
-    public struct ListQueryExecutionsInput: AWSShape {
+    public struct ListQueryExecutionsInput: AWSEncodableShape {
 
         /// The maximum number of query executions to return in this request.
         public let maxResults: Int?
@@ -589,7 +589,7 @@ extension Athena {
         }
     }
 
-    public struct ListQueryExecutionsOutput: AWSShape {
+    public struct ListQueryExecutionsOutput: AWSDecodableShape {
 
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
@@ -607,7 +607,7 @@ extension Athena {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned per request that lists the tags for the workgroup resource.
         public let maxResults: Int?
@@ -637,7 +637,7 @@ extension Athena {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
@@ -655,7 +655,7 @@ extension Athena {
         }
     }
 
-    public struct ListWorkGroupsInput: AWSShape {
+    public struct ListWorkGroupsInput: AWSEncodableShape {
 
         /// The maximum number of workgroups to return in this request.
         public let maxResults: Int?
@@ -680,7 +680,7 @@ extension Athena {
         }
     }
 
-    public struct ListWorkGroupsOutput: AWSShape {
+    public struct ListWorkGroupsOutput: AWSDecodableShape {
 
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
@@ -698,7 +698,7 @@ extension Athena {
         }
     }
 
-    public struct NamedQuery: AWSShape {
+    public struct NamedQuery: AWSDecodableShape {
 
         /// The database to which the query belongs.
         public let database: String
@@ -732,7 +732,7 @@ extension Athena {
         }
     }
 
-    public struct QueryExecution: AWSShape {
+    public struct QueryExecution: AWSDecodableShape {
 
         /// The SQL query statements which the query execution ran.
         public let query: String?
@@ -774,7 +774,7 @@ extension Athena {
         }
     }
 
-    public struct QueryExecutionContext: AWSShape {
+    public struct QueryExecutionContext: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the database.
         public let database: String?
@@ -793,7 +793,7 @@ extension Athena {
         }
     }
 
-    public struct QueryExecutionStatistics: AWSShape {
+    public struct QueryExecutionStatistics: AWSDecodableShape {
 
         /// The location and file name of a data manifest file. The manifest file is saved to the Athena query results location in Amazon S3. The manifest file tracks files that the query wrote to Amazon S3. If the query fails, the manifest file also tracks files that the query intended to write. The manifest is useful for identifying orphaned files resulting from a failed query. For more information, see Working with Query Results, Output Files, and Query History in the Amazon Athena User Guide.
         public let dataManifestLocation: String?
@@ -831,7 +831,7 @@ extension Athena {
         }
     }
 
-    public struct QueryExecutionStatus: AWSShape {
+    public struct QueryExecutionStatus: AWSDecodableShape {
 
         /// The date and time that the query completed.
         public let completionDateTime: TimeStamp?
@@ -857,7 +857,7 @@ extension Athena {
         }
     }
 
-    public struct ResultConfiguration: AWSShape {
+    public struct ResultConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE-KMS or CSE-KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -875,7 +875,7 @@ extension Athena {
         }
     }
 
-    public struct ResultConfigurationUpdates: AWSShape {
+    public struct ResultConfigurationUpdates: AWSEncodableShape {
 
         /// The encryption configuration for the query results.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -901,7 +901,7 @@ extension Athena {
         }
     }
 
-    public struct ResultSet: AWSShape {
+    public struct ResultSet: AWSDecodableShape {
 
         /// The metadata that describes the column structure and data types of a table of query results.
         public let resultSetMetadata: ResultSetMetadata?
@@ -919,7 +919,7 @@ extension Athena {
         }
     }
 
-    public struct ResultSetMetadata: AWSShape {
+    public struct ResultSetMetadata: AWSDecodableShape {
 
         /// Information about the columns returned in a query result metadata.
         public let columnInfo: [ColumnInfo]?
@@ -933,7 +933,7 @@ extension Athena {
         }
     }
 
-    public struct Row: AWSShape {
+    public struct Row: AWSDecodableShape {
 
         /// The data that populates a row in a query result table.
         public let data: [Datum]?
@@ -947,7 +947,7 @@ extension Athena {
         }
     }
 
-    public struct StartQueryExecutionInput: AWSShape {
+    public struct StartQueryExecutionInput: AWSEncodableShape {
 
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
         public let clientRequestToken: String?
@@ -986,7 +986,7 @@ extension Athena {
         }
     }
 
-    public struct StartQueryExecutionOutput: AWSShape {
+    public struct StartQueryExecutionOutput: AWSDecodableShape {
 
         /// The unique ID of the query that ran as a result of this request.
         public let queryExecutionId: String?
@@ -1000,7 +1000,7 @@ extension Athena {
         }
     }
 
-    public struct StopQueryExecutionInput: AWSShape {
+    public struct StopQueryExecutionInput: AWSEncodableShape {
 
         /// The unique ID of the query execution to stop.
         public let queryExecutionId: String
@@ -1014,7 +1014,7 @@ extension Athena {
         }
     }
 
-    public struct StopQueryExecutionOutput: AWSShape {
+    public struct StopQueryExecutionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1022,7 +1022,7 @@ extension Athena {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource. 
         public let key: String?
@@ -1047,7 +1047,7 @@ extension Athena {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         /// Requests that one or more tags are added to the resource (such as a workgroup) for the specified ARN.
         public let resourceARN: String
@@ -1073,7 +1073,7 @@ extension Athena {
         }
     }
 
-    public struct TagResourceOutput: AWSShape {
+    public struct TagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1081,7 +1081,7 @@ extension Athena {
 
     }
 
-    public struct UnprocessedNamedQueryId: AWSShape {
+    public struct UnprocessedNamedQueryId: AWSDecodableShape {
 
         /// The error code returned when the processing request for the named query failed, if applicable.
         public let errorCode: String?
@@ -1103,7 +1103,7 @@ extension Athena {
         }
     }
 
-    public struct UnprocessedQueryExecutionId: AWSShape {
+    public struct UnprocessedQueryExecutionId: AWSDecodableShape {
 
         /// The error code returned when the query execution failed to process, if applicable.
         public let errorCode: String?
@@ -1125,7 +1125,7 @@ extension Athena {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         /// Removes one or more tags from the workgroup resource for the specified ARN.
         public let resourceARN: String
@@ -1152,7 +1152,7 @@ extension Athena {
         }
     }
 
-    public struct UntagResourceOutput: AWSShape {
+    public struct UntagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1160,7 +1160,7 @@ extension Athena {
 
     }
 
-    public struct UpdateWorkGroupInput: AWSShape {
+    public struct UpdateWorkGroupInput: AWSEncodableShape {
 
         /// The workgroup configuration that will be updated for the given workgroup.
         public let configurationUpdates: WorkGroupConfigurationUpdates?
@@ -1193,7 +1193,7 @@ extension Athena {
         }
     }
 
-    public struct UpdateWorkGroupOutput: AWSShape {
+    public struct UpdateWorkGroupOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1201,7 +1201,7 @@ extension Athena {
 
     }
 
-    public struct WorkGroup: AWSShape {
+    public struct WorkGroup: AWSDecodableShape {
 
         /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for query results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
@@ -1231,7 +1231,7 @@ extension Athena {
         }
     }
 
-    public struct WorkGroupConfiguration: AWSShape {
+    public struct WorkGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public let bytesScannedCutoffPerQuery: Int64?
@@ -1265,7 +1265,7 @@ extension Athena {
         }
     }
 
-    public struct WorkGroupConfigurationUpdates: AWSShape {
+    public struct WorkGroupConfigurationUpdates: AWSEncodableShape {
 
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public let bytesScannedCutoffPerQuery: Int64?
@@ -1303,7 +1303,7 @@ extension Athena {
         }
     }
 
-    public struct WorkGroupSummary: AWSShape {
+    public struct WorkGroupSummary: AWSDecodableShape {
 
         /// The workgroup creation date and time.
         public let creationTime: TimeStamp?

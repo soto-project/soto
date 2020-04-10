@@ -126,7 +126,7 @@ extension SavingsPlans {
 
     //MARK: Shapes
 
-    public struct CreateSavingsPlanRequest: AWSShape {
+    public struct CreateSavingsPlanRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -156,7 +156,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct CreateSavingsPlanResponse: AWSShape {
+    public struct CreateSavingsPlanResponse: AWSDecodableShape {
 
         /// The ID of the Savings Plan.
         public let savingsPlanId: String?
@@ -170,7 +170,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlanRatesRequest: AWSShape {
+    public struct DescribeSavingsPlanRatesRequest: AWSEncodableShape {
 
         /// The filters.
         public let filters: [SavingsPlanRateFilter]?
@@ -203,7 +203,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlanRatesResponse: AWSShape {
+    public struct DescribeSavingsPlanRatesResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -225,7 +225,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlansOfferingRatesRequest: AWSShape {
+    public struct DescribeSavingsPlansOfferingRatesRequest: AWSEncodableShape {
 
         /// The filters.
         public let filters: [SavingsPlanOfferingRateFilterElement]?
@@ -296,7 +296,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlansOfferingRatesResponse: AWSShape {
+    public struct DescribeSavingsPlansOfferingRatesResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -314,7 +314,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlansOfferingsRequest: AWSShape {
+    public struct DescribeSavingsPlansOfferingsRequest: AWSEncodableShape {
 
         /// The currencies.
         public let currencies: [CurrencyCode]?
@@ -407,7 +407,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlansOfferingsResponse: AWSShape {
+    public struct DescribeSavingsPlansOfferingsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -425,7 +425,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlansRequest: AWSShape {
+    public struct DescribeSavingsPlansRequest: AWSEncodableShape {
 
         /// The filters.
         public let filters: [SavingsPlanFilter]?
@@ -470,7 +470,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct DescribeSavingsPlansResponse: AWSShape {
+    public struct DescribeSavingsPlansResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -488,7 +488,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -506,7 +506,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// Information about the tags.
         public let tags: [String: String]?
@@ -520,7 +520,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct ParentSavingsPlanOffering: AWSShape {
+    public struct ParentSavingsPlanOffering: AWSDecodableShape {
 
         /// The currency.
         public let currency: CurrencyCode?
@@ -554,7 +554,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlan: AWSShape {
+    public struct SavingsPlan: AWSDecodableShape {
 
         /// The hourly commitment, in USD.
         public let commitment: String?
@@ -636,7 +636,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanFilter: AWSShape {
+    public struct SavingsPlanFilter: AWSEncodableShape {
 
         /// The filter name.
         public let name: SavingsPlansFilterName?
@@ -654,7 +654,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanOffering: AWSShape {
+    public struct SavingsPlanOffering: AWSDecodableShape {
 
         /// The currency.
         public let currency: CurrencyCode?
@@ -708,7 +708,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanOfferingFilterElement: AWSShape {
+    public struct SavingsPlanOfferingFilterElement: AWSEncodableShape {
 
         /// The filter name.
         public let name: SavingsPlanOfferingFilterAttribute?
@@ -732,7 +732,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanOfferingProperty: AWSShape {
+    public struct SavingsPlanOfferingProperty: AWSDecodableShape {
 
         /// The property name.
         public let name: SavingsPlanOfferingPropertyKey?
@@ -750,7 +750,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanOfferingRate: AWSShape {
+    public struct SavingsPlanOfferingRate: AWSDecodableShape {
 
         /// The specific AWS operation for the line item in the billing report.
         public let operation: String?
@@ -792,7 +792,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanOfferingRateFilterElement: AWSShape {
+    public struct SavingsPlanOfferingRateFilterElement: AWSEncodableShape {
 
         /// The filter name.
         public let name: SavingsPlanRateFilterAttribute?
@@ -816,7 +816,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanOfferingRateProperty: AWSShape {
+    public struct SavingsPlanOfferingRateProperty: AWSDecodableShape {
 
         /// The property name.
         public let name: String?
@@ -834,7 +834,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanRate: AWSShape {
+    public struct SavingsPlanRate: AWSDecodableShape {
 
         /// The currency.
         public let currency: CurrencyCode?
@@ -876,7 +876,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanRateFilter: AWSShape {
+    public struct SavingsPlanRateFilter: AWSEncodableShape {
 
         /// The filter name.
         public let name: SavingsPlanRateFilterName?
@@ -894,7 +894,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct SavingsPlanRateProperty: AWSShape {
+    public struct SavingsPlanRateProperty: AWSDecodableShape {
 
         /// The property name.
         public let name: SavingsPlanRatePropertyKey?
@@ -912,7 +912,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -934,7 +934,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -942,7 +942,7 @@ extension SavingsPlans {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -964,7 +964,7 @@ extension SavingsPlans {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {

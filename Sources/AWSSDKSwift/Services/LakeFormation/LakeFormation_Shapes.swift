@@ -65,7 +65,7 @@ extension LakeFormation {
 
     //MARK: Shapes
 
-    public struct BatchGrantPermissionsRequest: AWSShape {
+    public struct BatchGrantPermissionsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -92,7 +92,7 @@ extension LakeFormation {
         }
     }
 
-    public struct BatchGrantPermissionsResponse: AWSShape {
+    public struct BatchGrantPermissionsResponse: AWSDecodableShape {
 
         /// A list of failures to grant permissions to the resources.
         public let failures: [BatchPermissionsFailureEntry]?
@@ -106,7 +106,7 @@ extension LakeFormation {
         }
     }
 
-    public struct BatchPermissionsFailureEntry: AWSShape {
+    public struct BatchPermissionsFailureEntry: AWSDecodableShape {
 
         /// An error message that applies to the failure of the entry.
         public let error: ErrorDetail?
@@ -124,7 +124,7 @@ extension LakeFormation {
         }
     }
 
-    public struct BatchPermissionsRequestEntry: AWSShape {
+    public struct BatchPermissionsRequestEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// A unique identifier for the batch permissions request entry.
         public let id: String
@@ -161,7 +161,7 @@ extension LakeFormation {
         }
     }
 
-    public struct BatchRevokePermissionsRequest: AWSShape {
+    public struct BatchRevokePermissionsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -188,7 +188,7 @@ extension LakeFormation {
         }
     }
 
-    public struct BatchRevokePermissionsResponse: AWSShape {
+    public struct BatchRevokePermissionsResponse: AWSDecodableShape {
 
         /// A list of failures to revoke permissions to the resources.
         public let failures: [BatchPermissionsFailureEntry]?
@@ -202,7 +202,7 @@ extension LakeFormation {
         }
     }
 
-    public struct CatalogResource: AWSShape {
+    public struct CatalogResource: AWSEncodableShape & AWSDecodableShape {
 
 
         public init() {
@@ -210,7 +210,7 @@ extension LakeFormation {
 
     }
 
-    public struct ColumnWildcard: AWSShape {
+    public struct ColumnWildcard: AWSEncodableShape & AWSDecodableShape {
 
         /// Excludes column names. Any column with this name will be excluded.
         public let excludedColumnNames: [String]?
@@ -232,7 +232,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DataLakePrincipal: AWSShape {
+    public struct DataLakePrincipal: AWSEncodableShape & AWSDecodableShape {
 
         /// An identifier for the AWS Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
@@ -251,7 +251,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DataLakeSettings: AWSShape {
+    public struct DataLakeSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of up to three principal permissions entries for default create database permissions.
         public let createDatabaseDefaultPermissions: [PrincipalPermissions]?
@@ -287,7 +287,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DataLocationResource: AWSShape {
+    public struct DataLocationResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the data location resource.
         public let resourceArn: String
@@ -301,7 +301,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DatabaseResource: AWSShape {
+    public struct DatabaseResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the database resource. Unique to the Data Catalog.
         public let name: String
@@ -321,7 +321,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DeregisterResourceRequest: AWSShape {
+    public struct DeregisterResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to deregister.
         public let resourceArn: String
@@ -335,7 +335,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DeregisterResourceResponse: AWSShape {
+    public struct DeregisterResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -343,7 +343,7 @@ extension LakeFormation {
 
     }
 
-    public struct DescribeResourceRequest: AWSShape {
+    public struct DescribeResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceArn: String
@@ -357,7 +357,7 @@ extension LakeFormation {
         }
     }
 
-    public struct DescribeResourceResponse: AWSShape {
+    public struct DescribeResourceResponse: AWSDecodableShape {
 
         /// A structure containing information about an AWS Lake Formation resource.
         public let resourceInfo: ResourceInfo?
@@ -371,7 +371,7 @@ extension LakeFormation {
         }
     }
 
-    public struct ErrorDetail: AWSShape {
+    public struct ErrorDetail: AWSDecodableShape {
 
         /// The code associated with this error.
         public let errorCode: String?
@@ -389,7 +389,7 @@ extension LakeFormation {
         }
     }
 
-    public struct FilterCondition: AWSShape {
+    public struct FilterCondition: AWSEncodableShape {
 
         /// The comparison operator used in the filter condition.
         public let comparisonOperator: ComparisonOperator?
@@ -411,7 +411,7 @@ extension LakeFormation {
         }
     }
 
-    public struct GetDataLakeSettingsRequest: AWSShape {
+    public struct GetDataLakeSettingsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -431,7 +431,7 @@ extension LakeFormation {
         }
     }
 
-    public struct GetDataLakeSettingsResponse: AWSShape {
+    public struct GetDataLakeSettingsResponse: AWSDecodableShape {
 
         /// A list of AWS Lake Formation principals. 
         public let dataLakeSettings: DataLakeSettings?
@@ -445,7 +445,7 @@ extension LakeFormation {
         }
     }
 
-    public struct GetEffectivePermissionsForPathRequest: AWSShape {
+    public struct GetEffectivePermissionsForPathRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -479,7 +479,7 @@ extension LakeFormation {
         }
     }
 
-    public struct GetEffectivePermissionsForPathResponse: AWSShape {
+    public struct GetEffectivePermissionsForPathResponse: AWSDecodableShape {
 
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
@@ -497,7 +497,7 @@ extension LakeFormation {
         }
     }
 
-    public struct GrantPermissionsRequest: AWSShape {
+    public struct GrantPermissionsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -535,7 +535,7 @@ extension LakeFormation {
         }
     }
 
-    public struct GrantPermissionsResponse: AWSShape {
+    public struct GrantPermissionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -543,7 +543,7 @@ extension LakeFormation {
 
     }
 
-    public struct ListPermissionsRequest: AWSShape {
+    public struct ListPermissionsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -587,7 +587,7 @@ extension LakeFormation {
         }
     }
 
-    public struct ListPermissionsResponse: AWSShape {
+    public struct ListPermissionsResponse: AWSDecodableShape {
 
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
@@ -605,7 +605,7 @@ extension LakeFormation {
         }
     }
 
-    public struct ListResourcesRequest: AWSShape {
+    public struct ListResourcesRequest: AWSEncodableShape {
 
         /// Any applicable row-level and/or column-level filtering conditions for the resources.
         public let filterConditionList: [FilterCondition]?
@@ -634,7 +634,7 @@ extension LakeFormation {
         }
     }
 
-    public struct ListResourcesResponse: AWSShape {
+    public struct ListResourcesResponse: AWSDecodableShape {
 
         /// A continuation token, if this is not the first call to retrieve these resources.
         public let nextToken: String?
@@ -652,7 +652,7 @@ extension LakeFormation {
         }
     }
 
-    public struct PrincipalPermissions: AWSShape {
+    public struct PrincipalPermissions: AWSEncodableShape & AWSDecodableShape {
 
         /// The permissions that are granted to the principal.
         public let permissions: [Permission]?
@@ -674,7 +674,7 @@ extension LakeFormation {
         }
     }
 
-    public struct PrincipalResourcePermissions: AWSShape {
+    public struct PrincipalResourcePermissions: AWSDecodableShape {
 
         /// The permissions to be granted or revoked on the resource.
         public let permissions: [Permission]?
@@ -700,7 +700,7 @@ extension LakeFormation {
         }
     }
 
-    public struct PutDataLakeSettingsRequest: AWSShape {
+    public struct PutDataLakeSettingsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -725,7 +725,7 @@ extension LakeFormation {
         }
     }
 
-    public struct PutDataLakeSettingsResponse: AWSShape {
+    public struct PutDataLakeSettingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -733,7 +733,7 @@ extension LakeFormation {
 
     }
 
-    public struct RegisterResourceRequest: AWSShape {
+    public struct RegisterResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource that you want to register.
         public let resourceArn: String
@@ -759,7 +759,7 @@ extension LakeFormation {
         }
     }
 
-    public struct RegisterResourceResponse: AWSShape {
+    public struct RegisterResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -767,7 +767,7 @@ extension LakeFormation {
 
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalog: CatalogResource?
@@ -803,7 +803,7 @@ extension LakeFormation {
         }
     }
 
-    public struct ResourceInfo: AWSShape {
+    public struct ResourceInfo: AWSDecodableShape {
 
         /// The date and time the resource was last modified.
         public let lastModified: TimeStamp?
@@ -825,7 +825,7 @@ extension LakeFormation {
         }
     }
 
-    public struct RevokePermissionsRequest: AWSShape {
+    public struct RevokePermissionsRequest: AWSEncodableShape {
 
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
         public let catalogId: String?
@@ -863,7 +863,7 @@ extension LakeFormation {
         }
     }
 
-    public struct RevokePermissionsResponse: AWSShape {
+    public struct RevokePermissionsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -871,7 +871,7 @@ extension LakeFormation {
 
     }
 
-    public struct TableResource: AWSShape {
+    public struct TableResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the database for the table. Unique to a Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database privileges to a principal. 
         public let databaseName: String
@@ -898,7 +898,7 @@ extension LakeFormation {
         }
     }
 
-    public struct TableWithColumnsResource: AWSShape {
+    public struct TableWithColumnsResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The list of column names for the table. At least one of ColumnNames or ColumnWildcard is required.
         public let columnNames: [String]?
@@ -939,7 +939,7 @@ extension LakeFormation {
         }
     }
 
-    public struct UpdateResourceRequest: AWSShape {
+    public struct UpdateResourceRequest: AWSEncodableShape {
 
         /// The resource ARN.
         public let resourceArn: String
@@ -961,7 +961,7 @@ extension LakeFormation {
         }
     }
 
-    public struct UpdateResourceResponse: AWSShape {
+    public struct UpdateResourceResponse: AWSDecodableShape {
 
 
         public init() {

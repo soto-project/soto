@@ -407,7 +407,7 @@ extension IoT {
 
     //MARK: Shapes
 
-    public struct AbortConfig: AWSShape {
+    public struct AbortConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The list of abort criteria to define rules to abort the job.
         public let criteriaList: [AbortCriteria]
@@ -428,7 +428,7 @@ extension IoT {
         }
     }
 
-    public struct AbortCriteria: AWSShape {
+    public struct AbortCriteria: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of abort action to initiate a job abort.
         public let action: AbortAction
@@ -459,7 +459,7 @@ extension IoT {
         }
     }
 
-    public struct AcceptCertificateTransferRequest: AWSShape {
+    public struct AcceptCertificateTransferRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
             AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
@@ -481,13 +481,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case setAsActive = "setAsActive"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct Action: AWSShape {
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
 
         /// Change the state of a CloudWatch alarm.
         public let cloudwatchAlarm: CloudwatchAlarmAction?
@@ -583,7 +580,7 @@ extension IoT {
         }
     }
 
-    public struct ActiveViolation: AWSShape {
+    public struct ActiveViolation: AWSDecodableShape {
 
         /// The behavior which is being violated.
         public let behavior: Behavior?
@@ -621,7 +618,7 @@ extension IoT {
         }
     }
 
-    public struct AddThingToBillingGroupRequest: AWSShape {
+    public struct AddThingToBillingGroupRequest: AWSEncodableShape {
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -656,7 +653,7 @@ extension IoT {
         }
     }
 
-    public struct AddThingToBillingGroupResponse: AWSShape {
+    public struct AddThingToBillingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -664,7 +661,7 @@ extension IoT {
 
     }
 
-    public struct AddThingToThingGroupRequest: AWSShape {
+    public struct AddThingToThingGroupRequest: AWSEncodableShape {
 
         /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
         public let overrideDynamicGroups: Bool?
@@ -703,7 +700,7 @@ extension IoT {
         }
     }
 
-    public struct AddThingToThingGroupResponse: AWSShape {
+    public struct AddThingToThingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -711,7 +708,7 @@ extension IoT {
 
     }
 
-    public struct AddThingsToThingGroupParams: AWSShape {
+    public struct AddThingsToThingGroupParams: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic things groups.
         public let overrideDynamicGroups: Bool?
@@ -739,7 +736,7 @@ extension IoT {
         }
     }
 
-    public struct AlertTarget: AWSShape {
+    public struct AlertTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the notification target to which alerts are sent.
         public let alertTargetArn: String
@@ -762,7 +759,7 @@ extension IoT {
         }
     }
 
-    public struct Allowed: AWSShape {
+    public struct Allowed: AWSDecodableShape {
 
         /// A list of policies that allowed the authentication.
         public let policies: [Policy]?
@@ -776,7 +773,7 @@ extension IoT {
         }
     }
 
-    public struct AssetPropertyTimestamp: AWSShape {
+    public struct AssetPropertyTimestamp: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional. A string that contains the nanosecond time offset. Accepts substitution templates.
         public let offsetInNanos: String?
@@ -794,7 +791,7 @@ extension IoT {
         }
     }
 
-    public struct AssetPropertyValue: AWSShape {
+    public struct AssetPropertyValue: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional. A string that describes the quality of the value. Accepts substitution templates. Must be GOOD, BAD, or UNCERTAIN.
         public let quality: String?
@@ -820,7 +817,7 @@ extension IoT {
         }
     }
 
-    public struct AssetPropertyVariant: AWSShape {
+    public struct AssetPropertyVariant: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional. A string that contains the boolean value (true or false) of the value entry. Accepts substitution templates.
         public let booleanValue: String?
@@ -851,7 +848,7 @@ extension IoT {
         }
     }
 
-    public struct AssociateTargetsWithJobRequest: AWSShape {
+    public struct AssociateTargetsWithJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
@@ -880,12 +877,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
-            case jobId = "jobId"
             case targets = "targets"
         }
     }
 
-    public struct AssociateTargetsWithJobResponse: AWSShape {
+    public struct AssociateTargetsWithJobResponse: AWSDecodableShape {
 
         /// A short text description of the job.
         public let description: String?
@@ -907,7 +903,7 @@ extension IoT {
         }
     }
 
-    public struct AttachPolicyRequest: AWSShape {
+    public struct AttachPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
@@ -929,12 +925,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
             case target = "target"
         }
     }
 
-    public struct AttachPrincipalPolicyRequest: AWSShape {
+    public struct AttachPrincipalPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
             AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
@@ -956,13 +951,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case principal = "x-amzn-iot-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AttachSecurityProfileRequest: AWSShape {
+    public struct AttachSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName")), 
             AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
@@ -984,13 +976,10 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AttachSecurityProfileResponse: AWSShape {
+    public struct AttachSecurityProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -998,7 +987,7 @@ extension IoT {
 
     }
 
-    public struct AttachThingPrincipalRequest: AWSShape {
+    public struct AttachThingPrincipalRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal")), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
@@ -1020,13 +1009,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-principal"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct AttachThingPrincipalResponse: AWSShape {
+    public struct AttachThingPrincipalResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1034,7 +1020,7 @@ extension IoT {
 
     }
 
-    public struct AttributePayload: AWSShape {
+    public struct AttributePayload: AWSEncodableShape & AWSDecodableShape {
 
         /// A JSON string containing up to three key-value pair in JSON format. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
         public let attributes: [String: String]?
@@ -1061,7 +1047,7 @@ extension IoT {
         }
     }
 
-    public struct AuditCheckConfiguration: AWSShape {
+    public struct AuditCheckConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// True if this audit check is enabled for this account.
         public let enabled: Bool?
@@ -1075,7 +1061,7 @@ extension IoT {
         }
     }
 
-    public struct AuditCheckDetails: AWSShape {
+    public struct AuditCheckDetails: AWSDecodableShape {
 
         /// True if the check is complete and found all resources compliant.
         public let checkCompliant: Bool?
@@ -1109,7 +1095,7 @@ extension IoT {
         }
     }
 
-    public struct AuditFinding: AWSShape {
+    public struct AuditFinding: AWSDecodableShape {
 
         /// The audit check that generated this result.
         public let checkName: String?
@@ -1159,7 +1145,7 @@ extension IoT {
         }
     }
 
-    public struct AuditMitigationActionExecutionMetadata: AWSShape {
+    public struct AuditMitigationActionExecutionMetadata: AWSDecodableShape {
 
         /// The unique identifier for the mitigation action being applied by the task.
         public let actionId: String?
@@ -1205,7 +1191,7 @@ extension IoT {
         }
     }
 
-    public struct AuditMitigationActionsTaskMetadata: AWSShape {
+    public struct AuditMitigationActionsTaskMetadata: AWSDecodableShape {
 
         /// The time at which the audit mitigation actions task was started.
         public let startTime: TimeStamp?
@@ -1227,7 +1213,7 @@ extension IoT {
         }
     }
 
-    public struct AuditMitigationActionsTaskTarget: AWSShape {
+    public struct AuditMitigationActionsTaskTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies a filter in the form of an audit check and set of reason codes that identify the findings from the audit to which the audit mitigation actions task apply.
         public let auditCheckToReasonCodeFilter: [String: [String]]?
@@ -1266,7 +1252,7 @@ extension IoT {
         }
     }
 
-    public struct AuditNotificationTarget: AWSShape {
+    public struct AuditNotificationTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// True if notifications to the target are enabled.
         public let enabled: Bool?
@@ -1293,7 +1279,7 @@ extension IoT {
         }
     }
 
-    public struct AuditTaskMetadata: AWSShape {
+    public struct AuditTaskMetadata: AWSDecodableShape {
 
         /// The ID of this audit.
         public let taskId: String?
@@ -1315,7 +1301,7 @@ extension IoT {
         }
     }
 
-    public struct AuthInfo: AWSShape {
+    public struct AuthInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of action for which the principal is being authorized.
         public let actionType: ActionType?
@@ -1333,7 +1319,7 @@ extension IoT {
         }
     }
 
-    public struct AuthResult: AWSShape {
+    public struct AuthResult: AWSDecodableShape {
 
         /// The policies and statements that allowed the specified action.
         public let allowed: Allowed?
@@ -1363,7 +1349,7 @@ extension IoT {
         }
     }
 
-    public struct AuthorizerConfig: AWSShape {
+    public struct AuthorizerConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A Boolean that specifies whether the domain configuration's authorization service can be overridden.
         public let allowAuthorizerOverride: Bool?
@@ -1387,7 +1373,7 @@ extension IoT {
         }
     }
 
-    public struct AuthorizerDescription: AWSShape {
+    public struct AuthorizerDescription: AWSDecodableShape {
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -1433,7 +1419,7 @@ extension IoT {
         }
     }
 
-    public struct AuthorizerSummary: AWSShape {
+    public struct AuthorizerSummary: AWSDecodableShape {
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -1451,7 +1437,7 @@ extension IoT {
         }
     }
 
-    public struct AwsJobExecutionsRolloutConfig: AWSShape {
+    public struct AwsJobExecutionsRolloutConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum number of OTA update job executions started per minute.
         public let maximumPerMinute: Int?
@@ -1470,7 +1456,7 @@ extension IoT {
         }
     }
 
-    public struct AwsJobPresignedUrlConfig: AWSShape {
+    public struct AwsJobPresignedUrlConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 1800 seconds. Pre-signed URLs are generated when a request for the job document is received.
         public let expiresInSec: Int64?
@@ -1484,7 +1470,7 @@ extension IoT {
         }
     }
 
-    public struct Behavior: AWSShape {
+    public struct Behavior: AWSEncodableShape & AWSDecodableShape {
 
         /// The criteria that determine if a device is behaving normally in regard to the metric.
         public let criteria: BehaviorCriteria?
@@ -1518,7 +1504,7 @@ extension IoT {
         }
     }
 
-    public struct BehaviorCriteria: AWSShape {
+    public struct BehaviorCriteria: AWSEncodableShape & AWSDecodableShape {
 
         /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold).
         public let comparisonOperator: ComparisonOperator?
@@ -1561,7 +1547,7 @@ extension IoT {
         }
     }
 
-    public struct BillingGroupMetadata: AWSShape {
+    public struct BillingGroupMetadata: AWSDecodableShape {
 
         /// The date the billing group was created.
         public let creationDate: TimeStamp?
@@ -1575,7 +1561,7 @@ extension IoT {
         }
     }
 
-    public struct BillingGroupProperties: AWSShape {
+    public struct BillingGroupProperties: AWSEncodableShape & AWSDecodableShape {
 
         /// The description of the billing group.
         public let billingGroupDescription: String?
@@ -1594,7 +1580,7 @@ extension IoT {
         }
     }
 
-    public struct CACertificate: AWSShape {
+    public struct CACertificate: AWSDecodableShape {
 
         /// The ARN of the CA certificate.
         public let certificateArn: String?
@@ -1620,7 +1606,7 @@ extension IoT {
         }
     }
 
-    public struct CACertificateDescription: AWSShape {
+    public struct CACertificateDescription: AWSDecodableShape {
 
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
         public let autoRegistrationStatus: AutoRegistrationStatus?
@@ -1674,7 +1660,7 @@ extension IoT {
         }
     }
 
-    public struct CancelAuditMitigationActionsTaskRequest: AWSShape {
+    public struct CancelAuditMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -1692,12 +1678,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CancelAuditMitigationActionsTaskResponse: AWSShape {
+    public struct CancelAuditMitigationActionsTaskResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1705,7 +1689,7 @@ extension IoT {
 
     }
 
-    public struct CancelAuditTaskRequest: AWSShape {
+    public struct CancelAuditTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -1723,12 +1707,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CancelAuditTaskResponse: AWSShape {
+    public struct CancelAuditTaskResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1736,7 +1718,7 @@ extension IoT {
 
     }
 
-    public struct CancelCertificateTransferRequest: AWSShape {
+    public struct CancelCertificateTransferRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
         ]
@@ -1754,12 +1736,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CancelJobExecutionRequest: AWSShape {
+    public struct CancelJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
@@ -1804,14 +1784,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case expectedVersion = "expectedVersion"
-            case force = "force"
-            case jobId = "jobId"
             case statusDetails = "statusDetails"
-            case thingName = "thingName"
         }
     }
 
-    public struct CancelJobRequest: AWSShape {
+    public struct CancelJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
@@ -1845,13 +1822,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
-            case force = "force"
-            case jobId = "jobId"
             case reasonCode = "reasonCode"
         }
     }
 
-    public struct CancelJobResponse: AWSShape {
+    public struct CancelJobResponse: AWSDecodableShape {
 
         /// A short text description of the job.
         public let description: String?
@@ -1873,7 +1848,7 @@ extension IoT {
         }
     }
 
-    public struct Certificate: AWSShape {
+    public struct Certificate: AWSDecodableShape {
 
         /// The ARN of the certificate.
         public let certificateArn: String?
@@ -1899,7 +1874,7 @@ extension IoT {
         }
     }
 
-    public struct CertificateDescription: AWSShape {
+    public struct CertificateDescription: AWSDecodableShape {
 
         /// The certificate ID of the CA certificate used to sign this certificate.
         public let caCertificateId: String?
@@ -1961,7 +1936,7 @@ extension IoT {
         }
     }
 
-    public struct CertificateValidity: AWSShape {
+    public struct CertificateValidity: AWSDecodableShape {
 
         /// The certificate is not valid after this date.
         public let notAfter: TimeStamp?
@@ -1979,7 +1954,7 @@ extension IoT {
         }
     }
 
-    public struct ClearDefaultAuthorizerRequest: AWSShape {
+    public struct ClearDefaultAuthorizerRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1987,7 +1962,7 @@ extension IoT {
 
     }
 
-    public struct ClearDefaultAuthorizerResponse: AWSShape {
+    public struct ClearDefaultAuthorizerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1995,7 +1970,7 @@ extension IoT {
 
     }
 
-    public struct CloudwatchAlarmAction: AWSShape {
+    public struct CloudwatchAlarmAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The CloudWatch alarm name.
         public let alarmName: String
@@ -2021,7 +1996,7 @@ extension IoT {
         }
     }
 
-    public struct CloudwatchLogsAction: AWSShape {
+    public struct CloudwatchLogsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The CloudWatch log group to which the action sends data.
         public let logGroupName: String
@@ -2039,7 +2014,7 @@ extension IoT {
         }
     }
 
-    public struct CloudwatchMetricAction: AWSShape {
+    public struct CloudwatchMetricAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The CloudWatch metric name.
         public let metricName: String
@@ -2073,7 +2048,7 @@ extension IoT {
         }
     }
 
-    public struct CodeSigning: AWSShape {
+    public struct CodeSigning: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the AWSSignerJob which was created to sign the file.
         public let awsSignerJobId: String?
@@ -2099,7 +2074,7 @@ extension IoT {
         }
     }
 
-    public struct CodeSigningCertificateChain: AWSShape {
+    public struct CodeSigningCertificateChain: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the certificate.
         public let certificateName: String?
@@ -2117,7 +2092,7 @@ extension IoT {
         }
     }
 
-    public struct CodeSigningSignature: AWSShape {
+    public struct CodeSigningSignature: AWSEncodableShape & AWSDecodableShape {
 
         /// A base64 encoded binary representation of the code signing signature.
         public let inlineDocument: Data?
@@ -2131,7 +2106,7 @@ extension IoT {
         }
     }
 
-    public struct Configuration: AWSShape {
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
 
         /// True to enable the configuration.
         public let enabled: Bool?
@@ -2145,7 +2120,7 @@ extension IoT {
         }
     }
 
-    public struct ConfirmTopicRuleDestinationRequest: AWSShape {
+    public struct ConfirmTopicRuleDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "confirmationToken", location: .uri(locationName: "confirmationToken"))
         ]
@@ -2162,12 +2137,10 @@ extension IoT {
             try validate(self.confirmationToken, name:"confirmationToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case confirmationToken = "confirmationToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ConfirmTopicRuleDestinationResponse: AWSShape {
+    public struct ConfirmTopicRuleDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -2175,7 +2148,7 @@ extension IoT {
 
     }
 
-    public struct CreateAuthorizerRequest: AWSShape {
+    public struct CreateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
@@ -2219,7 +2192,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn = "authorizerFunctionArn"
-            case authorizerName = "authorizerName"
             case signingDisabled = "signingDisabled"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
@@ -2227,7 +2199,7 @@ extension IoT {
         }
     }
 
-    public struct CreateAuthorizerResponse: AWSShape {
+    public struct CreateAuthorizerResponse: AWSDecodableShape {
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -2245,7 +2217,7 @@ extension IoT {
         }
     }
 
-    public struct CreateBillingGroupRequest: AWSShape {
+    public struct CreateBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
         ]
@@ -2271,13 +2243,12 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
             case billingGroupProperties = "billingGroupProperties"
             case tags = "tags"
         }
     }
 
-    public struct CreateBillingGroupResponse: AWSShape {
+    public struct CreateBillingGroupResponse: AWSDecodableShape {
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -2299,7 +2270,7 @@ extension IoT {
         }
     }
 
-    public struct CreateCertificateFromCsrRequest: AWSShape {
+    public struct CreateCertificateFromCsrRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
         ]
@@ -2320,11 +2291,10 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case certificateSigningRequest = "certificateSigningRequest"
-            case setAsActive = "setAsActive"
         }
     }
 
-    public struct CreateCertificateFromCsrResponse: AWSShape {
+    public struct CreateCertificateFromCsrResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
         public let certificateArn: String?
@@ -2346,7 +2316,7 @@ extension IoT {
         }
     }
 
-    public struct CreateDimensionRequest: AWSShape {
+    public struct CreateDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -2387,14 +2357,13 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
-            case name = "name"
             case stringValues = "stringValues"
             case tags = "tags"
             case `type` = "type"
         }
     }
 
-    public struct CreateDimensionResponse: AWSShape {
+    public struct CreateDimensionResponse: AWSDecodableShape {
 
         /// The ARN (Amazon resource name) of the created dimension.
         public let arn: String?
@@ -2412,7 +2381,7 @@ extension IoT {
         }
     }
 
-    public struct CreateDomainConfigurationRequest: AWSShape {
+    public struct CreateDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
@@ -2460,7 +2429,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerConfig = "authorizerConfig"
-            case domainConfigurationName = "domainConfigurationName"
             case domainName = "domainName"
             case serverCertificateArns = "serverCertificateArns"
             case serviceType = "serviceType"
@@ -2468,7 +2436,7 @@ extension IoT {
         }
     }
 
-    public struct CreateDomainConfigurationResponse: AWSShape {
+    public struct CreateDomainConfigurationResponse: AWSDecodableShape {
 
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
@@ -2486,7 +2454,7 @@ extension IoT {
         }
     }
 
-    public struct CreateDynamicThingGroupRequest: AWSShape {
+    public struct CreateDynamicThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
@@ -2529,12 +2497,11 @@ extension IoT {
             case queryString = "queryString"
             case queryVersion = "queryVersion"
             case tags = "tags"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
 
-    public struct CreateDynamicThingGroupResponse: AWSShape {
+    public struct CreateDynamicThingGroupResponse: AWSDecodableShape {
 
         /// The dynamic thing group index name.
         public let indexName: String?
@@ -2568,7 +2535,7 @@ extension IoT {
         }
     }
 
-    public struct CreateJobRequest: AWSShape {
+    public struct CreateJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
@@ -2631,7 +2598,6 @@ extension IoT {
             case document = "document"
             case documentSource = "documentSource"
             case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-            case jobId = "jobId"
             case presignedUrlConfig = "presignedUrlConfig"
             case tags = "tags"
             case targets = "targets"
@@ -2640,7 +2606,7 @@ extension IoT {
         }
     }
 
-    public struct CreateJobResponse: AWSShape {
+    public struct CreateJobResponse: AWSDecodableShape {
 
         /// The job description.
         public let description: String?
@@ -2662,7 +2628,7 @@ extension IoT {
         }
     }
 
-    public struct CreateKeysAndCertificateRequest: AWSShape {
+    public struct CreateKeysAndCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
         ]
@@ -2674,12 +2640,10 @@ extension IoT {
             self.setAsActive = setAsActive
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case setAsActive = "setAsActive"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateKeysAndCertificateResponse: AWSShape {
+    public struct CreateKeysAndCertificateResponse: AWSDecodableShape {
 
         /// The ARN of the certificate.
         public let certificateArn: String?
@@ -2705,7 +2669,7 @@ extension IoT {
         }
     }
 
-    public struct CreateMitigationActionRequest: AWSShape {
+    public struct CreateMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
@@ -2735,14 +2699,13 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
             case actionParams = "actionParams"
             case roleArn = "roleArn"
             case tags = "tags"
         }
     }
 
-    public struct CreateMitigationActionResponse: AWSShape {
+    public struct CreateMitigationActionResponse: AWSDecodableShape {
 
         /// The ARN for the new mitigation action.
         public let actionArn: String?
@@ -2760,7 +2723,7 @@ extension IoT {
         }
     }
 
-    public struct CreateOTAUpdateRequest: AWSShape {
+    public struct CreateOTAUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
         ]
@@ -2827,7 +2790,6 @@ extension IoT {
             case awsJobPresignedUrlConfig = "awsJobPresignedUrlConfig"
             case description = "description"
             case files = "files"
-            case otaUpdateId = "otaUpdateId"
             case protocols = "protocols"
             case roleArn = "roleArn"
             case tags = "tags"
@@ -2836,7 +2798,7 @@ extension IoT {
         }
     }
 
-    public struct CreateOTAUpdateResponse: AWSShape {
+    public struct CreateOTAUpdateResponse: AWSDecodableShape {
 
         /// The AWS IoT job ARN associated with the OTA update.
         public let awsIotJobArn: String?
@@ -2866,7 +2828,7 @@ extension IoT {
         }
     }
 
-    public struct CreatePolicyRequest: AWSShape {
+    public struct CreatePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
@@ -2889,11 +2851,10 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "policyDocument"
-            case policyName = "policyName"
         }
     }
 
-    public struct CreatePolicyResponse: AWSShape {
+    public struct CreatePolicyResponse: AWSDecodableShape {
 
         /// The policy ARN.
         public let policyArn: String?
@@ -2919,7 +2880,7 @@ extension IoT {
         }
     }
 
-    public struct CreatePolicyVersionRequest: AWSShape {
+    public struct CreatePolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
             AWSMemberEncoding(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"))
@@ -2946,12 +2907,10 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "policyDocument"
-            case policyName = "policyName"
-            case setAsDefault = "setAsDefault"
         }
     }
 
-    public struct CreatePolicyVersionResponse: AWSShape {
+    public struct CreatePolicyVersionResponse: AWSDecodableShape {
 
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
@@ -2977,7 +2936,7 @@ extension IoT {
         }
     }
 
-    public struct CreateProvisioningClaimRequest: AWSShape {
+    public struct CreateProvisioningClaimRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
@@ -2995,12 +2954,10 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateProvisioningClaimResponse: AWSShape {
+    public struct CreateProvisioningClaimResponse: AWSDecodableShape {
 
         /// The ID of the certificate.
         public let certificateId: String?
@@ -3026,7 +2983,7 @@ extension IoT {
         }
     }
 
-    public struct CreateProvisioningTemplateRequest: AWSShape {
+    public struct CreateProvisioningTemplateRequest: AWSEncodableShape {
 
         /// The description of the fleet provisioning template.
         public let description: String?
@@ -3071,7 +3028,7 @@ extension IoT {
         }
     }
 
-    public struct CreateProvisioningTemplateResponse: AWSShape {
+    public struct CreateProvisioningTemplateResponse: AWSDecodableShape {
 
         /// The default version of the fleet provisioning template.
         public let defaultVersionId: Int?
@@ -3093,7 +3050,7 @@ extension IoT {
         }
     }
 
-    public struct CreateProvisioningTemplateVersionRequest: AWSShape {
+    public struct CreateProvisioningTemplateVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "setAsDefault", location: .querystring(locationName: "setAsDefault")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
@@ -3119,13 +3076,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setAsDefault = "setAsDefault"
             case templateBody = "templateBody"
-            case templateName = "templateName"
         }
     }
 
-    public struct CreateProvisioningTemplateVersionResponse: AWSShape {
+    public struct CreateProvisioningTemplateVersionResponse: AWSDecodableShape {
 
         /// True if the fleet provisioning template version is the default version, otherwise false.
         public let isDefaultVersion: Bool?
@@ -3151,7 +3106,7 @@ extension IoT {
         }
     }
 
-    public struct CreateRoleAliasRequest: AWSShape {
+    public struct CreateRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
@@ -3181,12 +3136,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case credentialDurationSeconds = "credentialDurationSeconds"
-            case roleAlias = "roleAlias"
             case roleArn = "roleArn"
         }
     }
 
-    public struct CreateRoleAliasResponse: AWSShape {
+    public struct CreateRoleAliasResponse: AWSDecodableShape {
 
         /// The role alias.
         public let roleAlias: String?
@@ -3204,7 +3158,7 @@ extension IoT {
         }
     }
 
-    public struct CreateScheduledAuditRequest: AWSShape {
+    public struct CreateScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
@@ -3242,13 +3196,12 @@ extension IoT {
             case dayOfMonth = "dayOfMonth"
             case dayOfWeek = "dayOfWeek"
             case frequency = "frequency"
-            case scheduledAuditName = "scheduledAuditName"
             case tags = "tags"
             case targetCheckNames = "targetCheckNames"
         }
     }
 
-    public struct CreateScheduledAuditResponse: AWSShape {
+    public struct CreateScheduledAuditResponse: AWSDecodableShape {
 
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
@@ -3262,7 +3215,7 @@ extension IoT {
         }
     }
 
-    public struct CreateSecurityProfileRequest: AWSShape {
+    public struct CreateSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
@@ -3312,12 +3265,11 @@ extension IoT {
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case securityProfileDescription = "securityProfileDescription"
-            case securityProfileName = "securityProfileName"
             case tags = "tags"
         }
     }
 
-    public struct CreateSecurityProfileResponse: AWSShape {
+    public struct CreateSecurityProfileResponse: AWSDecodableShape {
 
         /// The ARN of the security profile.
         public let securityProfileArn: String?
@@ -3335,7 +3287,7 @@ extension IoT {
         }
     }
 
-    public struct CreateStreamRequest: AWSShape {
+    public struct CreateStreamRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
@@ -3378,12 +3330,11 @@ extension IoT {
             case description = "description"
             case files = "files"
             case roleArn = "roleArn"
-            case streamId = "streamId"
             case tags = "tags"
         }
     }
 
-    public struct CreateStreamResponse: AWSShape {
+    public struct CreateStreamResponse: AWSDecodableShape {
 
         /// A description of the stream.
         public let description: String?
@@ -3409,7 +3360,7 @@ extension IoT {
         }
     }
 
-    public struct CreateThingGroupRequest: AWSShape {
+    public struct CreateThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
@@ -3443,12 +3394,11 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case parentGroupName = "parentGroupName"
             case tags = "tags"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
 
-    public struct CreateThingGroupResponse: AWSShape {
+    public struct CreateThingGroupResponse: AWSDecodableShape {
 
         /// The thing group ARN.
         public let thingGroupArn: String?
@@ -3470,7 +3420,7 @@ extension IoT {
         }
     }
 
-    public struct CreateThingRequest: AWSShape {
+    public struct CreateThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
@@ -3507,12 +3457,11 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case attributePayload = "attributePayload"
             case billingGroupName = "billingGroupName"
-            case thingName = "thingName"
             case thingTypeName = "thingTypeName"
         }
     }
 
-    public struct CreateThingResponse: AWSShape {
+    public struct CreateThingResponse: AWSDecodableShape {
 
         /// The ARN of the new thing.
         public let thingArn: String?
@@ -3534,7 +3483,7 @@ extension IoT {
         }
     }
 
-    public struct CreateThingTypeRequest: AWSShape {
+    public struct CreateThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
@@ -3561,12 +3510,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
-            case thingTypeName = "thingTypeName"
             case thingTypeProperties = "thingTypeProperties"
         }
     }
 
-    public struct CreateThingTypeResponse: AWSShape {
+    public struct CreateThingTypeResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the thing type.
         public let thingTypeArn: String?
@@ -3588,7 +3536,7 @@ extension IoT {
         }
     }
 
-    public struct CreateTopicRuleDestinationRequest: AWSShape {
+    public struct CreateTopicRuleDestinationRequest: AWSEncodableShape {
 
         /// The topic rule destination configuration.
         public let destinationConfiguration: TopicRuleDestinationConfiguration
@@ -3606,7 +3554,7 @@ extension IoT {
         }
     }
 
-    public struct CreateTopicRuleDestinationResponse: AWSShape {
+    public struct CreateTopicRuleDestinationResponse: AWSDecodableShape {
 
         /// The topic rule destination.
         public let topicRuleDestination: TopicRuleDestination?
@@ -3620,7 +3568,7 @@ extension IoT {
         }
     }
 
-    public struct CreateTopicRuleRequest: AWSShape {
+    public struct CreateTopicRuleRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "topicRulePayload"
         public static var _encoding = [
@@ -3649,13 +3597,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-            case tags = "x-amz-tagging"
             case topicRulePayload = "topicRulePayload"
         }
     }
 
-    public struct CustomCodeSigning: AWSShape {
+    public struct CustomCodeSigning: AWSEncodableShape & AWSDecodableShape {
 
         /// The certificate chain.
         public let certificateChain: CodeSigningCertificateChain?
@@ -3681,7 +3627,7 @@ extension IoT {
         }
     }
 
-    public struct DeleteAccountAuditConfigurationRequest: AWSShape {
+    public struct DeleteAccountAuditConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deleteScheduledAudits", location: .querystring(locationName: "deleteScheduledAudits"))
         ]
@@ -3693,12 +3639,10 @@ extension IoT {
             self.deleteScheduledAudits = deleteScheduledAudits
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deleteScheduledAudits = "deleteScheduledAudits"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteAccountAuditConfigurationResponse: AWSShape {
+    public struct DeleteAccountAuditConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3706,7 +3650,7 @@ extension IoT {
 
     }
 
-    public struct DeleteAuthorizerRequest: AWSShape {
+    public struct DeleteAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
@@ -3724,12 +3668,10 @@ extension IoT {
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteAuthorizerResponse: AWSShape {
+    public struct DeleteAuthorizerResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3737,7 +3679,7 @@ extension IoT {
 
     }
 
-    public struct DeleteBillingGroupRequest: AWSShape {
+    public struct DeleteBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName")), 
             AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"))
@@ -3759,13 +3701,10 @@ extension IoT {
             try validate(self.billingGroupName, name:"billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case expectedVersion = "expectedVersion"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBillingGroupResponse: AWSShape {
+    public struct DeleteBillingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3773,7 +3712,7 @@ extension IoT {
 
     }
 
-    public struct DeleteCACertificateRequest: AWSShape {
+    public struct DeleteCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "caCertificateId"))
         ]
@@ -3791,12 +3730,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteCACertificateResponse: AWSShape {
+    public struct DeleteCACertificateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3804,7 +3741,7 @@ extension IoT {
 
     }
 
-    public struct DeleteCertificateRequest: AWSShape {
+    public struct DeleteCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
             AWSMemberEncoding(label: "forceDelete", location: .querystring(locationName: "forceDelete"))
@@ -3826,13 +3763,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case forceDelete = "forceDelete"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDimensionRequest: AWSShape {
+    public struct DeleteDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -3850,12 +3784,10 @@ extension IoT {
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDimensionResponse: AWSShape {
+    public struct DeleteDimensionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3863,7 +3795,7 @@ extension IoT {
 
     }
 
-    public struct DeleteDomainConfigurationRequest: AWSShape {
+    public struct DeleteDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
@@ -3881,12 +3813,10 @@ extension IoT {
             try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainConfigurationName = "domainConfigurationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDomainConfigurationResponse: AWSShape {
+    public struct DeleteDomainConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3894,7 +3824,7 @@ extension IoT {
 
     }
 
-    public struct DeleteDynamicThingGroupRequest: AWSShape {
+    public struct DeleteDynamicThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
@@ -3916,13 +3846,10 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDynamicThingGroupResponse: AWSShape {
+    public struct DeleteDynamicThingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3930,7 +3857,7 @@ extension IoT {
 
     }
 
-    public struct DeleteJobExecutionRequest: AWSShape {
+    public struct DeleteJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "executionNumber", location: .uri(locationName: "executionNumber")), 
             AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
@@ -3963,15 +3890,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case executionNumber = "executionNumber"
-            case force = "force"
-            case jobId = "jobId"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteJobRequest: AWSShape {
+    public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
@@ -3993,13 +3915,10 @@ extension IoT {
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMitigationActionRequest: AWSShape {
+    public struct DeleteMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
@@ -4016,12 +3935,10 @@ extension IoT {
             try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMitigationActionResponse: AWSShape {
+    public struct DeleteMitigationActionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4029,7 +3946,7 @@ extension IoT {
 
     }
 
-    public struct DeleteOTAUpdateRequest: AWSShape {
+    public struct DeleteOTAUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deleteStream", location: .querystring(locationName: "deleteStream")), 
             AWSMemberEncoding(label: "forceDeleteAWSJob", location: .querystring(locationName: "forceDeleteAWSJob")), 
@@ -4055,14 +3972,10 @@ extension IoT {
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deleteStream = "deleteStream"
-            case forceDeleteAWSJob = "forceDeleteAWSJob"
-            case otaUpdateId = "otaUpdateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteOTAUpdateResponse: AWSShape {
+    public struct DeleteOTAUpdateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4070,7 +3983,7 @@ extension IoT {
 
     }
 
-    public struct DeletePolicyRequest: AWSShape {
+    public struct DeletePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
@@ -4088,12 +4001,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePolicyVersionRequest: AWSShape {
+    public struct DeletePolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
             AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
@@ -4116,13 +4027,10 @@ extension IoT {
             try validate(self.policyVersionId, name:"policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteProvisioningTemplateRequest: AWSShape {
+    public struct DeleteProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
@@ -4140,12 +4048,10 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteProvisioningTemplateResponse: AWSShape {
+    public struct DeleteProvisioningTemplateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4153,7 +4059,7 @@ extension IoT {
 
     }
 
-    public struct DeleteProvisioningTemplateVersionRequest: AWSShape {
+    public struct DeleteProvisioningTemplateVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")), 
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "versionId"))
@@ -4175,13 +4081,10 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteProvisioningTemplateVersionResponse: AWSShape {
+    public struct DeleteProvisioningTemplateVersionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4189,7 +4092,7 @@ extension IoT {
 
     }
 
-    public struct DeleteRegistrationCodeRequest: AWSShape {
+    public struct DeleteRegistrationCodeRequest: AWSEncodableShape {
 
 
         public init() {
@@ -4197,7 +4100,7 @@ extension IoT {
 
     }
 
-    public struct DeleteRegistrationCodeResponse: AWSShape {
+    public struct DeleteRegistrationCodeResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4205,7 +4108,7 @@ extension IoT {
 
     }
 
-    public struct DeleteRoleAliasRequest: AWSShape {
+    public struct DeleteRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
@@ -4223,12 +4126,10 @@ extension IoT {
             try validate(self.roleAlias, name:"roleAlias", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteRoleAliasResponse: AWSShape {
+    public struct DeleteRoleAliasResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4236,7 +4137,7 @@ extension IoT {
 
     }
 
-    public struct DeleteScheduledAuditRequest: AWSShape {
+    public struct DeleteScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
@@ -4254,12 +4155,10 @@ extension IoT {
             try validate(self.scheduledAuditName, name:"scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case scheduledAuditName = "scheduledAuditName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteScheduledAuditResponse: AWSShape {
+    public struct DeleteScheduledAuditResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4267,7 +4166,7 @@ extension IoT {
 
     }
 
-    public struct DeleteSecurityProfileRequest: AWSShape {
+    public struct DeleteSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
@@ -4289,13 +4188,10 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case securityProfileName = "securityProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSecurityProfileResponse: AWSShape {
+    public struct DeleteSecurityProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4303,7 +4199,7 @@ extension IoT {
 
     }
 
-    public struct DeleteStreamRequest: AWSShape {
+    public struct DeleteStreamRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
@@ -4321,12 +4217,10 @@ extension IoT {
             try validate(self.streamId, name:"streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteStreamResponse: AWSShape {
+    public struct DeleteStreamResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4334,7 +4228,7 @@ extension IoT {
 
     }
 
-    public struct DeleteThingGroupRequest: AWSShape {
+    public struct DeleteThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
@@ -4356,13 +4250,10 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteThingGroupResponse: AWSShape {
+    public struct DeleteThingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4370,7 +4261,7 @@ extension IoT {
 
     }
 
-    public struct DeleteThingRequest: AWSShape {
+    public struct DeleteThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
@@ -4392,13 +4283,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteThingResponse: AWSShape {
+    public struct DeleteThingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4406,7 +4294,7 @@ extension IoT {
 
     }
 
-    public struct DeleteThingTypeRequest: AWSShape {
+    public struct DeleteThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
@@ -4424,12 +4312,10 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteThingTypeResponse: AWSShape {
+    public struct DeleteThingTypeResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4437,7 +4323,7 @@ extension IoT {
 
     }
 
-    public struct DeleteTopicRuleDestinationRequest: AWSShape {
+    public struct DeleteTopicRuleDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
@@ -4449,12 +4335,10 @@ extension IoT {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteTopicRuleDestinationResponse: AWSShape {
+    public struct DeleteTopicRuleDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4462,7 +4346,7 @@ extension IoT {
 
     }
 
-    public struct DeleteTopicRuleRequest: AWSShape {
+    public struct DeleteTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
@@ -4480,12 +4364,10 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteV2LoggingLevelRequest: AWSShape {
+    public struct DeleteV2LoggingLevelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "targetName", location: .querystring(locationName: "targetName")), 
             AWSMemberEncoding(label: "targetType", location: .querystring(locationName: "targetType"))
@@ -4501,13 +4383,10 @@ extension IoT {
             self.targetType = targetType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case targetName = "targetName"
-            case targetType = "targetType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct Denied: AWSShape {
+    public struct Denied: AWSDecodableShape {
 
         /// Information that explicitly denies the authorization. 
         public let explicitDeny: ExplicitDeny?
@@ -4525,7 +4404,7 @@ extension IoT {
         }
     }
 
-    public struct DeprecateThingTypeRequest: AWSShape {
+    public struct DeprecateThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
@@ -4547,12 +4426,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
             case undoDeprecate = "undoDeprecate"
         }
     }
 
-    public struct DeprecateThingTypeResponse: AWSShape {
+    public struct DeprecateThingTypeResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4560,7 +4438,7 @@ extension IoT {
 
     }
 
-    public struct DescribeAccountAuditConfigurationRequest: AWSShape {
+    public struct DescribeAccountAuditConfigurationRequest: AWSEncodableShape {
 
 
         public init() {
@@ -4568,7 +4446,7 @@ extension IoT {
 
     }
 
-    public struct DescribeAccountAuditConfigurationResponse: AWSShape {
+    public struct DescribeAccountAuditConfigurationResponse: AWSDecodableShape {
 
         /// Which audit checks are enabled and disabled for this account.
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
@@ -4590,7 +4468,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeAuditFindingRequest: AWSShape {
+    public struct DescribeAuditFindingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "findingId", location: .uri(locationName: "findingId"))
         ]
@@ -4608,12 +4486,10 @@ extension IoT {
             try validate(self.findingId, name:"findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case findingId = "findingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAuditFindingResponse: AWSShape {
+    public struct DescribeAuditFindingResponse: AWSDecodableShape {
 
         public let finding: AuditFinding?
 
@@ -4626,7 +4502,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeAuditMitigationActionsTaskRequest: AWSShape {
+    public struct DescribeAuditMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -4644,12 +4520,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAuditMitigationActionsTaskResponse: AWSShape {
+    public struct DescribeAuditMitigationActionsTaskResponse: AWSDecodableShape {
 
         /// Specifies the mitigation actions and their parameters that are applied as part of this task.
         public let actionsDefinition: [MitigationAction]?
@@ -4687,7 +4561,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeAuditTaskRequest: AWSShape {
+    public struct DescribeAuditTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -4705,12 +4579,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAuditTaskResponse: AWSShape {
+    public struct DescribeAuditTaskResponse: AWSDecodableShape {
 
         /// Detailed information about each check performed during this audit.
         public let auditDetails: [String: AuditCheckDetails]?
@@ -4744,7 +4616,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeAuthorizerRequest: AWSShape {
+    public struct DescribeAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
@@ -4762,12 +4634,10 @@ extension IoT {
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAuthorizerResponse: AWSShape {
+    public struct DescribeAuthorizerResponse: AWSDecodableShape {
 
         /// The authorizer description.
         public let authorizerDescription: AuthorizerDescription?
@@ -4781,7 +4651,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeBillingGroupRequest: AWSShape {
+    public struct DescribeBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
         ]
@@ -4799,12 +4669,10 @@ extension IoT {
             try validate(self.billingGroupName, name:"billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeBillingGroupResponse: AWSShape {
+    public struct DescribeBillingGroupResponse: AWSDecodableShape {
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -4838,7 +4706,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeCACertificateRequest: AWSShape {
+    public struct DescribeCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "caCertificateId"))
         ]
@@ -4856,12 +4724,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeCACertificateResponse: AWSShape {
+    public struct DescribeCACertificateResponse: AWSDecodableShape {
 
         /// The CA certificate description.
         public let certificateDescription: CACertificateDescription?
@@ -4879,7 +4745,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeCertificateRequest: AWSShape {
+    public struct DescribeCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
         ]
@@ -4897,12 +4763,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeCertificateResponse: AWSShape {
+    public struct DescribeCertificateResponse: AWSDecodableShape {
 
         /// The description of the certificate.
         public let certificateDescription: CertificateDescription?
@@ -4916,7 +4780,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeDefaultAuthorizerRequest: AWSShape {
+    public struct DescribeDefaultAuthorizerRequest: AWSEncodableShape {
 
 
         public init() {
@@ -4924,7 +4788,7 @@ extension IoT {
 
     }
 
-    public struct DescribeDefaultAuthorizerResponse: AWSShape {
+    public struct DescribeDefaultAuthorizerResponse: AWSDecodableShape {
 
         /// The default authorizer's description.
         public let authorizerDescription: AuthorizerDescription?
@@ -4938,7 +4802,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeDimensionRequest: AWSShape {
+    public struct DescribeDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -4956,12 +4820,10 @@ extension IoT {
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeDimensionResponse: AWSShape {
+    public struct DescribeDimensionResponse: AWSDecodableShape {
 
         /// The ARN (Amazon resource name) for the dimension.
         public let arn: String?
@@ -4995,7 +4857,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeDomainConfigurationRequest: AWSShape {
+    public struct DescribeDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
@@ -5013,12 +4875,10 @@ extension IoT {
             try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case domainConfigurationName = "domainConfigurationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeDomainConfigurationResponse: AWSShape {
+    public struct DescribeDomainConfigurationResponse: AWSDecodableShape {
 
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
@@ -5060,7 +4920,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeEndpointRequest: AWSShape {
+    public struct DescribeEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endpointType", location: .querystring(locationName: "endpointType"))
         ]
@@ -5076,12 +4936,10 @@ extension IoT {
             try validate(self.endpointType, name:"endpointType", parent: name, max: 128)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointType = "endpointType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeEndpointResponse: AWSShape {
+    public struct DescribeEndpointResponse: AWSDecodableShape {
 
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
         public let endpointAddress: String?
@@ -5095,7 +4953,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeEventConfigurationsRequest: AWSShape {
+    public struct DescribeEventConfigurationsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -5103,7 +4961,7 @@ extension IoT {
 
     }
 
-    public struct DescribeEventConfigurationsResponse: AWSShape {
+    public struct DescribeEventConfigurationsResponse: AWSDecodableShape {
 
         /// The creation date of the event configuration.
         public let creationDate: TimeStamp?
@@ -5125,7 +4983,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeIndexRequest: AWSShape {
+    public struct DescribeIndexRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "indexName", location: .uri(locationName: "indexName"))
         ]
@@ -5143,12 +5001,10 @@ extension IoT {
             try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case indexName = "indexName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeIndexResponse: AWSShape {
+    public struct DescribeIndexResponse: AWSDecodableShape {
 
         /// The index name.
         public let indexName: String?
@@ -5170,7 +5026,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeJobExecutionRequest: AWSShape {
+    public struct DescribeJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
@@ -5199,14 +5055,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case executionNumber = "executionNumber"
-            case jobId = "jobId"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeJobExecutionResponse: AWSShape {
+    public struct DescribeJobExecutionResponse: AWSDecodableShape {
 
         /// Information about the job execution.
         public let execution: JobExecution?
@@ -5220,7 +5072,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeJobRequest: AWSShape {
+    public struct DescribeJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
@@ -5238,12 +5090,10 @@ extension IoT {
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeJobResponse: AWSShape {
+    public struct DescribeJobResponse: AWSDecodableShape {
 
         /// An S3 link to the job document.
         public let documentSource: String?
@@ -5261,7 +5111,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeMitigationActionRequest: AWSShape {
+    public struct DescribeMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
@@ -5278,12 +5128,10 @@ extension IoT {
             try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeMitigationActionResponse: AWSShape {
+    public struct DescribeMitigationActionResponse: AWSDecodableShape {
 
         /// The ARN that identifies this migration action.
         public let actionArn: String?
@@ -5325,7 +5173,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeProvisioningTemplateRequest: AWSShape {
+    public struct DescribeProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
@@ -5343,12 +5191,10 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeProvisioningTemplateResponse: AWSShape {
+    public struct DescribeProvisioningTemplateResponse: AWSDecodableShape {
 
         /// The date when the fleet provisioning template was created.
         public let creationDate: TimeStamp?
@@ -5394,7 +5240,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeProvisioningTemplateVersionRequest: AWSShape {
+    public struct DescribeProvisioningTemplateVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")), 
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "versionId"))
@@ -5416,13 +5262,10 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "templateName"
-            case versionId = "versionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeProvisioningTemplateVersionResponse: AWSShape {
+    public struct DescribeProvisioningTemplateVersionResponse: AWSDecodableShape {
 
         /// The date when the fleet provisioning template version was created.
         public let creationDate: TimeStamp?
@@ -5448,7 +5291,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeRoleAliasRequest: AWSShape {
+    public struct DescribeRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
@@ -5466,12 +5309,10 @@ extension IoT {
             try validate(self.roleAlias, name:"roleAlias", parent: name, pattern: "[\\w=,@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeRoleAliasResponse: AWSShape {
+    public struct DescribeRoleAliasResponse: AWSDecodableShape {
 
         /// The role alias description.
         public let roleAliasDescription: RoleAliasDescription?
@@ -5485,7 +5326,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeScheduledAuditRequest: AWSShape {
+    public struct DescribeScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
@@ -5503,12 +5344,10 @@ extension IoT {
             try validate(self.scheduledAuditName, name:"scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case scheduledAuditName = "scheduledAuditName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeScheduledAuditResponse: AWSShape {
+    public struct DescribeScheduledAuditResponse: AWSDecodableShape {
 
         /// The day of the month on which the scheduled audit takes place. Will be "1" through "31" or "LAST". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
@@ -5542,7 +5381,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeSecurityProfileRequest: AWSShape {
+    public struct DescribeSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
@@ -5560,12 +5399,10 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeSecurityProfileResponse: AWSShape {
+    public struct DescribeSecurityProfileResponse: AWSDecodableShape {
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetainV2: [MetricToRetain]?
@@ -5611,7 +5448,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeStreamRequest: AWSShape {
+    public struct DescribeStreamRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
@@ -5629,12 +5466,10 @@ extension IoT {
             try validate(self.streamId, name:"streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeStreamResponse: AWSShape {
+    public struct DescribeStreamResponse: AWSDecodableShape {
 
         /// Information about the stream.
         public let streamInfo: StreamInfo?
@@ -5648,7 +5483,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeThingGroupRequest: AWSShape {
+    public struct DescribeThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
@@ -5666,12 +5501,10 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeThingGroupResponse: AWSShape {
+    public struct DescribeThingGroupResponse: AWSDecodableShape {
 
         /// The dynamic thing group index name.
         public let indexName: String?
@@ -5721,7 +5554,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeThingRegistrationTaskRequest: AWSShape {
+    public struct DescribeThingRegistrationTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -5737,12 +5570,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, max: 40)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeThingRegistrationTaskResponse: AWSShape {
+    public struct DescribeThingRegistrationTaskResponse: AWSDecodableShape {
 
         /// The task creation date.
         public let creationDate: TimeStamp?
@@ -5800,7 +5631,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeThingRequest: AWSShape {
+    public struct DescribeThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
@@ -5818,12 +5649,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeThingResponse: AWSShape {
+    public struct DescribeThingResponse: AWSDecodableShape {
 
         /// The thing attributes.
         public let attributes: [String: String]?
@@ -5865,7 +5694,7 @@ extension IoT {
         }
     }
 
-    public struct DescribeThingTypeRequest: AWSShape {
+    public struct DescribeThingTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingTypeName", location: .uri(locationName: "thingTypeName"))
         ]
@@ -5883,12 +5712,10 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeThingTypeResponse: AWSShape {
+    public struct DescribeThingTypeResponse: AWSDecodableShape {
 
         /// The thing type ARN.
         public let thingTypeArn: String?
@@ -5918,7 +5745,7 @@ extension IoT {
         }
     }
 
-    public struct Destination: AWSShape {
+    public struct Destination: AWSEncodableShape & AWSDecodableShape {
 
         /// Describes the location in S3 of the updated firmware.
         public let s3Destination: S3Destination?
@@ -5936,7 +5763,7 @@ extension IoT {
         }
     }
 
-    public struct DetachPolicyRequest: AWSShape {
+    public struct DetachPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
@@ -5958,12 +5785,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
             case target = "target"
         }
     }
 
-    public struct DetachPrincipalPolicyRequest: AWSShape {
+    public struct DetachPrincipalPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
             AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-iot-principal"))
@@ -5985,13 +5811,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case principal = "x-amzn-iot-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DetachSecurityProfileRequest: AWSShape {
+    public struct DetachSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName")), 
             AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"))
@@ -6013,13 +5836,10 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DetachSecurityProfileResponse: AWSShape {
+    public struct DetachSecurityProfileResponse: AWSDecodableShape {
 
 
         public init() {
@@ -6027,7 +5847,7 @@ extension IoT {
 
     }
 
-    public struct DetachThingPrincipalRequest: AWSShape {
+    public struct DetachThingPrincipalRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "principal", location: .header(locationName: "x-amzn-principal")), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
@@ -6049,13 +5869,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-principal"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DetachThingPrincipalResponse: AWSShape {
+    public struct DetachThingPrincipalResponse: AWSDecodableShape {
 
 
         public init() {
@@ -6063,7 +5880,7 @@ extension IoT {
 
     }
 
-    public struct DisableTopicRuleRequest: AWSShape {
+    public struct DisableTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
@@ -6081,12 +5898,10 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DomainConfigurationSummary: AWSShape {
+    public struct DomainConfigurationSummary: AWSDecodableShape {
 
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
@@ -6108,7 +5923,7 @@ extension IoT {
         }
     }
 
-    public struct DynamoDBAction: AWSShape {
+    public struct DynamoDBAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The hash key name.
         public let hashKeyField: String
@@ -6158,7 +5973,7 @@ extension IoT {
         }
     }
 
-    public struct DynamoDBv2Action: AWSShape {
+    public struct DynamoDBv2Action: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the DynamoDB table to which the message data will be written. For example:  { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } }  Each attribute in the message payload will be written to a separate column in the DynamoDB database.
         public let putItem: PutItemInput
@@ -6176,7 +5991,7 @@ extension IoT {
         }
     }
 
-    public struct EffectivePolicy: AWSShape {
+    public struct EffectivePolicy: AWSDecodableShape {
 
         /// The policy ARN.
         public let policyArn: String?
@@ -6198,7 +6013,7 @@ extension IoT {
         }
     }
 
-    public struct ElasticsearchAction: AWSShape {
+    public struct ElasticsearchAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The endpoint of your Elasticsearch domain.
         public let endpoint: String
@@ -6232,7 +6047,7 @@ extension IoT {
         }
     }
 
-    public struct EnableIoTLoggingParams: AWSShape {
+    public struct EnableIoTLoggingParams: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the types of information to be logged.
         public let logLevel: LogLevel
@@ -6255,7 +6070,7 @@ extension IoT {
         }
     }
 
-    public struct EnableTopicRuleRequest: AWSShape {
+    public struct EnableTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
@@ -6273,12 +6088,10 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ErrorInfo: AWSShape {
+    public struct ErrorInfo: AWSDecodableShape {
 
         /// The error code.
         public let code: String?
@@ -6296,7 +6109,7 @@ extension IoT {
         }
     }
 
-    public struct ExplicitDeny: AWSShape {
+    public struct ExplicitDeny: AWSDecodableShape {
 
         /// The policies that denied the authorization.
         public let policies: [Policy]?
@@ -6310,7 +6123,7 @@ extension IoT {
         }
     }
 
-    public struct ExponentialRolloutRate: AWSShape {
+    public struct ExponentialRolloutRate: AWSEncodableShape & AWSDecodableShape {
 
         /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
         public let baseRatePerMinute: Int
@@ -6340,7 +6153,7 @@ extension IoT {
         }
     }
 
-    public struct Field: AWSShape {
+    public struct Field: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the field.
         public let name: String?
@@ -6358,7 +6171,7 @@ extension IoT {
         }
     }
 
-    public struct FileLocation: AWSShape {
+    public struct FileLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The location of the updated firmware in S3.
         public let s3Location: S3Location?
@@ -6381,7 +6194,7 @@ extension IoT {
         }
     }
 
-    public struct FirehoseAction: AWSShape {
+    public struct FirehoseAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The delivery stream name.
         public let deliveryStreamName: String
@@ -6407,7 +6220,7 @@ extension IoT {
         }
     }
 
-    public struct GetCardinalityRequest: AWSShape {
+    public struct GetCardinalityRequest: AWSEncodableShape {
 
         /// The field to aggregate.
         public let aggregationField: String?
@@ -6441,7 +6254,7 @@ extension IoT {
         }
     }
 
-    public struct GetCardinalityResponse: AWSShape {
+    public struct GetCardinalityResponse: AWSDecodableShape {
 
         /// The approximate count of unique values that match the query.
         public let cardinality: Int?
@@ -6455,7 +6268,7 @@ extension IoT {
         }
     }
 
-    public struct GetEffectivePoliciesRequest: AWSShape {
+    public struct GetEffectivePoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
         ]
@@ -6482,11 +6295,10 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case cognitoIdentityPoolId = "cognitoIdentityPoolId"
             case principal = "principal"
-            case thingName = "thingName"
         }
     }
 
-    public struct GetEffectivePoliciesResponse: AWSShape {
+    public struct GetEffectivePoliciesResponse: AWSDecodableShape {
 
         /// The effective policies.
         public let effectivePolicies: [EffectivePolicy]?
@@ -6500,7 +6312,7 @@ extension IoT {
         }
     }
 
-    public struct GetIndexingConfigurationRequest: AWSShape {
+    public struct GetIndexingConfigurationRequest: AWSEncodableShape {
 
 
         public init() {
@@ -6508,7 +6320,7 @@ extension IoT {
 
     }
 
-    public struct GetIndexingConfigurationResponse: AWSShape {
+    public struct GetIndexingConfigurationResponse: AWSDecodableShape {
 
         /// The index configuration.
         public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
@@ -6526,7 +6338,7 @@ extension IoT {
         }
     }
 
-    public struct GetJobDocumentRequest: AWSShape {
+    public struct GetJobDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
@@ -6544,12 +6356,10 @@ extension IoT {
             try validate(self.jobId, name:"jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJobDocumentResponse: AWSShape {
+    public struct GetJobDocumentResponse: AWSDecodableShape {
 
         /// The job document content.
         public let document: String?
@@ -6563,7 +6373,7 @@ extension IoT {
         }
     }
 
-    public struct GetLoggingOptionsRequest: AWSShape {
+    public struct GetLoggingOptionsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -6571,7 +6381,7 @@ extension IoT {
 
     }
 
-    public struct GetLoggingOptionsResponse: AWSShape {
+    public struct GetLoggingOptionsResponse: AWSDecodableShape {
 
         /// The logging level.
         public let logLevel: LogLevel?
@@ -6589,7 +6399,7 @@ extension IoT {
         }
     }
 
-    public struct GetOTAUpdateRequest: AWSShape {
+    public struct GetOTAUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"))
         ]
@@ -6607,12 +6417,10 @@ extension IoT {
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateId = "otaUpdateId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOTAUpdateResponse: AWSShape {
+    public struct GetOTAUpdateResponse: AWSDecodableShape {
 
         /// The OTA update info.
         public let otaUpdateInfo: OTAUpdateInfo?
@@ -6626,7 +6434,7 @@ extension IoT {
         }
     }
 
-    public struct GetPercentilesRequest: AWSShape {
+    public struct GetPercentilesRequest: AWSEncodableShape {
 
         /// The field to aggregate.
         public let aggregationField: String?
@@ -6668,7 +6476,7 @@ extension IoT {
         }
     }
 
-    public struct GetPercentilesResponse: AWSShape {
+    public struct GetPercentilesResponse: AWSDecodableShape {
 
         /// The percentile values of the aggregated fields.
         public let percentiles: [PercentPair]?
@@ -6682,7 +6490,7 @@ extension IoT {
         }
     }
 
-    public struct GetPolicyRequest: AWSShape {
+    public struct GetPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
@@ -6700,12 +6508,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPolicyResponse: AWSShape {
+    public struct GetPolicyResponse: AWSDecodableShape {
 
         /// The date the policy was created.
         public let creationDate: TimeStamp?
@@ -6743,7 +6549,7 @@ extension IoT {
         }
     }
 
-    public struct GetPolicyVersionRequest: AWSShape {
+    public struct GetPolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
             AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
@@ -6766,13 +6572,10 @@ extension IoT {
             try validate(self.policyVersionId, name:"policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPolicyVersionResponse: AWSShape {
+    public struct GetPolicyVersionResponse: AWSDecodableShape {
 
         /// The date the policy was created.
         public let creationDate: TimeStamp?
@@ -6814,7 +6617,7 @@ extension IoT {
         }
     }
 
-    public struct GetRegistrationCodeRequest: AWSShape {
+    public struct GetRegistrationCodeRequest: AWSEncodableShape {
 
 
         public init() {
@@ -6822,7 +6625,7 @@ extension IoT {
 
     }
 
-    public struct GetRegistrationCodeResponse: AWSShape {
+    public struct GetRegistrationCodeResponse: AWSDecodableShape {
 
         /// The CA certificate registration code.
         public let registrationCode: String?
@@ -6836,7 +6639,7 @@ extension IoT {
         }
     }
 
-    public struct GetStatisticsRequest: AWSShape {
+    public struct GetStatisticsRequest: AWSEncodableShape {
 
         /// The aggregation field name.
         public let aggregationField: String?
@@ -6870,7 +6673,7 @@ extension IoT {
         }
     }
 
-    public struct GetStatisticsResponse: AWSShape {
+    public struct GetStatisticsResponse: AWSDecodableShape {
 
         /// The statistics returned by the Fleet Indexing service based on the query and aggregation field.
         public let statistics: Statistics?
@@ -6884,7 +6687,7 @@ extension IoT {
         }
     }
 
-    public struct GetTopicRuleDestinationRequest: AWSShape {
+    public struct GetTopicRuleDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "arn"))
         ]
@@ -6896,12 +6699,10 @@ extension IoT {
             self.arn = arn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTopicRuleDestinationResponse: AWSShape {
+    public struct GetTopicRuleDestinationResponse: AWSDecodableShape {
 
         /// The topic rule destination.
         public let topicRuleDestination: TopicRuleDestination?
@@ -6915,7 +6716,7 @@ extension IoT {
         }
     }
 
-    public struct GetTopicRuleRequest: AWSShape {
+    public struct GetTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
@@ -6933,12 +6734,10 @@ extension IoT {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTopicRuleResponse: AWSShape {
+    public struct GetTopicRuleResponse: AWSDecodableShape {
 
         /// The rule.
         public let rule: TopicRule?
@@ -6956,7 +6755,7 @@ extension IoT {
         }
     }
 
-    public struct GetV2LoggingOptionsRequest: AWSShape {
+    public struct GetV2LoggingOptionsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -6964,7 +6763,7 @@ extension IoT {
 
     }
 
-    public struct GetV2LoggingOptionsResponse: AWSShape {
+    public struct GetV2LoggingOptionsResponse: AWSDecodableShape {
 
         /// The default log level.
         public let defaultLogLevel: LogLevel?
@@ -6986,7 +6785,7 @@ extension IoT {
         }
     }
 
-    public struct GroupNameAndArn: AWSShape {
+    public struct GroupNameAndArn: AWSDecodableShape {
 
         /// The group ARN.
         public let groupArn: String?
@@ -7004,7 +6803,7 @@ extension IoT {
         }
     }
 
-    public struct HttpAction: AWSShape {
+    public struct HttpAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public let auth: HttpAuthorization?
@@ -7040,7 +6839,7 @@ extension IoT {
         }
     }
 
-    public struct HttpActionHeader: AWSShape {
+    public struct HttpActionHeader: AWSEncodableShape & AWSDecodableShape {
 
         /// The HTTP header key.
         public let key: String
@@ -7063,7 +6862,7 @@ extension IoT {
         }
     }
 
-    public struct HttpAuthorization: AWSShape {
+    public struct HttpAuthorization: AWSEncodableShape & AWSDecodableShape {
 
         /// Use Sig V4 authorization. For more information, see Signature Version 4 Signing Process.
         public let sigv4: SigV4Authorization?
@@ -7077,7 +6876,7 @@ extension IoT {
         }
     }
 
-    public struct HttpContext: AWSShape {
+    public struct HttpContext: AWSEncodableShape {
 
         /// The header keys and values in an HTTP authorization request.
         public let headers: [String: String]?
@@ -7106,7 +6905,7 @@ extension IoT {
         }
     }
 
-    public struct HttpUrlDestinationConfiguration: AWSShape {
+    public struct HttpUrlDestinationConfiguration: AWSEncodableShape {
 
         /// The URL AWS IoT uses to confirm ownership of or access to the topic rule destination URL.
         public let confirmationUrl: String
@@ -7124,7 +6923,7 @@ extension IoT {
         }
     }
 
-    public struct HttpUrlDestinationProperties: AWSShape {
+    public struct HttpUrlDestinationProperties: AWSDecodableShape {
 
         /// The URL used to confirm the HTTP topic rule destination URL.
         public let confirmationUrl: String?
@@ -7138,7 +6937,7 @@ extension IoT {
         }
     }
 
-    public struct HttpUrlDestinationSummary: AWSShape {
+    public struct HttpUrlDestinationSummary: AWSDecodableShape {
 
         /// The URL used to confirm ownership of or access to the HTTP topic rule destination URL.
         public let confirmationUrl: String?
@@ -7152,7 +6951,7 @@ extension IoT {
         }
     }
 
-    public struct ImplicitDeny: AWSShape {
+    public struct ImplicitDeny: AWSDecodableShape {
 
         /// Policies that don't contain a matching allow or deny statement for the specified action on the specified resource. 
         public let policies: [Policy]?
@@ -7166,7 +6965,7 @@ extension IoT {
         }
     }
 
-    public struct IotAnalyticsAction: AWSShape {
+    public struct IotAnalyticsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
         public let channelArn: String?
@@ -7188,7 +6987,7 @@ extension IoT {
         }
     }
 
-    public struct IotEventsAction: AWSShape {
+    public struct IotEventsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the AWS IoT Events input.
         public let inputName: String
@@ -7216,7 +7015,7 @@ extension IoT {
         }
     }
 
-    public struct IotSiteWiseAction: AWSShape {
+    public struct IotSiteWiseAction: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of asset property value entries.
         public let putAssetPropertyValueEntries: [PutAssetPropertyValueEntry]
@@ -7241,7 +7040,7 @@ extension IoT {
         }
     }
 
-    public struct Job: AWSShape {
+    public struct Job: AWSDecodableShape {
 
         /// Configuration for criteria to abort the job.
         public let abortConfig: AbortConfig?
@@ -7319,7 +7118,7 @@ extension IoT {
         }
     }
 
-    public struct JobExecution: AWSShape {
+    public struct JobExecution: AWSDecodableShape {
 
         /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur up to 60 seconds later than the estimated duration. This value will not be included if the job execution has reached a terminal status.
         public let approximateSecondsBeforeTimedOut: Int64?
@@ -7373,7 +7172,7 @@ extension IoT {
         }
     }
 
-    public struct JobExecutionStatusDetails: AWSShape {
+    public struct JobExecutionStatusDetails: AWSDecodableShape {
 
         /// The job execution status.
         public let detailsMap: [String: String]?
@@ -7387,7 +7186,7 @@ extension IoT {
         }
     }
 
-    public struct JobExecutionSummary: AWSShape {
+    public struct JobExecutionSummary: AWSDecodableShape {
 
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
         public let executionNumber: Int64?
@@ -7417,7 +7216,7 @@ extension IoT {
         }
     }
 
-    public struct JobExecutionSummaryForJob: AWSShape {
+    public struct JobExecutionSummaryForJob: AWSDecodableShape {
 
         /// Contains a subset of information about a job execution.
         public let jobExecutionSummary: JobExecutionSummary?
@@ -7435,7 +7234,7 @@ extension IoT {
         }
     }
 
-    public struct JobExecutionSummaryForThing: AWSShape {
+    public struct JobExecutionSummaryForThing: AWSDecodableShape {
 
         /// Contains a subset of information about a job execution.
         public let jobExecutionSummary: JobExecutionSummary?
@@ -7453,7 +7252,7 @@ extension IoT {
         }
     }
 
-    public struct JobExecutionsRolloutConfig: AWSShape {
+    public struct JobExecutionsRolloutConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout.
         public let exponentialRate: ExponentialRolloutRate?
@@ -7476,7 +7275,7 @@ extension IoT {
         }
     }
 
-    public struct JobProcessDetails: AWSShape {
+    public struct JobProcessDetails: AWSDecodableShape {
 
         /// The number of things that cancelled the job.
         public let numberOfCanceledThings: Int?
@@ -7522,7 +7321,7 @@ extension IoT {
         }
     }
 
-    public struct JobSummary: AWSShape {
+    public struct JobSummary: AWSDecodableShape {
 
         /// The time, in seconds since the epoch, when the job completed.
         public let completedAt: TimeStamp?
@@ -7564,7 +7363,7 @@ extension IoT {
         }
     }
 
-    public struct KeyPair: AWSShape {
+    public struct KeyPair: AWSDecodableShape {
 
         /// The private key.
         public let privateKey: String?
@@ -7582,7 +7381,7 @@ extension IoT {
         }
     }
 
-    public struct KinesisAction: AWSShape {
+    public struct KinesisAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The partition key.
         public let partitionKey: String?
@@ -7604,7 +7403,7 @@ extension IoT {
         }
     }
 
-    public struct LambdaAction: AWSShape {
+    public struct LambdaAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the Lambda function.
         public let functionArn: String
@@ -7618,7 +7417,7 @@ extension IoT {
         }
     }
 
-    public struct ListActiveViolationsRequest: AWSShape {
+    public struct ListActiveViolationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -7652,15 +7451,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListActiveViolationsResponse: AWSShape {
+    public struct ListActiveViolationsResponse: AWSDecodableShape {
 
         /// The list of active violations.
         public let activeViolations: [ActiveViolation]?
@@ -7678,7 +7472,7 @@ extension IoT {
         }
     }
 
-    public struct ListAttachedPoliciesRequest: AWSShape {
+    public struct ListAttachedPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
@@ -7708,15 +7502,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case recursive = "recursive"
-            case target = "target"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAttachedPoliciesResponse: AWSShape {
+    public struct ListAttachedPoliciesResponse: AWSDecodableShape {
 
         /// The token to retrieve the next set of results, or ``null`` if there are no more results.
         public let nextMarker: String?
@@ -7734,7 +7523,7 @@ extension IoT {
         }
     }
 
-    public struct ListAuditFindingsRequest: AWSShape {
+    public struct ListAuditFindingsRequest: AWSEncodableShape {
 
         /// A filter to limit results to the findings for the specified audit check.
         public let checkName: String?
@@ -7781,7 +7570,7 @@ extension IoT {
         }
     }
 
-    public struct ListAuditFindingsResponse: AWSShape {
+    public struct ListAuditFindingsResponse: AWSDecodableShape {
 
         /// The findings (results) of the audit.
         public let findings: [AuditFinding]?
@@ -7799,7 +7588,7 @@ extension IoT {
         }
     }
 
-    public struct ListAuditMitigationActionsExecutionsRequest: AWSShape {
+    public struct ListAuditMitigationActionsExecutionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionStatus", location: .querystring(locationName: "actionStatus")), 
             AWSMemberEncoding(label: "findingId", location: .querystring(locationName: "findingId")), 
@@ -7838,16 +7627,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionStatus = "actionStatus"
-            case findingId = "findingId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAuditMitigationActionsExecutionsResponse: AWSShape {
+    public struct ListAuditMitigationActionsExecutionsResponse: AWSDecodableShape {
 
         /// A set of task execution results based on the input parameters. Details include the mitigation action applied, start time, and task status.
         public let actionsExecutions: [AuditMitigationActionExecutionMetadata]?
@@ -7865,7 +7648,7 @@ extension IoT {
         }
     }
 
-    public struct ListAuditMitigationActionsTasksRequest: AWSShape {
+    public struct ListAuditMitigationActionsTasksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "auditTaskId", location: .querystring(locationName: "auditTaskId")), 
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
@@ -7912,18 +7695,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case auditTaskId = "auditTaskId"
-            case endTime = "endTime"
-            case findingId = "findingId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case startTime = "startTime"
-            case taskStatus = "taskStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAuditMitigationActionsTasksResponse: AWSShape {
+    public struct ListAuditMitigationActionsTasksResponse: AWSDecodableShape {
 
         /// The token for the next set of results.
         public let nextToken: String?
@@ -7941,7 +7716,7 @@ extension IoT {
         }
     }
 
-    public struct ListAuditTasksRequest: AWSShape {
+    public struct ListAuditTasksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -7978,17 +7753,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case startTime = "startTime"
-            case taskStatus = "taskStatus"
-            case taskType = "taskType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAuditTasksResponse: AWSShape {
+    public struct ListAuditTasksResponse: AWSDecodableShape {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -8006,7 +7774,7 @@ extension IoT {
         }
     }
 
-    public struct ListAuthorizersRequest: AWSShape {
+    public struct ListAuthorizersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8036,15 +7804,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAuthorizersResponse: AWSShape {
+    public struct ListAuthorizersResponse: AWSDecodableShape {
 
         /// The authorizers.
         public let authorizers: [AuthorizerSummary]?
@@ -8062,7 +7825,7 @@ extension IoT {
         }
     }
 
-    public struct ListBillingGroupsRequest: AWSShape {
+    public struct ListBillingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter")), 
@@ -8090,14 +7853,10 @@ extension IoT {
             try validate(self.namePrefixFilter, name:"namePrefixFilter", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case namePrefixFilter = "namePrefixFilter"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBillingGroupsResponse: AWSShape {
+    public struct ListBillingGroupsResponse: AWSDecodableShape {
 
         /// The list of billing groups.
         public let billingGroups: [GroupNameAndArn]?
@@ -8115,7 +7874,7 @@ extension IoT {
         }
     }
 
-    public struct ListCACertificatesRequest: AWSShape {
+    public struct ListCACertificatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8141,14 +7900,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCACertificatesResponse: AWSShape {
+    public struct ListCACertificatesResponse: AWSDecodableShape {
 
         /// The CA certificates registered in your AWS account.
         public let certificates: [CACertificate]?
@@ -8166,7 +7921,7 @@ extension IoT {
         }
     }
 
-    public struct ListCertificatesByCARequest: AWSShape {
+    public struct ListCertificatesByCARequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "caCertificateId", location: .uri(locationName: "caCertificateId")), 
@@ -8199,15 +7954,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case caCertificateId = "caCertificateId"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCertificatesByCAResponse: AWSShape {
+    public struct ListCertificatesByCAResponse: AWSDecodableShape {
 
         /// The device certificates signed by the specified CA certificate.
         public let certificates: [Certificate]?
@@ -8225,7 +7975,7 @@ extension IoT {
         }
     }
 
-    public struct ListCertificatesRequest: AWSShape {
+    public struct ListCertificatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8251,14 +8001,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCertificatesResponse: AWSShape {
+    public struct ListCertificatesResponse: AWSDecodableShape {
 
         /// The descriptions of the certificates.
         public let certificates: [Certificate]?
@@ -8276,7 +8022,7 @@ extension IoT {
         }
     }
 
-    public struct ListDimensionsRequest: AWSShape {
+    public struct ListDimensionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -8297,13 +8043,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDimensionsResponse: AWSShape {
+    public struct ListDimensionsResponse: AWSDecodableShape {
 
         /// A list of the names of the defined dimensions. Use DescribeDimension to get details for a dimension.
         public let dimensionNames: [String]?
@@ -8321,7 +8064,7 @@ extension IoT {
         }
     }
 
-    public struct ListDomainConfigurationsRequest: AWSShape {
+    public struct ListDomainConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
@@ -8347,14 +8090,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case serviceType = "serviceType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDomainConfigurationsResponse: AWSShape {
+    public struct ListDomainConfigurationsResponse: AWSDecodableShape {
 
         /// A list of objects that contain summary information about the user's domain configurations.
         public let domainConfigurations: [DomainConfigurationSummary]?
@@ -8372,7 +8111,7 @@ extension IoT {
         }
     }
 
-    public struct ListIndicesRequest: AWSShape {
+    public struct ListIndicesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -8393,13 +8132,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListIndicesResponse: AWSShape {
+    public struct ListIndicesResponse: AWSDecodableShape {
 
         /// The index names.
         public let indexNames: [String]?
@@ -8417,7 +8153,7 @@ extension IoT {
         }
     }
 
-    public struct ListJobExecutionsForJobRequest: AWSShape {
+    public struct ListJobExecutionsForJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -8449,15 +8185,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJobExecutionsForJobResponse: AWSShape {
+    public struct ListJobExecutionsForJobResponse: AWSDecodableShape {
 
         /// A list of job execution summaries.
         public let executionSummaries: [JobExecutionSummaryForJob]?
@@ -8475,7 +8206,7 @@ extension IoT {
         }
     }
 
-    public struct ListJobExecutionsForThingRequest: AWSShape {
+    public struct ListJobExecutionsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -8507,15 +8238,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJobExecutionsForThingResponse: AWSShape {
+    public struct ListJobExecutionsForThingResponse: AWSDecodableShape {
 
         /// A list of job execution summaries.
         public let executionSummaries: [JobExecutionSummaryForThing]?
@@ -8533,7 +8259,7 @@ extension IoT {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -8576,17 +8302,10 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-            case targetSelection = "targetSelection"
-            case thingGroupId = "thingGroupId"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJobsResponse: AWSShape {
+    public struct ListJobsResponse: AWSDecodableShape {
 
         /// A list of jobs.
         public let jobs: [JobSummary]?
@@ -8604,7 +8323,7 @@ extension IoT {
         }
     }
 
-    public struct ListMitigationActionsRequest: AWSShape {
+    public struct ListMitigationActionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionType", location: .querystring(locationName: "actionType")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -8629,14 +8348,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case actionType = "actionType"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListMitigationActionsResponse: AWSShape {
+    public struct ListMitigationActionsResponse: AWSDecodableShape {
 
         /// A set of actions that matched the specified filter criteria.
         public let actionIdentifiers: [MitigationActionIdentifier]?
@@ -8654,7 +8369,7 @@ extension IoT {
         }
     }
 
-    public struct ListOTAUpdatesRequest: AWSShape {
+    public struct ListOTAUpdatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -8679,14 +8394,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case otaUpdateStatus = "otaUpdateStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListOTAUpdatesResponse: AWSShape {
+    public struct ListOTAUpdatesResponse: AWSDecodableShape {
 
         /// A token to use to get the next set of results.
         public let nextToken: String?
@@ -8704,7 +8415,7 @@ extension IoT {
         }
     }
 
-    public struct ListOutgoingCertificatesRequest: AWSShape {
+    public struct ListOutgoingCertificatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8730,14 +8441,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListOutgoingCertificatesResponse: AWSShape {
+    public struct ListOutgoingCertificatesResponse: AWSDecodableShape {
 
         /// The marker for the next set of results.
         public let nextMarker: String?
@@ -8755,7 +8462,7 @@ extension IoT {
         }
     }
 
-    public struct ListPoliciesRequest: AWSShape {
+    public struct ListPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8781,14 +8488,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPoliciesResponse: AWSShape {
+    public struct ListPoliciesResponse: AWSDecodableShape {
 
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
@@ -8806,7 +8509,7 @@ extension IoT {
         }
     }
 
-    public struct ListPolicyPrincipalsRequest: AWSShape {
+    public struct ListPolicyPrincipalsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8839,15 +8542,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case policyName = "x-amzn-iot-policy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPolicyPrincipalsResponse: AWSShape {
+    public struct ListPolicyPrincipalsResponse: AWSDecodableShape {
 
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
@@ -8865,7 +8563,7 @@ extension IoT {
         }
     }
 
-    public struct ListPolicyVersionsRequest: AWSShape {
+    public struct ListPolicyVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName"))
         ]
@@ -8883,12 +8581,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPolicyVersionsResponse: AWSShape {
+    public struct ListPolicyVersionsResponse: AWSDecodableShape {
 
         /// The policy versions.
         public let policyVersions: [PolicyVersion]?
@@ -8902,7 +8598,7 @@ extension IoT {
         }
     }
 
-    public struct ListPrincipalPoliciesRequest: AWSShape {
+    public struct ListPrincipalPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -8932,15 +8628,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case principal = "x-amzn-iot-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPrincipalPoliciesResponse: AWSShape {
+    public struct ListPrincipalPoliciesResponse: AWSDecodableShape {
 
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
@@ -8958,7 +8649,7 @@ extension IoT {
         }
     }
 
-    public struct ListPrincipalThingsRequest: AWSShape {
+    public struct ListPrincipalThingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -8983,14 +8674,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case principal = "x-amzn-principal"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPrincipalThingsResponse: AWSShape {
+    public struct ListPrincipalThingsResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9008,7 +8695,7 @@ extension IoT {
         }
     }
 
-    public struct ListProvisioningTemplateVersionsRequest: AWSShape {
+    public struct ListProvisioningTemplateVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9036,14 +8723,10 @@ extension IoT {
             try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case templateName = "templateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListProvisioningTemplateVersionsResponse: AWSShape {
+    public struct ListProvisioningTemplateVersionsResponse: AWSDecodableShape {
 
         /// A token to retrieve the next set of results.
         public let nextToken: String?
@@ -9061,7 +8744,7 @@ extension IoT {
         }
     }
 
-    public struct ListProvisioningTemplatesRequest: AWSShape {
+    public struct ListProvisioningTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -9082,13 +8765,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListProvisioningTemplatesResponse: AWSShape {
+    public struct ListProvisioningTemplatesResponse: AWSDecodableShape {
 
         /// A token to retrieve the next set of results.
         public let nextToken: String?
@@ -9106,7 +8786,7 @@ extension IoT {
         }
     }
 
-    public struct ListRoleAliasesRequest: AWSShape {
+    public struct ListRoleAliasesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
@@ -9132,14 +8812,10 @@ extension IoT {
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case marker = "marker"
-            case pageSize = "pageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListRoleAliasesResponse: AWSShape {
+    public struct ListRoleAliasesResponse: AWSDecodableShape {
 
         /// A marker used to get the next set of results.
         public let nextMarker: String?
@@ -9157,7 +8833,7 @@ extension IoT {
         }
     }
 
-    public struct ListScheduledAuditsRequest: AWSShape {
+    public struct ListScheduledAuditsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -9178,13 +8854,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListScheduledAuditsResponse: AWSShape {
+    public struct ListScheduledAuditsResponse: AWSDecodableShape {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9202,7 +8875,7 @@ extension IoT {
         }
     }
 
-    public struct ListSecurityProfilesForTargetRequest: AWSShape {
+    public struct ListSecurityProfilesForTargetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9231,15 +8904,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case recursive = "recursive"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSecurityProfilesForTargetResponse: AWSShape {
+    public struct ListSecurityProfilesForTargetResponse: AWSDecodableShape {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9257,7 +8925,7 @@ extension IoT {
         }
     }
 
-    public struct ListSecurityProfilesRequest: AWSShape {
+    public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensionName", location: .querystring(locationName: "dimensionName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -9285,14 +8953,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dimensionName = "dimensionName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSecurityProfilesResponse: AWSShape {
+    public struct ListSecurityProfilesResponse: AWSDecodableShape {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9310,7 +8974,7 @@ extension IoT {
         }
     }
 
-    public struct ListStreamsRequest: AWSShape {
+    public struct ListStreamsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -9335,14 +8999,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ascendingOrder = "isAscendingOrder"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListStreamsResponse: AWSShape {
+    public struct ListStreamsResponse: AWSDecodableShape {
 
         /// A token used to get the next set of results.
         public let nextToken: String?
@@ -9360,7 +9020,7 @@ extension IoT {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
@@ -9376,13 +9036,10 @@ extension IoT {
             self.resourceArn = resourceArn
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9400,7 +9057,7 @@ extension IoT {
         }
     }
 
-    public struct ListTargetsForPolicyRequest: AWSShape {
+    public struct ListTargetsForPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
@@ -9429,14 +9086,10 @@ extension IoT {
             try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w+=,.@-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case pageSize = "pageSize"
-            case policyName = "policyName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTargetsForPolicyResponse: AWSShape {
+    public struct ListTargetsForPolicyResponse: AWSDecodableShape {
 
         /// A marker used to get the next set of results.
         public let nextMarker: String?
@@ -9454,7 +9107,7 @@ extension IoT {
         }
     }
 
-    public struct ListTargetsForSecurityProfileRequest: AWSShape {
+    public struct ListTargetsForSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9482,14 +9135,10 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTargetsForSecurityProfileResponse: AWSShape {
+    public struct ListTargetsForSecurityProfileResponse: AWSDecodableShape {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9507,7 +9156,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingGroupsForThingRequest: AWSShape {
+    public struct ListThingGroupsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9535,14 +9184,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingGroupsForThingResponse: AWSShape {
+    public struct ListThingGroupsForThingResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9560,7 +9205,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingGroupsRequest: AWSShape {
+    public struct ListThingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter")), 
@@ -9599,16 +9244,10 @@ extension IoT {
             try validate(self.parentGroup, name:"parentGroup", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case namePrefixFilter = "namePrefixFilter"
-            case nextToken = "nextToken"
-            case parentGroup = "parentGroup"
-            case recursive = "recursive"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingGroupsResponse: AWSShape {
+    public struct ListThingGroupsResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9626,7 +9265,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingPrincipalsRequest: AWSShape {
+    public struct ListThingPrincipalsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
@@ -9644,12 +9283,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingPrincipalsResponse: AWSShape {
+    public struct ListThingPrincipalsResponse: AWSDecodableShape {
 
         /// The principals associated with the thing.
         public let principals: [String]?
@@ -9663,7 +9300,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingRegistrationTaskReportsRequest: AWSShape {
+    public struct ListThingRegistrationTaskReportsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9693,15 +9330,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, max: 40)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case reportType = "reportType"
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingRegistrationTaskReportsResponse: AWSShape {
+    public struct ListThingRegistrationTaskReportsResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9723,7 +9355,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingRegistrationTasksRequest: AWSShape {
+    public struct ListThingRegistrationTasksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9748,14 +9380,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingRegistrationTasksResponse: AWSShape {
+    public struct ListThingRegistrationTasksResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9773,7 +9401,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingTypesRequest: AWSShape {
+    public struct ListThingTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9801,14 +9429,10 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingTypesResponse: AWSShape {
+    public struct ListThingTypesResponse: AWSDecodableShape {
 
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9826,7 +9450,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingsInBillingGroupRequest: AWSShape {
+    public struct ListThingsInBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -9854,14 +9478,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingsInBillingGroupResponse: AWSShape {
+    public struct ListThingsInBillingGroupResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9879,7 +9499,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingsInThingGroupRequest: AWSShape {
+    public struct ListThingsInThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -9911,15 +9531,10 @@ extension IoT {
             try validate(self.thingGroupName, name:"thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case recursive = "recursive"
-            case thingGroupName = "thingGroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingsInThingGroupResponse: AWSShape {
+    public struct ListThingsInThingGroupResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -9937,7 +9552,7 @@ extension IoT {
         }
     }
 
-    public struct ListThingsRequest: AWSShape {
+    public struct ListThingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributeName", location: .querystring(locationName: "attributeName")), 
             AWSMemberEncoding(label: "attributeValue", location: .querystring(locationName: "attributeValue")), 
@@ -9977,16 +9592,10 @@ extension IoT {
             try validate(self.thingTypeName, name:"thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "attributeName"
-            case attributeValue = "attributeValue"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case thingTypeName = "thingTypeName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListThingsResponse: AWSShape {
+    public struct ListThingsResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10004,7 +9613,7 @@ extension IoT {
         }
     }
 
-    public struct ListTopicRuleDestinationsRequest: AWSShape {
+    public struct ListTopicRuleDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -10025,13 +9634,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTopicRuleDestinationsResponse: AWSShape {
+    public struct ListTopicRuleDestinationsResponse: AWSDecodableShape {
 
         /// Information about a topic rule destination.
         public let destinationSummaries: [TopicRuleDestinationSummary]?
@@ -10049,7 +9655,7 @@ extension IoT {
         }
     }
 
-    public struct ListTopicRulesRequest: AWSShape {
+    public struct ListTopicRulesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -10078,15 +9684,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case ruleDisabled = "ruleDisabled"
-            case topic = "topic"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTopicRulesResponse: AWSShape {
+    public struct ListTopicRulesResponse: AWSDecodableShape {
 
         /// A token used to retrieve the next value.
         public let nextToken: String?
@@ -10104,7 +9705,7 @@ extension IoT {
         }
     }
 
-    public struct ListV2LoggingLevelsRequest: AWSShape {
+    public struct ListV2LoggingLevelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -10129,14 +9730,10 @@ extension IoT {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case targetType = "targetType"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListV2LoggingLevelsResponse: AWSShape {
+    public struct ListV2LoggingLevelsResponse: AWSDecodableShape {
 
         /// The logging configuration for a target.
         public let logTargetConfigurations: [LogTargetConfiguration]?
@@ -10154,7 +9751,7 @@ extension IoT {
         }
     }
 
-    public struct ListViolationEventsRequest: AWSShape {
+    public struct ListViolationEventsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -10196,17 +9793,10 @@ extension IoT {
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-            case startTime = "startTime"
-            case thingName = "thingName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListViolationEventsResponse: AWSShape {
+    public struct ListViolationEventsResponse: AWSDecodableShape {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -10224,7 +9814,7 @@ extension IoT {
         }
     }
 
-    public struct LogTarget: AWSShape {
+    public struct LogTarget: AWSEncodableShape & AWSDecodableShape {
 
         /// The target name.
         public let targetName: String?
@@ -10242,7 +9832,7 @@ extension IoT {
         }
     }
 
-    public struct LogTargetConfiguration: AWSShape {
+    public struct LogTargetConfiguration: AWSDecodableShape {
 
         /// The logging level.
         public let logLevel: LogLevel?
@@ -10260,7 +9850,7 @@ extension IoT {
         }
     }
 
-    public struct LoggingOptionsPayload: AWSShape {
+    public struct LoggingOptionsPayload: AWSEncodableShape {
 
         /// The log level.
         public let logLevel: LogLevel?
@@ -10278,7 +9868,7 @@ extension IoT {
         }
     }
 
-    public struct MetricDimension: AWSShape {
+    public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
 
         /// A unique identifier for the dimension.
         public let dimensionName: String
@@ -10302,7 +9892,7 @@ extension IoT {
         }
     }
 
-    public struct MetricToRetain: AWSShape {
+    public struct MetricToRetain: AWSEncodableShape & AWSDecodableShape {
 
         /// What is measured by the behavior.
         public let metric: String
@@ -10324,7 +9914,7 @@ extension IoT {
         }
     }
 
-    public struct MetricValue: AWSShape {
+    public struct MetricValue: AWSEncodableShape & AWSDecodableShape {
 
         /// If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric.
         public let cidrs: [String]?
@@ -10359,7 +9949,7 @@ extension IoT {
         }
     }
 
-    public struct MitigationAction: AWSShape {
+    public struct MitigationAction: AWSDecodableShape {
 
         /// The set of parameters for this mitigation action. The parameters vary, depending on the kind of action you apply.
         public let actionParams: MitigationActionParams?
@@ -10385,7 +9975,7 @@ extension IoT {
         }
     }
 
-    public struct MitigationActionIdentifier: AWSShape {
+    public struct MitigationActionIdentifier: AWSDecodableShape {
 
         /// The IAM role ARN used to apply this mitigation action.
         public let actionArn: String?
@@ -10407,7 +9997,7 @@ extension IoT {
         }
     }
 
-    public struct MitigationActionParams: AWSShape {
+    public struct MitigationActionParams: AWSEncodableShape & AWSDecodableShape {
 
         /// Parameters to define a mitigation action that moves devices associated with a certificate to one or more specified thing groups, typically for quarantine.
         public let addThingsToThingGroupParams: AddThingsToThingGroupParams?
@@ -10447,7 +10037,7 @@ extension IoT {
         }
     }
 
-    public struct MqttContext: AWSShape {
+    public struct MqttContext: AWSEncodableShape {
 
         /// The value of the clientId key in an MQTT authorization request.
         public let clientId: String?
@@ -10478,7 +10068,7 @@ extension IoT {
         }
     }
 
-    public struct NonCompliantResource: AWSShape {
+    public struct NonCompliantResource: AWSDecodableShape {
 
         /// Other information about the noncompliant resource.
         public let additionalInfo: [String: String]?
@@ -10500,7 +10090,7 @@ extension IoT {
         }
     }
 
-    public struct OTAUpdateFile: AWSShape {
+    public struct OTAUpdateFile: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of name/attribute pairs.
         public let attributes: [String: String]?
@@ -10535,7 +10125,7 @@ extension IoT {
         }
     }
 
-    public struct OTAUpdateInfo: AWSShape {
+    public struct OTAUpdateInfo: AWSDecodableShape {
 
         /// A collection of name/value pairs
         public let additionalParameters: [String: String]?
@@ -10609,7 +10199,7 @@ extension IoT {
         }
     }
 
-    public struct OTAUpdateSummary: AWSShape {
+    public struct OTAUpdateSummary: AWSDecodableShape {
 
         /// The date when the OTA update was created.
         public let creationDate: TimeStamp?
@@ -10631,7 +10221,7 @@ extension IoT {
         }
     }
 
-    public struct OutgoingCertificate: AWSShape {
+    public struct OutgoingCertificate: AWSDecodableShape {
 
         /// The certificate ARN.
         public let certificateArn: String?
@@ -10665,7 +10255,7 @@ extension IoT {
         }
     }
 
-    public struct PercentPair: AWSShape {
+    public struct PercentPair: AWSDecodableShape {
 
         /// The percentile.
         public let percent: Double?
@@ -10683,7 +10273,7 @@ extension IoT {
         }
     }
 
-    public struct Policy: AWSShape {
+    public struct Policy: AWSDecodableShape {
 
         /// The policy ARN.
         public let policyArn: String?
@@ -10701,7 +10291,7 @@ extension IoT {
         }
     }
 
-    public struct PolicyVersion: AWSShape {
+    public struct PolicyVersion: AWSDecodableShape {
 
         /// The date and time the policy was created.
         public let createDate: TimeStamp?
@@ -10723,7 +10313,7 @@ extension IoT {
         }
     }
 
-    public struct PolicyVersionIdentifier: AWSShape {
+    public struct PolicyVersionIdentifier: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the policy.
         public let policyName: String?
@@ -10748,7 +10338,7 @@ extension IoT {
         }
     }
 
-    public struct PresignedUrlConfig: AWSShape {
+    public struct PresignedUrlConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document.
         public let expiresInSec: Int64?
@@ -10773,7 +10363,7 @@ extension IoT {
         }
     }
 
-    public struct ProvisioningTemplateSummary: AWSShape {
+    public struct ProvisioningTemplateSummary: AWSDecodableShape {
 
         /// The date when the fleet provisioning template summary was created.
         public let creationDate: TimeStamp?
@@ -10807,7 +10397,7 @@ extension IoT {
         }
     }
 
-    public struct ProvisioningTemplateVersionSummary: AWSShape {
+    public struct ProvisioningTemplateVersionSummary: AWSDecodableShape {
 
         /// The date when the fleet provisioning template version was created
         public let creationDate: TimeStamp?
@@ -10829,7 +10419,7 @@ extension IoT {
         }
     }
 
-    public struct PublishFindingToSnsParams: AWSShape {
+    public struct PublishFindingToSnsParams: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the topic to which you want to publish the findings.
         public let topicArn: String
@@ -10847,7 +10437,7 @@ extension IoT {
         }
     }
 
-    public struct PutAssetPropertyValueEntry: AWSShape {
+    public struct PutAssetPropertyValueEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the AWS IoT SiteWise asset. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
         public let assetId: String?
@@ -10886,7 +10476,7 @@ extension IoT {
         }
     }
 
-    public struct PutItemInput: AWSShape {
+    public struct PutItemInput: AWSEncodableShape & AWSDecodableShape {
 
         /// The table where the message data will be written.
         public let tableName: String
@@ -10900,7 +10490,7 @@ extension IoT {
         }
     }
 
-    public struct RateIncreaseCriteria: AWSShape {
+    public struct RateIncreaseCriteria: AWSEncodableShape & AWSDecodableShape {
 
         /// The threshold for number of notified things that will initiate the increase in rate of rollout.
         public let numberOfNotifiedThings: Int?
@@ -10923,7 +10513,7 @@ extension IoT {
         }
     }
 
-    public struct RegisterCACertificateRequest: AWSShape {
+    public struct RegisterCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration")), 
             AWSMemberEncoding(label: "setAsActive", location: .querystring(locationName: "setAsActive"))
@@ -10957,15 +10547,13 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowAutoRegistration = "allowAutoRegistration"
             case caCertificate = "caCertificate"
             case registrationConfig = "registrationConfig"
-            case setAsActive = "setAsActive"
             case verificationCertificate = "verificationCertificate"
         }
     }
 
-    public struct RegisterCACertificateResponse: AWSShape {
+    public struct RegisterCACertificateResponse: AWSDecodableShape {
 
         /// The CA certificate ARN.
         public let certificateArn: String?
@@ -10983,7 +10571,7 @@ extension IoT {
         }
     }
 
-    public struct RegisterCertificateRequest: AWSShape {
+    public struct RegisterCertificateRequest: AWSEncodableShape {
 
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
@@ -11012,7 +10600,7 @@ extension IoT {
         }
     }
 
-    public struct RegisterCertificateResponse: AWSShape {
+    public struct RegisterCertificateResponse: AWSDecodableShape {
 
         /// The certificate ARN.
         public let certificateArn: String?
@@ -11030,7 +10618,7 @@ extension IoT {
         }
     }
 
-    public struct RegisterThingRequest: AWSShape {
+    public struct RegisterThingRequest: AWSEncodableShape {
 
         /// The parameters for provisioning a thing. See Programmatic Provisioning for more information.
         public let parameters: [String: String]?
@@ -11048,7 +10636,7 @@ extension IoT {
         }
     }
 
-    public struct RegisterThingResponse: AWSShape {
+    public struct RegisterThingResponse: AWSDecodableShape {
 
         /// .
         public let certificatePem: String?
@@ -11066,7 +10654,7 @@ extension IoT {
         }
     }
 
-    public struct RegistrationConfig: AWSShape {
+    public struct RegistrationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the role.
         public let roleArn: String?
@@ -11089,7 +10677,7 @@ extension IoT {
         }
     }
 
-    public struct RejectCertificateTransferRequest: AWSShape {
+    public struct RejectCertificateTransferRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId"))
         ]
@@ -11112,12 +10700,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
             case rejectReason = "rejectReason"
         }
     }
 
-    public struct RelatedResource: AWSShape {
+    public struct RelatedResource: AWSDecodableShape {
 
         /// Other information about the resource.
         public let additionalInfo: [String: String]?
@@ -11139,7 +10726,7 @@ extension IoT {
         }
     }
 
-    public struct RemoveThingFromBillingGroupRequest: AWSShape {
+    public struct RemoveThingFromBillingGroupRequest: AWSEncodableShape {
 
         /// The ARN of the billing group.
         public let billingGroupArn: String?
@@ -11174,7 +10761,7 @@ extension IoT {
         }
     }
 
-    public struct RemoveThingFromBillingGroupResponse: AWSShape {
+    public struct RemoveThingFromBillingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -11182,7 +10769,7 @@ extension IoT {
 
     }
 
-    public struct RemoveThingFromThingGroupRequest: AWSShape {
+    public struct RemoveThingFromThingGroupRequest: AWSEncodableShape {
 
         /// The ARN of the thing to remove from the group.
         public let thingArn: String?
@@ -11217,7 +10804,7 @@ extension IoT {
         }
     }
 
-    public struct RemoveThingFromThingGroupResponse: AWSShape {
+    public struct RemoveThingFromThingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -11225,7 +10812,7 @@ extension IoT {
 
     }
 
-    public struct ReplaceDefaultPolicyVersionParams: AWSShape {
+    public struct ReplaceDefaultPolicyVersionParams: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the template to be applied. The only supported value is BLANK_POLICY.
         public let templateName: PolicyTemplateName
@@ -11239,7 +10826,7 @@ extension IoT {
         }
     }
 
-    public struct ReplaceTopicRuleRequest: AWSShape {
+    public struct ReplaceTopicRuleRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "topicRulePayload"
         public static var _encoding = [
@@ -11264,12 +10851,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
             case topicRulePayload = "topicRulePayload"
         }
     }
 
-    public struct RepublishAction: AWSShape {
+    public struct RepublishAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The Quality of Service (QoS) level to use when republishing messages. The default value is 0.
         public let qos: Int?
@@ -11296,7 +10882,7 @@ extension IoT {
         }
     }
 
-    public struct ResourceIdentifier: AWSShape {
+    public struct ResourceIdentifier: AWSEncodableShape & AWSDecodableShape {
 
         /// The account with which the resource is associated.
         public let account: String?
@@ -11355,7 +10941,7 @@ extension IoT {
         }
     }
 
-    public struct RoleAliasDescription: AWSShape {
+    public struct RoleAliasDescription: AWSDecodableShape {
 
         /// The UNIX timestamp of when the role alias was created.
         public let creationDate: TimeStamp?
@@ -11393,7 +10979,7 @@ extension IoT {
         }
     }
 
-    public struct S3Action: AWSShape {
+    public struct S3Action: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket.
         public let bucketName: String
@@ -11419,7 +11005,7 @@ extension IoT {
         }
     }
 
-    public struct S3Destination: AWSShape {
+    public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
 
         /// The S3 bucket that contains the updated firmware.
         public let bucket: String?
@@ -11441,7 +11027,7 @@ extension IoT {
         }
     }
 
-    public struct S3Location: AWSShape {
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
 
         /// The S3 bucket.
         public let bucket: String?
@@ -11468,7 +11054,7 @@ extension IoT {
         }
     }
 
-    public struct SalesforceAction: AWSShape {
+    public struct SalesforceAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
         public let token: String
@@ -11492,7 +11078,7 @@ extension IoT {
         }
     }
 
-    public struct ScheduledAuditMetadata: AWSShape {
+    public struct ScheduledAuditMetadata: AWSDecodableShape {
 
         /// The day of the month on which the scheduled audit is run (if the frequency is "MONTHLY"). If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
@@ -11522,7 +11108,7 @@ extension IoT {
         }
     }
 
-    public struct SearchIndexRequest: AWSShape {
+    public struct SearchIndexRequest: AWSEncodableShape {
 
         /// The search index name.
         public let indexName: String?
@@ -11561,7 +11147,7 @@ extension IoT {
         }
     }
 
-    public struct SearchIndexResponse: AWSShape {
+    public struct SearchIndexResponse: AWSDecodableShape {
 
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -11583,7 +11169,7 @@ extension IoT {
         }
     }
 
-    public struct SecurityProfileIdentifier: AWSShape {
+    public struct SecurityProfileIdentifier: AWSDecodableShape {
 
         /// The ARN of the security profile.
         public let arn: String
@@ -11601,7 +11187,7 @@ extension IoT {
         }
     }
 
-    public struct SecurityProfileTarget: AWSShape {
+    public struct SecurityProfileTarget: AWSDecodableShape {
 
         /// The ARN of the security profile.
         public let arn: String
@@ -11615,7 +11201,7 @@ extension IoT {
         }
     }
 
-    public struct SecurityProfileTargetMapping: AWSShape {
+    public struct SecurityProfileTargetMapping: AWSDecodableShape {
 
         /// Information that identifies the security profile.
         public let securityProfileIdentifier: SecurityProfileIdentifier?
@@ -11633,7 +11219,7 @@ extension IoT {
         }
     }
 
-    public struct ServerCertificateSummary: AWSShape {
+    public struct ServerCertificateSummary: AWSDecodableShape {
 
         /// The ARN of the server certificate.
         public let serverCertificateArn: String?
@@ -11655,7 +11241,7 @@ extension IoT {
         }
     }
 
-    public struct SetDefaultAuthorizerRequest: AWSShape {
+    public struct SetDefaultAuthorizerRequest: AWSEncodableShape {
 
         /// The authorizer name.
         public let authorizerName: String
@@ -11675,7 +11261,7 @@ extension IoT {
         }
     }
 
-    public struct SetDefaultAuthorizerResponse: AWSShape {
+    public struct SetDefaultAuthorizerResponse: AWSDecodableShape {
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -11693,7 +11279,7 @@ extension IoT {
         }
     }
 
-    public struct SetDefaultPolicyVersionRequest: AWSShape {
+    public struct SetDefaultPolicyVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyName", location: .uri(locationName: "policyName")), 
             AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
@@ -11716,13 +11302,10 @@ extension IoT {
             try validate(self.policyVersionId, name:"policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct SetLoggingOptionsRequest: AWSShape {
+    public struct SetLoggingOptionsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "loggingOptionsPayload"
 
@@ -11738,7 +11321,7 @@ extension IoT {
         }
     }
 
-    public struct SetV2LoggingLevelRequest: AWSShape {
+    public struct SetV2LoggingLevelRequest: AWSEncodableShape {
 
         /// The log level.
         public let logLevel: LogLevel
@@ -11756,7 +11339,7 @@ extension IoT {
         }
     }
 
-    public struct SetV2LoggingOptionsRequest: AWSShape {
+    public struct SetV2LoggingOptionsRequest: AWSEncodableShape {
 
         /// The default logging level.
         public let defaultLogLevel: LogLevel?
@@ -11778,7 +11361,7 @@ extension IoT {
         }
     }
 
-    public struct SigV4Authorization: AWSShape {
+    public struct SigV4Authorization: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the signing role.
         public let roleArn: String
@@ -11800,7 +11383,7 @@ extension IoT {
         }
     }
 
-    public struct SigningProfileParameter: AWSShape {
+    public struct SigningProfileParameter: AWSEncodableShape & AWSDecodableShape {
 
         /// Certificate ARN.
         public let certificateArn: String?
@@ -11822,7 +11405,7 @@ extension IoT {
         }
     }
 
-    public struct SnsAction: AWSShape {
+    public struct SnsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see https://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
         public let messageFormat: MessageFormat?
@@ -11844,7 +11427,7 @@ extension IoT {
         }
     }
 
-    public struct SqsAction: AWSShape {
+    public struct SqsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The URL of the Amazon SQS queue.
         public let queueUrl: String
@@ -11866,7 +11449,7 @@ extension IoT {
         }
     }
 
-    public struct StartAuditMitigationActionsTaskRequest: AWSShape {
+    public struct StartAuditMitigationActionsTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -11905,11 +11488,10 @@ extension IoT {
             case auditCheckToActionsMapping = "auditCheckToActionsMapping"
             case clientRequestToken = "clientRequestToken"
             case target = "target"
-            case taskId = "taskId"
         }
     }
 
-    public struct StartAuditMitigationActionsTaskResponse: AWSShape {
+    public struct StartAuditMitigationActionsTaskResponse: AWSDecodableShape {
 
         /// The unique identifier for the audit mitigation task. This matches the taskId that you specified in the request.
         public let taskId: String?
@@ -11923,7 +11505,7 @@ extension IoT {
         }
     }
 
-    public struct StartOnDemandAuditTaskRequest: AWSShape {
+    public struct StartOnDemandAuditTaskRequest: AWSEncodableShape {
 
         /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
         public let targetCheckNames: [String]
@@ -11937,7 +11519,7 @@ extension IoT {
         }
     }
 
-    public struct StartOnDemandAuditTaskResponse: AWSShape {
+    public struct StartOnDemandAuditTaskResponse: AWSDecodableShape {
 
         /// The ID of the on-demand audit you started.
         public let taskId: String?
@@ -11951,7 +11533,7 @@ extension IoT {
         }
     }
 
-    public struct StartSigningJobParameter: AWSShape {
+    public struct StartSigningJobParameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The location to write the code-signed file.
         public let destination: Destination?
@@ -11977,7 +11559,7 @@ extension IoT {
         }
     }
 
-    public struct StartThingRegistrationTaskRequest: AWSShape {
+    public struct StartThingRegistrationTaskRequest: AWSEncodableShape {
 
         /// The S3 bucket that contains the input file.
         public let inputFileBucket: String
@@ -12014,7 +11596,7 @@ extension IoT {
         }
     }
 
-    public struct StartThingRegistrationTaskResponse: AWSShape {
+    public struct StartThingRegistrationTaskResponse: AWSDecodableShape {
 
         /// The bulk thing provisioning task ID.
         public let taskId: String?
@@ -12028,7 +11610,7 @@ extension IoT {
         }
     }
 
-    public struct StatisticalThreshold: AWSShape {
+    public struct StatisticalThreshold: AWSEncodableShape & AWSDecodableShape {
 
         /// The percentile which resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
         public let statistic: String?
@@ -12046,7 +11628,7 @@ extension IoT {
         }
     }
 
-    public struct Statistics: AWSShape {
+    public struct Statistics: AWSDecodableShape {
 
         /// The average of the aggregated field values.
         public let average: Double?
@@ -12088,7 +11670,7 @@ extension IoT {
         }
     }
 
-    public struct StepFunctionsAction: AWSShape {
+    public struct StepFunctionsAction: AWSEncodableShape & AWSDecodableShape {
 
         /// (Optional) A name will be given to the state machine execution consisting of this prefix followed by a UUID. Step Functions automatically creates a unique name for each state machine execution if one is not provided.
         public let executionNamePrefix: String?
@@ -12110,7 +11692,7 @@ extension IoT {
         }
     }
 
-    public struct StopThingRegistrationTaskRequest: AWSShape {
+    public struct StopThingRegistrationTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
         ]
@@ -12126,12 +11708,10 @@ extension IoT {
             try validate(self.taskId, name:"taskId", parent: name, max: 40)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct StopThingRegistrationTaskResponse: AWSShape {
+    public struct StopThingRegistrationTaskResponse: AWSDecodableShape {
 
 
         public init() {
@@ -12139,7 +11719,7 @@ extension IoT {
 
     }
 
-    public struct Stream: AWSShape {
+    public struct Stream: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of a file associated with a stream.
         public let fileId: Int?
@@ -12165,7 +11745,7 @@ extension IoT {
         }
     }
 
-    public struct StreamFile: AWSShape {
+    public struct StreamFile: AWSEncodableShape & AWSDecodableShape {
 
         /// The file ID.
         public let fileId: Int?
@@ -12189,7 +11769,7 @@ extension IoT {
         }
     }
 
-    public struct StreamInfo: AWSShape {
+    public struct StreamInfo: AWSDecodableShape {
 
         /// The date when the stream was created.
         public let createdAt: TimeStamp?
@@ -12231,7 +11811,7 @@ extension IoT {
         }
     }
 
-    public struct StreamSummary: AWSShape {
+    public struct StreamSummary: AWSDecodableShape {
 
         /// A description of the stream.
         public let description: String?
@@ -12257,7 +11837,7 @@ extension IoT {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag's key.
         public let key: String?
@@ -12275,7 +11855,7 @@ extension IoT {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the resource.
         public let resourceArn: String
@@ -12293,7 +11873,7 @@ extension IoT {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -12301,7 +11881,7 @@ extension IoT {
 
     }
 
-    public struct TaskStatistics: AWSShape {
+    public struct TaskStatistics: AWSDecodableShape {
 
         /// The number of checks that did not run because the audit was canceled.
         public let canceledChecks: Int?
@@ -12339,7 +11919,7 @@ extension IoT {
         }
     }
 
-    public struct TaskStatisticsForAuditCheck: AWSShape {
+    public struct TaskStatisticsForAuditCheck: AWSDecodableShape {
 
         /// The number of findings to which the mitigation action task was canceled when applied.
         public let canceledFindingsCount: Int64?
@@ -12369,7 +11949,7 @@ extension IoT {
         }
     }
 
-    public struct TestAuthorizationRequest: AWSShape {
+    public struct TestAuthorizationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientId", location: .querystring(locationName: "clientId"))
         ]
@@ -12413,7 +11993,6 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authInfos = "authInfos"
-            case clientId = "clientId"
             case cognitoIdentityPoolId = "cognitoIdentityPoolId"
             case policyNamesToAdd = "policyNamesToAdd"
             case policyNamesToSkip = "policyNamesToSkip"
@@ -12421,7 +12000,7 @@ extension IoT {
         }
     }
 
-    public struct TestAuthorizationResponse: AWSShape {
+    public struct TestAuthorizationResponse: AWSDecodableShape {
 
         /// The authentication results.
         public let authResults: [AuthResult]?
@@ -12435,7 +12014,7 @@ extension IoT {
         }
     }
 
-    public struct TestInvokeAuthorizerRequest: AWSShape {
+    public struct TestInvokeAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
@@ -12477,7 +12056,6 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
             case httpContext = "httpContext"
             case mqttContext = "mqttContext"
             case tlsContext = "tlsContext"
@@ -12486,7 +12064,7 @@ extension IoT {
         }
     }
 
-    public struct TestInvokeAuthorizerResponse: AWSShape {
+    public struct TestInvokeAuthorizerResponse: AWSDecodableShape {
 
         /// The number of seconds after which the connection is terminated.
         public let disconnectAfterInSeconds: Int?
@@ -12516,7 +12094,7 @@ extension IoT {
         }
     }
 
-    public struct ThingAttribute: AWSShape {
+    public struct ThingAttribute: AWSDecodableShape {
 
         /// A list of thing attributes which are name-value pairs.
         public let attributes: [String: String]?
@@ -12546,7 +12124,7 @@ extension IoT {
         }
     }
 
-    public struct ThingConnectivity: AWSShape {
+    public struct ThingConnectivity: AWSDecodableShape {
 
         /// True if the thing is connected to the AWS IoT service; false if it is not connected.
         public let connected: Bool?
@@ -12564,7 +12142,7 @@ extension IoT {
         }
     }
 
-    public struct ThingDocument: AWSShape {
+    public struct ThingDocument: AWSDecodableShape {
 
         /// The attributes.
         public let attributes: [String: String]?
@@ -12602,7 +12180,7 @@ extension IoT {
         }
     }
 
-    public struct ThingGroupDocument: AWSShape {
+    public struct ThingGroupDocument: AWSDecodableShape {
 
         /// The thing group attributes.
         public let attributes: [String: String]?
@@ -12632,7 +12210,7 @@ extension IoT {
         }
     }
 
-    public struct ThingGroupIndexingConfiguration: AWSShape {
+    public struct ThingGroupIndexingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public let customFields: [Field]?
@@ -12654,7 +12232,7 @@ extension IoT {
         }
     }
 
-    public struct ThingGroupMetadata: AWSShape {
+    public struct ThingGroupMetadata: AWSDecodableShape {
 
         /// The UNIX timestamp of when the thing group was created.
         public let creationDate: TimeStamp?
@@ -12676,7 +12254,7 @@ extension IoT {
         }
     }
 
-    public struct ThingGroupProperties: AWSShape {
+    public struct ThingGroupProperties: AWSEncodableShape & AWSDecodableShape {
 
         /// The thing group attributes in JSON format.
         public let attributePayload: AttributePayload?
@@ -12700,7 +12278,7 @@ extension IoT {
         }
     }
 
-    public struct ThingIndexingConfiguration: AWSShape {
+    public struct ThingIndexingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Contains custom field names and their data type.
         public let customFields: [Field]?
@@ -12726,7 +12304,7 @@ extension IoT {
         }
     }
 
-    public struct ThingTypeDefinition: AWSShape {
+    public struct ThingTypeDefinition: AWSDecodableShape {
 
         /// The thing type ARN.
         public let thingTypeArn: String?
@@ -12752,7 +12330,7 @@ extension IoT {
         }
     }
 
-    public struct ThingTypeMetadata: AWSShape {
+    public struct ThingTypeMetadata: AWSDecodableShape {
 
         /// The date and time when the thing type was created.
         public let creationDate: TimeStamp?
@@ -12774,7 +12352,7 @@ extension IoT {
         }
     }
 
-    public struct ThingTypeProperties: AWSShape {
+    public struct ThingTypeProperties: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of searchable thing attribute names.
         public let searchableAttributes: [String]?
@@ -12801,7 +12379,7 @@ extension IoT {
         }
     }
 
-    public struct TimeoutConfig: AWSShape {
+    public struct TimeoutConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
         public let inProgressTimeoutInMinutes: Int64?
@@ -12815,7 +12393,7 @@ extension IoT {
         }
     }
 
-    public struct TlsContext: AWSShape {
+    public struct TlsContext: AWSEncodableShape {
 
         /// The value of the serverName key in a TLS authorization request.
         public let serverName: String?
@@ -12834,7 +12412,7 @@ extension IoT {
         }
     }
 
-    public struct TopicRule: AWSShape {
+    public struct TopicRule: AWSDecodableShape {
 
         /// The actions associated with the rule.
         public let actions: [Action]?
@@ -12876,7 +12454,7 @@ extension IoT {
         }
     }
 
-    public struct TopicRuleDestination: AWSShape {
+    public struct TopicRuleDestination: AWSDecodableShape {
 
         /// The topic rule destination URL.
         public let arn: String?
@@ -12902,7 +12480,7 @@ extension IoT {
         }
     }
 
-    public struct TopicRuleDestinationConfiguration: AWSShape {
+    public struct TopicRuleDestinationConfiguration: AWSEncodableShape {
 
         /// Configuration of the HTTP URL.
         public let httpUrlConfiguration: HttpUrlDestinationConfiguration?
@@ -12920,7 +12498,7 @@ extension IoT {
         }
     }
 
-    public struct TopicRuleDestinationSummary: AWSShape {
+    public struct TopicRuleDestinationSummary: AWSDecodableShape {
 
         /// The topic rule destination ARN.
         public let arn: String?
@@ -12946,7 +12524,7 @@ extension IoT {
         }
     }
 
-    public struct TopicRuleListItem: AWSShape {
+    public struct TopicRuleListItem: AWSDecodableShape {
 
         /// The date and time the rule was created.
         public let createdAt: TimeStamp?
@@ -12976,7 +12554,7 @@ extension IoT {
         }
     }
 
-    public struct TopicRulePayload: AWSShape {
+    public struct TopicRulePayload: AWSEncodableShape {
 
         /// The actions associated with the rule.
         public let actions: [Action]
@@ -13019,7 +12597,7 @@ extension IoT {
         }
     }
 
-    public struct TransferCertificateRequest: AWSShape {
+    public struct TransferCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
             AWSMemberEncoding(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"))
@@ -13049,13 +12627,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case targetAwsAccount = "targetAwsAccount"
             case transferMessage = "transferMessage"
         }
     }
 
-    public struct TransferCertificateResponse: AWSShape {
+    public struct TransferCertificateResponse: AWSDecodableShape {
 
         /// The ARN of the certificate.
         public let transferredCertificateArn: String?
@@ -13069,7 +12645,7 @@ extension IoT {
         }
     }
 
-    public struct TransferData: AWSShape {
+    public struct TransferData: AWSDecodableShape {
 
         /// The date the transfer was accepted.
         public let acceptDate: TimeStamp?
@@ -13099,7 +12675,7 @@ extension IoT {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The ARN of the resource.
         public let resourceArn: String
@@ -13117,7 +12693,7 @@ extension IoT {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -13125,7 +12701,7 @@ extension IoT {
 
     }
 
-    public struct UpdateAccountAuditConfigurationRequest: AWSShape {
+    public struct UpdateAccountAuditConfigurationRequest: AWSEncodableShape {
 
         /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
@@ -13155,7 +12731,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateAccountAuditConfigurationResponse: AWSShape {
+    public struct UpdateAccountAuditConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -13163,7 +12739,7 @@ extension IoT {
 
     }
 
-    public struct UpdateAuthorizerRequest: AWSShape {
+    public struct UpdateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authorizerName", location: .uri(locationName: "authorizerName"))
         ]
@@ -13204,14 +12780,13 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn = "authorizerFunctionArn"
-            case authorizerName = "authorizerName"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
             case tokenSigningPublicKeys = "tokenSigningPublicKeys"
         }
     }
 
-    public struct UpdateAuthorizerResponse: AWSShape {
+    public struct UpdateAuthorizerResponse: AWSDecodableShape {
 
         /// The authorizer ARN.
         public let authorizerArn: String?
@@ -13229,7 +12804,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateBillingGroupRequest: AWSShape {
+    public struct UpdateBillingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "billingGroupName", location: .uri(locationName: "billingGroupName"))
         ]
@@ -13255,13 +12830,12 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
             case billingGroupProperties = "billingGroupProperties"
             case expectedVersion = "expectedVersion"
         }
     }
 
-    public struct UpdateBillingGroupResponse: AWSShape {
+    public struct UpdateBillingGroupResponse: AWSDecodableShape {
 
         /// The latest version of the billing group.
         public let version: Int64?
@@ -13275,7 +12849,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateCACertificateParams: AWSShape {
+    public struct UpdateCACertificateParams: AWSEncodableShape & AWSDecodableShape {
 
         /// The action that you want to apply to the CA cerrtificate. The only supported value is DEACTIVATE.
         public let action: CACertificateUpdateAction
@@ -13289,7 +12863,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateCACertificateRequest: AWSShape {
+    public struct UpdateCACertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "caCertificateId")), 
             AWSMemberEncoding(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus")), 
@@ -13323,15 +12897,12 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-            case newAutoRegistrationStatus = "newAutoRegistrationStatus"
-            case newStatus = "newStatus"
             case registrationConfig = "registrationConfig"
             case removeAutoRegistration = "removeAutoRegistration"
         }
     }
 
-    public struct UpdateCertificateRequest: AWSShape {
+    public struct UpdateCertificateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "certificateId", location: .uri(locationName: "certificateId")), 
             AWSMemberEncoding(label: "newStatus", location: .querystring(locationName: "newStatus"))
@@ -13353,13 +12924,10 @@ extension IoT {
             try validate(self.certificateId, name:"certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-            case newStatus = "newStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateDeviceCertificateParams: AWSShape {
+    public struct UpdateDeviceCertificateParams: AWSEncodableShape & AWSDecodableShape {
 
         /// The action that you want to apply to the device cerrtificate. The only supported value is DEACTIVATE.
         public let action: DeviceCertificateUpdateAction
@@ -13373,7 +12941,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateDimensionRequest: AWSShape {
+    public struct UpdateDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -13401,12 +12969,11 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
             case stringValues = "stringValues"
         }
     }
 
-    public struct UpdateDimensionResponse: AWSShape {
+    public struct UpdateDimensionResponse: AWSDecodableShape {
 
         /// The ARN (Amazon resource name) of the created dimension.
         public let arn: String?
@@ -13440,7 +13007,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateDomainConfigurationRequest: AWSShape {
+    public struct UpdateDomainConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"))
         ]
@@ -13470,13 +13037,12 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerConfig = "authorizerConfig"
-            case domainConfigurationName = "domainConfigurationName"
             case domainConfigurationStatus = "domainConfigurationStatus"
             case removeAuthorizerConfig = "removeAuthorizerConfig"
         }
     }
 
-    public struct UpdateDomainConfigurationResponse: AWSShape {
+    public struct UpdateDomainConfigurationResponse: AWSDecodableShape {
 
         /// The ARN of the domain configuration that was updated.
         public let domainConfigurationArn: String?
@@ -13494,7 +13060,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateDynamicThingGroupRequest: AWSShape {
+    public struct UpdateDynamicThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
@@ -13537,12 +13103,11 @@ extension IoT {
             case indexName = "indexName"
             case queryString = "queryString"
             case queryVersion = "queryVersion"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
 
-    public struct UpdateDynamicThingGroupResponse: AWSShape {
+    public struct UpdateDynamicThingGroupResponse: AWSDecodableShape {
 
         /// The dynamic thing group version.
         public let version: Int64?
@@ -13556,7 +13121,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateEventConfigurationsRequest: AWSShape {
+    public struct UpdateEventConfigurationsRequest: AWSEncodableShape {
 
         /// The new event configuration values.
         public let eventConfigurations: [EventType: Configuration]?
@@ -13570,7 +13135,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateEventConfigurationsResponse: AWSShape {
+    public struct UpdateEventConfigurationsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -13578,7 +13143,7 @@ extension IoT {
 
     }
 
-    public struct UpdateIndexingConfigurationRequest: AWSShape {
+    public struct UpdateIndexingConfigurationRequest: AWSEncodableShape {
 
         /// Thing group indexing configuration.
         public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
@@ -13596,7 +13161,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateIndexingConfigurationResponse: AWSShape {
+    public struct UpdateIndexingConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -13604,7 +13169,7 @@ extension IoT {
 
     }
 
-    public struct UpdateJobRequest: AWSShape {
+    public struct UpdateJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
@@ -13646,13 +13211,12 @@ extension IoT {
             case abortConfig = "abortConfig"
             case description = "description"
             case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-            case jobId = "jobId"
             case presignedUrlConfig = "presignedUrlConfig"
             case timeoutConfig = "timeoutConfig"
         }
     }
 
-    public struct UpdateMitigationActionRequest: AWSShape {
+    public struct UpdateMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
@@ -13679,13 +13243,12 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
             case actionParams = "actionParams"
             case roleArn = "roleArn"
         }
     }
 
-    public struct UpdateMitigationActionResponse: AWSShape {
+    public struct UpdateMitigationActionResponse: AWSDecodableShape {
 
         /// The ARN for the new mitigation action.
         public let actionArn: String?
@@ -13703,7 +13266,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateProvisioningTemplateRequest: AWSShape {
+    public struct UpdateProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName"))
         ]
@@ -13743,11 +13306,10 @@ extension IoT {
             case description = "description"
             case enabled = "enabled"
             case provisioningRoleArn = "provisioningRoleArn"
-            case templateName = "templateName"
         }
     }
 
-    public struct UpdateProvisioningTemplateResponse: AWSShape {
+    public struct UpdateProvisioningTemplateResponse: AWSDecodableShape {
 
 
         public init() {
@@ -13755,7 +13317,7 @@ extension IoT {
 
     }
 
-    public struct UpdateRoleAliasRequest: AWSShape {
+    public struct UpdateRoleAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "roleAlias", location: .uri(locationName: "roleAlias"))
         ]
@@ -13785,12 +13347,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case credentialDurationSeconds = "credentialDurationSeconds"
-            case roleAlias = "roleAlias"
             case roleArn = "roleArn"
         }
     }
 
-    public struct UpdateRoleAliasResponse: AWSShape {
+    public struct UpdateRoleAliasResponse: AWSDecodableShape {
 
         /// The role alias.
         public let roleAlias: String?
@@ -13808,7 +13369,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateScheduledAuditRequest: AWSShape {
+    public struct UpdateScheduledAuditRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
@@ -13843,12 +13404,11 @@ extension IoT {
             case dayOfMonth = "dayOfMonth"
             case dayOfWeek = "dayOfWeek"
             case frequency = "frequency"
-            case scheduledAuditName = "scheduledAuditName"
             case targetCheckNames = "targetCheckNames"
         }
     }
 
-    public struct UpdateScheduledAuditResponse: AWSShape {
+    public struct UpdateScheduledAuditResponse: AWSDecodableShape {
 
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
@@ -13862,7 +13422,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateSecurityProfileRequest: AWSShape {
+    public struct UpdateSecurityProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "expectedVersion", location: .querystring(locationName: "expectedVersion")), 
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
@@ -13924,13 +13484,11 @@ extension IoT {
             case deleteAdditionalMetricsToRetain = "deleteAdditionalMetricsToRetain"
             case deleteAlertTargets = "deleteAlertTargets"
             case deleteBehaviors = "deleteBehaviors"
-            case expectedVersion = "expectedVersion"
             case securityProfileDescription = "securityProfileDescription"
-            case securityProfileName = "securityProfileName"
         }
     }
 
-    public struct UpdateSecurityProfileResponse: AWSShape {
+    public struct UpdateSecurityProfileResponse: AWSDecodableShape {
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetainV2: [MetricToRetain]?
@@ -13976,7 +13534,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateStreamRequest: AWSShape {
+    public struct UpdateStreamRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
@@ -14016,11 +13574,10 @@ extension IoT {
             case description = "description"
             case files = "files"
             case roleArn = "roleArn"
-            case streamId = "streamId"
         }
     }
 
-    public struct UpdateStreamResponse: AWSShape {
+    public struct UpdateStreamResponse: AWSDecodableShape {
 
         /// A description of the stream.
         public let description: String?
@@ -14046,7 +13603,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateThingGroupRequest: AWSShape {
+    public struct UpdateThingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingGroupName", location: .uri(locationName: "thingGroupName"))
         ]
@@ -14073,12 +13630,11 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
             case thingGroupProperties = "thingGroupProperties"
         }
     }
 
-    public struct UpdateThingGroupResponse: AWSShape {
+    public struct UpdateThingGroupResponse: AWSDecodableShape {
 
         /// The version of the updated thing group.
         public let version: Int64?
@@ -14092,7 +13648,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateThingGroupsForThingRequest: AWSShape {
+    public struct UpdateThingGroupsForThingRequest: AWSEncodableShape {
 
         /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
         public let overrideDynamicGroups: Bool?
@@ -14134,7 +13690,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateThingGroupsForThingResponse: AWSShape {
+    public struct UpdateThingGroupsForThingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -14142,7 +13698,7 @@ extension IoT {
 
     }
 
-    public struct UpdateThingRequest: AWSShape {
+    public struct UpdateThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
@@ -14180,12 +13736,11 @@ extension IoT {
             case attributePayload = "attributePayload"
             case expectedVersion = "expectedVersion"
             case removeThingType = "removeThingType"
-            case thingName = "thingName"
             case thingTypeName = "thingTypeName"
         }
     }
 
-    public struct UpdateThingResponse: AWSShape {
+    public struct UpdateThingResponse: AWSDecodableShape {
 
 
         public init() {
@@ -14193,7 +13748,7 @@ extension IoT {
 
     }
 
-    public struct UpdateTopicRuleDestinationRequest: AWSShape {
+    public struct UpdateTopicRuleDestinationRequest: AWSEncodableShape {
 
         /// The ARN of the topic rule destination.
         public let arn: String
@@ -14211,7 +13766,7 @@ extension IoT {
         }
     }
 
-    public struct UpdateTopicRuleDestinationResponse: AWSShape {
+    public struct UpdateTopicRuleDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -14219,7 +13774,7 @@ extension IoT {
 
     }
 
-    public struct ValidateSecurityProfileBehaviorsRequest: AWSShape {
+    public struct ValidateSecurityProfileBehaviorsRequest: AWSEncodableShape {
 
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]
@@ -14240,7 +13795,7 @@ extension IoT {
         }
     }
 
-    public struct ValidateSecurityProfileBehaviorsResponse: AWSShape {
+    public struct ValidateSecurityProfileBehaviorsResponse: AWSDecodableShape {
 
         /// True if the behaviors were valid.
         public let valid: Bool?
@@ -14258,7 +13813,7 @@ extension IoT {
         }
     }
 
-    public struct ValidationError: AWSShape {
+    public struct ValidationError: AWSDecodableShape {
 
         /// The description of an error found in the behaviors.
         public let errorMessage: String?
@@ -14272,7 +13827,7 @@ extension IoT {
         }
     }
 
-    public struct ViolationEvent: AWSShape {
+    public struct ViolationEvent: AWSDecodableShape {
 
         /// The behavior which was violated.
         public let behavior: Behavior?
