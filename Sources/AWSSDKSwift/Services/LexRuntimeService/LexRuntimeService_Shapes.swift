@@ -343,7 +343,7 @@ extension LexRuntimeService {
         ///  You pass this value as the Content-Type HTTP header.   Indicates the audio format or text. The header value must start with one of the following prefixes:    PCM format, audio data must be in little-endian byte order.   audio/l16; rate=16000; channels=1   audio/x-l16; sample-rate=16000; channel-count=1   audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false      Opus format   audio/x-cbr-opus-with-preamble; preamble-size=0; bit-rate=256000; frame-size-milliseconds=4     Text format   text/plain; charset=utf-8    
         public let contentType: String
         ///  User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header.  You can stream audio data to Amazon Lex or you can create a local buffer that captures all of the audio data before sending. In general, you get better performance if you stream audio data rather than buffering the data locally.
-        public let inputStream: Data
+        public let inputStream: AWSPayload
         /// You pass this value as the x-amz-lex-request-attributes HTTP header. Request-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the requestAttributes and sessionAttributes headers is limited to 12 KB. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:. For more information, see Setting Request Attributes.
         public let requestAttributes: String?
         /// You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the sessionAttributes and requestAttributes headers is limited to 12 KB. For more information, see Setting Session Attributes.
@@ -351,7 +351,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.  
         public let userId: String
 
-        public init(accept: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: Data, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
+        public init(accept: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: AWSPayload, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
             self.accept = accept
             self.botAlias = botAlias
             self.botName = botName
@@ -368,9 +368,7 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inputStream = "inputStream"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PostContentResponse: AWSDecodableShape & AWSShapeWithPayload {

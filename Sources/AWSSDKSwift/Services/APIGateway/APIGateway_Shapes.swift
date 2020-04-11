@@ -2957,21 +2957,19 @@ extension APIGateway {
         ]
 
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
-        public let body: Data
+        public let body: AWSPayload
         /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
         public let failOnWarnings: Bool?
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
         public let format: ApiKeysFormat
 
-        public init(body: Data, failOnWarnings: Bool? = nil, format: ApiKeysFormat) {
+        public init(body: AWSPayload, failOnWarnings: Bool? = nil, format: ApiKeysFormat) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.format = format
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ImportDocumentationPartsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2985,7 +2983,7 @@ extension APIGateway {
         ]
 
         /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
-        public let body: Data
+        public let body: AWSPayload
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
@@ -2993,16 +2991,14 @@ extension APIGateway {
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(body: Data, failOnWarnings: Bool? = nil, mode: PutMode? = nil, restApiId: String) {
+        public init(body: AWSPayload, failOnWarnings: Bool? = nil, mode: PutMode? = nil, restApiId: String) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.mode = mode
             self.restApiId = restApiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ImportRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -3015,21 +3011,19 @@ extension APIGateway {
         ]
 
         /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
-        public let body: Data
+        public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
         public let parameters: [String: String]?
 
-        public init(body: Data, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
+        public init(body: AWSPayload, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.parameters = parameters
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Integration: AWSDecodableShape {
@@ -3617,7 +3611,7 @@ extension APIGateway {
         ]
 
         /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.
-        public let body: Data
+        public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
@@ -3627,7 +3621,7 @@ extension APIGateway {
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(body: Data, failOnWarnings: Bool? = nil, mode: PutMode? = nil, parameters: [String: String]? = nil, restApiId: String) {
+        public init(body: AWSPayload, failOnWarnings: Bool? = nil, mode: PutMode? = nil, parameters: [String: String]? = nil, restApiId: String) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.mode = mode
@@ -3635,9 +3629,7 @@ extension APIGateway {
             self.restApiId = restApiId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct QuotaSettings: AWSEncodableShape & AWSDecodableShape {

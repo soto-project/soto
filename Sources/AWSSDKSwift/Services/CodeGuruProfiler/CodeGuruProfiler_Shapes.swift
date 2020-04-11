@@ -444,12 +444,12 @@ extension CodeGuruProfiler {
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
-        public let agentProfile: Data
+        public let agentProfile: AWSPayload
         public let contentType: String
         public let profileToken: String?
         public let profilingGroupName: String
 
-        public init(agentProfile: Data, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
+        public init(agentProfile: AWSPayload, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
             self.agentProfile = agentProfile
             self.contentType = contentType
             self.profileToken = profileToken
@@ -465,9 +465,7 @@ extension CodeGuruProfiler {
             try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case agentProfile = "agentProfile"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PostAgentProfileResponse: AWSDecodableShape {

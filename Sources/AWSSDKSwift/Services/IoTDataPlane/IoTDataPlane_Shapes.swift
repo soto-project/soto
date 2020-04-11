@@ -112,13 +112,13 @@ extension IoTDataPlane {
         ]
 
         /// The state information, in JSON format.
-        public let payload: Data?
+        public let payload: AWSPayload?
         /// The Quality of Service (QoS) level.
         public let qos: Int?
         /// The name of the MQTT topic.
         public let topic: String
 
-        public init(payload: Data? = nil, qos: Int? = nil, topic: String) {
+        public init(payload: AWSPayload? = nil, qos: Int? = nil, topic: String) {
             self.payload = payload
             self.qos = qos
             self.topic = topic
@@ -129,9 +129,7 @@ extension IoTDataPlane {
             try validate(self.qos, name:"qos", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -143,11 +141,11 @@ extension IoTDataPlane {
         ]
 
         /// The state information, in JSON format.
-        public let payload: Data
+        public let payload: AWSPayload
         /// The name of the thing.
         public let thingName: String
 
-        public init(payload: Data, thingName: String) {
+        public init(payload: AWSPayload, thingName: String) {
             self.payload = payload
             self.thingName = thingName
         }
@@ -158,9 +156,7 @@ extension IoTDataPlane {
             try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {

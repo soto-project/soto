@@ -96,9 +96,9 @@ extension ApiGatewayManagementApi {
         ]
 
         public let connectionId: String
-        public let data: Data
+        public let data: AWSPayload
 
-        public init(connectionId: String, data: Data) {
+        public init(connectionId: String, data: AWSPayload) {
             self.connectionId = connectionId
             self.data = data
         }
@@ -107,8 +107,6 @@ extension ApiGatewayManagementApi {
             try validate(self.data, name:"data", parent: name, max: 131072)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case data = "Data"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 }

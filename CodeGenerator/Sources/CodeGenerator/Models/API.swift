@@ -18,6 +18,8 @@ enum APIError: Error {
     case shapeDoesNotExist(String)
 }
 
+//MARK: API
+
 // Used to decode model api_2 files
 struct API: Decodable {
     struct Metadata: Decodable {
@@ -101,13 +103,13 @@ extension API {
         
         // patch error in json files
         try patch()
-
+        
         // post setup of Shape pointers
         for shape in shapes {
             shape.value.name = shape.key
-            try shape.value.type.setupShapes(api: self)
+            try shape.value.setupShapes(api: self)
         }
-        
+
         // set where shapes are used
         for operation in operations.values {
             if let input = operation.input {
@@ -120,6 +122,11 @@ extension API {
             if let output = operation.output {
                 try setShapeUsedIn(shape: getShape(named: output.shapeName), input: false, output: true)
             }
+        }
+        
+        // post processing of shapes
+        for shape in shapes {
+            shape.value.postProcess()
         }
     }
 
@@ -148,6 +155,8 @@ extension API {
         }
     }
 }
+
+//MARK: Operation
 
 /// Operation loaded from api_2.json
 class Operation: Decodable, Patchable {
@@ -211,6 +220,8 @@ class Operation: Decodable, Patchable {
         case deprecatedMessage
     }
 }
+
+//MARK: Shape
 
 /// Shape loaded from api_2.json
 class Shape: Decodable, Patchable {
@@ -305,6 +316,7 @@ class Shape: Decodable, Patchable {
         case integer(min: Int? = nil, max: Int? = nil)
         case structure(StructureType)
         case blob(min: Int? = nil, max: Int? = nil)
+        case payload(min: Int? = nil, max: Int? = nil)
         case list(ListType)
         case map(MapType)
         case long(min: Int64? = nil, max: Int64? = nil)
@@ -313,26 +325,6 @@ class Shape: Decodable, Patchable {
         case boolean
         case timestamp
         case `enum`(EnumType)
-        
-        /// once everything has been loaded this is called to post process the ShapeType
-        mutating func setupShapes(api: API) throws {
-            switch self {
-            case .structure(let structure):
-                try structure.setupShapes(api: api)
-                    
-            case .list(var list):
-                list.member.shape = try api.getShape(named: list.member.shapeName)
-                self = .list(list)
-                
-            case .map(var map):
-                map.key.shape = try api.getShape(named: map.key.shapeName)
-                map.value.shape = try api.getShape(named: map.value.shapeName)
-                self = .map(map)
-                
-            default:
-                break
-            }
-        }
         
         // added so we can access enum type through keypaths
         var `enum`: EnumType? {
@@ -346,6 +338,7 @@ class Shape: Decodable, Patchable {
             return nil
         }
     }
+
     
     var type: ShapeType
     var payload: String?
@@ -357,6 +350,13 @@ class Shape: Decodable, Patchable {
     var usedInOutput: Bool
     var name: String!
 
+    init(type: ShapeType, name: String) {
+        self.type = type
+        self.name = name
+        self.usedInOutput = false
+        self.usedInInput = false
+    }
+    
     required init(from decoder: Decoder) throws {
         self.usedInInput = false
         self.usedInOutput = false
@@ -418,6 +418,44 @@ class Shape: Decodable, Patchable {
             self.type = .timestamp
         default:
             throw DecodingError.typeMismatch(ShapeType.self, .init(codingPath: decoder.codingPath, debugDescription:"Invalid shape type: \(type)"))
+        }
+    }
+    
+    /// once everything has been loaded this is called to post process the ShapeType
+    func setupShapes(api: API) throws {
+        switch self.type {
+        case .structure(let structure):
+            try structure.setupShapes(api: api)
+                
+        case .list(var list):
+            list.member.shape = try api.getShape(named: list.member.shapeName)
+            self.type = .list(list)
+            
+        case .map(var map):
+            map.key.shape = try api.getShape(named: map.key.shapeName)
+            map.value.shape = try api.getShape(named: map.value.shapeName)
+            self.type = .map(map)
+            
+        default:
+            break
+        }
+    }
+    
+    
+    /// post process
+    func postProcess() {
+        switch self.type {
+        case .structure(let structure):
+            if self.usedInInput {
+                if let payload = self.payload {
+                    if case .blob(let min, let max) = structure.members[payload]?.shape.type {
+                        structure.members[payload]!.shape = Shape(type: .payload(min: min, max: max), name: "AWSPayload")
+                    }
+                }
+            }
+            
+        default:
+            break
         }
     }
     
