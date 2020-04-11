@@ -476,7 +476,7 @@ extension AWSService {
         var locationName: String? = member.getLocationName()
         let location = member.location ?? .body
 
-        if ((isPayload && shape.usedInOutput) || encoding != nil || (location != .body && location != .statusCode)) && locationName == nil {
+        if ((isPayload && shape.usedInOutput) || encoding != nil || (location != .body)) && locationName == nil {
             locationName = name
         }
         // remove location if equal to body and name is same as variable name
@@ -486,7 +486,7 @@ extension AWSService {
         guard locationName != nil || encoding != nil else { return nil }
         return AWSShapeMemberContext(
             name: name.toSwiftLabelCase(),
-            location: location.enumStringValue,
+            location: locationName.map { location.enumStringValue(named: $0) },
             locationName: locationName,
             encoding: encoding
         )
@@ -748,18 +748,18 @@ extension Shape {
 
 extension Shape.Location {
     /// return enum as a string to output in AWSMemberEncoding
-    var enumStringValue: String {
+    func enumStringValue(named: String) -> String {
         switch self {
         case .header, .headers:
-            return ".header"
+            return ".header(locationName: \"\(named)\")"
         case .querystring:
-            return ".querystring"
+            return ".querystring(locationName: \"\(named)\")"
         case .uri:
-            return ".uri"
+            return ".uri(locationName: \"\(named)\")"
         case .body:
-            return ".body"
-        default:
-            return ".body"
+            return ".body(locationName: \"\(named)\")"
+        case .statusCode:
+            return ".statusCode"
         }
     }
 }
