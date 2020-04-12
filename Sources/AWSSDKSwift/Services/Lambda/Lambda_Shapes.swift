@@ -1657,7 +1657,8 @@ extension Lambda {
             AWSMemberEncoding(label: "executedVersion", location: .header(locationName: "X-Amz-Executed-Version")), 
             AWSMemberEncoding(label: "functionError", location: .header(locationName: "X-Amz-Function-Error")), 
             AWSMemberEncoding(label: "logResult", location: .header(locationName: "X-Amz-Log-Result")), 
-            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob)
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"), encoding: .blob), 
+            AWSMemberEncoding(label: "statusCode", location: .statusCode)
         ]
 
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
@@ -1716,6 +1717,9 @@ extension Lambda {
     }
 
     public struct InvokeAsyncResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The status code.
         public let status: Int?

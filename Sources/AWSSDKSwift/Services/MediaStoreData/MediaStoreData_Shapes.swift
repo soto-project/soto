@@ -162,7 +162,8 @@ extension MediaStoreData {
             AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified"))
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
+            AWSMemberEncoding(label: "statusCode", location: .statusCode)
         ]
 
         /// The bytes of the object. 

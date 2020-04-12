@@ -483,6 +483,9 @@ extension QuickSight {
     }
 
     public struct CancelIngestionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) for the data ingestion.
         public let arn: String?
@@ -719,6 +722,9 @@ extension QuickSight {
     }
 
     public struct CreateDashboardResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let arn: String?
@@ -840,6 +846,9 @@ extension QuickSight {
     }
 
     public struct CreateDataSetResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -946,6 +955,9 @@ extension QuickSight {
     }
 
     public struct CreateDataSourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -1016,6 +1028,9 @@ extension QuickSight {
     }
 
     public struct CreateGroupMembershipResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The group member.
         public let groupMember: GroupMember?
@@ -1078,6 +1093,9 @@ extension QuickSight {
     }
 
     public struct CreateGroupResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The name of the group.
         public let group: Group?
@@ -1146,6 +1164,9 @@ extension QuickSight {
     }
 
     public struct CreateIAMPolicyAssignmentResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The ID for the assignment.
         public let assignmentId: String?
@@ -1216,6 +1237,9 @@ extension QuickSight {
     }
 
     public struct CreateIngestionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) for the data ingestion.
         public let arn: String?
@@ -1287,6 +1311,9 @@ extension QuickSight {
     }
 
     public struct CreateTemplateAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -1374,6 +1401,9 @@ extension QuickSight {
     }
 
     public struct CreateTemplateResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The ARN for the template.
         public let arn: String?
@@ -2153,6 +2183,9 @@ extension QuickSight {
     }
 
     public struct DeleteDashboardResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Secure Socket Layer (SSL) properties that apply for the resource.
         public let arn: String?
@@ -2204,6 +2237,9 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -2255,6 +2291,9 @@ extension QuickSight {
     }
 
     public struct DeleteDataSourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the data source that you deleted.
         public let arn: String?
@@ -2321,6 +2360,9 @@ extension QuickSight {
     }
 
     public struct DeleteGroupMembershipResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2372,6 +2414,9 @@ extension QuickSight {
     }
 
     public struct DeleteGroupResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2423,6 +2468,9 @@ extension QuickSight {
     }
 
     public struct DeleteIAMPolicyAssignmentResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The name of the assignment. 
         public let assignmentName: String?
@@ -2480,6 +2528,9 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The name for the template alias.
         public let aliasName: String?
@@ -2543,6 +2594,9 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -2600,6 +2654,9 @@ extension QuickSight {
     }
 
     public struct DeleteUserByPrincipalIdResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2651,6 +2708,9 @@ extension QuickSight {
     }
 
     public struct DeleteUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -2697,6 +2757,9 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -2767,6 +2830,9 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// Information about the dashboard.
         public let dashboard: Dashboard?
@@ -2814,6 +2880,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
@@ -2869,6 +2938,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// Information on the dataset.
         public let dataSet: DataSet?
@@ -2916,6 +2988,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourcePermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
@@ -2971,6 +3046,9 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The information on the data source.
         public let dataSource: DataSource?
@@ -3026,6 +3104,9 @@ extension QuickSight {
     }
 
     public struct DescribeGroupResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The name of the group.
         public let group: Group?
@@ -3081,6 +3162,9 @@ extension QuickSight {
     }
 
     public struct DescribeIAMPolicyAssignmentResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// Information describing the IAM policy assignment.
         public let iAMPolicyAssignment: IAMPolicyAssignment?
@@ -3135,6 +3219,9 @@ extension QuickSight {
     }
 
     public struct DescribeIngestionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// Information about the ingestion.
         public let ingestion: Ingestion?
@@ -3192,6 +3279,9 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3242,6 +3332,9 @@ extension QuickSight {
     }
 
     public struct DescribeTemplatePermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A list of resource permissions to be set on the template. 
         public let permissions: [ResourcePermission]?
@@ -3312,6 +3405,9 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The HTTP status of the request.
         public let status: Int?
@@ -3363,6 +3459,9 @@ extension QuickSight {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -3519,6 +3618,9 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// An URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code value that enables a single sign-on session. 
         public let embedUrl: String?
@@ -3828,6 +3930,9 @@ extension QuickSight {
     }
 
     public struct ListDashboardVersionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A structure that contains information about each version of the dashboard.
         public let dashboardVersionSummaryList: [DashboardVersionSummary]?
@@ -3885,6 +3990,9 @@ extension QuickSight {
     }
 
     public struct ListDashboardsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A structure that contains all of the dashboards shared with the user. This structure provides basic information about the dashboards.
         public let dashboardSummaryList: [DashboardSummary]?
@@ -3942,6 +4050,9 @@ extension QuickSight {
     }
 
     public struct ListDataSetsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The list of dataset summaries.
         public let dataSetSummaries: [DataSetSummary]?
@@ -3999,6 +4110,9 @@ extension QuickSight {
     }
 
     public struct ListDataSourcesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A list of data sources.
         public let dataSources: [DataSource]?
@@ -4068,6 +4182,9 @@ extension QuickSight {
     }
 
     public struct ListGroupMembershipsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The list of the members of the group.
         public let groupMemberList: [GroupMember]?
@@ -4131,6 +4248,9 @@ extension QuickSight {
     }
 
     public struct ListGroupsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The list of the groups.
         public let groupList: [Group]?
@@ -4200,6 +4320,9 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsForUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The active assignments for this user.
         public let activeAssignments: [ActiveIAMPolicyAssignment]?
@@ -4268,6 +4391,9 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// Information describing the IAM policy assignments.
         public let iAMPolicyAssignments: [IAMPolicyAssignmentSummary]?
@@ -4329,6 +4455,9 @@ extension QuickSight {
     }
 
     public struct ListIngestionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A list of the ingestions.
         public let ingestions: [Ingestion]?
@@ -4370,6 +4499,9 @@ extension QuickSight {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -4430,6 +4562,9 @@ extension QuickSight {
     }
 
     public struct ListTemplateAliasesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -4494,6 +4629,9 @@ extension QuickSight {
     }
 
     public struct ListTemplateVersionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -4551,6 +4689,9 @@ extension QuickSight {
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -4620,6 +4761,9 @@ extension QuickSight {
     }
 
     public struct ListUserGroupsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The list of groups the user is a member of.
         public let groupList: [Group]?
@@ -4683,6 +4827,9 @@ extension QuickSight {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
@@ -5162,6 +5309,9 @@ extension QuickSight {
     }
 
     public struct RegisterUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -5397,6 +5547,9 @@ extension QuickSight {
     }
 
     public struct SearchDashboardsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The list of dashboards owned by the user specified in Filters in your request.
         public let dashboardSummaryList: [DashboardSummary]?
@@ -5656,6 +5809,9 @@ extension QuickSight {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -6037,6 +6193,9 @@ extension QuickSight {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -6102,6 +6261,9 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -6165,6 +6327,9 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPublishedVersionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -6325,6 +6490,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
@@ -6420,6 +6588,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
@@ -6498,6 +6669,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourcePermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
@@ -6574,6 +6748,9 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourceResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -6644,6 +6821,9 @@ extension QuickSight {
     }
 
     public struct UpdateGroupResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The name of the group.
         public let group: Group?
@@ -6712,6 +6892,9 @@ extension QuickSight {
     }
 
     public struct UpdateIAMPolicyAssignmentResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The ID of the assignment.
         public let assignmentId: String?
@@ -6791,6 +6974,9 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateAliasResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -6860,6 +7046,9 @@ extension QuickSight {
     }
 
     public struct UpdateTemplatePermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
@@ -6937,6 +7126,9 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The Amazon Resource Name (ARN) for the template.
         public let arn: String?
@@ -7013,6 +7205,9 @@ extension QuickSight {
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
 
         /// The AWS request ID for this operation.
         public let requestId: String?

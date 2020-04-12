@@ -616,7 +616,8 @@ extension Glacier {
             AWSMemberEncoding(label: "body", encoding: .blob), 
             AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
             AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
         /// Indicates the range units accepted. For more information, see RFC2616. 
