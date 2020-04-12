@@ -263,8 +263,9 @@ class Shape: Decodable, Patchable {
         let httpStatusCode: Int
         let senderFault: Bool?
     }
-
-    enum ShapeType {
+    
+    /// Enum defining a shape type
+    enum ShapeType: Decodable {
         class StructureType: Patchable {
             var required: [String]
             var members: [String: Member]
@@ -337,6 +338,77 @@ class Shape: Decodable, Patchable {
             if case .structure(let type) = self { return type }
             return nil
         }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let type = try container.decode(String.self, forKey: .type)
+            switch type {
+            case "string":
+                if let enumStrings = try container.decodeIfPresent([String].self, forKey: .enum) {
+                    self = .enum(EnumType(cases:enumStrings))
+                } else {
+                    let min = try container.decodeIfPresent(Int.self, forKey: .min)
+                    let max = try container.decodeIfPresent(Int.self, forKey: .max)
+                    let pattern = try container.decodeIfPresent(String.self, forKey: .pattern)
+                    self = .string(min: min, max: max, pattern: pattern)
+                }
+            case "integer":
+                let min = try container.decodeIfPresent(Int.self, forKey: .min)
+                let max = try container.decodeIfPresent(Int.self, forKey: .max)
+                self = .integer(min: min, max: max)
+            case "structure":
+                let required = try container.decodeIfPresent([String].self, forKey: .required)
+                let members = try container.decode([String: Member].self, forKey: .members)
+                self = .structure(StructureType(required: required, members: members))
+            case "list":
+                let min = try container.decodeIfPresent(Int.self, forKey: .min)
+                let max = try container.decodeIfPresent(Int.self, forKey: .max)
+                let member = try container.decode(Member.self, forKey: .member)
+                let flattened = try container.decodeIfPresent(Bool.self, forKey: .flattened)
+                self = .list(ListType(member: member, min: min, max: max, flattened: flattened))
+            case "map":
+                let key = try container.decode(Member.self, forKey: .key)
+                let value = try container.decode(Member.self, forKey: .value)
+                let flattened = try container.decodeIfPresent(Bool.self, forKey: .flattened)
+                self = .map(MapType(key: key, value: value, flattened: flattened))
+            case "long":
+                let min = try container.decodeIfPresent(Int64.self, forKey: .min)
+                let max = try container.decodeIfPresent(Int64.self, forKey: .max)
+                self = .long(min: min, max: max)
+            case "double":
+                let min = try container.decodeIfPresent(Double.self, forKey: .min)
+                let max = try container.decodeIfPresent(Double.self, forKey: .max)
+                self = .double(min: min, max: max)
+            case "float":
+                let min = try container.decodeIfPresent(Float.self, forKey: .min)
+                let max = try container.decodeIfPresent(Float.self, forKey: .max)
+                self = .float(min: min, max: max)
+            case "blob":
+                let min = try container.decodeIfPresent(Int.self, forKey: .min)
+                let max = try container.decodeIfPresent(Int.self, forKey: .max)
+                self = .blob(min: min, max: max)
+            case "boolean":
+                self = .boolean
+            case "timestamp":
+                self = .timestamp
+            default:
+                throw DecodingError.typeMismatch(ShapeType.self, .init(codingPath: decoder.codingPath, debugDescription:"Invalid shape type: \(type)"))
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type
+            case `enum`
+            case min
+            case max
+            case pattern
+            case required
+            case flattened
+            case members
+            case member
+            case key
+            case value
+        }
     }
 
     
@@ -366,59 +438,7 @@ class Shape: Decodable, Patchable {
         self.xmlNamespace = try container.decodeIfPresent(API.XMLNamespace.self, forKey: .xmlNamespace)
         self.error = try container.decodeIfPresent(Error.self, forKey: .error)
         self.exception = try container.decodeIfPresent(Bool.self, forKey: .exception)
-        let type = try container.decode(String.self, forKey: .type)
-        switch type {
-        case "string":
-            if let enumStrings = try container.decodeIfPresent([String].self, forKey: .enum) {
-                self.type = .enum(ShapeType.EnumType(cases:enumStrings))
-            } else {
-                let min = try container.decodeIfPresent(Int.self, forKey: .min)
-                let max = try container.decodeIfPresent(Int.self, forKey: .max)
-                let pattern = try container.decodeIfPresent(String.self, forKey: .pattern)
-                self.type = .string(min: min, max: max, pattern: pattern)
-            }
-        case "integer":
-            let min = try container.decodeIfPresent(Int.self, forKey: .min)
-            let max = try container.decodeIfPresent(Int.self, forKey: .max)
-            self.type = .integer(min: min, max: max)
-        case "structure":
-            let required = try container.decodeIfPresent([String].self, forKey: .required)
-            let members = try container.decode([String: Member].self, forKey: .members)
-            self.type = .structure(ShapeType.StructureType(required: required, members: members))
-        case "list":
-            let min = try container.decodeIfPresent(Int.self, forKey: .min)
-            let max = try container.decodeIfPresent(Int.self, forKey: .max)
-            let member = try container.decode(Member.self, forKey: .member)
-            let flattened = try container.decodeIfPresent(Bool.self, forKey: .flattened)
-            self.type = .list(ShapeType.ListType(member: member, min: min, max: max, flattened: flattened))
-        case "map":
-            let key = try container.decode(Member.self, forKey: .key)
-            let value = try container.decode(Member.self, forKey: .value)
-            let flattened = try container.decodeIfPresent(Bool.self, forKey: .flattened)
-            self.type = .map(ShapeType.MapType(key: key, value: value, flattened: flattened))
-        case "long":
-            let min = try container.decodeIfPresent(Int64.self, forKey: .min)
-            let max = try container.decodeIfPresent(Int64.self, forKey: .max)
-            self.type = .long(min: min, max: max)
-        case "double":
-            let min = try container.decodeIfPresent(Double.self, forKey: .min)
-            let max = try container.decodeIfPresent(Double.self, forKey: .max)
-            self.type = .double(min: min, max: max)
-        case "float":
-            let min = try container.decodeIfPresent(Float.self, forKey: .min)
-            let max = try container.decodeIfPresent(Float.self, forKey: .max)
-            self.type = .float(min: min, max: max)
-        case "blob":
-            let min = try container.decodeIfPresent(Int.self, forKey: .min)
-            let max = try container.decodeIfPresent(Int.self, forKey: .max)
-            self.type = .blob(min: min, max: max)
-        case "boolean":
-            self.type = .boolean
-        case "timestamp":
-            self.type = .timestamp
-        default:
-            throw DecodingError.typeMismatch(ShapeType.self, .init(codingPath: decoder.codingPath, debugDescription:"Invalid shape type: \(type)"))
-        }
+        self.type = try ShapeType(from: decoder)
     }
     
     /// once everything has been loaded this is called to post process the ShapeType
@@ -465,15 +485,5 @@ class Shape: Decodable, Patchable {
         case xmlNamespace
         case error
         case exception
-        case min
-        case max
-        case pattern
-        case required
-        case members
-        case member
-        case flattened
-        case key
-        case value
-        case `enum`
     }
 }
