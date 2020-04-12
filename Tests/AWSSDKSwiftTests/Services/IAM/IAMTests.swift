@@ -98,9 +98,16 @@ class IAMTests: XCTestCase {
             let getResponse = try client.getUserPolicy(getRequest).wait()
 
             XCTAssertEqual(getResponse.policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines), policyDocument.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
-
-            let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: "testSetGetPolicy", userName: getUserResponse.user.userName)
-            try client.deleteUserPolicy(deletePolicy).wait()
+            
+            // make sure we remove all policies attached to user
+            let listPolicyRequest = IAM.ListUserPoliciesRequest(userName: getUserResponse.user.userName)
+            let _: Void = try client.listUserPolicies(listPolicyRequest).flatMap { response in
+                let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
+                    let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: getUserResponse.user.userName)
+                    return self.client.deleteUserPolicy(deletePolicy)
+                }
+                return EventLoopFuture.andAllSucceed(futures, on: self.client.client.eventLoopGroup.next())
+            }.wait()
         }
 
     }
