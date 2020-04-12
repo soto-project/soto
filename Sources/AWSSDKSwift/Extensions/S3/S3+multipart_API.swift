@@ -239,7 +239,7 @@ extension S3 {
         // function uploading part of a file and queueing up upload of the next part
         func multipartUploadPart(partNumber: Int, uploadId: String, body: Data) {
             let request = S3.UploadPartRequest(
-                body: body,
+                body: .data(body),
                 bucket: input.bucket,
                 contentLength: Int64(body.count),
                 key: input.key,

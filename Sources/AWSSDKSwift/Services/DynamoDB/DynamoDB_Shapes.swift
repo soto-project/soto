@@ -230,7 +230,7 @@ extension DynamoDB {
 
     //MARK: Shapes
 
-    public struct ArchivalSummary: AWSShape {
+    public struct ArchivalSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the backup the table was archived to, when applicable in the archival reason. If you wish to restore this backup to the same table name, you will need to delete the original table.
         public let archivalBackupArn: String?
@@ -252,7 +252,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AttributeDefinition: AWSShape {
+    public struct AttributeDefinition: AWSEncodableShape & AWSDecodableShape {
 
         /// A name for the attribute.
         public let attributeName: String
@@ -275,7 +275,7 @@ extension DynamoDB {
         }
     }
 
-    public class AttributeValue: AWSShape {
+    public class AttributeValue: AWSEncodableShape & AWSDecodableShape {
 
         /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" 
         public let b: Data?
@@ -335,7 +335,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AttributeValueUpdate: AWSShape {
+    public struct AttributeValueUpdate: AWSEncodableShape {
 
         /// Specifies how to perform the update. Valid values are PUT (default), DELETE, and ADD. The behavior depends on whether the specified primary key already exists in the table.  If an item with the specified Key is found in the table:     PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.     DELETE - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specified [a,c], then the final attribute value would be [b]. Specifying an empty set is an error.    ADD - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then the Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.   If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. In addition, if you use ADD to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update does not yet have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway, even though it currently does not exist. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set, and if the Value is also a set, then the Value is added to the existing set. (This is a set operation, not mathematical addition.) For example, if the attribute value was the set [1,2], and the ADD action specified [3], then the final attribute value would be [1,2,3]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings. The same holds true for number sets and binary sets.   This action is only valid for an existing attribute whose data type is number or is a set. Do not use ADD for any other data types.    If no item with the specified Key is found:     PUT - DynamoDB creates a new item with the specified primary key, and then adds the attribute.     DELETE - Nothing happens; there is no attribute to delete.    ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.  
         public let action: AttributeAction?
@@ -357,7 +357,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AutoScalingPolicyDescription: AWSShape {
+    public struct AutoScalingPolicyDescription: AWSDecodableShape {
 
         /// The name of the scaling policy.
         public let policyName: String?
@@ -375,7 +375,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AutoScalingPolicyUpdate: AWSShape {
+    public struct AutoScalingPolicyUpdate: AWSEncodableShape {
 
         /// The name of the scaling policy.
         public let policyName: String?
@@ -399,7 +399,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AutoScalingSettingsDescription: AWSShape {
+    public struct AutoScalingSettingsDescription: AWSDecodableShape {
 
         /// Disabled auto scaling for this global table or global secondary index.
         public let autoScalingDisabled: Bool?
@@ -429,7 +429,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AutoScalingSettingsUpdate: AWSShape {
+    public struct AutoScalingSettingsUpdate: AWSEncodableShape {
 
         /// Disabled auto scaling for this global table or global secondary index.
         public let autoScalingDisabled: Bool?
@@ -468,7 +468,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AutoScalingTargetTrackingScalingPolicyConfigurationDescription: AWSShape {
+    public struct AutoScalingTargetTrackingScalingPolicyConfigurationDescription: AWSDecodableShape {
 
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
@@ -494,7 +494,7 @@ extension DynamoDB {
         }
     }
 
-    public struct AutoScalingTargetTrackingScalingPolicyConfigurationUpdate: AWSShape {
+    public struct AutoScalingTargetTrackingScalingPolicyConfigurationUpdate: AWSEncodableShape {
 
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
@@ -520,7 +520,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BackupDescription: AWSShape {
+    public struct BackupDescription: AWSDecodableShape {
 
         /// Contains the details of the backup created for the table. 
         public let backupDetails: BackupDetails?
@@ -542,7 +542,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BackupDetails: AWSShape {
+    public struct BackupDetails: AWSDecodableShape {
 
         /// ARN associated with the backup.
         public let backupArn: String
@@ -580,7 +580,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BackupSummary: AWSShape {
+    public struct BackupSummary: AWSDecodableShape {
 
         /// ARN associated with the backup.
         public let backupArn: String?
@@ -630,7 +630,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BatchGetItemInput: AWSShape {
+    public struct BatchGetItemInput: AWSEncodableShape {
 
         /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.    ExpressionAttributeNames - One or more substitution tokens for attribute names in the ProjectionExpression parameter. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.    ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes are returned. If any of the requested attributes are not found, they do not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.   
         public let requestItems: [String: KeysAndAttributes]
@@ -656,7 +656,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BatchGetItemOutput: AWSShape {
+    public struct BatchGetItemOutput: AWSDecodableShape {
 
         /// The read capacity units consumed by the entire BatchGetItem operation. Each element consists of:    TableName - The table that consumed the provisioned throughput.    CapacityUnits - The total number of capacity units consumed.  
         public let consumedCapacity: [ConsumedCapacity]?
@@ -678,7 +678,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BatchWriteItemInput: AWSShape {
+    public struct BatchWriteItemInput: AWSEncodableShape {
 
         /// A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest). Each element in the map consists of the following:    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values are rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.    
         public let requestItems: [String: [WriteRequest]]
@@ -709,7 +709,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BatchWriteItemOutput: AWSShape {
+    public struct BatchWriteItemOutput: AWSDecodableShape {
 
         /// The capacity units consumed by the entire BatchWriteItem operation. Each element consists of:    TableName - The table that consumed the provisioned throughput.    CapacityUnits - The total number of capacity units consumed.  
         public let consumedCapacity: [ConsumedCapacity]?
@@ -731,7 +731,7 @@ extension DynamoDB {
         }
     }
 
-    public struct BillingModeSummary: AWSShape {
+    public struct BillingModeSummary: AWSDecodableShape {
 
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
         public let billingMode: BillingMode?
@@ -749,7 +749,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Capacity: AWSShape {
+    public struct Capacity: AWSDecodableShape {
 
         /// The total number of capacity units consumed on a table or an index.
         public let capacityUnits: Double?
@@ -771,7 +771,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Condition: AWSShape {
+    public struct Condition: AWSEncodableShape {
 
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
         public let attributeValueList: [AttributeValue]?
@@ -795,7 +795,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ConditionCheck: AWSShape {
+    public struct ConditionCheck: AWSEncodableShape {
 
         /// A condition that must be satisfied in order for a conditional update to succeed.
         public let conditionExpression: String
@@ -845,7 +845,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ConsumedCapacity: AWSShape {
+    public struct ConsumedCapacity: AWSDecodableShape {
 
         /// The total number of capacity units consumed by the operation.
         public let capacityUnits: Double?
@@ -883,7 +883,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ContinuousBackupsDescription: AWSShape {
+    public struct ContinuousBackupsDescription: AWSDecodableShape {
 
         ///  ContinuousBackupsStatus can be one of the following states: ENABLED, DISABLED
         public let continuousBackupsStatus: ContinuousBackupsStatus
@@ -901,7 +901,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ContributorInsightsSummary: AWSShape {
+    public struct ContributorInsightsSummary: AWSDecodableShape {
 
         /// Describes the current status for contributor insights for the given table and index, if applicable.
         public let contributorInsightsStatus: ContributorInsightsStatus?
@@ -923,7 +923,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateBackupInput: AWSShape {
+    public struct CreateBackupInput: AWSEncodableShape {
 
         /// Specified name for the backup.
         public let backupName: String
@@ -950,7 +950,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateBackupOutput: AWSShape {
+    public struct CreateBackupOutput: AWSDecodableShape {
 
         /// Contains the details of the backup created for the table.
         public let backupDetails: BackupDetails?
@@ -964,7 +964,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateGlobalSecondaryIndexAction: AWSShape {
+    public struct CreateGlobalSecondaryIndexAction: AWSEncodableShape {
 
         /// The name of the global secondary index to be created.
         public let indexName: String
@@ -1003,7 +1003,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateGlobalTableInput: AWSShape {
+    public struct CreateGlobalTableInput: AWSEncodableShape {
 
         /// The global table name.
         public let globalTableName: String
@@ -1027,7 +1027,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateGlobalTableOutput: AWSShape {
+    public struct CreateGlobalTableOutput: AWSDecodableShape {
 
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
@@ -1041,7 +1041,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateReplicaAction: AWSShape {
+    public struct CreateReplicaAction: AWSEncodableShape {
 
         /// The Region of the replica to be added.
         public let regionName: String
@@ -1055,7 +1055,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateReplicationGroupMemberAction: AWSShape {
+    public struct CreateReplicationGroupMemberAction: AWSEncodableShape {
 
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
@@ -1089,7 +1089,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateTableInput: AWSShape {
+    public struct CreateTableInput: AWSEncodableShape {
 
         /// An array of attributes that describe the key schema for the table and indexes.
         public let attributeDefinitions: [AttributeDefinition]
@@ -1163,7 +1163,7 @@ extension DynamoDB {
         }
     }
 
-    public struct CreateTableOutput: AWSShape {
+    public struct CreateTableOutput: AWSDecodableShape {
 
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -1177,7 +1177,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Delete: AWSShape {
+    public struct Delete: AWSEncodableShape {
 
         /// A condition that must be satisfied in order for a conditional delete to succeed.
         public let conditionExpression: String?
@@ -1227,7 +1227,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteBackupInput: AWSShape {
+    public struct DeleteBackupInput: AWSEncodableShape {
 
         /// The ARN associated with the backup.
         public let backupArn: String
@@ -1246,7 +1246,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteBackupOutput: AWSShape {
+    public struct DeleteBackupOutput: AWSDecodableShape {
 
         /// Contains the description of the backup created for the table.
         public let backupDescription: BackupDescription?
@@ -1260,7 +1260,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteGlobalSecondaryIndexAction: AWSShape {
+    public struct DeleteGlobalSecondaryIndexAction: AWSEncodableShape {
 
         /// The name of the global secondary index to be deleted.
         public let indexName: String
@@ -1280,7 +1280,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteItemInput: AWSShape {
+    public struct DeleteItemInput: AWSEncodableShape {
 
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
         public let conditionalOperator: ConditionalOperator?
@@ -1349,7 +1349,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteItemOutput: AWSShape {
+    public struct DeleteItemOutput: AWSDecodableShape {
 
         /// A map of attribute names to AttributeValue objects, representing the item as it appeared before the DeleteItem operation. This map appears in the response only if ReturnValues was specified as ALL_OLD in the request.
         public let attributes: [String: AttributeValue]?
@@ -1371,7 +1371,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteReplicaAction: AWSShape {
+    public struct DeleteReplicaAction: AWSEncodableShape {
 
         /// The Region of the replica to be removed.
         public let regionName: String
@@ -1385,7 +1385,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteReplicationGroupMemberAction: AWSShape {
+    public struct DeleteReplicationGroupMemberAction: AWSEncodableShape {
 
         /// The Region where the replica exists.
         public let regionName: String
@@ -1399,7 +1399,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteRequest: AWSShape {
+    public struct DeleteRequest: AWSEncodableShape & AWSDecodableShape {
 
         /// A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
         public let key: [String: AttributeValue]
@@ -1420,7 +1420,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteTableInput: AWSShape {
+    public struct DeleteTableInput: AWSEncodableShape {
 
         /// The name of the table to delete.
         public let tableName: String
@@ -1440,7 +1440,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DeleteTableOutput: AWSShape {
+    public struct DeleteTableOutput: AWSDecodableShape {
 
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
@@ -1454,7 +1454,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeBackupInput: AWSShape {
+    public struct DescribeBackupInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) associated with the backup.
         public let backupArn: String
@@ -1473,7 +1473,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeBackupOutput: AWSShape {
+    public struct DescribeBackupOutput: AWSDecodableShape {
 
         /// Contains the description of the backup created for the table.
         public let backupDescription: BackupDescription?
@@ -1487,7 +1487,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeContinuousBackupsInput: AWSShape {
+    public struct DescribeContinuousBackupsInput: AWSEncodableShape {
 
         /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
         public let tableName: String
@@ -1507,7 +1507,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeContinuousBackupsOutput: AWSShape {
+    public struct DescribeContinuousBackupsOutput: AWSDecodableShape {
 
         /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
@@ -1521,7 +1521,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeContributorInsightsInput: AWSShape {
+    public struct DescribeContributorInsightsInput: AWSEncodableShape {
 
         /// The name of the global secondary index to describe, if applicable.
         public let indexName: String?
@@ -1548,7 +1548,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeContributorInsightsOutput: AWSShape {
+    public struct DescribeContributorInsightsOutput: AWSDecodableShape {
 
         /// List of names of the associated Alpine rules.
         public let contributorInsightsRuleList: [String]?
@@ -1582,7 +1582,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeEndpointsRequest: AWSShape {
+    public struct DescribeEndpointsRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1590,7 +1590,7 @@ extension DynamoDB {
 
     }
 
-    public struct DescribeEndpointsResponse: AWSShape {
+    public struct DescribeEndpointsResponse: AWSDecodableShape {
 
         /// List of endpoints.
         public let endpoints: [Endpoint]
@@ -1604,7 +1604,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeGlobalTableInput: AWSShape {
+    public struct DescribeGlobalTableInput: AWSEncodableShape {
 
         /// The name of the global table.
         public let globalTableName: String
@@ -1624,7 +1624,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeGlobalTableOutput: AWSShape {
+    public struct DescribeGlobalTableOutput: AWSDecodableShape {
 
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
@@ -1638,7 +1638,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeGlobalTableSettingsInput: AWSShape {
+    public struct DescribeGlobalTableSettingsInput: AWSEncodableShape {
 
         /// The name of the global table to describe.
         public let globalTableName: String
@@ -1658,7 +1658,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeGlobalTableSettingsOutput: AWSShape {
+    public struct DescribeGlobalTableSettingsOutput: AWSDecodableShape {
 
         /// The name of the global table.
         public let globalTableName: String?
@@ -1676,7 +1676,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeLimitsInput: AWSShape {
+    public struct DescribeLimitsInput: AWSEncodableShape {
 
 
         public init() {
@@ -1684,7 +1684,7 @@ extension DynamoDB {
 
     }
 
-    public struct DescribeLimitsOutput: AWSShape {
+    public struct DescribeLimitsOutput: AWSDecodableShape {
 
         /// The maximum total read capacity units that your account allows you to provision across all of your tables in this Region.
         public let accountMaxReadCapacityUnits: Int64?
@@ -1710,7 +1710,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeTableInput: AWSShape {
+    public struct DescribeTableInput: AWSEncodableShape {
 
         /// The name of the table to describe.
         public let tableName: String
@@ -1730,7 +1730,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeTableOutput: AWSShape {
+    public struct DescribeTableOutput: AWSDecodableShape {
 
         /// The properties of the table.
         public let table: TableDescription?
@@ -1744,7 +1744,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeTableReplicaAutoScalingInput: AWSShape {
+    public struct DescribeTableReplicaAutoScalingInput: AWSEncodableShape {
 
         /// The name of the table.
         public let tableName: String
@@ -1764,7 +1764,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeTableReplicaAutoScalingOutput: AWSShape {
+    public struct DescribeTableReplicaAutoScalingOutput: AWSDecodableShape {
 
         /// Represents the auto scaling properties of the table.
         public let tableAutoScalingDescription: TableAutoScalingDescription?
@@ -1778,7 +1778,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeTimeToLiveInput: AWSShape {
+    public struct DescribeTimeToLiveInput: AWSEncodableShape {
 
         /// The name of the table to be described.
         public let tableName: String
@@ -1798,7 +1798,7 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeTimeToLiveOutput: AWSShape {
+    public struct DescribeTimeToLiveOutput: AWSDecodableShape {
 
         public let timeToLiveDescription: TimeToLiveDescription?
 
@@ -1811,7 +1811,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
 
         /// IP address of the endpoint.
         public let address: String
@@ -1829,7 +1829,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ExpectedAttributeValue: AWSShape {
+    public struct ExpectedAttributeValue: AWSEncodableShape {
 
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide.
         public let attributeValueList: [AttributeValue]?
@@ -1862,7 +1862,7 @@ extension DynamoDB {
         }
     }
 
-    public struct FailureException: AWSShape {
+    public struct FailureException: AWSDecodableShape {
 
         /// Description of the failure.
         public let exceptionDescription: String?
@@ -1880,7 +1880,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Get: AWSShape {
+    public struct Get: AWSEncodableShape {
 
         /// One or more substitution tokens for attribute names in the ProjectionExpression parameter.
         public let expressionAttributeNames: [String: String]?
@@ -1919,7 +1919,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GetItemInput: AWSShape {
+    public struct GetItemInput: AWSEncodableShape {
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -1973,7 +1973,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GetItemOutput: AWSShape {
+    public struct GetItemOutput: AWSDecodableShape {
 
         /// The capacity units consumed by the GetItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Read/Write Capacity Mode in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -1991,7 +1991,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalSecondaryIndex: AWSShape {
+    public struct GlobalSecondaryIndex: AWSEncodableShape {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -2030,7 +2030,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalSecondaryIndexAutoScalingUpdate: AWSShape {
+    public struct GlobalSecondaryIndexAutoScalingUpdate: AWSEncodableShape {
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -2054,7 +2054,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalSecondaryIndexDescription: AWSShape {
+    public struct GlobalSecondaryIndexDescription: AWSDecodableShape {
 
         /// Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false. You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false.   For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output. 
         public let backfilling: Bool?
@@ -2100,7 +2100,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalSecondaryIndexInfo: AWSShape {
+    public struct GlobalSecondaryIndexInfo: AWSDecodableShape {
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -2126,7 +2126,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalSecondaryIndexUpdate: AWSShape {
+    public struct GlobalSecondaryIndexUpdate: AWSEncodableShape {
 
         /// The parameters required for creating a global secondary index on an existing table:    IndexName      KeySchema      AttributeDefinitions      Projection      ProvisionedThroughput    
         public let create: CreateGlobalSecondaryIndexAction?
@@ -2154,7 +2154,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalTable: AWSShape {
+    public struct GlobalTable: AWSDecodableShape {
 
         /// The global table name.
         public let globalTableName: String?
@@ -2172,7 +2172,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalTableDescription: AWSShape {
+    public struct GlobalTableDescription: AWSDecodableShape {
 
         /// The creation time of the global table.
         public let creationDateTime: TimeStamp?
@@ -2202,7 +2202,7 @@ extension DynamoDB {
         }
     }
 
-    public struct GlobalTableGlobalSecondaryIndexSettingsUpdate: AWSShape {
+    public struct GlobalTableGlobalSecondaryIndexSettingsUpdate: AWSEncodableShape {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -2232,7 +2232,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ItemCollectionMetrics: AWSShape {
+    public struct ItemCollectionMetrics: AWSDecodableShape {
 
         /// The partition key value of the item collection. This value is the same as the partition key value of the item.
         public let itemCollectionKey: [String: AttributeValue]?
@@ -2250,7 +2250,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ItemResponse: AWSShape {
+    public struct ItemResponse: AWSDecodableShape {
 
         /// Map of attribute data consisting of the data type and attribute value.
         public let item: [String: AttributeValue]?
@@ -2264,7 +2264,7 @@ extension DynamoDB {
         }
     }
 
-    public struct KeySchemaElement: AWSShape {
+    public struct KeySchemaElement: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of a key attribute.
         public let attributeName: String
@@ -2287,7 +2287,7 @@ extension DynamoDB {
         }
     }
 
-    public struct KeysAndAttributes: AWSShape {
+    public struct KeysAndAttributes: AWSEncodableShape & AWSDecodableShape {
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -2329,7 +2329,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListBackupsInput: AWSShape {
+    public struct ListBackupsInput: AWSEncodableShape {
 
         /// The backups from the table specified by BackupType are listed. Where BackupType can be:    USER - On-demand backup created by you.    SYSTEM - On-demand backup automatically created by DynamoDB.    ALL - All types of on-demand backups (USER and SYSTEM).  
         public let backupType: BackupTypeFilter?
@@ -2373,7 +2373,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListBackupsOutput: AWSShape {
+    public struct ListBackupsOutput: AWSDecodableShape {
 
         /// List of BackupSummary objects.
         public let backupSummaries: [BackupSummary]?
@@ -2391,7 +2391,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListContributorInsightsInput: AWSShape {
+    public struct ListContributorInsightsInput: AWSEncodableShape {
 
         /// Maximum number of results to return per page.
         public let maxResults: Int?
@@ -2420,7 +2420,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListContributorInsightsOutput: AWSShape {
+    public struct ListContributorInsightsOutput: AWSDecodableShape {
 
         /// A list of ContributorInsightsSummary.
         public let contributorInsightsSummaries: [ContributorInsightsSummary]?
@@ -2438,7 +2438,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListGlobalTablesInput: AWSShape {
+    public struct ListGlobalTablesInput: AWSEncodableShape {
 
         /// The first global table name that this operation will evaluate.
         public let exclusiveStartGlobalTableName: String?
@@ -2467,7 +2467,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListGlobalTablesOutput: AWSShape {
+    public struct ListGlobalTablesOutput: AWSDecodableShape {
 
         /// List of global table names.
         public let globalTables: [GlobalTable]?
@@ -2485,7 +2485,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListTablesInput: AWSShape {
+    public struct ListTablesInput: AWSEncodableShape {
 
         /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
         public let exclusiveStartTableName: String?
@@ -2511,7 +2511,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListTablesOutput: AWSShape {
+    public struct ListTablesOutput: AWSDecodableShape {
 
         /// The name of the last table in the current page of results. Use this value as the ExclusiveStartTableName in a new request to obtain the next page of results, until all the table names are returned. If you do not receive a LastEvaluatedTableName value in the response, this means that there are no more table names to be retrieved.
         public let lastEvaluatedTableName: String?
@@ -2529,7 +2529,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListTagsOfResourceInput: AWSShape {
+    public struct ListTagsOfResourceInput: AWSEncodableShape {
 
         /// An optional string that, if supplied, must be copied from the output of a previous call to ListTagOfResource. When provided in this manner, this API fetches the next page of results.
         public let nextToken: String?
@@ -2552,7 +2552,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ListTagsOfResourceOutput: AWSShape {
+    public struct ListTagsOfResourceOutput: AWSDecodableShape {
 
         /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListTagsOfResource again, with NextToken set to this value.
         public let nextToken: String?
@@ -2570,7 +2570,7 @@ extension DynamoDB {
         }
     }
 
-    public struct LocalSecondaryIndex: AWSShape {
+    public struct LocalSecondaryIndex: AWSEncodableShape {
 
         /// The name of the local secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -2604,7 +2604,7 @@ extension DynamoDB {
         }
     }
 
-    public struct LocalSecondaryIndexDescription: AWSShape {
+    public struct LocalSecondaryIndexDescription: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) that uniquely identifies the index.
         public let indexArn: String?
@@ -2638,7 +2638,7 @@ extension DynamoDB {
         }
     }
 
-    public struct LocalSecondaryIndexInfo: AWSShape {
+    public struct LocalSecondaryIndexInfo: AWSDecodableShape {
 
         /// Represents the name of the local secondary index.
         public let indexName: String?
@@ -2660,7 +2660,7 @@ extension DynamoDB {
         }
     }
 
-    public struct PointInTimeRecoveryDescription: AWSShape {
+    public struct PointInTimeRecoveryDescription: AWSDecodableShape {
 
         /// Specifies the earliest point in time you can restore your table to. You can restore your table to any point in time during the last 35 days. 
         public let earliestRestorableDateTime: TimeStamp?
@@ -2682,7 +2682,7 @@ extension DynamoDB {
         }
     }
 
-    public struct PointInTimeRecoverySpecification: AWSShape {
+    public struct PointInTimeRecoverySpecification: AWSEncodableShape {
 
         /// Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
         public let pointInTimeRecoveryEnabled: Bool
@@ -2696,7 +2696,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Projection: AWSShape {
+    public struct Projection: AWSEncodableShape & AWSDecodableShape {
 
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
@@ -2723,7 +2723,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ProvisionedThroughput: AWSShape {
+    public struct ProvisionedThroughput: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         public let readCapacityUnits: Int64
@@ -2746,7 +2746,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ProvisionedThroughputDescription: AWSShape {
+    public struct ProvisionedThroughputDescription: AWSDecodableShape {
 
         /// The date and time of the last provisioned throughput decrease for this table.
         public let lastDecreaseDateTime: TimeStamp?
@@ -2776,7 +2776,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ProvisionedThroughputOverride: AWSShape {
+    public struct ProvisionedThroughputOverride: AWSEncodableShape & AWSDecodableShape {
 
         /// Replica-specific read capacity units. If not specified, uses the source table's read capacity settings.
         public let readCapacityUnits: Int64?
@@ -2794,7 +2794,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Put: AWSShape {
+    public struct Put: AWSEncodableShape {
 
         /// A condition that must be satisfied in order for a conditional update to succeed.
         public let conditionExpression: String?
@@ -2844,7 +2844,7 @@ extension DynamoDB {
         }
     }
 
-    public struct PutItemInput: AWSShape {
+    public struct PutItemInput: AWSEncodableShape {
 
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
         public let conditionalOperator: ConditionalOperator?
@@ -2913,7 +2913,7 @@ extension DynamoDB {
         }
     }
 
-    public struct PutItemOutput: AWSShape {
+    public struct PutItemOutput: AWSDecodableShape {
 
         /// The attribute values as they appeared before the PutItem operation, but only if ReturnValues is specified as ALL_OLD in the request. Each element consists of an attribute name and an attribute value.
         public let attributes: [String: AttributeValue]?
@@ -2935,7 +2935,7 @@ extension DynamoDB {
         }
     }
 
-    public struct PutRequest: AWSShape {
+    public struct PutRequest: AWSEncodableShape & AWSDecodableShape {
 
         /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item that are part of an index key schema for the table, their types must match the index key schema.
         public let item: [String: AttributeValue]
@@ -2956,7 +2956,7 @@ extension DynamoDB {
         }
     }
 
-    public struct QueryInput: AWSShape {
+    public struct QueryInput: AWSEncodableShape {
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -3065,7 +3065,7 @@ extension DynamoDB {
         }
     }
 
-    public struct QueryOutput: AWSShape {
+    public struct QueryOutput: AWSDecodableShape {
 
         /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -3095,7 +3095,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Replica: AWSShape {
+    public struct Replica: AWSEncodableShape & AWSDecodableShape {
 
         /// The Region where the replica needs to be created.
         public let regionName: String?
@@ -3109,7 +3109,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaAutoScalingDescription: AWSShape {
+    public struct ReplicaAutoScalingDescription: AWSDecodableShape {
 
         /// Replica-specific global secondary index auto scaling settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexAutoScalingDescription]?
@@ -3137,7 +3137,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaAutoScalingUpdate: AWSShape {
+    public struct ReplicaAutoScalingUpdate: AWSEncodableShape {
 
         /// The Region where the replica exists.
         public let regionName: String
@@ -3165,7 +3165,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaDescription: AWSShape {
+    public struct ReplicaDescription: AWSDecodableShape {
 
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]?
@@ -3203,7 +3203,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaGlobalSecondaryIndex: AWSShape {
+    public struct ReplicaGlobalSecondaryIndex: AWSEncodableShape {
 
         /// The name of the global secondary index.
         public let indexName: String
@@ -3228,7 +3228,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaGlobalSecondaryIndexAutoScalingDescription: AWSShape {
+    public struct ReplicaGlobalSecondaryIndexAutoScalingDescription: AWSDecodableShape {
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -3252,7 +3252,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaGlobalSecondaryIndexAutoScalingUpdate: AWSShape {
+    public struct ReplicaGlobalSecondaryIndexAutoScalingUpdate: AWSEncodableShape {
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -3276,7 +3276,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaGlobalSecondaryIndexDescription: AWSShape {
+    public struct ReplicaGlobalSecondaryIndexDescription: AWSDecodableShape {
 
         /// The name of the global secondary index.
         public let indexName: String?
@@ -3294,7 +3294,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaGlobalSecondaryIndexSettingsDescription: AWSShape {
+    public struct ReplicaGlobalSecondaryIndexSettingsDescription: AWSDecodableShape {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -3328,7 +3328,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaGlobalSecondaryIndexSettingsUpdate: AWSShape {
+    public struct ReplicaGlobalSecondaryIndexSettingsUpdate: AWSEncodableShape {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
@@ -3358,7 +3358,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaSettingsDescription: AWSShape {
+    public struct ReplicaSettingsDescription: AWSDecodableShape {
 
         /// The Region name of the replica.
         public let regionName: String
@@ -3400,7 +3400,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaSettingsUpdate: AWSShape {
+    public struct ReplicaSettingsUpdate: AWSEncodableShape {
 
         /// The Region of the replica to be added.
         public let regionName: String
@@ -3436,7 +3436,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaUpdate: AWSShape {
+    public struct ReplicaUpdate: AWSEncodableShape {
 
         /// The parameters required for creating a replica on an existing global table.
         public let create: CreateReplicaAction?
@@ -3454,7 +3454,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicationGroupUpdate: AWSShape {
+    public struct ReplicationGroupUpdate: AWSEncodableShape {
 
         /// The parameters required for creating a replica for the table.
         public let create: CreateReplicationGroupMemberAction?
@@ -3481,7 +3481,7 @@ extension DynamoDB {
         }
     }
 
-    public struct RestoreSummary: AWSShape {
+    public struct RestoreSummary: AWSDecodableShape {
 
         /// Point in time or source backup time.
         public let restoreDateTime: TimeStamp
@@ -3507,7 +3507,7 @@ extension DynamoDB {
         }
     }
 
-    public struct RestoreTableFromBackupInput: AWSShape {
+    public struct RestoreTableFromBackupInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) associated with the backup.
         public let backupArn: String
@@ -3560,7 +3560,7 @@ extension DynamoDB {
         }
     }
 
-    public struct RestoreTableFromBackupOutput: AWSShape {
+    public struct RestoreTableFromBackupOutput: AWSDecodableShape {
 
         /// The description of the table created from an existing backup.
         public let tableDescription: TableDescription?
@@ -3574,7 +3574,7 @@ extension DynamoDB {
         }
     }
 
-    public struct RestoreTableToPointInTimeInput: AWSShape {
+    public struct RestoreTableToPointInTimeInput: AWSEncodableShape {
 
         /// The billing mode of the restored table.
         public let billingModeOverride: BillingMode?
@@ -3640,7 +3640,7 @@ extension DynamoDB {
         }
     }
 
-    public struct RestoreTableToPointInTimeOutput: AWSShape {
+    public struct RestoreTableToPointInTimeOutput: AWSDecodableShape {
 
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
@@ -3654,7 +3654,7 @@ extension DynamoDB {
         }
     }
 
-    public struct SSEDescription: AWSShape {
+    public struct SSEDescription: AWSDecodableShape {
 
         /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's AWS KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's AWS KMS key is accessible again. DynamoDB will initiate the table archival process when table's AWS KMS key remains inaccessible for more than seven days from this date.
         public let inaccessibleEncryptionDateTime: TimeStamp?
@@ -3680,7 +3680,7 @@ extension DynamoDB {
         }
     }
 
-    public struct SSESpecification: AWSShape {
+    public struct SSESpecification: AWSEncodableShape {
 
         /// Indicates whether server-side encryption is done using an AWS managed CMK or an AWS owned CMK. If enabled (true), server-side encryption type is set to KMS and an AWS managed CMK is used (AWS KMS charges apply). If disabled (false) or not specified, server-side encryption is set to AWS owned CMK.
         public let enabled: Bool?
@@ -3702,7 +3702,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ScanInput: AWSShape {
+    public struct ScanInput: AWSEncodableShape {
 
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
@@ -3807,7 +3807,7 @@ extension DynamoDB {
         }
     }
 
-    public struct ScanOutput: AWSShape {
+    public struct ScanOutput: AWSDecodableShape {
 
         /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -3837,7 +3837,7 @@ extension DynamoDB {
         }
     }
 
-    public struct SourceTableDetails: AWSShape {
+    public struct SourceTableDetails: AWSDecodableShape {
 
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
         public let billingMode: BillingMode?
@@ -3883,7 +3883,7 @@ extension DynamoDB {
         }
     }
 
-    public struct SourceTableFeatureDetails: AWSShape {
+    public struct SourceTableFeatureDetails: AWSDecodableShape {
 
         /// Represents the GSI properties for the table when the backup was created. It includes the IndexName, KeySchema, Projection, and ProvisionedThroughput for the GSIs on the table at the time of backup. 
         public let globalSecondaryIndexes: [GlobalSecondaryIndexInfo]?
@@ -3913,7 +3913,7 @@ extension DynamoDB {
         }
     }
 
-    public struct StreamSpecification: AWSShape {
+    public struct StreamSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
         public let streamEnabled: Bool
@@ -3931,7 +3931,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TableAutoScalingDescription: AWSShape {
+    public struct TableAutoScalingDescription: AWSDecodableShape {
 
         /// Represents replicas of the global table.
         public let replicas: [ReplicaAutoScalingDescription]?
@@ -3953,7 +3953,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TableDescription: AWSShape {
+    public struct TableDescription: AWSDecodableShape {
 
         /// Contains information about the table archive.
         public let archivalSummary: ArchivalSummary?
@@ -4047,7 +4047,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. 
         public let key: String
@@ -4072,7 +4072,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -4098,7 +4098,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TimeToLiveDescription: AWSShape {
+    public struct TimeToLiveDescription: AWSDecodableShape {
 
         ///  The name of the TTL attribute for items in the table.
         public let attributeName: String?
@@ -4116,7 +4116,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TimeToLiveSpecification: AWSShape {
+    public struct TimeToLiveSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the TTL attribute used to store the expiration time for items in the table.
         public let attributeName: String
@@ -4139,7 +4139,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactGetItem: AWSShape {
+    public struct TransactGetItem: AWSEncodableShape {
 
         /// Contains the primary key that identifies the item to get, together with the name of the table that contains the item, and optionally the specific attributes of the item to retrieve.
         public let get: Get
@@ -4157,7 +4157,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactGetItemsInput: AWSShape {
+    public struct TransactGetItemsInput: AWSEncodableShape {
 
         /// A value of TOTAL causes consumed capacity information to be returned, and a value of NONE prevents that information from being returned. No other value is valid.
         public let returnConsumedCapacity: ReturnConsumedCapacity?
@@ -4183,7 +4183,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactGetItemsOutput: AWSShape {
+    public struct TransactGetItemsOutput: AWSDecodableShape {
 
         /// If the ReturnConsumedCapacity value was TOTAL, this is an array of ConsumedCapacity objects, one for each table addressed by TransactGetItem objects in the TransactItems parameter. These ConsumedCapacity objects report the read-capacity units consumed by the TransactGetItems call in that table.
         public let consumedCapacity: [ConsumedCapacity]?
@@ -4201,7 +4201,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactWriteItem: AWSShape {
+    public struct TransactWriteItem: AWSEncodableShape {
 
         /// A request to perform a check item operation.
         public let conditionCheck: ConditionCheck?
@@ -4234,7 +4234,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactWriteItemsInput: AWSShape {
+    public struct TransactWriteItemsInput: AWSEncodableShape {
 
         /// Providing a ClientRequestToken makes the call to TransactWriteItems idempotent, meaning that multiple identical calls have the same effect as one single call. Although multiple identical calls using the same client request token produce the same result on the server (no side effects), the responses to the calls might not be the same. If the ReturnConsumedCapacity&gt; parameter is set, then the initial TransactWriteItems call returns the amount of write capacity units consumed in making the changes. Subsequent TransactWriteItems calls with the same client token return the number of read capacity units consumed in reading the item. A client request token is valid for 10 minutes after the first request that uses it is completed. After 10 minutes, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 10 minutes, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 10-minute idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
         public let clientRequestToken: String?
@@ -4269,7 +4269,7 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactWriteItemsOutput: AWSShape {
+    public struct TransactWriteItemsOutput: AWSDecodableShape {
 
         /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter. 
         public let consumedCapacity: [ConsumedCapacity]?
@@ -4287,7 +4287,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         /// The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -4314,7 +4314,7 @@ extension DynamoDB {
         }
     }
 
-    public struct Update: AWSShape {
+    public struct Update: AWSEncodableShape {
 
         /// A condition that must be satisfied in order for a conditional update to succeed.
         public let conditionExpression: String?
@@ -4368,7 +4368,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateContinuousBackupsInput: AWSShape {
+    public struct UpdateContinuousBackupsInput: AWSEncodableShape {
 
         /// Represents the settings used to enable point in time recovery.
         public let pointInTimeRecoverySpecification: PointInTimeRecoverySpecification
@@ -4392,7 +4392,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateContinuousBackupsOutput: AWSShape {
+    public struct UpdateContinuousBackupsOutput: AWSDecodableShape {
 
         /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
@@ -4406,7 +4406,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateContributorInsightsInput: AWSShape {
+    public struct UpdateContributorInsightsInput: AWSEncodableShape {
 
         /// Represents the contributor insights action.
         public let contributorInsightsAction: ContributorInsightsAction
@@ -4437,7 +4437,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateContributorInsightsOutput: AWSShape {
+    public struct UpdateContributorInsightsOutput: AWSDecodableShape {
 
         /// The status of contributor insights
         public let contributorInsightsStatus: ContributorInsightsStatus?
@@ -4459,7 +4459,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateGlobalSecondaryIndexAction: AWSShape {
+    public struct UpdateGlobalSecondaryIndexAction: AWSEncodableShape {
 
         /// The name of the global secondary index to be updated.
         public let indexName: String
@@ -4484,7 +4484,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateGlobalTableInput: AWSShape {
+    public struct UpdateGlobalTableInput: AWSEncodableShape {
 
         /// The global table name.
         public let globalTableName: String
@@ -4508,7 +4508,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateGlobalTableOutput: AWSShape {
+    public struct UpdateGlobalTableOutput: AWSDecodableShape {
 
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
@@ -4522,7 +4522,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateGlobalTableSettingsInput: AWSShape {
+    public struct UpdateGlobalTableSettingsInput: AWSEncodableShape {
 
         /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode.    PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to On-Demand Mode.   
         public let globalTableBillingMode: BillingMode?
@@ -4574,7 +4574,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateGlobalTableSettingsOutput: AWSShape {
+    public struct UpdateGlobalTableSettingsOutput: AWSDecodableShape {
 
         /// The name of the global table.
         public let globalTableName: String?
@@ -4592,7 +4592,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateItemInput: AWSShape {
+    public struct UpdateItemInput: AWSEncodableShape {
 
         /// This is a legacy parameter. Use UpdateExpression instead. For more information, see AttributeUpdates in the Amazon DynamoDB Developer Guide.
         public let attributeUpdates: [String: AttributeValueUpdate]?
@@ -4673,7 +4673,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateItemOutput: AWSShape {
+    public struct UpdateItemOutput: AWSDecodableShape {
 
         /// A map of attribute values as they appear before or after the UpdateItem operation, as determined by the ReturnValues parameter. The Attributes map is only present if ReturnValues was specified as something other than NONE in the request. Each element represents one attribute.
         public let attributes: [String: AttributeValue]?
@@ -4695,7 +4695,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateReplicationGroupMemberAction: AWSShape {
+    public struct UpdateReplicationGroupMemberAction: AWSEncodableShape {
 
         /// Replica-specific global secondary index settings.
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
@@ -4729,7 +4729,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateTableInput: AWSShape {
+    public struct UpdateTableInput: AWSEncodableShape {
 
         /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
         public let attributeDefinitions: [AttributeDefinition]?
@@ -4788,7 +4788,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateTableOutput: AWSShape {
+    public struct UpdateTableOutput: AWSDecodableShape {
 
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -4802,7 +4802,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateTableReplicaAutoScalingInput: AWSShape {
+    public struct UpdateTableReplicaAutoScalingInput: AWSEncodableShape {
 
         /// Represents the auto scaling settings of the global secondary indexes of the replica to be updated.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexAutoScalingUpdate]?
@@ -4842,7 +4842,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateTableReplicaAutoScalingOutput: AWSShape {
+    public struct UpdateTableReplicaAutoScalingOutput: AWSDecodableShape {
 
         /// Returns information about the auto scaling settings of a table with replicas.
         public let tableAutoScalingDescription: TableAutoScalingDescription?
@@ -4856,7 +4856,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateTimeToLiveInput: AWSShape {
+    public struct UpdateTimeToLiveInput: AWSEncodableShape {
 
         /// The name of the table to be configured.
         public let tableName: String
@@ -4881,7 +4881,7 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateTimeToLiveOutput: AWSShape {
+    public struct UpdateTimeToLiveOutput: AWSDecodableShape {
 
         /// Represents the output of an UpdateTimeToLive operation.
         public let timeToLiveSpecification: TimeToLiveSpecification?
@@ -4895,7 +4895,7 @@ extension DynamoDB {
         }
     }
 
-    public struct WriteRequest: AWSShape {
+    public struct WriteRequest: AWSEncodableShape & AWSDecodableShape {
 
         /// A request to perform a DeleteItem operation.
         public let deleteRequest: DeleteRequest?

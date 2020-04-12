@@ -22,7 +22,7 @@ extension Outposts {
 
     //MARK: Shapes
 
-    public struct CreateOutpostInput: AWSShape {
+    public struct CreateOutpostInput: AWSEncodableShape {
 
         public let availabilityZone: String?
         public let availabilityZoneId: String?
@@ -65,7 +65,7 @@ extension Outposts {
         }
     }
 
-    public struct CreateOutpostOutput: AWSShape {
+    public struct CreateOutpostOutput: AWSDecodableShape {
 
         public let outpost: Outpost?
 
@@ -78,7 +78,7 @@ extension Outposts {
         }
     }
 
-    public struct DeleteOutpostInput: AWSShape {
+    public struct DeleteOutpostInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
@@ -95,12 +95,10 @@ extension Outposts {
             try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case outpostId = "OutpostId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteOutpostOutput: AWSShape {
+    public struct DeleteOutpostOutput: AWSDecodableShape {
 
 
         public init() {
@@ -108,7 +106,7 @@ extension Outposts {
 
     }
 
-    public struct DeleteSiteInput: AWSShape {
+    public struct DeleteSiteInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "siteId", location: .uri(locationName: "SiteId"))
         ]
@@ -125,12 +123,10 @@ extension Outposts {
             try validate(self.siteId, name:"siteId", parent: name, pattern: "os-[a-f0-9]{17}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case siteId = "SiteId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSiteOutput: AWSShape {
+    public struct DeleteSiteOutput: AWSDecodableShape {
 
 
         public init() {
@@ -138,7 +134,7 @@ extension Outposts {
 
     }
 
-    public struct GetOutpostInput: AWSShape {
+    public struct GetOutpostInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
@@ -155,12 +151,10 @@ extension Outposts {
             try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case outpostId = "OutpostId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOutpostInstanceTypesInput: AWSShape {
+    public struct GetOutpostInstanceTypesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
@@ -188,14 +182,10 @@ extension Outposts {
             try validate(self.outpostId, name:"outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case outpostId = "OutpostId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOutpostInstanceTypesOutput: AWSShape {
+    public struct GetOutpostInstanceTypesOutput: AWSDecodableShape {
 
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
@@ -217,7 +207,7 @@ extension Outposts {
         }
     }
 
-    public struct GetOutpostOutput: AWSShape {
+    public struct GetOutpostOutput: AWSDecodableShape {
 
         public let outpost: Outpost?
 
@@ -230,7 +220,7 @@ extension Outposts {
         }
     }
 
-    public struct InstanceTypeItem: AWSShape {
+    public struct InstanceTypeItem: AWSDecodableShape {
 
         public let instanceType: String?
 
@@ -243,7 +233,7 @@ extension Outposts {
         }
     }
 
-    public struct ListOutpostsInput: AWSShape {
+    public struct ListOutpostsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -265,13 +255,10 @@ extension Outposts {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListOutpostsOutput: AWSShape {
+    public struct ListOutpostsOutput: AWSDecodableShape {
 
         public let nextToken: String?
         public let outposts: [Outpost]?
@@ -287,7 +274,7 @@ extension Outposts {
         }
     }
 
-    public struct ListSitesInput: AWSShape {
+    public struct ListSitesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
@@ -309,13 +296,10 @@ extension Outposts {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSitesOutput: AWSShape {
+    public struct ListSitesOutput: AWSDecodableShape {
 
         public let nextToken: String?
         public let sites: [Site]?
@@ -331,7 +315,7 @@ extension Outposts {
         }
     }
 
-    public struct Outpost: AWSShape {
+    public struct Outpost: AWSDecodableShape {
 
         public let availabilityZone: String?
         public let availabilityZoneId: String?
@@ -368,7 +352,7 @@ extension Outposts {
         }
     }
 
-    public struct Site: AWSShape {
+    public struct Site: AWSDecodableShape {
 
         public let accountId: String?
         public let description: String?

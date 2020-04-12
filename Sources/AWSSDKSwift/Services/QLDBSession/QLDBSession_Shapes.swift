@@ -22,7 +22,7 @@ extension QLDBSession {
 
     //MARK: Shapes
 
-    public struct AbortTransactionRequest: AWSShape {
+    public struct AbortTransactionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -30,7 +30,7 @@ extension QLDBSession {
 
     }
 
-    public struct AbortTransactionResult: AWSShape {
+    public struct AbortTransactionResult: AWSDecodableShape {
 
 
         public init() {
@@ -38,7 +38,7 @@ extension QLDBSession {
 
     }
 
-    public struct CommitTransactionRequest: AWSShape {
+    public struct CommitTransactionRequest: AWSEncodableShape {
 
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB.
         public let commitDigest: Data
@@ -62,7 +62,7 @@ extension QLDBSession {
         }
     }
 
-    public struct CommitTransactionResult: AWSShape {
+    public struct CommitTransactionResult: AWSDecodableShape {
 
         /// The commit digest of the committed transaction.
         public let commitDigest: Data?
@@ -80,7 +80,7 @@ extension QLDBSession {
         }
     }
 
-    public struct EndSessionRequest: AWSShape {
+    public struct EndSessionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -88,7 +88,7 @@ extension QLDBSession {
 
     }
 
-    public struct EndSessionResult: AWSShape {
+    public struct EndSessionResult: AWSDecodableShape {
 
 
         public init() {
@@ -96,7 +96,7 @@ extension QLDBSession {
 
     }
 
-    public struct ExecuteStatementRequest: AWSShape {
+    public struct ExecuteStatementRequest: AWSEncodableShape {
 
         /// Specifies the parameters for the parameterized statement in the request.
         public let parameters: [ValueHolder]?
@@ -129,7 +129,7 @@ extension QLDBSession {
         }
     }
 
-    public struct ExecuteStatementResult: AWSShape {
+    public struct ExecuteStatementResult: AWSDecodableShape {
 
         /// Contains the details of the first fetched page.
         public let firstPage: Page?
@@ -143,7 +143,7 @@ extension QLDBSession {
         }
     }
 
-    public struct FetchPageRequest: AWSShape {
+    public struct FetchPageRequest: AWSEncodableShape {
 
         /// Specifies the next page token of the page to be fetched.
         public let nextPageToken: String
@@ -170,7 +170,7 @@ extension QLDBSession {
         }
     }
 
-    public struct FetchPageResult: AWSShape {
+    public struct FetchPageResult: AWSDecodableShape {
 
         /// Contains details of the fetched page.
         public let page: Page?
@@ -184,7 +184,7 @@ extension QLDBSession {
         }
     }
 
-    public struct Page: AWSShape {
+    public struct Page: AWSDecodableShape {
 
         /// The token of the next page.
         public let nextPageToken: String?
@@ -202,7 +202,7 @@ extension QLDBSession {
         }
     }
 
-    public struct SendCommandRequest: AWSShape {
+    public struct SendCommandRequest: AWSEncodableShape {
 
         /// Command to abort the current transaction.
         public let abortTransaction: AbortTransactionRequest?
@@ -254,7 +254,7 @@ extension QLDBSession {
         }
     }
 
-    public struct SendCommandResult: AWSShape {
+    public struct SendCommandResult: AWSDecodableShape {
 
         /// Contains the details of the aborted transaction.
         public let abortTransaction: AbortTransactionResult?
@@ -292,7 +292,7 @@ extension QLDBSession {
         }
     }
 
-    public struct StartSessionRequest: AWSShape {
+    public struct StartSessionRequest: AWSEncodableShape {
 
         /// The name of the ledger to start a new session against.
         public let ledgerName: String
@@ -312,7 +312,7 @@ extension QLDBSession {
         }
     }
 
-    public struct StartSessionResult: AWSShape {
+    public struct StartSessionResult: AWSDecodableShape {
 
         /// Session token of the started session. This SessionToken is required for every subsequent command that is issued during the current session.
         public let sessionToken: String?
@@ -326,7 +326,7 @@ extension QLDBSession {
         }
     }
 
-    public struct StartTransactionRequest: AWSShape {
+    public struct StartTransactionRequest: AWSEncodableShape {
 
 
         public init() {
@@ -334,7 +334,7 @@ extension QLDBSession {
 
     }
 
-    public struct StartTransactionResult: AWSShape {
+    public struct StartTransactionResult: AWSDecodableShape {
 
         /// The transaction id of the started transaction.
         public let transactionId: String?
@@ -348,7 +348,7 @@ extension QLDBSession {
         }
     }
 
-    public struct ValueHolder: AWSShape {
+    public struct ValueHolder: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon Ion binary value contained in a ValueHolder structure. 
         public let ionBinary: Data?

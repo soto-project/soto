@@ -27,7 +27,7 @@ extension EBS {
 
     //MARK: Shapes
 
-    public struct Block: AWSShape {
+    public struct Block: AWSDecodableShape {
 
         /// The block index.
         public let blockIndex: Int?
@@ -45,7 +45,7 @@ extension EBS {
         }
     }
 
-    public struct ChangedBlock: AWSShape {
+    public struct ChangedBlock: AWSDecodableShape {
 
         /// The block index.
         public let blockIndex: Int?
@@ -67,7 +67,7 @@ extension EBS {
         }
     }
 
-    public struct GetSnapshotBlockRequest: AWSShape {
+    public struct GetSnapshotBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")), 
             AWSMemberEncoding(label: "blockToken", location: .querystring(locationName: "blockToken")), 
@@ -95,14 +95,10 @@ extension EBS {
             try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blockIndex = "blockIndex"
-            case blockToken = "blockToken"
-            case snapshotId = "snapshotId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSnapshotBlockResponse: AWSShape {
+    public struct GetSnapshotBlockResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "blockData"
         public static var _encoding = [
@@ -136,7 +132,7 @@ extension EBS {
         }
     }
 
-    public struct ListChangedBlocksRequest: AWSShape {
+    public struct ListChangedBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "firstSnapshotId", location: .querystring(locationName: "firstSnapshotId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -177,16 +173,10 @@ extension EBS {
             try validate(self.secondSnapshotId, name:"secondSnapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case firstSnapshotId = "firstSnapshotId"
-            case maxResults = "maxResults"
-            case nextToken = "pageToken"
-            case secondSnapshotId = "secondSnapshotId"
-            case startingBlockIndex = "startingBlockIndex"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListChangedBlocksResponse: AWSShape {
+    public struct ListChangedBlocksResponse: AWSDecodableShape {
 
         /// The size of the block.
         public let blockSize: Int?
@@ -216,7 +206,7 @@ extension EBS {
         }
     }
 
-    public struct ListSnapshotBlocksRequest: AWSShape {
+    public struct ListSnapshotBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")), 
@@ -250,15 +240,10 @@ extension EBS {
             try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "pageToken"
-            case snapshotId = "snapshotId"
-            case startingBlockIndex = "startingBlockIndex"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListSnapshotBlocksResponse: AWSShape {
+    public struct ListSnapshotBlocksResponse: AWSDecodableShape {
 
         /// An array of objects containing information about the blocks.
         public let blocks: [Block]?

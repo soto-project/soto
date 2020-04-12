@@ -238,7 +238,7 @@ extension CodeBuild {
 
     //MARK: Shapes
 
-    public struct BatchDeleteBuildsInput: AWSShape {
+    public struct BatchDeleteBuildsInput: AWSEncodableShape {
 
         /// The IDs of the builds to delete.
         public let ids: [String]
@@ -260,7 +260,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchDeleteBuildsOutput: AWSShape {
+    public struct BatchDeleteBuildsOutput: AWSDecodableShape {
 
         /// The IDs of the builds that were successfully deleted.
         public let buildsDeleted: [String]?
@@ -278,7 +278,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetBuildsInput: AWSShape {
+    public struct BatchGetBuildsInput: AWSEncodableShape {
 
         /// The IDs of the builds.
         public let ids: [String]
@@ -300,7 +300,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetBuildsOutput: AWSShape {
+    public struct BatchGetBuildsOutput: AWSDecodableShape {
 
         /// Information about the requested builds.
         public let builds: [Build]?
@@ -318,7 +318,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetProjectsInput: AWSShape {
+    public struct BatchGetProjectsInput: AWSEncodableShape {
 
         /// The names or ARNs of the build projects. To get information about a project shared with your AWS account, its ARN must be specified. You cannot specify a shared project using its name.
         public let names: [String]
@@ -340,7 +340,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetProjectsOutput: AWSShape {
+    public struct BatchGetProjectsOutput: AWSDecodableShape {
 
         /// Information about the requested build projects.
         public let projects: [Project]?
@@ -358,7 +358,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetReportGroupsInput: AWSShape {
+    public struct BatchGetReportGroupsInput: AWSEncodableShape {
 
         ///  An array of report group ARNs that identify the report groups to return. 
         public let reportGroupArns: [String]
@@ -380,7 +380,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetReportGroupsOutput: AWSShape {
+    public struct BatchGetReportGroupsOutput: AWSDecodableShape {
 
         ///  The array of report groups returned by BatchGetReportGroups. 
         public let reportGroups: [ReportGroup]?
@@ -398,7 +398,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetReportsInput: AWSShape {
+    public struct BatchGetReportsInput: AWSEncodableShape {
 
         ///  An array of ARNs that identify the Report objects to return. 
         public let reportArns: [String]
@@ -420,7 +420,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BatchGetReportsOutput: AWSShape {
+    public struct BatchGetReportsOutput: AWSDecodableShape {
 
         ///  The array of Report objects returned by BatchGetReports. 
         public let reports: [Report]?
@@ -438,7 +438,7 @@ extension CodeBuild {
         }
     }
 
-    public struct Build: AWSShape {
+    public struct Build: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the build.
         public let arn: String?
@@ -568,7 +568,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BuildArtifacts: AWSShape {
+    public struct BuildArtifacts: AWSDecodableShape {
 
         ///  An identifier for this artifact definition. 
         public let artifactIdentifier: String?
@@ -602,7 +602,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BuildNotDeleted: AWSShape {
+    public struct BuildNotDeleted: AWSDecodableShape {
 
         /// The ID of the build that could not be successfully deleted.
         public let id: String?
@@ -620,7 +620,7 @@ extension CodeBuild {
         }
     }
 
-    public struct BuildPhase: AWSShape {
+    public struct BuildPhase: AWSDecodableShape {
 
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
@@ -654,7 +654,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CloudWatchLogsConfig: AWSShape {
+    public struct CloudWatchLogsConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams. 
         public let groupName: String?
@@ -676,7 +676,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateProjectInput: AWSShape {
+    public struct CreateProjectInput: AWSEncodableShape {
 
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts
@@ -793,7 +793,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateProjectOutput: AWSShape {
+    public struct CreateProjectOutput: AWSDecodableShape {
 
         /// Information about the build project that was created.
         public let project: Project?
@@ -807,7 +807,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateReportGroupInput: AWSShape {
+    public struct CreateReportGroupInput: AWSEncodableShape {
 
         ///  A ReportExportConfig object that contains information about where the report group test results are exported. 
         public let exportConfig: ReportExportConfig
@@ -835,7 +835,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateReportGroupOutput: AWSShape {
+    public struct CreateReportGroupOutput: AWSDecodableShape {
 
         ///  Information about the report group that was created. 
         public let reportGroup: ReportGroup?
@@ -849,7 +849,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateWebhookInput: AWSShape {
+    public struct CreateWebhookInput: AWSEncodableShape {
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
@@ -877,7 +877,7 @@ extension CodeBuild {
         }
     }
 
-    public struct CreateWebhookOutput: AWSShape {
+    public struct CreateWebhookOutput: AWSDecodableShape {
 
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
@@ -891,7 +891,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteProjectInput: AWSShape {
+    public struct DeleteProjectInput: AWSEncodableShape {
 
         /// The name of the build project.
         public let name: String
@@ -909,7 +909,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteProjectOutput: AWSShape {
+    public struct DeleteProjectOutput: AWSDecodableShape {
 
 
         public init() {
@@ -917,7 +917,7 @@ extension CodeBuild {
 
     }
 
-    public struct DeleteReportGroupInput: AWSShape {
+    public struct DeleteReportGroupInput: AWSEncodableShape {
 
         ///  The ARN of the report group to delete. 
         public let arn: String
@@ -935,7 +935,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteReportGroupOutput: AWSShape {
+    public struct DeleteReportGroupOutput: AWSDecodableShape {
 
 
         public init() {
@@ -943,7 +943,7 @@ extension CodeBuild {
 
     }
 
-    public struct DeleteReportInput: AWSShape {
+    public struct DeleteReportInput: AWSEncodableShape {
 
         ///  The ARN of the report to delete. 
         public let arn: String
@@ -961,7 +961,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteReportOutput: AWSShape {
+    public struct DeleteReportOutput: AWSDecodableShape {
 
 
         public init() {
@@ -969,7 +969,7 @@ extension CodeBuild {
 
     }
 
-    public struct DeleteResourcePolicyInput: AWSShape {
+    public struct DeleteResourcePolicyInput: AWSEncodableShape {
 
         ///  The ARN of the resource that is associated with the resource policy. 
         public let resourceArn: String
@@ -987,7 +987,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteResourcePolicyOutput: AWSShape {
+    public struct DeleteResourcePolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -995,7 +995,7 @@ extension CodeBuild {
 
     }
 
-    public struct DeleteSourceCredentialsInput: AWSShape {
+    public struct DeleteSourceCredentialsInput: AWSEncodableShape {
 
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String
@@ -1013,7 +1013,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteSourceCredentialsOutput: AWSShape {
+    public struct DeleteSourceCredentialsOutput: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
@@ -1027,7 +1027,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteWebhookInput: AWSShape {
+    public struct DeleteWebhookInput: AWSEncodableShape {
 
         /// The name of the AWS CodeBuild project.
         public let projectName: String
@@ -1047,7 +1047,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DeleteWebhookOutput: AWSShape {
+    public struct DeleteWebhookOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1055,7 +1055,7 @@ extension CodeBuild {
 
     }
 
-    public struct DescribeTestCasesInput: AWSShape {
+    public struct DescribeTestCasesInput: AWSEncodableShape {
 
         ///  A TestCaseFilter object used to filter the returned reports. 
         public let filter: TestCaseFilter?
@@ -1086,7 +1086,7 @@ extension CodeBuild {
         }
     }
 
-    public struct DescribeTestCasesOutput: AWSShape {
+    public struct DescribeTestCasesOutput: AWSDecodableShape {
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1104,7 +1104,7 @@ extension CodeBuild {
         }
     }
 
-    public struct EnvironmentImage: AWSShape {
+    public struct EnvironmentImage: AWSDecodableShape {
 
         /// The description of the Docker image.
         public let description: String?
@@ -1126,7 +1126,7 @@ extension CodeBuild {
         }
     }
 
-    public struct EnvironmentLanguage: AWSShape {
+    public struct EnvironmentLanguage: AWSDecodableShape {
 
         /// The list of Docker images that are related by the specified programming language.
         public let images: [EnvironmentImage]?
@@ -1144,7 +1144,7 @@ extension CodeBuild {
         }
     }
 
-    public struct EnvironmentPlatform: AWSShape {
+    public struct EnvironmentPlatform: AWSDecodableShape {
 
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
@@ -1162,7 +1162,7 @@ extension CodeBuild {
         }
     }
 
-    public struct EnvironmentVariable: AWSShape {
+    public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
 
         /// The name or key of the environment variable.
         public let name: String
@@ -1188,7 +1188,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ExportedEnvironmentVariable: AWSShape {
+    public struct ExportedEnvironmentVariable: AWSDecodableShape {
 
         ///  The name of this exported environment variable. 
         public let name: String?
@@ -1206,7 +1206,7 @@ extension CodeBuild {
         }
     }
 
-    public struct GetResourcePolicyInput: AWSShape {
+    public struct GetResourcePolicyInput: AWSEncodableShape {
 
         ///  The ARN of the resource that is associated with the resource policy. 
         public let resourceArn: String
@@ -1224,7 +1224,7 @@ extension CodeBuild {
         }
     }
 
-    public struct GetResourcePolicyOutput: AWSShape {
+    public struct GetResourcePolicyOutput: AWSDecodableShape {
 
         ///  The resource policy for the resource identified by the input ARN parameter. 
         public let policy: String?
@@ -1238,7 +1238,7 @@ extension CodeBuild {
         }
     }
 
-    public struct GitSubmodulesConfig: AWSShape {
+    public struct GitSubmodulesConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  Set to true to fetch Git submodules for your AWS CodeBuild build project. 
         public let fetchSubmodules: Bool
@@ -1252,7 +1252,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ImportSourceCredentialsInput: AWSShape {
+    public struct ImportSourceCredentialsInput: AWSEncodableShape {
 
         ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the AWS CodeBuild console. 
         public let authType: AuthType
@@ -1287,7 +1287,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ImportSourceCredentialsOutput: AWSShape {
+    public struct ImportSourceCredentialsOutput: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
@@ -1301,7 +1301,7 @@ extension CodeBuild {
         }
     }
 
-    public struct InvalidateProjectCacheInput: AWSShape {
+    public struct InvalidateProjectCacheInput: AWSEncodableShape {
 
         /// The name of the AWS CodeBuild build project that the cache is reset for.
         public let projectName: String
@@ -1319,7 +1319,7 @@ extension CodeBuild {
         }
     }
 
-    public struct InvalidateProjectCacheOutput: AWSShape {
+    public struct InvalidateProjectCacheOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1327,7 +1327,7 @@ extension CodeBuild {
 
     }
 
-    public struct ListBuildsForProjectInput: AWSShape {
+    public struct ListBuildsForProjectInput: AWSEncodableShape {
 
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -1353,7 +1353,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListBuildsForProjectOutput: AWSShape {
+    public struct ListBuildsForProjectOutput: AWSDecodableShape {
 
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
@@ -1371,7 +1371,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListBuildsInput: AWSShape {
+    public struct ListBuildsInput: AWSEncodableShape {
 
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -1389,7 +1389,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListBuildsOutput: AWSShape {
+    public struct ListBuildsOutput: AWSDecodableShape {
 
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
@@ -1407,7 +1407,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListCuratedEnvironmentImagesInput: AWSShape {
+    public struct ListCuratedEnvironmentImagesInput: AWSEncodableShape {
 
 
         public init() {
@@ -1415,7 +1415,7 @@ extension CodeBuild {
 
     }
 
-    public struct ListCuratedEnvironmentImagesOutput: AWSShape {
+    public struct ListCuratedEnvironmentImagesOutput: AWSDecodableShape {
 
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?
@@ -1429,7 +1429,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListProjectsInput: AWSShape {
+    public struct ListProjectsInput: AWSEncodableShape {
 
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -1455,7 +1455,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListProjectsOutput: AWSShape {
+    public struct ListProjectsOutput: AWSDecodableShape {
 
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
@@ -1473,7 +1473,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListReportGroupsInput: AWSShape {
+    public struct ListReportGroupsInput: AWSEncodableShape {
 
         ///  The maximum number of paginated report groups returned per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
         public let maxResults: Int?
@@ -1504,7 +1504,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListReportGroupsOutput: AWSShape {
+    public struct ListReportGroupsOutput: AWSDecodableShape {
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1522,7 +1522,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListReportsForReportGroupInput: AWSShape {
+    public struct ListReportsForReportGroupInput: AWSEncodableShape {
 
         ///  A ReportFilter object used to filter the returned reports. 
         public let filter: ReportFilter?
@@ -1557,7 +1557,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListReportsForReportGroupOutput: AWSShape {
+    public struct ListReportsForReportGroupOutput: AWSDecodableShape {
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1575,7 +1575,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListReportsInput: AWSShape {
+    public struct ListReportsInput: AWSEncodableShape {
 
         ///  A ReportFilter object used to filter the returned reports. 
         public let filter: ReportFilter?
@@ -1606,7 +1606,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListReportsOutput: AWSShape {
+    public struct ListReportsOutput: AWSDecodableShape {
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1624,7 +1624,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListSharedProjectsInput: AWSShape {
+    public struct ListSharedProjectsInput: AWSEncodableShape {
 
         ///  The maximum number of paginated shared build projects returned per response. Use nextToken to iterate pages in the list of returned Project objects. The default value is 100. 
         public let maxResults: Int?
@@ -1656,7 +1656,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListSharedProjectsOutput: AWSShape {
+    public struct ListSharedProjectsOutput: AWSDecodableShape {
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1674,7 +1674,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListSharedReportGroupsInput: AWSShape {
+    public struct ListSharedReportGroupsInput: AWSEncodableShape {
 
         ///  The maximum number of paginated shared report groups per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
         public let maxResults: Int?
@@ -1705,7 +1705,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListSharedReportGroupsOutput: AWSShape {
+    public struct ListSharedReportGroupsOutput: AWSDecodableShape {
 
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
         public let nextToken: String?
@@ -1723,7 +1723,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ListSourceCredentialsInput: AWSShape {
+    public struct ListSourceCredentialsInput: AWSEncodableShape {
 
 
         public init() {
@@ -1731,7 +1731,7 @@ extension CodeBuild {
 
     }
 
-    public struct ListSourceCredentialsOutput: AWSShape {
+    public struct ListSourceCredentialsOutput: AWSDecodableShape {
 
         ///  A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials. 
         public let sourceCredentialsInfos: [SourceCredentialsInfo]?
@@ -1745,7 +1745,7 @@ extension CodeBuild {
         }
     }
 
-    public struct LogsConfig: AWSShape {
+    public struct LogsConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  Information about Amazon CloudWatch Logs for a build project. Amazon CloudWatch Logs are enabled by default. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
@@ -1763,7 +1763,7 @@ extension CodeBuild {
         }
     }
 
-    public struct LogsLocation: AWSShape {
+    public struct LogsLocation: AWSDecodableShape {
 
         ///  Information about Amazon CloudWatch Logs for a build project. 
         public let cloudWatchLogs: CloudWatchLogsConfig?
@@ -1805,7 +1805,7 @@ extension CodeBuild {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
 
         /// The ID of the network interface.
         public let networkInterfaceId: String?
@@ -1823,7 +1823,7 @@ extension CodeBuild {
         }
     }
 
-    public struct PhaseContext: AWSShape {
+    public struct PhaseContext: AWSDecodableShape {
 
         /// An explanation of the build phase's context. This might include a command ID and an exit code.
         public let message: String?
@@ -1841,7 +1841,7 @@ extension CodeBuild {
         }
     }
 
-    public struct Project: AWSShape {
+    public struct Project: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the build project.
         public let arn: String?
@@ -1943,7 +1943,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectArtifacts: AWSShape {
+    public struct ProjectArtifacts: AWSEncodableShape & AWSDecodableShape {
 
         ///  An identifier for this artifact definition. 
         public let artifactIdentifier: String?
@@ -1989,7 +1989,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectBadge: AWSShape {
+    public struct ProjectBadge: AWSDecodableShape {
 
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public let badgeEnabled: Bool?
@@ -2007,7 +2007,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectCache: AWSShape {
+    public struct ProjectCache: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.  
         public let location: String?
@@ -2029,7 +2029,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectEnvironment: AWSShape {
+    public struct ProjectEnvironment: AWSEncodableShape & AWSDecodableShape {
 
         /// The certificate to use with this build project.
         public let certificate: String?
@@ -2079,7 +2079,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectFileSystemLocation: AWSShape {
+    public struct ProjectFileSystemLocation: AWSEncodableShape & AWSDecodableShape {
 
         ///  The name used to access a file system created by Amazon EFS. CodeBuild creates an environment variable by appending the identifier in all capital letters to CODEBUILD_. For example, if you specify my-efs for identifier, a new environment variable is create named CODEBUILD_MY-EFS.   The identifier is used to mount your file system. 
         public let identifier: String?
@@ -2109,7 +2109,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectSource: AWSShape {
+    public struct ProjectSource: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly.
         public let auth: SourceAuth?
@@ -2159,7 +2159,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ProjectSourceVersion: AWSShape {
+    public struct ProjectSourceVersion: AWSEncodableShape & AWSDecodableShape {
 
         /// An identifier for a source in the build project.
         public let sourceIdentifier: String
@@ -2177,7 +2177,7 @@ extension CodeBuild {
         }
     }
 
-    public struct PutResourcePolicyInput: AWSShape {
+    public struct PutResourcePolicyInput: AWSEncodableShape {
 
         ///  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the AWS CodeBuild User Guide. 
         public let policy: String
@@ -2200,7 +2200,7 @@ extension CodeBuild {
         }
     }
 
-    public struct PutResourcePolicyOutput: AWSShape {
+    public struct PutResourcePolicyOutput: AWSDecodableShape {
 
         ///  The ARN of the Project or ReportGroup resource that is associated with a resource policy. 
         public let resourceArn: String?
@@ -2214,7 +2214,7 @@ extension CodeBuild {
         }
     }
 
-    public struct RegistryCredential: AWSShape {
+    public struct RegistryCredential: AWSEncodableShape & AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.    The credential can use the name of the credentials only if they exist in your current AWS Region.  
         public let credential: String
@@ -2236,7 +2236,7 @@ extension CodeBuild {
         }
     }
 
-    public struct Report: AWSShape {
+    public struct Report: AWSDecodableShape {
 
         ///  The ARN of the report run. 
         public let arn: String?
@@ -2290,7 +2290,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ReportExportConfig: AWSShape {
+    public struct ReportExportConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  The export configuration type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.   
         public let exportConfigType: ReportExportConfigType?
@@ -2312,7 +2312,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ReportFilter: AWSShape {
+    public struct ReportFilter: AWSEncodableShape {
 
         ///  The status used to filter reports. You can filter using one status only. 
         public let status: ReportStatusType?
@@ -2326,7 +2326,7 @@ extension CodeBuild {
         }
     }
 
-    public struct ReportGroup: AWSShape {
+    public struct ReportGroup: AWSDecodableShape {
 
         ///  The ARN of a ReportGroup. 
         public let arn: String?
@@ -2360,7 +2360,7 @@ extension CodeBuild {
         }
     }
 
-    public struct S3LogsConfig: AWSShape {
+    public struct S3LogsConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  Set to true if you do not want your S3 build log output encrypted. By default S3 build logs are encrypted. 
         public let encryptionDisabled: Bool?
@@ -2382,7 +2382,7 @@ extension CodeBuild {
         }
     }
 
-    public struct S3ReportExportConfig: AWSShape {
+    public struct S3ReportExportConfig: AWSEncodableShape & AWSDecodableShape {
 
         ///  The name of the S3 bucket where the raw data of a report are exported. 
         public let bucket: String?
@@ -2417,7 +2417,7 @@ extension CodeBuild {
         }
     }
 
-    public struct SourceAuth: AWSShape {
+    public struct SourceAuth: AWSEncodableShape & AWSDecodableShape {
 
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
@@ -2435,7 +2435,7 @@ extension CodeBuild {
         }
     }
 
-    public struct SourceCredentialsInfo: AWSShape {
+    public struct SourceCredentialsInfo: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the token. 
         public let arn: String?
@@ -2457,7 +2457,7 @@ extension CodeBuild {
         }
     }
 
-    public struct StartBuildInput: AWSShape {
+    public struct StartBuildInput: AWSEncodableShape {
 
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
@@ -2608,7 +2608,7 @@ extension CodeBuild {
         }
     }
 
-    public struct StartBuildOutput: AWSShape {
+    public struct StartBuildOutput: AWSDecodableShape {
 
         /// Information about the build to be run.
         public let build: Build?
@@ -2622,7 +2622,7 @@ extension CodeBuild {
         }
     }
 
-    public struct StopBuildInput: AWSShape {
+    public struct StopBuildInput: AWSEncodableShape {
 
         /// The ID of the build.
         public let id: String
@@ -2640,7 +2640,7 @@ extension CodeBuild {
         }
     }
 
-    public struct StopBuildOutput: AWSShape {
+    public struct StopBuildOutput: AWSDecodableShape {
 
         /// Information about the build.
         public let build: Build?
@@ -2654,7 +2654,7 @@ extension CodeBuild {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag's key.
         public let key: String?
@@ -2681,7 +2681,7 @@ extension CodeBuild {
         }
     }
 
-    public struct TestCase: AWSShape {
+    public struct TestCase: AWSDecodableShape {
 
         ///  The number of nanoseconds it took to run this test case. 
         public let durationInNanoSeconds: Int64?
@@ -2723,7 +2723,7 @@ extension CodeBuild {
         }
     }
 
-    public struct TestCaseFilter: AWSShape {
+    public struct TestCaseFilter: AWSEncodableShape {
 
         ///  The status used to filter test cases. Valid statuses are SUCCEEDED, FAILED, ERROR, SKIPPED, and UNKNOWN. A TestCaseFilter can have one status. 
         public let status: String?
@@ -2737,7 +2737,7 @@ extension CodeBuild {
         }
     }
 
-    public struct TestReportSummary: AWSShape {
+    public struct TestReportSummary: AWSDecodableShape {
 
         ///  The number of nanoseconds it took to run all of the test cases in this report. 
         public let durationInNanoSeconds: Int64
@@ -2759,7 +2759,7 @@ extension CodeBuild {
         }
     }
 
-    public struct UpdateProjectInput: AWSShape {
+    public struct UpdateProjectInput: AWSEncodableShape {
 
         /// Information to be changed about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts?
@@ -2874,7 +2874,7 @@ extension CodeBuild {
         }
     }
 
-    public struct UpdateProjectOutput: AWSShape {
+    public struct UpdateProjectOutput: AWSDecodableShape {
 
         /// Information about the build project that was changed.
         public let project: Project?
@@ -2888,7 +2888,7 @@ extension CodeBuild {
         }
     }
 
-    public struct UpdateReportGroupInput: AWSShape {
+    public struct UpdateReportGroupInput: AWSEncodableShape {
 
         ///  The ARN of the report group to update. 
         public let arn: String
@@ -2911,7 +2911,7 @@ extension CodeBuild {
         }
     }
 
-    public struct UpdateReportGroupOutput: AWSShape {
+    public struct UpdateReportGroupOutput: AWSDecodableShape {
 
         ///  Information about the updated report group. 
         public let reportGroup: ReportGroup?
@@ -2925,7 +2925,7 @@ extension CodeBuild {
         }
     }
 
-    public struct UpdateWebhookInput: AWSShape {
+    public struct UpdateWebhookInput: AWSEncodableShape {
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
@@ -2957,7 +2957,7 @@ extension CodeBuild {
         }
     }
 
-    public struct UpdateWebhookOutput: AWSShape {
+    public struct UpdateWebhookOutput: AWSDecodableShape {
 
         ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild. 
         public let webhook: Webhook?
@@ -2971,7 +2971,7 @@ extension CodeBuild {
         }
     }
 
-    public struct VpcConfig: AWSShape {
+    public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of one or more security groups IDs in your Amazon VPC.
         public let securityGroupIds: [String]?
@@ -3005,7 +3005,7 @@ extension CodeBuild {
         }
     }
 
-    public struct Webhook: AWSShape {
+    public struct Webhook: AWSDecodableShape {
 
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
         public let branchFilter: String?
@@ -3039,7 +3039,7 @@ extension CodeBuild {
         }
     }
 
-    public struct WebhookFilter: AWSShape {
+    public struct WebhookFilter: AWSEncodableShape & AWSDecodableShape {
 
         ///  Used to indicate that the pattern determines which webhook events do not trigger a build. If true, then a webhook event that does not match the pattern triggers a build. If false, then a webhook event that matches the pattern triggers a build. 
         public let excludeMatchedPattern: Bool?

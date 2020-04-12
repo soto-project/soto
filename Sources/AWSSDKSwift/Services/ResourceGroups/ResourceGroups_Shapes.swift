@@ -44,7 +44,7 @@ extension ResourceGroups {
 
     //MARK: Shapes
 
-    public struct CreateGroupInput: AWSShape {
+    public struct CreateGroupInput: AWSEncodableShape {
 
         /// The description of the resource group. Descriptions can have a maximum of 511 characters, including letters, numbers, hyphens, underscores, punctuation, and spaces.
         public let description: String?
@@ -87,7 +87,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct CreateGroupOutput: AWSShape {
+    public struct CreateGroupOutput: AWSDecodableShape {
 
         /// A full description of the resource group after it is created.
         public let group: Group?
@@ -109,7 +109,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct DeleteGroupInput: AWSShape {
+    public struct DeleteGroupInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName"))
         ]
@@ -127,12 +127,10 @@ extension ResourceGroups {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteGroupOutput: AWSShape {
+    public struct DeleteGroupOutput: AWSDecodableShape {
 
         /// A full description of the deleted resource group.
         public let group: Group?
@@ -146,7 +144,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct GetGroupInput: AWSShape {
+    public struct GetGroupInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName"))
         ]
@@ -164,12 +162,10 @@ extension ResourceGroups {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGroupOutput: AWSShape {
+    public struct GetGroupOutput: AWSDecodableShape {
 
         /// A full description of the resource group.
         public let group: Group?
@@ -183,7 +179,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct GetGroupQueryInput: AWSShape {
+    public struct GetGroupQueryInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName"))
         ]
@@ -201,12 +197,10 @@ extension ResourceGroups {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGroupQueryOutput: AWSShape {
+    public struct GetGroupQueryOutput: AWSDecodableShape {
 
         /// The resource query associated with the specified group.
         public let groupQuery: GroupQuery?
@@ -220,7 +214,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct GetTagsInput: AWSShape {
+    public struct GetTagsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
         ]
@@ -238,12 +232,10 @@ extension ResourceGroups {
             try validate(self.arn, name:"arn", parent: name, pattern: "arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}-[a-z]+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,128}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTagsOutput: AWSShape {
+    public struct GetTagsOutput: AWSDecodableShape {
 
         /// The ARN of the tagged resource group.
         public let arn: String?
@@ -261,7 +253,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct Group: AWSShape {
+    public struct Group: AWSDecodableShape {
 
         /// The description of the resource group.
         public let description: String?
@@ -283,7 +275,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct GroupFilter: AWSShape {
+    public struct GroupFilter: AWSEncodableShape {
 
         /// The name of the filter. Filter names are case-sensitive.
         public let name: GroupFilterName
@@ -311,7 +303,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct GroupIdentifier: AWSShape {
+    public struct GroupIdentifier: AWSDecodableShape {
 
         /// The ARN of a resource group.
         public let groupArn: String?
@@ -329,7 +321,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct GroupQuery: AWSShape {
+    public struct GroupQuery: AWSDecodableShape {
 
         /// The name of a resource group that is associated with a specific resource query.
         public let groupName: String
@@ -347,7 +339,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct ListGroupResourcesInput: AWSShape {
+    public struct ListGroupResourcesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -386,13 +378,10 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
-            case groupName = "GroupName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
-    public struct ListGroupResourcesOutput: AWSShape {
+    public struct ListGroupResourcesOutput: AWSDecodableShape {
 
         /// The NextToken value to include in a subsequent ListGroupResources request, to get more results.
         public let nextToken: String?
@@ -414,7 +403,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct ListGroupsInput: AWSShape {
+    public struct ListGroupsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -446,12 +435,10 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
-    public struct ListGroupsOutput: AWSShape {
+    public struct ListGroupsOutput: AWSDecodableShape {
 
         /// A list of GroupIdentifier objects. Each identifier is an object that contains both the GroupName and the GroupArn.
         public let groupIdentifiers: [GroupIdentifier]?
@@ -469,7 +456,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct QueryError: AWSShape {
+    public struct QueryError: AWSDecodableShape {
 
         /// Possible values are CLOUDFORMATION_STACK_INACTIVE and CLOUDFORMATION_STACK_NOT_EXISTING.
         public let errorCode: QueryErrorCode?
@@ -487,7 +474,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct ResourceFilter: AWSShape {
+    public struct ResourceFilter: AWSEncodableShape {
 
         /// The name of the filter. Filter names are case-sensitive.
         public let name: ResourceFilterName
@@ -515,7 +502,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct ResourceIdentifier: AWSShape {
+    public struct ResourceIdentifier: AWSDecodableShape {
 
         /// The ARN of a resource.
         public let resourceArn: String?
@@ -533,7 +520,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct ResourceQuery: AWSShape {
+    public struct ResourceQuery: AWSEncodableShape & AWSDecodableShape {
 
         /// The query that defines a group or a search.
         public let query: String
@@ -556,7 +543,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct SearchResourcesInput: AWSShape {
+    public struct SearchResourcesInput: AWSEncodableShape {
 
         /// The maximum number of group member ARNs returned by SearchResources in paginated output. By default, this number is 50.
         public let maxResults: Int?
@@ -587,7 +574,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct SearchResourcesOutput: AWSShape {
+    public struct SearchResourcesOutput: AWSDecodableShape {
 
         /// The NextToken value to include in a subsequent SearchResources request, to get more results.
         public let nextToken: String?
@@ -609,7 +596,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct TagInput: AWSShape {
+    public struct TagInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
         ]
@@ -639,12 +626,11 @@ extension ResourceGroups {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
             case tags = "Tags"
         }
     }
 
-    public struct TagOutput: AWSShape {
+    public struct TagOutput: AWSDecodableShape {
 
         /// The ARN of the tagged resource.
         public let arn: String?
@@ -662,7 +648,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct UntagInput: AWSShape {
+    public struct UntagInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .uri(locationName: "Arn"))
         ]
@@ -689,12 +675,11 @@ extension ResourceGroups {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
             case keys = "Keys"
         }
     }
 
-    public struct UntagOutput: AWSShape {
+    public struct UntagOutput: AWSDecodableShape {
 
         /// The ARN of the resource from which tags have been removed.
         public let arn: String?
@@ -712,7 +697,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct UpdateGroupInput: AWSShape {
+    public struct UpdateGroupInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName"))
         ]
@@ -737,11 +722,10 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case groupName = "GroupName"
         }
     }
 
-    public struct UpdateGroupOutput: AWSShape {
+    public struct UpdateGroupOutput: AWSDecodableShape {
 
         /// The full description of the resource group after it has been updated.
         public let group: Group?
@@ -755,7 +739,7 @@ extension ResourceGroups {
         }
     }
 
-    public struct UpdateGroupQueryInput: AWSShape {
+    public struct UpdateGroupQueryInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "groupName", location: .uri(locationName: "GroupName"))
         ]
@@ -778,12 +762,11 @@ extension ResourceGroups {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
             case resourceQuery = "ResourceQuery"
         }
     }
 
-    public struct UpdateGroupQueryOutput: AWSShape {
+    public struct UpdateGroupQueryOutput: AWSDecodableShape {
 
         /// The resource query associated with the resource group after the update.
         public let groupQuery: GroupQuery?

@@ -164,7 +164,7 @@ extension DataSync {
 
     //MARK: Shapes
 
-    public struct AgentListEntry: AWSShape {
+    public struct AgentListEntry: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the agent.
         public let agentArn: String?
@@ -186,7 +186,7 @@ extension DataSync {
         }
     }
 
-    public struct CancelTaskExecutionRequest: AWSShape {
+    public struct CancelTaskExecutionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the task execution to cancel.
         public let taskExecutionArn: String
@@ -205,7 +205,7 @@ extension DataSync {
         }
     }
 
-    public struct CancelTaskExecutionResponse: AWSShape {
+    public struct CancelTaskExecutionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -213,7 +213,7 @@ extension DataSync {
 
     }
 
-    public struct CreateAgentRequest: AWSShape {
+    public struct CreateAgentRequest: AWSEncodableShape {
 
         /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the AWS DataSync User Guide. 
         public let activationKey: String
@@ -273,7 +273,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateAgentResponse: AWSShape {
+    public struct CreateAgentResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the agent. Use the ListAgents operation to return a list of agents for your account and AWS Region.
         public let agentArn: String?
@@ -287,7 +287,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationEfsRequest: AWSShape {
+    public struct CreateLocationEfsRequest: AWSEncodableShape {
 
         /// The subnet and security group that the Amazon EFS file system uses. The security group that you provide needs to be able to communicate with the security group on the mount target in the subnet specified. The exact relationship between security group M (of the mount target) and security group S (which you provide for DataSync to use at this stage) is as follows:     Security group M (which you associate with the mount target) must allow inbound access for the Transmission Control Protocol (TCP) on the NFS port (2049) from security group S. You can enable inbound connections either by IP address (CIDR range) or security group.    Security group S (provided to DataSync to access EFS) should have a rule that enables outbound connections to the NFS port on one of the file system’s mount targets. You can enable outbound connections either by IP address (CIDR range) or security group. For information about security groups and mount targets, see Security Groups for Amazon EC2 Instances and Mount Targets in the Amazon EFS User Guide.   
         public let ec2Config: Ec2Config
@@ -326,7 +326,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationEfsResponse: AWSShape {
+    public struct CreateLocationEfsResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
         public let locationArn: String?
@@ -340,7 +340,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationFsxWindowsRequest: AWSShape {
+    public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
 
         /// The name of the Windows domain that the FSx for Windows server belongs to.
         public let domain: String?
@@ -402,7 +402,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationFsxWindowsResponse: AWSShape {
+    public struct CreateLocationFsxWindowsResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the FSx for Windows file system location that is created.
         public let locationArn: String?
@@ -416,7 +416,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationNfsRequest: AWSShape {
+    public struct CreateLocationNfsRequest: AWSEncodableShape {
 
         /// The NFS mount options that DataSync can use to mount your NFS share.
         public let mountOptions: NfsMountOptions?
@@ -459,7 +459,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationNfsResponse: AWSShape {
+    public struct CreateLocationNfsResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the source NFS file system location that is created.
         public let locationArn: String?
@@ -473,7 +473,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationS3Request: AWSShape {
+    public struct CreateLocationS3Request: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
         public let s3BucketArn: String
@@ -515,7 +515,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationS3Response: AWSShape {
+    public struct CreateLocationS3Response: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the source Amazon S3 bucket location that is created.
         public let locationArn: String?
@@ -529,7 +529,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationSmbRequest: AWSShape {
+    public struct CreateLocationSmbRequest: AWSEncodableShape {
 
         /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location. 
         public let agentArns: [String]
@@ -595,7 +595,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateLocationSmbResponse: AWSShape {
+    public struct CreateLocationSmbResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
         public let locationArn: String?
@@ -609,7 +609,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateTaskRequest: AWSShape {
+    public struct CreateTaskRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.  For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.  For more information about how to use CloudWatch Logs with DataSync, see Monitoring Your Task in the AWS DataSync User Guide. 
         public let cloudWatchLogGroupArn: String?
@@ -675,7 +675,7 @@ extension DataSync {
         }
     }
 
-    public struct CreateTaskResponse: AWSShape {
+    public struct CreateTaskResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
@@ -689,7 +689,7 @@ extension DataSync {
         }
     }
 
-    public struct DeleteAgentRequest: AWSShape {
+    public struct DeleteAgentRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
         public let agentArn: String
@@ -708,7 +708,7 @@ extension DataSync {
         }
     }
 
-    public struct DeleteAgentResponse: AWSShape {
+    public struct DeleteAgentResponse: AWSDecodableShape {
 
 
         public init() {
@@ -716,7 +716,7 @@ extension DataSync {
 
     }
 
-    public struct DeleteLocationRequest: AWSShape {
+    public struct DeleteLocationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the location to delete.
         public let locationArn: String
@@ -735,7 +735,7 @@ extension DataSync {
         }
     }
 
-    public struct DeleteLocationResponse: AWSShape {
+    public struct DeleteLocationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -743,7 +743,7 @@ extension DataSync {
 
     }
 
-    public struct DeleteTaskRequest: AWSShape {
+    public struct DeleteTaskRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the task to delete.
         public let taskArn: String
@@ -762,7 +762,7 @@ extension DataSync {
         }
     }
 
-    public struct DeleteTaskResponse: AWSShape {
+    public struct DeleteTaskResponse: AWSDecodableShape {
 
 
         public init() {
@@ -770,7 +770,7 @@ extension DataSync {
 
     }
 
-    public struct DescribeAgentRequest: AWSShape {
+    public struct DescribeAgentRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the agent to describe.
         public let agentArn: String
@@ -789,7 +789,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeAgentResponse: AWSShape {
+    public struct DescribeAgentResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the agent.
         public let agentArn: String?
@@ -827,7 +827,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationEfsRequest: AWSShape {
+    public struct DescribeLocationEfsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the EFS location to describe.
         public let locationArn: String
@@ -846,7 +846,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationEfsResponse: AWSShape {
+    public struct DescribeLocationEfsResponse: AWSDecodableShape {
 
         /// The time that the EFS location was created.
         public let creationTime: TimeStamp?
@@ -871,7 +871,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationFsxWindowsRequest: AWSShape {
+    public struct DescribeLocationFsxWindowsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
         public let locationArn: String
@@ -890,7 +890,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationFsxWindowsResponse: AWSShape {
+    public struct DescribeLocationFsxWindowsResponse: AWSDecodableShape {
 
         /// The time that the FSx for Windows location was created.
         public let creationTime: TimeStamp?
@@ -924,7 +924,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationNfsRequest: AWSShape {
+    public struct DescribeLocationNfsRequest: AWSEncodableShape {
 
         /// The Amazon resource Name (ARN) of the NFS location to describe.
         public let locationArn: String
@@ -943,7 +943,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationNfsResponse: AWSShape {
+    public struct DescribeLocationNfsResponse: AWSDecodableShape {
 
         /// The time that the NFS location was created.
         public let creationTime: TimeStamp?
@@ -972,7 +972,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationS3Request: AWSShape {
+    public struct DescribeLocationS3Request: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
         public let locationArn: String
@@ -991,7 +991,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationS3Response: AWSShape {
+    public struct DescribeLocationS3Response: AWSDecodableShape {
 
         /// The time that the Amazon S3 bucket location was created.
         public let creationTime: TimeStamp?
@@ -1020,7 +1020,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationSmbRequest: AWSShape {
+    public struct DescribeLocationSmbRequest: AWSEncodableShape {
 
         /// The Amazon resource Name (ARN) of the SMB location to describe.
         public let locationArn: String
@@ -1039,7 +1039,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeLocationSmbResponse: AWSShape {
+    public struct DescribeLocationSmbResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
         public let agentArns: [String]?
@@ -1077,7 +1077,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeTaskExecutionRequest: AWSShape {
+    public struct DescribeTaskExecutionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the task that is being executed.
         public let taskExecutionArn: String
@@ -1096,7 +1096,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeTaskExecutionResponse: AWSShape {
+    public struct DescribeTaskExecutionResponse: AWSDecodableShape {
 
         /// The physical number of bytes transferred over the network.
         public let bytesTransferred: Int64?
@@ -1153,7 +1153,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeTaskRequest: AWSShape {
+    public struct DescribeTaskRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the task to describe.
         public let taskArn: String
@@ -1172,7 +1172,7 @@ extension DataSync {
         }
     }
 
-    public struct DescribeTaskResponse: AWSShape {
+    public struct DescribeTaskResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.
         public let cloudWatchLogGroupArn: String?
@@ -1242,7 +1242,7 @@ extension DataSync {
         }
     }
 
-    public struct Ec2Config: AWSShape {
+    public struct Ec2Config: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Names (ARNs) of the security groups that are configured for the Amazon EC2 resource.
         public let securityGroupArns: [String]
@@ -1271,7 +1271,7 @@ extension DataSync {
         }
     }
 
-    public struct FilterRule: AWSShape {
+    public struct FilterRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of filter rule to apply. AWS DataSync only supports the SIMPLE_PATTERN rule type.
         public let filterType: FilterType?
@@ -1294,7 +1294,7 @@ extension DataSync {
         }
     }
 
-    public struct ListAgentsRequest: AWSShape {
+    public struct ListAgentsRequest: AWSEncodableShape {
 
         /// The maximum number of agents to list.
         public let maxResults: Int?
@@ -1319,7 +1319,7 @@ extension DataSync {
         }
     }
 
-    public struct ListAgentsResponse: AWSShape {
+    public struct ListAgentsResponse: AWSDecodableShape {
 
         /// A list of agents in your account.
         public let agents: [AgentListEntry]?
@@ -1337,7 +1337,7 @@ extension DataSync {
         }
     }
 
-    public struct ListLocationsRequest: AWSShape {
+    public struct ListLocationsRequest: AWSEncodableShape {
 
         /// The maximum number of locations to return.
         public let maxResults: Int?
@@ -1362,7 +1362,7 @@ extension DataSync {
         }
     }
 
-    public struct ListLocationsResponse: AWSShape {
+    public struct ListLocationsResponse: AWSDecodableShape {
 
         /// An array that contains a list of locations.
         public let locations: [LocationListEntry]?
@@ -1380,7 +1380,7 @@ extension DataSync {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The maximum number of locations to return.
         public let maxResults: Int?
@@ -1411,7 +1411,7 @@ extension DataSync {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// An opaque string that indicates the position at which to begin returning the next list of resource tags.
         public let nextToken: String?
@@ -1429,7 +1429,7 @@ extension DataSync {
         }
     }
 
-    public struct ListTaskExecutionsRequest: AWSShape {
+    public struct ListTaskExecutionsRequest: AWSEncodableShape {
 
         /// The maximum number of executed tasks to list.
         public let maxResults: Int?
@@ -1460,7 +1460,7 @@ extension DataSync {
         }
     }
 
-    public struct ListTaskExecutionsResponse: AWSShape {
+    public struct ListTaskExecutionsResponse: AWSDecodableShape {
 
         /// An opaque string that indicates the position at which to begin returning the next list of executed tasks.
         public let nextToken: String?
@@ -1478,7 +1478,7 @@ extension DataSync {
         }
     }
 
-    public struct ListTasksRequest: AWSShape {
+    public struct ListTasksRequest: AWSEncodableShape {
 
         /// The maximum number of tasks to return.
         public let maxResults: Int?
@@ -1503,7 +1503,7 @@ extension DataSync {
         }
     }
 
-    public struct ListTasksResponse: AWSShape {
+    public struct ListTasksResponse: AWSDecodableShape {
 
         /// An opaque string that indicates the position at which to begin returning the next list of tasks.
         public let nextToken: String?
@@ -1521,7 +1521,7 @@ extension DataSync {
         }
     }
 
-    public struct LocationListEntry: AWSShape {
+    public struct LocationListEntry: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
         public let locationArn: String?
@@ -1539,7 +1539,7 @@ extension DataSync {
         }
     }
 
-    public struct NfsMountOptions: AWSShape {
+    public struct NfsMountOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The specific NFS version that you want DataSync to use to mount your NFS share. If the server refuses to use the version specified, the sync will fail. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server. You can specify the following NFS versions:     NFSv3  - stateless protocol version that allows for asynchronous writes on the server.     NFSv4.0  - stateful, firewall-friendly protocol version that supports delegations and pseudo filesystems.     NFSv4.1  - stateful protocol version that supports sessions, directory delegations, and parallel data processing. Version 4.1 also includes all features available in version 4.0.  
         public let version: NfsVersion?
@@ -1553,7 +1553,7 @@ extension DataSync {
         }
     }
 
-    public struct OnPremConfig: AWSShape {
+    public struct OnPremConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// ARNs)of the agents to use for an NFS location.
         public let agentArns: [String]
@@ -1576,7 +1576,7 @@ extension DataSync {
         }
     }
 
-    public struct Options: AWSShape {
+    public struct Options: AWSEncodableShape & AWSDecodableShape {
 
         /// A file metadata value that shows the last time a file was accessed (that is, when the file was read or written to). If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase). However, Atime's behavior is not fully standard across platforms, so AWS DataSync can only do this on a best-effort basis.  Default value: BEST_EFFORT. BEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime.  If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.  
         public let atime: Atime?
@@ -1638,7 +1638,7 @@ extension DataSync {
         }
     }
 
-    public struct PrivateLinkConfig: AWSShape {
+    public struct PrivateLinkConfig: AWSDecodableShape {
 
         /// The private endpoint that is configured for an agent that has access to IP addresses in a PrivateLink. An agent that is configured with this endpoint will not be accessible over the public Internet.
         public let privateLinkEndpoint: String?
@@ -1664,7 +1664,7 @@ extension DataSync {
         }
     }
 
-    public struct S3Config: AWSShape {
+    public struct S3Config: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation. 
         public let bucketAccessRoleArn: String
@@ -1683,7 +1683,7 @@ extension DataSync {
         }
     }
 
-    public struct SmbMountOptions: AWSShape {
+    public struct SmbMountOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The specific SMB version that you want DataSync to use to mount your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the SMB server.
         public let version: SmbVersion?
@@ -1697,7 +1697,7 @@ extension DataSync {
         }
     }
 
-    public struct StartTaskExecutionRequest: AWSShape {
+    public struct StartTaskExecutionRequest: AWSEncodableShape {
 
         /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"   
         public let includes: [FilterRule]?
@@ -1729,7 +1729,7 @@ extension DataSync {
         }
     }
 
-    public struct StartTaskExecutionResponse: AWSShape {
+    public struct StartTaskExecutionResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the specific task execution that was started.
         public let taskExecutionArn: String?
@@ -1743,7 +1743,7 @@ extension DataSync {
         }
     }
 
-    public struct TagListEntry: AWSShape {
+    public struct TagListEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// The key for an AWS resource tag.
         public let key: String
@@ -1770,7 +1770,7 @@ extension DataSync {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource to apply the tag to.
         public let resourceArn: String
@@ -1798,7 +1798,7 @@ extension DataSync {
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1806,7 +1806,7 @@ extension DataSync {
 
     }
 
-    public struct TaskExecutionListEntry: AWSShape {
+    public struct TaskExecutionListEntry: AWSDecodableShape {
 
         /// The status of a task execution.
         public let status: TaskExecutionStatus?
@@ -1824,7 +1824,7 @@ extension DataSync {
         }
     }
 
-    public struct TaskExecutionResultDetail: AWSShape {
+    public struct TaskExecutionResultDetail: AWSDecodableShape {
 
         /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public let errorCode: String?
@@ -1870,7 +1870,7 @@ extension DataSync {
         }
     }
 
-    public struct TaskListEntry: AWSShape {
+    public struct TaskListEntry: AWSDecodableShape {
 
         /// The name of the task.
         public let name: String?
@@ -1892,7 +1892,7 @@ extension DataSync {
         }
     }
 
-    public struct TaskSchedule: AWSShape {
+    public struct TaskSchedule: AWSEncodableShape & AWSDecodableShape {
 
         /// A cron expression that specifies when AWS DataSync initiates a scheduled transfer from a source to a destination location. 
         public let scheduleExpression: String
@@ -1911,7 +1911,7 @@ extension DataSync {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The keys in the key-value pair in the tag to remove.
         public let keys: [String]
@@ -1941,7 +1941,7 @@ extension DataSync {
         }
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1949,7 +1949,7 @@ extension DataSync {
 
     }
 
-    public struct UpdateAgentRequest: AWSShape {
+    public struct UpdateAgentRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the agent to update.
         public let agentArn: String
@@ -1975,7 +1975,7 @@ extension DataSync {
         }
     }
 
-    public struct UpdateAgentResponse: AWSShape {
+    public struct UpdateAgentResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1983,7 +1983,7 @@ extension DataSync {
 
     }
 
-    public struct UpdateTaskRequest: AWSShape {
+    public struct UpdateTaskRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the resource name of the CloudWatch LogGroup.
         public let cloudWatchLogGroupArn: String?
@@ -2033,7 +2033,7 @@ extension DataSync {
         }
     }
 
-    public struct UpdateTaskResponse: AWSShape {
+    public struct UpdateTaskResponse: AWSDecodableShape {
 
 
         public init() {

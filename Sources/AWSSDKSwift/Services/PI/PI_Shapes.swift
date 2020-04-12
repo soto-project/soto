@@ -27,7 +27,7 @@ extension PI {
 
     //MARK: Shapes
 
-    public struct DataPoint: AWSShape {
+    public struct DataPoint: AWSDecodableShape {
 
         /// The time, in epoch format, associated with a particular Value.
         public let timestamp: TimeStamp
@@ -45,7 +45,7 @@ extension PI {
         }
     }
 
-    public struct DescribeDimensionKeysRequest: AWSShape {
+    public struct DescribeDimensionKeysRequest: AWSEncodableShape {
 
         /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
@@ -106,7 +106,7 @@ extension PI {
         }
     }
 
-    public struct DescribeDimensionKeysResponse: AWSShape {
+    public struct DescribeDimensionKeysResponse: AWSDecodableShape {
 
         /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
@@ -136,7 +136,7 @@ extension PI {
         }
     }
 
-    public struct DimensionGroup: AWSShape {
+    public struct DimensionGroup: AWSEncodableShape {
 
         /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:   db.user.id   db.user.name   db.host.id   db.host.name   db.sql.id   db.sql.db_id   db.sql.statement   db.sql.tokenized_id   db.sql_tokenized.id   db.sql_tokenized.db_id   db.sql_tokenized.statement   db.wait_event.name   db.wait_event.type   db.wait_event_type.name  
         public let dimensions: [String]?
@@ -165,7 +165,7 @@ extension PI {
         }
     }
 
-    public struct DimensionKeyDescription: AWSShape {
+    public struct DimensionKeyDescription: AWSDecodableShape {
 
         /// A map of name-value pairs for the dimensions in the group.
         public let dimensions: [String: String]?
@@ -187,7 +187,7 @@ extension PI {
         }
     }
 
-    public struct GetResourceMetricsRequest: AWSShape {
+    public struct GetResourceMetricsRequest: AWSEncodableShape {
 
         /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
@@ -239,7 +239,7 @@ extension PI {
         }
     }
 
-    public struct GetResourceMetricsResponse: AWSShape {
+    public struct GetResourceMetricsResponse: AWSDecodableShape {
 
         /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
@@ -269,7 +269,7 @@ extension PI {
         }
     }
 
-    public struct MetricKeyDataPoints: AWSShape {
+    public struct MetricKeyDataPoints: AWSDecodableShape {
 
         /// An array of timestamp-value pairs, representing measurements over a period of time.
         public let dataPoints: [DataPoint]?
@@ -287,7 +287,7 @@ extension PI {
         }
     }
 
-    public struct MetricQuery: AWSShape {
+    public struct MetricQuery: AWSEncodableShape {
 
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.  
         public let filter: [String: String]?
@@ -313,7 +313,7 @@ extension PI {
         }
     }
 
-    public struct ResponsePartitionKey: AWSShape {
+    public struct ResponsePartitionKey: AWSDecodableShape {
 
         /// A dimension map that contains the dimension(s) for this partition.
         public let dimensions: [String: String]
@@ -327,7 +327,7 @@ extension PI {
         }
     }
 
-    public struct ResponseResourceMetricKey: AWSShape {
+    public struct ResponseResourceMetricKey: AWSDecodableShape {
 
         /// The valid dimensions for the metric.
         public let dimensions: [String: String]?

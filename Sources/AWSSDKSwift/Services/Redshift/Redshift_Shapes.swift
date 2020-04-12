@@ -123,7 +123,7 @@ extension Redshift {
 
     //MARK: Shapes
 
-    public struct AcceptReservedNodeExchangeInputMessage: AWSShape {
+    public struct AcceptReservedNodeExchangeInputMessage: AWSEncodableShape {
 
         /// A string representing the node identifier of the DC1 Reserved Node to be exchanged.
         public let reservedNodeId: String
@@ -141,7 +141,7 @@ extension Redshift {
         }
     }
 
-    public struct AcceptReservedNodeExchangeOutputMessage: AWSShape {
+    public struct AcceptReservedNodeExchangeOutputMessage: AWSDecodableShape {
 
         public let exchangedReservedNode: ReservedNode?
 
@@ -154,7 +154,7 @@ extension Redshift {
         }
     }
 
-    public struct AccountAttribute: AWSShape {
+    public struct AccountAttribute: AWSDecodableShape {
         public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValueTarget" }
 
         /// The name of the attribute.
@@ -173,7 +173,7 @@ extension Redshift {
         }
     }
 
-    public struct AccountAttributeList: AWSShape {
+    public struct AccountAttributeList: AWSDecodableShape {
         public struct _AccountAttributesEncoding: ArrayCoderProperties { static public let member = "AccountAttribute" }
 
         /// A list of attributes assigned to an account.
@@ -188,7 +188,7 @@ extension Redshift {
         }
     }
 
-    public struct AccountWithRestoreAccess: AWSShape {
+    public struct AccountWithRestoreAccess: AWSDecodableShape {
 
         /// The identifier of an AWS support account authorized to restore a snapshot. For AWS support, the identifier is amazon-redshift-support. 
         public let accountAlias: String?
@@ -206,7 +206,7 @@ extension Redshift {
         }
     }
 
-    public struct AttributeValueTarget: AWSShape {
+    public struct AttributeValueTarget: AWSDecodableShape {
 
         /// The value of the attribute.
         public let attributeValue: String?
@@ -220,7 +220,7 @@ extension Redshift {
         }
     }
 
-    public struct AuthorizeClusterSecurityGroupIngressMessage: AWSShape {
+    public struct AuthorizeClusterSecurityGroupIngressMessage: AWSEncodableShape {
 
         /// The IP range to be added the Amazon Redshift security group.
         public let cidrip: String?
@@ -246,7 +246,7 @@ extension Redshift {
         }
     }
 
-    public struct AuthorizeClusterSecurityGroupIngressResult: AWSShape {
+    public struct AuthorizeClusterSecurityGroupIngressResult: AWSDecodableShape {
 
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
@@ -259,7 +259,7 @@ extension Redshift {
         }
     }
 
-    public struct AuthorizeSnapshotAccessMessage: AWSShape {
+    public struct AuthorizeSnapshotAccessMessage: AWSEncodableShape {
 
         /// The identifier of the AWS customer account authorized to restore the specified snapshot. To share a snapshot with AWS support, specify amazon-redshift-support.
         public let accountWithRestoreAccess: String
@@ -281,7 +281,7 @@ extension Redshift {
         }
     }
 
-    public struct AuthorizeSnapshotAccessResult: AWSShape {
+    public struct AuthorizeSnapshotAccessResult: AWSDecodableShape {
 
         public let snapshot: Snapshot?
 
@@ -294,7 +294,7 @@ extension Redshift {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
         public struct _SupportedPlatformsEncoding: ArrayCoderProperties { static public let member = "SupportedPlatform" }
 
         /// The name of the availability zone.
@@ -312,7 +312,7 @@ extension Redshift {
         }
     }
 
-    public struct BatchDeleteClusterSnapshotsRequest: AWSShape {
+    public struct BatchDeleteClusterSnapshotsRequest: AWSEncodableShape {
         public struct _IdentifiersEncoding: ArrayCoderProperties { static public let member = "DeleteClusterSnapshotMessage" }
 
         /// A list of identifiers for the snapshots that you want to delete.
@@ -327,7 +327,7 @@ extension Redshift {
         }
     }
 
-    public struct BatchDeleteClusterSnapshotsResult: AWSShape {
+    public struct BatchDeleteClusterSnapshotsResult: AWSDecodableShape {
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "SnapshotErrorMessage" }
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "String" }
 
@@ -347,7 +347,7 @@ extension Redshift {
         }
     }
 
-    public struct BatchModifyClusterSnapshotsMessage: AWSShape {
+    public struct BatchModifyClusterSnapshotsMessage: AWSEncodableShape {
         public struct _SnapshotIdentifierListEncoding: ArrayCoderProperties { static public let member = "String" }
 
         /// A boolean value indicating whether to override an exception if the retention period has passed. 
@@ -370,7 +370,7 @@ extension Redshift {
         }
     }
 
-    public struct BatchModifyClusterSnapshotsOutputMessage: AWSShape {
+    public struct BatchModifyClusterSnapshotsOutputMessage: AWSDecodableShape {
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "SnapshotErrorMessage" }
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "String" }
 
@@ -390,7 +390,7 @@ extension Redshift {
         }
     }
 
-    public struct CancelResizeMessage: AWSShape {
+    public struct CancelResizeMessage: AWSEncodableShape {
 
         /// The unique identifier for the cluster that you want to cancel a resize operation for.
         public let clusterIdentifier: String
@@ -404,7 +404,7 @@ extension Redshift {
         }
     }
 
-    public struct Cluster: AWSShape {
+    public struct Cluster: AWSDecodableShape {
         public struct _ClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterParameterGroup" }
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroup" }
         public struct _DeferredMaintenanceWindowsEncoding: ArrayCoderProperties { static public let member = "DeferredMaintenanceWindow" }
@@ -603,7 +603,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterAssociatedToSchedule: AWSShape {
+    public struct ClusterAssociatedToSchedule: AWSDecodableShape {
 
         public let clusterIdentifier: String?
         public let scheduleAssociationState: ScheduleState?
@@ -619,7 +619,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterCredentials: AWSShape {
+    public struct ClusterCredentials: AWSDecodableShape {
 
         /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName. 
         public let dbPassword: String?
@@ -641,7 +641,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterDbRevision: AWSShape {
+    public struct ClusterDbRevision: AWSDecodableShape {
         public struct _RevisionTargetsEncoding: ArrayCoderProperties { static public let member = "RevisionTarget" }
 
         /// The unique identifier of the cluster.
@@ -668,7 +668,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterDbRevisionsMessage: AWSShape {
+    public struct ClusterDbRevisionsMessage: AWSDecodableShape {
         public struct _ClusterDbRevisionsEncoding: ArrayCoderProperties { static public let member = "ClusterDbRevision" }
 
         /// A list of revisions.
@@ -687,7 +687,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterIamRole: AWSShape {
+    public struct ClusterIamRole: AWSDecodableShape {
 
         /// A value that describes the status of the IAM role's association with an Amazon Redshift cluster. The following are possible statuses and descriptions.    in-sync: The role is available for use by the cluster.    adding: The role is in the process of being associated with the cluster.    removing: The role is in the process of being disassociated with the cluster.  
         public let applyStatus: String?
@@ -705,7 +705,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterNode: AWSShape {
+    public struct ClusterNode: AWSDecodableShape {
 
         /// Whether the node is a leader node or a compute node.
         public let nodeRole: String?
@@ -727,7 +727,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterParameterGroup: AWSShape {
+    public struct ClusterParameterGroup: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The description of the parameter group.
@@ -754,7 +754,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterParameterGroupDetails: AWSShape {
+    public struct ClusterParameterGroupDetails: AWSDecodableShape {
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -773,7 +773,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterParameterGroupNameMessage: AWSShape {
+    public struct ClusterParameterGroupNameMessage: AWSDecodableShape {
 
         /// The name of the cluster parameter group.
         public let parameterGroupName: String?
@@ -791,7 +791,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterParameterGroupStatus: AWSShape {
+    public struct ClusterParameterGroupStatus: AWSDecodableShape {
 
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
         @OptionalCoding<DefaultArrayCoder> public var clusterParameterStatusList: [ClusterParameterStatus]?
@@ -813,7 +813,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterParameterGroupsMessage: AWSShape {
+    public struct ClusterParameterGroupsMessage: AWSDecodableShape {
         public struct _ParameterGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterParameterGroup" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -832,7 +832,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterParameterStatus: AWSShape {
+    public struct ClusterParameterStatus: AWSDecodableShape {
 
         /// The error that prevented the parameter from being applied to the database.
         public let parameterApplyErrorDescription: String?
@@ -854,7 +854,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterSecurityGroup: AWSShape {
+    public struct ClusterSecurityGroup: AWSDecodableShape {
         public struct _EC2SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "EC2SecurityGroup" }
         public struct _IPRangesEncoding: ArrayCoderProperties { static public let member = "IPRange" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
@@ -887,7 +887,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterSecurityGroupMembership: AWSShape {
+    public struct ClusterSecurityGroupMembership: AWSDecodableShape {
 
         /// The name of the cluster security group.
         public let clusterSecurityGroupName: String?
@@ -905,7 +905,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterSecurityGroupMessage: AWSShape {
+    public struct ClusterSecurityGroupMessage: AWSDecodableShape {
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroup" }
 
         /// A list of ClusterSecurityGroup instances. 
@@ -924,7 +924,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterSnapshotCopyStatus: AWSShape {
+    public struct ClusterSnapshotCopyStatus: AWSDecodableShape {
 
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public let destinationRegion: String?
@@ -950,7 +950,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterSubnetGroup: AWSShape {
+    public struct ClusterSubnetGroup: AWSDecodableShape {
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "Subnet" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
@@ -986,7 +986,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterSubnetGroupMessage: AWSShape {
+    public struct ClusterSubnetGroupMessage: AWSDecodableShape {
         public struct _ClusterSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSubnetGroup" }
 
         /// A list of ClusterSubnetGroup instances. 
@@ -1005,7 +1005,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterVersion: AWSShape {
+    public struct ClusterVersion: AWSDecodableShape {
 
         /// The name of the cluster parameter group family for the cluster.
         public let clusterParameterGroupFamily: String?
@@ -1027,7 +1027,7 @@ extension Redshift {
         }
     }
 
-    public struct ClusterVersionsMessage: AWSShape {
+    public struct ClusterVersionsMessage: AWSDecodableShape {
         public struct _ClusterVersionsEncoding: ArrayCoderProperties { static public let member = "ClusterVersion" }
 
         /// A list of Version elements. 
@@ -1046,7 +1046,7 @@ extension Redshift {
         }
     }
 
-    public struct ClustersMessage: AWSShape {
+    public struct ClustersMessage: AWSDecodableShape {
         public struct _ClustersEncoding: ArrayCoderProperties { static public let member = "Cluster" }
 
         /// A list of Cluster objects, where each object describes one cluster. 
@@ -1065,7 +1065,7 @@ extension Redshift {
         }
     }
 
-    public struct CopyClusterSnapshotMessage: AWSShape {
+    public struct CopyClusterSnapshotMessage: AWSEncodableShape {
 
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int?
@@ -1091,7 +1091,7 @@ extension Redshift {
         }
     }
 
-    public struct CopyClusterSnapshotResult: AWSShape {
+    public struct CopyClusterSnapshotResult: AWSDecodableShape {
 
         public let snapshot: Snapshot?
 
@@ -1104,7 +1104,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterMessage: AWSShape {
+    public struct CreateClusterMessage: AWSEncodableShape {
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroupName" }
         public struct _IamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
@@ -1238,7 +1238,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterParameterGroupMessage: AWSShape {
+    public struct CreateClusterParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A description of the parameter group.
@@ -1265,7 +1265,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterParameterGroupResult: AWSShape {
+    public struct CreateClusterParameterGroupResult: AWSDecodableShape {
 
         public let clusterParameterGroup: ClusterParameterGroup?
 
@@ -1278,7 +1278,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterResult: AWSShape {
+    public struct CreateClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -1291,7 +1291,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterSecurityGroupMessage: AWSShape {
+    public struct CreateClusterSecurityGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your AWS account.   Example: examplesecuritygroup 
@@ -1314,7 +1314,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterSecurityGroupResult: AWSShape {
+    public struct CreateClusterSecurityGroupResult: AWSDecodableShape {
 
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
@@ -1327,7 +1327,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterSnapshotMessage: AWSShape {
+    public struct CreateClusterSnapshotMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The cluster identifier for which you want a snapshot.
@@ -1354,7 +1354,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterSnapshotResult: AWSShape {
+    public struct CreateClusterSnapshotResult: AWSDecodableShape {
 
         public let snapshot: Snapshot?
 
@@ -1367,7 +1367,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterSubnetGroupMessage: AWSShape {
+    public struct CreateClusterSubnetGroupMessage: AWSEncodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
@@ -1395,7 +1395,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateClusterSubnetGroupResult: AWSShape {
+    public struct CreateClusterSubnetGroupResult: AWSDecodableShape {
 
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
@@ -1408,7 +1408,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateEventSubscriptionMessage: AWSShape {
+    public struct CreateEventSubscriptionMessage: AWSEncodableShape {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
@@ -1453,7 +1453,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateEventSubscriptionResult: AWSShape {
+    public struct CreateEventSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -1466,7 +1466,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateHsmClientCertificateMessage: AWSShape {
+    public struct CreateHsmClientCertificateMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
@@ -1485,7 +1485,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateHsmClientCertificateResult: AWSShape {
+    public struct CreateHsmClientCertificateResult: AWSDecodableShape {
 
         public let hsmClientCertificate: HsmClientCertificate?
 
@@ -1498,7 +1498,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateHsmConfigurationMessage: AWSShape {
+    public struct CreateHsmConfigurationMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A text description of the HSM configuration to be created.
@@ -1537,7 +1537,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateHsmConfigurationResult: AWSShape {
+    public struct CreateHsmConfigurationResult: AWSDecodableShape {
 
         public let hsmConfiguration: HsmConfiguration?
 
@@ -1550,7 +1550,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateScheduledActionMessage: AWSShape {
+    public struct CreateScheduledActionMessage: AWSEncodableShape {
 
         /// If true, the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction. 
         public let enable: Bool?
@@ -1592,7 +1592,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateSnapshotCopyGrantMessage: AWSShape {
+    public struct CreateSnapshotCopyGrantMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The unique identifier of the customer master key (CMK) to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
@@ -1615,7 +1615,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateSnapshotCopyGrantResult: AWSShape {
+    public struct CreateSnapshotCopyGrantResult: AWSDecodableShape {
 
         public let snapshotCopyGrant: SnapshotCopyGrant?
 
@@ -1628,7 +1628,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateSnapshotScheduleMessage: AWSShape {
+    public struct CreateSnapshotScheduleMessage: AWSEncodableShape {
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
@@ -1662,7 +1662,7 @@ extension Redshift {
         }
     }
 
-    public struct CreateTagsMessage: AWSShape {
+    public struct CreateTagsMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
@@ -1681,7 +1681,7 @@ extension Redshift {
         }
     }
 
-    public struct CustomerStorageMessage: AWSShape {
+    public struct CustomerStorageMessage: AWSDecodableShape {
 
         /// The total amount of storage currently used for snapshots.
         public let totalBackupSizeInMegaBytes: Double?
@@ -1699,7 +1699,7 @@ extension Redshift {
         }
     }
 
-    public struct DataTransferProgress: AWSShape {
+    public struct DataTransferProgress: AWSDecodableShape {
 
         /// Describes the data transfer rate in MB's per second.
         public let currentRateInMegaBytesPerSecond: Double?
@@ -1733,7 +1733,7 @@ extension Redshift {
         }
     }
 
-    public struct DefaultClusterParameters: AWSShape {
+    public struct DefaultClusterParameters: AWSDecodableShape {
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -1756,7 +1756,7 @@ extension Redshift {
         }
     }
 
-    public struct DeferredMaintenanceWindow: AWSShape {
+    public struct DeferredMaintenanceWindow: AWSDecodableShape {
 
         ///  A timestamp for the end of the time period when we defer maintenance.
         public let deferMaintenanceEndTime: TimeStamp?
@@ -1778,7 +1778,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterMessage: AWSShape {
+    public struct DeleteClusterMessage: AWSEncodableShape {
 
         /// The identifier of the cluster to be deleted. Constraints:   Must contain lowercase characters.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterIdentifier: String
@@ -1804,7 +1804,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterParameterGroupMessage: AWSShape {
+    public struct DeleteClusterParameterGroupMessage: AWSEncodableShape {
 
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.  
         public let parameterGroupName: String
@@ -1818,7 +1818,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterResult: AWSShape {
+    public struct DeleteClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -1831,7 +1831,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterSecurityGroupMessage: AWSShape {
+    public struct DeleteClusterSecurityGroupMessage: AWSEncodableShape {
 
         /// The name of the cluster security group to be deleted.
         public let clusterSecurityGroupName: String
@@ -1845,7 +1845,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterSnapshotMessage: AWSShape {
+    public struct DeleteClusterSnapshotMessage: AWSEncodableShape {
 
         /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
         public let snapshotClusterIdentifier: String?
@@ -1863,7 +1863,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterSnapshotResult: AWSShape {
+    public struct DeleteClusterSnapshotResult: AWSDecodableShape {
 
         public let snapshot: Snapshot?
 
@@ -1876,7 +1876,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteClusterSubnetGroupMessage: AWSShape {
+    public struct DeleteClusterSubnetGroupMessage: AWSEncodableShape {
 
         /// The name of the cluster subnet group name to be deleted.
         public let clusterSubnetGroupName: String
@@ -1890,7 +1890,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteEventSubscriptionMessage: AWSShape {
+    public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
 
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public let subscriptionName: String
@@ -1904,7 +1904,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteHsmClientCertificateMessage: AWSShape {
+    public struct DeleteHsmClientCertificateMessage: AWSEncodableShape {
 
         /// The identifier of the HSM client certificate to be deleted.
         public let hsmClientCertificateIdentifier: String
@@ -1918,7 +1918,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteHsmConfigurationMessage: AWSShape {
+    public struct DeleteHsmConfigurationMessage: AWSEncodableShape {
 
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
         public let hsmConfigurationIdentifier: String
@@ -1932,7 +1932,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteScheduledActionMessage: AWSShape {
+    public struct DeleteScheduledActionMessage: AWSEncodableShape {
 
         /// The name of the scheduled action to delete. 
         public let scheduledActionName: String
@@ -1946,7 +1946,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteSnapshotCopyGrantMessage: AWSShape {
+    public struct DeleteSnapshotCopyGrantMessage: AWSEncodableShape {
 
         /// The name of the snapshot copy grant to delete.
         public let snapshotCopyGrantName: String
@@ -1960,7 +1960,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteSnapshotScheduleMessage: AWSShape {
+    public struct DeleteSnapshotScheduleMessage: AWSEncodableShape {
 
         /// A unique identifier of the snapshot schedule to delete.
         public let scheduleIdentifier: String
@@ -1974,7 +1974,7 @@ extension Redshift {
         }
     }
 
-    public struct DeleteTagsMessage: AWSShape {
+    public struct DeleteTagsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
 
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1. 
@@ -1993,7 +1993,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeAccountAttributesMessage: AWSShape {
+    public struct DescribeAccountAttributesMessage: AWSEncodableShape {
         public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "AttributeName" }
 
         /// A list of attribute names.
@@ -2008,7 +2008,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterDbRevisionsMessage: AWSShape {
+    public struct DescribeClusterDbRevisionsMessage: AWSEncodableShape {
 
         /// A unique identifier for a cluster whose ClusterDbRevisions you are requesting. This parameter is case sensitive. All clusters defined for an account are returned by default.
         public let clusterIdentifier: String?
@@ -2030,7 +2030,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterParameterGroupsMessage: AWSShape {
+    public struct DescribeClusterParameterGroupsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2062,7 +2062,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterParametersMessage: AWSShape {
+    public struct DescribeClusterParametersMessage: AWSEncodableShape {
 
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -2088,7 +2088,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterSecurityGroupsMessage: AWSShape {
+    public struct DescribeClusterSecurityGroupsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2120,7 +2120,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterSnapshotsMessage: AWSShape {
+    public struct DescribeClusterSnapshotsMessage: AWSEncodableShape {
         public struct _SortingEntitiesEncoding: ArrayCoderProperties { static public let member = "SnapshotSortingEntity" }
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
@@ -2180,7 +2180,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterSubnetGroupsMessage: AWSShape {
+    public struct DescribeClusterSubnetGroupsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2212,7 +2212,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterTracksMessage: AWSShape {
+    public struct DescribeClusterTracksMessage: AWSEncodableShape {
 
         /// The name of the maintenance track. 
         public let maintenanceTrackName: String?
@@ -2234,7 +2234,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClusterVersionsMessage: AWSShape {
+    public struct DescribeClusterVersionsMessage: AWSEncodableShape {
 
         /// The name of a specific cluster parameter group family to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let clusterParameterGroupFamily: String?
@@ -2260,7 +2260,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeClustersMessage: AWSShape {
+    public struct DescribeClustersMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2292,7 +2292,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeDefaultClusterParametersMessage: AWSShape {
+    public struct DescribeDefaultClusterParametersMessage: AWSEncodableShape {
 
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDefaultClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -2314,7 +2314,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeDefaultClusterParametersResult: AWSShape {
+    public struct DescribeDefaultClusterParametersResult: AWSDecodableShape {
 
         public let defaultClusterParameters: DefaultClusterParameters?
 
@@ -2327,7 +2327,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeEventCategoriesMessage: AWSShape {
+    public struct DescribeEventCategoriesMessage: AWSEncodableShape {
 
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action.
         public let sourceType: String?
@@ -2341,7 +2341,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeEventSubscriptionsMessage: AWSShape {
+    public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2373,7 +2373,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeEventsMessage: AWSShape {
+    public struct DescribeEventsMessage: AWSEncodableShape {
 
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60 
         public let duration: Int?
@@ -2411,7 +2411,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeHsmClientCertificatesMessage: AWSShape {
+    public struct DescribeHsmClientCertificatesMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2443,7 +2443,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeHsmConfigurationsMessage: AWSShape {
+    public struct DescribeHsmConfigurationsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2475,7 +2475,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeLoggingStatusMessage: AWSShape {
+    public struct DescribeLoggingStatusMessage: AWSEncodableShape {
 
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster 
         public let clusterIdentifier: String
@@ -2489,7 +2489,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeNodeConfigurationOptionsMessage: AWSShape {
+    public struct DescribeNodeConfigurationOptionsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "NodeConfigurationOptionsFilter" }
 
         /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. Specify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. 
@@ -2528,7 +2528,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeOrderableClusterOptionsMessage: AWSShape {
+    public struct DescribeOrderableClusterOptionsMessage: AWSEncodableShape {
 
         /// The version filter value. Specify this parameter to show only the available offerings matching the specified version. Default: All versions. Constraints: Must be one of the version returned from DescribeClusterVersions.
         public let clusterVersion: String?
@@ -2554,7 +2554,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeReservedNodeOfferingsMessage: AWSShape {
+    public struct DescribeReservedNodeOfferingsMessage: AWSEncodableShape {
 
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodeOfferings request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -2576,7 +2576,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeReservedNodesMessage: AWSShape {
+    public struct DescribeReservedNodesMessage: AWSEncodableShape {
 
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodes request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -2598,7 +2598,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeResizeMessage: AWSShape {
+    public struct DescribeResizeMessage: AWSEncodableShape {
 
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an AWS account are returned.
         public let clusterIdentifier: String
@@ -2612,7 +2612,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeScheduledActionsMessage: AWSShape {
+    public struct DescribeScheduledActionsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "ScheduledActionFilter" }
 
         /// If true, retrieve only active scheduled actions. If false, retrieve only disabled scheduled actions. 
@@ -2655,7 +2655,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeSnapshotCopyGrantsMessage: AWSShape {
+    public struct DescribeSnapshotCopyGrantsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2687,7 +2687,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeSnapshotSchedulesMessage: AWSShape {
+    public struct DescribeSnapshotSchedulesMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2723,7 +2723,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeSnapshotSchedulesOutputMessage: AWSShape {
+    public struct DescribeSnapshotSchedulesOutputMessage: AWSDecodableShape {
         public struct _SnapshotSchedulesEncoding: ArrayCoderProperties { static public let member = "SnapshotSchedule" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
@@ -2742,7 +2742,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeTableRestoreStatusMessage: AWSShape {
+    public struct DescribeTableRestoreStatusMessage: AWSEncodableShape {
 
         /// The Amazon Redshift cluster that the table is being restored to.
         public let clusterIdentifier: String?
@@ -2768,7 +2768,7 @@ extension Redshift {
         }
     }
 
-    public struct DescribeTagsMessage: AWSShape {
+    public struct DescribeTagsMessage: AWSEncodableShape {
         public struct _TagKeysEncoding: ArrayCoderProperties { static public let member = "TagKey" }
         public struct _TagValuesEncoding: ArrayCoderProperties { static public let member = "TagValue" }
 
@@ -2804,7 +2804,7 @@ extension Redshift {
         }
     }
 
-    public struct DisableLoggingMessage: AWSShape {
+    public struct DisableLoggingMessage: AWSEncodableShape {
 
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster 
         public let clusterIdentifier: String
@@ -2818,7 +2818,7 @@ extension Redshift {
         }
     }
 
-    public struct DisableSnapshotCopyMessage: AWSShape {
+    public struct DisableSnapshotCopyMessage: AWSEncodableShape {
 
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
@@ -2832,7 +2832,7 @@ extension Redshift {
         }
     }
 
-    public struct DisableSnapshotCopyResult: AWSShape {
+    public struct DisableSnapshotCopyResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -2845,7 +2845,7 @@ extension Redshift {
         }
     }
 
-    public struct EC2SecurityGroup: AWSShape {
+    public struct EC2SecurityGroup: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The name of the EC2 Security Group.
@@ -2872,7 +2872,7 @@ extension Redshift {
         }
     }
 
-    public struct ElasticIpStatus: AWSShape {
+    public struct ElasticIpStatus: AWSDecodableShape {
 
         /// The elastic IP (EIP) address for the cluster.
         public let elasticIp: String?
@@ -2890,7 +2890,7 @@ extension Redshift {
         }
     }
 
-    public struct EnableLoggingMessage: AWSShape {
+    public struct EnableLoggingMessage: AWSEncodableShape {
 
         /// The name of an existing S3 bucket where the log files are to be stored. Constraints:   Must be in the same region as the cluster   The cluster must have read bucket and put object permissions  
         public let bucketName: String
@@ -2912,7 +2912,7 @@ extension Redshift {
         }
     }
 
-    public struct EnableSnapshotCopyMessage: AWSShape {
+    public struct EnableSnapshotCopyMessage: AWSEncodableShape {
 
         /// The unique identifier of the source cluster to copy snapshots from. Constraints: Must be the valid name of an existing cluster that does not already have cross-region snapshot copy enabled.
         public let clusterIdentifier: String
@@ -2942,7 +2942,7 @@ extension Redshift {
         }
     }
 
-    public struct EnableSnapshotCopyResult: AWSShape {
+    public struct EnableSnapshotCopyResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -2955,7 +2955,7 @@ extension Redshift {
         }
     }
 
-    public struct Endpoint: AWSShape {
+    public struct Endpoint: AWSDecodableShape {
 
         /// The DNS address of the Cluster.
         public let address: String?
@@ -2973,7 +2973,7 @@ extension Redshift {
         }
     }
 
-    public struct Event: AWSShape {
+    public struct Event: AWSDecodableShape {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// The date and time of the event.
@@ -3012,7 +3012,7 @@ extension Redshift {
         }
     }
 
-    public struct EventCategoriesMap: AWSShape {
+    public struct EventCategoriesMap: AWSDecodableShape {
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "EventInfoMap" }
 
         /// The events in the event category.
@@ -3031,7 +3031,7 @@ extension Redshift {
         }
     }
 
-    public struct EventCategoriesMessage: AWSShape {
+    public struct EventCategoriesMessage: AWSDecodableShape {
         public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
 
         /// A list of event categories descriptions.
@@ -3046,7 +3046,7 @@ extension Redshift {
         }
     }
 
-    public struct EventInfoMap: AWSShape {
+    public struct EventInfoMap: AWSDecodableShape {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// The category of an Amazon Redshift event.
@@ -3073,7 +3073,7 @@ extension Redshift {
         }
     }
 
-    public struct EventSubscription: AWSShape {
+    public struct EventSubscription: AWSDecodableShape {
         public struct _EventCategoriesListEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsListEncoding: ArrayCoderProperties { static public let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
@@ -3130,7 +3130,7 @@ extension Redshift {
         }
     }
 
-    public struct EventSubscriptionsMessage: AWSShape {
+    public struct EventSubscriptionsMessage: AWSDecodableShape {
         public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
 
         /// A list of event subscriptions.
@@ -3149,7 +3149,7 @@ extension Redshift {
         }
     }
 
-    public struct EventsMessage: AWSShape {
+    public struct EventsMessage: AWSDecodableShape {
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
 
         /// A list of Event instances. 
@@ -3168,7 +3168,7 @@ extension Redshift {
         }
     }
 
-    public struct GetClusterCredentialsMessage: AWSShape {
+    public struct GetClusterCredentialsMessage: AWSEncodableShape {
         public struct _DbGroupsEncoding: ArrayCoderProperties { static public let member = "DbGroup" }
 
         /// Create a database user with the name specified for the user named in DbUser if one does not exist.
@@ -3203,7 +3203,7 @@ extension Redshift {
         }
     }
 
-    public struct GetReservedNodeExchangeOfferingsInputMessage: AWSShape {
+    public struct GetReservedNodeExchangeOfferingsInputMessage: AWSEncodableShape {
 
         /// A value that indicates the starting point for the next set of ReservedNodeOfferings.
         public let marker: String?
@@ -3225,7 +3225,7 @@ extension Redshift {
         }
     }
 
-    public struct GetReservedNodeExchangeOfferingsOutputMessage: AWSShape {
+    public struct GetReservedNodeExchangeOfferingsOutputMessage: AWSDecodableShape {
         public struct _ReservedNodeOfferingsEncoding: ArrayCoderProperties { static public let member = "ReservedNodeOffering" }
 
         /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a GetReservedNodeExchangeOfferings request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request. 
@@ -3244,7 +3244,7 @@ extension Redshift {
         }
     }
 
-    public struct HsmClientCertificate: AWSShape {
+    public struct HsmClientCertificate: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier of the HSM client certificate.
@@ -3267,7 +3267,7 @@ extension Redshift {
         }
     }
 
-    public struct HsmClientCertificateMessage: AWSShape {
+    public struct HsmClientCertificateMessage: AWSDecodableShape {
         public struct _HsmClientCertificatesEncoding: ArrayCoderProperties { static public let member = "HsmClientCertificate" }
 
         /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
@@ -3286,7 +3286,7 @@ extension Redshift {
         }
     }
 
-    public struct HsmConfiguration: AWSShape {
+    public struct HsmConfiguration: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A text description of the HSM configuration.
@@ -3317,7 +3317,7 @@ extension Redshift {
         }
     }
 
-    public struct HsmConfigurationMessage: AWSShape {
+    public struct HsmConfigurationMessage: AWSDecodableShape {
         public struct _HsmConfigurationsEncoding: ArrayCoderProperties { static public let member = "HsmConfiguration" }
 
         /// A list of HsmConfiguration objects.
@@ -3336,7 +3336,7 @@ extension Redshift {
         }
     }
 
-    public struct HsmStatus: AWSShape {
+    public struct HsmStatus: AWSDecodableShape {
 
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
         public let hsmClientCertificateIdentifier: String?
@@ -3358,7 +3358,7 @@ extension Redshift {
         }
     }
 
-    public struct IPRange: AWSShape {
+    public struct IPRange: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
@@ -3381,7 +3381,7 @@ extension Redshift {
         }
     }
 
-    public struct LoggingStatus: AWSShape {
+    public struct LoggingStatus: AWSDecodableShape {
 
         /// The name of the S3 bucket where the log files are stored.
         public let bucketName: String?
@@ -3415,7 +3415,7 @@ extension Redshift {
         }
     }
 
-    public struct MaintenanceTrack: AWSShape {
+    public struct MaintenanceTrack: AWSDecodableShape {
         public struct _UpdateTargetsEncoding: ArrayCoderProperties { static public let member = "UpdateTarget" }
 
         /// The version number for the cluster release.
@@ -3438,7 +3438,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterDbRevisionMessage: AWSShape {
+    public struct ModifyClusterDbRevisionMessage: AWSEncodableShape {
 
         /// The unique identifier of a cluster whose database revision you want to modify.  Example: examplecluster 
         public let clusterIdentifier: String
@@ -3456,7 +3456,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterDbRevisionResult: AWSShape {
+    public struct ModifyClusterDbRevisionResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -3469,7 +3469,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterIamRolesMessage: AWSShape {
+    public struct ModifyClusterIamRolesMessage: AWSEncodableShape {
         public struct _AddIamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
         public struct _RemoveIamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
 
@@ -3493,7 +3493,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterIamRolesResult: AWSShape {
+    public struct ModifyClusterIamRolesResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -3506,7 +3506,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterMaintenanceMessage: AWSShape {
+    public struct ModifyClusterMaintenanceMessage: AWSEncodableShape {
 
         /// A unique identifier for the cluster.
         public let clusterIdentifier: String
@@ -3540,7 +3540,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterMaintenanceResult: AWSShape {
+    public struct ModifyClusterMaintenanceResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -3553,7 +3553,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterMessage: AWSShape {
+    public struct ModifyClusterMessage: AWSEncodableShape {
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroupName" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
@@ -3653,7 +3653,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterParameterGroupMessage: AWSShape {
+    public struct ModifyClusterParameterGroupMessage: AWSEncodableShape {
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the parameter group to be modified.
@@ -3672,7 +3672,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterResult: AWSShape {
+    public struct ModifyClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -3685,7 +3685,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterSnapshotMessage: AWSShape {
+    public struct ModifyClusterSnapshotMessage: AWSEncodableShape {
 
         /// A Boolean option to override an exception if the retention period has already passed.
         public let force: Bool?
@@ -3707,7 +3707,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterSnapshotResult: AWSShape {
+    public struct ModifyClusterSnapshotResult: AWSDecodableShape {
 
         public let snapshot: Snapshot?
 
@@ -3720,7 +3720,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterSnapshotScheduleMessage: AWSShape {
+    public struct ModifyClusterSnapshotScheduleMessage: AWSEncodableShape {
 
         /// A unique identifier for the cluster whose snapshot schedule you want to modify. 
         public let clusterIdentifier: String
@@ -3742,7 +3742,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterSubnetGroupMessage: AWSShape {
+    public struct ModifyClusterSubnetGroupMessage: AWSEncodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
 
         /// The name of the subnet group to be modified.
@@ -3765,7 +3765,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyClusterSubnetGroupResult: AWSShape {
+    public struct ModifyClusterSubnetGroupResult: AWSDecodableShape {
 
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
@@ -3778,7 +3778,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyEventSubscriptionMessage: AWSShape {
+    public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
         public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
 
@@ -3818,7 +3818,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyEventSubscriptionResult: AWSShape {
+    public struct ModifyEventSubscriptionResult: AWSDecodableShape {
 
         public let eventSubscription: EventSubscription?
 
@@ -3831,7 +3831,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifyScheduledActionMessage: AWSShape {
+    public struct ModifyScheduledActionMessage: AWSEncodableShape {
 
         /// A modified enable flag of the scheduled action. If true, the scheduled action is active. If false, the scheduled action is disabled. 
         public let enable: Bool?
@@ -3873,7 +3873,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifySnapshotCopyRetentionPeriodMessage: AWSShape {
+    public struct ModifySnapshotCopyRetentionPeriodMessage: AWSEncodableShape {
 
         /// The unique identifier of the cluster for which you want to change the retention period for either automated or manual snapshots that are copied to a destination AWS Region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
@@ -3895,7 +3895,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifySnapshotCopyRetentionPeriodResult: AWSShape {
+    public struct ModifySnapshotCopyRetentionPeriodResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -3908,7 +3908,7 @@ extension Redshift {
         }
     }
 
-    public struct ModifySnapshotScheduleMessage: AWSShape {
+    public struct ModifySnapshotScheduleMessage: AWSEncodableShape {
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
 
         /// An updated list of schedule definitions. A schedule definition is made up of schedule expressions, for example, "cron(30 12 *)" or "rate(12 hours)".
@@ -3927,7 +3927,7 @@ extension Redshift {
         }
     }
 
-    public struct NodeConfigurationOption: AWSShape {
+    public struct NodeConfigurationOption: AWSDecodableShape {
 
         /// The estimated disk utilizaton percentage.
         public let estimatedDiskUtilizationPercent: Double?
@@ -3953,7 +3953,7 @@ extension Redshift {
         }
     }
 
-    public struct NodeConfigurationOptionsFilter: AWSShape {
+    public struct NodeConfigurationOptionsFilter: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The name of the element to filter.
@@ -3976,7 +3976,7 @@ extension Redshift {
         }
     }
 
-    public struct NodeConfigurationOptionsMessage: AWSShape {
+    public struct NodeConfigurationOptionsMessage: AWSDecodableShape {
         public struct _NodeConfigurationOptionListEncoding: ArrayCoderProperties { static public let member = "NodeConfigurationOption" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3995,7 +3995,7 @@ extension Redshift {
         }
     }
 
-    public struct OrderableClusterOption: AWSShape {
+    public struct OrderableClusterOption: AWSDecodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
 
         /// A list of availability zones for the orderable cluster.
@@ -4022,7 +4022,7 @@ extension Redshift {
         }
     }
 
-    public struct OrderableClusterOptionsMessage: AWSShape {
+    public struct OrderableClusterOptionsMessage: AWSDecodableShape {
         public struct _OrderableClusterOptionsEncoding: ArrayCoderProperties { static public let member = "OrderableClusterOption" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -4041,7 +4041,7 @@ extension Redshift {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The valid range of values for the parameter.
         public let allowedValues: String?
@@ -4087,7 +4087,7 @@ extension Redshift {
         }
     }
 
-    public struct PauseClusterMessage: AWSShape {
+    public struct PauseClusterMessage: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier of the cluster to be paused.
         public let clusterIdentifier: String
@@ -4101,7 +4101,7 @@ extension Redshift {
         }
     }
 
-    public struct PauseClusterResult: AWSShape {
+    public struct PauseClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -4114,7 +4114,7 @@ extension Redshift {
         }
     }
 
-    public struct PendingModifiedValues: AWSShape {
+    public struct PendingModifiedValues: AWSDecodableShape {
 
         /// The pending or in-progress change of the automated snapshot retention period.
         public let automatedSnapshotRetentionPeriod: Int?
@@ -4168,7 +4168,7 @@ extension Redshift {
         }
     }
 
-    public struct PurchaseReservedNodeOfferingMessage: AWSShape {
+    public struct PurchaseReservedNodeOfferingMessage: AWSEncodableShape {
 
         /// The number of reserved nodes that you want to purchase. Default: 1 
         public let nodeCount: Int?
@@ -4186,7 +4186,7 @@ extension Redshift {
         }
     }
 
-    public struct PurchaseReservedNodeOfferingResult: AWSShape {
+    public struct PurchaseReservedNodeOfferingResult: AWSDecodableShape {
 
         public let reservedNode: ReservedNode?
 
@@ -4199,7 +4199,7 @@ extension Redshift {
         }
     }
 
-    public struct RebootClusterMessage: AWSShape {
+    public struct RebootClusterMessage: AWSEncodableShape {
 
         /// The cluster identifier.
         public let clusterIdentifier: String
@@ -4213,7 +4213,7 @@ extension Redshift {
         }
     }
 
-    public struct RebootClusterResult: AWSShape {
+    public struct RebootClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -4226,7 +4226,7 @@ extension Redshift {
         }
     }
 
-    public struct RecurringCharge: AWSShape {
+    public struct RecurringCharge: AWSDecodableShape {
 
         /// The amount charged per the period of time specified by the recurring charge frequency.
         public let recurringChargeAmount: Double?
@@ -4244,7 +4244,7 @@ extension Redshift {
         }
     }
 
-    public struct ReservedNode: AWSShape {
+    public struct ReservedNode: AWSDecodableShape {
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
 
         /// The currency code for the reserved cluster.
@@ -4306,7 +4306,7 @@ extension Redshift {
         }
     }
 
-    public struct ReservedNodeOffering: AWSShape {
+    public struct ReservedNodeOffering: AWSDecodableShape {
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
 
         /// The currency code for the compute nodes offering.
@@ -4352,7 +4352,7 @@ extension Redshift {
         }
     }
 
-    public struct ReservedNodeOfferingsMessage: AWSShape {
+    public struct ReservedNodeOfferingsMessage: AWSDecodableShape {
         public struct _ReservedNodeOfferingsEncoding: ArrayCoderProperties { static public let member = "ReservedNodeOffering" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -4371,7 +4371,7 @@ extension Redshift {
         }
     }
 
-    public struct ReservedNodesMessage: AWSShape {
+    public struct ReservedNodesMessage: AWSDecodableShape {
         public struct _ReservedNodesEncoding: ArrayCoderProperties { static public let member = "ReservedNode" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -4390,7 +4390,7 @@ extension Redshift {
         }
     }
 
-    public struct ResetClusterParameterGroupMessage: AWSShape {
+    public struct ResetClusterParameterGroupMessage: AWSEncodableShape {
         public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the cluster parameter group to be reset.
@@ -4413,7 +4413,7 @@ extension Redshift {
         }
     }
 
-    public struct ResizeClusterMessage: AWSShape {
+    public struct ResizeClusterMessage: AWSEncodableShape & AWSDecodableShape {
 
         /// A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic. 
         public let classic: Bool?
@@ -4443,7 +4443,7 @@ extension Redshift {
         }
     }
 
-    public struct ResizeClusterResult: AWSShape {
+    public struct ResizeClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -4456,7 +4456,7 @@ extension Redshift {
         }
     }
 
-    public struct ResizeInfo: AWSShape {
+    public struct ResizeInfo: AWSDecodableShape {
 
         /// A boolean value indicating if the resize operation can be cancelled.
         public let allowCancelResize: Bool?
@@ -4474,7 +4474,7 @@ extension Redshift {
         }
     }
 
-    public struct ResizeProgressMessage: AWSShape {
+    public struct ResizeProgressMessage: AWSDecodableShape {
 
         /// The average rate of the resize operation over the last few minutes, measured in megabytes per second. After the resize operation completes, this value shows the average rate of the entire resize operation.
         public let avgResizeRateInMegaBytesPerSecond: Double?
@@ -4548,7 +4548,7 @@ extension Redshift {
         }
     }
 
-    public struct RestoreFromClusterSnapshotMessage: AWSShape {
+    public struct RestoreFromClusterSnapshotMessage: AWSEncodableShape {
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "ClusterSecurityGroupName" }
         public struct _IamRolesEncoding: ArrayCoderProperties { static public let member = "IamRoleArn" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
@@ -4665,7 +4665,7 @@ extension Redshift {
         }
     }
 
-    public struct RestoreFromClusterSnapshotResult: AWSShape {
+    public struct RestoreFromClusterSnapshotResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -4678,7 +4678,7 @@ extension Redshift {
         }
     }
 
-    public struct RestoreStatus: AWSShape {
+    public struct RestoreStatus: AWSDecodableShape {
 
         /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types. 
         public let currentRestoreRateInMegaBytesPerSecond: Double?
@@ -4712,7 +4712,7 @@ extension Redshift {
         }
     }
 
-    public struct RestoreTableFromClusterSnapshotMessage: AWSShape {
+    public struct RestoreTableFromClusterSnapshotMessage: AWSEncodableShape {
 
         /// The identifier of the Amazon Redshift cluster to restore the table to.
         public let clusterIdentifier: String
@@ -4754,7 +4754,7 @@ extension Redshift {
         }
     }
 
-    public struct RestoreTableFromClusterSnapshotResult: AWSShape {
+    public struct RestoreTableFromClusterSnapshotResult: AWSDecodableShape {
 
         public let tableRestoreStatus: TableRestoreStatus?
 
@@ -4767,7 +4767,7 @@ extension Redshift {
         }
     }
 
-    public struct ResumeClusterMessage: AWSShape {
+    public struct ResumeClusterMessage: AWSEncodableShape & AWSDecodableShape {
 
         /// The identifier of the cluster to be resumed.
         public let clusterIdentifier: String
@@ -4781,7 +4781,7 @@ extension Redshift {
         }
     }
 
-    public struct ResumeClusterResult: AWSShape {
+    public struct ResumeClusterResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -4794,7 +4794,7 @@ extension Redshift {
         }
     }
 
-    public struct RevisionTarget: AWSShape {
+    public struct RevisionTarget: AWSDecodableShape {
 
         /// A unique string that identifies the version to update the cluster to. You can use this value in ModifyClusterDbRevision.
         public let databaseRevision: String?
@@ -4816,7 +4816,7 @@ extension Redshift {
         }
     }
 
-    public struct RevokeClusterSecurityGroupIngressMessage: AWSShape {
+    public struct RevokeClusterSecurityGroupIngressMessage: AWSEncodableShape {
 
         /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided. 
         public let cidrip: String?
@@ -4842,7 +4842,7 @@ extension Redshift {
         }
     }
 
-    public struct RevokeClusterSecurityGroupIngressResult: AWSShape {
+    public struct RevokeClusterSecurityGroupIngressResult: AWSDecodableShape {
 
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
@@ -4855,7 +4855,7 @@ extension Redshift {
         }
     }
 
-    public struct RevokeSnapshotAccessMessage: AWSShape {
+    public struct RevokeSnapshotAccessMessage: AWSEncodableShape {
 
         /// The identifier of the AWS customer account that can no longer restore the specified snapshot.
         public let accountWithRestoreAccess: String
@@ -4877,7 +4877,7 @@ extension Redshift {
         }
     }
 
-    public struct RevokeSnapshotAccessResult: AWSShape {
+    public struct RevokeSnapshotAccessResult: AWSDecodableShape {
 
         public let snapshot: Snapshot?
 
@@ -4890,7 +4890,7 @@ extension Redshift {
         }
     }
 
-    public struct RotateEncryptionKeyMessage: AWSShape {
+    public struct RotateEncryptionKeyMessage: AWSEncodableShape {
 
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
         public let clusterIdentifier: String
@@ -4904,7 +4904,7 @@ extension Redshift {
         }
     }
 
-    public struct RotateEncryptionKeyResult: AWSShape {
+    public struct RotateEncryptionKeyResult: AWSDecodableShape {
 
         public let cluster: Cluster?
 
@@ -4917,7 +4917,7 @@ extension Redshift {
         }
     }
 
-    public struct ScheduledAction: AWSShape {
+    public struct ScheduledAction: AWSDecodableShape {
         public struct _NextInvocationsEncoding: ArrayCoderProperties { static public let member = "ScheduledActionTime" }
 
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger. 
@@ -4964,7 +4964,7 @@ extension Redshift {
         }
     }
 
-    public struct ScheduledActionFilter: AWSShape {
+    public struct ScheduledActionFilter: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The type of element to filter. 
@@ -4983,7 +4983,7 @@ extension Redshift {
         }
     }
 
-    public struct ScheduledActionType: AWSShape {
+    public struct ScheduledActionType: AWSEncodableShape & AWSDecodableShape {
 
         /// An action that runs a PauseCluster API operation. 
         public let pauseCluster: PauseClusterMessage?
@@ -5005,7 +5005,7 @@ extension Redshift {
         }
     }
 
-    public struct ScheduledActionsMessage: AWSShape {
+    public struct ScheduledActionsMessage: AWSDecodableShape {
         public struct _ScheduledActionsEncoding: ArrayCoderProperties { static public let member = "ScheduledAction" }
 
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeScheduledActions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -5024,7 +5024,7 @@ extension Redshift {
         }
     }
 
-    public struct Snapshot: AWSShape {
+    public struct Snapshot: AWSDecodableShape {
         public struct _AccountsWithRestoreAccessEncoding: ArrayCoderProperties { static public let member = "AccountWithRestoreAccess" }
         public struct _RestorableNodeTypesEncoding: ArrayCoderProperties { static public let member = "NodeType" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
@@ -5169,7 +5169,7 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotCopyGrant: AWSShape {
+    public struct SnapshotCopyGrant: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The unique identifier of the customer master key (CMK) in AWS KMS to which Amazon Redshift is granted permission.
@@ -5192,7 +5192,7 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotCopyGrantMessage: AWSShape {
+    public struct SnapshotCopyGrantMessage: AWSDecodableShape {
         public struct _SnapshotCopyGrantsEncoding: ArrayCoderProperties { static public let member = "SnapshotCopyGrant" }
 
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
@@ -5211,7 +5211,7 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotErrorMessage: AWSShape {
+    public struct SnapshotErrorMessage: AWSDecodableShape {
 
         /// The failure code for the error.
         public let failureCode: String?
@@ -5237,7 +5237,7 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotMessage: AWSShape {
+    public struct SnapshotMessage: AWSDecodableShape {
         public struct _SnapshotsEncoding: ArrayCoderProperties { static public let member = "Snapshot" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -5256,7 +5256,7 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotSchedule: AWSShape {
+    public struct SnapshotSchedule: AWSDecodableShape {
         public struct _AssociatedClustersEncoding: ArrayCoderProperties { static public let member = "ClusterAssociatedToSchedule" }
         public struct _NextInvocationsEncoding: ArrayCoderProperties { static public let member = "SnapshotTime" }
         public struct _ScheduleDefinitionsEncoding: ArrayCoderProperties { static public let member = "ScheduleDefinition" }
@@ -5297,7 +5297,7 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotSortingEntity: AWSShape {
+    public struct SnapshotSortingEntity: AWSEncodableShape {
 
         /// The category for sorting the snapshots.
         public let attribute: SnapshotAttributeToSortBy
@@ -5315,7 +5315,7 @@ extension Redshift {
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct Subnet: AWSDecodableShape {
 
         public let subnetAvailabilityZone: AvailabilityZone?
         /// The identifier of the subnet.
@@ -5336,7 +5336,7 @@ extension Redshift {
         }
     }
 
-    public struct SupportedOperation: AWSShape {
+    public struct SupportedOperation: AWSDecodableShape {
 
         /// A list of the supported operations.
         public let operationName: String?
@@ -5350,7 +5350,7 @@ extension Redshift {
         }
     }
 
-    public struct SupportedPlatform: AWSShape {
+    public struct SupportedPlatform: AWSDecodableShape {
 
         public let name: String?
 
@@ -5363,7 +5363,7 @@ extension Redshift {
         }
     }
 
-    public struct TableRestoreStatus: AWSShape {
+    public struct TableRestoreStatus: AWSDecodableShape {
 
         /// The identifier of the Amazon Redshift cluster that the table is being restored to.
         public let clusterIdentifier: String?
@@ -5429,7 +5429,7 @@ extension Redshift {
         }
     }
 
-    public struct TableRestoreStatusMessage: AWSShape {
+    public struct TableRestoreStatusMessage: AWSDecodableShape {
         public struct _TableRestoreStatusDetailsEncoding: ArrayCoderProperties { static public let member = "TableRestoreStatus" }
 
         /// A pagination token that can be used in a subsequent DescribeTableRestoreStatus request.
@@ -5448,7 +5448,7 @@ extension Redshift {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key, or name, for the resource tag.
         public let key: String?
@@ -5466,7 +5466,7 @@ extension Redshift {
         }
     }
 
-    public struct TaggedResource: AWSShape {
+    public struct TaggedResource: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) with which the tag is associated, for example: arn:aws:redshift:us-east-2:123456789:cluster:t1.
         public let resourceName: String?
@@ -5488,7 +5488,7 @@ extension Redshift {
         }
     }
 
-    public struct TaggedResourceListMessage: AWSShape {
+    public struct TaggedResourceListMessage: AWSDecodableShape {
         public struct _TaggedResourcesEncoding: ArrayCoderProperties { static public let member = "TaggedResource" }
 
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -5507,7 +5507,7 @@ extension Redshift {
         }
     }
 
-    public struct TrackListMessage: AWSShape {
+    public struct TrackListMessage: AWSDecodableShape {
         public struct _MaintenanceTracksEncoding: ArrayCoderProperties { static public let member = "MaintenanceTrack" }
 
         /// A list of maintenance tracks output by the DescribeClusterTracks operation. 
@@ -5526,7 +5526,7 @@ extension Redshift {
         }
     }
 
-    public struct UpdateTarget: AWSShape {
+    public struct UpdateTarget: AWSDecodableShape {
         public struct _SupportedOperationsEncoding: ArrayCoderProperties { static public let member = "SupportedOperation" }
 
         /// The cluster version for the new maintenance track.
@@ -5549,7 +5549,7 @@ extension Redshift {
         }
     }
 
-    public struct VpcSecurityGroupMembership: AWSShape {
+    public struct VpcSecurityGroupMembership: AWSDecodableShape {
 
         /// The status of the VPC security group.
         public let status: String?

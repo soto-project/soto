@@ -33,7 +33,7 @@ extension PinpointSMSVoice {
 
     //MARK: Shapes
 
-    public struct CallInstructionsMessageType: AWSShape {
+    public struct CallInstructionsMessageType: AWSEncodableShape {
 
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let text: String?
@@ -47,7 +47,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct CloudWatchLogsDestination: AWSShape {
+    public struct CloudWatchLogsDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon CloudWatch destination.
         public let iamRoleArn: String?
@@ -65,7 +65,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -82,13 +82,12 @@ extension PinpointSMSVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
             case eventDestinationName = "EventDestinationName"
         }
     }
 
-    public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
+    public struct CreateConfigurationSetEventDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -96,7 +95,7 @@ extension PinpointSMSVoice {
 
     }
 
-    public struct CreateConfigurationSetRequest: AWSShape {
+    public struct CreateConfigurationSetRequest: AWSEncodableShape {
 
         /// The name that you want to give the configuration set.
         public let configurationSetName: String?
@@ -110,7 +109,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct CreateConfigurationSetResponse: AWSShape {
+    public struct CreateConfigurationSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -118,7 +117,7 @@ extension PinpointSMSVoice {
 
     }
 
-    public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
+    public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
@@ -132,13 +131,10 @@ extension PinpointSMSVoice {
             self.eventDestinationName = eventDestinationName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
+    public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -146,7 +142,7 @@ extension PinpointSMSVoice {
 
     }
 
-    public struct DeleteConfigurationSetRequest: AWSShape {
+    public struct DeleteConfigurationSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -157,12 +153,10 @@ extension PinpointSMSVoice {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteConfigurationSetResponse: AWSShape {
+    public struct DeleteConfigurationSetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -170,7 +164,7 @@ extension PinpointSMSVoice {
 
     }
 
-    public struct EventDestination: AWSShape {
+    public struct EventDestination: AWSDecodableShape {
 
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -200,7 +194,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct EventDestinationDefinition: AWSShape {
+    public struct EventDestinationDefinition: AWSEncodableShape {
 
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -226,7 +220,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
+    public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName"))
         ]
@@ -237,12 +231,10 @@ extension PinpointSMSVoice {
             self.configurationSetName = configurationSetName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
+    public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
 
         public let eventDestinations: [EventDestination]?
 
@@ -255,7 +247,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct KinesisFirehoseDestination: AWSShape {
+    public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an IAM role that can write data to an Amazon Kinesis Data Firehose stream.
         public let deliveryStreamArn: String?
@@ -273,7 +265,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct ListConfigurationSetsRequest: AWSShape {
+    public struct ListConfigurationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
@@ -287,13 +279,10 @@ extension PinpointSMSVoice {
             self.pageSize = pageSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case pageSize = "PageSize"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListConfigurationSetsResponse: AWSShape {
+    public struct ListConfigurationSetsResponse: AWSDecodableShape {
 
         /// An object that contains a list of configuration sets for your account in the current region.
         public let configurationSets: [String]?
@@ -311,7 +300,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct PlainTextMessageType: AWSShape {
+    public struct PlainTextMessageType: AWSEncodableShape {
 
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let languageCode: String?
@@ -333,7 +322,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct SSMLMessageType: AWSShape {
+    public struct SSMLMessageType: AWSEncodableShape {
 
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let languageCode: String?
@@ -355,7 +344,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct SendVoiceMessageRequest: AWSShape {
+    public struct SendVoiceMessageRequest: AWSEncodableShape {
 
         /// The phone number that appears on recipients' devices when they receive the message.
         public let callerId: String?
@@ -384,7 +373,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct SendVoiceMessageResponse: AWSShape {
+    public struct SendVoiceMessageResponse: AWSDecodableShape {
 
         /// A unique identifier for the voice message.
         public let messageId: String?
@@ -398,7 +387,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct SnsDestination: AWSShape {
+    public struct SnsDestination: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         public let topicArn: String?
@@ -412,7 +401,7 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
@@ -429,13 +418,11 @@ extension PinpointSMSVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
-            case eventDestinationName = "EventDestinationName"
         }
     }
 
-    public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
+    public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -443,7 +430,7 @@ extension PinpointSMSVoice {
 
     }
 
-    public struct VoiceMessageContent: AWSShape {
+    public struct VoiceMessageContent: AWSEncodableShape {
 
         public let callInstructionsMessage: CallInstructionsMessageType?
         public let plainTextMessage: PlainTextMessageType?

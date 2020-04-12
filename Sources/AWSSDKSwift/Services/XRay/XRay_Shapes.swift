@@ -46,7 +46,7 @@ extension XRay {
 
     //MARK: Shapes
 
-    public struct Alias: AWSShape {
+    public struct Alias: AWSDecodableShape {
 
         /// The canonical name of the alias.
         public let name: String?
@@ -68,7 +68,7 @@ extension XRay {
         }
     }
 
-    public struct AnnotationValue: AWSShape {
+    public struct AnnotationValue: AWSDecodableShape {
 
         /// Value for a Boolean annotation.
         public let booleanValue: Bool?
@@ -90,7 +90,7 @@ extension XRay {
         }
     }
 
-    public struct AvailabilityZoneDetail: AWSShape {
+    public struct AvailabilityZoneDetail: AWSDecodableShape {
 
         /// The name of a corresponding availability zone.
         public let name: String?
@@ -104,7 +104,7 @@ extension XRay {
         }
     }
 
-    public struct BackendConnectionErrors: AWSShape {
+    public struct BackendConnectionErrors: AWSEncodableShape {
 
         public let connectionRefusedCount: Int?
         public let hTTPCode4XXCount: Int?
@@ -132,7 +132,7 @@ extension XRay {
         }
     }
 
-    public struct BatchGetTracesRequest: AWSShape {
+    public struct BatchGetTracesRequest: AWSEncodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -157,7 +157,7 @@ extension XRay {
         }
     }
 
-    public struct BatchGetTracesResult: AWSShape {
+    public struct BatchGetTracesResult: AWSDecodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -179,7 +179,7 @@ extension XRay {
         }
     }
 
-    public struct CreateGroupRequest: AWSShape {
+    public struct CreateGroupRequest: AWSEncodableShape {
 
         /// The filter expression defining criteria by which to group traces.
         public let filterExpression: String?
@@ -202,7 +202,7 @@ extension XRay {
         }
     }
 
-    public struct CreateGroupResult: AWSShape {
+    public struct CreateGroupResult: AWSDecodableShape {
 
         /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, and the filter expression that was assigned to the group.
         public let group: Group?
@@ -216,7 +216,7 @@ extension XRay {
         }
     }
 
-    public struct CreateSamplingRuleRequest: AWSShape {
+    public struct CreateSamplingRuleRequest: AWSEncodableShape {
 
         /// The rule definition.
         public let samplingRule: SamplingRule
@@ -234,7 +234,7 @@ extension XRay {
         }
     }
 
-    public struct CreateSamplingRuleResult: AWSShape {
+    public struct CreateSamplingRuleResult: AWSDecodableShape {
 
         /// The saved rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
@@ -248,7 +248,7 @@ extension XRay {
         }
     }
 
-    public struct DeleteGroupRequest: AWSShape {
+    public struct DeleteGroupRequest: AWSEncodableShape {
 
         /// The ARN of the group that was generated on creation.
         public let groupARN: String?
@@ -273,7 +273,7 @@ extension XRay {
         }
     }
 
-    public struct DeleteGroupResult: AWSShape {
+    public struct DeleteGroupResult: AWSDecodableShape {
 
 
         public init() {
@@ -281,7 +281,7 @@ extension XRay {
 
     }
 
-    public struct DeleteSamplingRuleRequest: AWSShape {
+    public struct DeleteSamplingRuleRequest: AWSEncodableShape {
 
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleARN: String?
@@ -299,7 +299,7 @@ extension XRay {
         }
     }
 
-    public struct DeleteSamplingRuleResult: AWSShape {
+    public struct DeleteSamplingRuleResult: AWSDecodableShape {
 
         /// The deleted rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
@@ -313,7 +313,7 @@ extension XRay {
         }
     }
 
-    public struct Edge: AWSShape {
+    public struct Edge: AWSDecodableShape {
 
         /// Aliases for the edge.
         public let aliases: [Alias]?
@@ -347,7 +347,7 @@ extension XRay {
         }
     }
 
-    public struct EdgeStatistics: AWSShape {
+    public struct EdgeStatistics: AWSDecodableShape {
 
         /// Information about requests that failed with a 4xx Client Error status code.
         public let errorStatistics: ErrorStatistics?
@@ -377,7 +377,7 @@ extension XRay {
         }
     }
 
-    public struct EncryptionConfig: AWSShape {
+    public struct EncryptionConfig: AWSDecodableShape {
 
         /// The ID of the customer master key (CMK) used for encryption, if applicable.
         public let keyId: String?
@@ -399,7 +399,7 @@ extension XRay {
         }
     }
 
-    public struct ErrorRootCause: AWSShape {
+    public struct ErrorRootCause: AWSDecodableShape {
 
         /// A flag that denotes that the root cause impacts the trace client.
         public let clientImpacting: Bool?
@@ -417,7 +417,7 @@ extension XRay {
         }
     }
 
-    public struct ErrorRootCauseEntity: AWSShape {
+    public struct ErrorRootCauseEntity: AWSDecodableShape {
 
         /// The types and messages of the exceptions.
         public let exceptions: [RootCauseException]?
@@ -439,7 +439,7 @@ extension XRay {
         }
     }
 
-    public struct ErrorRootCauseService: AWSShape {
+    public struct ErrorRootCauseService: AWSDecodableShape {
 
         /// The account ID associated to the service.
         public let accountId: String?
@@ -473,7 +473,7 @@ extension XRay {
         }
     }
 
-    public struct ErrorStatistics: AWSShape {
+    public struct ErrorStatistics: AWSDecodableShape {
 
         /// The number of requests that failed with untracked 4xx Client Error status codes.
         public let otherCount: Int64?
@@ -495,7 +495,7 @@ extension XRay {
         }
     }
 
-    public struct FaultRootCause: AWSShape {
+    public struct FaultRootCause: AWSDecodableShape {
 
         /// A flag that denotes that the root cause impacts the trace client.
         public let clientImpacting: Bool?
@@ -513,7 +513,7 @@ extension XRay {
         }
     }
 
-    public struct FaultRootCauseEntity: AWSShape {
+    public struct FaultRootCauseEntity: AWSDecodableShape {
 
         /// The types and messages of the exceptions.
         public let exceptions: [RootCauseException]?
@@ -535,7 +535,7 @@ extension XRay {
         }
     }
 
-    public struct FaultRootCauseService: AWSShape {
+    public struct FaultRootCauseService: AWSDecodableShape {
 
         /// The account ID associated to the service.
         public let accountId: String?
@@ -569,7 +569,7 @@ extension XRay {
         }
     }
 
-    public struct FaultStatistics: AWSShape {
+    public struct FaultStatistics: AWSDecodableShape {
 
         /// The number of requests that failed with untracked 5xx Server Error status codes.
         public let otherCount: Int64?
@@ -587,7 +587,7 @@ extension XRay {
         }
     }
 
-    public struct GetEncryptionConfigRequest: AWSShape {
+    public struct GetEncryptionConfigRequest: AWSEncodableShape {
 
 
         public init() {
@@ -595,7 +595,7 @@ extension XRay {
 
     }
 
-    public struct GetEncryptionConfigResult: AWSShape {
+    public struct GetEncryptionConfigResult: AWSDecodableShape {
 
         /// The encryption configuration document.
         public let encryptionConfig: EncryptionConfig?
@@ -609,7 +609,7 @@ extension XRay {
         }
     }
 
-    public struct GetGroupRequest: AWSShape {
+    public struct GetGroupRequest: AWSEncodableShape {
 
         /// The ARN of the group that was generated on creation.
         public let groupARN: String?
@@ -634,7 +634,7 @@ extension XRay {
         }
     }
 
-    public struct GetGroupResult: AWSShape {
+    public struct GetGroupResult: AWSDecodableShape {
 
         /// The group that was requested. Contains the name of the group, the ARN of the group, and the filter expression that assigned to the group.
         public let group: Group?
@@ -648,7 +648,7 @@ extension XRay {
         }
     }
 
-    public struct GetGroupsRequest: AWSShape {
+    public struct GetGroupsRequest: AWSEncodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -667,7 +667,7 @@ extension XRay {
         }
     }
 
-    public struct GetGroupsResult: AWSShape {
+    public struct GetGroupsResult: AWSDecodableShape {
 
         /// The collection of all active groups.
         public let groups: [GroupSummary]?
@@ -685,7 +685,7 @@ extension XRay {
         }
     }
 
-    public struct GetSamplingRulesRequest: AWSShape {
+    public struct GetSamplingRulesRequest: AWSEncodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -699,7 +699,7 @@ extension XRay {
         }
     }
 
-    public struct GetSamplingRulesResult: AWSShape {
+    public struct GetSamplingRulesResult: AWSDecodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -717,7 +717,7 @@ extension XRay {
         }
     }
 
-    public struct GetSamplingStatisticSummariesRequest: AWSShape {
+    public struct GetSamplingStatisticSummariesRequest: AWSEncodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -731,7 +731,7 @@ extension XRay {
         }
     }
 
-    public struct GetSamplingStatisticSummariesResult: AWSShape {
+    public struct GetSamplingStatisticSummariesResult: AWSDecodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -749,7 +749,7 @@ extension XRay {
         }
     }
 
-    public struct GetSamplingTargetsRequest: AWSShape {
+    public struct GetSamplingTargetsRequest: AWSEncodableShape {
 
         /// Information about rules that the service is using to sample requests.
         public let samplingStatisticsDocuments: [SamplingStatisticsDocument]
@@ -770,7 +770,7 @@ extension XRay {
         }
     }
 
-    public struct GetSamplingTargetsResult: AWSShape {
+    public struct GetSamplingTargetsResult: AWSDecodableShape {
 
         /// The last time a user changed the sampling rule configuration. If the sampling rule configuration changed since the service last retrieved it, the service should call GetSamplingRules to get the latest version.
         public let lastRuleModification: TimeStamp?
@@ -792,7 +792,7 @@ extension XRay {
         }
     }
 
-    public struct GetServiceGraphRequest: AWSShape {
+    public struct GetServiceGraphRequest: AWSEncodableShape {
 
         /// The end of the timeframe for which to generate a graph.
         public let endTime: TimeStamp
@@ -829,7 +829,7 @@ extension XRay {
         }
     }
 
-    public struct GetServiceGraphResult: AWSShape {
+    public struct GetServiceGraphResult: AWSDecodableShape {
 
         /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
@@ -859,7 +859,7 @@ extension XRay {
         }
     }
 
-    public struct GetTimeSeriesServiceStatisticsRequest: AWSShape {
+    public struct GetTimeSeriesServiceStatisticsRequest: AWSEncodableShape {
 
         /// The end of the time frame for which to aggregate statistics.
         public let endTime: TimeStamp
@@ -906,7 +906,7 @@ extension XRay {
         }
     }
 
-    public struct GetTimeSeriesServiceStatisticsResult: AWSShape {
+    public struct GetTimeSeriesServiceStatisticsResult: AWSDecodableShape {
 
         /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation may show statistics from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
@@ -928,7 +928,7 @@ extension XRay {
         }
     }
 
-    public struct GetTraceGraphRequest: AWSShape {
+    public struct GetTraceGraphRequest: AWSEncodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -953,7 +953,7 @@ extension XRay {
         }
     }
 
-    public struct GetTraceGraphResult: AWSShape {
+    public struct GetTraceGraphResult: AWSDecodableShape {
 
         /// Pagination token.
         public let nextToken: String?
@@ -971,7 +971,7 @@ extension XRay {
         }
     }
 
-    public struct GetTraceSummariesRequest: AWSShape {
+    public struct GetTraceSummariesRequest: AWSEncodableShape {
 
         /// The end of the time frame for which to retrieve traces.
         public let endTime: TimeStamp
@@ -1009,7 +1009,7 @@ extension XRay {
         }
     }
 
-    public struct GetTraceSummariesResult: AWSShape {
+    public struct GetTraceSummariesResult: AWSDecodableShape {
 
         /// The start time of this page of results.
         public let approximateTime: TimeStamp?
@@ -1035,7 +1035,7 @@ extension XRay {
         }
     }
 
-    public struct Group: AWSShape {
+    public struct Group: AWSDecodableShape {
 
         /// The filter expression defining the parameters to include traces.
         public let filterExpression: String?
@@ -1057,7 +1057,7 @@ extension XRay {
         }
     }
 
-    public struct GroupSummary: AWSShape {
+    public struct GroupSummary: AWSDecodableShape {
 
         /// The filter expression defining the parameters to include traces.
         public let filterExpression: String?
@@ -1079,7 +1079,7 @@ extension XRay {
         }
     }
 
-    public struct HistogramEntry: AWSShape {
+    public struct HistogramEntry: AWSDecodableShape {
 
         /// The prevalence of the entry.
         public let count: Int?
@@ -1097,7 +1097,7 @@ extension XRay {
         }
     }
 
-    public struct Http: AWSShape {
+    public struct Http: AWSDecodableShape {
 
         /// The IP address of the requestor.
         public let clientIp: String?
@@ -1127,7 +1127,7 @@ extension XRay {
         }
     }
 
-    public struct InstanceIdDetail: AWSShape {
+    public struct InstanceIdDetail: AWSDecodableShape {
 
         /// The ID of a corresponding EC2 instance.
         public let id: String?
@@ -1141,7 +1141,7 @@ extension XRay {
         }
     }
 
-    public struct PutEncryptionConfigRequest: AWSShape {
+    public struct PutEncryptionConfigRequest: AWSEncodableShape {
 
         /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. AWS X-Ray does not support asymmetric CMKs.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
         public let keyId: String?
@@ -1164,7 +1164,7 @@ extension XRay {
         }
     }
 
-    public struct PutEncryptionConfigResult: AWSShape {
+    public struct PutEncryptionConfigResult: AWSDecodableShape {
 
         /// The new encryption configuration.
         public let encryptionConfig: EncryptionConfig?
@@ -1178,7 +1178,7 @@ extension XRay {
         }
     }
 
-    public struct PutTelemetryRecordsRequest: AWSShape {
+    public struct PutTelemetryRecordsRequest: AWSEncodableShape {
 
         public let eC2InstanceId: String?
         public let hostname: String?
@@ -1206,7 +1206,7 @@ extension XRay {
         }
     }
 
-    public struct PutTelemetryRecordsResult: AWSShape {
+    public struct PutTelemetryRecordsResult: AWSDecodableShape {
 
 
         public init() {
@@ -1214,7 +1214,7 @@ extension XRay {
 
     }
 
-    public struct PutTraceSegmentsRequest: AWSShape {
+    public struct PutTraceSegmentsRequest: AWSEncodableShape {
 
         /// A string containing a JSON document defining one or more segments or subsegments.
         public let traceSegmentDocuments: [String]
@@ -1228,7 +1228,7 @@ extension XRay {
         }
     }
 
-    public struct PutTraceSegmentsResult: AWSShape {
+    public struct PutTraceSegmentsResult: AWSDecodableShape {
 
         /// Segments that failed processing.
         public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
@@ -1242,7 +1242,7 @@ extension XRay {
         }
     }
 
-    public struct ResourceARNDetail: AWSShape {
+    public struct ResourceARNDetail: AWSDecodableShape {
 
         /// The ARN of a corresponding resource.
         public let arn: String?
@@ -1256,7 +1256,7 @@ extension XRay {
         }
     }
 
-    public struct ResponseTimeRootCause: AWSShape {
+    public struct ResponseTimeRootCause: AWSDecodableShape {
 
         /// A flag that denotes that the root cause impacts the trace client.
         public let clientImpacting: Bool?
@@ -1274,7 +1274,7 @@ extension XRay {
         }
     }
 
-    public struct ResponseTimeRootCauseEntity: AWSShape {
+    public struct ResponseTimeRootCauseEntity: AWSDecodableShape {
 
         /// The types and messages of the exceptions.
         public let coverage: Double?
@@ -1296,7 +1296,7 @@ extension XRay {
         }
     }
 
-    public struct ResponseTimeRootCauseService: AWSShape {
+    public struct ResponseTimeRootCauseService: AWSDecodableShape {
 
         /// The account ID associated to the service.
         public let accountId: String?
@@ -1330,7 +1330,7 @@ extension XRay {
         }
     }
 
-    public struct RootCauseException: AWSShape {
+    public struct RootCauseException: AWSDecodableShape {
 
         /// The message of the exception.
         public let message: String?
@@ -1348,7 +1348,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingRule: AWSShape {
+    public struct SamplingRule: AWSEncodableShape & AWSDecodableShape {
 
         /// Matches attributes derived from the request.
         public let attributes: [String: String]?
@@ -1433,7 +1433,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingRuleRecord: AWSShape {
+    public struct SamplingRuleRecord: AWSDecodableShape {
 
         /// When the rule was created.
         public let createdAt: TimeStamp?
@@ -1455,7 +1455,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingRuleUpdate: AWSShape {
+    public struct SamplingRuleUpdate: AWSEncodableShape {
 
         /// Matches attributes derived from the request.
         public let attributes: [String: String]?
@@ -1530,7 +1530,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingStatisticSummary: AWSShape {
+    public struct SamplingStatisticSummary: AWSDecodableShape {
 
         /// The number of requests recorded with borrowed reservoir quota.
         public let borrowCount: Int?
@@ -1560,7 +1560,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingStatisticsDocument: AWSShape {
+    public struct SamplingStatisticsDocument: AWSEncodableShape {
 
         /// The number of requests recorded with borrowed reservoir quota.
         public let borrowCount: Int?
@@ -1604,7 +1604,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingStrategy: AWSShape {
+    public struct SamplingStrategy: AWSEncodableShape {
 
         /// The name of a sampling rule.
         public let name: SamplingStrategyName?
@@ -1622,7 +1622,7 @@ extension XRay {
         }
     }
 
-    public struct SamplingTargetDocument: AWSShape {
+    public struct SamplingTargetDocument: AWSDecodableShape {
 
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
         public let fixedRate: Double?
@@ -1652,7 +1652,7 @@ extension XRay {
         }
     }
 
-    public struct Segment: AWSShape {
+    public struct Segment: AWSDecodableShape {
 
         /// The segment document.
         public let document: String?
@@ -1670,7 +1670,7 @@ extension XRay {
         }
     }
 
-    public struct Service: AWSShape {
+    public struct Service: AWSDecodableShape {
 
         /// Identifier of the AWS account in which the service runs.
         public let accountId: String?
@@ -1732,7 +1732,7 @@ extension XRay {
         }
     }
 
-    public struct ServiceId: AWSShape {
+    public struct ServiceId: AWSDecodableShape {
 
         public let accountId: String?
         public let name: String?
@@ -1754,7 +1754,7 @@ extension XRay {
         }
     }
 
-    public struct ServiceStatistics: AWSShape {
+    public struct ServiceStatistics: AWSDecodableShape {
 
         /// Information about requests that failed with a 4xx Client Error status code.
         public let errorStatistics: ErrorStatistics?
@@ -1784,7 +1784,7 @@ extension XRay {
         }
     }
 
-    public struct TelemetryRecord: AWSShape {
+    public struct TelemetryRecord: AWSEncodableShape {
 
         public let backendConnectionErrors: BackendConnectionErrors?
         public let segmentsReceivedCount: Int?
@@ -1812,7 +1812,7 @@ extension XRay {
         }
     }
 
-    public struct TimeSeriesServiceStatistics: AWSShape {
+    public struct TimeSeriesServiceStatistics: AWSDecodableShape {
 
         public let edgeSummaryStatistics: EdgeStatistics?
         /// The response time histogram for the selected entities.
@@ -1836,7 +1836,7 @@ extension XRay {
         }
     }
 
-    public struct Trace: AWSShape {
+    public struct Trace: AWSDecodableShape {
 
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
         public let duration: Double?
@@ -1858,7 +1858,7 @@ extension XRay {
         }
     }
 
-    public struct TraceSummary: AWSShape {
+    public struct TraceSummary: AWSDecodableShape {
 
         /// Annotations from the trace's segment documents.
         public let annotations: [String: [ValueWithServiceIds]]?
@@ -1948,7 +1948,7 @@ extension XRay {
         }
     }
 
-    public struct TraceUser: AWSShape {
+    public struct TraceUser: AWSDecodableShape {
 
         /// Services that the user's request hit.
         public let serviceIds: [ServiceId]?
@@ -1966,7 +1966,7 @@ extension XRay {
         }
     }
 
-    public struct UnprocessedStatistics: AWSShape {
+    public struct UnprocessedStatistics: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: String?
@@ -1988,7 +1988,7 @@ extension XRay {
         }
     }
 
-    public struct UnprocessedTraceSegment: AWSShape {
+    public struct UnprocessedTraceSegment: AWSDecodableShape {
 
         /// The error that caused processing to fail.
         public let errorCode: String?
@@ -2010,7 +2010,7 @@ extension XRay {
         }
     }
 
-    public struct UpdateGroupRequest: AWSShape {
+    public struct UpdateGroupRequest: AWSEncodableShape {
 
         /// The updated filter expression defining criteria by which to group traces.
         public let filterExpression: String?
@@ -2039,7 +2039,7 @@ extension XRay {
         }
     }
 
-    public struct UpdateGroupResult: AWSShape {
+    public struct UpdateGroupResult: AWSDecodableShape {
 
         /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, and the updated filter expression assigned to the group.
         public let group: Group?
@@ -2053,7 +2053,7 @@ extension XRay {
         }
     }
 
-    public struct UpdateSamplingRuleRequest: AWSShape {
+    public struct UpdateSamplingRuleRequest: AWSEncodableShape {
 
         /// The rule and fields to change.
         public let samplingRuleUpdate: SamplingRuleUpdate
@@ -2071,7 +2071,7 @@ extension XRay {
         }
     }
 
-    public struct UpdateSamplingRuleResult: AWSShape {
+    public struct UpdateSamplingRuleResult: AWSDecodableShape {
 
         /// The updated rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
@@ -2085,7 +2085,7 @@ extension XRay {
         }
     }
 
-    public struct ValueWithServiceIds: AWSShape {
+    public struct ValueWithServiceIds: AWSDecodableShape {
 
         /// Values of the annotation.
         public let annotationValue: AnnotationValue?

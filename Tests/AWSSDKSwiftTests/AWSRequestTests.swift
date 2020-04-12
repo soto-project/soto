@@ -35,7 +35,7 @@ class AWSRequestTests: XCTestCase {
     }
 
     /// test
-    func testAWSShapeRequest<Input: AWSShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input, expected: String) {
+    func testAWSShapeRequest<Input: AWSEncodableShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input, expected: String) {
         do {
             let awsRequest = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
             var expected2 = expected
@@ -53,7 +53,7 @@ class AWSRequestTests: XCTestCase {
     }
 
     /// test validation
-    func testAWSValidationFail<Input: AWSShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
+    func testAWSValidationFail<Input: AWSEncodableShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
         do {
             _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
             XCTFail()
@@ -63,15 +63,15 @@ class AWSRequestTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-    
-    func testAWSValidationSuccess<Input: AWSShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
+
+    func testAWSValidationSuccess<Input: AWSEncodableShape>(client: AWSClient, operation: String, path: String="/", httpMethod: String="POST", input: Input) {
         do {
             _ = try client.createAWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
-    
+
     func testS3PutBucketLifecycleConfigurationRequest() {
         let expectedResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
 
@@ -131,7 +131,7 @@ class AWSRequestTests: XCTestCase {
 
     func testRoute53ChangeResourceRecordSetsRequest() {
         let expectedResult = """
-            <?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/"><ChangeBatch><Changes><Change><Action>CREATE</Action><ResourceRecordSet><Name>www</Name><Type>CNAME</Type></ResourceRecordSet></Change><Change><Action>UPSERT</Action><ResourceRecordSet><Name>dev</Name><Type>CNAME</Type></ResourceRecordSet></Change></Changes></ChangeBatch><Id>Zone</Id></ChangeResourceRecordSetsRequest>
+            <?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/"><ChangeBatch><Changes><Change><Action>CREATE</Action><ResourceRecordSet><Name>www</Name><Type>CNAME</Type></ResourceRecordSet></Change><Change><Action>UPSERT</Action><ResourceRecordSet><Name>dev</Name><Type>CNAME</Type></ResourceRecordSet></Change></Changes></ChangeBatch></ChangeResourceRecordSetsRequest>
             """
         let changes: [Route53.Change] = [
             .init(action: .create, resourceRecordSet: .init(name: "www", type: .cname)),
@@ -139,10 +139,10 @@ class AWSRequestTests: XCTestCase {
         ]
         let changeBatch = Route53.ChangeBatch(changes: changes)
         let request = Route53.ChangeResourceRecordSetsRequest(changeBatch: changeBatch, hostedZoneId: "Zone")
-        
+
         testAWSShapeRequest(client: Route53().client, operation: "ChangeResourceRecordSets", input: request, expected: expectedResult)
     }
-    
+
     func testSESSendEmail() {
         let expectedResult = "Action=SendEmail&Destination.ToAddresses.member.1=them%40gmail.com&Message.Body.Text.Data=Testing%201%2C2%2C1%2C2&Message.Subject.Data=Testing&Source=me%40gmail.com&Version=2010-12-01"
         let destination = SES.Destination(toAddresses: ["them@gmail.com"])
@@ -153,13 +153,13 @@ class AWSRequestTests: XCTestCase {
     }
 
     // VALIDATION TESTS
-    
+
     func testS3GetObjectAclValidate() {
         // string length
         let request = S3.GetObjectAclRequest(bucket:"testbucket", key:"")
         testAWSValidationFail(client: S3().client, operation: "GetObjectAcl", input: request)
     }
-    
+
     func testIAMAttachGroupPolicyValidate() {
         // regular expression fail
         let request = IAM.AttachGroupPolicyRequest(groupName: ":MY:GROUP", policyArn: "arn://3948574985/unvalidated")
@@ -183,13 +183,13 @@ class AWSRequestTests: XCTestCase {
         let successRequest = CloudFront.ListTagsForResourceRequest(resource: "arn:aws:cloudfront::58979345:test")
         testAWSValidationSuccess(client: CloudFront().client, operation: "ListTagsForResource", input: successRequest)
     }
-    
+
     func testACMAddTagsToCertificateValidate() {
         // test validating array members
         let request = ACM.AddTagsToCertificateRequest(certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012", tags: [ACM.Tag(key:"hello", value:"1"), ACM.Tag(key:"?hello?", value:"1")])
         testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
     }
-    
+
     func testCloudFrontCreateDistributionValidate() {
         let cookiePreference = CloudFront.CookiePreference(forward:.all)
         let forwardedValues = CloudFront.ForwardedValues(cookies: cookiePreference, queryString: true)
@@ -200,7 +200,7 @@ class AWSRequestTests: XCTestCase {
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
         testAWSValidationFail(client: CloudFront().client, operation: "CreateDistribution", input: request)
     }
-    
+
     static var allTests : [(String, (AWSRequestTests) -> () throws -> Void)] {
         return [
             ("testS3PutBucketLifecycleConfigurationRequest", testS3PutBucketLifecycleConfigurationRequest),

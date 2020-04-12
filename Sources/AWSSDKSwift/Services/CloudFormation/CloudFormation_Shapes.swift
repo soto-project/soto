@@ -328,7 +328,7 @@ extension CloudFormation {
 
     //MARK: Shapes
 
-    public struct AccountGateResult: AWSShape {
+    public struct AccountGateResult: AWSDecodableShape {
 
         /// The status of the account gate function.    SUCCEEDED: The account gate function has determined that the account and region passes any requirements for a stack set operation to occur. AWS CloudFormation proceeds with the stack operation in that account and region.     FAILED: The account gate function has determined that the account and region does not meet the requirements for a stack set operation to occur. AWS CloudFormation cancels the stack set operation in that account and region, and sets the stack set operation result status for that account and region to FAILED.     SKIPPED: AWS CloudFormation has skipped calling the account gate function for this account and region, for one of the following reasons:   An account gate function has not been specified for the account and region. AWS CloudFormation proceeds with the stack set operation in this account and region.   The AWSCloudFormationStackSetExecutionRole of the stack set adminstration account lacks permissions to invoke the function. AWS CloudFormation proceeds with the stack set operation in this account and region.   Either no action is necessary, or no action is possible, on the stack. AWS CloudFormation skips the stack set operation in this account and region.    
         public let status: AccountGateStatus?
@@ -346,7 +346,7 @@ extension CloudFormation {
         }
     }
 
-    public struct AccountLimit: AWSShape {
+    public struct AccountLimit: AWSDecodableShape {
 
         /// The name of the account limit. Values: ConcurrentResourcesLimit | StackLimit | StackOutputsLimit 
         public let name: String?
@@ -364,7 +364,7 @@ extension CloudFormation {
         }
     }
 
-    public struct AutoDeployment: AWSShape {
+    public struct AutoDeployment: AWSEncodableShape & AWSDecodableShape {
 
         /// If set to true, StackSets automatically deploys additional stack instances to AWS Organizations accounts that are added to a target organization or organizational unit (OU) in the specified Regions. If an account is removed from a target organization or OU, StackSets deletes stack instances from the account in the specified Regions.
         public let enabled: Bool?
@@ -382,7 +382,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CancelUpdateStackInput: AWSShape {
+    public struct CancelUpdateStackInput: AWSEncodableShape {
 
         /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
@@ -406,7 +406,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Change: AWSShape {
+    public struct Change: AWSDecodableShape {
 
         /// A ResourceChange structure that describes the resource and action that AWS CloudFormation will perform.
         public let resourceChange: ResourceChange?
@@ -424,7 +424,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ChangeSetSummary: AWSShape {
+    public struct ChangeSetSummary: AWSDecodableShape {
 
         /// The ID of the change set.
         public let changeSetId: String?
@@ -470,7 +470,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ContinueUpdateRollbackInput: AWSShape {
+    public struct ContinueUpdateRollbackInput: AWSEncodableShape {
 
         /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
@@ -509,7 +509,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ContinueUpdateRollbackOutput: AWSShape {
+    public struct ContinueUpdateRollbackOutput: AWSDecodableShape {
 
 
         public init() {
@@ -517,7 +517,7 @@ extension CloudFormation {
 
     }
 
-    public struct CreateChangeSetInput: AWSShape {
+    public struct CreateChangeSetInput: AWSEncodableShape {
 
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.  This capacity does not apply to creating change sets, and specifying it when creating change sets has no effect. Also, change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information on macros, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?
@@ -622,7 +622,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateChangeSetOutput: AWSShape {
+    public struct CreateChangeSetOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the change set.
         public let id: String?
@@ -640,7 +640,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackInput: AWSShape {
+    public struct CreateStackInput: AWSEncodableShape {
 
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?
@@ -744,7 +744,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackInstancesInput: AWSShape {
+    public struct CreateStackInstancesInput: AWSEncodableShape {
 
         /// [Self-managed permissions] The names of one or more AWS accounts that you want to create stack instances in the specified region(s) for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCoding<DefaultArrayCoder> public var accounts: [String]?
@@ -796,7 +796,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackInstancesOutput: AWSShape {
+    public struct CreateStackInstancesOutput: AWSDecodableShape {
 
         /// The unique identifier for this stack set operation.
         public let operationId: String?
@@ -810,7 +810,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackOutput: AWSShape {
+    public struct CreateStackOutput: AWSDecodableShape {
 
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -824,7 +824,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackSetInput: AWSShape {
+    public struct CreateStackSetInput: AWSEncodableShape {
 
         /// The Amazon Resource Number (ARN) of the IAM role to use to create this stack set.  Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
         public let administrationRoleARN: String?
@@ -902,7 +902,7 @@ extension CloudFormation {
         }
     }
 
-    public struct CreateStackSetOutput: AWSShape {
+    public struct CreateStackSetOutput: AWSDecodableShape {
 
         /// The ID of the stack set that you're creating.
         public let stackSetId: String?
@@ -916,7 +916,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteChangeSetInput: AWSShape {
+    public struct DeleteChangeSetInput: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of the change set that you want to delete.
         public let changeSetName: String
@@ -942,7 +942,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteChangeSetOutput: AWSShape {
+    public struct DeleteChangeSetOutput: AWSDecodableShape {
 
 
         public init() {
@@ -950,7 +950,7 @@ extension CloudFormation {
 
     }
 
-    public struct DeleteStackInput: AWSShape {
+    public struct DeleteStackInput: AWSEncodableShape {
 
         /// A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
@@ -984,7 +984,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackInstancesInput: AWSShape {
+    public struct DeleteStackInstancesInput: AWSEncodableShape {
 
         /// [Self-managed permissions] The names of the AWS accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCoding<DefaultArrayCoder> public var accounts: [String]?
@@ -1036,7 +1036,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackInstancesOutput: AWSShape {
+    public struct DeleteStackInstancesOutput: AWSDecodableShape {
 
         /// The unique identifier for this stack set operation.
         public let operationId: String?
@@ -1050,7 +1050,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackSetInput: AWSShape {
+    public struct DeleteStackSetInput: AWSEncodableShape {
 
         /// The name or unique ID of the stack set that you're deleting. You can obtain this value by running ListStackSets.
         public let stackSetName: String
@@ -1064,7 +1064,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeleteStackSetOutput: AWSShape {
+    public struct DeleteStackSetOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1072,7 +1072,7 @@ extension CloudFormation {
 
     }
 
-    public struct DeploymentTargets: AWSShape {
+    public struct DeploymentTargets: AWSEncodableShape & AWSDecodableShape {
 
         /// The names of one or more AWS accounts for which you want to deploy stack set updates.
         @OptionalCoding<DefaultArrayCoder> public var accounts: [String]?
@@ -1099,7 +1099,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeregisterTypeInput: AWSShape {
+    public struct DeregisterTypeInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -1136,7 +1136,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DeregisterTypeOutput: AWSShape {
+    public struct DeregisterTypeOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1144,7 +1144,7 @@ extension CloudFormation {
 
     }
 
-    public struct DescribeAccountLimitsInput: AWSShape {
+    public struct DescribeAccountLimitsInput: AWSEncodableShape {
 
         /// A string that identifies the next page of limits that you want to retrieve.
         public let nextToken: String?
@@ -1163,7 +1163,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeAccountLimitsOutput: AWSShape {
+    public struct DescribeAccountLimitsOutput: AWSDecodableShape {
 
         /// An account limit structure that contain a list of AWS CloudFormation account limits and their values.
         @OptionalCoding<DefaultArrayCoder> public var accountLimits: [AccountLimit]?
@@ -1181,7 +1181,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeChangeSetInput: AWSShape {
+    public struct DescribeChangeSetInput: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
         public let changeSetName: String
@@ -1213,7 +1213,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeChangeSetOutput: AWSShape {
+    public struct DescribeChangeSetOutput: AWSDecodableShape {
 
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?
@@ -1287,7 +1287,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackDriftDetectionStatusInput: AWSShape {
+    public struct DescribeStackDriftDetectionStatusInput: AWSEncodableShape {
 
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
         public let stackDriftDetectionId: String
@@ -1306,7 +1306,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackDriftDetectionStatusOutput: AWSShape {
+    public struct DescribeStackDriftDetectionStatusOutput: AWSDecodableShape {
 
         /// The status of the stack drift detection operation.    DETECTION_COMPLETE: The stack drift detection operation has successfully completed for all resources in the stack that support drift detection. (Resources that do not currently support stack detection remain unchecked.) If you specified logical resource IDs for AWS CloudFormation to use as a filter for the stack drift detection operation, only the resources with those logical IDs are checked for drift.    DETECTION_FAILED: The stack drift detection operation has failed for at least one resource in the stack. Results will be available for resources on which AWS CloudFormation successfully completed drift detection.    DETECTION_IN_PROGRESS: The stack drift detection operation is currently in progress.  
         public let detectionStatus: StackDriftDetectionStatus
@@ -1344,7 +1344,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackEventsInput: AWSShape {
+    public struct DescribeStackEventsInput: AWSEncodableShape {
 
         /// A string that identifies the next page of events that you want to retrieve.
         public let nextToken: String?
@@ -1367,7 +1367,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackEventsOutput: AWSShape {
+    public struct DescribeStackEventsOutput: AWSDecodableShape {
 
         /// If the output exceeds 1 MB in size, a string that identifies the next page of events. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -1385,7 +1385,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackInstanceInput: AWSShape {
+    public struct DescribeStackInstanceInput: AWSEncodableShape {
 
         /// The ID of an AWS account that's associated with this stack instance.
         public let stackInstanceAccount: String
@@ -1412,7 +1412,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackInstanceOutput: AWSShape {
+    public struct DescribeStackInstanceOutput: AWSDecodableShape {
 
         /// The stack instance that matches the specified request parameters.
         public let stackInstance: StackInstance?
@@ -1426,7 +1426,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceDriftsInput: AWSShape {
+    public struct DescribeStackResourceDriftsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -1463,7 +1463,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceDriftsOutput: AWSShape {
+    public struct DescribeStackResourceDriftsOutput: AWSDecodableShape {
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call DescribeStackResourceDrifts again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -1481,7 +1481,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceInput: AWSShape {
+    public struct DescribeStackResourceInput: AWSEncodableShape {
 
         /// The logical name of the resource as specified in the template. Default: There is no default value.
         public let logicalResourceId: String
@@ -1499,7 +1499,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourceOutput: AWSShape {
+    public struct DescribeStackResourceOutput: AWSDecodableShape {
 
         /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
         public let stackResourceDetail: StackResourceDetail?
@@ -1513,7 +1513,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourcesInput: AWSShape {
+    public struct DescribeStackResourcesInput: AWSEncodableShape {
 
         /// The logical name of the resource as specified in the template. Default: There is no default value.
         public let logicalResourceId: String?
@@ -1535,7 +1535,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackResourcesOutput: AWSShape {
+    public struct DescribeStackResourcesOutput: AWSDecodableShape {
 
         /// A list of StackResource structures.
         @OptionalCoding<DefaultArrayCoder> public var stackResources: [StackResource]?
@@ -1549,7 +1549,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetInput: AWSShape {
+    public struct DescribeStackSetInput: AWSEncodableShape {
 
         /// The name or unique ID of the stack set whose description you want.
         public let stackSetName: String
@@ -1563,7 +1563,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetOperationInput: AWSShape {
+    public struct DescribeStackSetOperationInput: AWSEncodableShape {
 
         /// The unique ID of the stack set operation. 
         public let operationId: String
@@ -1587,7 +1587,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetOperationOutput: AWSShape {
+    public struct DescribeStackSetOperationOutput: AWSDecodableShape {
 
         /// The specified stack set operation.
         public let stackSetOperation: StackSetOperation?
@@ -1601,7 +1601,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStackSetOutput: AWSShape {
+    public struct DescribeStackSetOutput: AWSDecodableShape {
 
         /// The specified stack set.
         public let stackSet: StackSet?
@@ -1615,7 +1615,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStacksInput: AWSShape {
+    public struct DescribeStacksInput: AWSEncodableShape {
 
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
@@ -1638,7 +1638,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeStacksOutput: AWSShape {
+    public struct DescribeStacksOutput: AWSDecodableShape {
 
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -1656,7 +1656,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeInput: AWSShape {
+    public struct DescribeTypeInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -1693,7 +1693,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeOutput: AWSShape {
+    public struct DescribeTypeOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the type.
         public let arn: String?
@@ -1763,7 +1763,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeRegistrationInput: AWSShape {
+    public struct DescribeTypeRegistrationInput: AWSEncodableShape {
 
         /// The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using  RegisterType .
         public let registrationToken: String
@@ -1783,7 +1783,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DescribeTypeRegistrationOutput: AWSShape {
+    public struct DescribeTypeRegistrationOutput: AWSDecodableShape {
 
         /// The description of the type registration request.
         public let description: String?
@@ -1809,7 +1809,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackDriftInput: AWSShape {
+    public struct DetectStackDriftInput: AWSEncodableShape {
 
         /// The logical names of any resources you want to use as filters.
         @OptionalCoding<DefaultArrayCoder> public var logicalResourceIds: [String]?
@@ -1834,7 +1834,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackDriftOutput: AWSShape {
+    public struct DetectStackDriftOutput: AWSDecodableShape {
 
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
         public let stackDriftDetectionId: String
@@ -1848,7 +1848,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackResourceDriftInput: AWSShape {
+    public struct DetectStackResourceDriftInput: AWSEncodableShape {
 
         /// The logical name of the resource for which to return drift information.
         public let logicalResourceId: String
@@ -1871,7 +1871,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackResourceDriftOutput: AWSShape {
+    public struct DetectStackResourceDriftOutput: AWSDecodableShape {
 
         /// Information about whether the resource's actual configuration has drifted from its expected template configuration, including actual and expected property values and any differences detected.
         public let stackResourceDrift: StackResourceDrift
@@ -1885,7 +1885,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackSetDriftInput: AWSShape {
+    public struct DetectStackSetDriftInput: AWSEncodableShape {
 
         ///  The ID of the stack set operation. 
         public let operationId: String?
@@ -1914,7 +1914,7 @@ extension CloudFormation {
         }
     }
 
-    public struct DetectStackSetDriftOutput: AWSShape {
+    public struct DetectStackSetDriftOutput: AWSDecodableShape {
 
         /// The ID of the drift detection stack set operation.  you can use this operation id with  DescribeStackSetOperation  to monitor the progress of the drift detection operation. 
         public let operationId: String?
@@ -1928,7 +1928,7 @@ extension CloudFormation {
         }
     }
 
-    public struct EstimateTemplateCostInput: AWSShape {
+    public struct EstimateTemplateCostInput: AWSEncodableShape {
 
         /// A list of Parameter structures that specify input parameters.
         @OptionalCoding<DefaultArrayCoder> public var parameters: [Parameter]?
@@ -1956,7 +1956,7 @@ extension CloudFormation {
         }
     }
 
-    public struct EstimateTemplateCostOutput: AWSShape {
+    public struct EstimateTemplateCostOutput: AWSDecodableShape {
 
         /// An AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
         public let url: String?
@@ -1970,7 +1970,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ExecuteChangeSetInput: AWSShape {
+    public struct ExecuteChangeSetInput: AWSEncodableShape {
 
         /// The name or ARN of the change set that you want use to update the specified stack.
         public let changeSetName: String
@@ -2003,7 +2003,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ExecuteChangeSetOutput: AWSShape {
+    public struct ExecuteChangeSetOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2011,7 +2011,7 @@ extension CloudFormation {
 
     }
 
-    public struct Export: AWSShape {
+    public struct Export: AWSDecodableShape {
 
         /// The stack that contains the exported output name and value.
         public let exportingStackId: String?
@@ -2033,7 +2033,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetStackPolicyInput: AWSShape {
+    public struct GetStackPolicyInput: AWSEncodableShape {
 
         /// The name or unique stack ID that is associated with the stack whose policy you want to get.
         public let stackName: String
@@ -2047,7 +2047,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetStackPolicyOutput: AWSShape {
+    public struct GetStackPolicyOutput: AWSDecodableShape {
 
         /// Structure containing the stack policy body. (For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide.)
         public let stackPolicyBody: String?
@@ -2061,7 +2061,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateInput: AWSShape {
+    public struct GetTemplateInput: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of a change set for which AWS CloudFormation returns the associated template. If you specify a name, you must also specify the StackName.
         public let changeSetName: String?
@@ -2089,7 +2089,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateOutput: AWSShape {
+    public struct GetTemplateOutput: AWSDecodableShape {
 
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After AWS CloudFormation finishes creating the change set, the Processed template becomes available.
         @OptionalCoding<DefaultArrayCoder> public var stagesAvailable: [TemplateStage]?
@@ -2107,7 +2107,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateSummaryInput: AWSShape {
+    public struct GetTemplateSummaryInput: AWSEncodableShape {
 
         /// The name or the stack ID that is associated with the stack, which are not always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let stackName: String?
@@ -2142,7 +2142,7 @@ extension CloudFormation {
         }
     }
 
-    public struct GetTemplateSummaryOutput: AWSShape {
+    public struct GetTemplateSummaryOutput: AWSDecodableShape {
 
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?
@@ -2188,7 +2188,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListChangeSetsInput: AWSShape {
+    public struct ListChangeSetsInput: AWSEncodableShape {
 
         /// A string (provided by the ListChangeSets response output) that identifies the next page of change sets that you want to retrieve.
         public let nextToken: String?
@@ -2213,7 +2213,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListChangeSetsOutput: AWSShape {
+    public struct ListChangeSetsOutput: AWSDecodableShape {
 
         /// If the output exceeds 1 MB, a string that identifies the next page of change sets. If there is no additional page, this value is null.
         public let nextToken: String?
@@ -2231,7 +2231,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListExportsInput: AWSShape {
+    public struct ListExportsInput: AWSEncodableShape {
 
         /// A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
         public let nextToken: String?
@@ -2250,7 +2250,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListExportsOutput: AWSShape {
+    public struct ListExportsOutput: AWSDecodableShape {
 
         /// The output for the ListExports action.
         @OptionalCoding<DefaultArrayCoder> public var exports: [Export]?
@@ -2268,7 +2268,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListImportsInput: AWSShape {
+    public struct ListImportsInput: AWSEncodableShape {
 
         /// The name of the exported output value. AWS CloudFormation returns the stack names that are importing this value. 
         public let exportName: String
@@ -2291,7 +2291,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListImportsOutput: AWSShape {
+    public struct ListImportsOutput: AWSDecodableShape {
 
         /// A list of stack names that are importing the specified exported output value. 
         @OptionalCoding<DefaultArrayCoder> public var imports: [String]?
@@ -2309,7 +2309,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackInstancesInput: AWSShape {
+    public struct ListStackInstancesInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2348,7 +2348,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackInstancesOutput: AWSShape {
+    public struct ListStackInstancesOutput: AWSDecodableShape {
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -2366,7 +2366,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackResourcesInput: AWSShape {
+    public struct ListStackResourcesInput: AWSEncodableShape {
 
         /// A string that identifies the next page of stack resources that you want to retrieve.
         public let nextToken: String?
@@ -2389,7 +2389,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackResourcesOutput: AWSShape {
+    public struct ListStackResourcesOutput: AWSDecodableShape {
 
         /// If the output exceeds 1 MB, a string that identifies the next page of stack resources. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -2407,7 +2407,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationResultsInput: AWSShape {
+    public struct ListStackSetOperationResultsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2443,7 +2443,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationResultsOutput: AWSShape {
+    public struct ListStackSetOperationResultsOutput: AWSDecodableShape {
 
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
         public let nextToken: String?
@@ -2461,7 +2461,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationsInput: AWSShape {
+    public struct ListStackSetOperationsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2490,7 +2490,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetOperationsOutput: AWSShape {
+    public struct ListStackSetOperationsOutput: AWSDecodableShape {
 
         /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
         public let nextToken: String?
@@ -2508,7 +2508,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetsInput: AWSShape {
+    public struct ListStackSetsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2537,7 +2537,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStackSetsOutput: AWSShape {
+    public struct ListStackSetsOutput: AWSDecodableShape {
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -2555,7 +2555,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStacksInput: AWSShape {
+    public struct ListStacksInput: AWSEncodableShape {
 
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
@@ -2578,7 +2578,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListStacksOutput: AWSShape {
+    public struct ListStacksOutput: AWSDecodableShape {
 
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -2596,7 +2596,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeRegistrationsInput: AWSShape {
+    public struct ListTypeRegistrationsInput: AWSEncodableShape {
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
@@ -2642,7 +2642,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeRegistrationsOutput: AWSShape {
+    public struct ListTypeRegistrationsOutput: AWSDecodableShape {
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -2660,7 +2660,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeVersionsInput: AWSShape {
+    public struct ListTypeVersionsInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -2706,7 +2706,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypeVersionsOutput: AWSShape {
+    public struct ListTypeVersionsOutput: AWSDecodableShape {
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -2724,7 +2724,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypesInput: AWSShape {
+    public struct ListTypesInput: AWSEncodableShape {
 
         /// The deprecation status of the types that you want to get summary information about. Valid values include:    LIVE: The type is registered for use in CloudFormation operations.    DEPRECATED: The type has been deregistered and can no longer be used in CloudFormation operations.   
         public let deprecatedStatus: DeprecatedStatus?
@@ -2761,7 +2761,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ListTypesOutput: AWSShape {
+    public struct ListTypesOutput: AWSDecodableShape {
 
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
@@ -2779,7 +2779,7 @@ extension CloudFormation {
         }
     }
 
-    public struct LoggingConfig: AWSShape {
+    public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon CloudWatch log group to which CloudFormation sends error logging information when invoking the type's handlers.
         public let logGroupName: String
@@ -2806,7 +2806,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Output: AWSShape {
+    public struct Output: AWSDecodableShape {
 
         /// User defined description associated with the output.
         public let description: String?
@@ -2832,7 +2832,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template.
         public let parameterKey: String?
@@ -2858,7 +2858,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ParameterConstraints: AWSShape {
+    public struct ParameterConstraints: AWSDecodableShape {
 
         /// A list of values that are permitted for a parameter.
         @OptionalCoding<DefaultArrayCoder> public var allowedValues: [String]?
@@ -2872,7 +2872,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ParameterDeclaration: AWSShape {
+    public struct ParameterDeclaration: AWSDecodableShape {
 
         /// The default value of the parameter.
         public let defaultValue: String?
@@ -2906,7 +2906,7 @@ extension CloudFormation {
         }
     }
 
-    public struct PhysicalResourceIdContextKeyValuePair: AWSShape {
+    public struct PhysicalResourceIdContextKeyValuePair: AWSDecodableShape {
 
         /// The resource context key.
         public let key: String
@@ -2924,7 +2924,7 @@ extension CloudFormation {
         }
     }
 
-    public struct PropertyDifference: AWSShape {
+    public struct PropertyDifference: AWSDecodableShape {
 
         /// The actual property value of the resource property.
         public let actualValue: String
@@ -2950,7 +2950,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RecordHandlerProgressInput: AWSShape {
+    public struct RecordHandlerProgressInput: AWSEncodableShape {
 
         /// Reserved for use by the CloudFormation CLI.
         public let bearerToken: String
@@ -2999,7 +2999,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RecordHandlerProgressOutput: AWSShape {
+    public struct RecordHandlerProgressOutput: AWSDecodableShape {
 
 
         public init() {
@@ -3007,7 +3007,7 @@ extension CloudFormation {
 
     }
 
-    public struct RegisterTypeInput: AWSShape {
+    public struct RegisterTypeInput: AWSEncodableShape {
 
         /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of a type from the same registeration request, even if the request is submitted multiple times. 
         public let clientRequestToken: String?
@@ -3056,7 +3056,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RegisterTypeOutput: AWSShape {
+    public struct RegisterTypeOutput: AWSDecodableShape {
 
         /// The identifier for this registration request. Use this registration token when calling  DescribeTypeRegistration , which returns information about the status and IDs of the type registration. 
         public let registrationToken: String?
@@ -3070,7 +3070,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceChange: AWSShape {
+    public struct ResourceChange: AWSDecodableShape {
 
         /// The action that AWS CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), or Remove (deletes a resource).
         public let action: ChangeAction?
@@ -3108,7 +3108,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceChangeDetail: AWSShape {
+    public struct ResourceChangeDetail: AWSDecodableShape {
 
         /// The identity of the entity that triggered this change. This entity is a member of the group that is specified by the ChangeSource field. For example, if you modified the value of the KeyPairName parameter, the CausingEntity is the name of the parameter (KeyPairName). If the ChangeSource value is DirectModification, no value is given for CausingEntity.
         public let causingEntity: String?
@@ -3134,7 +3134,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceIdentifierSummary: AWSShape {
+    public struct ResourceIdentifierSummary: AWSDecodableShape {
 
         /// The logical IDs of the target resources of the specified ResourceType, as defined in the import template.
         @OptionalCoding<DefaultArrayCoder> public var logicalResourceIds: [String]?
@@ -3156,7 +3156,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceTargetDefinition: AWSShape {
+    public struct ResourceTargetDefinition: AWSDecodableShape {
 
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public let attribute: ResourceAttribute?
@@ -3178,7 +3178,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ResourceToImport: AWSShape {
+    public struct ResourceToImport: AWSEncodableShape {
 
         /// The logical ID of the target resource as specified in the template.
         public let logicalResourceId: String
@@ -3211,7 +3211,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RollbackConfiguration: AWSShape {
+    public struct RollbackConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
         public let monitoringTimeInMinutes: Int?
@@ -3235,7 +3235,7 @@ extension CloudFormation {
         }
     }
 
-    public struct RollbackTrigger: AWSShape {
+    public struct RollbackTrigger: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back. 
         public let arn: String
@@ -3253,7 +3253,7 @@ extension CloudFormation {
         }
     }
 
-    public struct SetStackPolicyInput: AWSShape {
+    public struct SetStackPolicyInput: AWSEncodableShape {
 
         /// The name or unique stack ID that you want to associate a policy with.
         public let stackName: String
@@ -3282,7 +3282,7 @@ extension CloudFormation {
         }
     }
 
-    public struct SetTypeDefaultVersionInput: AWSShape {
+    public struct SetTypeDefaultVersionInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
@@ -3319,7 +3319,7 @@ extension CloudFormation {
         }
     }
 
-    public struct SetTypeDefaultVersionOutput: AWSShape {
+    public struct SetTypeDefaultVersionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -3327,7 +3327,7 @@ extension CloudFormation {
 
     }
 
-    public struct SignalResourceInput: AWSShape {
+    public struct SignalResourceInput: AWSEncodableShape {
 
         /// The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
         public let logicalResourceId: String
@@ -3360,7 +3360,7 @@ extension CloudFormation {
         }
     }
 
-    public struct Stack: AWSShape {
+    public struct Stack: AWSDecodableShape {
 
         /// The capabilities allowed in the stack.
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?
@@ -3458,7 +3458,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackDriftInformation: AWSShape {
+    public struct StackDriftInformation: AWSDecodableShape {
 
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: TimeStamp?
@@ -3476,7 +3476,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackDriftInformationSummary: AWSShape {
+    public struct StackDriftInformationSummary: AWSDecodableShape {
 
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: TimeStamp?
@@ -3494,7 +3494,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackEvent: AWSShape {
+    public struct StackEvent: AWSDecodableShape {
 
         /// The token passed to the operation that generated this event. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
@@ -3548,7 +3548,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackInstance: AWSShape {
+    public struct StackInstance: AWSDecodableShape {
 
         /// [Self-managed permissions] The name of the AWS account that the stack instance is associated with.
         public let account: String?
@@ -3598,7 +3598,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackInstanceSummary: AWSShape {
+    public struct StackInstanceSummary: AWSDecodableShape {
 
         /// [Self-managed permissions] The name of the AWS account that the stack instance is associated with.
         public let account: String?
@@ -3644,7 +3644,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResource: AWSShape {
+    public struct StackResource: AWSDecodableShape {
 
         /// User defined description associated with the resource.
         public let description: String?
@@ -3694,7 +3694,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDetail: AWSShape {
+    public struct StackResourceDetail: AWSDecodableShape {
 
         /// User defined description associated with the resource.
         public let description: String?
@@ -3748,7 +3748,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDrift: AWSShape {
+    public struct StackResourceDrift: AWSDecodableShape {
 
         /// A JSON structure containing the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present. 
         public let actualProperties: String?
@@ -3798,7 +3798,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDriftInformation: AWSShape {
+    public struct StackResourceDriftInformation: AWSDecodableShape {
 
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: TimeStamp?
@@ -3816,7 +3816,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceDriftInformationSummary: AWSShape {
+    public struct StackResourceDriftInformationSummary: AWSDecodableShape {
 
         /// When AWS CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: TimeStamp?
@@ -3834,7 +3834,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackResourceSummary: AWSShape {
+    public struct StackResourceSummary: AWSDecodableShape {
 
         /// Information about whether the resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources.
         public let driftInformation: StackResourceDriftInformationSummary?
@@ -3872,7 +3872,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSet: AWSShape {
+    public struct StackSet: AWSDecodableShape {
 
         /// The Amazon Resource Number (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
         public let administrationRoleARN: String?
@@ -3942,7 +3942,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetDriftDetectionDetails: AWSShape {
+    public struct StackSetDriftDetectionDetails: AWSDecodableShape {
 
         /// The status of the stack set drift detection operation.    COMPLETED: The drift detection operation completed without failing on any stack instances.    FAILED: The drift detection operation exceeded the specified failure tolerance.     PARTIAL_SUCCESS: The drift detection operation completed without exceeding the failure tolerance for the operation.    IN_PROGRESS: The drift detection operation is currently being performed.    STOPPED: The user has cancelled the drift detection operation.  
         public let driftDetectionStatus: StackSetDriftDetectionStatus?
@@ -3984,7 +3984,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperation: AWSShape {
+    public struct StackSetOperation: AWSDecodableShape {
 
         /// The type of stack set operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack set instances that are associated with the specified stack set. Update operations affect both the stack set itself, as well as all associated stack set instances.
         public let action: StackSetOperationAction?
@@ -4042,7 +4042,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperationPreferences: AWSShape {
+    public struct StackSetOperationPreferences: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of accounts, per region, for which this operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both).
         public let failureToleranceCount: Int?
@@ -4084,7 +4084,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperationResultSummary: AWSShape {
+    public struct StackSetOperationResultSummary: AWSDecodableShape {
 
         /// [Self-managed permissions] The name of the AWS account for this operation result.
         public let account: String?
@@ -4118,7 +4118,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetOperationSummary: AWSShape {
+    public struct StackSetOperationSummary: AWSDecodableShape {
 
         /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself as well as all associated stack set instances.
         public let action: StackSetOperationAction?
@@ -4148,7 +4148,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSetSummary: AWSShape {
+    public struct StackSetSummary: AWSDecodableShape {
 
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to AWS Organizations accounts that are added to a target organizational unit (OU).
         public let autoDeployment: AutoDeployment?
@@ -4190,7 +4190,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StackSummary: AWSShape {
+    public struct StackSummary: AWSDecodableShape {
 
         /// The time the stack was created.
         public let creationTime: TimeStamp
@@ -4244,7 +4244,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StopStackSetOperationInput: AWSShape {
+    public struct StopStackSetOperationInput: AWSEncodableShape {
 
         /// The ID of the stack operation. 
         public let operationId: String
@@ -4268,7 +4268,7 @@ extension CloudFormation {
         }
     }
 
-    public struct StopStackSetOperationOutput: AWSShape {
+    public struct StopStackSetOperationOutput: AWSDecodableShape {
 
 
         public init() {
@@ -4276,7 +4276,7 @@ extension CloudFormation {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
         public let key: String
@@ -4301,7 +4301,7 @@ extension CloudFormation {
         }
     }
 
-    public struct TemplateParameter: AWSShape {
+    public struct TemplateParameter: AWSDecodableShape {
 
         /// The default value associated with the parameter.
         public let defaultValue: String?
@@ -4327,7 +4327,7 @@ extension CloudFormation {
         }
     }
 
-    public struct TypeSummary: AWSShape {
+    public struct TypeSummary: AWSDecodableShape {
 
         /// The ID of the default version of the type. The default version is used when the type version is not specified. To set the default version of a type, use  SetTypeDefaultVersion . 
         public let defaultVersionId: String?
@@ -4361,7 +4361,7 @@ extension CloudFormation {
         }
     }
 
-    public struct TypeVersionSummary: AWSShape {
+    public struct TypeVersionSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the type version.
         public let arn: String?
@@ -4395,7 +4395,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackInput: AWSShape {
+    public struct UpdateStackInput: AWSEncodableShape {
 
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?
@@ -4498,7 +4498,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackInstancesInput: AWSShape {
+    public struct UpdateStackInstancesInput: AWSEncodableShape {
 
         /// [Self-managed permissions] The names of one or more AWS accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and regions. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCoding<DefaultArrayCoder> public var accounts: [String]?
@@ -4551,7 +4551,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackInstancesOutput: AWSShape {
+    public struct UpdateStackInstancesOutput: AWSDecodableShape {
 
         /// The unique identifier for this stack set operation. 
         public let operationId: String?
@@ -4565,7 +4565,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackOutput: AWSShape {
+    public struct UpdateStackOutput: AWSDecodableShape {
 
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -4579,7 +4579,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackSetInput: AWSShape {
+    public struct UpdateStackSetInput: AWSEncodableShape {
 
         /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the regions in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, AWS CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and regions. If the stack set update does not include changes to the template or parameters, AWS CloudFormation updates the stack instances in the specified accounts and regions, while leaving all other stack instances with their existing stack instance status. 
         @OptionalCoding<DefaultArrayCoder> public var accounts: [String]?
@@ -4685,7 +4685,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateStackSetOutput: AWSShape {
+    public struct UpdateStackSetOutput: AWSDecodableShape {
 
         /// The unique ID for this stack set operation.
         public let operationId: String?
@@ -4699,7 +4699,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateTerminationProtectionInput: AWSShape {
+    public struct UpdateTerminationProtectionInput: AWSEncodableShape {
 
         /// Whether to enable termination protection on the specified stack.
         public let enableTerminationProtection: Bool
@@ -4722,7 +4722,7 @@ extension CloudFormation {
         }
     }
 
-    public struct UpdateTerminationProtectionOutput: AWSShape {
+    public struct UpdateTerminationProtectionOutput: AWSDecodableShape {
 
         /// The unique ID of the stack.
         public let stackId: String?
@@ -4736,7 +4736,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ValidateTemplateInput: AWSShape {
+    public struct ValidateTemplateInput: AWSEncodableShape {
 
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateBody: String?
@@ -4760,7 +4760,7 @@ extension CloudFormation {
         }
     }
 
-    public struct ValidateTemplateOutput: AWSShape {
+    public struct ValidateTemplateOutput: AWSDecodableShape {
 
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         @OptionalCoding<DefaultArrayCoder> public var capabilities: [Capability]?

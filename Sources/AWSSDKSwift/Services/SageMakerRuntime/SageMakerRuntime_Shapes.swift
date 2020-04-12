@@ -22,7 +22,7 @@ extension SageMakerRuntime {
 
     //MARK: Shapes
 
-    public struct InvokeEndpointInput: AWSShape {
+    public struct InvokeEndpointInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [
@@ -37,7 +37,7 @@ extension SageMakerRuntime {
         /// The desired MIME type of the inference in the response.
         public let accept: String?
         /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats—Inference.
-        public let body: Data
+        public let body: AWSPayload
         /// The MIME type of the input data in the request body.
         public let contentType: String?
         /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python SDK.
@@ -47,7 +47,7 @@ extension SageMakerRuntime {
         /// Specifies the model to be requested for an inference when invoking a multi-model endpoint. 
         public let targetModel: String?
 
-        public init(accept: String? = nil, body: Data, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, targetModel: String? = nil) {
+        public init(accept: String? = nil, body: AWSPayload, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, targetModel: String? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -71,17 +71,10 @@ extension SageMakerRuntime {
             try validate(self.targetModel, name:"targetModel", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
-            case body = "Body"
-            case contentType = "Content-Type"
-            case customAttributes = "X-Amzn-SageMaker-Custom-Attributes"
-            case endpointName = "EndpointName"
-            case targetModel = "X-Amzn-SageMaker-Target-Model"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct InvokeEndpointOutput: AWSShape {
+    public struct InvokeEndpointOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "body"
         public static var _encoding = [

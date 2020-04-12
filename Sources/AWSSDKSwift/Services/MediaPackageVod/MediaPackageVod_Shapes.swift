@@ -66,7 +66,7 @@ extension MediaPackageVod {
 
     //MARK: Shapes
 
-    public struct AssetShallow: AWSShape {
+    public struct AssetShallow: AWSDecodableShape {
 
         /// The ARN of the Asset.
         public let arn: String?
@@ -104,7 +104,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CmafEncryption: AWSShape {
+    public struct CmafEncryption: AWSEncodableShape & AWSDecodableShape {
 
         public let spekeKeyProvider: SpekeKeyProvider
 
@@ -117,7 +117,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CmafPackage: AWSShape {
+    public struct CmafPackage: AWSEncodableShape & AWSDecodableShape {
 
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations.
@@ -139,7 +139,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CreateAssetRequest: AWSShape {
+    public struct CreateAssetRequest: AWSEncodableShape {
 
         public let id: String
         public let packagingGroupId: String
@@ -164,7 +164,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CreateAssetResponse: AWSShape {
+    public struct CreateAssetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let createdAt: String?
@@ -198,7 +198,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CreatePackagingConfigurationRequest: AWSShape {
+    public struct CreatePackagingConfigurationRequest: AWSEncodableShape {
 
         public let cmafPackage: CmafPackage?
         public let dashPackage: DashPackage?
@@ -226,7 +226,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CreatePackagingConfigurationResponse: AWSShape {
+    public struct CreatePackagingConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let cmafPackage: CmafPackage?
@@ -257,7 +257,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CreatePackagingGroupRequest: AWSShape {
+    public struct CreatePackagingGroupRequest: AWSEncodableShape {
 
         public let id: String
 
@@ -270,7 +270,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct CreatePackagingGroupResponse: AWSShape {
+    public struct CreatePackagingGroupResponse: AWSDecodableShape {
 
         public let arn: String?
         public let domainName: String?
@@ -289,7 +289,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct DashEncryption: AWSShape {
+    public struct DashEncryption: AWSEncodableShape & AWSDecodableShape {
 
         public let spekeKeyProvider: SpekeKeyProvider
 
@@ -302,7 +302,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct DashManifest: AWSShape {
+    public struct DashManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// Determines the position of some tags in the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate and ContentProtection are included in each Representation.  When set to COMPACT, duplicate elements are combined and presented at the AdaptationSet level.
         public let manifestLayout: ManifestLayout?
@@ -331,7 +331,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct DashPackage: AWSShape {
+    public struct DashPackage: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of DASH manifest configurations.
         public let dashManifests: [DashManifest]
@@ -364,7 +364,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct DeleteAssetRequest: AWSShape {
+    public struct DeleteAssetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -375,12 +375,10 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteAssetResponse: AWSShape {
+    public struct DeleteAssetResponse: AWSDecodableShape {
 
 
         public init() {
@@ -388,7 +386,7 @@ extension MediaPackageVod {
 
     }
 
-    public struct DeletePackagingConfigurationRequest: AWSShape {
+    public struct DeletePackagingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -399,12 +397,10 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePackagingConfigurationResponse: AWSShape {
+    public struct DeletePackagingConfigurationResponse: AWSDecodableShape {
 
 
         public init() {
@@ -412,7 +408,7 @@ extension MediaPackageVod {
 
     }
 
-    public struct DeletePackagingGroupRequest: AWSShape {
+    public struct DeletePackagingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -423,12 +419,10 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePackagingGroupResponse: AWSShape {
+    public struct DeletePackagingGroupResponse: AWSDecodableShape {
 
 
         public init() {
@@ -436,7 +430,7 @@ extension MediaPackageVod {
 
     }
 
-    public struct DescribeAssetRequest: AWSShape {
+    public struct DescribeAssetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -447,12 +441,10 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAssetResponse: AWSShape {
+    public struct DescribeAssetResponse: AWSDecodableShape {
 
         public let arn: String?
         public let createdAt: String?
@@ -486,7 +478,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct DescribePackagingConfigurationRequest: AWSShape {
+    public struct DescribePackagingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -497,12 +489,10 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribePackagingConfigurationResponse: AWSShape {
+    public struct DescribePackagingConfigurationResponse: AWSDecodableShape {
 
         public let arn: String?
         public let cmafPackage: CmafPackage?
@@ -533,7 +523,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct DescribePackagingGroupRequest: AWSShape {
+    public struct DescribePackagingGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
@@ -544,12 +534,10 @@ extension MediaPackageVod {
             self.id = id
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribePackagingGroupResponse: AWSShape {
+    public struct DescribePackagingGroupResponse: AWSDecodableShape {
 
         public let arn: String?
         public let domainName: String?
@@ -568,7 +556,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct EgressEndpoint: AWSShape {
+    public struct EgressEndpoint: AWSDecodableShape {
 
         /// The ID of the PackagingConfiguration being applied to the Asset.
         public let packagingConfigurationId: String?
@@ -586,7 +574,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct HlsEncryption: AWSShape {
+    public struct HlsEncryption: AWSEncodableShape & AWSDecodableShape {
 
         /// A constant initialization vector for encryption (optional).
         /// When not specified the initialization vector will be periodically rotated.
@@ -608,7 +596,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct HlsManifest: AWSShape {
+    public struct HlsManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// This setting controls how ad markers are included in the packaged OriginEndpoint.
         /// "NONE" will omit all SCTE-35 ad markers from the output.
@@ -654,7 +642,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct HlsPackage: AWSShape {
+    public struct HlsPackage: AWSEncodableShape & AWSDecodableShape {
 
         public let encryption: HlsEncryption?
         /// A list of HLS manifest configurations.
@@ -680,7 +668,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct ListAssetsRequest: AWSShape {
+    public struct ListAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -702,14 +690,10 @@ extension MediaPackageVod {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case packagingGroupId = "packagingGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAssetsResponse: AWSShape {
+    public struct ListAssetsResponse: AWSDecodableShape {
 
         public let assets: [AssetShallow]?
         public let nextToken: String?
@@ -725,7 +709,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct ListPackagingConfigurationsRequest: AWSShape {
+    public struct ListPackagingConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
@@ -747,14 +731,10 @@ extension MediaPackageVod {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case packagingGroupId = "packagingGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPackagingConfigurationsResponse: AWSShape {
+    public struct ListPackagingConfigurationsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let packagingConfigurations: [PackagingConfiguration]?
@@ -770,7 +750,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct ListPackagingGroupsRequest: AWSShape {
+    public struct ListPackagingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -789,13 +769,10 @@ extension MediaPackageVod {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPackagingGroupsResponse: AWSShape {
+    public struct ListPackagingGroupsResponse: AWSDecodableShape {
 
         public let nextToken: String?
         public let packagingGroups: [PackagingGroup]?
@@ -811,7 +788,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct MssEncryption: AWSShape {
+    public struct MssEncryption: AWSEncodableShape & AWSDecodableShape {
 
         public let spekeKeyProvider: SpekeKeyProvider
 
@@ -824,7 +801,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct MssManifest: AWSShape {
+    public struct MssManifest: AWSEncodableShape & AWSDecodableShape {
 
         /// An optional string to include in the name of the manifest.
         public let manifestName: String?
@@ -841,7 +818,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct MssPackage: AWSShape {
+    public struct MssPackage: AWSEncodableShape & AWSDecodableShape {
 
         public let encryption: MssEncryption?
         /// A list of MSS manifest configurations.
@@ -862,7 +839,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct PackagingConfiguration: AWSShape {
+    public struct PackagingConfiguration: AWSDecodableShape {
 
         /// The ARN of the PackagingConfiguration.
         public let arn: String?
@@ -896,7 +873,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct PackagingGroup: AWSShape {
+    public struct PackagingGroup: AWSDecodableShape {
 
         /// The ARN of the PackagingGroup.
         public let arn: String?
@@ -918,7 +895,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct SpekeKeyProvider: AWSShape {
+    public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
         /// MediaPackage will assume when accessing the key provider service.
@@ -941,7 +918,7 @@ extension MediaPackageVod {
         }
     }
 
-    public struct StreamSelection: AWSShape {
+    public struct StreamSelection: AWSEncodableShape & AWSDecodableShape {
 
         /// The maximum video bitrate (bps) to include in output.
         public let maxVideoBitsPerSecond: Int?

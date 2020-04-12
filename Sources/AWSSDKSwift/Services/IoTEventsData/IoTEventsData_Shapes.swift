@@ -31,7 +31,7 @@ extension IoTEventsData {
 
     //MARK: Shapes
 
-    public struct BatchPutMessageErrorEntry: AWSShape {
+    public struct BatchPutMessageErrorEntry: AWSDecodableShape {
 
         /// The code associated with the error.
         public let errorCode: ErrorCode?
@@ -53,7 +53,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct BatchPutMessageRequest: AWSShape {
+    public struct BatchPutMessageRequest: AWSEncodableShape {
 
         /// The list of messages to send. Each message has the following format: '{ "messageId": "string", "inputName": "string", "payload": "string"}' 
         public let messages: [Message]
@@ -74,7 +74,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct BatchPutMessageResponse: AWSShape {
+    public struct BatchPutMessageResponse: AWSDecodableShape {
 
         /// A list of any errors encountered when sending the messages.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
@@ -88,7 +88,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct BatchUpdateDetectorErrorEntry: AWSShape {
+    public struct BatchUpdateDetectorErrorEntry: AWSDecodableShape {
 
         /// The code of the error.
         public let errorCode: ErrorCode?
@@ -110,7 +110,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct BatchUpdateDetectorRequest: AWSShape {
+    public struct BatchUpdateDetectorRequest: AWSEncodableShape {
 
         /// The list of detectors (instances) to update, along with the values to update.
         public let detectors: [UpdateDetectorRequest]
@@ -131,7 +131,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct BatchUpdateDetectorResponse: AWSShape {
+    public struct BatchUpdateDetectorResponse: AWSDecodableShape {
 
         /// A list of those detector updates that resulted in errors. (If an error is listed here, the specific update did not occur.)
         public let batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]?
@@ -145,7 +145,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct DescribeDetectorRequest: AWSShape {
+    public struct DescribeDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
             AWSMemberEncoding(label: "keyValue", location: .querystring(locationName: "keyValue"))
@@ -170,13 +170,10 @@ extension IoTEventsData {
             try validate(self.keyValue, name:"keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case keyValue = "keyValue"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeDetectorResponse: AWSShape {
+    public struct DescribeDetectorResponse: AWSDecodableShape {
 
         /// Information about the detector (instance).
         public let detector: Detector?
@@ -190,7 +187,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct Detector: AWSShape {
+    public struct Detector: AWSDecodableShape {
 
         /// The time the detector (instance) was created.
         public let creationTime: TimeStamp?
@@ -224,7 +221,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct DetectorState: AWSShape {
+    public struct DetectorState: AWSDecodableShape {
 
         /// The name of the state.
         public let stateName: String
@@ -246,7 +243,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct DetectorStateDefinition: AWSShape {
+    public struct DetectorStateDefinition: AWSEncodableShape {
 
         /// The name of the new state of the detector (instance).
         public let stateName: String
@@ -279,7 +276,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct DetectorStateSummary: AWSShape {
+    public struct DetectorStateSummary: AWSDecodableShape {
 
         /// The name of the state.
         public let stateName: String?
@@ -293,7 +290,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct DetectorSummary: AWSShape {
+    public struct DetectorSummary: AWSDecodableShape {
 
         /// The time the detector (instance) was created.
         public let creationTime: TimeStamp?
@@ -327,7 +324,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct ListDetectorsRequest: AWSShape {
+    public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -361,15 +358,10 @@ extension IoTEventsData {
             try validate(self.stateName, name:"stateName", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case stateName = "stateName"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDetectorsResponse: AWSShape {
+    public struct ListDetectorsResponse: AWSDecodableShape {
 
         /// A list of summary information about the detectors (instances).
         public let detectorSummaries: [DetectorSummary]?
@@ -387,7 +379,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct Message: AWSShape {
+    public struct Message: AWSEncodableShape {
 
         /// The name of the input into which the message payload is transformed.
         public let inputName: String
@@ -418,7 +410,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct Timer: AWSShape {
+    public struct Timer: AWSDecodableShape {
 
         /// The name of the timer.
         public let name: String
@@ -436,7 +428,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct TimerDefinition: AWSShape {
+    public struct TimerDefinition: AWSEncodableShape {
 
         /// The name of the timer.
         public let name: String
@@ -459,7 +451,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct UpdateDetectorRequest: AWSShape {
+    public struct UpdateDetectorRequest: AWSEncodableShape {
 
         /// The name of the detector model that created the detectors (instances).
         public let detectorModelName: String
@@ -498,7 +490,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct Variable: AWSShape {
+    public struct Variable: AWSDecodableShape {
 
         /// The name of the variable.
         public let name: String
@@ -516,7 +508,7 @@ extension IoTEventsData {
         }
     }
 
-    public struct VariableDefinition: AWSShape {
+    public struct VariableDefinition: AWSEncodableShape {
 
         /// The name of the variable.
         public let name: String

@@ -49,7 +49,7 @@ extension QLDB {
 
     //MARK: Shapes
 
-    public struct CreateLedgerRequest: AWSShape {
+    public struct CreateLedgerRequest: AWSEncodableShape {
 
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
         public let deletionProtection: Bool?
@@ -87,7 +87,7 @@ extension QLDB {
         }
     }
 
-    public struct CreateLedgerResponse: AWSShape {
+    public struct CreateLedgerResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
@@ -117,7 +117,7 @@ extension QLDB {
         }
     }
 
-    public struct DeleteLedgerRequest: AWSShape {
+    public struct DeleteLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -135,12 +135,10 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeJournalS3ExportRequest: AWSShape {
+    public struct DescribeJournalS3ExportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -165,13 +163,10 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportId = "exportId"
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeJournalS3ExportResponse: AWSShape {
+    public struct DescribeJournalS3ExportResponse: AWSDecodableShape {
 
         /// Information about the journal export job returned by a DescribeJournalS3Export request.
         public let exportDescription: JournalS3ExportDescription
@@ -185,7 +180,7 @@ extension QLDB {
         }
     }
 
-    public struct DescribeLedgerRequest: AWSShape {
+    public struct DescribeLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -203,12 +198,10 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeLedgerResponse: AWSShape {
+    public struct DescribeLedgerResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
@@ -238,7 +231,7 @@ extension QLDB {
         }
     }
 
-    public struct ExportJournalToS3Request: AWSShape {
+    public struct ExportJournalToS3Request: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -274,13 +267,12 @@ extension QLDB {
         private enum CodingKeys: String, CodingKey {
             case exclusiveEndTime = "ExclusiveEndTime"
             case inclusiveStartTime = "InclusiveStartTime"
-            case name = "name"
             case roleArn = "RoleArn"
             case s3ExportConfiguration = "S3ExportConfiguration"
         }
     }
 
-    public struct ExportJournalToS3Response: AWSShape {
+    public struct ExportJournalToS3Response: AWSDecodableShape {
 
         /// The unique ID that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
         public let exportId: String
@@ -294,7 +286,7 @@ extension QLDB {
         }
     }
 
-    public struct GetBlockRequest: AWSShape {
+    public struct GetBlockRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -323,11 +315,10 @@ extension QLDB {
         private enum CodingKeys: String, CodingKey {
             case blockAddress = "BlockAddress"
             case digestTipAddress = "DigestTipAddress"
-            case name = "name"
         }
     }
 
-    public struct GetBlockResponse: AWSShape {
+    public struct GetBlockResponse: AWSDecodableShape {
 
         /// The block data object in Amazon Ion format.
         public let block: ValueHolder
@@ -345,7 +336,7 @@ extension QLDB {
         }
     }
 
-    public struct GetDigestRequest: AWSShape {
+    public struct GetDigestRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -363,12 +354,10 @@ extension QLDB {
             try validate(self.name, name:"name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDigestResponse: AWSShape {
+    public struct GetDigestResponse: AWSDecodableShape {
 
         /// The 256-bit hash value representing the digest returned by a GetDigest request.
         public let digest: Data
@@ -386,7 +375,7 @@ extension QLDB {
         }
     }
 
-    public struct GetRevisionRequest: AWSShape {
+    public struct GetRevisionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -422,11 +411,10 @@ extension QLDB {
             case blockAddress = "BlockAddress"
             case digestTipAddress = "DigestTipAddress"
             case documentId = "DocumentId"
-            case name = "name"
         }
     }
 
-    public struct GetRevisionResponse: AWSShape {
+    public struct GetRevisionResponse: AWSDecodableShape {
 
         /// The proof object in Amazon Ion format returned by a GetRevision request. A proof contains the list of hash values that are required to recalculate the specified digest using a Merkle tree, starting with the specified document revision.
         public let proof: ValueHolder?
@@ -444,7 +432,7 @@ extension QLDB {
         }
     }
 
-    public struct JournalS3ExportDescription: AWSShape {
+    public struct JournalS3ExportDescription: AWSDecodableShape {
 
         /// The exclusive end date and time for the range of journal contents that are specified in the original export request.
         public let exclusiveEndTime: TimeStamp
@@ -485,7 +473,7 @@ extension QLDB {
         }
     }
 
-    public struct LedgerSummary: AWSShape {
+    public struct LedgerSummary: AWSDecodableShape {
 
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let creationDateTime: TimeStamp?
@@ -507,7 +495,7 @@ extension QLDB {
         }
     }
 
-    public struct ListJournalS3ExportsForLedgerRequest: AWSShape {
+    public struct ListJournalS3ExportsForLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
@@ -538,14 +526,10 @@ extension QLDB {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case name = "name"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJournalS3ExportsForLedgerResponse: AWSShape {
+    public struct ListJournalS3ExportsForLedgerResponse: AWSDecodableShape {
 
         /// The array of journal export job descriptions that are associated with the specified ledger.
         public let journalS3Exports: [JournalS3ExportDescription]?
@@ -563,7 +547,7 @@ extension QLDB {
         }
     }
 
-    public struct ListJournalS3ExportsRequest: AWSShape {
+    public struct ListJournalS3ExportsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
@@ -587,13 +571,10 @@ extension QLDB {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJournalS3ExportsResponse: AWSShape {
+    public struct ListJournalS3ExportsResponse: AWSDecodableShape {
 
         /// The array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region.
         public let journalS3Exports: [JournalS3ExportDescription]?
@@ -611,7 +592,7 @@ extension QLDB {
         }
     }
 
-    public struct ListLedgersRequest: AWSShape {
+    public struct ListLedgersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
@@ -635,13 +616,10 @@ extension QLDB {
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max_results"
-            case nextToken = "next_token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListLedgersResponse: AWSShape {
+    public struct ListLedgersResponse: AWSDecodableShape {
 
         /// The array of ledger summaries that are associated with the current AWS account and Region.
         public let ledgers: [LedgerSummary]?
@@ -659,7 +637,7 @@ extension QLDB {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -676,12 +654,10 @@ extension QLDB {
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// The tags that are currently associated with the specified Amazon QLDB resource.
         public let tags: [String: String]?
@@ -695,7 +671,7 @@ extension QLDB {
         }
     }
 
-    public struct S3EncryptionConfiguration: AWSShape {
+    public struct S3EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for a customer master key (CMK) in AWS Key Management Service (AWS KMS). You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
@@ -718,7 +694,7 @@ extension QLDB {
         }
     }
 
-    public struct S3ExportConfiguration: AWSShape {
+    public struct S3ExportConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket name in which a journal export job writes the journal contents. The bucket name must comply with the Amazon S3 bucket naming conventions. For more information, see Bucket Restrictions and Limitations in the Amazon S3 Developer Guide.
         public let bucket: String
@@ -749,7 +725,7 @@ extension QLDB {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -776,12 +752,11 @@ extension QLDB {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -789,7 +764,7 @@ extension QLDB {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -816,13 +791,10 @@ extension QLDB {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -830,7 +802,7 @@ extension QLDB {
 
     }
 
-    public struct UpdateLedgerRequest: AWSShape {
+    public struct UpdateLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
@@ -853,11 +825,10 @@ extension QLDB {
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtection = "DeletionProtection"
-            case name = "name"
         }
     }
 
-    public struct UpdateLedgerResponse: AWSShape {
+    public struct UpdateLedgerResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
@@ -887,7 +858,7 @@ extension QLDB {
         }
     }
 
-    public struct ValueHolder: AWSShape {
+    public struct ValueHolder: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?

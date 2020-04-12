@@ -22,7 +22,7 @@ extension ELB {
 
     //MARK: Shapes
 
-    public struct AccessLog: AWSShape {
+    public struct AccessLog: AWSEncodableShape & AWSDecodableShape {
 
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
         public let emitInterval: Int?
@@ -48,7 +48,7 @@ extension ELB {
         }
     }
 
-    public struct AddAvailabilityZonesInput: AWSShape {
+    public struct AddAvailabilityZonesInput: AWSEncodableShape {
 
         /// The Availability Zones. These must be in the same region as the load balancer.
         @Coding<DefaultArrayCoder> public var availabilityZones: [String]
@@ -66,7 +66,7 @@ extension ELB {
         }
     }
 
-    public struct AddAvailabilityZonesOutput: AWSShape {
+    public struct AddAvailabilityZonesOutput: AWSDecodableShape {
 
         /// The updated list of Availability Zones for the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
@@ -80,7 +80,7 @@ extension ELB {
         }
     }
 
-    public struct AddTagsInput: AWSShape {
+    public struct AddTagsInput: AWSEncodableShape {
 
         /// The name of the load balancer. You can specify one load balancer only.
         @Coding<DefaultArrayCoder> public var loadBalancerNames: [String]
@@ -105,7 +105,7 @@ extension ELB {
         }
     }
 
-    public struct AddTagsOutput: AWSShape {
+    public struct AddTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -113,7 +113,7 @@ extension ELB {
 
     }
 
-    public struct AdditionalAttribute: AWSShape {
+    public struct AdditionalAttribute: AWSEncodableShape & AWSDecodableShape {
 
         /// This parameter is reserved.
         public let key: String?
@@ -138,7 +138,7 @@ extension ELB {
         }
     }
 
-    public struct AppCookieStickinessPolicy: AWSShape {
+    public struct AppCookieStickinessPolicy: AWSDecodableShape {
 
         /// The name of the application cookie used for stickiness.
         public let cookieName: String?
@@ -156,7 +156,7 @@ extension ELB {
         }
     }
 
-    public struct ApplySecurityGroupsToLoadBalancerInput: AWSShape {
+    public struct ApplySecurityGroupsToLoadBalancerInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -174,7 +174,7 @@ extension ELB {
         }
     }
 
-    public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
+    public struct ApplySecurityGroupsToLoadBalancerOutput: AWSDecodableShape {
 
         /// The IDs of the security groups associated with the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var securityGroups: [String]?
@@ -188,7 +188,7 @@ extension ELB {
         }
     }
 
-    public struct AttachLoadBalancerToSubnetsInput: AWSShape {
+    public struct AttachLoadBalancerToSubnetsInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -206,7 +206,7 @@ extension ELB {
         }
     }
 
-    public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
+    public struct AttachLoadBalancerToSubnetsOutput: AWSDecodableShape {
 
         /// The IDs of the subnets attached to the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
@@ -220,7 +220,7 @@ extension ELB {
         }
     }
 
-    public struct BackendServerDescription: AWSShape {
+    public struct BackendServerDescription: AWSDecodableShape {
 
         /// The port on which the EC2 instance is listening.
         public let instancePort: Int?
@@ -238,7 +238,7 @@ extension ELB {
         }
     }
 
-    public struct ConfigureHealthCheckInput: AWSShape {
+    public struct ConfigureHealthCheckInput: AWSEncodableShape {
 
         /// The configuration information.
         public let healthCheck: HealthCheck
@@ -260,7 +260,7 @@ extension ELB {
         }
     }
 
-    public struct ConfigureHealthCheckOutput: AWSShape {
+    public struct ConfigureHealthCheckOutput: AWSDecodableShape {
 
         /// The updated health check.
         public let healthCheck: HealthCheck?
@@ -274,7 +274,7 @@ extension ELB {
         }
     }
 
-    public struct ConnectionDraining: AWSShape {
+    public struct ConnectionDraining: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether connection draining is enabled for the load balancer.
         public let enabled: Bool
@@ -292,7 +292,7 @@ extension ELB {
         }
     }
 
-    public struct ConnectionSettings: AWSShape {
+    public struct ConnectionSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int
@@ -311,7 +311,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAccessPointInput: AWSShape {
+    public struct CreateAccessPointInput: AWSEncodableShape {
 
         /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
         @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
@@ -359,7 +359,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAccessPointOutput: AWSShape {
+    public struct CreateAccessPointOutput: AWSDecodableShape {
 
         /// The DNS name of the load balancer.
         public let dNSName: String?
@@ -373,7 +373,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAppCookieStickinessPolicyInput: AWSShape {
+    public struct CreateAppCookieStickinessPolicyInput: AWSEncodableShape {
 
         /// The name of the application cookie used for stickiness.
         public let cookieName: String
@@ -395,7 +395,7 @@ extension ELB {
         }
     }
 
-    public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
+    public struct CreateAppCookieStickinessPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -403,7 +403,7 @@ extension ELB {
 
     }
 
-    public struct CreateLBCookieStickinessPolicyInput: AWSShape {
+    public struct CreateLBCookieStickinessPolicyInput: AWSEncodableShape {
 
         /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
@@ -425,7 +425,7 @@ extension ELB {
         }
     }
 
-    public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
+    public struct CreateLBCookieStickinessPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -433,7 +433,7 @@ extension ELB {
 
     }
 
-    public struct CreateLoadBalancerListenerInput: AWSShape {
+    public struct CreateLoadBalancerListenerInput: AWSEncodableShape {
 
         /// The listeners.
         @Coding<DefaultArrayCoder> public var listeners: [Listener]
@@ -457,7 +457,7 @@ extension ELB {
         }
     }
 
-    public struct CreateLoadBalancerListenerOutput: AWSShape {
+    public struct CreateLoadBalancerListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -465,7 +465,7 @@ extension ELB {
 
     }
 
-    public struct CreateLoadBalancerPolicyInput: AWSShape {
+    public struct CreateLoadBalancerPolicyInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -491,7 +491,7 @@ extension ELB {
         }
     }
 
-    public struct CreateLoadBalancerPolicyOutput: AWSShape {
+    public struct CreateLoadBalancerPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -499,7 +499,7 @@ extension ELB {
 
     }
 
-    public struct CrossZoneLoadBalancing: AWSShape {
+    public struct CrossZoneLoadBalancing: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
@@ -513,7 +513,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteAccessPointInput: AWSShape {
+    public struct DeleteAccessPointInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -527,7 +527,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteAccessPointOutput: AWSShape {
+    public struct DeleteAccessPointOutput: AWSDecodableShape {
 
 
         public init() {
@@ -535,7 +535,7 @@ extension ELB {
 
     }
 
-    public struct DeleteLoadBalancerListenerInput: AWSShape {
+    public struct DeleteLoadBalancerListenerInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -553,7 +553,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteLoadBalancerListenerOutput: AWSShape {
+    public struct DeleteLoadBalancerListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -561,7 +561,7 @@ extension ELB {
 
     }
 
-    public struct DeleteLoadBalancerPolicyInput: AWSShape {
+    public struct DeleteLoadBalancerPolicyInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -579,7 +579,7 @@ extension ELB {
         }
     }
 
-    public struct DeleteLoadBalancerPolicyOutput: AWSShape {
+    public struct DeleteLoadBalancerPolicyOutput: AWSDecodableShape {
 
 
         public init() {
@@ -587,7 +587,7 @@ extension ELB {
 
     }
 
-    public struct DeregisterEndPointsInput: AWSShape {
+    public struct DeregisterEndPointsInput: AWSEncodableShape {
 
         /// The IDs of the instances.
         @Coding<DefaultArrayCoder> public var instances: [Instance]
@@ -605,7 +605,7 @@ extension ELB {
         }
     }
 
-    public struct DeregisterEndPointsOutput: AWSShape {
+    public struct DeregisterEndPointsOutput: AWSDecodableShape {
 
         /// The remaining instances registered with the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
@@ -619,7 +619,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccessPointsInput: AWSShape {
+    public struct DescribeAccessPointsInput: AWSEncodableShape {
 
         /// The names of the load balancers.
         @OptionalCoding<DefaultArrayCoder> public var loadBalancerNames: [String]?
@@ -646,7 +646,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccessPointsOutput: AWSShape {
+    public struct DescribeAccessPointsOutput: AWSDecodableShape {
 
         /// Information about the load balancers.
         @OptionalCoding<DefaultArrayCoder> public var loadBalancerDescriptions: [LoadBalancerDescription]?
@@ -664,7 +664,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccountLimitsInput: AWSShape {
+    public struct DescribeAccountLimitsInput: AWSEncodableShape {
 
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -687,7 +687,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccountLimitsOutput: AWSShape {
+    public struct DescribeAccountLimitsOutput: AWSDecodableShape {
 
         /// Information about the limits.
         @OptionalCoding<DefaultArrayCoder> public var limits: [Limit]?
@@ -705,7 +705,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeEndPointStateInput: AWSShape {
+    public struct DescribeEndPointStateInput: AWSEncodableShape {
 
         /// The IDs of the instances.
         @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
@@ -723,7 +723,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeEndPointStateOutput: AWSShape {
+    public struct DescribeEndPointStateOutput: AWSDecodableShape {
 
         /// Information about the health of the instances.
         @OptionalCoding<DefaultArrayCoder> public var instanceStates: [InstanceState]?
@@ -737,7 +737,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+    public struct DescribeLoadBalancerAttributesInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -751,7 +751,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
+    public struct DescribeLoadBalancerAttributesOutput: AWSDecodableShape {
 
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
@@ -765,7 +765,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPoliciesInput: AWSShape {
+    public struct DescribeLoadBalancerPoliciesInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -783,7 +783,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
+    public struct DescribeLoadBalancerPoliciesOutput: AWSDecodableShape {
 
         /// Information about the policies.
         @OptionalCoding<DefaultArrayCoder> public var policyDescriptions: [PolicyDescription]?
@@ -797,7 +797,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
+    public struct DescribeLoadBalancerPolicyTypesInput: AWSEncodableShape {
 
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
         @OptionalCoding<DefaultArrayCoder> public var policyTypeNames: [String]?
@@ -811,7 +811,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
+    public struct DescribeLoadBalancerPolicyTypesOutput: AWSDecodableShape {
 
         /// Information about the policy types.
         @OptionalCoding<DefaultArrayCoder> public var policyTypeDescriptions: [PolicyTypeDescription]?
@@ -825,7 +825,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeTagsInput: AWSShape {
+    public struct DescribeTagsInput: AWSEncodableShape {
 
         /// The names of the load balancers.
         @Coding<DefaultArrayCoder> public var loadBalancerNames: [String]
@@ -844,7 +844,7 @@ extension ELB {
         }
     }
 
-    public struct DescribeTagsOutput: AWSShape {
+    public struct DescribeTagsOutput: AWSDecodableShape {
 
         /// Information about the tags.
         @OptionalCoding<DefaultArrayCoder> public var tagDescriptions: [TagDescription]?
@@ -858,7 +858,7 @@ extension ELB {
         }
     }
 
-    public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
+    public struct DetachLoadBalancerFromSubnetsInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -876,7 +876,7 @@ extension ELB {
         }
     }
 
-    public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
+    public struct DetachLoadBalancerFromSubnetsOutput: AWSDecodableShape {
 
         /// The IDs of the remaining subnets for the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var subnets: [String]?
@@ -890,7 +890,7 @@ extension ELB {
         }
     }
 
-    public struct HealthCheck: AWSShape {
+    public struct HealthCheck: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
         public let healthyThreshold: Int
@@ -931,7 +931,7 @@ extension ELB {
         }
     }
 
-    public struct Instance: AWSShape {
+    public struct Instance: AWSEncodableShape & AWSDecodableShape {
 
         /// The instance ID.
         public let instanceId: String?
@@ -945,7 +945,7 @@ extension ELB {
         }
     }
 
-    public struct InstanceState: AWSShape {
+    public struct InstanceState: AWSDecodableShape {
 
         /// A description of the instance state. This string can contain one or more of the following messages.    N/A     A transient error occurred. Please try again later.     Instance has failed at least the UnhealthyThreshold number of health checks consecutively.     Instance has not passed the configured HealthyThreshold number of health checks consecutively.     Instance registration is still in progress.     Instance is in the EC2 Availability Zone for which LoadBalancer is not configured to route traffic to.     Instance is not currently registered with the LoadBalancer.     Instance deregistration currently in progress.     Disable Availability Zone is currently in progress.     Instance is in pending state.     Instance is in stopped state.     Instance is in terminated state.   
         public let description: String?
@@ -971,7 +971,7 @@ extension ELB {
         }
     }
 
-    public struct LBCookieStickinessPolicy: AWSShape {
+    public struct LBCookieStickinessPolicy: AWSDecodableShape {
 
         /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
@@ -989,7 +989,7 @@ extension ELB {
         }
     }
 
-    public struct Limit: AWSShape {
+    public struct Limit: AWSDecodableShape {
 
         /// The maximum value of the limit.
         public let max: String?
@@ -1007,7 +1007,7 @@ extension ELB {
         }
     }
 
-    public struct Listener: AWSShape {
+    public struct Listener: AWSEncodableShape & AWSDecodableShape {
 
         /// The port on which the instance is listening.
         public let instancePort: Int
@@ -1042,7 +1042,7 @@ extension ELB {
         }
     }
 
-    public struct ListenerDescription: AWSShape {
+    public struct ListenerDescription: AWSDecodableShape {
 
         /// The listener.
         public let listener: Listener?
@@ -1060,7 +1060,7 @@ extension ELB {
         }
     }
 
-    public struct LoadBalancerAttributes: AWSShape {
+    public struct LoadBalancerAttributes: AWSEncodableShape & AWSDecodableShape {
 
         /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
         public let accessLog: AccessLog?
@@ -1098,7 +1098,7 @@ extension ELB {
         }
     }
 
-    public struct LoadBalancerDescription: AWSShape {
+    public struct LoadBalancerDescription: AWSDecodableShape {
 
         /// The Availability Zones for the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
@@ -1172,7 +1172,7 @@ extension ELB {
         }
     }
 
-    public struct ModifyLoadBalancerAttributesInput: AWSShape {
+    public struct ModifyLoadBalancerAttributesInput: AWSEncodableShape {
 
         /// The attributes for the load balancer.
         public let loadBalancerAttributes: LoadBalancerAttributes
@@ -1194,7 +1194,7 @@ extension ELB {
         }
     }
 
-    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
+    public struct ModifyLoadBalancerAttributesOutput: AWSDecodableShape {
 
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
@@ -1212,7 +1212,7 @@ extension ELB {
         }
     }
 
-    public struct Policies: AWSShape {
+    public struct Policies: AWSDecodableShape {
 
         /// The stickiness policies created using CreateAppCookieStickinessPolicy.
         @OptionalCoding<DefaultArrayCoder> public var appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
@@ -1234,7 +1234,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttribute: AWSShape {
+    public struct PolicyAttribute: AWSEncodableShape {
 
         /// The name of the attribute.
         public let attributeName: String?
@@ -1252,7 +1252,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttributeDescription: AWSShape {
+    public struct PolicyAttributeDescription: AWSDecodableShape {
 
         /// The name of the attribute.
         public let attributeName: String?
@@ -1270,7 +1270,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttributeTypeDescription: AWSShape {
+    public struct PolicyAttributeTypeDescription: AWSDecodableShape {
 
         /// The name of the attribute.
         public let attributeName: String?
@@ -1300,7 +1300,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyDescription: AWSShape {
+    public struct PolicyDescription: AWSDecodableShape {
 
         /// The policy attributes.
         @OptionalCoding<DefaultArrayCoder> public var policyAttributeDescriptions: [PolicyAttributeDescription]?
@@ -1322,7 +1322,7 @@ extension ELB {
         }
     }
 
-    public struct PolicyTypeDescription: AWSShape {
+    public struct PolicyTypeDescription: AWSDecodableShape {
 
         /// A description of the policy type.
         public let description: String?
@@ -1344,7 +1344,7 @@ extension ELB {
         }
     }
 
-    public struct RegisterEndPointsInput: AWSShape {
+    public struct RegisterEndPointsInput: AWSEncodableShape {
 
         /// The IDs of the instances.
         @Coding<DefaultArrayCoder> public var instances: [Instance]
@@ -1362,7 +1362,7 @@ extension ELB {
         }
     }
 
-    public struct RegisterEndPointsOutput: AWSShape {
+    public struct RegisterEndPointsOutput: AWSDecodableShape {
 
         /// The updated list of instances for the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var instances: [Instance]?
@@ -1376,7 +1376,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveAvailabilityZonesInput: AWSShape {
+    public struct RemoveAvailabilityZonesInput: AWSEncodableShape {
 
         /// The Availability Zones.
         @Coding<DefaultArrayCoder> public var availabilityZones: [String]
@@ -1394,7 +1394,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveAvailabilityZonesOutput: AWSShape {
+    public struct RemoveAvailabilityZonesOutput: AWSDecodableShape {
 
         /// The remaining Availability Zones for the load balancer.
         @OptionalCoding<DefaultArrayCoder> public var availabilityZones: [String]?
@@ -1408,7 +1408,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveTagsInput: AWSShape {
+    public struct RemoveTagsInput: AWSEncodableShape {
 
         /// The name of the load balancer. You can specify a maximum of one load balancer name.
         @Coding<DefaultArrayCoder> public var loadBalancerNames: [String]
@@ -1433,7 +1433,7 @@ extension ELB {
         }
     }
 
-    public struct RemoveTagsOutput: AWSShape {
+    public struct RemoveTagsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1441,7 +1441,7 @@ extension ELB {
 
     }
 
-    public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
+    public struct SetLoadBalancerListenerSSLCertificateInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1463,7 +1463,7 @@ extension ELB {
         }
     }
 
-    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
+    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1471,7 +1471,7 @@ extension ELB {
 
     }
 
-    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
+    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSEncodableShape {
 
         /// The port number associated with the EC2 instance.
         public let instancePort: Int
@@ -1493,7 +1493,7 @@ extension ELB {
         }
     }
 
-    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
+    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1501,7 +1501,7 @@ extension ELB {
 
     }
 
-    public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
+    public struct SetLoadBalancerPoliciesOfListenerInput: AWSEncodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1523,7 +1523,7 @@ extension ELB {
         }
     }
 
-    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
+    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1531,7 +1531,7 @@ extension ELB {
 
     }
 
-    public struct SourceSecurityGroup: AWSShape {
+    public struct SourceSecurityGroup: AWSDecodableShape {
 
         /// The name of the security group.
         public let groupName: String?
@@ -1549,7 +1549,7 @@ extension ELB {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag.
         public let key: String
@@ -1576,7 +1576,7 @@ extension ELB {
         }
     }
 
-    public struct TagDescription: AWSShape {
+    public struct TagDescription: AWSDecodableShape {
 
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -1594,7 +1594,7 @@ extension ELB {
         }
     }
 
-    public struct TagKeyOnly: AWSShape {
+    public struct TagKeyOnly: AWSEncodableShape {
 
         /// The name of the key.
         public let key: String?

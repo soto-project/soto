@@ -119,7 +119,7 @@ extension MachineLearning {
 
     //MARK: Shapes
 
-    public struct AddTagsInput: AWSShape {
+    public struct AddTagsInput: AWSEncodableShape {
 
         /// The ID of the ML object to tag. For example, exampleModelId.
         public let resourceId: String
@@ -151,7 +151,7 @@ extension MachineLearning {
         }
     }
 
-    public struct AddTagsOutput: AWSShape {
+    public struct AddTagsOutput: AWSDecodableShape {
 
         /// The ID of the ML object that was tagged.
         public let resourceId: String?
@@ -169,7 +169,7 @@ extension MachineLearning {
         }
     }
 
-    public struct BatchPrediction: AWSShape {
+    public struct BatchPrediction: AWSDecodableShape {
 
         /// The ID of the DataSource that points to the group of observations to predict.
         public let batchPredictionDataSourceId: String?
@@ -238,7 +238,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateBatchPredictionInput: AWSShape {
+    public struct CreateBatchPredictionInput: AWSEncodableShape {
 
         /// The ID of the DataSource that points to the group of observations to predict.
         public let batchPredictionDataSourceId: String
@@ -284,7 +284,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateBatchPredictionOutput: AWSShape {
+    public struct CreateBatchPredictionOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
@@ -298,7 +298,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateDataSourceFromRDSInput: AWSShape {
+    public struct CreateDataSourceFromRDSInput: AWSEncodableShape {
 
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training. 
         public let computeStatistics: Bool?
@@ -339,7 +339,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateDataSourceFromRDSOutput: AWSShape {
+    public struct CreateDataSourceFromRDSOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -353,7 +353,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateDataSourceFromRedshiftInput: AWSShape {
+    public struct CreateDataSourceFromRedshiftInput: AWSEncodableShape {
 
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
         public let computeStatistics: Bool?
@@ -394,7 +394,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateDataSourceFromRedshiftOutput: AWSShape {
+    public struct CreateDataSourceFromRedshiftOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -408,7 +408,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateDataSourceFromS3Input: AWSShape {
+    public struct CreateDataSourceFromS3Input: AWSEncodableShape {
 
         /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
         public let computeStatistics: Bool?
@@ -443,7 +443,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateDataSourceFromS3Output: AWSShape {
+    public struct CreateDataSourceFromS3Output: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -457,7 +457,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateEvaluationInput: AWSShape {
+    public struct CreateEvaluationInput: AWSEncodableShape {
 
         /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel.
         public let evaluationDataSourceId: String
@@ -497,7 +497,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateEvaluationOutput: AWSShape {
+    public struct CreateEvaluationOutput: AWSDecodableShape {
 
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
@@ -511,7 +511,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateMLModelInput: AWSShape {
+    public struct CreateMLModelInput: AWSEncodableShape {
 
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mLModelId: String
@@ -563,7 +563,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateMLModelOutput: AWSShape {
+    public struct CreateMLModelOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
         public let mLModelId: String?
@@ -577,7 +577,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateRealtimeEndpointInput: AWSShape {
+    public struct CreateRealtimeEndpointInput: AWSEncodableShape {
 
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -597,7 +597,7 @@ extension MachineLearning {
         }
     }
 
-    public struct CreateRealtimeEndpointOutput: AWSShape {
+    public struct CreateRealtimeEndpointOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
@@ -615,7 +615,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DataSource: AWSShape {
+    public struct DataSource: AWSDecodableShape {
 
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
@@ -691,7 +691,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteBatchPredictionInput: AWSShape {
+    public struct DeleteBatchPredictionInput: AWSEncodableShape {
 
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
         public let batchPredictionId: String
@@ -711,7 +711,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteBatchPredictionOutput: AWSShape {
+    public struct DeleteBatchPredictionOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
         public let batchPredictionId: String?
@@ -725,7 +725,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteDataSourceInput: AWSShape {
+    public struct DeleteDataSourceInput: AWSEncodableShape {
 
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
@@ -745,7 +745,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteDataSourceOutput: AWSShape {
+    public struct DeleteDataSourceOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
@@ -759,7 +759,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteEvaluationInput: AWSShape {
+    public struct DeleteEvaluationInput: AWSEncodableShape {
 
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
         public let evaluationId: String
@@ -779,7 +779,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteEvaluationOutput: AWSShape {
+    public struct DeleteEvaluationOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
@@ -793,7 +793,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteMLModelInput: AWSShape {
+    public struct DeleteMLModelInput: AWSEncodableShape {
 
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mLModelId: String
@@ -813,7 +813,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteMLModelOutput: AWSShape {
+    public struct DeleteMLModelOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
@@ -827,7 +827,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteRealtimeEndpointInput: AWSShape {
+    public struct DeleteRealtimeEndpointInput: AWSEncodableShape {
 
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -847,7 +847,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteRealtimeEndpointOutput: AWSShape {
+    public struct DeleteRealtimeEndpointOutput: AWSDecodableShape {
 
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
@@ -865,7 +865,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteTagsInput: AWSShape {
+    public struct DeleteTagsInput: AWSEncodableShape {
 
         /// The ID of the tagged ML object. For example, exampleModelId.
         public let resourceId: String
@@ -899,7 +899,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DeleteTagsOutput: AWSShape {
+    public struct DeleteTagsOutput: AWSDecodableShape {
 
         /// The ID of the ML object from which tags were deleted.
         public let resourceId: String?
@@ -917,7 +917,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeBatchPredictionsInput: AWSShape {
+    public struct DescribeBatchPredictionsInput: AWSEncodableShape {
 
         /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
@@ -990,7 +990,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeBatchPredictionsOutput: AWSShape {
+    public struct DescribeBatchPredictionsOutput: AWSDecodableShape {
 
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -1008,7 +1008,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeDataSourcesInput: AWSShape {
+    public struct DescribeDataSourcesInput: AWSEncodableShape {
 
         /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
@@ -1081,7 +1081,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeDataSourcesOutput: AWSShape {
+    public struct DescribeDataSourcesOutput: AWSDecodableShape {
 
         /// An ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -1099,7 +1099,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeEvaluationsInput: AWSShape {
+    public struct DescribeEvaluationsInput: AWSEncodableShape {
 
         /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
@@ -1172,7 +1172,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeEvaluationsOutput: AWSShape {
+    public struct DescribeEvaluationsOutput: AWSDecodableShape {
 
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -1190,7 +1190,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeMLModelsInput: AWSShape {
+    public struct DescribeMLModelsInput: AWSEncodableShape {
 
         /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
@@ -1263,7 +1263,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeMLModelsOutput: AWSShape {
+    public struct DescribeMLModelsOutput: AWSDecodableShape {
 
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -1281,7 +1281,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeTagsInput: AWSShape {
+    public struct DescribeTagsInput: AWSEncodableShape {
 
         /// The ID of the ML object. For example, exampleModelId. 
         public let resourceId: String
@@ -1305,7 +1305,7 @@ extension MachineLearning {
         }
     }
 
-    public struct DescribeTagsOutput: AWSShape {
+    public struct DescribeTagsOutput: AWSDecodableShape {
 
         /// The ID of the tagged ML object.
         public let resourceId: String?
@@ -1327,7 +1327,7 @@ extension MachineLearning {
         }
     }
 
-    public struct Evaluation: AWSShape {
+    public struct Evaluation: AWSDecodableShape {
 
         public let computeTime: Int64?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
@@ -1390,7 +1390,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetBatchPredictionInput: AWSShape {
+    public struct GetBatchPredictionInput: AWSEncodableShape {
 
         /// An ID assigned to the BatchPrediction at creation.
         public let batchPredictionId: String
@@ -1410,7 +1410,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetBatchPredictionOutput: AWSShape {
+    public struct GetBatchPredictionOutput: AWSDecodableShape {
 
         /// The ID of the DataSource that was used to create the BatchPrediction. 
         public let batchPredictionDataSourceId: String?
@@ -1488,7 +1488,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetDataSourceInput: AWSShape {
+    public struct GetDataSourceInput: AWSEncodableShape {
 
         /// The ID assigned to the DataSource at creation.
         public let dataSourceId: String
@@ -1512,7 +1512,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetDataSourceOutput: AWSShape {
+    public struct GetDataSourceOutput: AWSDecodableShape {
 
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
@@ -1599,7 +1599,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetEvaluationInput: AWSShape {
+    public struct GetEvaluationInput: AWSEncodableShape {
 
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
         public let evaluationId: String
@@ -1619,7 +1619,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetEvaluationOutput: AWSShape {
+    public struct GetEvaluationOutput: AWSDecodableShape {
 
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
         public let computeTime: Int64?
@@ -1689,7 +1689,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetMLModelInput: AWSShape {
+    public struct GetMLModelInput: AWSEncodableShape {
 
         /// The ID assigned to the MLModel at creation.
         public let mLModelId: String
@@ -1713,7 +1713,7 @@ extension MachineLearning {
         }
     }
 
-    public struct GetMLModelOutput: AWSShape {
+    public struct GetMLModelOutput: AWSDecodableShape {
 
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
         public let computeTime: Int64?
@@ -1806,7 +1806,7 @@ extension MachineLearning {
         }
     }
 
-    public struct MLModel: AWSShape {
+    public struct MLModel: AWSDecodableShape {
 
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
         public let algorithm: Algorithm?
@@ -1887,7 +1887,7 @@ extension MachineLearning {
         }
     }
 
-    public struct PerformanceMetrics: AWSShape {
+    public struct PerformanceMetrics: AWSDecodableShape {
 
         public let properties: [String: String]?
 
@@ -1900,7 +1900,7 @@ extension MachineLearning {
         }
     }
 
-    public struct PredictInput: AWSShape {
+    public struct PredictInput: AWSEncodableShape {
 
         /// A unique identifier of the MLModel.
         public let mLModelId: String
@@ -1928,7 +1928,7 @@ extension MachineLearning {
         }
     }
 
-    public struct PredictOutput: AWSShape {
+    public struct PredictOutput: AWSDecodableShape {
 
         public let prediction: Prediction?
 
@@ -1941,7 +1941,7 @@ extension MachineLearning {
         }
     }
 
-    public struct Prediction: AWSShape {
+    public struct Prediction: AWSDecodableShape {
 
         public let details: [DetailsAttributes: String]?
         /// The prediction label for either a BINARY or MULTICLASS MLModel.
@@ -1965,7 +1965,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RDSDataSpec: AWSShape {
+    public struct RDSDataSpec: AWSEncodableShape {
 
         /// The AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon RDS database.
         public let databaseCredentials: RDSDatabaseCredentials
@@ -2041,7 +2041,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RDSDatabase: AWSShape {
+    public struct RDSDatabase: AWSEncodableShape & AWSDecodableShape {
 
         public let databaseName: String
         /// The ID of an RDS DB instance.
@@ -2066,7 +2066,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RDSDatabaseCredentials: AWSShape {
+    public struct RDSDatabaseCredentials: AWSEncodableShape {
 
         public let password: String
         public let username: String
@@ -2089,7 +2089,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RDSMetadata: AWSShape {
+    public struct RDSMetadata: AWSDecodableShape {
 
         /// The database details required to connect to an Amazon RDS.
         public let database: RDSDatabase?
@@ -2122,7 +2122,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RealtimeEndpointInfo: AWSShape {
+    public struct RealtimeEndpointInfo: AWSDecodableShape {
 
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
         public let createdAt: TimeStamp?
@@ -2148,7 +2148,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RedshiftDataSpec: AWSShape {
+    public struct RedshiftDataSpec: AWSEncodableShape {
 
         /// Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database.
         public let databaseCredentials: RedshiftDatabaseCredentials
@@ -2198,7 +2198,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RedshiftDatabase: AWSShape {
+    public struct RedshiftDatabase: AWSEncodableShape & AWSDecodableShape {
 
         public let clusterIdentifier: String
         public let databaseName: String
@@ -2223,7 +2223,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RedshiftDatabaseCredentials: AWSShape {
+    public struct RedshiftDatabaseCredentials: AWSEncodableShape {
 
         public let password: String
         public let username: String
@@ -2246,7 +2246,7 @@ extension MachineLearning {
         }
     }
 
-    public struct RedshiftMetadata: AWSShape {
+    public struct RedshiftMetadata: AWSDecodableShape {
 
         public let databaseUserName: String?
         public let redshiftDatabase: RedshiftDatabase?
@@ -2266,7 +2266,7 @@ extension MachineLearning {
         }
     }
 
-    public struct S3DataSpec: AWSShape {
+    public struct S3DataSpec: AWSEncodableShape {
 
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         public let dataLocationS3: String
@@ -2300,7 +2300,7 @@ extension MachineLearning {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public let key: String?
@@ -2327,7 +2327,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateBatchPredictionInput: AWSShape {
+    public struct UpdateBatchPredictionInput: AWSEncodableShape {
 
         /// The ID assigned to the BatchPrediction during creation.
         public let batchPredictionId: String
@@ -2353,7 +2353,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateBatchPredictionOutput: AWSShape {
+    public struct UpdateBatchPredictionOutput: AWSDecodableShape {
 
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
@@ -2367,7 +2367,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateDataSourceInput: AWSShape {
+    public struct UpdateDataSourceInput: AWSEncodableShape {
 
         /// The ID assigned to the DataSource during creation.
         public let dataSourceId: String
@@ -2393,7 +2393,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateDataSourceOutput: AWSShape {
+    public struct UpdateDataSourceOutput: AWSDecodableShape {
 
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
@@ -2407,7 +2407,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateEvaluationInput: AWSShape {
+    public struct UpdateEvaluationInput: AWSEncodableShape {
 
         /// The ID assigned to the Evaluation during creation.
         public let evaluationId: String
@@ -2433,7 +2433,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateEvaluationOutput: AWSShape {
+    public struct UpdateEvaluationOutput: AWSDecodableShape {
 
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
         public let evaluationId: String?
@@ -2447,7 +2447,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateMLModelInput: AWSShape {
+    public struct UpdateMLModelInput: AWSEncodableShape {
 
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -2477,7 +2477,7 @@ extension MachineLearning {
         }
     }
 
-    public struct UpdateMLModelOutput: AWSShape {
+    public struct UpdateMLModelOutput: AWSDecodableShape {
 
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?

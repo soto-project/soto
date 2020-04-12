@@ -22,7 +22,7 @@ extension ApiGatewayManagementApi {
 
     //MARK: Shapes
 
-    public struct DeleteConnectionRequest: AWSShape {
+    public struct DeleteConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId"))
         ]
@@ -33,12 +33,10 @@ extension ApiGatewayManagementApi {
             self.connectionId = connectionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConnectionRequest: AWSShape {
+    public struct GetConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId"))
         ]
@@ -49,12 +47,10 @@ extension ApiGatewayManagementApi {
             self.connectionId = connectionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetConnectionResponse: AWSShape {
+    public struct GetConnectionResponse: AWSDecodableShape {
 
         public let connectedAt: TimeStamp?
         public let identity: Identity?
@@ -73,7 +69,7 @@ extension ApiGatewayManagementApi {
         }
     }
 
-    public struct Identity: AWSShape {
+    public struct Identity: AWSDecodableShape {
 
         /// The source IP address of the TCP connection making the request to API Gateway.
         public let sourceIp: String
@@ -91,7 +87,7 @@ extension ApiGatewayManagementApi {
         }
     }
 
-    public struct PostToConnectionRequest: AWSShape {
+    public struct PostToConnectionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "data"
         public static var _encoding = [
@@ -100,9 +96,9 @@ extension ApiGatewayManagementApi {
         ]
 
         public let connectionId: String
-        public let data: Data
+        public let data: AWSPayload
 
-        public init(connectionId: String, data: Data) {
+        public init(connectionId: String, data: AWSPayload) {
             self.connectionId = connectionId
             self.data = data
         }
@@ -111,9 +107,6 @@ extension ApiGatewayManagementApi {
             try validate(self.data, name:"data", parent: name, max: 131072)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case data = "Data"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 }

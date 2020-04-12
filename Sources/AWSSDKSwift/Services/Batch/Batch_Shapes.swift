@@ -108,7 +108,7 @@ extension Batch {
 
     //MARK: Shapes
 
-    public struct ArrayProperties: AWSShape {
+    public struct ArrayProperties: AWSEncodableShape {
 
         /// The size of the array job.
         public let size: Int?
@@ -122,7 +122,7 @@ extension Batch {
         }
     }
 
-    public struct ArrayPropertiesDetail: AWSShape {
+    public struct ArrayPropertiesDetail: AWSDecodableShape {
 
         /// The job index within the array that is associated with this job. This parameter is returned for array job children.
         public let index: Int?
@@ -144,7 +144,7 @@ extension Batch {
         }
     }
 
-    public struct ArrayPropertiesSummary: AWSShape {
+    public struct ArrayPropertiesSummary: AWSDecodableShape {
 
         /// The job index within the array that is associated with this job. This parameter is returned for children of array jobs.
         public let index: Int?
@@ -162,7 +162,7 @@ extension Batch {
         }
     }
 
-    public struct AttemptContainerDetail: AWSShape {
+    public struct AttemptContainerDetail: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that hosts the job attempt.
         public let containerInstanceArn: String?
@@ -196,7 +196,7 @@ extension Batch {
         }
     }
 
-    public struct AttemptDetail: AWSShape {
+    public struct AttemptDetail: AWSDecodableShape {
 
         /// Details about the container in this job attempt.
         public let container: AttemptContainerDetail?
@@ -222,7 +222,7 @@ extension Batch {
         }
     }
 
-    public struct CancelJobRequest: AWSShape {
+    public struct CancelJobRequest: AWSEncodableShape {
 
         /// The AWS Batch job ID of the job to cancel.
         public let jobId: String
@@ -240,7 +240,7 @@ extension Batch {
         }
     }
 
-    public struct CancelJobResponse: AWSShape {
+    public struct CancelJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -248,7 +248,7 @@ extension Batch {
 
     }
 
-    public struct ComputeEnvironmentDetail: AWSShape {
+    public struct ComputeEnvironmentDetail: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String
@@ -294,7 +294,7 @@ extension Batch {
         }
     }
 
-    public struct ComputeEnvironmentOrder: AWSShape {
+    public struct ComputeEnvironmentOrder: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironment: String
@@ -312,7 +312,7 @@ extension Batch {
         }
     }
 
-    public struct ComputeResource: AWSShape {
+    public struct ComputeResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The allocation strategy to use for the compute resource in case not enough instances of the best fitting instance type can be allocated. This could be due to availability of the instance type in the region or Amazon EC2 service limits. If this is not specified, the default is BEST_FIT, which will use only the best fitting instance type, waiting for additional capacity if it's not available. This allocation strategy keeps costs lower but can limit scaling. If you are using Spot Fleets with BEST_FIT then the Spot Fleet IAM Role must be specified. BEST_FIT_PROGRESSIVE will select additional instance types that are large enough to meet the requirements of the jobs in the queue, with a preference for instance types with a lower cost per vCPU. SPOT_CAPACITY_OPTIMIZED is only available for Spot Instance compute resources and will select additional instance types that are large enough to meet the requirements of the jobs in the queue, with a preference for instance types that are less likely to be interrupted. For more information, see Allocation Strategies in the AWS Batch User Guide.
         public let allocationStrategy: CRAllocationStrategy?
@@ -386,7 +386,7 @@ extension Batch {
         }
     }
 
-    public struct ComputeResourceUpdate: AWSShape {
+    public struct ComputeResourceUpdate: AWSEncodableShape {
 
         /// The desired number of Amazon EC2 vCPUS in the compute environment.
         public let desiredvCpus: Int?
@@ -408,7 +408,7 @@ extension Batch {
         }
     }
 
-    public struct ContainerDetail: AWSShape {
+    public struct ContainerDetail: AWSDecodableShape {
 
         /// The command that is passed to the container.
         public let command: [String]?
@@ -502,7 +502,7 @@ extension Batch {
         }
     }
 
-    public struct ContainerOverrides: AWSShape {
+    public struct ContainerOverrides: AWSEncodableShape {
 
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
         public let command: [String]?
@@ -536,7 +536,7 @@ extension Batch {
         }
     }
 
-    public struct ContainerProperties: AWSShape {
+    public struct ContainerProperties: AWSEncodableShape & AWSDecodableShape {
 
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
         public let command: [String]?
@@ -606,7 +606,7 @@ extension Batch {
         }
     }
 
-    public struct ContainerSummary: AWSShape {
+    public struct ContainerSummary: AWSDecodableShape {
 
         /// The exit code to return upon completion.
         public let exitCode: Int?
@@ -624,7 +624,7 @@ extension Batch {
         }
     }
 
-    public struct CreateComputeEnvironmentRequest: AWSShape {
+    public struct CreateComputeEnvironmentRequest: AWSEncodableShape {
 
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let computeEnvironmentName: String
@@ -654,7 +654,7 @@ extension Batch {
         }
     }
 
-    public struct CreateComputeEnvironmentResponse: AWSShape {
+    public struct CreateComputeEnvironmentResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String?
@@ -672,7 +672,7 @@ extension Batch {
         }
     }
 
-    public struct CreateJobQueueRequest: AWSShape {
+    public struct CreateJobQueueRequest: AWSEncodableShape {
 
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
@@ -698,7 +698,7 @@ extension Batch {
         }
     }
 
-    public struct CreateJobQueueResponse: AWSShape {
+    public struct CreateJobQueueResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the job queue.
         public let jobQueueArn: String
@@ -716,7 +716,7 @@ extension Batch {
         }
     }
 
-    public struct DeleteComputeEnvironmentRequest: AWSShape {
+    public struct DeleteComputeEnvironmentRequest: AWSEncodableShape {
 
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
         public let computeEnvironment: String
@@ -730,7 +730,7 @@ extension Batch {
         }
     }
 
-    public struct DeleteComputeEnvironmentResponse: AWSShape {
+    public struct DeleteComputeEnvironmentResponse: AWSDecodableShape {
 
 
         public init() {
@@ -738,7 +738,7 @@ extension Batch {
 
     }
 
-    public struct DeleteJobQueueRequest: AWSShape {
+    public struct DeleteJobQueueRequest: AWSEncodableShape {
 
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
         public let jobQueue: String
@@ -752,7 +752,7 @@ extension Batch {
         }
     }
 
-    public struct DeleteJobQueueResponse: AWSShape {
+    public struct DeleteJobQueueResponse: AWSDecodableShape {
 
 
         public init() {
@@ -760,7 +760,7 @@ extension Batch {
 
     }
 
-    public struct DeregisterJobDefinitionRequest: AWSShape {
+    public struct DeregisterJobDefinitionRequest: AWSEncodableShape {
 
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister.
         public let jobDefinition: String
@@ -774,7 +774,7 @@ extension Batch {
         }
     }
 
-    public struct DeregisterJobDefinitionResponse: AWSShape {
+    public struct DeregisterJobDefinitionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -782,7 +782,7 @@ extension Batch {
 
     }
 
-    public struct DescribeComputeEnvironmentsRequest: AWSShape {
+    public struct DescribeComputeEnvironmentsRequest: AWSEncodableShape {
 
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries.
         public let computeEnvironments: [String]?
@@ -804,7 +804,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeComputeEnvironmentsResponse: AWSShape {
+    public struct DescribeComputeEnvironmentsResponse: AWSDecodableShape {
 
         /// The list of compute environments.
         public let computeEnvironments: [ComputeEnvironmentDetail]?
@@ -822,7 +822,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeJobDefinitionsRequest: AWSShape {
+    public struct DescribeJobDefinitionsRequest: AWSEncodableShape {
 
         /// The name of the job definition to describe.
         public let jobDefinitionName: String?
@@ -852,7 +852,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeJobDefinitionsResponse: AWSShape {
+    public struct DescribeJobDefinitionsResponse: AWSDecodableShape {
 
         /// The list of job definitions.
         public let jobDefinitions: [JobDefinition]?
@@ -870,7 +870,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeJobQueuesRequest: AWSShape {
+    public struct DescribeJobQueuesRequest: AWSEncodableShape {
 
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
         public let jobQueues: [String]?
@@ -892,7 +892,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeJobQueuesResponse: AWSShape {
+    public struct DescribeJobQueuesResponse: AWSDecodableShape {
 
         /// The list of job queues.
         public let jobQueues: [JobQueueDetail]?
@@ -910,7 +910,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeJobsRequest: AWSShape {
+    public struct DescribeJobsRequest: AWSEncodableShape {
 
         /// A list of up to 100 job IDs.
         public let jobs: [String]
@@ -924,7 +924,7 @@ extension Batch {
         }
     }
 
-    public struct DescribeJobsResponse: AWSShape {
+    public struct DescribeJobsResponse: AWSDecodableShape {
 
         /// The list of jobs.
         public let jobs: [JobDetail]?
@@ -938,7 +938,7 @@ extension Batch {
         }
     }
 
-    public struct Device: AWSShape {
+    public struct Device: AWSEncodableShape & AWSDecodableShape {
 
         /// The path inside the container at which to expose the host device. By default the hostPath value is used.
         public let containerPath: String?
@@ -960,7 +960,7 @@ extension Batch {
         }
     }
 
-    public struct Host: AWSShape {
+    public struct Host: AWSEncodableShape & AWSDecodableShape {
 
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
@@ -974,7 +974,7 @@ extension Batch {
         }
     }
 
-    public struct JobDefinition: AWSShape {
+    public struct JobDefinition: AWSDecodableShape {
 
         /// An object with various properties specific to container-based jobs.
         public let containerProperties: ContainerProperties?
@@ -1024,7 +1024,7 @@ extension Batch {
         }
     }
 
-    public struct JobDependency: AWSShape {
+    public struct JobDependency: AWSEncodableShape & AWSDecodableShape {
 
         /// The job ID of the AWS Batch job associated with this dependency.
         public let jobId: String?
@@ -1042,7 +1042,7 @@ extension Batch {
         }
     }
 
-    public struct JobDetail: AWSShape {
+    public struct JobDetail: AWSDecodableShape {
 
         /// The array properties of the job, if it is an array job.
         public let arrayProperties: ArrayPropertiesDetail?
@@ -1124,7 +1124,7 @@ extension Batch {
         }
     }
 
-    public struct JobQueueDetail: AWSShape {
+    public struct JobQueueDetail: AWSDecodableShape {
 
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
@@ -1162,7 +1162,7 @@ extension Batch {
         }
     }
 
-    public struct JobSummary: AWSShape {
+    public struct JobSummary: AWSDecodableShape {
 
         /// The array properties of the job, if it is an array job.
         public let arrayProperties: ArrayPropertiesSummary?
@@ -1212,7 +1212,7 @@ extension Batch {
         }
     }
 
-    public struct JobTimeout: AWSShape {
+    public struct JobTimeout: AWSEncodableShape & AWSDecodableShape {
 
         /// The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
         public let attemptDurationSeconds: Int?
@@ -1226,7 +1226,7 @@ extension Batch {
         }
     }
 
-    public struct KeyValuePair: AWSShape {
+    public struct KeyValuePair: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -1244,7 +1244,7 @@ extension Batch {
         }
     }
 
-    public struct LaunchTemplateSpecification: AWSShape {
+    public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -1266,7 +1266,7 @@ extension Batch {
         }
     }
 
-    public struct LinuxParameters: AWSShape {
+    public struct LinuxParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.
         public let devices: [Device]?
@@ -1280,7 +1280,7 @@ extension Batch {
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct ListJobsRequest: AWSEncodableShape {
 
         /// The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
         public let arrayJobId: String?
@@ -1314,7 +1314,7 @@ extension Batch {
         }
     }
 
-    public struct ListJobsResponse: AWSShape {
+    public struct ListJobsResponse: AWSDecodableShape {
 
         /// A list of job summaries that match the request.
         public let jobSummaryList: [JobSummary]
@@ -1332,7 +1332,7 @@ extension Batch {
         }
     }
 
-    public struct MountPoint: AWSShape {
+    public struct MountPoint: AWSEncodableShape & AWSDecodableShape {
 
         /// The path on the container at which to mount the host volume.
         public let containerPath: String?
@@ -1354,7 +1354,7 @@ extension Batch {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
 
         /// The attachment ID for the network interface.
         public let attachmentId: String?
@@ -1376,7 +1376,7 @@ extension Batch {
         }
     }
 
-    public struct NodeDetails: AWSShape {
+    public struct NodeDetails: AWSDecodableShape {
 
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
@@ -1394,7 +1394,7 @@ extension Batch {
         }
     }
 
-    public struct NodeOverrides: AWSShape {
+    public struct NodeOverrides: AWSEncodableShape {
 
         /// The node property overrides for the job.
         public let nodePropertyOverrides: [NodePropertyOverride]?
@@ -1412,7 +1412,7 @@ extension Batch {
         }
     }
 
-    public struct NodeProperties: AWSShape {
+    public struct NodeProperties: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies the node index for the main node of a multi-node parallel job. This node index value must be fewer than the number of nodes.
         public let mainNode: Int
@@ -1434,7 +1434,7 @@ extension Batch {
         }
     }
 
-    public struct NodePropertiesSummary: AWSShape {
+    public struct NodePropertiesSummary: AWSDecodableShape {
 
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
@@ -1456,7 +1456,7 @@ extension Batch {
         }
     }
 
-    public struct NodePropertyOverride: AWSShape {
+    public struct NodePropertyOverride: AWSEncodableShape {
 
         /// The overrides that should be sent to a node range.
         public let containerOverrides: ContainerOverrides?
@@ -1474,7 +1474,7 @@ extension Batch {
         }
     }
 
-    public struct NodeRangeProperty: AWSShape {
+    public struct NodeRangeProperty: AWSEncodableShape & AWSDecodableShape {
 
         /// The container details for the node range.
         public let container: ContainerProperties?
@@ -1492,7 +1492,7 @@ extension Batch {
         }
     }
 
-    public struct RegisterJobDefinitionRequest: AWSShape {
+    public struct RegisterJobDefinitionRequest: AWSEncodableShape {
 
         /// An object with various properties specific to single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties.
         public let containerProperties: ContainerProperties?
@@ -1530,7 +1530,7 @@ extension Batch {
         }
     }
 
-    public struct RegisterJobDefinitionResponse: AWSShape {
+    public struct RegisterJobDefinitionResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the job definition.
         public let jobDefinitionArn: String
@@ -1552,7 +1552,7 @@ extension Batch {
         }
     }
 
-    public struct ResourceRequirement: AWSShape {
+    public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of resource to assign to a container. Currently, the only supported resource type is GPU.
         public let `type`: ResourceType
@@ -1570,7 +1570,7 @@ extension Batch {
         }
     }
 
-    public struct RetryStrategy: AWSShape {
+    public struct RetryStrategy: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
         public let attempts: Int?
@@ -1584,7 +1584,7 @@ extension Batch {
         }
     }
 
-    public struct SubmitJobRequest: AWSShape {
+    public struct SubmitJobRequest: AWSEncodableShape {
 
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see Array Jobs in the AWS Batch User Guide.
         public let arrayProperties: ArrayProperties?
@@ -1634,7 +1634,7 @@ extension Batch {
         }
     }
 
-    public struct SubmitJobResponse: AWSShape {
+    public struct SubmitJobResponse: AWSDecodableShape {
 
         /// The unique identifier for the job.
         public let jobId: String
@@ -1652,7 +1652,7 @@ extension Batch {
         }
     }
 
-    public struct TerminateJobRequest: AWSShape {
+    public struct TerminateJobRequest: AWSEncodableShape {
 
         /// The AWS Batch job ID of the job to terminate.
         public let jobId: String
@@ -1670,7 +1670,7 @@ extension Batch {
         }
     }
 
-    public struct TerminateJobResponse: AWSShape {
+    public struct TerminateJobResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1678,7 +1678,7 @@ extension Batch {
 
     }
 
-    public struct Ulimit: AWSShape {
+    public struct Ulimit: AWSEncodableShape & AWSDecodableShape {
 
         /// The hard limit for the ulimit type.
         public let hardLimit: Int
@@ -1700,7 +1700,7 @@ extension Batch {
         }
     }
 
-    public struct UpdateComputeEnvironmentRequest: AWSShape {
+    public struct UpdateComputeEnvironmentRequest: AWSEncodableShape {
 
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
         public let computeEnvironment: String
@@ -1726,7 +1726,7 @@ extension Batch {
         }
     }
 
-    public struct UpdateComputeEnvironmentResponse: AWSShape {
+    public struct UpdateComputeEnvironmentResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String?
@@ -1744,7 +1744,7 @@ extension Batch {
         }
     }
 
-    public struct UpdateJobQueueRequest: AWSShape {
+    public struct UpdateJobQueueRequest: AWSEncodableShape {
 
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
@@ -1770,7 +1770,7 @@ extension Batch {
         }
     }
 
-    public struct UpdateJobQueueResponse: AWSShape {
+    public struct UpdateJobQueueResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the job queue.
         public let jobQueueArn: String?
@@ -1788,7 +1788,7 @@ extension Batch {
         }
     }
 
-    public struct Volume: AWSShape {
+    public struct Volume: AWSEncodableShape & AWSDecodableShape {
 
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running.
         public let host: Host?

@@ -43,7 +43,7 @@ extension TranscribeStreamingService {
 
     //MARK: Shapes
 
-    public struct Alternative: AWSShape {
+    public struct Alternative: AWSDecodableShape {
 
         /// One or more alternative interpretations of the input audio. 
         public let items: [Item]?
@@ -61,7 +61,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct AudioEvent: AWSShape {
+    public struct AudioEvent: AWSEncodableShape {
 
         /// An audio blob that contains the next part of the audio that you want to transcribe.
         public let audioChunk: Data?
@@ -75,7 +75,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct AudioStream: AWSShape {
+    public struct AudioStream: AWSEncodableShape {
 
         /// A blob of audio from your application. You audio stream consists of one or more audio events.
         public let audioEvent: AudioEvent?
@@ -89,7 +89,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct BadRequestException: AWSShape {
+    public struct BadRequestException: AWSDecodableShape {
 
         public let message: String?
 
@@ -102,7 +102,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct ConflictException: AWSShape {
+    public struct ConflictException: AWSDecodableShape {
 
         public let message: String?
 
@@ -115,7 +115,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct InternalFailureException: AWSShape {
+    public struct InternalFailureException: AWSDecodableShape {
 
         public let message: String?
 
@@ -128,7 +128,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct Item: AWSShape {
+    public struct Item: AWSDecodableShape {
 
         /// The word or punctuation that was recognized in the input audio.
         public let content: String?
@@ -154,7 +154,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct LimitExceededException: AWSShape {
+    public struct LimitExceededException: AWSDecodableShape {
 
         public let message: String?
 
@@ -167,7 +167,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct Result: AWSShape {
+    public struct Result: AWSDecodableShape {
 
         /// A list of possible transcriptions for the audio. Each alternative typically contains one item that contains the result of the transcription.
         public let alternatives: [Alternative]?
@@ -197,11 +197,10 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct StartStreamTranscriptionRequest: AWSShape {
+    public struct StartStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")), 
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")), 
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")), 
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")), 
@@ -242,15 +241,10 @@ extension TranscribeStreamingService {
 
         private enum CodingKeys: String, CodingKey {
             case audioStream = "AudioStream"
-            case languageCode = "x-amzn-transcribe-language-code"
-            case mediaEncoding = "x-amzn-transcribe-media-encoding"
-            case mediaSampleRateHertz = "x-amzn-transcribe-sample-rate"
-            case sessionId = "x-amzn-transcribe-session-id"
-            case vocabularyName = "x-amzn-transcribe-vocabulary-name"
         }
     }
 
-    public struct StartStreamTranscriptionResponse: AWSShape {
+    public struct StartStreamTranscriptionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "transcriptResultStream"
         public static var _encoding = [
@@ -299,7 +293,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct Transcript: AWSShape {
+    public struct Transcript: AWSDecodableShape {
 
         ///  Result objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
         public let results: [Result]?
@@ -313,7 +307,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct TranscriptEvent: AWSShape {
+    public struct TranscriptEvent: AWSDecodableShape {
 
         /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
         public let transcript: Transcript?
@@ -327,7 +321,7 @@ extension TranscribeStreamingService {
         }
     }
 
-    public struct TranscriptResultStream: AWSShape {
+    public struct TranscriptResultStream: AWSDecodableShape {
 
         /// A client error occurred when the stream was created. Check the parameters of the request and try your request again.
         public let badRequestException: BadRequestException?

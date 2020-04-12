@@ -606,7 +606,7 @@ extension SSM {
 
     //MARK: Shapes
 
-    public struct AccountSharingInfo: AWSShape {
+    public struct AccountSharingInfo: AWSDecodableShape {
 
         /// The AWS account ID where the current document is shared.
         public let accountId: String?
@@ -624,7 +624,7 @@ extension SSM {
         }
     }
 
-    public struct Activation: AWSShape {
+    public struct Activation: AWSDecodableShape {
 
         /// The ID created by Systems Manager when you submitted the activation.
         public let activationId: String?
@@ -674,7 +674,7 @@ extension SSM {
         }
     }
 
-    public struct AddTagsToResourceRequest: AWSShape {
+    public struct AddTagsToResourceRequest: AWSEncodableShape {
 
         /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceId: String
@@ -703,7 +703,7 @@ extension SSM {
         }
     }
 
-    public struct AddTagsToResourceResult: AWSShape {
+    public struct AddTagsToResourceResult: AWSDecodableShape {
 
 
         public init() {
@@ -711,7 +711,7 @@ extension SSM {
 
     }
 
-    public struct Association: AWSShape {
+    public struct Association: AWSDecodableShape {
 
         /// The ID created by the system when you create an association. An association is a binding between a document and a set of targets with a schedule.
         public let associationId: String?
@@ -761,7 +761,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationDescription: AWSShape {
+    public struct AssociationDescription: AWSDecodableShape {
 
         /// The association ID.
         public let associationId: String?
@@ -851,7 +851,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationExecution: AWSShape {
+    public struct AssociationExecution: AWSDecodableShape {
 
         /// The association ID.
         public let associationId: String?
@@ -893,7 +893,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationExecutionFilter: AWSShape {
+    public struct AssociationExecutionFilter: AWSEncodableShape {
 
         /// The key value used in the request.
         public let key: AssociationExecutionFilterKey
@@ -919,7 +919,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationExecutionTarget: AWSShape {
+    public struct AssociationExecutionTarget: AWSDecodableShape {
 
         /// The association ID.
         public let associationId: String?
@@ -965,7 +965,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationExecutionTargetsFilter: AWSShape {
+    public struct AssociationExecutionTargetsFilter: AWSEncodableShape {
 
         /// The key value used in the request.
         public let key: AssociationExecutionTargetsFilterKey
@@ -987,7 +987,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationFilter: AWSShape {
+    public struct AssociationFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: AssociationFilterKey
@@ -1009,7 +1009,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationOverview: AWSShape {
+    public struct AssociationOverview: AWSDecodableShape {
 
         /// Returns the number of targets for the association status. For example, if you created an association with two instances, and one of them was successful, this would return the count of instances by status.
         public let associationStatusAggregatedCount: [String: Int]?
@@ -1031,7 +1031,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationStatus: AWSShape {
+    public struct AssociationStatus: AWSEncodableShape & AWSDecodableShape {
 
         /// A user-defined string.
         public let additionalInfo: String?
@@ -1063,7 +1063,7 @@ extension SSM {
         }
     }
 
-    public struct AssociationVersionInfo: AWSShape {
+    public struct AssociationVersionInfo: AWSDecodableShape {
 
         /// The ID created by the system when the association was created.
         public let associationId: String?
@@ -1125,7 +1125,7 @@ extension SSM {
         }
     }
 
-    public struct AttachmentContent: AWSShape {
+    public struct AttachmentContent: AWSDecodableShape {
 
         /// The cryptographic hash value of the document content.
         public let hash: String?
@@ -1155,7 +1155,7 @@ extension SSM {
         }
     }
 
-    public struct AttachmentInformation: AWSShape {
+    public struct AttachmentInformation: AWSDecodableShape {
 
         /// The name of the attachment.
         public let name: String?
@@ -1169,7 +1169,7 @@ extension SSM {
         }
     }
 
-    public struct AttachmentsSource: AWSShape {
+    public struct AttachmentsSource: AWSEncodableShape {
 
         /// The key of a key-value pair that identifies the location of an attachment to a document.
         public let key: AttachmentsSourceKey?
@@ -1201,7 +1201,7 @@ extension SSM {
         }
     }
 
-    public struct AutomationExecution: AWSShape {
+    public struct AutomationExecution: AWSDecodableShape {
 
         /// The execution ID.
         public let automationExecutionId: String?
@@ -1311,7 +1311,7 @@ extension SSM {
         }
     }
 
-    public struct AutomationExecutionFilter: AWSShape {
+    public struct AutomationExecutionFilter: AWSEncodableShape {
 
         /// One or more keys to limit the results. Valid filter keys include the following: DocumentNamePrefix, ExecutionStatus, ExecutionId, ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter.
         public let key: AutomationExecutionFilterKey
@@ -1338,7 +1338,7 @@ extension SSM {
         }
     }
 
-    public struct AutomationExecutionMetadata: AWSShape {
+    public struct AutomationExecutionMetadata: AWSDecodableShape {
 
         /// The execution ID.
         public let automationExecutionId: String?
@@ -1436,7 +1436,7 @@ extension SSM {
         }
     }
 
-    public struct CancelCommandRequest: AWSShape {
+    public struct CancelCommandRequest: AWSEncodableShape {
 
         /// The ID of the command you want to cancel.
         public let commandId: String
@@ -1464,7 +1464,7 @@ extension SSM {
         }
     }
 
-    public struct CancelCommandResult: AWSShape {
+    public struct CancelCommandResult: AWSDecodableShape {
 
 
         public init() {
@@ -1472,7 +1472,7 @@ extension SSM {
 
     }
 
-    public struct CancelMaintenanceWindowExecutionRequest: AWSShape {
+    public struct CancelMaintenanceWindowExecutionRequest: AWSEncodableShape {
 
         /// The ID of the maintenance window execution to stop.
         public let windowExecutionId: String
@@ -1492,7 +1492,7 @@ extension SSM {
         }
     }
 
-    public struct CancelMaintenanceWindowExecutionResult: AWSShape {
+    public struct CancelMaintenanceWindowExecutionResult: AWSDecodableShape {
 
         /// The ID of the maintenance window execution that has been stopped.
         public let windowExecutionId: String?
@@ -1506,7 +1506,7 @@ extension SSM {
         }
     }
 
-    public struct CloudWatchOutputConfig: AWSShape {
+    public struct CloudWatchOutputConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the CloudWatch log group where you want to send command output. If you don't specify a group name, Systems Manager automatically creates a log group for you. The log group uses the following naming format: aws/ssm/SystemsManagerDocumentName.
         public let cloudWatchLogGroupName: String?
@@ -1529,7 +1529,7 @@ extension SSM {
         }
     }
 
-    public struct Command: AWSShape {
+    public struct Command: AWSDecodableShape {
 
         /// CloudWatch Logs information where you want Systems Manager to send the command output.
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
@@ -1631,7 +1631,7 @@ extension SSM {
         }
     }
 
-    public struct CommandFilter: AWSShape {
+    public struct CommandFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: CommandFilterKey
@@ -1654,7 +1654,7 @@ extension SSM {
         }
     }
 
-    public struct CommandInvocation: AWSShape {
+    public struct CommandInvocation: AWSDecodableShape {
 
         /// CloudWatch Logs information where you want Systems Manager to send the command output.
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
@@ -1727,7 +1727,7 @@ extension SSM {
         }
     }
 
-    public struct CommandPlugin: AWSShape {
+    public struct CommandPlugin: AWSDecodableShape {
 
         /// The name of the plugin. Must be one of the following: aws:updateAgent, aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule, aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent. 
         public let name: String?
@@ -1785,7 +1785,7 @@ extension SSM {
         }
     }
 
-    public struct ComplianceExecutionSummary: AWSShape {
+    public struct ComplianceExecutionSummary: AWSEncodableShape & AWSDecodableShape {
 
         /// An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls.
         public let executionId: String?
@@ -1812,7 +1812,7 @@ extension SSM {
         }
     }
 
-    public struct ComplianceItem: AWSShape {
+    public struct ComplianceItem: AWSDecodableShape {
 
         /// The compliance type. For example, Association (for a State Manager association), Patch, or Custom:string are all valid compliance types.
         public let complianceType: String?
@@ -1858,7 +1858,7 @@ extension SSM {
         }
     }
 
-    public struct ComplianceItemEntry: AWSShape {
+    public struct ComplianceItemEntry: AWSEncodableShape {
 
         /// A "Key": "Value" tag combination for the compliance item.
         public let details: [String: String]?
@@ -1898,7 +1898,7 @@ extension SSM {
         }
     }
 
-    public struct ComplianceStringFilter: AWSShape {
+    public struct ComplianceStringFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: String?
@@ -1927,7 +1927,7 @@ extension SSM {
         }
     }
 
-    public struct ComplianceSummaryItem: AWSShape {
+    public struct ComplianceSummaryItem: AWSDecodableShape {
 
         /// The type of compliance item. For example, the compliance type can be Association, Patch, or Custom:string.
         public let complianceType: String?
@@ -1949,7 +1949,7 @@ extension SSM {
         }
     }
 
-    public struct CompliantSummary: AWSShape {
+    public struct CompliantSummary: AWSDecodableShape {
 
         /// The total number of resources that are compliant.
         public let compliantCount: Int?
@@ -1967,7 +1967,7 @@ extension SSM {
         }
     }
 
-    public struct CreateActivationRequest: AWSShape {
+    public struct CreateActivationRequest: AWSEncodableShape {
 
         /// The name of the registered, managed instance as it will appear in the Systems Manager console or when you use the AWS command line tools to list Systems Manager resources.  Do not enter personally identifiable information in this field. 
         public let defaultInstanceName: String?
@@ -2016,7 +2016,7 @@ extension SSM {
         }
     }
 
-    public struct CreateActivationResult: AWSShape {
+    public struct CreateActivationResult: AWSDecodableShape {
 
         /// The code the system generates when it processes the activation. The activation code functions like a password to validate the activation ID. 
         public let activationCode: String?
@@ -2034,7 +2034,7 @@ extension SSM {
         }
     }
 
-    public struct CreateAssociationBatchRequest: AWSShape {
+    public struct CreateAssociationBatchRequest: AWSEncodableShape {
 
         /// One or more associations.
         public let entries: [CreateAssociationBatchRequestEntry]
@@ -2055,7 +2055,7 @@ extension SSM {
         }
     }
 
-    public struct CreateAssociationBatchRequestEntry: AWSShape {
+    public struct CreateAssociationBatchRequestEntry: AWSEncodableShape & AWSDecodableShape {
 
         /// Specify a descriptive name for the association.
         public let associationName: String?
@@ -2136,7 +2136,7 @@ extension SSM {
         }
     }
 
-    public struct CreateAssociationBatchResult: AWSShape {
+    public struct CreateAssociationBatchResult: AWSDecodableShape {
 
         /// Information about the associations that failed.
         public let failed: [FailedCreateAssociation]?
@@ -2154,7 +2154,7 @@ extension SSM {
         }
     }
 
-    public struct CreateAssociationRequest: AWSShape {
+    public struct CreateAssociationRequest: AWSEncodableShape {
 
         /// Specify a descriptive name for the association.
         public let associationName: String?
@@ -2235,7 +2235,7 @@ extension SSM {
         }
     }
 
-    public struct CreateAssociationResult: AWSShape {
+    public struct CreateAssociationResult: AWSDecodableShape {
 
         /// Information about the association.
         public let associationDescription: AssociationDescription?
@@ -2249,7 +2249,7 @@ extension SSM {
         }
     }
 
-    public struct CreateDocumentRequest: AWSShape {
+    public struct CreateDocumentRequest: AWSEncodableShape {
 
         /// A list of key and value pairs that describe attachments to a version of a document.
         public let attachments: [AttachmentsSource]?
@@ -2316,7 +2316,7 @@ extension SSM {
         }
     }
 
-    public struct CreateDocumentResult: AWSShape {
+    public struct CreateDocumentResult: AWSDecodableShape {
 
         /// Information about the Systems Manager document.
         public let documentDescription: DocumentDescription?
@@ -2330,7 +2330,7 @@ extension SSM {
         }
     }
 
-    public struct CreateMaintenanceWindowRequest: AWSShape {
+    public struct CreateMaintenanceWindowRequest: AWSEncodableShape {
 
         /// Enables a maintenance window task to run on managed instances, even if you have not registered those instances as targets. If enabled, then you must specify the unregistered instances (by instance ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
         public let allowUnassociatedTargets: Bool
@@ -2404,7 +2404,7 @@ extension SSM {
         }
     }
 
-    public struct CreateMaintenanceWindowResult: AWSShape {
+    public struct CreateMaintenanceWindowResult: AWSDecodableShape {
 
         /// The ID of the created maintenance window.
         public let windowId: String?
@@ -2418,7 +2418,7 @@ extension SSM {
         }
     }
 
-    public struct CreateOpsItemRequest: AWSShape {
+    public struct CreateOpsItemRequest: AWSEncodableShape {
 
         /// Specify a category to assign to an OpsItem. 
         public let category: String?
@@ -2491,7 +2491,7 @@ extension SSM {
         }
     }
 
-    public struct CreateOpsItemResponse: AWSShape {
+    public struct CreateOpsItemResponse: AWSDecodableShape {
 
         /// The ID of the OpsItem.
         public let opsItemId: String?
@@ -2505,7 +2505,7 @@ extension SSM {
         }
     }
 
-    public struct CreatePatchBaselineRequest: AWSShape {
+    public struct CreatePatchBaselineRequest: AWSEncodableShape {
 
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
@@ -2600,7 +2600,7 @@ extension SSM {
         }
     }
 
-    public struct CreatePatchBaselineResult: AWSShape {
+    public struct CreatePatchBaselineResult: AWSDecodableShape {
 
         /// The ID of the created patch baseline.
         public let baselineId: String?
@@ -2614,7 +2614,7 @@ extension SSM {
         }
     }
 
-    public struct CreateResourceDataSyncRequest: AWSShape {
+    public struct CreateResourceDataSyncRequest: AWSEncodableShape {
 
         /// Amazon S3 configuration details for the sync.
         public let s3Destination: ResourceDataSyncS3Destination?
@@ -2649,7 +2649,7 @@ extension SSM {
         }
     }
 
-    public struct CreateResourceDataSyncResult: AWSShape {
+    public struct CreateResourceDataSyncResult: AWSDecodableShape {
 
 
         public init() {
@@ -2657,7 +2657,7 @@ extension SSM {
 
     }
 
-    public struct DeleteActivationRequest: AWSShape {
+    public struct DeleteActivationRequest: AWSEncodableShape {
 
         /// The ID of the activation that you want to delete.
         public let activationId: String
@@ -2675,7 +2675,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteActivationResult: AWSShape {
+    public struct DeleteActivationResult: AWSDecodableShape {
 
 
         public init() {
@@ -2683,7 +2683,7 @@ extension SSM {
 
     }
 
-    public struct DeleteAssociationRequest: AWSShape {
+    public struct DeleteAssociationRequest: AWSEncodableShape {
 
         /// The association ID that you want to delete.
         public let associationId: String?
@@ -2711,7 +2711,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteAssociationResult: AWSShape {
+    public struct DeleteAssociationResult: AWSDecodableShape {
 
 
         public init() {
@@ -2719,7 +2719,7 @@ extension SSM {
 
     }
 
-    public struct DeleteDocumentRequest: AWSShape {
+    public struct DeleteDocumentRequest: AWSEncodableShape {
 
         /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let documentVersion: String?
@@ -2751,7 +2751,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteDocumentResult: AWSShape {
+    public struct DeleteDocumentResult: AWSDecodableShape {
 
 
         public init() {
@@ -2759,7 +2759,7 @@ extension SSM {
 
     }
 
-    public struct DeleteInventoryRequest: AWSShape {
+    public struct DeleteInventoryRequest: AWSEncodableShape {
 
         /// User-provided idempotency token.
         public let clientToken: String?
@@ -2793,7 +2793,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteInventoryResult: AWSShape {
+    public struct DeleteInventoryResult: AWSDecodableShape {
 
         /// Every DeleteInventory action is assigned a unique ID. This option returns a unique ID. You can use this ID to query the status of a delete operation. This option is useful for ensuring that a delete operation has completed before you begin other actions. 
         public let deletionId: String?
@@ -2815,7 +2815,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteMaintenanceWindowRequest: AWSShape {
+    public struct DeleteMaintenanceWindowRequest: AWSEncodableShape {
 
         /// The ID of the maintenance window to delete.
         public let windowId: String
@@ -2835,7 +2835,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteMaintenanceWindowResult: AWSShape {
+    public struct DeleteMaintenanceWindowResult: AWSDecodableShape {
 
         /// The ID of the deleted maintenance window.
         public let windowId: String?
@@ -2849,7 +2849,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteParameterRequest: AWSShape {
+    public struct DeleteParameterRequest: AWSEncodableShape {
 
         /// The name of the parameter to delete.
         public let name: String
@@ -2868,7 +2868,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteParameterResult: AWSShape {
+    public struct DeleteParameterResult: AWSDecodableShape {
 
 
         public init() {
@@ -2876,7 +2876,7 @@ extension SSM {
 
     }
 
-    public struct DeleteParametersRequest: AWSShape {
+    public struct DeleteParametersRequest: AWSEncodableShape {
 
         /// The names of the parameters to delete.
         public let names: [String]
@@ -2899,7 +2899,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteParametersResult: AWSShape {
+    public struct DeleteParametersResult: AWSDecodableShape {
 
         /// The names of the deleted parameters.
         public let deletedParameters: [String]?
@@ -2917,7 +2917,7 @@ extension SSM {
         }
     }
 
-    public struct DeletePatchBaselineRequest: AWSShape {
+    public struct DeletePatchBaselineRequest: AWSEncodableShape {
 
         /// The ID of the patch baseline to delete.
         public let baselineId: String
@@ -2937,7 +2937,7 @@ extension SSM {
         }
     }
 
-    public struct DeletePatchBaselineResult: AWSShape {
+    public struct DeletePatchBaselineResult: AWSDecodableShape {
 
         /// The ID of the deleted patch baseline.
         public let baselineId: String?
@@ -2951,7 +2951,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteResourceDataSyncRequest: AWSShape {
+    public struct DeleteResourceDataSyncRequest: AWSEncodableShape {
 
         /// The name of the configuration to delete.
         public let syncName: String
@@ -2976,7 +2976,7 @@ extension SSM {
         }
     }
 
-    public struct DeleteResourceDataSyncResult: AWSShape {
+    public struct DeleteResourceDataSyncResult: AWSDecodableShape {
 
 
         public init() {
@@ -2984,7 +2984,7 @@ extension SSM {
 
     }
 
-    public struct DeregisterManagedInstanceRequest: AWSShape {
+    public struct DeregisterManagedInstanceRequest: AWSEncodableShape {
 
         /// The ID assigned to the managed instance when you registered it using the activation process. 
         public let instanceId: String
@@ -3002,7 +3002,7 @@ extension SSM {
         }
     }
 
-    public struct DeregisterManagedInstanceResult: AWSShape {
+    public struct DeregisterManagedInstanceResult: AWSDecodableShape {
 
 
         public init() {
@@ -3010,7 +3010,7 @@ extension SSM {
 
     }
 
-    public struct DeregisterPatchBaselineForPatchGroupRequest: AWSShape {
+    public struct DeregisterPatchBaselineForPatchGroupRequest: AWSEncodableShape {
 
         /// The ID of the patch baseline to deregister the patch group from.
         public let baselineId: String
@@ -3037,7 +3037,7 @@ extension SSM {
         }
     }
 
-    public struct DeregisterPatchBaselineForPatchGroupResult: AWSShape {
+    public struct DeregisterPatchBaselineForPatchGroupResult: AWSDecodableShape {
 
         /// The ID of the patch baseline the patch group was deregistered from.
         public let baselineId: String?
@@ -3055,7 +3055,7 @@ extension SSM {
         }
     }
 
-    public struct DeregisterTargetFromMaintenanceWindowRequest: AWSShape {
+    public struct DeregisterTargetFromMaintenanceWindowRequest: AWSEncodableShape {
 
         /// The system checks if the target is being referenced by a task. If the target is being referenced, the system returns an error and does not deregister the target from the maintenance window.
         public let safe: Bool?
@@ -3086,7 +3086,7 @@ extension SSM {
         }
     }
 
-    public struct DeregisterTargetFromMaintenanceWindowResult: AWSShape {
+    public struct DeregisterTargetFromMaintenanceWindowResult: AWSDecodableShape {
 
         /// The ID of the maintenance window the target was removed from.
         public let windowId: String?
@@ -3104,7 +3104,7 @@ extension SSM {
         }
     }
 
-    public struct DeregisterTaskFromMaintenanceWindowRequest: AWSShape {
+    public struct DeregisterTaskFromMaintenanceWindowRequest: AWSEncodableShape {
 
         /// The ID of the maintenance window the task should be removed from.
         public let windowId: String
@@ -3131,7 +3131,7 @@ extension SSM {
         }
     }
 
-    public struct DeregisterTaskFromMaintenanceWindowResult: AWSShape {
+    public struct DeregisterTaskFromMaintenanceWindowResult: AWSDecodableShape {
 
         /// The ID of the maintenance window the task was removed from.
         public let windowId: String?
@@ -3149,7 +3149,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeActivationsFilter: AWSShape {
+    public struct DescribeActivationsFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let filterKey: DescribeActivationsFilterKeys?
@@ -3167,7 +3167,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeActivationsRequest: AWSShape {
+    public struct DescribeActivationsRequest: AWSEncodableShape {
 
         /// A filter to view information about your activations.
         public let filters: [DescribeActivationsFilter]?
@@ -3194,7 +3194,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeActivationsResult: AWSShape {
+    public struct DescribeActivationsResult: AWSDecodableShape {
 
         /// A list of activations for your AWS account.
         public let activationList: [Activation]?
@@ -3212,7 +3212,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAssociationExecutionTargetsRequest: AWSShape {
+    public struct DescribeAssociationExecutionTargetsRequest: AWSEncodableShape {
 
         /// The association ID that includes the execution for which you want to view details.
         public let associationId: String
@@ -3253,7 +3253,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAssociationExecutionTargetsResult: AWSShape {
+    public struct DescribeAssociationExecutionTargetsResult: AWSDecodableShape {
 
         /// Information about the execution.
         public let associationExecutionTargets: [AssociationExecutionTarget]?
@@ -3271,7 +3271,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAssociationExecutionsRequest: AWSShape {
+    public struct DescribeAssociationExecutionsRequest: AWSEncodableShape {
 
         /// The association ID for which you want to view execution history details.
         public let associationId: String
@@ -3307,7 +3307,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAssociationExecutionsResult: AWSShape {
+    public struct DescribeAssociationExecutionsResult: AWSDecodableShape {
 
         /// A list of the executions for the specified association ID.
         public let associationExecutions: [AssociationExecution]?
@@ -3325,7 +3325,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAssociationRequest: AWSShape {
+    public struct DescribeAssociationRequest: AWSEncodableShape {
 
         /// The association ID for which you want information.
         public let associationId: String?
@@ -3358,7 +3358,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAssociationResult: AWSShape {
+    public struct DescribeAssociationResult: AWSDecodableShape {
 
         /// Information about the association.
         public let associationDescription: AssociationDescription?
@@ -3372,7 +3372,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAutomationExecutionsRequest: AWSShape {
+    public struct DescribeAutomationExecutionsRequest: AWSEncodableShape {
 
         /// Filters used to limit the scope of executions that are requested.
         public let filters: [AutomationExecutionFilter]?
@@ -3404,7 +3404,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAutomationExecutionsResult: AWSShape {
+    public struct DescribeAutomationExecutionsResult: AWSDecodableShape {
 
         /// The list of details about each automation execution which has occurred which matches the filter specification, if any.
         public let automationExecutionMetadataList: [AutomationExecutionMetadata]?
@@ -3422,7 +3422,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAutomationStepExecutionsRequest: AWSShape {
+    public struct DescribeAutomationStepExecutionsRequest: AWSEncodableShape {
 
         /// The Automation execution ID for which you want step execution descriptions.
         public let automationExecutionId: String
@@ -3464,7 +3464,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAutomationStepExecutionsResult: AWSShape {
+    public struct DescribeAutomationStepExecutionsResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -3482,7 +3482,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAvailablePatchesRequest: AWSShape {
+    public struct DescribeAvailablePatchesRequest: AWSEncodableShape {
 
         /// Filters used to scope down the returned patches.
         public let filters: [PatchOrchestratorFilter]?
@@ -3514,7 +3514,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeAvailablePatchesResult: AWSShape {
+    public struct DescribeAvailablePatchesResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -3532,7 +3532,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeDocumentPermissionRequest: AWSShape {
+    public struct DescribeDocumentPermissionRequest: AWSEncodableShape {
 
         /// The name of the document for which you are the owner.
         public let name: String
@@ -3554,7 +3554,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeDocumentPermissionResponse: AWSShape {
+    public struct DescribeDocumentPermissionResponse: AWSDecodableShape {
 
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
         public let accountIds: [String]?
@@ -3572,7 +3572,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeDocumentRequest: AWSShape {
+    public struct DescribeDocumentRequest: AWSEncodableShape {
 
         /// The document version for which you want information. Can be a specific version or the default version.
         public let documentVersion: String?
@@ -3600,7 +3600,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeDocumentResult: AWSShape {
+    public struct DescribeDocumentResult: AWSDecodableShape {
 
         /// Information about the Systems Manager document.
         public let document: DocumentDescription?
@@ -3614,7 +3614,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeEffectiveInstanceAssociationsRequest: AWSShape {
+    public struct DescribeEffectiveInstanceAssociationsRequest: AWSEncodableShape {
 
         /// The instance ID for which you want to view all associations.
         public let instanceId: String
@@ -3642,7 +3642,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeEffectiveInstanceAssociationsResult: AWSShape {
+    public struct DescribeEffectiveInstanceAssociationsResult: AWSDecodableShape {
 
         /// The associations for the requested instance.
         public let associations: [InstanceAssociation]?
@@ -3660,7 +3660,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeEffectivePatchesForPatchBaselineRequest: AWSShape {
+    public struct DescribeEffectivePatchesForPatchBaselineRequest: AWSEncodableShape {
 
         /// The ID of the patch baseline to retrieve the effective patches for.
         public let baselineId: String
@@ -3690,7 +3690,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeEffectivePatchesForPatchBaselineResult: AWSShape {
+    public struct DescribeEffectivePatchesForPatchBaselineResult: AWSDecodableShape {
 
         /// An array of patches and patch status.
         public let effectivePatches: [EffectivePatch]?
@@ -3708,7 +3708,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstanceAssociationsStatusRequest: AWSShape {
+    public struct DescribeInstanceAssociationsStatusRequest: AWSEncodableShape {
 
         /// The instance IDs for which you want association status information.
         public let instanceId: String
@@ -3736,7 +3736,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstanceAssociationsStatusResult: AWSShape {
+    public struct DescribeInstanceAssociationsStatusResult: AWSDecodableShape {
 
         /// Status information about the association.
         public let instanceAssociationStatusInfos: [InstanceAssociationStatusInfo]?
@@ -3754,7 +3754,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstanceInformationRequest: AWSShape {
+    public struct DescribeInstanceInformationRequest: AWSEncodableShape {
 
         /// One or more filters. Use a filter to return a more specific list of instances. You can filter on Amazon EC2 tag. Specify tags by using a key-value mapping.
         public let filters: [InstanceInformationStringFilter]?
@@ -3793,7 +3793,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstanceInformationResult: AWSShape {
+    public struct DescribeInstanceInformationResult: AWSDecodableShape {
 
         /// The instance information list.
         public let instanceInformationList: [InstanceInformation]?
@@ -3811,7 +3811,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstancePatchStatesForPatchGroupRequest: AWSShape {
+    public struct DescribeInstancePatchStatesForPatchGroupRequest: AWSEncodableShape {
 
         /// Each entry in the array is a structure containing: Key (string between 1 and 200 characters)  Values (array containing a single string)  Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
         public let filters: [InstancePatchStateFilter]?
@@ -3850,7 +3850,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstancePatchStatesForPatchGroupResult: AWSShape {
+    public struct DescribeInstancePatchStatesForPatchGroupResult: AWSDecodableShape {
 
         /// The high-level patch state for the requested instances. 
         public let instancePatchStates: [InstancePatchState]?
@@ -3868,7 +3868,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstancePatchStatesRequest: AWSShape {
+    public struct DescribeInstancePatchStatesRequest: AWSEncodableShape {
 
         /// The ID of the instance whose patch state information should be retrieved.
         public let instanceIds: [String]
@@ -3900,7 +3900,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstancePatchStatesResult: AWSShape {
+    public struct DescribeInstancePatchStatesResult: AWSDecodableShape {
 
         /// The high-level patch state for the requested instances.
         public let instancePatchStates: [InstancePatchState]?
@@ -3918,7 +3918,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstancePatchesRequest: AWSShape {
+    public struct DescribeInstancePatchesRequest: AWSEncodableShape {
 
         /// An array of structures. Each entry in the array is a structure containing a Key, Value combination. Valid values for Key are Classification | KBId | Severity | State.
         public let filters: [PatchOrchestratorFilter]?
@@ -3955,7 +3955,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInstancePatchesResult: AWSShape {
+    public struct DescribeInstancePatchesResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -3973,7 +3973,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInventoryDeletionsRequest: AWSShape {
+    public struct DescribeInventoryDeletionsRequest: AWSEncodableShape {
 
         /// Specify the delete inventory ID for which you want information. This ID was returned by the DeleteInventory action.
         public let deletionId: String?
@@ -4000,7 +4000,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeInventoryDeletionsResult: AWSShape {
+    public struct DescribeInventoryDeletionsResult: AWSDecodableShape {
 
         /// A list of status items for deleted inventory.
         public let inventoryDeletions: [InventoryDeletionStatusItem]?
@@ -4018,7 +4018,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowExecutionTaskInvocationsRequest: AWSShape {
+    public struct DescribeMaintenanceWindowExecutionTaskInvocationsRequest: AWSEncodableShape {
 
         /// Optional filters used to scope down the returned task invocations. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
         public let filters: [MaintenanceWindowFilter]?
@@ -4064,7 +4064,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowExecutionTaskInvocationsResult: AWSShape {
+    public struct DescribeMaintenanceWindowExecutionTaskInvocationsResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4082,7 +4082,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowExecutionTasksRequest: AWSShape {
+    public struct DescribeMaintenanceWindowExecutionTasksRequest: AWSEncodableShape {
 
         /// Optional filters used to scope down the returned tasks. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED. 
         public let filters: [MaintenanceWindowFilter]?
@@ -4121,7 +4121,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowExecutionTasksResult: AWSShape {
+    public struct DescribeMaintenanceWindowExecutionTasksResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4139,7 +4139,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowExecutionsRequest: AWSShape {
+    public struct DescribeMaintenanceWindowExecutionsRequest: AWSEncodableShape {
 
         /// Each entry in the array is a structure containing: Key (string, between 1 and 128 characters) Values (array of strings, each string is between 1 and 256 characters) The supported Keys are ExecutedBefore and ExecutedAfter with the value being a date/time string such as 2016-11-04T05:00:00Z.
         public let filters: [MaintenanceWindowFilter]?
@@ -4178,7 +4178,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowExecutionsResult: AWSShape {
+    public struct DescribeMaintenanceWindowExecutionsResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4196,7 +4196,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowScheduleRequest: AWSShape {
+    public struct DescribeMaintenanceWindowScheduleRequest: AWSEncodableShape {
 
         /// Filters used to limit the range of results. For example, you can limit maintenance window executions to only those scheduled before or after a certain date and time.
         public let filters: [PatchOrchestratorFilter]?
@@ -4247,7 +4247,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowScheduleResult: AWSShape {
+    public struct DescribeMaintenanceWindowScheduleResult: AWSDecodableShape {
 
         /// The token for the next set of items to return. (You use this token in the next call.)
         public let nextToken: String?
@@ -4265,7 +4265,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowTargetsRequest: AWSShape {
+    public struct DescribeMaintenanceWindowTargetsRequest: AWSEncodableShape {
 
         /// Optional filters that can be used to narrow down the scope of the returned window targets. The supported filter keys are Type, WindowTargetId and OwnerInformation.
         public let filters: [MaintenanceWindowFilter]?
@@ -4304,7 +4304,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowTargetsResult: AWSShape {
+    public struct DescribeMaintenanceWindowTargetsResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4322,7 +4322,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowTasksRequest: AWSShape {
+    public struct DescribeMaintenanceWindowTasksRequest: AWSEncodableShape {
 
         /// Optional filters used to narrow down the scope of the returned tasks. The supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
         public let filters: [MaintenanceWindowFilter]?
@@ -4361,7 +4361,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowTasksResult: AWSShape {
+    public struct DescribeMaintenanceWindowTasksResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4379,7 +4379,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowsForTargetRequest: AWSShape {
+    public struct DescribeMaintenanceWindowsForTargetRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4414,7 +4414,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowsForTargetResult: AWSShape {
+    public struct DescribeMaintenanceWindowsForTargetResult: AWSDecodableShape {
 
         /// The token for the next set of items to return. (You use this token in the next call.)
         public let nextToken: String?
@@ -4432,7 +4432,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowsRequest: AWSShape {
+    public struct DescribeMaintenanceWindowsRequest: AWSEncodableShape {
 
         /// Optional filters used to narrow down the scope of the returned maintenance windows. Supported filter keys are Name and Enabled.
         public let filters: [MaintenanceWindowFilter]?
@@ -4464,7 +4464,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeMaintenanceWindowsResult: AWSShape {
+    public struct DescribeMaintenanceWindowsResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4482,7 +4482,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeOpsItemsRequest: AWSShape {
+    public struct DescribeOpsItemsRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4509,7 +4509,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeOpsItemsResponse: AWSShape {
+    public struct DescribeOpsItemsResponse: AWSDecodableShape {
 
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -4527,7 +4527,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeParametersRequest: AWSShape {
+    public struct DescribeParametersRequest: AWSEncodableShape {
 
         /// This data type is deprecated. Instead, use ParameterFilters.
         public let filters: [ParametersFilter]?
@@ -4564,7 +4564,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeParametersResult: AWSShape {
+    public struct DescribeParametersResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items.
         public let nextToken: String?
@@ -4582,7 +4582,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchBaselinesRequest: AWSShape {
+    public struct DescribePatchBaselinesRequest: AWSEncodableShape {
 
         /// Each element in the array is a structure containing:  Key: (string, "NAME_PREFIX" or "OWNER") Value: (array of strings, exactly 1 entry, between 1 and 255 characters)
         public let filters: [PatchOrchestratorFilter]?
@@ -4614,7 +4614,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchBaselinesResult: AWSShape {
+    public struct DescribePatchBaselinesResult: AWSDecodableShape {
 
         /// An array of PatchBaselineIdentity elements.
         public let baselineIdentities: [PatchBaselineIdentity]?
@@ -4632,7 +4632,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchGroupStateRequest: AWSShape {
+    public struct DescribePatchGroupStateRequest: AWSEncodableShape {
 
         /// The name of the patch group whose patch snapshot should be retrieved.
         public let patchGroup: String
@@ -4652,7 +4652,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchGroupStateResult: AWSShape {
+    public struct DescribePatchGroupStateResult: AWSDecodableShape {
 
         /// The number of instances in the patch group.
         public let instances: Int?
@@ -4698,7 +4698,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchGroupsRequest: AWSShape {
+    public struct DescribePatchGroupsRequest: AWSEncodableShape {
 
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [PatchOrchestratorFilter]?
@@ -4730,7 +4730,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchGroupsResult: AWSShape {
+    public struct DescribePatchGroupsResult: AWSDecodableShape {
 
         /// Each entry in the array contains: PatchGroup: string (between 1 and 256 characters, Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$) PatchBaselineIdentity: A PatchBaselineIdentity element. 
         public let mappings: [PatchGroupPatchBaselineMapping]?
@@ -4748,7 +4748,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchPropertiesRequest: AWSShape {
+    public struct DescribePatchPropertiesRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4783,7 +4783,7 @@ extension SSM {
         }
     }
 
-    public struct DescribePatchPropertiesResult: AWSShape {
+    public struct DescribePatchPropertiesResult: AWSDecodableShape {
 
         /// The token for the next set of items to return. (You use this token in the next call.)
         public let nextToken: String?
@@ -4801,7 +4801,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeSessionsRequest: AWSShape {
+    public struct DescribeSessionsRequest: AWSEncodableShape {
 
         /// One or more filters to limit the type of sessions returned by the request.
         public let filters: [SessionFilter]?
@@ -4837,7 +4837,7 @@ extension SSM {
         }
     }
 
-    public struct DescribeSessionsResponse: AWSShape {
+    public struct DescribeSessionsResponse: AWSDecodableShape {
 
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -4855,7 +4855,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentDefaultVersionDescription: AWSShape {
+    public struct DocumentDefaultVersionDescription: AWSDecodableShape {
 
         /// The default version of the document.
         public let defaultVersion: String?
@@ -4877,7 +4877,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentDescription: AWSShape {
+    public struct DocumentDescription: AWSDecodableShape {
 
         /// Details about the document attachments, including names, locations, sizes, etc.
         public let attachmentsInformation: [AttachmentInformation]?
@@ -4975,7 +4975,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentFilter: AWSShape {
+    public struct DocumentFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: DocumentFilterKey
@@ -4997,7 +4997,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentIdentifier: AWSShape {
+    public struct DocumentIdentifier: AWSDecodableShape {
 
         /// The document format, either JSON or YAML.
         public let documentFormat: DocumentFormat?
@@ -5051,7 +5051,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentKeyValuesFilter: AWSShape {
+    public struct DocumentKeyValuesFilter: AWSEncodableShape {
 
         /// The name of the filter key.
         public let key: String?
@@ -5078,7 +5078,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentParameter: AWSShape {
+    public struct DocumentParameter: AWSDecodableShape {
 
         /// If specified, the default values for the parameters. Parameters without a default value are required. Parameters with a default value are optional.
         public let defaultValue: String?
@@ -5104,7 +5104,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentRequires: AWSShape {
+    public struct DocumentRequires: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the required SSM document. The name can be an Amazon Resource Name (ARN).
         public let name: String
@@ -5127,7 +5127,7 @@ extension SSM {
         }
     }
 
-    public struct DocumentVersionInfo: AWSShape {
+    public struct DocumentVersionInfo: AWSDecodableShape {
 
         /// The date the document was created.
         public let createdDate: TimeStamp?
@@ -5169,7 +5169,7 @@ extension SSM {
         }
     }
 
-    public struct EffectivePatch: AWSShape {
+    public struct EffectivePatch: AWSDecodableShape {
 
         /// Provides metadata for a patch, including information such as the KB ID, severity, classification and a URL for where more information can be obtained about the patch.
         public let patch: Patch?
@@ -5187,7 +5187,7 @@ extension SSM {
         }
     }
 
-    public struct FailedCreateAssociation: AWSShape {
+    public struct FailedCreateAssociation: AWSDecodableShape {
 
         /// The association.
         public let entry: CreateAssociationBatchRequestEntry?
@@ -5209,7 +5209,7 @@ extension SSM {
         }
     }
 
-    public struct FailureDetails: AWSShape {
+    public struct FailureDetails: AWSDecodableShape {
 
         /// Detailed information about the Automation step failure.
         public let details: [String: [String]]?
@@ -5231,7 +5231,7 @@ extension SSM {
         }
     }
 
-    public struct GetAutomationExecutionRequest: AWSShape {
+    public struct GetAutomationExecutionRequest: AWSEncodableShape {
 
         /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation document is initiated.
         public let automationExecutionId: String
@@ -5250,7 +5250,7 @@ extension SSM {
         }
     }
 
-    public struct GetAutomationExecutionResult: AWSShape {
+    public struct GetAutomationExecutionResult: AWSDecodableShape {
 
         /// Detailed information about the current state of an automation execution.
         public let automationExecution: AutomationExecution?
@@ -5264,7 +5264,7 @@ extension SSM {
         }
     }
 
-    public struct GetCalendarStateRequest: AWSShape {
+    public struct GetCalendarStateRequest: AWSEncodableShape {
 
         /// (Optional) The specific time for which you want to get calendar state information, in ISO 8601 format. If you do not add AtTime, the current time is assumed.
         public let atTime: String?
@@ -5282,7 +5282,7 @@ extension SSM {
         }
     }
 
-    public struct GetCalendarStateResponse: AWSShape {
+    public struct GetCalendarStateResponse: AWSDecodableShape {
 
         /// The time, as an ISO 8601 string, that you specified in your command. If you did not specify a time, GetCalendarState uses the current time.
         public let atTime: String?
@@ -5304,7 +5304,7 @@ extension SSM {
         }
     }
 
-    public struct GetCommandInvocationRequest: AWSShape {
+    public struct GetCommandInvocationRequest: AWSEncodableShape {
 
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
@@ -5333,7 +5333,7 @@ extension SSM {
         }
     }
 
-    public struct GetCommandInvocationResult: AWSShape {
+    public struct GetCommandInvocationResult: AWSDecodableShape {
 
         /// CloudWatch Logs information where Systems Manager sent the command output.
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
@@ -5411,7 +5411,7 @@ extension SSM {
         }
     }
 
-    public struct GetConnectionStatusRequest: AWSShape {
+    public struct GetConnectionStatusRequest: AWSEncodableShape {
 
         /// The ID of the instance.
         public let target: String
@@ -5430,7 +5430,7 @@ extension SSM {
         }
     }
 
-    public struct GetConnectionStatusResponse: AWSShape {
+    public struct GetConnectionStatusResponse: AWSDecodableShape {
 
         /// The status of the connection to the instance. For example, 'Connected' or 'Not Connected'.
         public let status: ConnectionStatus?
@@ -5448,7 +5448,7 @@ extension SSM {
         }
     }
 
-    public struct GetDefaultPatchBaselineRequest: AWSShape {
+    public struct GetDefaultPatchBaselineRequest: AWSEncodableShape {
 
         /// Returns the default patch baseline for the specified operating system.
         public let operatingSystem: OperatingSystem?
@@ -5462,7 +5462,7 @@ extension SSM {
         }
     }
 
-    public struct GetDefaultPatchBaselineResult: AWSShape {
+    public struct GetDefaultPatchBaselineResult: AWSDecodableShape {
 
         /// The ID of the default patch baseline.
         public let baselineId: String?
@@ -5480,7 +5480,7 @@ extension SSM {
         }
     }
 
-    public struct GetDeployablePatchSnapshotForInstanceRequest: AWSShape {
+    public struct GetDeployablePatchSnapshotForInstanceRequest: AWSEncodableShape {
 
         /// The ID of the instance for which the appropriate patch snapshot should be retrieved.
         public let instanceId: String
@@ -5505,7 +5505,7 @@ extension SSM {
         }
     }
 
-    public struct GetDeployablePatchSnapshotForInstanceResult: AWSShape {
+    public struct GetDeployablePatchSnapshotForInstanceResult: AWSDecodableShape {
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -5531,7 +5531,7 @@ extension SSM {
         }
     }
 
-    public struct GetDocumentRequest: AWSShape {
+    public struct GetDocumentRequest: AWSEncodableShape {
 
         /// Returns the document in the specified format. The document format can be either JSON or YAML. JSON is the default format.
         public let documentFormat: DocumentFormat?
@@ -5563,7 +5563,7 @@ extension SSM {
         }
     }
 
-    public struct GetDocumentResult: AWSShape {
+    public struct GetDocumentResult: AWSDecodableShape {
 
         /// A description of the document attachments, including names, locations, sizes, etc.
         public let attachmentsContent: [AttachmentContent]?
@@ -5613,7 +5613,7 @@ extension SSM {
         }
     }
 
-    public struct GetInventoryRequest: AWSShape {
+    public struct GetInventoryRequest: AWSEncodableShape {
 
         /// Returns counts of inventory types based on one or more expressions. For example, if you aggregate by using an expression that uses the AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and Linux instances exist in your inventoried fleet.
         public let aggregators: [InventoryAggregator]?
@@ -5663,7 +5663,7 @@ extension SSM {
         }
     }
 
-    public struct GetInventoryResult: AWSShape {
+    public struct GetInventoryResult: AWSDecodableShape {
 
         /// Collection of inventory entities such as a collection of instance inventory. 
         public let entities: [InventoryResultEntity]?
@@ -5681,7 +5681,7 @@ extension SSM {
         }
     }
 
-    public struct GetInventorySchemaRequest: AWSShape {
+    public struct GetInventorySchemaRequest: AWSEncodableShape {
 
         /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it supports aggregation based on the PlatformName, PlatformType, and PlatformVersion attributes.
         public let aggregator: Bool?
@@ -5718,7 +5718,7 @@ extension SSM {
         }
     }
 
-    public struct GetInventorySchemaResult: AWSShape {
+    public struct GetInventorySchemaResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -5736,7 +5736,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowExecutionRequest: AWSShape {
+    public struct GetMaintenanceWindowExecutionRequest: AWSEncodableShape {
 
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String
@@ -5756,7 +5756,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowExecutionResult: AWSShape {
+    public struct GetMaintenanceWindowExecutionResult: AWSDecodableShape {
 
         /// The time the maintenance window finished running.
         public let endTime: TimeStamp?
@@ -5790,7 +5790,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowExecutionTaskInvocationRequest: AWSShape {
+    public struct GetMaintenanceWindowExecutionTaskInvocationRequest: AWSEncodableShape {
 
         /// The invocation ID to retrieve.
         public let invocationId: String
@@ -5824,7 +5824,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowExecutionTaskInvocationResult: AWSShape {
+    public struct GetMaintenanceWindowExecutionTaskInvocationResult: AWSDecodableShape {
 
         /// The time that the task finished running on the target.
         public let endTime: TimeStamp?
@@ -5882,7 +5882,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowExecutionTaskRequest: AWSShape {
+    public struct GetMaintenanceWindowExecutionTaskRequest: AWSEncodableShape {
 
         /// The ID of the specific task execution in the maintenance window task that should be retrieved.
         public let taskId: String
@@ -5909,7 +5909,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowExecutionTaskResult: AWSShape {
+    public struct GetMaintenanceWindowExecutionTaskResult: AWSDecodableShape {
 
         /// The time the task execution completed.
         public let endTime: TimeStamp?
@@ -5971,7 +5971,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowRequest: AWSShape {
+    public struct GetMaintenanceWindowRequest: AWSEncodableShape {
 
         /// The ID of the maintenance window for which you want to retrieve information.
         public let windowId: String
@@ -5991,7 +5991,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowResult: AWSShape {
+    public struct GetMaintenanceWindowResult: AWSDecodableShape {
 
         /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
@@ -6057,7 +6057,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowTaskRequest: AWSShape {
+    public struct GetMaintenanceWindowTaskRequest: AWSEncodableShape {
 
         /// The maintenance window ID that includes the task to retrieve.
         public let windowId: String
@@ -6084,7 +6084,7 @@ extension SSM {
         }
     }
 
-    public struct GetMaintenanceWindowTaskResult: AWSShape {
+    public struct GetMaintenanceWindowTaskResult: AWSDecodableShape {
 
         /// The retrieved task description.
         public let description: String?
@@ -6150,7 +6150,7 @@ extension SSM {
         }
     }
 
-    public struct GetOpsItemRequest: AWSShape {
+    public struct GetOpsItemRequest: AWSEncodableShape {
 
         /// The ID of the OpsItem that you want to get.
         public let opsItemId: String
@@ -6168,7 +6168,7 @@ extension SSM {
         }
     }
 
-    public struct GetOpsItemResponse: AWSShape {
+    public struct GetOpsItemResponse: AWSDecodableShape {
 
         /// The OpsItem.
         public let opsItem: OpsItem?
@@ -6182,7 +6182,7 @@ extension SSM {
         }
     }
 
-    public struct GetOpsSummaryRequest: AWSShape {
+    public struct GetOpsSummaryRequest: AWSEncodableShape {
 
         /// Optional aggregators that return counts of OpsItems based on one or more expressions.
         public let aggregators: [OpsAggregator]?
@@ -6238,7 +6238,7 @@ extension SSM {
         }
     }
 
-    public struct GetOpsSummaryResult: AWSShape {
+    public struct GetOpsSummaryResult: AWSDecodableShape {
 
         /// The list of aggregated and filtered OpsItems.
         public let entities: [OpsEntity]?
@@ -6256,7 +6256,7 @@ extension SSM {
         }
     }
 
-    public struct GetParameterHistoryRequest: AWSShape {
+    public struct GetParameterHistoryRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -6289,7 +6289,7 @@ extension SSM {
         }
     }
 
-    public struct GetParameterHistoryResult: AWSShape {
+    public struct GetParameterHistoryResult: AWSDecodableShape {
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -6307,7 +6307,7 @@ extension SSM {
         }
     }
 
-    public struct GetParameterRequest: AWSShape {
+    public struct GetParameterRequest: AWSEncodableShape {
 
         /// The name of the parameter you want to query.
         public let name: String
@@ -6330,7 +6330,7 @@ extension SSM {
         }
     }
 
-    public struct GetParameterResult: AWSShape {
+    public struct GetParameterResult: AWSDecodableShape {
 
         /// Information about a parameter.
         public let parameter: Parameter?
@@ -6344,7 +6344,7 @@ extension SSM {
         }
     }
 
-    public struct GetParametersByPathRequest: AWSShape {
+    public struct GetParametersByPathRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -6388,7 +6388,7 @@ extension SSM {
         }
     }
 
-    public struct GetParametersByPathResult: AWSShape {
+    public struct GetParametersByPathResult: AWSDecodableShape {
 
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -6406,7 +6406,7 @@ extension SSM {
         }
     }
 
-    public struct GetParametersRequest: AWSShape {
+    public struct GetParametersRequest: AWSEncodableShape {
 
         /// Names of the parameters for which you want to query information.
         public let names: [String]
@@ -6433,7 +6433,7 @@ extension SSM {
         }
     }
 
-    public struct GetParametersResult: AWSShape {
+    public struct GetParametersResult: AWSDecodableShape {
 
         /// A list of parameters that are not formatted correctly or do not run during an execution.
         public let invalidParameters: [String]?
@@ -6451,7 +6451,7 @@ extension SSM {
         }
     }
 
-    public struct GetPatchBaselineForPatchGroupRequest: AWSShape {
+    public struct GetPatchBaselineForPatchGroupRequest: AWSEncodableShape {
 
         /// Returns he operating system rule specified for patch groups using the patch baseline.
         public let operatingSystem: OperatingSystem?
@@ -6475,7 +6475,7 @@ extension SSM {
         }
     }
 
-    public struct GetPatchBaselineForPatchGroupResult: AWSShape {
+    public struct GetPatchBaselineForPatchGroupResult: AWSDecodableShape {
 
         /// The ID of the patch baseline that should be used for the patch group.
         public let baselineId: String?
@@ -6497,7 +6497,7 @@ extension SSM {
         }
     }
 
-    public struct GetPatchBaselineRequest: AWSShape {
+    public struct GetPatchBaselineRequest: AWSEncodableShape {
 
         /// The ID of the patch baseline to retrieve.
         public let baselineId: String
@@ -6517,7 +6517,7 @@ extension SSM {
         }
     }
 
-    public struct GetPatchBaselineResult: AWSShape {
+    public struct GetPatchBaselineResult: AWSDecodableShape {
 
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
@@ -6587,7 +6587,7 @@ extension SSM {
         }
     }
 
-    public struct GetServiceSettingRequest: AWSShape {
+    public struct GetServiceSettingRequest: AWSEncodableShape {
 
         /// The ID of the service setting to get.
         public let settingId: String
@@ -6606,7 +6606,7 @@ extension SSM {
         }
     }
 
-    public struct GetServiceSettingResult: AWSShape {
+    public struct GetServiceSettingResult: AWSDecodableShape {
 
         /// The query result of the current service setting.
         public let serviceSetting: ServiceSetting?
@@ -6620,7 +6620,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceAggregatedAssociationOverview: AWSShape {
+    public struct InstanceAggregatedAssociationOverview: AWSDecodableShape {
 
         /// Detailed status information about the aggregated associations.
         public let detailedStatus: String?
@@ -6638,7 +6638,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceAssociation: AWSShape {
+    public struct InstanceAssociation: AWSDecodableShape {
 
         /// The association ID.
         public let associationId: String?
@@ -6664,7 +6664,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceAssociationOutputLocation: AWSShape {
+    public struct InstanceAssociationOutputLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon S3 bucket where you want to store the results of this request.
         public let s3Location: S3OutputLocation?
@@ -6682,7 +6682,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceAssociationOutputUrl: AWSShape {
+    public struct InstanceAssociationOutputUrl: AWSDecodableShape {
 
         /// The URL of Amazon S3 bucket where you want to store the results of this request.
         public let s3OutputUrl: S3OutputUrl?
@@ -6696,7 +6696,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceAssociationStatusInfo: AWSShape {
+    public struct InstanceAssociationStatusInfo: AWSDecodableShape {
 
         /// The association ID.
         public let associationId: String?
@@ -6754,7 +6754,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceInformation: AWSShape {
+    public struct InstanceInformation: AWSDecodableShape {
 
         /// The activation ID created by Systems Manager when the server or VM was registered.
         public let activationId: String?
@@ -6840,7 +6840,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceInformationFilter: AWSShape {
+    public struct InstanceInformationFilter: AWSEncodableShape {
 
         /// The name of the filter. 
         public let key: InstanceInformationFilterKey
@@ -6866,7 +6866,7 @@ extension SSM {
         }
     }
 
-    public struct InstanceInformationStringFilter: AWSShape {
+    public struct InstanceInformationStringFilter: AWSEncodableShape {
 
         /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"
         public let key: String
@@ -6893,7 +6893,7 @@ extension SSM {
         }
     }
 
-    public struct InstancePatchState: AWSShape {
+    public struct InstancePatchState: AWSDecodableShape {
 
         /// The ID of the patch baseline used to patch the instance.
         public let baselineId: String
@@ -6979,7 +6979,7 @@ extension SSM {
         }
     }
 
-    public struct InstancePatchStateFilter: AWSShape {
+    public struct InstancePatchStateFilter: AWSEncodableShape {
 
         /// The key for the filter. Supported values are FailedCount, InstalledCount, InstalledOtherCount, MissingCount and NotApplicableCount.
         public let key: String
@@ -7008,7 +7008,7 @@ extension SSM {
         }
     }
 
-    public class InventoryAggregator: AWSShape {
+    public class InventoryAggregator: AWSEncodableShape {
 
         /// Nested aggregators to further refine aggregation for an inventory type.
         public let aggregators: [InventoryAggregator]?
@@ -7045,7 +7045,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryDeletionStatusItem: AWSShape {
+    public struct InventoryDeletionStatusItem: AWSDecodableShape {
 
         /// The deletion ID returned by the DeleteInventory action.
         public let deletionId: String?
@@ -7083,7 +7083,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryDeletionSummary: AWSShape {
+    public struct InventoryDeletionSummary: AWSDecodableShape {
 
         /// Remaining number of items to delete.
         public let remainingCount: Int?
@@ -7105,7 +7105,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryDeletionSummaryItem: AWSShape {
+    public struct InventoryDeletionSummaryItem: AWSDecodableShape {
 
         /// A count of the number of deleted items.
         public let count: Int?
@@ -7127,7 +7127,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryFilter: AWSShape {
+    public struct InventoryFilter: AWSEncodableShape {
 
         /// The name of the filter key.
         public let key: String
@@ -7156,7 +7156,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryGroup: AWSShape {
+    public struct InventoryGroup: AWSEncodableShape {
 
         /// Filters define the criteria for the group. The matchingCount field displays the number of resources that match the criteria. The notMatchingCount field displays the number of resources that don't match the criteria. 
         public let filters: [InventoryFilter]
@@ -7184,7 +7184,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryItem: AWSShape {
+    public struct InventoryItem: AWSEncodableShape {
 
         /// The time the inventory information was collected.
         public let captureTime: String
@@ -7235,7 +7235,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryItemAttribute: AWSShape {
+    public struct InventoryItemAttribute: AWSDecodableShape {
 
         /// The data type of the inventory item attribute. 
         public let dataType: InventoryAttributeDataType
@@ -7253,7 +7253,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryItemSchema: AWSShape {
+    public struct InventoryItemSchema: AWSDecodableShape {
 
         /// The schema attributes for inventory. This contains data type and attribute name.
         public let attributes: [InventoryItemAttribute]
@@ -7279,7 +7279,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryResultEntity: AWSShape {
+    public struct InventoryResultEntity: AWSDecodableShape {
 
         /// The data section in the inventory result entity JSON.
         public let data: [String: InventoryResultItem]?
@@ -7297,7 +7297,7 @@ extension SSM {
         }
     }
 
-    public struct InventoryResultItem: AWSShape {
+    public struct InventoryResultItem: AWSDecodableShape {
 
         /// The time inventory item data was captured.
         public let captureTime: String?
@@ -7327,7 +7327,7 @@ extension SSM {
         }
     }
 
-    public struct LabelParameterVersionRequest: AWSShape {
+    public struct LabelParameterVersionRequest: AWSEncodableShape {
 
         /// One or more labels to attach to the specified parameter version.
         public let labels: [String]
@@ -7360,7 +7360,7 @@ extension SSM {
         }
     }
 
-    public struct LabelParameterVersionResult: AWSShape {
+    public struct LabelParameterVersionResult: AWSDecodableShape {
 
         /// The label does not meet the requirements. For information about parameter label requirements, see Labeling Parameters in the AWS Systems Manager User Guide.
         public let invalidLabels: [String]?
@@ -7378,7 +7378,7 @@ extension SSM {
         }
     }
 
-    public struct ListAssociationVersionsRequest: AWSShape {
+    public struct ListAssociationVersionsRequest: AWSEncodableShape {
 
         /// The association ID for which you want to view all versions.
         public let associationId: String
@@ -7406,7 +7406,7 @@ extension SSM {
         }
     }
 
-    public struct ListAssociationVersionsResult: AWSShape {
+    public struct ListAssociationVersionsResult: AWSDecodableShape {
 
         /// Information about all versions of the association for the specified association ID.
         public let associationVersions: [AssociationVersionInfo]?
@@ -7424,7 +7424,7 @@ extension SSM {
         }
     }
 
-    public struct ListAssociationsRequest: AWSShape {
+    public struct ListAssociationsRequest: AWSEncodableShape {
 
         /// One or more filters. Use a filter to return a more specific list of results.
         public let associationFilterList: [AssociationFilter]?
@@ -7455,7 +7455,7 @@ extension SSM {
         }
     }
 
-    public struct ListAssociationsResult: AWSShape {
+    public struct ListAssociationsResult: AWSDecodableShape {
 
         /// The associations.
         public let associations: [Association]?
@@ -7473,7 +7473,7 @@ extension SSM {
         }
     }
 
-    public struct ListCommandInvocationsRequest: AWSShape {
+    public struct ListCommandInvocationsRequest: AWSEncodableShape {
 
         /// (Optional) The invocations for a specific command ID.
         public let commandId: String?
@@ -7520,7 +7520,7 @@ extension SSM {
         }
     }
 
-    public struct ListCommandInvocationsResult: AWSShape {
+    public struct ListCommandInvocationsResult: AWSDecodableShape {
 
         /// (Optional) A list of all invocations. 
         public let commandInvocations: [CommandInvocation]?
@@ -7538,7 +7538,7 @@ extension SSM {
         }
     }
 
-    public struct ListCommandsRequest: AWSShape {
+    public struct ListCommandsRequest: AWSEncodableShape {
 
         /// (Optional) If provided, lists only the specified command.
         public let commandId: String?
@@ -7581,7 +7581,7 @@ extension SSM {
         }
     }
 
-    public struct ListCommandsResult: AWSShape {
+    public struct ListCommandsResult: AWSDecodableShape {
 
         /// (Optional) The list of commands requested by the user. 
         public let commands: [Command]?
@@ -7599,7 +7599,7 @@ extension SSM {
         }
     }
 
-    public struct ListComplianceItemsRequest: AWSShape {
+    public struct ListComplianceItemsRequest: AWSEncodableShape {
 
         /// One or more compliance filters. Use a filter to return a more specific list of results.
         public let filters: [ComplianceStringFilter]?
@@ -7647,7 +7647,7 @@ extension SSM {
         }
     }
 
-    public struct ListComplianceItemsResult: AWSShape {
+    public struct ListComplianceItemsResult: AWSDecodableShape {
 
         /// A list of compliance information for the specified resource ID. 
         public let complianceItems: [ComplianceItem]?
@@ -7665,7 +7665,7 @@ extension SSM {
         }
     }
 
-    public struct ListComplianceSummariesRequest: AWSShape {
+    public struct ListComplianceSummariesRequest: AWSEncodableShape {
 
         /// One or more compliance or inventory filters. Use a filter to return a more specific list of results.
         public let filters: [ComplianceStringFilter]?
@@ -7695,7 +7695,7 @@ extension SSM {
         }
     }
 
-    public struct ListComplianceSummariesResult: AWSShape {
+    public struct ListComplianceSummariesResult: AWSDecodableShape {
 
         /// A list of compliant and non-compliant summary counts based on compliance types. For example, this call returns State Manager associations, patches, or custom compliance types according to the filter criteria that you specified.
         public let complianceSummaryItems: [ComplianceSummaryItem]?
@@ -7713,7 +7713,7 @@ extension SSM {
         }
     }
 
-    public struct ListDocumentVersionsRequest: AWSShape {
+    public struct ListDocumentVersionsRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -7741,7 +7741,7 @@ extension SSM {
         }
     }
 
-    public struct ListDocumentVersionsResult: AWSShape {
+    public struct ListDocumentVersionsResult: AWSDecodableShape {
 
         /// The document versions.
         public let documentVersions: [DocumentVersionInfo]?
@@ -7759,7 +7759,7 @@ extension SSM {
         }
     }
 
-    public struct ListDocumentsRequest: AWSShape {
+    public struct ListDocumentsRequest: AWSEncodableShape {
 
         /// One or more filters. Use a filter to return a more specific list of results.
         public let documentFilterList: [DocumentFilter]?
@@ -7799,7 +7799,7 @@ extension SSM {
         }
     }
 
-    public struct ListDocumentsResult: AWSShape {
+    public struct ListDocumentsResult: AWSDecodableShape {
 
         /// The names of the Systems Manager documents.
         public let documentIdentifiers: [DocumentIdentifier]?
@@ -7817,7 +7817,7 @@ extension SSM {
         }
     }
 
-    public struct ListInventoryEntriesRequest: AWSShape {
+    public struct ListInventoryEntriesRequest: AWSEncodableShape {
 
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [InventoryFilter]?
@@ -7861,7 +7861,7 @@ extension SSM {
         }
     }
 
-    public struct ListInventoryEntriesResult: AWSShape {
+    public struct ListInventoryEntriesResult: AWSDecodableShape {
 
         /// The time that inventory information was collected for the instance(s).
         public let captureTime: String?
@@ -7895,7 +7895,7 @@ extension SSM {
         }
     }
 
-    public struct ListResourceComplianceSummariesRequest: AWSShape {
+    public struct ListResourceComplianceSummariesRequest: AWSEncodableShape {
 
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [ComplianceStringFilter]?
@@ -7925,7 +7925,7 @@ extension SSM {
         }
     }
 
-    public struct ListResourceComplianceSummariesResult: AWSShape {
+    public struct ListResourceComplianceSummariesResult: AWSDecodableShape {
 
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -7943,7 +7943,7 @@ extension SSM {
         }
     }
 
-    public struct ListResourceDataSyncRequest: AWSShape {
+    public struct ListResourceDataSyncRequest: AWSEncodableShape {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -7972,7 +7972,7 @@ extension SSM {
         }
     }
 
-    public struct ListResourceDataSyncResult: AWSShape {
+    public struct ListResourceDataSyncResult: AWSDecodableShape {
 
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -7990,7 +7990,7 @@ extension SSM {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The resource ID for which you want to see a list of tags.
         public let resourceId: String
@@ -8008,7 +8008,7 @@ extension SSM {
         }
     }
 
-    public struct ListTagsForResourceResult: AWSShape {
+    public struct ListTagsForResourceResult: AWSDecodableShape {
 
         /// A list of tags.
         public let tagList: [Tag]?
@@ -8022,7 +8022,7 @@ extension SSM {
         }
     }
 
-    public struct LoggingInfo: AWSShape {
+    public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of an Amazon S3 bucket where execution logs are stored .
         public let s3BucketName: String
@@ -8052,7 +8052,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowAutomationParameters: AWSShape {
+    public struct MaintenanceWindowAutomationParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The version of an Automation document to use during task execution.
         public let documentVersion: String?
@@ -8080,7 +8080,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowExecution: AWSShape {
+    public struct MaintenanceWindowExecution: AWSDecodableShape {
 
         /// The time the execution finished.
         public let endTime: TimeStamp?
@@ -8114,7 +8114,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowExecutionTaskIdentity: AWSShape {
+    public struct MaintenanceWindowExecutionTaskIdentity: AWSDecodableShape {
 
         /// The time the task execution finished.
         public let endTime: TimeStamp?
@@ -8156,7 +8156,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowExecutionTaskInvocationIdentity: AWSShape {
+    public struct MaintenanceWindowExecutionTaskInvocationIdentity: AWSDecodableShape {
 
         /// The time the invocation finished.
         public let endTime: TimeStamp?
@@ -8214,7 +8214,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowFilter: AWSShape {
+    public struct MaintenanceWindowFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: String?
@@ -8241,7 +8241,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowIdentity: AWSShape {
+    public struct MaintenanceWindowIdentity: AWSDecodableShape {
 
         /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
         public let cutoff: Int?
@@ -8295,7 +8295,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowIdentityForTarget: AWSShape {
+    public struct MaintenanceWindowIdentityForTarget: AWSDecodableShape {
 
         /// The name of the maintenance window.
         public let name: String?
@@ -8313,7 +8313,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowLambdaParameters: AWSShape {
+    public struct MaintenanceWindowLambdaParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// Pass client-specific information to the Lambda function that you are invoking. You can then process the client information in your Lambda function as you choose through the context variable.
         public let clientContext: String?
@@ -8343,7 +8343,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowRunCommandParameters: AWSShape {
+    public struct MaintenanceWindowRunCommandParameters: AWSEncodableShape & AWSDecodableShape {
 
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
         /// Information about the commands to run.
@@ -8408,7 +8408,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowStepFunctionsParameters: AWSShape {
+    public struct MaintenanceWindowStepFunctionsParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The inputs for the STEP_FUNCTIONS task.
         public let input: String?
@@ -8432,7 +8432,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowTarget: AWSShape {
+    public struct MaintenanceWindowTarget: AWSDecodableShape {
 
         /// A description for the target.
         public let description: String?
@@ -8470,7 +8470,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowTask: AWSShape {
+    public struct MaintenanceWindowTask: AWSDecodableShape {
 
         /// A description of the task.
         public let description: String?
@@ -8532,7 +8532,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowTaskInvocationParameters: AWSShape {
+    public struct MaintenanceWindowTaskInvocationParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The parameters for an AUTOMATION task type.
         public let automation: MaintenanceWindowAutomationParameters?
@@ -8565,7 +8565,7 @@ extension SSM {
         }
     }
 
-    public struct MaintenanceWindowTaskParameterValueExpression: AWSShape {
+    public struct MaintenanceWindowTaskParameterValueExpression: AWSEncodableShape & AWSDecodableShape {
 
         /// This field contains an array of 0 or more strings, each 1 to 255 characters in length.
         public let values: [String]?
@@ -8586,7 +8586,7 @@ extension SSM {
         }
     }
 
-    public struct ModifyDocumentPermissionRequest: AWSShape {
+    public struct ModifyDocumentPermissionRequest: AWSEncodableShape {
 
         /// The AWS user accounts that should have access to the document. The account IDs can either be a group of account IDs or All.
         public let accountIdsToAdd: [String]?
@@ -8630,7 +8630,7 @@ extension SSM {
         }
     }
 
-    public struct ModifyDocumentPermissionResponse: AWSShape {
+    public struct ModifyDocumentPermissionResponse: AWSDecodableShape {
 
 
         public init() {
@@ -8638,7 +8638,7 @@ extension SSM {
 
     }
 
-    public struct NonCompliantSummary: AWSShape {
+    public struct NonCompliantSummary: AWSDecodableShape {
 
         /// The total number of compliance items that are not compliant.
         public let nonCompliantCount: Int?
@@ -8656,7 +8656,7 @@ extension SSM {
         }
     }
 
-    public struct NotificationConfig: AWSShape {
+    public struct NotificationConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon Resource Name (ARN) for an Amazon Simple Notification Service (Amazon SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public let notificationArn: String?
@@ -8678,7 +8678,7 @@ extension SSM {
         }
     }
 
-    public class OpsAggregator: AWSShape {
+    public class OpsAggregator: AWSEncodableShape {
 
         /// A nested aggregator for viewing counts of OpsItems.
         public let aggregators: [OpsAggregator]?
@@ -8737,7 +8737,7 @@ extension SSM {
         }
     }
 
-    public struct OpsEntity: AWSShape {
+    public struct OpsEntity: AWSDecodableShape {
 
         /// The data returned by the query.
         public let data: [String: OpsEntityItem]?
@@ -8755,7 +8755,7 @@ extension SSM {
         }
     }
 
-    public struct OpsEntityItem: AWSShape {
+    public struct OpsEntityItem: AWSDecodableShape {
 
         /// The time OpsItem data was captured.
         public let captureTime: String?
@@ -8773,7 +8773,7 @@ extension SSM {
         }
     }
 
-    public struct OpsFilter: AWSShape {
+    public struct OpsFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: String
@@ -8802,7 +8802,7 @@ extension SSM {
         }
     }
 
-    public struct OpsItem: AWSShape {
+    public struct OpsItem: AWSDecodableShape {
 
         /// An OpsItem category. Category options include: Availability, Cost, Performance, Recovery, Security.
         public let category: String?
@@ -8876,7 +8876,7 @@ extension SSM {
         }
     }
 
-    public struct OpsItemDataValue: AWSShape {
+    public struct OpsItemDataValue: AWSEncodableShape & AWSDecodableShape {
 
         /// The type of key-value pair. Valid types include SearchableString and String.
         public let `type`: OpsItemDataType?
@@ -8894,7 +8894,7 @@ extension SSM {
         }
     }
 
-    public struct OpsItemFilter: AWSShape {
+    public struct OpsItemFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: OpsItemFilterKey
@@ -8916,7 +8916,7 @@ extension SSM {
         }
     }
 
-    public struct OpsItemNotification: AWSShape {
+    public struct OpsItemNotification: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let arn: String?
@@ -8930,7 +8930,7 @@ extension SSM {
         }
     }
 
-    public struct OpsItemSummary: AWSShape {
+    public struct OpsItemSummary: AWSDecodableShape {
 
         /// A list of OpsItems by category.
         public let category: String?
@@ -8988,7 +8988,7 @@ extension SSM {
         }
     }
 
-    public struct OpsResultAttribute: AWSShape {
+    public struct OpsResultAttribute: AWSEncodableShape {
 
         /// Name of the data type. Valid value: AWS:OpsItem, AWS:EC2InstanceInformation, AWS:OpsItemTrendline, or AWS:ComplianceSummary.
         public let typeName: String
@@ -9008,7 +9008,7 @@ extension SSM {
         }
     }
 
-    public struct OutputSource: AWSShape {
+    public struct OutputSource: AWSDecodableShape {
 
         /// The ID of the output source, for example the URL of an Amazon S3 bucket.
         public let outputSourceId: String?
@@ -9026,7 +9026,7 @@ extension SSM {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct Parameter: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the parameter.
         public let arn: String?
@@ -9068,7 +9068,7 @@ extension SSM {
         }
     }
 
-    public struct ParameterHistory: AWSShape {
+    public struct ParameterHistory: AWSDecodableShape {
 
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
@@ -9126,7 +9126,7 @@ extension SSM {
         }
     }
 
-    public struct ParameterInlinePolicy: AWSShape {
+    public struct ParameterInlinePolicy: AWSDecodableShape {
 
         /// The status of the policy. Policies report the following statuses: Pending (the policy has not been enforced or applied yet), Finished (the policy was applied), Failed (the policy was not applied), or InProgress (the policy is being applied now). 
         public let policyStatus: String?
@@ -9148,7 +9148,7 @@ extension SSM {
         }
     }
 
-    public struct ParameterMetadata: AWSShape {
+    public struct ParameterMetadata: AWSDecodableShape {
 
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
@@ -9198,7 +9198,7 @@ extension SSM {
         }
     }
 
-    public struct ParameterStringFilter: AWSShape {
+    public struct ParameterStringFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: String
@@ -9234,7 +9234,7 @@ extension SSM {
         }
     }
 
-    public struct ParametersFilter: AWSShape {
+    public struct ParametersFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: ParametersFilterKey
@@ -9261,7 +9261,7 @@ extension SSM {
         }
     }
 
-    public struct Patch: AWSShape {
+    public struct Patch: AWSDecodableShape {
 
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public let classification: String?
@@ -9323,7 +9323,7 @@ extension SSM {
         }
     }
 
-    public struct PatchBaselineIdentity: AWSShape {
+    public struct PatchBaselineIdentity: AWSDecodableShape {
 
         /// The description of the patch baseline.
         public let baselineDescription: String?
@@ -9353,7 +9353,7 @@ extension SSM {
         }
     }
 
-    public struct PatchComplianceData: AWSShape {
+    public struct PatchComplianceData: AWSDecodableShape {
 
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public let classification: String
@@ -9387,7 +9387,7 @@ extension SSM {
         }
     }
 
-    public struct PatchFilter: AWSShape {
+    public struct PatchFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The key for the filter. Run the DescribePatchProperties command to view lists of valid keys for each operating system type.
         public let key: PatchFilterKey
@@ -9414,7 +9414,7 @@ extension SSM {
         }
     }
 
-    public struct PatchFilterGroup: AWSShape {
+    public struct PatchFilterGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// The set of patch filters that make up the group.
         public let patchFilters: [PatchFilter]
@@ -9436,7 +9436,7 @@ extension SSM {
         }
     }
 
-    public struct PatchGroupPatchBaselineMapping: AWSShape {
+    public struct PatchGroupPatchBaselineMapping: AWSDecodableShape {
 
         /// The patch baseline the patch group is registered with.
         public let baselineIdentity: PatchBaselineIdentity?
@@ -9454,7 +9454,7 @@ extension SSM {
         }
     }
 
-    public struct PatchOrchestratorFilter: AWSShape {
+    public struct PatchOrchestratorFilter: AWSEncodableShape {
 
         /// The key for the filter.
         public let key: String?
@@ -9481,7 +9481,7 @@ extension SSM {
         }
     }
 
-    public struct PatchRule: AWSShape {
+    public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. 
         public let approveAfterDays: Int?
@@ -9519,7 +9519,7 @@ extension SSM {
         }
     }
 
-    public struct PatchRuleGroup: AWSShape {
+    public struct PatchRuleGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// The rules that make up the rule group.
         public let patchRules: [PatchRule]
@@ -9541,7 +9541,7 @@ extension SSM {
         }
     }
 
-    public struct PatchSource: AWSShape {
+    public struct PatchSource: AWSEncodableShape & AWSDecodableShape {
 
         /// The value of the yum repo configuration. For example:  [main]   cachedir=/var/cache/yum/$basesearch$releasever   keepcache=0   debuglevel=2 
         public let configuration: String
@@ -9575,7 +9575,7 @@ extension SSM {
         }
     }
 
-    public struct PatchStatus: AWSShape {
+    public struct PatchStatus: AWSDecodableShape {
 
         /// The date the patch was approved (or will be approved if the status is PENDING_APPROVAL).
         public let approvalDate: TimeStamp?
@@ -9597,7 +9597,7 @@ extension SSM {
         }
     }
 
-    public struct ProgressCounters: AWSShape {
+    public struct ProgressCounters: AWSDecodableShape {
 
         /// The total number of steps that the system cancelled in all specified AWS Regions and accounts for the current Automation execution.
         public let cancelledSteps: Int?
@@ -9627,7 +9627,7 @@ extension SSM {
         }
     }
 
-    public struct PutComplianceItemsRequest: AWSShape {
+    public struct PutComplianceItemsRequest: AWSEncodableShape {
 
         /// Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string.
         public let complianceType: String
@@ -9678,7 +9678,7 @@ extension SSM {
         }
     }
 
-    public struct PutComplianceItemsResult: AWSShape {
+    public struct PutComplianceItemsResult: AWSDecodableShape {
 
 
         public init() {
@@ -9686,7 +9686,7 @@ extension SSM {
 
     }
 
-    public struct PutInventoryRequest: AWSShape {
+    public struct PutInventoryRequest: AWSEncodableShape {
 
         /// An instance ID where you want to add or update inventory items.
         public let instanceId: String
@@ -9713,7 +9713,7 @@ extension SSM {
         }
     }
 
-    public struct PutInventoryResult: AWSShape {
+    public struct PutInventoryResult: AWSDecodableShape {
 
         /// Information about the request.
         public let message: String?
@@ -9727,7 +9727,7 @@ extension SSM {
         }
     }
 
-    public struct PutParameterRequest: AWSShape {
+    public struct PutParameterRequest: AWSEncodableShape {
 
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$ 
         public let allowedPattern: String?
@@ -9795,7 +9795,7 @@ extension SSM {
         }
     }
 
-    public struct PutParameterResult: AWSShape {
+    public struct PutParameterResult: AWSDecodableShape {
 
         /// The tier assigned to the parameter.
         public let tier: ParameterTier?
@@ -9813,7 +9813,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterDefaultPatchBaselineRequest: AWSShape {
+    public struct RegisterDefaultPatchBaselineRequest: AWSEncodableShape {
 
         /// The ID of the patch baseline that should be the default patch baseline.
         public let baselineId: String
@@ -9833,7 +9833,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterDefaultPatchBaselineResult: AWSShape {
+    public struct RegisterDefaultPatchBaselineResult: AWSDecodableShape {
 
         /// The ID of the default patch baseline.
         public let baselineId: String?
@@ -9847,7 +9847,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterPatchBaselineForPatchGroupRequest: AWSShape {
+    public struct RegisterPatchBaselineForPatchGroupRequest: AWSEncodableShape {
 
         /// The ID of the patch baseline to register the patch group with.
         public let baselineId: String
@@ -9874,7 +9874,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterPatchBaselineForPatchGroupResult: AWSShape {
+    public struct RegisterPatchBaselineForPatchGroupResult: AWSDecodableShape {
 
         /// The ID of the patch baseline the patch group was registered with.
         public let baselineId: String?
@@ -9892,7 +9892,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterTargetWithMaintenanceWindowRequest: AWSShape {
+    public struct RegisterTargetWithMaintenanceWindowRequest: AWSEncodableShape {
 
         /// User-provided idempotency token.
         public let clientToken: String?
@@ -9950,7 +9950,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterTargetWithMaintenanceWindowResult: AWSShape {
+    public struct RegisterTargetWithMaintenanceWindowResult: AWSDecodableShape {
 
         /// The ID of the target definition in this maintenance window.
         public let windowTargetId: String?
@@ -9964,7 +9964,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterTaskWithMaintenanceWindowRequest: AWSShape {
+    public struct RegisterTaskWithMaintenanceWindowRequest: AWSEncodableShape {
 
         /// User-provided idempotency token.
         public let clientToken: String?
@@ -10064,7 +10064,7 @@ extension SSM {
         }
     }
 
-    public struct RegisterTaskWithMaintenanceWindowResult: AWSShape {
+    public struct RegisterTaskWithMaintenanceWindowResult: AWSDecodableShape {
 
         /// The ID of the task in the maintenance window.
         public let windowTaskId: String?
@@ -10078,7 +10078,7 @@ extension SSM {
         }
     }
 
-    public struct RelatedOpsItem: AWSShape {
+    public struct RelatedOpsItem: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of an OpsItem related to the current OpsItem.
         public let opsItemId: String
@@ -10092,7 +10092,7 @@ extension SSM {
         }
     }
 
-    public struct RemoveTagsFromResourceRequest: AWSShape {
+    public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
 
         /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceId: String
@@ -10122,7 +10122,7 @@ extension SSM {
         }
     }
 
-    public struct RemoveTagsFromResourceResult: AWSShape {
+    public struct RemoveTagsFromResourceResult: AWSDecodableShape {
 
 
         public init() {
@@ -10130,7 +10130,7 @@ extension SSM {
 
     }
 
-    public struct ResetServiceSettingRequest: AWSShape {
+    public struct ResetServiceSettingRequest: AWSEncodableShape {
 
         /// The ID of the service setting to reset.
         public let settingId: String
@@ -10149,7 +10149,7 @@ extension SSM {
         }
     }
 
-    public struct ResetServiceSettingResult: AWSShape {
+    public struct ResetServiceSettingResult: AWSDecodableShape {
 
         /// The current, effective service setting after calling the ResetServiceSetting API action.
         public let serviceSetting: ServiceSetting?
@@ -10163,7 +10163,7 @@ extension SSM {
         }
     }
 
-    public struct ResolvedTargets: AWSShape {
+    public struct ResolvedTargets: AWSDecodableShape {
 
         /// A list of parameter values sent to targets that resolved during the Automation execution.
         public let parameterValues: [String]?
@@ -10181,7 +10181,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceComplianceSummaryItem: AWSShape {
+    public struct ResourceComplianceSummaryItem: AWSDecodableShape {
 
         /// The compliance type.
         public let complianceType: String?
@@ -10223,7 +10223,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncAwsOrganizationsSource: AWSShape {
+    public struct ResourceDataSyncAwsOrganizationsSource: AWSEncodableShape & AWSDecodableShape {
 
         /// The AWS Organizations organization units included in the sync.
         public let organizationalUnits: [ResourceDataSyncOrganizationalUnit]?
@@ -10251,7 +10251,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncDestinationDataSharing: AWSShape {
+    public struct ResourceDataSyncDestinationDataSharing: AWSEncodableShape & AWSDecodableShape {
 
         /// The sharing data type. Only Organization is supported.
         public let destinationDataSharingType: String?
@@ -10270,7 +10270,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncItem: AWSShape {
+    public struct ResourceDataSyncItem: AWSDecodableShape {
 
         /// The status reported by the last sync.
         public let lastStatus: LastResourceDataSyncStatus?
@@ -10320,7 +10320,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncOrganizationalUnit: AWSShape {
+    public struct ResourceDataSyncOrganizationalUnit: AWSEncodableShape & AWSDecodableShape {
 
         /// The AWS Organization unit ID data source for the sync.
         public let organizationalUnitId: String?
@@ -10340,7 +10340,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncS3Destination: AWSShape {
+    public struct ResourceDataSyncS3Destination: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination Amazon S3 bucket.
         public let aWSKMSKeyARN: String?
@@ -10387,7 +10387,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncSource: AWSShape {
+    public struct ResourceDataSyncSource: AWSEncodableShape {
 
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from AWS Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
@@ -10423,7 +10423,7 @@ extension SSM {
         }
     }
 
-    public struct ResourceDataSyncSourceWithState: AWSShape {
+    public struct ResourceDataSyncSourceWithState: AWSDecodableShape {
 
         /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
@@ -10453,7 +10453,7 @@ extension SSM {
         }
     }
 
-    public struct ResultAttribute: AWSShape {
+    public struct ResultAttribute: AWSEncodableShape {
 
         /// Name of the inventory item type. Valid value: AWS:InstanceInformation. Default Value: AWS:InstanceInformation.
         public let typeName: String
@@ -10473,7 +10473,7 @@ extension SSM {
         }
     }
 
-    public struct ResumeSessionRequest: AWSShape {
+    public struct ResumeSessionRequest: AWSEncodableShape {
 
         /// The ID of the disconnected session to resume.
         public let sessionId: String
@@ -10492,7 +10492,7 @@ extension SSM {
         }
     }
 
-    public struct ResumeSessionResponse: AWSShape {
+    public struct ResumeSessionResponse: AWSDecodableShape {
 
         /// The ID of the session.
         public let sessionId: String?
@@ -10514,7 +10514,7 @@ extension SSM {
         }
     }
 
-    public struct S3OutputLocation: AWSShape {
+    public struct S3OutputLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket.
         public let outputS3BucketName: String?
@@ -10544,7 +10544,7 @@ extension SSM {
         }
     }
 
-    public struct S3OutputUrl: AWSShape {
+    public struct S3OutputUrl: AWSDecodableShape {
 
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
         public let outputUrl: String?
@@ -10558,7 +10558,7 @@ extension SSM {
         }
     }
 
-    public struct ScheduledWindowExecution: AWSShape {
+    public struct ScheduledWindowExecution: AWSDecodableShape {
 
         /// The time, in ISO-8601 Extended format, that the maintenance window is scheduled to be run.
         public let executionTime: String?
@@ -10580,7 +10580,7 @@ extension SSM {
         }
     }
 
-    public struct SendAutomationSignalRequest: AWSShape {
+    public struct SendAutomationSignalRequest: AWSEncodableShape {
 
         /// The unique identifier for an existing Automation execution that you want to send the signal to.
         public let automationExecutionId: String
@@ -10613,7 +10613,7 @@ extension SSM {
         }
     }
 
-    public struct SendAutomationSignalResult: AWSShape {
+    public struct SendAutomationSignalResult: AWSDecodableShape {
 
 
         public init() {
@@ -10621,7 +10621,7 @@ extension SSM {
 
     }
 
-    public struct SendCommandRequest: AWSShape {
+    public struct SendCommandRequest: AWSEncodableShape {
 
         /// Enables Systems Manager to send Run Command output to Amazon CloudWatch Logs. 
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
@@ -10730,7 +10730,7 @@ extension SSM {
         }
     }
 
-    public struct SendCommandResult: AWSShape {
+    public struct SendCommandResult: AWSDecodableShape {
 
         /// The request as it was received by Systems Manager. Also provides the command ID which can be used future references to this request.
         public let command: Command?
@@ -10744,7 +10744,7 @@ extension SSM {
         }
     }
 
-    public struct ServiceSetting: AWSShape {
+    public struct ServiceSetting: AWSDecodableShape {
 
         /// The ARN of the service setting.
         public let arn: String?
@@ -10778,7 +10778,7 @@ extension SSM {
         }
     }
 
-    public struct Session: AWSShape {
+    public struct Session: AWSDecodableShape {
 
         /// Reserved for future use.
         public let details: String?
@@ -10824,7 +10824,7 @@ extension SSM {
         }
     }
 
-    public struct SessionFilter: AWSShape {
+    public struct SessionFilter: AWSEncodableShape {
 
         /// The name of the filter.
         public let key: SessionFilterKey
@@ -10847,7 +10847,7 @@ extension SSM {
         }
     }
 
-    public struct SessionManagerOutputUrl: AWSShape {
+    public struct SessionManagerOutputUrl: AWSDecodableShape {
 
         /// Reserved for future use.
         public let cloudWatchOutputUrl: String?
@@ -10865,7 +10865,7 @@ extension SSM {
         }
     }
 
-    public struct SeveritySummary: AWSShape {
+    public struct SeveritySummary: AWSDecodableShape {
 
         /// The total number of resources or compliance items that have a severity level of critical. Critical severity is determined by the organization that published the compliance items.
         public let criticalCount: Int?
@@ -10899,7 +10899,7 @@ extension SSM {
         }
     }
 
-    public struct StartAssociationsOnceRequest: AWSShape {
+    public struct StartAssociationsOnceRequest: AWSEncodableShape {
 
         /// The association IDs that you want to run immediately and only one time.
         public let associationIds: [String]
@@ -10921,7 +10921,7 @@ extension SSM {
         }
     }
 
-    public struct StartAssociationsOnceResult: AWSShape {
+    public struct StartAssociationsOnceResult: AWSDecodableShape {
 
 
         public init() {
@@ -10929,7 +10929,7 @@ extension SSM {
 
     }
 
-    public struct StartAutomationExecutionRequest: AWSShape {
+    public struct StartAutomationExecutionRequest: AWSEncodableShape {
 
         /// User-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
         public let clientToken: String?
@@ -11025,7 +11025,7 @@ extension SSM {
         }
     }
 
-    public struct StartAutomationExecutionResult: AWSShape {
+    public struct StartAutomationExecutionResult: AWSDecodableShape {
 
         /// The unique ID of a newly scheduled automation execution.
         public let automationExecutionId: String?
@@ -11039,7 +11039,7 @@ extension SSM {
         }
     }
 
-    public struct StartSessionRequest: AWSShape {
+    public struct StartSessionRequest: AWSEncodableShape {
 
         /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. If no document name is provided, a shell to the instance is launched by default.
         public let documentName: String?
@@ -11071,7 +11071,7 @@ extension SSM {
         }
     }
 
-    public struct StartSessionResponse: AWSShape {
+    public struct StartSessionResponse: AWSDecodableShape {
 
         /// The ID of the session.
         public let sessionId: String?
@@ -11093,7 +11093,7 @@ extension SSM {
         }
     }
 
-    public struct StepExecution: AWSShape {
+    public struct StepExecution: AWSDecodableShape {
 
         /// The action this step performs. The action determines the behavior of the step.
         public let action: String?
@@ -11191,7 +11191,7 @@ extension SSM {
         }
     }
 
-    public struct StepExecutionFilter: AWSShape {
+    public struct StepExecutionFilter: AWSEncodableShape {
 
         /// One or more keys to limit the results. Valid filter keys include the following: StepName, Action, StepExecutionId, StepExecutionStatus, StartTimeBefore, StartTimeAfter.
         public let key: StepExecutionFilterKey
@@ -11218,7 +11218,7 @@ extension SSM {
         }
     }
 
-    public struct StopAutomationExecutionRequest: AWSShape {
+    public struct StopAutomationExecutionRequest: AWSEncodableShape {
 
         /// The execution ID of the Automation to stop.
         public let automationExecutionId: String
@@ -11241,7 +11241,7 @@ extension SSM {
         }
     }
 
-    public struct StopAutomationExecutionResult: AWSShape {
+    public struct StopAutomationExecutionResult: AWSDecodableShape {
 
 
         public init() {
@@ -11249,7 +11249,7 @@ extension SSM {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the tag.
         public let key: String
@@ -11276,7 +11276,7 @@ extension SSM {
         }
     }
 
-    public struct Target: AWSShape {
+    public struct Target: AWSEncodableShape & AWSDecodableShape {
 
         /// User-defined criteria for sending commands that target instances that meet the criteria.
         public let key: String?
@@ -11302,7 +11302,7 @@ extension SSM {
         }
     }
 
-    public struct TargetLocation: AWSShape {
+    public struct TargetLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The AWS accounts targeted by the current Automation execution.
         public let accounts: [String]?
@@ -11347,7 +11347,7 @@ extension SSM {
         }
     }
 
-    public struct TerminateSessionRequest: AWSShape {
+    public struct TerminateSessionRequest: AWSEncodableShape {
 
         /// The ID of the session to terminate.
         public let sessionId: String
@@ -11366,7 +11366,7 @@ extension SSM {
         }
     }
 
-    public struct TerminateSessionResponse: AWSShape {
+    public struct TerminateSessionResponse: AWSDecodableShape {
 
         /// The ID of the session that has been terminated.
         public let sessionId: String?
@@ -11380,7 +11380,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateAssociationRequest: AWSShape {
+    public struct UpdateAssociationRequest: AWSEncodableShape {
 
         /// The ID of the association you want to update. 
         public let associationId: String
@@ -11466,7 +11466,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateAssociationResult: AWSShape {
+    public struct UpdateAssociationResult: AWSDecodableShape {
 
         /// The description of the association that was updated.
         public let associationDescription: AssociationDescription?
@@ -11480,7 +11480,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateAssociationStatusRequest: AWSShape {
+    public struct UpdateAssociationStatusRequest: AWSEncodableShape {
 
         /// The association status.
         public let associationStatus: AssociationStatus
@@ -11508,7 +11508,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateAssociationStatusResult: AWSShape {
+    public struct UpdateAssociationStatusResult: AWSDecodableShape {
 
         /// Information about the association.
         public let associationDescription: AssociationDescription?
@@ -11522,7 +11522,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateDocumentDefaultVersionRequest: AWSShape {
+    public struct UpdateDocumentDefaultVersionRequest: AWSEncodableShape {
 
         /// The version of a custom document that you want to set as the default version.
         public let documentVersion: String
@@ -11545,7 +11545,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateDocumentDefaultVersionResult: AWSShape {
+    public struct UpdateDocumentDefaultVersionResult: AWSDecodableShape {
 
         /// The description of a custom document that you want to set as the default version.
         public let description: DocumentDefaultVersionDescription?
@@ -11559,7 +11559,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateDocumentRequest: AWSShape {
+    public struct UpdateDocumentRequest: AWSEncodableShape {
 
         /// A list of key and value pairs that describe attachments to a version of a document.
         public let attachments: [AttachmentsSource]?
@@ -11611,7 +11611,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateDocumentResult: AWSShape {
+    public struct UpdateDocumentResult: AWSDecodableShape {
 
         /// A description of the document that was updated.
         public let documentDescription: DocumentDescription?
@@ -11625,7 +11625,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateMaintenanceWindowRequest: AWSShape {
+    public struct UpdateMaintenanceWindowRequest: AWSEncodableShape {
 
         /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
@@ -11700,7 +11700,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateMaintenanceWindowResult: AWSShape {
+    public struct UpdateMaintenanceWindowResult: AWSDecodableShape {
 
         /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
@@ -11754,7 +11754,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateMaintenanceWindowTargetRequest: AWSShape {
+    public struct UpdateMaintenanceWindowTargetRequest: AWSEncodableShape {
 
         /// An optional description for the update.
         public let description: String?
@@ -11813,7 +11813,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateMaintenanceWindowTargetResult: AWSShape {
+    public struct UpdateMaintenanceWindowTargetResult: AWSDecodableShape {
 
         /// The updated description.
         public let description: String?
@@ -11847,7 +11847,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateMaintenanceWindowTaskRequest: AWSShape {
+    public struct UpdateMaintenanceWindowTaskRequest: AWSEncodableShape {
 
         /// The new task description to specify.
         public let description: String?
@@ -11948,7 +11948,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateMaintenanceWindowTaskResult: AWSShape {
+    public struct UpdateMaintenanceWindowTaskResult: AWSDecodableShape {
 
         /// The updated task description.
         public let description: String?
@@ -12010,7 +12010,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateManagedInstanceRoleRequest: AWSShape {
+    public struct UpdateManagedInstanceRoleRequest: AWSEncodableShape {
 
         /// The IAM role you want to assign or change.
         public let iamRole: String
@@ -12033,7 +12033,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateManagedInstanceRoleResult: AWSShape {
+    public struct UpdateManagedInstanceRoleResult: AWSDecodableShape {
 
 
         public init() {
@@ -12041,7 +12041,7 @@ extension SSM {
 
     }
 
-    public struct UpdateOpsItemRequest: AWSShape {
+    public struct UpdateOpsItemRequest: AWSEncodableShape {
 
         /// Specify a new category for an OpsItem.
         public let category: String?
@@ -12113,7 +12113,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateOpsItemResponse: AWSShape {
+    public struct UpdateOpsItemResponse: AWSDecodableShape {
 
 
         public init() {
@@ -12121,7 +12121,7 @@ extension SSM {
 
     }
 
-    public struct UpdatePatchBaselineRequest: AWSShape {
+    public struct UpdatePatchBaselineRequest: AWSEncodableShape {
 
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
@@ -12209,7 +12209,7 @@ extension SSM {
         }
     }
 
-    public struct UpdatePatchBaselineResult: AWSShape {
+    public struct UpdatePatchBaselineResult: AWSDecodableShape {
 
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
@@ -12275,7 +12275,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateResourceDataSyncRequest: AWSShape {
+    public struct UpdateResourceDataSyncRequest: AWSEncodableShape {
 
         /// The name of the resource data sync you want to update.
         public let syncName: String
@@ -12305,7 +12305,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateResourceDataSyncResult: AWSShape {
+    public struct UpdateResourceDataSyncResult: AWSDecodableShape {
 
 
         public init() {
@@ -12313,7 +12313,7 @@ extension SSM {
 
     }
 
-    public struct UpdateServiceSettingRequest: AWSShape {
+    public struct UpdateServiceSettingRequest: AWSEncodableShape {
 
         /// The ID of the service setting to update.
         public let settingId: String
@@ -12338,7 +12338,7 @@ extension SSM {
         }
     }
 
-    public struct UpdateServiceSettingResult: AWSShape {
+    public struct UpdateServiceSettingResult: AWSDecodableShape {
 
 
         public init() {

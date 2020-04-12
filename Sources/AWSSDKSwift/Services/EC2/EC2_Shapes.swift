@@ -1755,7 +1755,7 @@ extension EC2 {
 
     //MARK: Shapes
 
-    public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
+    public struct AcceptReservedInstancesExchangeQuoteRequest: AWSEncodableShape {
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstanceId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { static public let member = "TargetConfigurationRequest" }
 
@@ -1779,7 +1779,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptReservedInstancesExchangeQuoteResult: AWSShape {
+    public struct AcceptReservedInstancesExchangeQuoteResult: AWSDecodableShape {
 
         /// The ID of the successful exchange.
         public let exchangeId: String?
@@ -1793,7 +1793,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptTransitGatewayPeeringAttachmentRequest: AWSShape {
+    public struct AcceptTransitGatewayPeeringAttachmentRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -1811,7 +1811,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptTransitGatewayPeeringAttachmentResult: AWSShape {
+    public struct AcceptTransitGatewayPeeringAttachmentResult: AWSDecodableShape {
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -1825,7 +1825,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptTransitGatewayVpcAttachmentRequest: AWSShape {
+    public struct AcceptTransitGatewayVpcAttachmentRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -1843,7 +1843,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptTransitGatewayVpcAttachmentResult: AWSShape {
+    public struct AcceptTransitGatewayVpcAttachmentResult: AWSDecodableShape {
 
         /// The VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -1857,7 +1857,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptVpcEndpointConnectionsRequest: AWSShape {
+    public struct AcceptVpcEndpointConnectionsRequest: AWSEncodableShape {
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1880,7 +1880,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptVpcEndpointConnectionsResult: AWSShape {
+    public struct AcceptVpcEndpointConnectionsResult: AWSDecodableShape {
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the interface endpoints that were not accepted, if applicable.
@@ -1895,7 +1895,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptVpcPeeringConnectionRequest: AWSShape {
+    public struct AcceptVpcPeeringConnectionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -1913,7 +1913,7 @@ extension EC2 {
         }
     }
 
-    public struct AcceptVpcPeeringConnectionResult: AWSShape {
+    public struct AcceptVpcPeeringConnectionResult: AWSDecodableShape {
 
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
@@ -1927,7 +1927,7 @@ extension EC2 {
         }
     }
 
-    public struct AccountAttribute: AWSShape {
+    public struct AccountAttribute: AWSDecodableShape {
         public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The name of the account attribute.
@@ -1946,7 +1946,7 @@ extension EC2 {
         }
     }
 
-    public struct AccountAttributeValue: AWSShape {
+    public struct AccountAttributeValue: AWSDecodableShape {
 
         /// The value of the attribute.
         public let attributeValue: String?
@@ -1960,7 +1960,7 @@ extension EC2 {
         }
     }
 
-    public struct ActiveInstance: AWSShape {
+    public struct ActiveInstance: AWSDecodableShape {
 
         /// The health status of the instance. If the status of either the instance status check or the system status check is impaired, the health status of the instance is unhealthy. Otherwise, the health status is healthy.
         public let instanceHealth: InstanceHealthStatus?
@@ -1986,7 +1986,7 @@ extension EC2 {
         }
     }
 
-    public struct Address: AWSShape {
+    public struct Address: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID representing the allocation of the address for use with EC2-VPC.
@@ -2049,7 +2049,7 @@ extension EC2 {
         }
     }
 
-    public struct AdvertiseByoipCidrRequest: AWSShape {
+    public struct AdvertiseByoipCidrRequest: AWSEncodableShape {
 
         /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
         public let cidr: String
@@ -2067,7 +2067,7 @@ extension EC2 {
         }
     }
 
-    public struct AdvertiseByoipCidrResult: AWSShape {
+    public struct AdvertiseByoipCidrResult: AWSDecodableShape {
 
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
@@ -2081,7 +2081,7 @@ extension EC2 {
         }
     }
 
-    public struct AllocateAddressRequest: AWSShape {
+    public struct AllocateAddressRequest: AWSEncodableShape {
 
         /// [EC2-VPC] The Elastic IP address to recover or an IPv4 address from an address pool.
         public let address: String?
@@ -2115,7 +2115,7 @@ extension EC2 {
         }
     }
 
-    public struct AllocateAddressResult: AWSShape {
+    public struct AllocateAddressResult: AWSDecodableShape {
 
         /// [EC2-VPC] The ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
         public let allocationId: String?
@@ -2153,7 +2153,7 @@ extension EC2 {
         }
     }
 
-    public struct AllocateHostsRequest: AWSShape {
+    public struct AllocateHostsRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Indicates whether the host accepts any untargeted instance launches that match its instance type configuration, or if it only accepts Host tenancy instance launches that specify its unique host ID. For more information, see  Understanding Instance Placement and Host Affinity in the Amazon EC2 User Guide for Linux Instances. Default: on 
@@ -2196,7 +2196,7 @@ extension EC2 {
         }
     }
 
-    public struct AllocateHostsResult: AWSShape {
+    public struct AllocateHostsResult: AWSDecodableShape {
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the allocated Dedicated Host. This is used to launch an instance onto a specific host.
@@ -2211,7 +2211,7 @@ extension EC2 {
         }
     }
 
-    public struct AllowedPrincipal: AWSShape {
+    public struct AllowedPrincipal: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the principal.
         public let principal: String?
@@ -2229,7 +2229,7 @@ extension EC2 {
         }
     }
 
-    public struct ApplySecurityGroupsToClientVpnTargetNetworkRequest: AWSShape {
+    public struct ApplySecurityGroupsToClientVpnTargetNetworkRequest: AWSEncodableShape {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the Client VPN endpoint.
@@ -2256,7 +2256,7 @@ extension EC2 {
         }
     }
 
-    public struct ApplySecurityGroupsToClientVpnTargetNetworkResult: AWSShape {
+    public struct ApplySecurityGroupsToClientVpnTargetNetworkResult: AWSDecodableShape {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IDs of the applied security groups.
@@ -2271,7 +2271,7 @@ extension EC2 {
         }
     }
 
-    public struct AssignIpv6AddressesRequest: AWSShape {
+    public struct AssignIpv6AddressesRequest: AWSEncodableShape {
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
@@ -2294,7 +2294,7 @@ extension EC2 {
         }
     }
 
-    public struct AssignIpv6AddressesResult: AWSShape {
+    public struct AssignIpv6AddressesResult: AWSDecodableShape {
         public struct _AssignedIpv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IPv6 addresses assigned to the network interface.
@@ -2313,7 +2313,7 @@ extension EC2 {
         }
     }
 
-    public struct AssignPrivateIpAddressesRequest: AWSShape {
+    public struct AssignPrivateIpAddressesRequest: AWSEncodableShape {
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "PrivateIpAddress" }
 
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
@@ -2340,7 +2340,7 @@ extension EC2 {
         }
     }
 
-    public struct AssignPrivateIpAddressesResult: AWSShape {
+    public struct AssignPrivateIpAddressesResult: AWSDecodableShape {
         public struct _AssignedPrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The private IP addresses assigned to the network interface.
@@ -2359,7 +2359,7 @@ extension EC2 {
         }
     }
 
-    public struct AssignedPrivateIpAddress: AWSShape {
+    public struct AssignedPrivateIpAddress: AWSDecodableShape {
 
         /// The private IP address assigned to the network interface.
         public let privateIpAddress: String?
@@ -2373,7 +2373,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateAddressRequest: AWSShape {
+    public struct AssociateAddressRequest: AWSEncodableShape {
 
         /// [EC2-VPC] The allocation ID. This is required for EC2-VPC.
         public let allocationId: String?
@@ -2411,7 +2411,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateAddressResult: AWSShape {
+    public struct AssociateAddressResult: AWSDecodableShape {
 
         /// [EC2-VPC] The ID that represents the association of the Elastic IP address with an instance.
         public let associationId: String?
@@ -2425,7 +2425,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateClientVpnTargetNetworkRequest: AWSShape {
+    public struct AssociateClientVpnTargetNetworkRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -2451,7 +2451,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateClientVpnTargetNetworkResult: AWSShape {
+    public struct AssociateClientVpnTargetNetworkResult: AWSDecodableShape {
 
         /// The unique ID of the target network association.
         public let associationId: String?
@@ -2469,7 +2469,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateDhcpOptionsRequest: AWSShape {
+    public struct AssociateDhcpOptionsRequest: AWSEncodableShape {
 
         /// The ID of the DHCP options set, or default to associate no DHCP options with the VPC.
         public let dhcpOptionsId: String
@@ -2491,7 +2491,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateIamInstanceProfileRequest: AWSShape {
+    public struct AssociateIamInstanceProfileRequest: AWSEncodableShape {
 
         /// The IAM instance profile.
         public let iamInstanceProfile: IamInstanceProfileSpecification
@@ -2509,7 +2509,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateIamInstanceProfileResult: AWSShape {
+    public struct AssociateIamInstanceProfileResult: AWSDecodableShape {
 
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -2523,7 +2523,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateRouteTableRequest: AWSShape {
+    public struct AssociateRouteTableRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2549,7 +2549,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateRouteTableResult: AWSShape {
+    public struct AssociateRouteTableResult: AWSDecodableShape {
 
         /// The route table association ID. This ID is required for disassociating the route table.
         public let associationId: String?
@@ -2567,7 +2567,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateSubnetCidrBlockRequest: AWSShape {
+    public struct AssociateSubnetCidrBlockRequest: AWSEncodableShape {
 
         /// The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix length.
         public let ipv6CidrBlock: String
@@ -2585,7 +2585,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateSubnetCidrBlockResult: AWSShape {
+    public struct AssociateSubnetCidrBlockResult: AWSDecodableShape {
 
         /// Information about the IPv6 CIDR block association.
         public let ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation?
@@ -2603,7 +2603,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateTransitGatewayMulticastDomainRequest: AWSShape {
+    public struct AssociateTransitGatewayMulticastDomainRequest: AWSEncodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2630,7 +2630,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateTransitGatewayMulticastDomainResult: AWSShape {
+    public struct AssociateTransitGatewayMulticastDomainResult: AWSDecodableShape {
 
         /// Information about the transit gateway multicast domain associations.
         public let associations: TransitGatewayMulticastDomainAssociations?
@@ -2644,7 +2644,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateTransitGatewayRouteTableRequest: AWSShape {
+    public struct AssociateTransitGatewayRouteTableRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2666,7 +2666,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateTransitGatewayRouteTableResult: AWSShape {
+    public struct AssociateTransitGatewayRouteTableResult: AWSDecodableShape {
 
         /// The ID of the association.
         public let association: TransitGatewayAssociation?
@@ -2680,7 +2680,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateVpcCidrBlockRequest: AWSShape {
+    public struct AssociateVpcCidrBlockRequest: AWSEncodableShape {
 
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of the CIDR block.
         public let amazonProvidedIpv6CidrBlock: Bool?
@@ -2714,7 +2714,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociateVpcCidrBlockResult: AWSShape {
+    public struct AssociateVpcCidrBlockResult: AWSDecodableShape {
 
         /// Information about the IPv4 CIDR block association.
         public let cidrBlockAssociation: VpcCidrBlockAssociation?
@@ -2736,7 +2736,7 @@ extension EC2 {
         }
     }
 
-    public struct AssociationStatus: AWSShape {
+    public struct AssociationStatus: AWSDecodableShape {
 
         /// The state of the target network association.
         public let code: AssociationStatusCode?
@@ -2754,7 +2754,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachClassicLinkVpcRequest: AWSShape {
+    public struct AttachClassicLinkVpcRequest: AWSEncodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "groupId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2781,7 +2781,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachClassicLinkVpcResult: AWSShape {
+    public struct AttachClassicLinkVpcResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -2795,7 +2795,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachInternetGatewayRequest: AWSShape {
+    public struct AttachInternetGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2817,7 +2817,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachNetworkInterfaceRequest: AWSShape {
+    public struct AttachNetworkInterfaceRequest: AWSEncodableShape {
 
         /// The index of the device for the network interface attachment.
         public let deviceIndex: Int
@@ -2843,7 +2843,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachNetworkInterfaceResult: AWSShape {
+    public struct AttachNetworkInterfaceResult: AWSDecodableShape {
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -2857,7 +2857,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachVolumeRequest: AWSShape {
+    public struct AttachVolumeRequest: AWSEncodableShape {
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let device: String
@@ -2883,7 +2883,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachVpnGatewayRequest: AWSShape {
+    public struct AttachVpnGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2905,7 +2905,7 @@ extension EC2 {
         }
     }
 
-    public struct AttachVpnGatewayResult: AWSShape {
+    public struct AttachVpnGatewayResult: AWSDecodableShape {
 
         /// Information about the attachment.
         public let vpcAttachment: VpcAttachment?
@@ -2919,7 +2919,7 @@ extension EC2 {
         }
     }
 
-    public struct AttributeBooleanValue: AWSShape {
+    public struct AttributeBooleanValue: AWSEncodableShape & AWSDecodableShape {
 
         /// The attribute value. The valid values are true or false.
         public let value: Bool?
@@ -2933,7 +2933,7 @@ extension EC2 {
         }
     }
 
-    public struct AttributeValue: AWSShape {
+    public struct AttributeValue: AWSEncodableShape & AWSDecodableShape {
 
         /// The attribute value. The value is case-sensitive.
         public let value: String?
@@ -2947,7 +2947,7 @@ extension EC2 {
         }
     }
 
-    public struct AuthorizationRule: AWSShape {
+    public struct AuthorizationRule: AWSDecodableShape {
 
         /// Indicates whether the authorization rule grants access to all clients.
         public let accessAll: Bool?
@@ -2981,7 +2981,7 @@ extension EC2 {
         }
     }
 
-    public struct AuthorizeClientVpnIngressRequest: AWSShape {
+    public struct AuthorizeClientVpnIngressRequest: AWSEncodableShape {
 
         /// The ID of the Active Directory group to grant access.
         public let accessGroupId: String?
@@ -3019,7 +3019,7 @@ extension EC2 {
         }
     }
 
-    public struct AuthorizeClientVpnIngressResult: AWSShape {
+    public struct AuthorizeClientVpnIngressResult: AWSDecodableShape {
 
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
@@ -3033,7 +3033,7 @@ extension EC2 {
         }
     }
 
-    public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
+    public struct AuthorizeSecurityGroupEgressRequest: AWSEncodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Not supported. Use a set of IP permissions to specify the CIDR.
@@ -3080,7 +3080,7 @@ extension EC2 {
         }
     }
 
-    public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
+    public struct AuthorizeSecurityGroupIngressRequest: AWSEncodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IPv4 address range, in CIDR format. You can't specify this parameter when specifying a source security group. To specify an IPv6 address range, use a set of IP permissions. Alternatively, use a set of IP permissions to specify multiple rules and a description for the rule.
@@ -3131,7 +3131,7 @@ extension EC2 {
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct AvailabilityZone: AWSDecodableShape {
         public struct _MessagesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         ///  For Availability Zones, this parameter has the same value as the Region name. For Local Zones, the name of the associated group, for example us-west-2-lax-1.
@@ -3174,7 +3174,7 @@ extension EC2 {
         }
     }
 
-    public struct AvailabilityZoneMessage: AWSShape {
+    public struct AvailabilityZoneMessage: AWSDecodableShape {
 
         /// The message about the Availability Zone or Local Zone.
         public let message: String?
@@ -3188,7 +3188,7 @@ extension EC2 {
         }
     }
 
-    public struct AvailableCapacity: AWSShape {
+    public struct AvailableCapacity: AWSDecodableShape {
         public struct _AvailableInstanceCapacityEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The number of instances that can be launched onto the Dedicated Host depending on the host's available capacity. For Dedicated Hosts that support multiple instance types, this parameter represents the number of instances for each instance size that is supported on the host.
@@ -3207,7 +3207,7 @@ extension EC2 {
         }
     }
 
-    public struct BlobAttributeValue: AWSShape {
+    public struct BlobAttributeValue: AWSEncodableShape {
 
         public let value: Data?
 
@@ -3220,7 +3220,7 @@ extension EC2 {
         }
     }
 
-    public struct BlockDeviceMapping: AWSShape {
+    public struct BlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -3246,7 +3246,7 @@ extension EC2 {
         }
     }
 
-    public struct BundleInstanceRequest: AWSShape {
+    public struct BundleInstanceRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -3268,7 +3268,7 @@ extension EC2 {
         }
     }
 
-    public struct BundleInstanceResult: AWSShape {
+    public struct BundleInstanceResult: AWSDecodableShape {
 
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
@@ -3282,7 +3282,7 @@ extension EC2 {
         }
     }
 
-    public struct BundleTask: AWSShape {
+    public struct BundleTask: AWSDecodableShape {
 
         /// The ID of the bundle task.
         public let bundleId: String?
@@ -3324,7 +3324,7 @@ extension EC2 {
         }
     }
 
-    public struct BundleTaskError: AWSShape {
+    public struct BundleTaskError: AWSDecodableShape {
 
         /// The error code.
         public let code: String?
@@ -3342,7 +3342,7 @@ extension EC2 {
         }
     }
 
-    public struct ByoipCidr: AWSShape {
+    public struct ByoipCidr: AWSDecodableShape {
 
         /// The address range, in CIDR notation.
         public let cidr: String?
@@ -3368,7 +3368,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelBundleTaskRequest: AWSShape {
+    public struct CancelBundleTaskRequest: AWSEncodableShape {
 
         /// The ID of the bundle task.
         public let bundleId: String
@@ -3386,7 +3386,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelBundleTaskResult: AWSShape {
+    public struct CancelBundleTaskResult: AWSDecodableShape {
 
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
@@ -3400,7 +3400,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelCapacityReservationRequest: AWSShape {
+    public struct CancelCapacityReservationRequest: AWSEncodableShape {
 
         /// The ID of the Capacity Reservation to be cancelled.
         public let capacityReservationId: String
@@ -3418,7 +3418,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelCapacityReservationResult: AWSShape {
+    public struct CancelCapacityReservationResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -3432,7 +3432,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelConversionRequest: AWSShape {
+    public struct CancelConversionRequest: AWSEncodableShape {
 
         /// The ID of the conversion task.
         public let conversionTaskId: String
@@ -3454,7 +3454,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelExportTaskRequest: AWSShape {
+    public struct CancelExportTaskRequest: AWSEncodableShape {
 
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
         public let exportTaskId: String
@@ -3468,7 +3468,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelImportTaskRequest: AWSShape {
+    public struct CancelImportTaskRequest: AWSEncodableShape {
 
         /// The reason for canceling the task.
         public let cancelReason: String?
@@ -3490,7 +3490,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelImportTaskResult: AWSShape {
+    public struct CancelImportTaskResult: AWSDecodableShape {
 
         /// The ID of the task being canceled.
         public let importTaskId: String?
@@ -3512,7 +3512,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelReservedInstancesListingRequest: AWSShape {
+    public struct CancelReservedInstancesListingRequest: AWSEncodableShape {
 
         /// The ID of the Reserved Instance listing.
         public let reservedInstancesListingId: String
@@ -3526,7 +3526,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelReservedInstancesListingResult: AWSShape {
+    public struct CancelReservedInstancesListingResult: AWSDecodableShape {
         public struct _ReservedInstancesListingsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The Reserved Instance listing.
@@ -3541,7 +3541,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotFleetRequestsError: AWSShape {
+    public struct CancelSpotFleetRequestsError: AWSDecodableShape {
 
         /// The error code.
         public let code: CancelBatchErrorCode?
@@ -3559,7 +3559,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotFleetRequestsErrorItem: AWSShape {
+    public struct CancelSpotFleetRequestsErrorItem: AWSDecodableShape {
 
         /// The error.
         public let error: CancelSpotFleetRequestsError?
@@ -3577,7 +3577,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotFleetRequestsRequest: AWSShape {
+    public struct CancelSpotFleetRequestsRequest: AWSEncodableShape {
         public struct _SpotFleetRequestIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3600,7 +3600,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotFleetRequestsResponse: AWSShape {
+    public struct CancelSpotFleetRequestsResponse: AWSDecodableShape {
         public struct _SuccessfulFleetRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulFleetRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -3620,7 +3620,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotFleetRequestsSuccessItem: AWSShape {
+    public struct CancelSpotFleetRequestsSuccessItem: AWSDecodableShape {
 
         /// The current state of the Spot Fleet request.
         public let currentSpotFleetRequestState: BatchState?
@@ -3642,7 +3642,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotInstanceRequestsRequest: AWSShape {
+    public struct CancelSpotInstanceRequestsRequest: AWSEncodableShape {
         public struct _SpotInstanceRequestIdsEncoding: ArrayCoderProperties { static public let member = "SpotInstanceRequestId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3661,7 +3661,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelSpotInstanceRequestsResult: AWSShape {
+    public struct CancelSpotInstanceRequestsResult: AWSDecodableShape {
         public struct _CancelledSpotInstanceRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more Spot Instance requests.
@@ -3676,7 +3676,7 @@ extension EC2 {
         }
     }
 
-    public struct CancelledSpotInstanceRequest: AWSShape {
+    public struct CancelledSpotInstanceRequest: AWSDecodableShape {
 
         /// The ID of the Spot Instance request.
         public let spotInstanceRequestId: String?
@@ -3694,7 +3694,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservation: AWSShape {
+    public struct CapacityReservation: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The Availability Zone in which the capacity is reserved.
@@ -3777,7 +3777,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservationOptions: AWSShape {
+    public struct CapacityReservationOptions: AWSDecodableShape {
 
         /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price or prioritized) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price or prioritized). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
         public let usageStrategy: FleetCapacityReservationUsageStrategy?
@@ -3791,7 +3791,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservationOptionsRequest: AWSShape {
+    public struct CapacityReservationOptionsRequest: AWSEncodableShape {
 
         /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price or prioritized) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price or prioritized). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
         public let usageStrategy: FleetCapacityReservationUsageStrategy?
@@ -3805,7 +3805,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservationSpecification: AWSShape {
+    public struct CapacityReservationSpecification: AWSEncodableShape {
 
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance.  
         public let capacityReservationPreference: CapacityReservationPreference?
@@ -3823,7 +3823,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservationSpecificationResponse: AWSShape {
+    public struct CapacityReservationSpecificationResponse: AWSDecodableShape {
 
         /// Describes the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.  
         public let capacityReservationPreference: CapacityReservationPreference?
@@ -3841,7 +3841,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservationTarget: AWSShape {
+    public struct CapacityReservationTarget: AWSEncodableShape {
 
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
@@ -3855,7 +3855,7 @@ extension EC2 {
         }
     }
 
-    public struct CapacityReservationTargetResponse: AWSShape {
+    public struct CapacityReservationTargetResponse: AWSDecodableShape {
 
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
@@ -3869,7 +3869,7 @@ extension EC2 {
         }
     }
 
-    public struct CertificateAuthentication: AWSShape {
+    public struct CertificateAuthentication: AWSDecodableShape {
 
         /// The ARN of the client certificate. 
         public let clientRootCertificateChain: String?
@@ -3883,7 +3883,7 @@ extension EC2 {
         }
     }
 
-    public struct CertificateAuthenticationRequest: AWSShape {
+    public struct CertificateAuthenticationRequest: AWSEncodableShape {
 
         /// The ARN of the client certificate. The certificate must be signed by a certificate authority (CA) and it must be provisioned in AWS Certificate Manager (ACM).
         public let clientRootCertificateChainArn: String?
@@ -3897,7 +3897,7 @@ extension EC2 {
         }
     }
 
-    public struct CidrAuthorizationContext: AWSShape {
+    public struct CidrAuthorizationContext: AWSEncodableShape {
 
         /// The plain-text authorization message for the prefix and account.
         public let message: String
@@ -3915,7 +3915,7 @@ extension EC2 {
         }
     }
 
-    public struct CidrBlock: AWSShape {
+    public struct CidrBlock: AWSDecodableShape {
 
         /// The IPv4 CIDR block.
         public let cidrBlock: String?
@@ -3929,7 +3929,7 @@ extension EC2 {
         }
     }
 
-    public struct ClassicLinkDnsSupport: AWSShape {
+    public struct ClassicLinkDnsSupport: AWSDecodableShape {
 
         /// Indicates whether ClassicLink DNS support is enabled for the VPC.
         public let classicLinkDnsSupported: Bool?
@@ -3947,7 +3947,7 @@ extension EC2 {
         }
     }
 
-    public struct ClassicLinkInstance: AWSShape {
+    public struct ClassicLinkInstance: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -3975,7 +3975,7 @@ extension EC2 {
         }
     }
 
-    public struct ClassicLoadBalancer: AWSShape {
+    public struct ClassicLoadBalancer: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the load balancer.
         public let name: String?
@@ -3989,7 +3989,7 @@ extension EC2 {
         }
     }
 
-    public struct ClassicLoadBalancersConfig: AWSShape {
+    public struct ClassicLoadBalancersConfig: AWSEncodableShape & AWSDecodableShape {
         public struct _ClassicLoadBalancersEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more Classic Load Balancers.
@@ -4009,7 +4009,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientCertificateRevocationListStatus: AWSShape {
+    public struct ClientCertificateRevocationListStatus: AWSDecodableShape {
 
         /// The state of the client certificate revocation list.
         public let code: ClientCertificateRevocationListStatusCode?
@@ -4027,7 +4027,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientData: AWSShape {
+    public struct ClientData: AWSEncodableShape {
 
         /// A user-defined comment about the disk upload.
         public let comment: String?
@@ -4053,7 +4053,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnAuthentication: AWSShape {
+    public struct ClientVpnAuthentication: AWSDecodableShape {
 
         /// Information about the Active Directory, if applicable.
         public let activeDirectory: DirectoryServiceAuthentication?
@@ -4075,7 +4075,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnAuthenticationRequest: AWSShape {
+    public struct ClientVpnAuthenticationRequest: AWSEncodableShape {
 
         /// Information about the Active Directory to be used, if applicable. You must provide this information if Type is directory-service-authentication.
         public let activeDirectory: DirectoryServiceAuthenticationRequest?
@@ -4097,7 +4097,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnAuthorizationRuleStatus: AWSShape {
+    public struct ClientVpnAuthorizationRuleStatus: AWSDecodableShape {
 
         /// The state of the authorization rule.
         public let code: ClientVpnAuthorizationRuleStatusCode?
@@ -4115,7 +4115,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnConnection: AWSShape {
+    public struct ClientVpnConnection: AWSDecodableShape {
 
         /// The IP address of the client.
         public let clientIp: String?
@@ -4177,7 +4177,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnConnectionStatus: AWSShape {
+    public struct ClientVpnConnectionStatus: AWSDecodableShape {
 
         /// The state of the client connection.
         public let code: ClientVpnConnectionStatusCode?
@@ -4195,7 +4195,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnEndpoint: AWSShape {
+    public struct ClientVpnEndpoint: AWSDecodableShape {
         public struct _AuthenticationOptionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _DnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -4281,7 +4281,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnEndpointStatus: AWSShape {
+    public struct ClientVpnEndpointStatus: AWSDecodableShape {
 
         /// The state of the Client VPN endpoint. Possible states include:    pending-associate - The Client VPN endpoint has been created but no target networks have been associated. The Client VPN endpoint cannot accept connections.    available - The Client VPN endpoint has been created and a target network has been associated. The Client VPN endpoint can accept connections.    deleting - The Client VPN endpoint is being deleted. The Client VPN endpoint cannot accept connections.    deleted - The Client VPN endpoint has been deleted. The Client VPN endpoint cannot accept connections.  
         public let code: ClientVpnEndpointStatusCode?
@@ -4299,7 +4299,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnRoute: AWSShape {
+    public struct ClientVpnRoute: AWSDecodableShape {
 
         /// The ID of the Client VPN endpoint with which the route is associated.
         public let clientVpnEndpointId: String?
@@ -4337,7 +4337,7 @@ extension EC2 {
         }
     }
 
-    public struct ClientVpnRouteStatus: AWSShape {
+    public struct ClientVpnRouteStatus: AWSDecodableShape {
 
         /// The state of the Client VPN endpoint route.
         public let code: ClientVpnRouteStatusCode?
@@ -4355,7 +4355,7 @@ extension EC2 {
         }
     }
 
-    public struct CoipAddressUsage: AWSShape {
+    public struct CoipAddressUsage: AWSDecodableShape {
 
         /// The allocation ID of the address.
         public let allocationId: String?
@@ -4381,7 +4381,7 @@ extension EC2 {
         }
     }
 
-    public struct CoipPool: AWSShape {
+    public struct CoipPool: AWSDecodableShape {
         public struct _PoolCidrsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -4409,7 +4409,7 @@ extension EC2 {
         }
     }
 
-    public struct ConfirmProductInstanceRequest: AWSShape {
+    public struct ConfirmProductInstanceRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -4431,7 +4431,7 @@ extension EC2 {
         }
     }
 
-    public struct ConfirmProductInstanceResult: AWSShape {
+    public struct ConfirmProductInstanceResult: AWSDecodableShape {
 
         /// The AWS account ID of the instance owner. This is only present if the product code is attached to the instance.
         public let ownerId: String?
@@ -4449,7 +4449,7 @@ extension EC2 {
         }
     }
 
-    public struct ConnectionLogOptions: AWSShape {
+    public struct ConnectionLogOptions: AWSEncodableShape {
 
         /// The name of the CloudWatch Logs log group.
         public let cloudwatchLogGroup: String?
@@ -4471,7 +4471,7 @@ extension EC2 {
         }
     }
 
-    public struct ConnectionLogResponseOptions: AWSShape {
+    public struct ConnectionLogResponseOptions: AWSDecodableShape {
 
         /// The name of the Amazon CloudWatch Logs log group to which connection logging data is published.
         public let cloudwatchLogGroup: String?
@@ -4493,7 +4493,7 @@ extension EC2 {
         }
     }
 
-    public struct ConnectionNotification: AWSShape {
+    public struct ConnectionNotification: AWSDecodableShape {
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The events for the notification. Valid values are Accept, Connect, Delete, and Reject.
@@ -4532,7 +4532,7 @@ extension EC2 {
         }
     }
 
-    public struct ConversionTask: AWSShape {
+    public struct ConversionTask: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the conversion task.
@@ -4571,7 +4571,7 @@ extension EC2 {
         }
     }
 
-    public struct CopyFpgaImageRequest: AWSShape {
+    public struct CopyFpgaImageRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
@@ -4605,7 +4605,7 @@ extension EC2 {
         }
     }
 
-    public struct CopyFpgaImageResult: AWSShape {
+    public struct CopyFpgaImageResult: AWSDecodableShape {
 
         /// The ID of the new AFI.
         public let fpgaImageId: String?
@@ -4619,7 +4619,7 @@ extension EC2 {
         }
     }
 
-    public struct CopyImageRequest: AWSShape {
+    public struct CopyImageRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
         public let clientToken: String?
@@ -4661,7 +4661,7 @@ extension EC2 {
         }
     }
 
-    public struct CopyImageResult: AWSShape {
+    public struct CopyImageResult: AWSDecodableShape {
 
         /// The ID of the new AMI.
         public let imageId: String?
@@ -4675,7 +4675,7 @@ extension EC2 {
         }
     }
 
-    public struct CopySnapshotRequest: AWSShape {
+    public struct CopySnapshotRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A description for the EBS snapshot.
@@ -4722,7 +4722,7 @@ extension EC2 {
         }
     }
 
-    public struct CopySnapshotResult: AWSShape {
+    public struct CopySnapshotResult: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the new snapshot.
@@ -4741,7 +4741,7 @@ extension EC2 {
         }
     }
 
-    public struct CpuOptions: AWSShape {
+    public struct CpuOptions: AWSDecodableShape {
 
         /// The number of CPU cores for the instance.
         public let coreCount: Int?
@@ -4759,7 +4759,7 @@ extension EC2 {
         }
     }
 
-    public struct CpuOptionsRequest: AWSShape {
+    public struct CpuOptionsRequest: AWSEncodableShape {
 
         /// The number of CPU cores for the instance.
         public let coreCount: Int?
@@ -4777,7 +4777,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateCapacityReservationRequest: AWSShape {
+    public struct CreateCapacityReservationRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The Availability Zone in which to create the Capacity Reservation.
@@ -4844,7 +4844,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateCapacityReservationResult: AWSShape {
+    public struct CreateCapacityReservationResult: AWSDecodableShape {
 
         /// Information about the Capacity Reservation.
         public let capacityReservation: CapacityReservation?
@@ -4858,7 +4858,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateClientVpnEndpointRequest: AWSShape {
+    public struct CreateClientVpnEndpointRequest: AWSEncodableShape {
         public struct _DnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -4927,7 +4927,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateClientVpnEndpointResult: AWSShape {
+    public struct CreateClientVpnEndpointResult: AWSDecodableShape {
 
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String?
@@ -4949,7 +4949,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateClientVpnRouteRequest: AWSShape {
+    public struct CreateClientVpnRouteRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -4983,7 +4983,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateClientVpnRouteResult: AWSShape {
+    public struct CreateClientVpnRouteResult: AWSDecodableShape {
 
         /// The current state of the route.
         public let status: ClientVpnRouteStatus?
@@ -4997,7 +4997,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateCustomerGatewayRequest: AWSShape {
+    public struct CreateCustomerGatewayRequest: AWSEncodableShape {
 
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
         public let bgpAsn: Int
@@ -5031,7 +5031,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateCustomerGatewayResult: AWSShape {
+    public struct CreateCustomerGatewayResult: AWSDecodableShape {
 
         /// Information about the customer gateway.
         public let customerGateway: CustomerGateway?
@@ -5045,7 +5045,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateDefaultSubnetRequest: AWSShape {
+    public struct CreateDefaultSubnetRequest: AWSEncodableShape {
 
         /// The Availability Zone in which to create the default subnet.
         public let availabilityZone: String
@@ -5063,7 +5063,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateDefaultSubnetResult: AWSShape {
+    public struct CreateDefaultSubnetResult: AWSDecodableShape {
 
         /// Information about the subnet.
         public let subnet: Subnet?
@@ -5077,7 +5077,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateDefaultVpcRequest: AWSShape {
+    public struct CreateDefaultVpcRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5091,7 +5091,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateDefaultVpcResult: AWSShape {
+    public struct CreateDefaultVpcResult: AWSDecodableShape {
 
         /// Information about the VPC.
         public let vpc: Vpc?
@@ -5105,7 +5105,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateDhcpOptionsRequest: AWSShape {
+    public struct CreateDhcpOptionsRequest: AWSEncodableShape {
         public struct _DhcpConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A DHCP configuration option.
@@ -5124,7 +5124,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateDhcpOptionsResult: AWSShape {
+    public struct CreateDhcpOptionsResult: AWSDecodableShape {
 
         /// A set of DHCP options.
         public let dhcpOptions: DhcpOptions?
@@ -5138,7 +5138,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateEgressOnlyInternetGatewayRequest: AWSShape {
+    public struct CreateEgressOnlyInternetGatewayRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -5160,7 +5160,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateEgressOnlyInternetGatewayResult: AWSShape {
+    public struct CreateEgressOnlyInternetGatewayResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -5178,7 +5178,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFleetError: AWSShape {
+    public struct CreateFleetError: AWSDecodableShape {
 
         /// The error code that indicates why the instance could not be launched. For more information about error codes, see Error Codes.
         public let errorCode: String?
@@ -5204,7 +5204,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFleetInstance: AWSShape {
+    public struct CreateFleetInstance: AWSDecodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IDs of the instances.
@@ -5235,7 +5235,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFleetRequest: AWSShape {
+    public struct CreateFleetRequest: AWSEncodableShape {
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -5306,7 +5306,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFleetResult: AWSShape {
+    public struct CreateFleetResult: AWSDecodableShape {
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -5330,7 +5330,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFlowLogsRequest: AWSShape {
+    public struct CreateFlowLogsRequest: AWSEncodableShape {
         public struct _ResourceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -5390,7 +5390,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFlowLogsResult: AWSShape {
+    public struct CreateFlowLogsResult: AWSDecodableShape {
         public struct _FlowLogIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -5414,7 +5414,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFpgaImageRequest: AWSShape {
+    public struct CreateFpgaImageRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -5453,7 +5453,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateFpgaImageResult: AWSShape {
+    public struct CreateFpgaImageResult: AWSDecodableShape {
 
         /// The global FPGA image identifier (AGFI ID).
         public let fpgaImageGlobalId: String?
@@ -5471,7 +5471,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateImageRequest: AWSShape {
+    public struct CreateImageRequest: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
 
         /// The block device mappings. This parameter cannot be used to modify the encryption status of existing volumes or snapshots. To create an AMI with encrypted snapshots, use the CopyImage action.
@@ -5506,7 +5506,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateImageResult: AWSShape {
+    public struct CreateImageResult: AWSDecodableShape {
 
         /// The ID of the new AMI.
         public let imageId: String?
@@ -5520,7 +5520,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateInstanceExportTaskRequest: AWSShape {
+    public struct CreateInstanceExportTaskRequest: AWSEncodableShape {
 
         /// A description for the conversion task or the resource being exported. The maximum length is 255 bytes.
         public let description: String?
@@ -5546,7 +5546,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateInstanceExportTaskResult: AWSShape {
+    public struct CreateInstanceExportTaskResult: AWSDecodableShape {
 
         /// Information about the instance export task.
         public let exportTask: ExportTask?
@@ -5560,7 +5560,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateInternetGatewayRequest: AWSShape {
+    public struct CreateInternetGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5574,7 +5574,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateInternetGatewayResult: AWSShape {
+    public struct CreateInternetGatewayResult: AWSDecodableShape {
 
         /// Information about the internet gateway.
         public let internetGateway: InternetGateway?
@@ -5588,7 +5588,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateKeyPairRequest: AWSShape {
+    public struct CreateKeyPairRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5606,7 +5606,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLaunchTemplateRequest: AWSShape {
+    public struct CreateLaunchTemplateRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
@@ -5649,7 +5649,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLaunchTemplateResult: AWSShape {
+    public struct CreateLaunchTemplateResult: AWSDecodableShape {
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
@@ -5663,7 +5663,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLaunchTemplateVersionRequest: AWSShape {
+    public struct CreateLaunchTemplateVersionRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
@@ -5709,7 +5709,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLaunchTemplateVersionResult: AWSShape {
+    public struct CreateLaunchTemplateVersionResult: AWSDecodableShape {
 
         /// Information about the launch template version.
         public let launchTemplateVersion: LaunchTemplateVersion?
@@ -5723,7 +5723,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLocalGatewayRouteRequest: AWSShape {
+    public struct CreateLocalGatewayRouteRequest: AWSEncodableShape {
 
         /// The CIDR range used for destination matches. Routing decisions are based on the most specific match.
         public let destinationCidrBlock: String
@@ -5749,7 +5749,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLocalGatewayRouteResult: AWSShape {
+    public struct CreateLocalGatewayRouteResult: AWSDecodableShape {
 
         /// Information about the route.
         public let route: LocalGatewayRoute?
@@ -5763,7 +5763,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLocalGatewayRouteTableVpcAssociationRequest: AWSShape {
+    public struct CreateLocalGatewayRouteTableVpcAssociationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5785,7 +5785,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateLocalGatewayRouteTableVpcAssociationResult: AWSShape {
+    public struct CreateLocalGatewayRouteTableVpcAssociationResult: AWSDecodableShape {
 
         /// Information about the association.
         public let localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation?
@@ -5799,7 +5799,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNatGatewayRequest: AWSShape {
+    public struct CreateNatGatewayRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The allocation ID of an Elastic IP address to associate with the NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
@@ -5830,7 +5830,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNatGatewayResult: AWSShape {
+    public struct CreateNatGatewayResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
         public let clientToken: String?
@@ -5848,7 +5848,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkAclEntryRequest: AWSShape {
+    public struct CreateNetworkAclEntryRequest: AWSEncodableShape {
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public let cidrBlock: String?
@@ -5898,7 +5898,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkAclRequest: AWSShape {
+    public struct CreateNetworkAclRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5916,7 +5916,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkAclResult: AWSShape {
+    public struct CreateNetworkAclResult: AWSDecodableShape {
 
         /// Information about the network ACL.
         public let networkAcl: NetworkAcl?
@@ -5930,7 +5930,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkInterfacePermissionRequest: AWSShape {
+    public struct CreateNetworkInterfacePermissionRequest: AWSEncodableShape {
 
         /// The AWS account ID.
         public let awsAccountId: String?
@@ -5960,7 +5960,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkInterfacePermissionResult: AWSShape {
+    public struct CreateNetworkInterfacePermissionResult: AWSDecodableShape {
 
         /// Information about the permission for the network interface.
         public let interfacePermission: NetworkInterfacePermission?
@@ -5974,7 +5974,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkInterfaceRequest: AWSShape {
+    public struct CreateNetworkInterfaceRequest: AWSEncodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -6027,7 +6027,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateNetworkInterfaceResult: AWSShape {
+    public struct CreateNetworkInterfaceResult: AWSDecodableShape {
 
         /// Information about the network interface.
         public let networkInterface: NetworkInterface?
@@ -6041,7 +6041,7 @@ extension EC2 {
         }
     }
 
-    public struct CreatePlacementGroupRequest: AWSShape {
+    public struct CreatePlacementGroupRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6067,7 +6067,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateReservedInstancesListingRequest: AWSShape {
+    public struct CreateReservedInstancesListingRequest: AWSEncodableShape {
         public struct _PriceSchedulesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
@@ -6094,7 +6094,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateReservedInstancesListingResult: AWSShape {
+    public struct CreateReservedInstancesListingResult: AWSDecodableShape {
         public struct _ReservedInstancesListingsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Standard Reserved Instance listing.
@@ -6109,7 +6109,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateRouteRequest: AWSShape {
+    public struct CreateRouteRequest: AWSEncodableShape {
 
         /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match.
         public let destinationCidrBlock: String?
@@ -6167,7 +6167,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateRouteResult: AWSShape {
+    public struct CreateRouteResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -6181,7 +6181,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateRouteTableRequest: AWSShape {
+    public struct CreateRouteTableRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6199,7 +6199,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateRouteTableResult: AWSShape {
+    public struct CreateRouteTableResult: AWSDecodableShape {
 
         /// Information about the route table.
         public let routeTable: RouteTable?
@@ -6213,7 +6213,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSecurityGroupRequest: AWSShape {
+    public struct CreateSecurityGroupRequest: AWSEncodableShape {
 
         /// A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
         public let description: String
@@ -6239,7 +6239,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSecurityGroupResult: AWSShape {
+    public struct CreateSecurityGroupResult: AWSDecodableShape {
 
         /// The ID of the security group.
         public let groupId: String?
@@ -6253,7 +6253,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSnapshotRequest: AWSShape {
+    public struct CreateSnapshotRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A description for the snapshot.
@@ -6280,7 +6280,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSnapshotsRequest: AWSShape {
+    public struct CreateSnapshotsRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Copies the tags from the specified volume to corresponding snapshot.
@@ -6311,7 +6311,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSnapshotsResult: AWSShape {
+    public struct CreateSnapshotsResult: AWSDecodableShape {
         public struct _SnapshotsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// List of snapshots.
@@ -6326,7 +6326,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSpotDatafeedSubscriptionRequest: AWSShape {
+    public struct CreateSpotDatafeedSubscriptionRequest: AWSEncodableShape {
 
         /// The Amazon S3 bucket in which to store the Spot Instance data feed.
         public let bucket: String
@@ -6348,7 +6348,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSpotDatafeedSubscriptionResult: AWSShape {
+    public struct CreateSpotDatafeedSubscriptionResult: AWSDecodableShape {
 
         /// The Spot Instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
@@ -6362,7 +6362,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSubnetRequest: AWSShape {
+    public struct CreateSubnetRequest: AWSEncodableShape {
 
         /// The Availability Zone or Local Zone for the subnet. Default: AWS selects one for you. If you create more than one subnet in your VPC, we do not necessarily select a different zone for each subnet. To create a subnet in a Local Zone, set this value to the Local Zone ID, for example us-west-2-lax-1a. For information about the Regions that support Local Zones, see Available Regions in the Amazon Elastic Compute Cloud User Guide.
         public let availabilityZone: String?
@@ -6400,7 +6400,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateSubnetResult: AWSShape {
+    public struct CreateSubnetResult: AWSDecodableShape {
 
         /// Information about the subnet.
         public let subnet: Subnet?
@@ -6414,7 +6414,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTagsRequest: AWSShape {
+    public struct CreateTagsRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6437,7 +6437,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorFilterRequest: AWSShape {
+    public struct CreateTrafficMirrorFilterRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6464,7 +6464,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorFilterResult: AWSShape {
+    public struct CreateTrafficMirrorFilterResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -6482,7 +6482,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorFilterRuleRequest: AWSShape {
+    public struct CreateTrafficMirrorFilterRuleRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -6540,7 +6540,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorFilterRuleResult: AWSShape {
+    public struct CreateTrafficMirrorFilterRuleResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -6558,7 +6558,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorSessionRequest: AWSShape {
+    public struct CreateTrafficMirrorSessionRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6609,7 +6609,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorSessionResult: AWSShape {
+    public struct CreateTrafficMirrorSessionResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -6627,7 +6627,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorTargetRequest: AWSShape {
+    public struct CreateTrafficMirrorTargetRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -6662,7 +6662,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTrafficMirrorTargetResult: AWSShape {
+    public struct CreateTrafficMirrorTargetResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -6680,7 +6680,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayMulticastDomainRequest: AWSShape {
+    public struct CreateTransitGatewayMulticastDomainRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6703,7 +6703,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayMulticastDomainResult: AWSShape {
+    public struct CreateTransitGatewayMulticastDomainResult: AWSDecodableShape {
 
         /// Information about the transit gateway multicast domain.
         public let transitGatewayMulticastDomain: TransitGatewayMulticastDomain?
@@ -6717,7 +6717,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayPeeringAttachmentRequest: AWSShape {
+    public struct CreateTransitGatewayPeeringAttachmentRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6752,7 +6752,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayPeeringAttachmentResult: AWSShape {
+    public struct CreateTransitGatewayPeeringAttachmentResult: AWSDecodableShape {
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -6766,7 +6766,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayRequest: AWSShape {
+    public struct CreateTransitGatewayRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A description of the transit gateway.
@@ -6793,7 +6793,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayResult: AWSShape {
+    public struct CreateTransitGatewayResult: AWSDecodableShape {
 
         /// Information about the transit gateway.
         public let transitGateway: TransitGateway?
@@ -6807,7 +6807,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayRouteRequest: AWSShape {
+    public struct CreateTransitGatewayRouteRequest: AWSEncodableShape {
 
         /// Indicates whether to drop traffic that matches this route.
         public let blackhole: Bool?
@@ -6837,7 +6837,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayRouteResult: AWSShape {
+    public struct CreateTransitGatewayRouteResult: AWSDecodableShape {
 
         /// Information about the route.
         public let route: TransitGatewayRoute?
@@ -6851,7 +6851,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayRouteTableRequest: AWSShape {
+    public struct CreateTransitGatewayRouteTableRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6874,7 +6874,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayRouteTableResult: AWSShape {
+    public struct CreateTransitGatewayRouteTableResult: AWSDecodableShape {
 
         /// Information about the transit gateway route table.
         public let transitGatewayRouteTable: TransitGatewayRouteTable?
@@ -6888,7 +6888,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayVpcAttachmentRequest: AWSShape {
+    public struct CreateTransitGatewayVpcAttachmentRequest: AWSEncodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -6924,7 +6924,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayVpcAttachmentRequestOptions: AWSShape {
+    public struct CreateTransitGatewayVpcAttachmentRequestOptions: AWSEncodableShape {
 
         /// Enable or disable DNS support. The default is enable.
         public let dnsSupport: DnsSupportValue?
@@ -6942,7 +6942,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateTransitGatewayVpcAttachmentResult: AWSShape {
+    public struct CreateTransitGatewayVpcAttachmentResult: AWSDecodableShape {
 
         /// Information about the VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -6956,7 +6956,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVolumePermission: AWSShape {
+    public struct CreateVolumePermission: AWSEncodableShape & AWSDecodableShape {
 
         /// The group to be added or removed. The possible value is all.
         public let group: PermissionGroup?
@@ -6974,7 +6974,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVolumePermissionModifications: AWSShape {
+    public struct CreateVolumePermissionModifications: AWSEncodableShape {
         public struct _AddEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -6994,7 +6994,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVolumeRequest: AWSShape {
+    public struct CreateVolumeRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The Availability Zone in which to create the volume.
@@ -7049,7 +7049,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcEndpointConnectionNotificationRequest: AWSShape {
+    public struct CreateVpcEndpointConnectionNotificationRequest: AWSEncodableShape {
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -7084,7 +7084,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcEndpointConnectionNotificationResult: AWSShape {
+    public struct CreateVpcEndpointConnectionNotificationResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7102,7 +7102,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcEndpointRequest: AWSShape {
+    public struct CreateVpcEndpointRequest: AWSEncodableShape {
         public struct _RouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -7160,7 +7160,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcEndpointResult: AWSShape {
+    public struct CreateVpcEndpointResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7178,7 +7178,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcEndpointServiceConfigurationRequest: AWSShape {
+    public struct CreateVpcEndpointServiceConfigurationRequest: AWSEncodableShape {
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -7214,7 +7214,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcEndpointServiceConfigurationResult: AWSShape {
+    public struct CreateVpcEndpointServiceConfigurationResult: AWSDecodableShape {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7232,7 +7232,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcPeeringConnectionRequest: AWSShape {
+    public struct CreateVpcPeeringConnectionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7262,7 +7262,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcPeeringConnectionResult: AWSShape {
+    public struct CreateVpcPeeringConnectionResult: AWSDecodableShape {
 
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
@@ -7276,7 +7276,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcRequest: AWSShape {
+    public struct CreateVpcRequest: AWSEncodableShape {
 
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
         public let amazonProvidedIpv6CidrBlock: Bool?
@@ -7314,7 +7314,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpcResult: AWSShape {
+    public struct CreateVpcResult: AWSDecodableShape {
 
         /// Information about the VPC.
         public let vpc: Vpc?
@@ -7328,7 +7328,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpnConnectionRequest: AWSShape {
+    public struct CreateVpnConnectionRequest: AWSEncodableShape {
 
         /// The ID of the customer gateway.
         public let customerGatewayId: String
@@ -7362,7 +7362,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpnConnectionResult: AWSShape {
+    public struct CreateVpnConnectionResult: AWSDecodableShape {
 
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
@@ -7376,7 +7376,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpnConnectionRouteRequest: AWSShape {
+    public struct CreateVpnConnectionRouteRequest: AWSEncodableShape {
 
         /// The CIDR block associated with the local subnet of the customer network.
         public let destinationCidrBlock: String
@@ -7394,7 +7394,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpnGatewayRequest: AWSShape {
+    public struct CreateVpnGatewayRequest: AWSEncodableShape {
 
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. If you're using a 16-bit ASN, it must be in the 64512 to 65534 range. If you're using a 32-bit ASN, it must be in the 4200000000 to 4294967294 range. Default: 64512
         public let amazonSideAsn: Int64?
@@ -7420,7 +7420,7 @@ extension EC2 {
         }
     }
 
-    public struct CreateVpnGatewayResult: AWSShape {
+    public struct CreateVpnGatewayResult: AWSDecodableShape {
 
         /// Information about the virtual private gateway.
         public let vpnGateway: VpnGateway?
@@ -7434,7 +7434,7 @@ extension EC2 {
         }
     }
 
-    public struct CreditSpecification: AWSShape {
+    public struct CreditSpecification: AWSDecodableShape {
 
         /// The credit option for CPU usage of a T2 or T3 instance. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -7448,7 +7448,7 @@ extension EC2 {
         }
     }
 
-    public struct CreditSpecificationRequest: AWSShape {
+    public struct CreditSpecificationRequest: AWSEncodableShape {
 
         /// The credit option for CPU usage of a T2 or T3 instance. Valid values are standard and unlimited.
         public let cpuCredits: String
@@ -7462,7 +7462,7 @@ extension EC2 {
         }
     }
 
-    public struct CustomerGateway: AWSShape {
+    public struct CustomerGateway: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
@@ -7505,7 +7505,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteClientVpnEndpointRequest: AWSShape {
+    public struct DeleteClientVpnEndpointRequest: AWSEncodableShape {
 
         /// The ID of the Client VPN to be deleted.
         public let clientVpnEndpointId: String
@@ -7523,7 +7523,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteClientVpnEndpointResult: AWSShape {
+    public struct DeleteClientVpnEndpointResult: AWSDecodableShape {
 
         /// The current state of the Client VPN endpoint.
         public let status: ClientVpnEndpointStatus?
@@ -7537,7 +7537,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteClientVpnRouteRequest: AWSShape {
+    public struct DeleteClientVpnRouteRequest: AWSEncodableShape {
 
         /// The ID of the Client VPN endpoint from which the route is to be deleted.
         public let clientVpnEndpointId: String
@@ -7563,7 +7563,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteClientVpnRouteResult: AWSShape {
+    public struct DeleteClientVpnRouteResult: AWSDecodableShape {
 
         /// The current state of the route.
         public let status: ClientVpnRouteStatus?
@@ -7577,7 +7577,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteCustomerGatewayRequest: AWSShape {
+    public struct DeleteCustomerGatewayRequest: AWSEncodableShape {
 
         /// The ID of the customer gateway.
         public let customerGatewayId: String
@@ -7595,7 +7595,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteDhcpOptionsRequest: AWSShape {
+    public struct DeleteDhcpOptionsRequest: AWSEncodableShape {
 
         /// The ID of the DHCP options set.
         public let dhcpOptionsId: String
@@ -7613,7 +7613,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteEgressOnlyInternetGatewayRequest: AWSShape {
+    public struct DeleteEgressOnlyInternetGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7631,7 +7631,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteEgressOnlyInternetGatewayResult: AWSShape {
+    public struct DeleteEgressOnlyInternetGatewayResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnCode: Bool?
@@ -7645,7 +7645,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFleetError: AWSShape {
+    public struct DeleteFleetError: AWSDecodableShape {
 
         /// The error code.
         public let code: DeleteFleetErrorCode?
@@ -7663,7 +7663,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFleetErrorItem: AWSShape {
+    public struct DeleteFleetErrorItem: AWSDecodableShape {
 
         /// The error.
         public let error: DeleteFleetError?
@@ -7681,7 +7681,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFleetSuccessItem: AWSShape {
+    public struct DeleteFleetSuccessItem: AWSDecodableShape {
 
         /// The current state of the EC2 Fleet.
         public let currentFleetState: FleetStateCode?
@@ -7703,7 +7703,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFleetsRequest: AWSShape {
+    public struct DeleteFleetsRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7725,7 +7725,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFleetsResult: AWSShape {
+    public struct DeleteFleetsResult: AWSDecodableShape {
         public struct _SuccessfulFleetDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulFleetDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -7745,7 +7745,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFlowLogsRequest: AWSShape {
+    public struct DeleteFlowLogsRequest: AWSEncodableShape {
         public struct _FlowLogIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7764,7 +7764,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFlowLogsResult: AWSShape {
+    public struct DeleteFlowLogsResult: AWSDecodableShape {
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the flow logs that could not be deleted successfully.
@@ -7779,7 +7779,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFpgaImageRequest: AWSShape {
+    public struct DeleteFpgaImageRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7797,7 +7797,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteFpgaImageResult: AWSShape {
+    public struct DeleteFpgaImageResult: AWSDecodableShape {
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -7811,7 +7811,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteInternetGatewayRequest: AWSShape {
+    public struct DeleteInternetGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7829,7 +7829,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteKeyPairRequest: AWSShape {
+    public struct DeleteKeyPairRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7847,7 +7847,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLaunchTemplateRequest: AWSShape {
+    public struct DeleteLaunchTemplateRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7875,7 +7875,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLaunchTemplateResult: AWSShape {
+    public struct DeleteLaunchTemplateResult: AWSDecodableShape {
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
@@ -7889,7 +7889,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLaunchTemplateVersionsRequest: AWSShape {
+    public struct DeleteLaunchTemplateVersionsRequest: AWSEncodableShape {
         public struct _VersionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7922,7 +7922,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLaunchTemplateVersionsResponseErrorItem: AWSShape {
+    public struct DeleteLaunchTemplateVersionsResponseErrorItem: AWSDecodableShape {
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -7948,7 +7948,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLaunchTemplateVersionsResponseSuccessItem: AWSShape {
+    public struct DeleteLaunchTemplateVersionsResponseSuccessItem: AWSDecodableShape {
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -7970,7 +7970,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLaunchTemplateVersionsResult: AWSShape {
+    public struct DeleteLaunchTemplateVersionsResult: AWSDecodableShape {
         public struct _SuccessfullyDeletedLaunchTemplateVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfullyDeletedLaunchTemplateVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -7990,7 +7990,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLocalGatewayRouteRequest: AWSShape {
+    public struct DeleteLocalGatewayRouteRequest: AWSEncodableShape {
 
         /// The CIDR range for the route. This must match the CIDR for the route exactly.
         public let destinationCidrBlock: String
@@ -8012,7 +8012,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLocalGatewayRouteResult: AWSShape {
+    public struct DeleteLocalGatewayRouteResult: AWSDecodableShape {
 
         /// Information about the route.
         public let route: LocalGatewayRoute?
@@ -8026,7 +8026,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLocalGatewayRouteTableVpcAssociationRequest: AWSShape {
+    public struct DeleteLocalGatewayRouteTableVpcAssociationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8044,7 +8044,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteLocalGatewayRouteTableVpcAssociationResult: AWSShape {
+    public struct DeleteLocalGatewayRouteTableVpcAssociationResult: AWSDecodableShape {
 
         /// Information about the association.
         public let localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation?
@@ -8058,7 +8058,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNatGatewayRequest: AWSShape {
+    public struct DeleteNatGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8076,7 +8076,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNatGatewayResult: AWSShape {
+    public struct DeleteNatGatewayResult: AWSDecodableShape {
 
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
@@ -8090,7 +8090,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNetworkAclEntryRequest: AWSShape {
+    public struct DeleteNetworkAclEntryRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8116,7 +8116,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNetworkAclRequest: AWSShape {
+    public struct DeleteNetworkAclRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8134,7 +8134,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNetworkInterfacePermissionRequest: AWSShape {
+    public struct DeleteNetworkInterfacePermissionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8156,7 +8156,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNetworkInterfacePermissionResult: AWSShape {
+    public struct DeleteNetworkInterfacePermissionResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds, otherwise returns an error.
         public let `return`: Bool?
@@ -8170,7 +8170,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteNetworkInterfaceRequest: AWSShape {
+    public struct DeleteNetworkInterfaceRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8188,7 +8188,7 @@ extension EC2 {
         }
     }
 
-    public struct DeletePlacementGroupRequest: AWSShape {
+    public struct DeletePlacementGroupRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8206,7 +8206,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteQueuedReservedInstancesError: AWSShape {
+    public struct DeleteQueuedReservedInstancesError: AWSDecodableShape {
 
         /// The error code.
         public let code: DeleteQueuedReservedInstancesErrorCode?
@@ -8224,7 +8224,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteQueuedReservedInstancesRequest: AWSShape {
+    public struct DeleteQueuedReservedInstancesRequest: AWSEncodableShape {
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8248,7 +8248,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteQueuedReservedInstancesResult: AWSShape {
+    public struct DeleteQueuedReservedInstancesResult: AWSDecodableShape {
         public struct _FailedQueuedPurchaseDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SuccessfulQueuedPurchaseDeletionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -8268,7 +8268,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteRouteRequest: AWSShape {
+    public struct DeleteRouteRequest: AWSEncodableShape {
 
         /// The IPv4 CIDR range for the route. The value you specify must match the CIDR for the route exactly.
         public let destinationCidrBlock: String?
@@ -8294,7 +8294,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteRouteTableRequest: AWSShape {
+    public struct DeleteRouteTableRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8312,7 +8312,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteSecurityGroupRequest: AWSShape {
+    public struct DeleteSecurityGroupRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8334,7 +8334,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteSnapshotRequest: AWSShape {
+    public struct DeleteSnapshotRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8352,7 +8352,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteSpotDatafeedSubscriptionRequest: AWSShape {
+    public struct DeleteSpotDatafeedSubscriptionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8366,7 +8366,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteSubnetRequest: AWSShape {
+    public struct DeleteSubnetRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8384,7 +8384,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTagsRequest: AWSShape {
+    public struct DeleteTagsRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8407,7 +8407,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorFilterRequest: AWSShape {
+    public struct DeleteTrafficMirrorFilterRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8425,7 +8425,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorFilterResult: AWSShape {
+    public struct DeleteTrafficMirrorFilterResult: AWSDecodableShape {
 
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
@@ -8439,7 +8439,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorFilterRuleRequest: AWSShape {
+    public struct DeleteTrafficMirrorFilterRuleRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8457,7 +8457,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorFilterRuleResult: AWSShape {
+    public struct DeleteTrafficMirrorFilterRuleResult: AWSDecodableShape {
 
         /// The ID of the deleted Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String?
@@ -8471,7 +8471,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorSessionRequest: AWSShape {
+    public struct DeleteTrafficMirrorSessionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8489,7 +8489,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorSessionResult: AWSShape {
+    public struct DeleteTrafficMirrorSessionResult: AWSDecodableShape {
 
         /// The ID of the deleted Traffic Mirror session.
         public let trafficMirrorSessionId: String?
@@ -8503,7 +8503,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorTargetRequest: AWSShape {
+    public struct DeleteTrafficMirrorTargetRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8521,7 +8521,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTrafficMirrorTargetResult: AWSShape {
+    public struct DeleteTrafficMirrorTargetResult: AWSDecodableShape {
 
         /// The ID of the deleted Traffic Mirror target.
         public let trafficMirrorTargetId: String?
@@ -8535,7 +8535,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayMulticastDomainRequest: AWSShape {
+    public struct DeleteTransitGatewayMulticastDomainRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8553,7 +8553,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayMulticastDomainResult: AWSShape {
+    public struct DeleteTransitGatewayMulticastDomainResult: AWSDecodableShape {
 
         /// Information about the deleted transit gateway multicast domain.
         public let transitGatewayMulticastDomain: TransitGatewayMulticastDomain?
@@ -8567,7 +8567,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayPeeringAttachmentRequest: AWSShape {
+    public struct DeleteTransitGatewayPeeringAttachmentRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8585,7 +8585,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayPeeringAttachmentResult: AWSShape {
+    public struct DeleteTransitGatewayPeeringAttachmentResult: AWSDecodableShape {
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -8599,7 +8599,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayRequest: AWSShape {
+    public struct DeleteTransitGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8617,7 +8617,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayResult: AWSShape {
+    public struct DeleteTransitGatewayResult: AWSDecodableShape {
 
         /// Information about the deleted transit gateway.
         public let transitGateway: TransitGateway?
@@ -8631,7 +8631,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayRouteRequest: AWSShape {
+    public struct DeleteTransitGatewayRouteRequest: AWSEncodableShape {
 
         /// The CIDR range for the route. This must match the CIDR for the route exactly.
         public let destinationCidrBlock: String
@@ -8653,7 +8653,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayRouteResult: AWSShape {
+    public struct DeleteTransitGatewayRouteResult: AWSDecodableShape {
 
         /// Information about the route.
         public let route: TransitGatewayRoute?
@@ -8667,7 +8667,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayRouteTableRequest: AWSShape {
+    public struct DeleteTransitGatewayRouteTableRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8685,7 +8685,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayRouteTableResult: AWSShape {
+    public struct DeleteTransitGatewayRouteTableResult: AWSDecodableShape {
 
         /// Information about the deleted transit gateway route table.
         public let transitGatewayRouteTable: TransitGatewayRouteTable?
@@ -8699,7 +8699,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayVpcAttachmentRequest: AWSShape {
+    public struct DeleteTransitGatewayVpcAttachmentRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8717,7 +8717,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteTransitGatewayVpcAttachmentResult: AWSShape {
+    public struct DeleteTransitGatewayVpcAttachmentResult: AWSDecodableShape {
 
         /// Information about the deleted VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -8731,7 +8731,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVolumeRequest: AWSShape {
+    public struct DeleteVolumeRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8749,7 +8749,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcEndpointConnectionNotificationsRequest: AWSShape {
+    public struct DeleteVpcEndpointConnectionNotificationsRequest: AWSEncodableShape {
         public struct _ConnectionNotificationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more notification IDs.
@@ -8768,7 +8768,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcEndpointConnectionNotificationsResult: AWSShape {
+    public struct DeleteVpcEndpointConnectionNotificationsResult: AWSDecodableShape {
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the notifications that could not be deleted successfully.
@@ -8783,7 +8783,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcEndpointServiceConfigurationsRequest: AWSShape {
+    public struct DeleteVpcEndpointServiceConfigurationsRequest: AWSEncodableShape {
         public struct _ServiceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8802,7 +8802,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcEndpointServiceConfigurationsResult: AWSShape {
+    public struct DeleteVpcEndpointServiceConfigurationsResult: AWSDecodableShape {
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the service configurations that were not deleted, if applicable.
@@ -8817,7 +8817,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcEndpointsRequest: AWSShape {
+    public struct DeleteVpcEndpointsRequest: AWSEncodableShape {
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8836,7 +8836,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcEndpointsResult: AWSShape {
+    public struct DeleteVpcEndpointsResult: AWSDecodableShape {
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the VPC endpoints that were not successfully deleted.
@@ -8851,7 +8851,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcPeeringConnectionRequest: AWSShape {
+    public struct DeleteVpcPeeringConnectionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8869,7 +8869,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcPeeringConnectionResult: AWSShape {
+    public struct DeleteVpcPeeringConnectionResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -8883,7 +8883,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpcRequest: AWSShape {
+    public struct DeleteVpcRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8901,7 +8901,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpnConnectionRequest: AWSShape {
+    public struct DeleteVpnConnectionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8919,7 +8919,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpnConnectionRouteRequest: AWSShape {
+    public struct DeleteVpnConnectionRouteRequest: AWSEncodableShape {
 
         /// The CIDR block associated with the local subnet of the customer network.
         public let destinationCidrBlock: String
@@ -8937,7 +8937,7 @@ extension EC2 {
         }
     }
 
-    public struct DeleteVpnGatewayRequest: AWSShape {
+    public struct DeleteVpnGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8955,7 +8955,7 @@ extension EC2 {
         }
     }
 
-    public struct DeprovisionByoipCidrRequest: AWSShape {
+    public struct DeprovisionByoipCidrRequest: AWSEncodableShape {
 
         /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
         public let cidr: String
@@ -8973,7 +8973,7 @@ extension EC2 {
         }
     }
 
-    public struct DeprovisionByoipCidrResult: AWSShape {
+    public struct DeprovisionByoipCidrResult: AWSDecodableShape {
 
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
@@ -8987,7 +8987,7 @@ extension EC2 {
         }
     }
 
-    public struct DeregisterImageRequest: AWSShape {
+    public struct DeregisterImageRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9005,7 +9005,7 @@ extension EC2 {
         }
     }
 
-    public struct DeregisterTransitGatewayMulticastGroupMembersRequest: AWSShape {
+    public struct DeregisterTransitGatewayMulticastGroupMembersRequest: AWSEncodableShape {
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9032,7 +9032,7 @@ extension EC2 {
         }
     }
 
-    public struct DeregisterTransitGatewayMulticastGroupMembersResult: AWSShape {
+    public struct DeregisterTransitGatewayMulticastGroupMembersResult: AWSDecodableShape {
 
         /// Information about the deregistered members.
         public let deregisteredMulticastGroupMembers: TransitGatewayMulticastDeregisteredGroupMembers?
@@ -9046,7 +9046,7 @@ extension EC2 {
         }
     }
 
-    public struct DeregisterTransitGatewayMulticastGroupSourcesRequest: AWSShape {
+    public struct DeregisterTransitGatewayMulticastGroupSourcesRequest: AWSEncodableShape {
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9073,7 +9073,7 @@ extension EC2 {
         }
     }
 
-    public struct DeregisterTransitGatewayMulticastGroupSourcesResult: AWSShape {
+    public struct DeregisterTransitGatewayMulticastGroupSourcesResult: AWSDecodableShape {
 
         /// Information about the deregistered group sources.
         public let deregisteredMulticastGroupSources: TransitGatewayMulticastDeregisteredGroupSources?
@@ -9087,7 +9087,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAccountAttributesRequest: AWSShape {
+    public struct DescribeAccountAttributesRequest: AWSEncodableShape {
         public struct _AttributeNamesEncoding: ArrayCoderProperties { static public let member = "attributeName" }
 
         /// The account attribute names.
@@ -9106,7 +9106,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAccountAttributesResult: AWSShape {
+    public struct DescribeAccountAttributesResult: AWSDecodableShape {
         public struct _AccountAttributesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the account attributes.
@@ -9121,7 +9121,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAddressesRequest: AWSShape {
+    public struct DescribeAddressesRequest: AWSEncodableShape {
         public struct _AllocationIdsEncoding: ArrayCoderProperties { static public let member = "AllocationId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PublicIpsEncoding: ArrayCoderProperties { static public let member = "PublicIp" }
@@ -9150,7 +9150,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAddressesResult: AWSShape {
+    public struct DescribeAddressesResult: AWSDecodableShape {
         public struct _AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Elastic IP addresses.
@@ -9165,7 +9165,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAggregateIdFormatRequest: AWSShape {
+    public struct DescribeAggregateIdFormatRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9179,7 +9179,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAggregateIdFormatResult: AWSShape {
+    public struct DescribeAggregateIdFormatResult: AWSDecodableShape {
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about each resource's ID format.
@@ -9198,7 +9198,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAvailabilityZonesRequest: AWSShape {
+    public struct DescribeAvailabilityZonesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ZoneIdsEncoding: ArrayCoderProperties { static public let member = "ZoneId" }
         public struct _ZoneNamesEncoding: ArrayCoderProperties { static public let member = "ZoneName" }
@@ -9231,7 +9231,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeAvailabilityZonesResult: AWSShape {
+    public struct DescribeAvailabilityZonesResult: AWSDecodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Availability Zones and Local Zones.
@@ -9246,7 +9246,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeBundleTasksRequest: AWSShape {
+    public struct DescribeBundleTasksRequest: AWSEncodableShape {
         public struct _BundleIdsEncoding: ArrayCoderProperties { static public let member = "BundleId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9270,7 +9270,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeBundleTasksResult: AWSShape {
+    public struct DescribeBundleTasksResult: AWSDecodableShape {
         public struct _BundleTasksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the bundle tasks.
@@ -9285,7 +9285,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeByoipCidrsRequest: AWSShape {
+    public struct DescribeByoipCidrsRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9312,7 +9312,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeByoipCidrsResult: AWSShape {
+    public struct DescribeByoipCidrsResult: AWSDecodableShape {
         public struct _ByoipCidrsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about your address ranges.
@@ -9331,7 +9331,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeCapacityReservationsRequest: AWSShape {
+    public struct DescribeCapacityReservationsRequest: AWSEncodableShape {
         public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9368,7 +9368,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeCapacityReservationsResult: AWSShape {
+    public struct DescribeCapacityReservationsResult: AWSDecodableShape {
         public struct _CapacityReservationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Capacity Reservations.
@@ -9387,7 +9387,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClassicLinkInstancesRequest: AWSShape {
+    public struct DescribeClassicLinkInstancesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
@@ -9424,7 +9424,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClassicLinkInstancesResult: AWSShape {
+    public struct DescribeClassicLinkInstancesResult: AWSDecodableShape {
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more linked EC2-Classic instances.
@@ -9443,7 +9443,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnAuthorizationRulesRequest: AWSShape {
+    public struct DescribeClientVpnAuthorizationRulesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the Client VPN endpoint.
@@ -9479,7 +9479,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnAuthorizationRulesResult: AWSShape {
+    public struct DescribeClientVpnAuthorizationRulesResult: AWSDecodableShape {
         public struct _AuthorizationRulesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the authorization rules.
@@ -9498,7 +9498,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnConnectionsRequest: AWSShape {
+    public struct DescribeClientVpnConnectionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the Client VPN endpoint.
@@ -9534,7 +9534,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnConnectionsResult: AWSShape {
+    public struct DescribeClientVpnConnectionsResult: AWSDecodableShape {
         public struct _ConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the active and terminated client connections.
@@ -9553,7 +9553,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnEndpointsRequest: AWSShape {
+    public struct DescribeClientVpnEndpointsRequest: AWSEncodableShape {
         public struct _ClientVpnEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9590,7 +9590,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnEndpointsResult: AWSShape {
+    public struct DescribeClientVpnEndpointsResult: AWSDecodableShape {
         public struct _ClientVpnEndpointsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Client VPN endpoints.
@@ -9609,7 +9609,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnRoutesRequest: AWSShape {
+    public struct DescribeClientVpnRoutesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the Client VPN endpoint.
@@ -9645,7 +9645,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnRoutesResult: AWSShape {
+    public struct DescribeClientVpnRoutesResult: AWSDecodableShape {
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -9664,7 +9664,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnTargetNetworksRequest: AWSShape {
+    public struct DescribeClientVpnTargetNetworksRequest: AWSEncodableShape {
         public struct _AssociationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9705,7 +9705,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeClientVpnTargetNetworksResult: AWSShape {
+    public struct DescribeClientVpnTargetNetworksResult: AWSDecodableShape {
         public struct _ClientVpnTargetNetworksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the associated target networks.
@@ -9724,7 +9724,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeCoipPoolsRequest: AWSShape {
+    public struct DescribeCoipPoolsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PoolIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -9761,7 +9761,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeCoipPoolsResult: AWSShape {
+    public struct DescribeCoipPoolsResult: AWSDecodableShape {
         public struct _CoipPoolsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the address pools.
@@ -9780,7 +9780,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeConversionTasksRequest: AWSShape {
+    public struct DescribeConversionTasksRequest: AWSEncodableShape {
         public struct _ConversionTaskIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The conversion task IDs.
@@ -9799,7 +9799,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeConversionTasksResult: AWSShape {
+    public struct DescribeConversionTasksResult: AWSDecodableShape {
         public struct _ConversionTasksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the conversion tasks.
@@ -9814,7 +9814,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeCustomerGatewaysRequest: AWSShape {
+    public struct DescribeCustomerGatewaysRequest: AWSEncodableShape {
         public struct _CustomerGatewayIdsEncoding: ArrayCoderProperties { static public let member = "CustomerGatewayId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9838,7 +9838,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeCustomerGatewaysResult: AWSShape {
+    public struct DescribeCustomerGatewaysResult: AWSDecodableShape {
         public struct _CustomerGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more customer gateways.
@@ -9853,7 +9853,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeDhcpOptionsRequest: AWSShape {
+    public struct DescribeDhcpOptionsRequest: AWSEncodableShape {
         public struct _DhcpOptionsIdsEncoding: ArrayCoderProperties { static public let member = "DhcpOptionsId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9890,7 +9890,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeDhcpOptionsResult: AWSShape {
+    public struct DescribeDhcpOptionsResult: AWSDecodableShape {
         public struct _DhcpOptionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more DHCP options sets.
@@ -9909,7 +9909,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeEgressOnlyInternetGatewaysRequest: AWSShape {
+    public struct DescribeEgressOnlyInternetGatewaysRequest: AWSEncodableShape {
         public struct _EgressOnlyInternetGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -9946,7 +9946,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
+    public struct DescribeEgressOnlyInternetGatewaysResult: AWSDecodableShape {
         public struct _EgressOnlyInternetGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the egress-only internet gateways.
@@ -9965,7 +9965,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeElasticGpusRequest: AWSShape {
+    public struct DescribeElasticGpusRequest: AWSEncodableShape {
         public struct _ElasticGpuIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -10002,7 +10002,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeElasticGpusResult: AWSShape {
+    public struct DescribeElasticGpusResult: AWSDecodableShape {
         public struct _ElasticGpuSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Elastic Graphics accelerators.
@@ -10025,7 +10025,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeExportImageTasksRequest: AWSShape {
+    public struct DescribeExportImageTasksRequest: AWSEncodableShape {
         public struct _ExportImageTaskIdsEncoding: ArrayCoderProperties { static public let member = "ExportImageTaskId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -10062,7 +10062,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeExportImageTasksResult: AWSShape {
+    public struct DescribeExportImageTasksResult: AWSDecodableShape {
         public struct _ExportImageTasksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the export image tasks.
@@ -10081,7 +10081,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeExportTasksRequest: AWSShape {
+    public struct DescribeExportTasksRequest: AWSEncodableShape {
         public struct _ExportTaskIdsEncoding: ArrayCoderProperties { static public let member = "ExportTaskId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -10101,7 +10101,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeExportTasksResult: AWSShape {
+    public struct DescribeExportTasksResult: AWSDecodableShape {
         public struct _ExportTasksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the export tasks.
@@ -10116,7 +10116,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFastSnapshotRestoreSuccessItem: AWSShape {
+    public struct DescribeFastSnapshotRestoreSuccessItem: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -10170,7 +10170,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFastSnapshotRestoresRequest: AWSShape {
+    public struct DescribeFastSnapshotRestoresRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10202,7 +10202,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFastSnapshotRestoresResult: AWSShape {
+    public struct DescribeFastSnapshotRestoresResult: AWSDecodableShape {
         public struct _FastSnapshotRestoresEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the state of fast snapshot restores.
@@ -10221,7 +10221,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetError: AWSShape {
+    public struct DescribeFleetError: AWSDecodableShape {
 
         /// The error code that indicates why the instance could not be launched. For more information about error codes, see Error Codes.
         public let errorCode: String?
@@ -10247,7 +10247,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetHistoryRequest: AWSShape {
+    public struct DescribeFleetHistoryRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -10281,7 +10281,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetHistoryResult: AWSShape {
+    public struct DescribeFleetHistoryResult: AWSDecodableShape {
         public struct _HistoryRecordsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the EC Fleet.
@@ -10312,7 +10312,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetInstancesRequest: AWSShape {
+    public struct DescribeFleetInstancesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10343,7 +10343,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetInstancesResult: AWSShape {
+    public struct DescribeFleetInstancesResult: AWSDecodableShape {
         public struct _ActiveInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The running instances. This list is refreshed periodically and might be out of date.
@@ -10366,7 +10366,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetsInstances: AWSShape {
+    public struct DescribeFleetsInstances: AWSDecodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IDs of the instances.
@@ -10397,7 +10397,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetsRequest: AWSShape {
+    public struct DescribeFleetsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10428,7 +10428,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFleetsResult: AWSShape {
+    public struct DescribeFleetsResult: AWSDecodableShape {
         public struct _FleetsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the EC2 Fleets.
@@ -10447,7 +10447,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFlowLogsRequest: AWSShape {
+    public struct DescribeFlowLogsRequest: AWSEncodableShape {
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _FlowLogIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -10479,7 +10479,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFlowLogsResult: AWSShape {
+    public struct DescribeFlowLogsResult: AWSDecodableShape {
         public struct _FlowLogsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the flow logs.
@@ -10498,7 +10498,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFpgaImageAttributeRequest: AWSShape {
+    public struct DescribeFpgaImageAttributeRequest: AWSEncodableShape {
 
         /// The AFI attribute.
         public let attribute: FpgaImageAttributeName
@@ -10520,7 +10520,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFpgaImageAttributeResult: AWSShape {
+    public struct DescribeFpgaImageAttributeResult: AWSDecodableShape {
 
         /// Information about the attribute.
         public let fpgaImageAttribute: FpgaImageAttribute?
@@ -10534,7 +10534,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFpgaImagesRequest: AWSShape {
+    public struct DescribeFpgaImagesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _FpgaImageIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _OwnersEncoding: ArrayCoderProperties { static public let member = "Owner" }
@@ -10576,7 +10576,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeFpgaImagesResult: AWSShape {
+    public struct DescribeFpgaImagesResult: AWSDecodableShape {
         public struct _FpgaImagesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the FPGA images.
@@ -10595,7 +10595,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeHostReservationOfferingsRequest: AWSShape {
+    public struct DescribeHostReservationOfferingsRequest: AWSEncodableShape {
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The filters.    instance-family - The instance family of the offering (for example, m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).  
@@ -10635,7 +10635,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeHostReservationOfferingsResult: AWSShape {
+    public struct DescribeHostReservationOfferingsResult: AWSDecodableShape {
         public struct _OfferingSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10654,7 +10654,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeHostReservationsRequest: AWSShape {
+    public struct DescribeHostReservationsRequest: AWSEncodableShape {
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _HostReservationIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -10682,7 +10682,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeHostReservationsResult: AWSShape {
+    public struct DescribeHostReservationsResult: AWSDecodableShape {
         public struct _HostReservationSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Details about the reservation's configuration.
@@ -10701,7 +10701,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeHostsRequest: AWSShape {
+    public struct DescribeHostsRequest: AWSEncodableShape {
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -10729,7 +10729,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeHostsResult: AWSShape {
+    public struct DescribeHostsResult: AWSDecodableShape {
         public struct _HostsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Dedicated Hosts.
@@ -10748,7 +10748,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIamInstanceProfileAssociationsRequest: AWSShape {
+    public struct DescribeIamInstanceProfileAssociationsRequest: AWSEncodableShape {
         public struct _AssociationIdsEncoding: ArrayCoderProperties { static public let member = "AssociationId" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
@@ -10781,7 +10781,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
+    public struct DescribeIamInstanceProfileAssociationsResult: AWSDecodableShape {
         public struct _IamInstanceProfileAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the IAM instance profile associations.
@@ -10800,7 +10800,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIdFormatRequest: AWSShape {
+    public struct DescribeIdFormatRequest: AWSEncodableShape {
 
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway 
         public let resource: String?
@@ -10814,7 +10814,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIdFormatResult: AWSShape {
+    public struct DescribeIdFormatResult: AWSDecodableShape {
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the ID format for the resource.
@@ -10829,7 +10829,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIdentityIdFormatRequest: AWSShape {
+    public struct DescribeIdentityIdFormatRequest: AWSEncodableShape {
 
         /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
         public let principalArn: String
@@ -10847,7 +10847,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIdentityIdFormatResult: AWSShape {
+    public struct DescribeIdentityIdFormatResult: AWSDecodableShape {
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the ID format for the resources.
@@ -10862,7 +10862,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImageAttributeRequest: AWSShape {
+    public struct DescribeImageAttributeRequest: AWSEncodableShape {
 
         /// The AMI attribute.  Note: Depending on your account privileges, the blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use DescribeImages to get information about the block device mapping for the AMI.
         public let attribute: ImageAttributeName
@@ -10884,7 +10884,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImagesRequest: AWSShape {
+    public struct DescribeImagesRequest: AWSEncodableShape {
         public struct _ExecutableUsersEncoding: ArrayCoderProperties { static public let member = "ExecutableBy" }
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ImageIdsEncoding: ArrayCoderProperties { static public let member = "ImageId" }
@@ -10918,7 +10918,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImagesResult: AWSShape {
+    public struct DescribeImagesResult: AWSDecodableShape {
         public struct _ImagesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the images.
@@ -10933,7 +10933,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImportImageTasksRequest: AWSShape {
+    public struct DescribeImportImageTasksRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ImportTaskIdsEncoding: ArrayCoderProperties { static public let member = "ImportTaskId" }
 
@@ -10965,7 +10965,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImportImageTasksResult: AWSShape {
+    public struct DescribeImportImageTasksResult: AWSDecodableShape {
         public struct _ImportImageTasksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A list of zero or more import image tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -10984,7 +10984,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImportSnapshotTasksRequest: AWSShape {
+    public struct DescribeImportSnapshotTasksRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ImportTaskIdsEncoding: ArrayCoderProperties { static public let member = "ImportTaskId" }
 
@@ -11016,7 +11016,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeImportSnapshotTasksResult: AWSShape {
+    public struct DescribeImportSnapshotTasksResult: AWSDecodableShape {
         public struct _ImportSnapshotTasksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A list of zero or more import snapshot tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -11035,7 +11035,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceAttributeRequest: AWSShape {
+    public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
 
         /// The instance attribute. Note: The enaSupport attribute is not supported at this time.
         public let attribute: InstanceAttributeName
@@ -11057,7 +11057,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceCreditSpecificationsRequest: AWSShape {
+    public struct DescribeInstanceCreditSpecificationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
@@ -11094,7 +11094,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceCreditSpecificationsResult: AWSShape {
+    public struct DescribeInstanceCreditSpecificationsResult: AWSDecodableShape {
         public struct _InstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the credit option for CPU usage of an instance.
@@ -11113,7 +11113,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceStatusRequest: AWSShape {
+    public struct DescribeInstanceStatusRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
@@ -11149,7 +11149,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceStatusResult: AWSShape {
+    public struct DescribeInstanceStatusResult: AWSDecodableShape {
         public struct _InstanceStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the status of the instances.
@@ -11168,7 +11168,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceTypeOfferingsRequest: AWSShape {
+    public struct DescribeInstanceTypeOfferingsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11204,7 +11204,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceTypeOfferingsResult: AWSShape {
+    public struct DescribeInstanceTypeOfferingsResult: AWSDecodableShape {
         public struct _InstanceTypeOfferingsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The instance types offered.
@@ -11223,7 +11223,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceTypesRequest: AWSShape {
+    public struct DescribeInstanceTypesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11260,7 +11260,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstanceTypesResult: AWSShape {
+    public struct DescribeInstanceTypesResult: AWSDecodableShape {
         public struct _InstanceTypesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
@@ -11279,7 +11279,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstancesRequest: AWSShape {
+    public struct DescribeInstancesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
@@ -11311,7 +11311,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInstancesResult: AWSShape {
+    public struct DescribeInstancesResult: AWSDecodableShape {
         public struct _ReservationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -11330,7 +11330,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInternetGatewaysRequest: AWSShape {
+    public struct DescribeInternetGatewaysRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _InternetGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11367,7 +11367,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeInternetGatewaysResult: AWSShape {
+    public struct DescribeInternetGatewaysResult: AWSDecodableShape {
         public struct _InternetGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more internet gateways.
@@ -11386,7 +11386,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIpv6PoolsRequest: AWSShape {
+    public struct DescribeIpv6PoolsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PoolIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11423,7 +11423,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeIpv6PoolsResult: AWSShape {
+    public struct DescribeIpv6PoolsResult: AWSDecodableShape {
         public struct _Ipv6PoolsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the IPv6 address pools.
@@ -11442,7 +11442,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeKeyPairsRequest: AWSShape {
+    public struct DescribeKeyPairsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _KeyNamesEncoding: ArrayCoderProperties { static public let member = "KeyName" }
         public struct _KeyPairIdsEncoding: ArrayCoderProperties { static public let member = "KeyPairId" }
@@ -11471,7 +11471,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeKeyPairsResult: AWSShape {
+    public struct DescribeKeyPairsResult: AWSDecodableShape {
         public struct _KeyPairsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the key pairs.
@@ -11486,7 +11486,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLaunchTemplateVersionsRequest: AWSShape {
+    public struct DescribeLaunchTemplateVersionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VersionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11540,7 +11540,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLaunchTemplateVersionsResult: AWSShape {
+    public struct DescribeLaunchTemplateVersionsResult: AWSDecodableShape {
         public struct _LaunchTemplateVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the launch template versions.
@@ -11559,7 +11559,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLaunchTemplatesRequest: AWSShape {
+    public struct DescribeLaunchTemplatesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LaunchTemplateIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchTemplateNamesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -11606,7 +11606,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLaunchTemplatesResult: AWSShape {
+    public struct DescribeLaunchTemplatesResult: AWSDecodableShape {
         public struct _LaunchTemplatesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the launch templates.
@@ -11625,7 +11625,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSShape {
+    public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayRouteTableVirtualInterfaceGroupAssociationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11662,7 +11662,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult: AWSShape {
+    public struct DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult: AWSDecodableShape {
         public struct _LocalGatewayRouteTableVirtualInterfaceGroupAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the associations.
@@ -11681,7 +11681,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSShape {
+    public struct DescribeLocalGatewayRouteTableVpcAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayRouteTableVpcAssociationIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11718,7 +11718,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayRouteTableVpcAssociationsResult: AWSShape {
+    public struct DescribeLocalGatewayRouteTableVpcAssociationsResult: AWSDecodableShape {
         public struct _LocalGatewayRouteTableVpcAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the associations.
@@ -11737,7 +11737,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayRouteTablesRequest: AWSShape {
+    public struct DescribeLocalGatewayRouteTablesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11774,7 +11774,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayRouteTablesResult: AWSShape {
+    public struct DescribeLocalGatewayRouteTablesResult: AWSDecodableShape {
         public struct _LocalGatewayRouteTablesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the local gateway route tables.
@@ -11793,7 +11793,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSShape {
+    public struct DescribeLocalGatewayVirtualInterfaceGroupsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayVirtualInterfaceGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11830,7 +11830,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayVirtualInterfaceGroupsResult: AWSShape {
+    public struct DescribeLocalGatewayVirtualInterfaceGroupsResult: AWSDecodableShape {
         public struct _LocalGatewayVirtualInterfaceGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The virtual interface groups.
@@ -11849,7 +11849,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayVirtualInterfacesRequest: AWSShape {
+    public struct DescribeLocalGatewayVirtualInterfacesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayVirtualInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11886,7 +11886,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewayVirtualInterfacesResult: AWSShape {
+    public struct DescribeLocalGatewayVirtualInterfacesResult: AWSDecodableShape {
         public struct _LocalGatewayVirtualInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the virtual interfaces.
@@ -11905,7 +11905,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewaysRequest: AWSShape {
+    public struct DescribeLocalGatewaysRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _LocalGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11942,7 +11942,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeLocalGatewaysResult: AWSShape {
+    public struct DescribeLocalGatewaysResult: AWSDecodableShape {
         public struct _LocalGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the local gateways.
@@ -11961,7 +11961,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeMovingAddressesRequest: AWSShape {
+    public struct DescribeMovingAddressesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PublicIpsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -11998,7 +11998,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeMovingAddressesResult: AWSShape {
+    public struct DescribeMovingAddressesResult: AWSDecodableShape {
         public struct _MovingAddressStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The status for each Elastic IP address.
@@ -12017,7 +12017,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNatGatewaysRequest: AWSShape {
+    public struct DescribeNatGatewaysRequest: AWSEncodableShape {
         public struct _FilterEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _NatGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -12054,7 +12054,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNatGatewaysResult: AWSShape {
+    public struct DescribeNatGatewaysResult: AWSDecodableShape {
         public struct _NatGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the NAT gateways.
@@ -12073,7 +12073,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkAclsRequest: AWSShape {
+    public struct DescribeNetworkAclsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _NetworkAclIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -12110,7 +12110,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkAclsResult: AWSShape {
+    public struct DescribeNetworkAclsResult: AWSDecodableShape {
         public struct _NetworkAclsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more network ACLs.
@@ -12129,7 +12129,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkInterfaceAttributeRequest: AWSShape {
+    public struct DescribeNetworkInterfaceAttributeRequest: AWSEncodableShape {
 
         /// The attribute of the network interface. This parameter is required.
         public let attribute: NetworkInterfaceAttribute?
@@ -12151,7 +12151,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
+    public struct DescribeNetworkInterfaceAttributeResult: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The attachment (if any) of the network interface.
@@ -12182,7 +12182,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkInterfacePermissionsRequest: AWSShape {
+    public struct DescribeNetworkInterfacePermissionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// One or more filters.    network-interface-permission.network-interface-permission-id - The ID of the permission.    network-interface-permission.network-interface-id - The ID of the network interface.    network-interface-permission.aws-account-id - The AWS account ID.    network-interface-permission.aws-service - The AWS service.    network-interface-permission.permission - The type of permission (INSTANCE-ATTACH | EIP-ASSOCIATE).  
@@ -12214,7 +12214,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkInterfacePermissionsResult: AWSShape {
+    public struct DescribeNetworkInterfacePermissionsResult: AWSDecodableShape {
         public struct _NetworkInterfacePermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The network interface permissions.
@@ -12233,7 +12233,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkInterfacesRequest: AWSShape {
+    public struct DescribeNetworkInterfacesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -12270,7 +12270,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeNetworkInterfacesResult: AWSShape {
+    public struct DescribeNetworkInterfacesResult: AWSDecodableShape {
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more network interfaces.
@@ -12289,7 +12289,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePlacementGroupsRequest: AWSShape {
+    public struct DescribePlacementGroupsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "GroupId" }
 
@@ -12317,7 +12317,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePlacementGroupsResult: AWSShape {
+    public struct DescribePlacementGroupsResult: AWSDecodableShape {
         public struct _PlacementGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the placement groups.
@@ -12332,7 +12332,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePrefixListsRequest: AWSShape {
+    public struct DescribePrefixListsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PrefixListIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -12364,7 +12364,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePrefixListsResult: AWSShape {
+    public struct DescribePrefixListsResult: AWSDecodableShape {
         public struct _PrefixListsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12383,7 +12383,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePrincipalIdFormatRequest: AWSShape {
+    public struct DescribePrincipalIdFormatRequest: AWSEncodableShape {
         public struct _ResourcesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12415,7 +12415,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePrincipalIdFormatResult: AWSShape {
+    public struct DescribePrincipalIdFormatResult: AWSDecodableShape {
         public struct _PrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12434,7 +12434,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePublicIpv4PoolsRequest: AWSShape {
+    public struct DescribePublicIpv4PoolsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _PoolIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -12467,7 +12467,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribePublicIpv4PoolsResult: AWSShape {
+    public struct DescribePublicIpv4PoolsResult: AWSDecodableShape {
         public struct _PublicIpv4PoolsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12486,7 +12486,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeRegionsRequest: AWSShape {
+    public struct DescribeRegionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _RegionNamesEncoding: ArrayCoderProperties { static public let member = "RegionName" }
 
@@ -12514,7 +12514,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeRegionsResult: AWSShape {
+    public struct DescribeRegionsResult: AWSDecodableShape {
         public struct _RegionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Regions.
@@ -12529,7 +12529,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesListingsRequest: AWSShape {
+    public struct DescribeReservedInstancesListingsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// One or more filters.    reserved-instances-id - The ID of the Reserved Instances.    reserved-instances-listing-id - The ID of the Reserved Instances listing.    status - The status of the Reserved Instance listing (pending | active | cancelled | closed).    status-message - The reason for the status.  
@@ -12552,7 +12552,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesListingsResult: AWSShape {
+    public struct DescribeReservedInstancesListingsResult: AWSDecodableShape {
         public struct _ReservedInstancesListingsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Reserved Instance listing.
@@ -12567,7 +12567,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesModificationsRequest: AWSShape {
+    public struct DescribeReservedInstancesModificationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ReservedInstancesModificationIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstancesModificationId" }
 
@@ -12591,7 +12591,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesModificationsResult: AWSShape {
+    public struct DescribeReservedInstancesModificationsResult: AWSDecodableShape {
         public struct _ReservedInstancesModificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12610,7 +12610,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
+    public struct DescribeReservedInstancesOfferingsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The Availability Zone in which the Reserved Instance can be used.
@@ -12681,7 +12681,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesOfferingsResult: AWSShape {
+    public struct DescribeReservedInstancesOfferingsResult: AWSDecodableShape {
         public struct _ReservedInstancesOfferingsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12700,7 +12700,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesRequest: AWSShape {
+    public struct DescribeReservedInstancesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstancesId" }
 
@@ -12732,7 +12732,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeReservedInstancesResult: AWSShape {
+    public struct DescribeReservedInstancesResult: AWSDecodableShape {
         public struct _ReservedInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A list of Reserved Instances.
@@ -12747,7 +12747,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeRouteTablesRequest: AWSShape {
+    public struct DescribeRouteTablesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _RouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -12784,7 +12784,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeRouteTablesResult: AWSShape {
+    public struct DescribeRouteTablesResult: AWSDecodableShape {
         public struct _RouteTablesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -12803,7 +12803,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeScheduledInstanceAvailabilityRequest: AWSShape {
+    public struct DescribeScheduledInstanceAvailabilityRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12851,7 +12851,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
+    public struct DescribeScheduledInstanceAvailabilityResult: AWSDecodableShape {
         public struct _ScheduledInstanceAvailabilitySetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -12870,7 +12870,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeScheduledInstancesRequest: AWSShape {
+    public struct DescribeScheduledInstancesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ScheduledInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ScheduledInstanceId" }
 
@@ -12906,7 +12906,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeScheduledInstancesResult: AWSShape {
+    public struct DescribeScheduledInstancesResult: AWSDecodableShape {
         public struct _ScheduledInstanceSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -12925,7 +12925,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSecurityGroupReferencesRequest: AWSShape {
+    public struct DescribeSecurityGroupReferencesRequest: AWSEncodableShape {
         public struct _GroupIdEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12944,7 +12944,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSecurityGroupReferencesResult: AWSShape {
+    public struct DescribeSecurityGroupReferencesResult: AWSDecodableShape {
         public struct _SecurityGroupReferenceSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the VPCs with the referencing security groups.
@@ -12959,7 +12959,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSecurityGroupsRequest: AWSShape {
+    public struct DescribeSecurityGroupsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "groupId" }
         public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "GroupName" }
@@ -13001,7 +13001,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSecurityGroupsResult: AWSShape {
+    public struct DescribeSecurityGroupsResult: AWSDecodableShape {
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13020,7 +13020,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSnapshotAttributeRequest: AWSShape {
+    public struct DescribeSnapshotAttributeRequest: AWSEncodableShape {
 
         /// The snapshot attribute you would like to view.
         public let attribute: SnapshotAttributeName
@@ -13042,7 +13042,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSnapshotAttributeResult: AWSShape {
+    public struct DescribeSnapshotAttributeResult: AWSDecodableShape {
         public struct _CreateVolumePermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -13066,7 +13066,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSnapshotsRequest: AWSShape {
+    public struct DescribeSnapshotsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _OwnerIdsEncoding: ArrayCoderProperties { static public let member = "Owner" }
         public struct _SnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
@@ -13107,7 +13107,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSnapshotsResult: AWSShape {
+    public struct DescribeSnapshotsResult: AWSDecodableShape {
         public struct _SnapshotsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13126,7 +13126,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotDatafeedSubscriptionRequest: AWSShape {
+    public struct DescribeSpotDatafeedSubscriptionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13140,7 +13140,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotDatafeedSubscriptionResult: AWSShape {
+    public struct DescribeSpotDatafeedSubscriptionResult: AWSDecodableShape {
 
         /// The Spot Instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
@@ -13154,7 +13154,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotFleetInstancesRequest: AWSShape {
+    public struct DescribeSpotFleetInstancesRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13185,7 +13185,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotFleetInstancesResponse: AWSShape {
+    public struct DescribeSpotFleetInstancesResponse: AWSDecodableShape {
         public struct _ActiveInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The running instances. This list is refreshed periodically and might be out of date.
@@ -13208,7 +13208,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotFleetRequestHistoryRequest: AWSShape {
+    public struct DescribeSpotFleetRequestHistoryRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13247,7 +13247,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
+    public struct DescribeSpotFleetRequestHistoryResponse: AWSDecodableShape {
         public struct _HistoryRecordsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the events in the history of the Spot Fleet request.
@@ -13278,7 +13278,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotFleetRequestsRequest: AWSShape {
+    public struct DescribeSpotFleetRequestsRequest: AWSEncodableShape {
         public struct _SpotFleetRequestIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13305,7 +13305,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotFleetRequestsResponse: AWSShape {
+    public struct DescribeSpotFleetRequestsResponse: AWSDecodableShape {
         public struct _SpotFleetRequestConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13324,7 +13324,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotInstanceRequestsRequest: AWSShape {
+    public struct DescribeSpotInstanceRequestsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _SpotInstanceRequestIdsEncoding: ArrayCoderProperties { static public let member = "SpotInstanceRequestId" }
 
@@ -13356,7 +13356,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotInstanceRequestsResult: AWSShape {
+    public struct DescribeSpotInstanceRequestsResult: AWSDecodableShape {
         public struct _SpotInstanceRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next set of results. This value is null when there are no more results to return.
@@ -13375,7 +13375,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotPriceHistoryRequest: AWSShape {
+    public struct DescribeSpotPriceHistoryRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Filters the results by the specified Availability Zone.
@@ -13422,7 +13422,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSpotPriceHistoryResult: AWSShape {
+    public struct DescribeSpotPriceHistoryResult: AWSDecodableShape {
         public struct _SpotPriceHistoryEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token required to retrieve the next set of results. This value is null or an empty string when there are no more results to return.
@@ -13441,7 +13441,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeStaleSecurityGroupsRequest: AWSShape {
+    public struct DescribeStaleSecurityGroupsRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13474,7 +13474,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeStaleSecurityGroupsResult: AWSShape {
+    public struct DescribeStaleSecurityGroupsResult: AWSDecodableShape {
         public struct _StaleSecurityGroupSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -13493,7 +13493,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSubnetsRequest: AWSShape {
+    public struct DescribeSubnetsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetId" }
 
@@ -13530,7 +13530,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeSubnetsResult: AWSShape {
+    public struct DescribeSubnetsResult: AWSDecodableShape {
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13549,7 +13549,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTagsRequest: AWSShape {
+    public struct DescribeTagsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13576,7 +13576,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTagsResult: AWSShape {
+    public struct DescribeTagsResult: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13595,7 +13595,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTrafficMirrorFiltersRequest: AWSShape {
+    public struct DescribeTrafficMirrorFiltersRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TrafficMirrorFilterIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -13632,7 +13632,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTrafficMirrorFiltersResult: AWSShape {
+    public struct DescribeTrafficMirrorFiltersResult: AWSDecodableShape {
         public struct _TrafficMirrorFiltersEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -13651,7 +13651,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTrafficMirrorSessionsRequest: AWSShape {
+    public struct DescribeTrafficMirrorSessionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TrafficMirrorSessionIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -13688,7 +13688,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTrafficMirrorSessionsResult: AWSShape {
+    public struct DescribeTrafficMirrorSessionsResult: AWSDecodableShape {
         public struct _TrafficMirrorSessionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -13707,7 +13707,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTrafficMirrorTargetsRequest: AWSShape {
+    public struct DescribeTrafficMirrorTargetsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TrafficMirrorTargetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -13744,7 +13744,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTrafficMirrorTargetsResult: AWSShape {
+    public struct DescribeTrafficMirrorTargetsResult: AWSDecodableShape {
         public struct _TrafficMirrorTargetsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -13763,7 +13763,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayAttachmentsRequest: AWSShape {
+    public struct DescribeTransitGatewayAttachmentsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13799,7 +13799,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayAttachmentsResult: AWSShape {
+    public struct DescribeTransitGatewayAttachmentsResult: AWSDecodableShape {
         public struct _TransitGatewayAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13818,7 +13818,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayMulticastDomainsRequest: AWSShape {
+    public struct DescribeTransitGatewayMulticastDomainsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TransitGatewayMulticastDomainIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -13855,7 +13855,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayMulticastDomainsResult: AWSShape {
+    public struct DescribeTransitGatewayMulticastDomainsResult: AWSDecodableShape {
         public struct _TransitGatewayMulticastDomainsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13874,7 +13874,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayPeeringAttachmentsRequest: AWSShape {
+    public struct DescribeTransitGatewayPeeringAttachmentsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13910,7 +13910,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayPeeringAttachmentsResult: AWSShape {
+    public struct DescribeTransitGatewayPeeringAttachmentsResult: AWSDecodableShape {
         public struct _TransitGatewayPeeringAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13929,7 +13929,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayRouteTablesRequest: AWSShape {
+    public struct DescribeTransitGatewayRouteTablesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TransitGatewayRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -13966,7 +13966,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayRouteTablesResult: AWSShape {
+    public struct DescribeTransitGatewayRouteTablesResult: AWSDecodableShape {
         public struct _TransitGatewayRouteTablesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -13985,7 +13985,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayVpcAttachmentsRequest: AWSShape {
+    public struct DescribeTransitGatewayVpcAttachmentsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14021,7 +14021,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewayVpcAttachmentsResult: AWSShape {
+    public struct DescribeTransitGatewayVpcAttachmentsResult: AWSDecodableShape {
         public struct _TransitGatewayVpcAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14040,7 +14040,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewaysRequest: AWSShape {
+    public struct DescribeTransitGatewaysRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _TransitGatewayIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -14077,7 +14077,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeTransitGatewaysResult: AWSShape {
+    public struct DescribeTransitGatewaysResult: AWSDecodableShape {
         public struct _TransitGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14096,7 +14096,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumeAttributeRequest: AWSShape {
+    public struct DescribeVolumeAttributeRequest: AWSEncodableShape {
 
         /// The attribute of the volume. This parameter is required.
         public let attribute: VolumeAttributeName
@@ -14118,7 +14118,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumeAttributeResult: AWSShape {
+    public struct DescribeVolumeAttributeResult: AWSDecodableShape {
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The state of autoEnableIO attribute.
@@ -14141,7 +14141,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumeStatusRequest: AWSShape {
+    public struct DescribeVolumeStatusRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VolumeIdsEncoding: ArrayCoderProperties { static public let member = "VolumeId" }
 
@@ -14173,7 +14173,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumeStatusResult: AWSShape {
+    public struct DescribeVolumeStatusResult: AWSDecodableShape {
         public struct _VolumeStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14192,7 +14192,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumesModificationsRequest: AWSShape {
+    public struct DescribeVolumesModificationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VolumeIdsEncoding: ArrayCoderProperties { static public let member = "VolumeId" }
 
@@ -14224,7 +14224,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumesModificationsResult: AWSShape {
+    public struct DescribeVolumesModificationsResult: AWSDecodableShape {
         public struct _VolumesModificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Token for pagination, null if there are no more results 
@@ -14243,7 +14243,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumesRequest: AWSShape {
+    public struct DescribeVolumesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VolumeIdsEncoding: ArrayCoderProperties { static public let member = "VolumeId" }
 
@@ -14275,7 +14275,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVolumesResult: AWSShape {
+    public struct DescribeVolumesResult: AWSDecodableShape {
         public struct _VolumesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The NextToken value to include in a future DescribeVolumes request. When the results of a DescribeVolumes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14294,7 +14294,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcAttributeRequest: AWSShape {
+    public struct DescribeVpcAttributeRequest: AWSEncodableShape {
 
         /// The VPC attribute.
         public let attribute: VpcAttributeName
@@ -14316,7 +14316,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcAttributeResult: AWSShape {
+    public struct DescribeVpcAttributeResult: AWSDecodableShape {
 
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If this attribute is true, instances in the VPC get DNS hostnames; otherwise, they do not.
         public let enableDnsHostnames: AttributeBooleanValue?
@@ -14338,7 +14338,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
+    public struct DescribeVpcClassicLinkDnsSupportRequest: AWSEncodableShape {
         public struct _VpcIdsEncoding: ArrayCoderProperties { static public let member = "VpcId" }
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -14368,7 +14368,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
+    public struct DescribeVpcClassicLinkDnsSupportResult: AWSDecodableShape {
         public struct _VpcsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14387,7 +14387,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcClassicLinkRequest: AWSShape {
+    public struct DescribeVpcClassicLinkRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcIdsEncoding: ArrayCoderProperties { static public let member = "VpcId" }
 
@@ -14411,7 +14411,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcClassicLinkResult: AWSShape {
+    public struct DescribeVpcClassicLinkResult: AWSDecodableShape {
         public struct _VpcsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ClassicLink status of one or more VPCs.
@@ -14426,7 +14426,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointConnectionNotificationsRequest: AWSShape {
+    public struct DescribeVpcEndpointConnectionNotificationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the notification.
@@ -14457,7 +14457,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointConnectionNotificationsResult: AWSShape {
+    public struct DescribeVpcEndpointConnectionNotificationsResult: AWSDecodableShape {
         public struct _ConnectionNotificationSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more notifications.
@@ -14476,7 +14476,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointConnectionsRequest: AWSShape {
+    public struct DescribeVpcEndpointConnectionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14503,7 +14503,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointConnectionsResult: AWSShape {
+    public struct DescribeVpcEndpointConnectionsResult: AWSDecodableShape {
         public struct _VpcEndpointConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14522,7 +14522,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointServiceConfigurationsRequest: AWSShape {
+    public struct DescribeVpcEndpointServiceConfigurationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ServiceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -14554,7 +14554,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointServiceConfigurationsResult: AWSShape {
+    public struct DescribeVpcEndpointServiceConfigurationsResult: AWSDecodableShape {
         public struct _ServiceConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14573,7 +14573,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointServicePermissionsRequest: AWSShape {
+    public struct DescribeVpcEndpointServicePermissionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14604,7 +14604,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointServicePermissionsResult: AWSShape {
+    public struct DescribeVpcEndpointServicePermissionsResult: AWSDecodableShape {
         public struct _AllowedPrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more allowed principals.
@@ -14623,7 +14623,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointServicesRequest: AWSShape {
+    public struct DescribeVpcEndpointServicesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _ServiceNamesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -14655,7 +14655,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointServicesResult: AWSShape {
+    public struct DescribeVpcEndpointServicesResult: AWSDecodableShape {
         public struct _ServiceDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ServiceNamesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -14679,7 +14679,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointsRequest: AWSShape {
+    public struct DescribeVpcEndpointsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -14711,7 +14711,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcEndpointsResult: AWSShape {
+    public struct DescribeVpcEndpointsResult: AWSDecodableShape {
         public struct _VpcEndpointsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -14730,7 +14730,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
+    public struct DescribeVpcPeeringConnectionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcPeeringConnectionIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -14767,7 +14767,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcPeeringConnectionsResult: AWSShape {
+    public struct DescribeVpcPeeringConnectionsResult: AWSDecodableShape {
         public struct _VpcPeeringConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14786,7 +14786,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcsRequest: AWSShape {
+    public struct DescribeVpcsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpcIdsEncoding: ArrayCoderProperties { static public let member = "VpcId" }
 
@@ -14823,7 +14823,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpcsResult: AWSShape {
+    public struct DescribeVpcsResult: AWSDecodableShape {
         public struct _VpcsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -14842,7 +14842,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpnConnectionsRequest: AWSShape {
+    public struct DescribeVpnConnectionsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpnConnectionIdsEncoding: ArrayCoderProperties { static public let member = "VpnConnectionId" }
 
@@ -14866,7 +14866,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpnConnectionsResult: AWSShape {
+    public struct DescribeVpnConnectionsResult: AWSDecodableShape {
         public struct _VpnConnectionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more VPN connections.
@@ -14881,7 +14881,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpnGatewaysRequest: AWSShape {
+    public struct DescribeVpnGatewaysRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
         public struct _VpnGatewayIdsEncoding: ArrayCoderProperties { static public let member = "VpnGatewayId" }
 
@@ -14905,7 +14905,7 @@ extension EC2 {
         }
     }
 
-    public struct DescribeVpnGatewaysResult: AWSShape {
+    public struct DescribeVpnGatewaysResult: AWSDecodableShape {
         public struct _VpnGatewaysEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about one or more virtual private gateways.
@@ -14920,7 +14920,7 @@ extension EC2 {
         }
     }
 
-    public struct DetachClassicLinkVpcRequest: AWSShape {
+    public struct DetachClassicLinkVpcRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14942,7 +14942,7 @@ extension EC2 {
         }
     }
 
-    public struct DetachClassicLinkVpcResult: AWSShape {
+    public struct DetachClassicLinkVpcResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -14956,7 +14956,7 @@ extension EC2 {
         }
     }
 
-    public struct DetachInternetGatewayRequest: AWSShape {
+    public struct DetachInternetGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14978,7 +14978,7 @@ extension EC2 {
         }
     }
 
-    public struct DetachNetworkInterfaceRequest: AWSShape {
+    public struct DetachNetworkInterfaceRequest: AWSEncodableShape {
 
         /// The ID of the attachment.
         public let attachmentId: String
@@ -15000,7 +15000,7 @@ extension EC2 {
         }
     }
 
-    public struct DetachVolumeRequest: AWSShape {
+    public struct DetachVolumeRequest: AWSEncodableShape {
 
         /// The device name.
         public let device: String?
@@ -15030,7 +15030,7 @@ extension EC2 {
         }
     }
 
-    public struct DetachVpnGatewayRequest: AWSShape {
+    public struct DetachVpnGatewayRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15052,7 +15052,7 @@ extension EC2 {
         }
     }
 
-    public struct DhcpConfiguration: AWSShape {
+    public struct DhcpConfiguration: AWSDecodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The name of a DHCP option.
@@ -15071,7 +15071,7 @@ extension EC2 {
         }
     }
 
-    public struct DhcpOptions: AWSShape {
+    public struct DhcpOptions: AWSDecodableShape {
         public struct _DhcpConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -15099,7 +15099,7 @@ extension EC2 {
         }
     }
 
-    public struct DirectoryServiceAuthentication: AWSShape {
+    public struct DirectoryServiceAuthentication: AWSDecodableShape {
 
         /// The ID of the Active Directory used for authentication.
         public let directoryId: String?
@@ -15113,7 +15113,7 @@ extension EC2 {
         }
     }
 
-    public struct DirectoryServiceAuthenticationRequest: AWSShape {
+    public struct DirectoryServiceAuthenticationRequest: AWSEncodableShape {
 
         /// The ID of the Active Directory to be used for authentication.
         public let directoryId: String?
@@ -15127,7 +15127,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableEbsEncryptionByDefaultRequest: AWSShape {
+    public struct DisableEbsEncryptionByDefaultRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15141,7 +15141,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableEbsEncryptionByDefaultResult: AWSShape {
+    public struct DisableEbsEncryptionByDefaultResult: AWSDecodableShape {
 
         /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
@@ -15155,7 +15155,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableFastSnapshotRestoreErrorItem: AWSShape {
+    public struct DisableFastSnapshotRestoreErrorItem: AWSDecodableShape {
         public struct _FastSnapshotRestoreStateErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The errors.
@@ -15174,7 +15174,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableFastSnapshotRestoreStateError: AWSShape {
+    public struct DisableFastSnapshotRestoreStateError: AWSDecodableShape {
 
         /// The error code.
         public let code: String?
@@ -15192,7 +15192,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableFastSnapshotRestoreStateErrorItem: AWSShape {
+    public struct DisableFastSnapshotRestoreStateErrorItem: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -15210,7 +15210,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableFastSnapshotRestoreSuccessItem: AWSShape {
+    public struct DisableFastSnapshotRestoreSuccessItem: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -15264,7 +15264,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableFastSnapshotRestoresRequest: AWSShape {
+    public struct DisableFastSnapshotRestoresRequest: AWSEncodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
 
@@ -15288,7 +15288,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableFastSnapshotRestoresResult: AWSShape {
+    public struct DisableFastSnapshotRestoresResult: AWSDecodableShape {
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -15308,7 +15308,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableTransitGatewayRouteTablePropagationRequest: AWSShape {
+    public struct DisableTransitGatewayRouteTablePropagationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15330,7 +15330,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableTransitGatewayRouteTablePropagationResult: AWSShape {
+    public struct DisableTransitGatewayRouteTablePropagationResult: AWSDecodableShape {
 
         /// Information about route propagation.
         public let propagation: TransitGatewayPropagation?
@@ -15344,7 +15344,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableVgwRoutePropagationRequest: AWSShape {
+    public struct DisableVgwRoutePropagationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15366,7 +15366,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableVpcClassicLinkDnsSupportRequest: AWSShape {
+    public struct DisableVpcClassicLinkDnsSupportRequest: AWSEncodableShape {
 
         /// The ID of the VPC.
         public let vpcId: String?
@@ -15380,7 +15380,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableVpcClassicLinkDnsSupportResult: AWSShape {
+    public struct DisableVpcClassicLinkDnsSupportResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -15394,7 +15394,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableVpcClassicLinkRequest: AWSShape {
+    public struct DisableVpcClassicLinkRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15412,7 +15412,7 @@ extension EC2 {
         }
     }
 
-    public struct DisableVpcClassicLinkResult: AWSShape {
+    public struct DisableVpcClassicLinkResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -15426,7 +15426,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateAddressRequest: AWSShape {
+    public struct DisassociateAddressRequest: AWSEncodableShape {
 
         /// [EC2-VPC] The association ID. Required for EC2-VPC.
         public let associationId: String?
@@ -15448,7 +15448,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateClientVpnTargetNetworkRequest: AWSShape {
+    public struct DisassociateClientVpnTargetNetworkRequest: AWSEncodableShape {
 
         /// The ID of the target network association.
         public let associationId: String
@@ -15470,7 +15470,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateClientVpnTargetNetworkResult: AWSShape {
+    public struct DisassociateClientVpnTargetNetworkResult: AWSDecodableShape {
 
         /// The ID of the target network association.
         public let associationId: String?
@@ -15488,7 +15488,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateIamInstanceProfileRequest: AWSShape {
+    public struct DisassociateIamInstanceProfileRequest: AWSEncodableShape {
 
         /// The ID of the IAM instance profile association.
         public let associationId: String
@@ -15502,7 +15502,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateIamInstanceProfileResult: AWSShape {
+    public struct DisassociateIamInstanceProfileResult: AWSDecodableShape {
 
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -15516,7 +15516,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateRouteTableRequest: AWSShape {
+    public struct DisassociateRouteTableRequest: AWSEncodableShape {
 
         /// The association ID representing the current association between the route table and subnet.
         public let associationId: String
@@ -15534,7 +15534,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateSubnetCidrBlockRequest: AWSShape {
+    public struct DisassociateSubnetCidrBlockRequest: AWSEncodableShape {
 
         /// The association ID for the CIDR block.
         public let associationId: String
@@ -15548,7 +15548,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateSubnetCidrBlockResult: AWSShape {
+    public struct DisassociateSubnetCidrBlockResult: AWSDecodableShape {
 
         /// Information about the IPv6 CIDR block association.
         public let ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation?
@@ -15566,7 +15566,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateTransitGatewayMulticastDomainRequest: AWSShape {
+    public struct DisassociateTransitGatewayMulticastDomainRequest: AWSEncodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15593,7 +15593,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateTransitGatewayMulticastDomainResult: AWSShape {
+    public struct DisassociateTransitGatewayMulticastDomainResult: AWSDecodableShape {
 
         /// Information about the association.
         public let associations: TransitGatewayMulticastDomainAssociations?
@@ -15607,7 +15607,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateTransitGatewayRouteTableRequest: AWSShape {
+    public struct DisassociateTransitGatewayRouteTableRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15629,7 +15629,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateTransitGatewayRouteTableResult: AWSShape {
+    public struct DisassociateTransitGatewayRouteTableResult: AWSDecodableShape {
 
         /// Information about the association.
         public let association: TransitGatewayAssociation?
@@ -15643,7 +15643,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateVpcCidrBlockRequest: AWSShape {
+    public struct DisassociateVpcCidrBlockRequest: AWSEncodableShape {
 
         /// The association ID for the CIDR block.
         public let associationId: String
@@ -15657,7 +15657,7 @@ extension EC2 {
         }
     }
 
-    public struct DisassociateVpcCidrBlockResult: AWSShape {
+    public struct DisassociateVpcCidrBlockResult: AWSDecodableShape {
 
         /// Information about the IPv4 CIDR block association.
         public let cidrBlockAssociation: VpcCidrBlockAssociation?
@@ -15679,7 +15679,7 @@ extension EC2 {
         }
     }
 
-    public struct DiskImage: AWSShape {
+    public struct DiskImage: AWSEncodableShape {
 
         /// A description of the disk image.
         public let description: String?
@@ -15701,7 +15701,7 @@ extension EC2 {
         }
     }
 
-    public struct DiskImageDescription: AWSShape {
+    public struct DiskImageDescription: AWSDecodableShape {
 
         /// The checksum computed for the disk image.
         public let checksum: String?
@@ -15727,7 +15727,7 @@ extension EC2 {
         }
     }
 
-    public struct DiskImageDetail: AWSShape {
+    public struct DiskImageDetail: AWSEncodableShape {
 
         /// The size of the disk image, in GiB.
         public let bytes: Int64
@@ -15749,7 +15749,7 @@ extension EC2 {
         }
     }
 
-    public struct DiskImageVolumeDescription: AWSShape {
+    public struct DiskImageVolumeDescription: AWSDecodableShape {
 
         /// The volume identifier.
         public let id: String?
@@ -15767,7 +15767,7 @@ extension EC2 {
         }
     }
 
-    public struct DiskInfo: AWSShape {
+    public struct DiskInfo: AWSDecodableShape {
 
         /// The number of disks with this configuration.
         public let count: Int?
@@ -15789,7 +15789,7 @@ extension EC2 {
         }
     }
 
-    public struct DnsEntry: AWSShape {
+    public struct DnsEntry: AWSDecodableShape {
 
         /// The DNS name.
         public let dnsName: String?
@@ -15807,7 +15807,7 @@ extension EC2 {
         }
     }
 
-    public struct DnsServersOptionsModifyStructure: AWSShape {
+    public struct DnsServersOptionsModifyStructure: AWSEncodableShape {
         public struct _CustomDnsServersEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IPv4 address range, in CIDR notation, of the DNS servers to be used. You can specify up to two DNS servers. Ensure that the DNS servers can be reached by the clients. The specified values overwrite the existing values.
@@ -15826,7 +15826,7 @@ extension EC2 {
         }
     }
 
-    public struct EbsBlockDevice: AWSShape {
+    public struct EbsBlockDevice: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserving Amazon EBS Volumes on Instance Termination in the Amazon Elastic Compute Cloud User Guide.
         public let deleteOnTermination: Bool?
@@ -15864,7 +15864,7 @@ extension EC2 {
         }
     }
 
-    public struct EbsInfo: AWSShape {
+    public struct EbsInfo: AWSDecodableShape {
 
         /// Indicates that the instance type is Amazon EBS-optimized. For more information, see Amazon EBS-Optimized Instances in Amazon EC2 User Guide for Linux Instances.
         public let ebsOptimizedSupport: EbsOptimizedSupport?
@@ -15882,7 +15882,7 @@ extension EC2 {
         }
     }
 
-    public struct EbsInstanceBlockDevice: AWSShape {
+    public struct EbsInstanceBlockDevice: AWSDecodableShape {
 
         /// The time stamp when the attachment initiated.
         public let attachTime: TimeStamp?
@@ -15908,7 +15908,7 @@ extension EC2 {
         }
     }
 
-    public struct EbsInstanceBlockDeviceSpecification: AWSShape {
+    public struct EbsInstanceBlockDeviceSpecification: AWSEncodableShape {
 
         /// Indicates whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -15926,7 +15926,7 @@ extension EC2 {
         }
     }
 
-    public struct EgressOnlyInternetGateway: AWSShape {
+    public struct EgressOnlyInternetGateway: AWSDecodableShape {
         public struct _AttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -15950,7 +15950,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticGpuAssociation: AWSShape {
+    public struct ElasticGpuAssociation: AWSDecodableShape {
 
         /// The ID of the association.
         public let elasticGpuAssociationId: String?
@@ -15976,7 +15976,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticGpuHealth: AWSShape {
+    public struct ElasticGpuHealth: AWSDecodableShape {
 
         /// The health status.
         public let status: ElasticGpuStatus?
@@ -15990,7 +15990,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticGpuSpecification: AWSShape {
+    public struct ElasticGpuSpecification: AWSEncodableShape {
 
         /// The type of Elastic Graphics accelerator. For more information about the values to specify for Type, see Elastic Graphics Basics, specifically the Elastic Graphics accelerator column, in the Amazon Elastic Compute Cloud User Guide for Windows Instances.
         public let `type`: String
@@ -16004,7 +16004,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticGpuSpecificationResponse: AWSShape {
+    public struct ElasticGpuSpecificationResponse: AWSDecodableShape {
 
         /// The elastic GPU type.
         public let `type`: String?
@@ -16018,7 +16018,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticGpus: AWSShape {
+    public struct ElasticGpus: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The Availability Zone in the which the Elastic Graphics accelerator resides.
@@ -16057,7 +16057,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticInferenceAccelerator: AWSShape {
+    public struct ElasticInferenceAccelerator: AWSEncodableShape {
 
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
@@ -16079,7 +16079,7 @@ extension EC2 {
         }
     }
 
-    public struct ElasticInferenceAcceleratorAssociation: AWSShape {
+    public struct ElasticInferenceAcceleratorAssociation: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the elastic inference accelerator. 
         public let elasticInferenceAcceleratorArn: String?
@@ -16105,7 +16105,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableEbsEncryptionByDefaultRequest: AWSShape {
+    public struct EnableEbsEncryptionByDefaultRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16119,7 +16119,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableEbsEncryptionByDefaultResult: AWSShape {
+    public struct EnableEbsEncryptionByDefaultResult: AWSDecodableShape {
 
         /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
@@ -16133,7 +16133,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableFastSnapshotRestoreErrorItem: AWSShape {
+    public struct EnableFastSnapshotRestoreErrorItem: AWSDecodableShape {
         public struct _FastSnapshotRestoreStateErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The errors.
@@ -16152,7 +16152,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableFastSnapshotRestoreStateError: AWSShape {
+    public struct EnableFastSnapshotRestoreStateError: AWSDecodableShape {
 
         /// The error code.
         public let code: String?
@@ -16170,7 +16170,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableFastSnapshotRestoreStateErrorItem: AWSShape {
+    public struct EnableFastSnapshotRestoreStateErrorItem: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -16188,7 +16188,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableFastSnapshotRestoreSuccessItem: AWSShape {
+    public struct EnableFastSnapshotRestoreSuccessItem: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -16242,7 +16242,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableFastSnapshotRestoresRequest: AWSShape {
+    public struct EnableFastSnapshotRestoresRequest: AWSEncodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { static public let member = "SnapshotId" }
 
@@ -16266,7 +16266,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableFastSnapshotRestoresResult: AWSShape {
+    public struct EnableFastSnapshotRestoresResult: AWSDecodableShape {
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -16286,7 +16286,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableTransitGatewayRouteTablePropagationRequest: AWSShape {
+    public struct EnableTransitGatewayRouteTablePropagationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16308,7 +16308,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableTransitGatewayRouteTablePropagationResult: AWSShape {
+    public struct EnableTransitGatewayRouteTablePropagationResult: AWSDecodableShape {
 
         /// Information about route propagation.
         public let propagation: TransitGatewayPropagation?
@@ -16322,7 +16322,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableVgwRoutePropagationRequest: AWSShape {
+    public struct EnableVgwRoutePropagationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16344,7 +16344,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableVolumeIORequest: AWSShape {
+    public struct EnableVolumeIORequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16362,7 +16362,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableVpcClassicLinkDnsSupportRequest: AWSShape {
+    public struct EnableVpcClassicLinkDnsSupportRequest: AWSEncodableShape {
 
         /// The ID of the VPC.
         public let vpcId: String?
@@ -16376,7 +16376,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableVpcClassicLinkDnsSupportResult: AWSShape {
+    public struct EnableVpcClassicLinkDnsSupportResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -16390,7 +16390,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableVpcClassicLinkRequest: AWSShape {
+    public struct EnableVpcClassicLinkRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -16408,7 +16408,7 @@ extension EC2 {
         }
     }
 
-    public struct EnableVpcClassicLinkResult: AWSShape {
+    public struct EnableVpcClassicLinkResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -16422,7 +16422,7 @@ extension EC2 {
         }
     }
 
-    public struct EventInformation: AWSShape {
+    public struct EventInformation: AWSDecodableShape {
 
         /// The description of the event.
         public let eventDescription: String?
@@ -16444,7 +16444,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportClientVpnClientCertificateRevocationListRequest: AWSShape {
+    public struct ExportClientVpnClientCertificateRevocationListRequest: AWSEncodableShape {
 
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
@@ -16462,7 +16462,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportClientVpnClientCertificateRevocationListResult: AWSShape {
+    public struct ExportClientVpnClientCertificateRevocationListResult: AWSDecodableShape {
 
         /// Information about the client certificate revocation list.
         public let certificateRevocationList: String?
@@ -16480,7 +16480,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportClientVpnClientConfigurationRequest: AWSShape {
+    public struct ExportClientVpnClientConfigurationRequest: AWSEncodableShape {
 
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
@@ -16498,7 +16498,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportClientVpnClientConfigurationResult: AWSShape {
+    public struct ExportClientVpnClientConfigurationResult: AWSDecodableShape {
 
         /// The contents of the Client VPN endpoint configuration file.
         public let clientConfiguration: String?
@@ -16512,7 +16512,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportImageRequest: AWSShape {
+    public struct ExportImageRequest: AWSEncodableShape {
 
         /// Token to enable idempotency for export image requests.
         public let clientToken: String?
@@ -16550,7 +16550,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportImageResult: AWSShape {
+    public struct ExportImageResult: AWSDecodableShape {
 
         /// A description of the image being exported.
         public let description: String?
@@ -16596,7 +16596,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportImageTask: AWSShape {
+    public struct ExportImageTask: AWSDecodableShape {
 
         /// A description of the image being exported.
         public let description: String?
@@ -16634,7 +16634,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportTask: AWSShape {
+    public struct ExportTask: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A description of the resource being exported.
@@ -16673,7 +16673,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportTaskS3Location: AWSShape {
+    public struct ExportTaskS3Location: AWSDecodableShape {
 
         /// The destination S3 bucket.
         public let s3Bucket: String?
@@ -16691,7 +16691,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportTaskS3LocationRequest: AWSShape {
+    public struct ExportTaskS3LocationRequest: AWSEncodableShape {
 
         /// The destination S3 bucket.
         public let s3Bucket: String
@@ -16709,7 +16709,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportToS3Task: AWSShape {
+    public struct ExportToS3Task: AWSDecodableShape {
 
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
         public let containerFormat: ContainerFormat?
@@ -16735,7 +16735,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportToS3TaskSpecification: AWSShape {
+    public struct ExportToS3TaskSpecification: AWSEncodableShape {
 
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
         public let containerFormat: ContainerFormat?
@@ -16761,7 +16761,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportTransitGatewayRoutesRequest: AWSShape {
+    public struct ExportTransitGatewayRoutesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16788,7 +16788,7 @@ extension EC2 {
         }
     }
 
-    public struct ExportTransitGatewayRoutesResult: AWSShape {
+    public struct ExportTransitGatewayRoutesResult: AWSDecodableShape {
 
         /// The URL of the exported file in Amazon S3. For example, s3://bucket_name/VPCTransitGateway/TransitGatewayRouteTables/file_name.
         public let s3Location: String?
@@ -16802,7 +16802,7 @@ extension EC2 {
         }
     }
 
-    public struct FailedQueuedPurchaseDeletion: AWSShape {
+    public struct FailedQueuedPurchaseDeletion: AWSDecodableShape {
 
         /// The error.
         public let error: DeleteQueuedReservedInstancesError?
@@ -16820,7 +16820,7 @@ extension EC2 {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The name of the filter. Filter names are case-sensitive.
@@ -16839,7 +16839,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetData: AWSShape {
+    public struct FleetData: AWSDecodableShape {
         public struct _ErrorsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -16933,7 +16933,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetLaunchTemplateConfig: AWSShape {
+    public struct FleetLaunchTemplateConfig: AWSDecodableShape {
         public struct _OverridesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The launch template.
@@ -16952,7 +16952,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetLaunchTemplateConfigRequest: AWSShape {
+    public struct FleetLaunchTemplateConfigRequest: AWSEncodableShape {
         public struct _OverridesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
@@ -16976,7 +16976,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetLaunchTemplateOverrides: AWSShape {
+    public struct FleetLaunchTemplateOverrides: AWSDecodableShape {
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
@@ -17014,7 +17014,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetLaunchTemplateOverridesRequest: AWSShape {
+    public struct FleetLaunchTemplateOverridesRequest: AWSEncodableShape {
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
@@ -17052,7 +17052,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetLaunchTemplateSpecification: AWSShape {
+    public struct FleetLaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the launch template. You must specify either a template ID or a template name.
         public let launchTemplateId: String?
@@ -17080,7 +17080,7 @@ extension EC2 {
         }
     }
 
-    public struct FleetLaunchTemplateSpecificationRequest: AWSShape {
+    public struct FleetLaunchTemplateSpecificationRequest: AWSEncodableShape {
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -17108,7 +17108,7 @@ extension EC2 {
         }
     }
 
-    public struct FlowLog: AWSShape {
+    public struct FlowLog: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The date and time the flow log was created.
@@ -17175,7 +17175,7 @@ extension EC2 {
         }
     }
 
-    public struct FpgaDeviceInfo: AWSShape {
+    public struct FpgaDeviceInfo: AWSDecodableShape {
 
         /// The count of FPGA accelerators for the instance type.
         public let count: Int?
@@ -17201,7 +17201,7 @@ extension EC2 {
         }
     }
 
-    public struct FpgaDeviceMemoryInfo: AWSShape {
+    public struct FpgaDeviceMemoryInfo: AWSDecodableShape {
 
         /// The size (in MiB) for the memory available to the FPGA accelerator.
         public let sizeInMiB: Int?
@@ -17215,7 +17215,7 @@ extension EC2 {
         }
     }
 
-    public struct FpgaImage: AWSShape {
+    public struct FpgaImage: AWSDecodableShape {
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -17287,7 +17287,7 @@ extension EC2 {
         }
     }
 
-    public struct FpgaImageAttribute: AWSShape {
+    public struct FpgaImageAttribute: AWSDecodableShape {
         public struct _LoadPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -17319,7 +17319,7 @@ extension EC2 {
         }
     }
 
-    public struct FpgaImageState: AWSShape {
+    public struct FpgaImageState: AWSDecodableShape {
 
         /// The state. The following are the possible values:    pending - AFI bitstream generation is in progress.    available - The AFI is available for use.    failed - AFI bitstream generation failed.    unavailable - The AFI is no longer available for use.  
         public let code: FpgaImageStateCode?
@@ -17337,7 +17337,7 @@ extension EC2 {
         }
     }
 
-    public struct FpgaInfo: AWSShape {
+    public struct FpgaInfo: AWSDecodableShape {
         public struct _FpgasEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Describes the FPGAs for the instance type.
@@ -17356,7 +17356,7 @@ extension EC2 {
         }
     }
 
-    public struct GetAssociatedIpv6PoolCidrsRequest: AWSShape {
+    public struct GetAssociatedIpv6PoolCidrsRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17387,7 +17387,7 @@ extension EC2 {
         }
     }
 
-    public struct GetAssociatedIpv6PoolCidrsResult: AWSShape {
+    public struct GetAssociatedIpv6PoolCidrsResult: AWSDecodableShape {
         public struct _Ipv6CidrAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the IPv6 CIDR block associations.
@@ -17406,7 +17406,7 @@ extension EC2 {
         }
     }
 
-    public struct GetCapacityReservationUsageRequest: AWSShape {
+    public struct GetCapacityReservationUsageRequest: AWSEncodableShape {
 
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String
@@ -17437,7 +17437,7 @@ extension EC2 {
         }
     }
 
-    public struct GetCapacityReservationUsageResult: AWSShape {
+    public struct GetCapacityReservationUsageResult: AWSDecodableShape {
         public struct _InstanceUsagesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The remaining capacity. Indicates the number of instances that can be launched in the Capacity Reservation.
@@ -17476,7 +17476,7 @@ extension EC2 {
         }
     }
 
-    public struct GetCoipPoolUsageRequest: AWSShape {
+    public struct GetCoipPoolUsageRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17512,7 +17512,7 @@ extension EC2 {
         }
     }
 
-    public struct GetCoipPoolUsageResult: AWSShape {
+    public struct GetCoipPoolUsageResult: AWSDecodableShape {
         public struct _CoipAddressUsagesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the address usage.
@@ -17535,7 +17535,7 @@ extension EC2 {
         }
     }
 
-    public struct GetConsoleOutputRequest: AWSShape {
+    public struct GetConsoleOutputRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17557,7 +17557,7 @@ extension EC2 {
         }
     }
 
-    public struct GetConsoleOutputResult: AWSShape {
+    public struct GetConsoleOutputResult: AWSDecodableShape {
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -17579,7 +17579,7 @@ extension EC2 {
         }
     }
 
-    public struct GetConsoleScreenshotRequest: AWSShape {
+    public struct GetConsoleScreenshotRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17601,7 +17601,7 @@ extension EC2 {
         }
     }
 
-    public struct GetConsoleScreenshotResult: AWSShape {
+    public struct GetConsoleScreenshotResult: AWSDecodableShape {
 
         /// The data that comprises the image.
         public let imageData: String?
@@ -17619,7 +17619,7 @@ extension EC2 {
         }
     }
 
-    public struct GetDefaultCreditSpecificationRequest: AWSShape {
+    public struct GetDefaultCreditSpecificationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17637,7 +17637,7 @@ extension EC2 {
         }
     }
 
-    public struct GetDefaultCreditSpecificationResult: AWSShape {
+    public struct GetDefaultCreditSpecificationResult: AWSDecodableShape {
 
         /// The default credit option for CPU usage of the instance family.
         public let instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification?
@@ -17651,7 +17651,7 @@ extension EC2 {
         }
     }
 
-    public struct GetEbsDefaultKmsKeyIdRequest: AWSShape {
+    public struct GetEbsDefaultKmsKeyIdRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17665,7 +17665,7 @@ extension EC2 {
         }
     }
 
-    public struct GetEbsDefaultKmsKeyIdResult: AWSShape {
+    public struct GetEbsDefaultKmsKeyIdResult: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
         public let kmsKeyId: String?
@@ -17679,7 +17679,7 @@ extension EC2 {
         }
     }
 
-    public struct GetEbsEncryptionByDefaultRequest: AWSShape {
+    public struct GetEbsEncryptionByDefaultRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17693,7 +17693,7 @@ extension EC2 {
         }
     }
 
-    public struct GetEbsEncryptionByDefaultResult: AWSShape {
+    public struct GetEbsEncryptionByDefaultResult: AWSDecodableShape {
 
         /// Indicates whether encryption by default is enabled.
         public let ebsEncryptionByDefault: Bool?
@@ -17707,7 +17707,7 @@ extension EC2 {
         }
     }
 
-    public struct GetHostReservationPurchasePreviewRequest: AWSShape {
+    public struct GetHostReservationPurchasePreviewRequest: AWSEncodableShape {
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IDs of the Dedicated Hosts with which the reservation is associated.
@@ -17726,7 +17726,7 @@ extension EC2 {
         }
     }
 
-    public struct GetHostReservationPurchasePreviewResult: AWSShape {
+    public struct GetHostReservationPurchasePreviewResult: AWSDecodableShape {
         public struct _PurchaseEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -17753,7 +17753,7 @@ extension EC2 {
         }
     }
 
-    public struct GetLaunchTemplateDataRequest: AWSShape {
+    public struct GetLaunchTemplateDataRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17771,7 +17771,7 @@ extension EC2 {
         }
     }
 
-    public struct GetLaunchTemplateDataResult: AWSShape {
+    public struct GetLaunchTemplateDataResult: AWSDecodableShape {
 
         /// The instance data.
         public let launchTemplateData: ResponseLaunchTemplateData?
@@ -17785,7 +17785,7 @@ extension EC2 {
         }
     }
 
-    public struct GetPasswordDataRequest: AWSShape {
+    public struct GetPasswordDataRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17803,7 +17803,7 @@ extension EC2 {
         }
     }
 
-    public struct GetPasswordDataResult: AWSShape {
+    public struct GetPasswordDataResult: AWSDecodableShape {
 
         /// The ID of the Windows instance.
         public let instanceId: String?
@@ -17825,7 +17825,7 @@ extension EC2 {
         }
     }
 
-    public struct GetReservedInstancesExchangeQuoteRequest: AWSShape {
+    public struct GetReservedInstancesExchangeQuoteRequest: AWSEncodableShape {
         public struct _ReservedInstanceIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstanceId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { static public let member = "TargetConfigurationRequest" }
 
@@ -17849,7 +17849,7 @@ extension EC2 {
         }
     }
 
-    public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
+    public struct GetReservedInstancesExchangeQuoteResult: AWSDecodableShape {
         public struct _ReservedInstanceValueSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TargetConfigurationValueSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -17897,7 +17897,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayAttachmentPropagationsRequest: AWSShape {
+    public struct GetTransitGatewayAttachmentPropagationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17933,7 +17933,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayAttachmentPropagationsResult: AWSShape {
+    public struct GetTransitGatewayAttachmentPropagationsResult: AWSDecodableShape {
         public struct _TransitGatewayAttachmentPropagationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -17952,7 +17952,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayMulticastDomainAssociationsRequest: AWSShape {
+    public struct GetTransitGatewayMulticastDomainAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17988,7 +17988,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayMulticastDomainAssociationsResult: AWSShape {
+    public struct GetTransitGatewayMulticastDomainAssociationsResult: AWSDecodableShape {
         public struct _MulticastDomainAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the multicast domain associations.
@@ -18007,7 +18007,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayRouteTableAssociationsRequest: AWSShape {
+    public struct GetTransitGatewayRouteTableAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18043,7 +18043,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayRouteTableAssociationsResult: AWSShape {
+    public struct GetTransitGatewayRouteTableAssociationsResult: AWSDecodableShape {
         public struct _AssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the associations.
@@ -18062,7 +18062,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayRouteTablePropagationsRequest: AWSShape {
+    public struct GetTransitGatewayRouteTablePropagationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18098,7 +18098,7 @@ extension EC2 {
         }
     }
 
-    public struct GetTransitGatewayRouteTablePropagationsResult: AWSShape {
+    public struct GetTransitGatewayRouteTablePropagationsResult: AWSDecodableShape {
         public struct _TransitGatewayRouteTablePropagationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -18117,7 +18117,7 @@ extension EC2 {
         }
     }
 
-    public struct GpuDeviceInfo: AWSShape {
+    public struct GpuDeviceInfo: AWSDecodableShape {
 
         /// The number of GPUs for the instance type.
         public let count: Int?
@@ -18143,7 +18143,7 @@ extension EC2 {
         }
     }
 
-    public struct GpuDeviceMemoryInfo: AWSShape {
+    public struct GpuDeviceMemoryInfo: AWSDecodableShape {
 
         /// The size (in MiB) for the memory available to the GPU accelerator.
         public let sizeInMiB: Int?
@@ -18157,7 +18157,7 @@ extension EC2 {
         }
     }
 
-    public struct GpuInfo: AWSShape {
+    public struct GpuInfo: AWSDecodableShape {
         public struct _GpusEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Describes the GPU accelerators for the instance type.
@@ -18176,7 +18176,7 @@ extension EC2 {
         }
     }
 
-    public struct GroupIdentifier: AWSShape {
+    public struct GroupIdentifier: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the security group.
         public let groupId: String?
@@ -18194,7 +18194,7 @@ extension EC2 {
         }
     }
 
-    public struct HibernationOptions: AWSShape {
+    public struct HibernationOptions: AWSDecodableShape {
 
         /// If this parameter is set to true, your instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
@@ -18208,7 +18208,7 @@ extension EC2 {
         }
     }
 
-    public struct HibernationOptionsRequest: AWSShape {
+    public struct HibernationOptionsRequest: AWSEncodableShape {
 
         /// If you set this parameter to true, your instance is enabled for hibernation. Default: false 
         public let configured: Bool?
@@ -18222,7 +18222,7 @@ extension EC2 {
         }
     }
 
-    public struct HistoryRecord: AWSShape {
+    public struct HistoryRecord: AWSDecodableShape {
 
         /// Information about the event.
         public let eventInformation: EventInformation?
@@ -18244,7 +18244,7 @@ extension EC2 {
         }
     }
 
-    public struct HistoryRecordEntry: AWSShape {
+    public struct HistoryRecordEntry: AWSDecodableShape {
 
         /// Information about the event.
         public let eventInformation: EventInformation?
@@ -18266,7 +18266,7 @@ extension EC2 {
         }
     }
 
-    public struct Host: AWSShape {
+    public struct Host: AWSDecodableShape {
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -18346,7 +18346,7 @@ extension EC2 {
         }
     }
 
-    public struct HostInstance: AWSShape {
+    public struct HostInstance: AWSDecodableShape {
 
         /// The ID of instance that is running on the Dedicated Host.
         public let instanceId: String?
@@ -18368,7 +18368,7 @@ extension EC2 {
         }
     }
 
-    public struct HostOffering: AWSShape {
+    public struct HostOffering: AWSDecodableShape {
 
         /// The currency of the offering.
         public let currencyCode: CurrencyCodeValues?
@@ -18406,7 +18406,7 @@ extension EC2 {
         }
     }
 
-    public struct HostProperties: AWSShape {
+    public struct HostProperties: AWSDecodableShape {
 
         /// The number of cores on the Dedicated Host.
         public let cores: Int?
@@ -18436,7 +18436,7 @@ extension EC2 {
         }
     }
 
-    public struct HostReservation: AWSShape {
+    public struct HostReservation: AWSDecodableShape {
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -18504,7 +18504,7 @@ extension EC2 {
         }
     }
 
-    public struct IKEVersionsListValue: AWSShape {
+    public struct IKEVersionsListValue: AWSDecodableShape {
 
         /// The IKE version.
         public let value: String?
@@ -18518,7 +18518,7 @@ extension EC2 {
         }
     }
 
-    public struct IKEVersionsRequestListValue: AWSShape {
+    public struct IKEVersionsRequestListValue: AWSEncodableShape {
 
         /// The IKE version.
         public let value: String?
@@ -18532,7 +18532,7 @@ extension EC2 {
         }
     }
 
-    public struct IamInstanceProfile: AWSShape {
+    public struct IamInstanceProfile: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -18550,7 +18550,7 @@ extension EC2 {
         }
     }
 
-    public struct IamInstanceProfileAssociation: AWSShape {
+    public struct IamInstanceProfileAssociation: AWSDecodableShape {
 
         /// The ID of the association.
         public let associationId: String?
@@ -18580,7 +18580,7 @@ extension EC2 {
         }
     }
 
-    public struct IamInstanceProfileSpecification: AWSShape {
+    public struct IamInstanceProfileSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -18598,7 +18598,7 @@ extension EC2 {
         }
     }
 
-    public struct IcmpTypeCode: AWSShape {
+    public struct IcmpTypeCode: AWSEncodableShape & AWSDecodableShape {
 
         /// The ICMP code. A value of -1 means all codes for the specified ICMP type.
         public let code: Int?
@@ -18616,7 +18616,7 @@ extension EC2 {
         }
     }
 
-    public struct IdFormat: AWSShape {
+    public struct IdFormat: AWSDecodableShape {
 
         /// The date in UTC at which you are permanently switched over to using longer IDs. If a deadline is not yet available for this resource type, this field is not returned.
         public let deadline: TimeStamp?
@@ -18638,7 +18638,7 @@ extension EC2 {
         }
     }
 
-    public struct Image: AWSShape {
+    public struct Image: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -18755,7 +18755,7 @@ extension EC2 {
         }
     }
 
-    public struct ImageAttribute: AWSShape {
+    public struct ImageAttribute: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -18800,7 +18800,7 @@ extension EC2 {
         }
     }
 
-    public struct ImageDiskContainer: AWSShape {
+    public struct ImageDiskContainer: AWSEncodableShape {
 
         /// The description of the disk image.
         public let description: String?
@@ -18834,7 +18834,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportClientVpnClientCertificateRevocationListRequest: AWSShape {
+    public struct ImportClientVpnClientCertificateRevocationListRequest: AWSEncodableShape {
 
         /// The client certificate revocation list file. For more information, see Generate a Client Certificate Revocation List in the AWS Client VPN Administrator Guide.
         public let certificateRevocationList: String
@@ -18856,7 +18856,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportClientVpnClientCertificateRevocationListResult: AWSShape {
+    public struct ImportClientVpnClientCertificateRevocationListResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -18870,7 +18870,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportImageLicenseConfigurationRequest: AWSShape {
+    public struct ImportImageLicenseConfigurationRequest: AWSEncodableShape {
 
         /// The ARN of a license configuration.
         public let licenseConfigurationArn: String?
@@ -18884,7 +18884,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportImageLicenseConfigurationResponse: AWSShape {
+    public struct ImportImageLicenseConfigurationResponse: AWSDecodableShape {
 
         /// The ARN of a license configuration.
         public let licenseConfigurationArn: String?
@@ -18898,7 +18898,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportImageRequest: AWSShape {
+    public struct ImportImageRequest: AWSEncodableShape {
         public struct _DiskContainersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LicenseSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -18962,7 +18962,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportImageResult: AWSShape {
+    public struct ImportImageResult: AWSDecodableShape {
         public struct _LicenseSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SnapshotDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -19030,7 +19030,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportImageTask: AWSShape {
+    public struct ImportImageTask: AWSDecodableShape {
         public struct _LicenseSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SnapshotDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -19103,7 +19103,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportInstanceLaunchSpecification: AWSShape {
+    public struct ImportInstanceLaunchSpecification: AWSEncodableShape {
         public struct _GroupIdsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "SecurityGroup" }
 
@@ -19159,7 +19159,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportInstanceRequest: AWSShape {
+    public struct ImportInstanceRequest: AWSEncodableShape {
 
         /// A description for the instance being imported.
         public let description: String?
@@ -19189,7 +19189,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportInstanceResult: AWSShape {
+    public struct ImportInstanceResult: AWSDecodableShape {
 
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
@@ -19203,7 +19203,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportInstanceTaskDetails: AWSShape {
+    public struct ImportInstanceTaskDetails: AWSDecodableShape {
         public struct _VolumesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A description of the task.
@@ -19230,7 +19230,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportInstanceVolumeDetailItem: AWSShape {
+    public struct ImportInstanceVolumeDetailItem: AWSDecodableShape {
 
         /// The Availability Zone where the resulting instance will reside.
         public let availabilityZone: String?
@@ -19268,7 +19268,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportKeyPairRequest: AWSShape {
+    public struct ImportKeyPairRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19290,7 +19290,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportKeyPairResult: AWSShape {
+    public struct ImportKeyPairResult: AWSDecodableShape {
 
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
         public let keyFingerprint: String?
@@ -19308,7 +19308,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportSnapshotRequest: AWSShape {
+    public struct ImportSnapshotRequest: AWSEncodableShape {
 
         /// The client-specific data.
         public let clientData: ClientData?
@@ -19350,7 +19350,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportSnapshotResult: AWSShape {
+    public struct ImportSnapshotResult: AWSDecodableShape {
 
         /// A description of the import snapshot task.
         public let description: String?
@@ -19372,7 +19372,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportSnapshotTask: AWSShape {
+    public struct ImportSnapshotTask: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A description of the import snapshot task.
@@ -19399,7 +19399,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportVolumeRequest: AWSShape {
+    public struct ImportVolumeRequest: AWSEncodableShape {
 
         /// The Availability Zone for the resulting EBS volume.
         public let availabilityZone: String
@@ -19429,7 +19429,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportVolumeResult: AWSShape {
+    public struct ImportVolumeResult: AWSDecodableShape {
 
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
@@ -19443,7 +19443,7 @@ extension EC2 {
         }
     }
 
-    public struct ImportVolumeTaskDetails: AWSShape {
+    public struct ImportVolumeTaskDetails: AWSDecodableShape {
 
         /// The Availability Zone where the resulting volume will reside.
         public let availabilityZone: String?
@@ -19473,7 +19473,7 @@ extension EC2 {
         }
     }
 
-    public struct InferenceAcceleratorInfo: AWSShape {
+    public struct InferenceAcceleratorInfo: AWSDecodableShape {
 
         /// Describes the Inference accelerators for the instance type.
         @OptionalCoding<DefaultArrayCoder> public var accelerators: [InferenceDeviceInfo]?
@@ -19487,7 +19487,7 @@ extension EC2 {
         }
     }
 
-    public struct InferenceDeviceInfo: AWSShape {
+    public struct InferenceDeviceInfo: AWSDecodableShape {
 
         /// The number of Inference accelerators for the instance type.
         public let count: Int?
@@ -19509,7 +19509,7 @@ extension EC2 {
         }
     }
 
-    public struct Instance: AWSShape {
+    public struct Instance: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticGpuAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticInferenceAcceleratorAssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -19715,7 +19715,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceAttribute: AWSShape {
+    public struct InstanceAttribute: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -19788,7 +19788,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceBlockDeviceMapping: AWSShape {
+    public struct InstanceBlockDeviceMapping: AWSDecodableShape {
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -19806,7 +19806,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceBlockDeviceMappingSpecification: AWSShape {
+    public struct InstanceBlockDeviceMappingSpecification: AWSEncodableShape {
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -19832,7 +19832,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceCapacity: AWSShape {
+    public struct InstanceCapacity: AWSDecodableShape {
 
         /// The number of instances that can be launched onto the Dedicated Host based on the host's available capacity.
         public let availableCapacity: Int?
@@ -19854,7 +19854,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceCount: AWSShape {
+    public struct InstanceCount: AWSDecodableShape {
 
         /// The number of listed Reserved Instances in the state specified by the state.
         public let instanceCount: Int?
@@ -19872,7 +19872,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceCreditSpecification: AWSShape {
+    public struct InstanceCreditSpecification: AWSDecodableShape {
 
         /// The credit option for CPU usage of the instance. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -19890,7 +19890,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceCreditSpecificationRequest: AWSShape {
+    public struct InstanceCreditSpecificationRequest: AWSEncodableShape {
 
         /// The credit option for CPU usage of the instance. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -19908,7 +19908,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceExportDetails: AWSShape {
+    public struct InstanceExportDetails: AWSDecodableShape {
 
         /// The ID of the resource being exported.
         public let instanceId: String?
@@ -19926,7 +19926,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceFamilyCreditSpecification: AWSShape {
+    public struct InstanceFamilyCreditSpecification: AWSDecodableShape {
 
         /// The default credit option for CPU usage of the instance family. Valid values are standard and unlimited.
         public let cpuCredits: String?
@@ -19944,7 +19944,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceIpv6Address: AWSShape {
+    public struct InstanceIpv6Address: AWSEncodableShape & AWSDecodableShape {
 
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -19958,7 +19958,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceIpv6AddressRequest: AWSShape {
+    public struct InstanceIpv6AddressRequest: AWSEncodableShape {
 
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -19972,7 +19972,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceMarketOptionsRequest: AWSShape {
+    public struct InstanceMarketOptionsRequest: AWSEncodableShape {
 
         /// The market type.
         public let marketType: MarketType?
@@ -19990,7 +19990,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceMetadataOptionsRequest: AWSShape {
+    public struct InstanceMetadataOptionsRequest: AWSEncodableShape {
 
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata. 
         public let httpEndpoint: InstanceMetadataEndpointState?
@@ -20012,7 +20012,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceMetadataOptionsResponse: AWSShape {
+    public struct InstanceMetadataOptionsResponse: AWSDecodableShape {
 
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata. 
         public let httpEndpoint: InstanceMetadataEndpointState?
@@ -20038,7 +20038,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceMonitoring: AWSShape {
+    public struct InstanceMonitoring: AWSDecodableShape {
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -20056,7 +20056,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceNetworkInterface: AWSShape {
+    public struct InstanceNetworkInterface: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -20133,7 +20133,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceNetworkInterfaceAssociation: AWSShape {
+    public struct InstanceNetworkInterfaceAssociation: AWSDecodableShape {
 
         /// The ID of the owner of the Elastic IP address.
         public let ipOwnerId: String?
@@ -20155,7 +20155,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceNetworkInterfaceAttachment: AWSShape {
+    public struct InstanceNetworkInterfaceAttachment: AWSDecodableShape {
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -20185,7 +20185,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceNetworkInterfaceSpecification: AWSShape {
+    public struct InstanceNetworkInterfaceSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -20250,7 +20250,7 @@ extension EC2 {
         }
     }
 
-    public struct InstancePrivateIpAddress: AWSShape {
+    public struct InstancePrivateIpAddress: AWSDecodableShape {
 
         /// The association information for an Elastic IP address for the network interface.
         public let association: InstanceNetworkInterfaceAssociation?
@@ -20276,7 +20276,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceSpecification: AWSShape {
+    public struct InstanceSpecification: AWSEncodableShape {
 
         /// Excludes the root volume from being snapshotted.
         public let excludeBootVolume: Bool?
@@ -20294,7 +20294,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceState: AWSShape {
+    public struct InstanceState: AWSDecodableShape {
 
         /// The state of the instance as a 16-bit unsigned integer.  The high byte is all of the bits between 2^8 and (2^16)-1, which equals decimal values between 256 and 65,535. These numerical values are used for internal purposes and should be ignored. The low byte is all of the bits between 2^0 and (2^8)-1, which equals decimal values between 0 and 255.  The valid values for instance-state-code will all be in the range of the low byte and they are:    0 : pending     16 : running     32 : shutting-down     48 : terminated     64 : stopping     80 : stopped    You can ignore the high byte value by zeroing out all of the bits above 2^8 or 256 in decimal.
         public let code: Int?
@@ -20312,7 +20312,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceStateChange: AWSShape {
+    public struct InstanceStateChange: AWSDecodableShape {
 
         /// The current state of the instance.
         public let currentState: InstanceState?
@@ -20334,7 +20334,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceStatus: AWSShape {
+    public struct InstanceStatus: AWSDecodableShape {
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The Availability Zone of the instance.
@@ -20373,7 +20373,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceStatusDetails: AWSShape {
+    public struct InstanceStatusDetails: AWSDecodableShape {
 
         /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
         public let impairedSince: TimeStamp?
@@ -20395,7 +20395,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceStatusEvent: AWSShape {
+    public struct InstanceStatusEvent: AWSDecodableShape {
 
         /// The event code.
         public let code: EventCode?
@@ -20429,7 +20429,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceStatusSummary: AWSShape {
+    public struct InstanceStatusSummary: AWSDecodableShape {
         public struct _DetailsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The system instance health or application instance health.
@@ -20448,7 +20448,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceStorageInfo: AWSShape {
+    public struct InstanceStorageInfo: AWSDecodableShape {
         public struct _DisksEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Array describing the disks that are available for the instance type.
@@ -20467,7 +20467,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceTypeInfo: AWSShape {
+    public struct InstanceTypeInfo: AWSDecodableShape {
         public struct _SupportedRootDeviceTypesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SupportedUsageClassesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -20567,7 +20567,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceTypeOffering: AWSShape {
+    public struct InstanceTypeOffering: AWSDecodableShape {
 
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
         public let instanceType: InstanceType?
@@ -20589,7 +20589,7 @@ extension EC2 {
         }
     }
 
-    public struct InstanceUsage: AWSShape {
+    public struct InstanceUsage: AWSDecodableShape {
 
         /// The ID of the AWS account that is making use of the Capacity Reservation.
         public let accountId: String?
@@ -20607,7 +20607,7 @@ extension EC2 {
         }
     }
 
-    public struct InternetGateway: AWSShape {
+    public struct InternetGateway: AWSDecodableShape {
         public struct _AttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -20635,7 +20635,7 @@ extension EC2 {
         }
     }
 
-    public struct InternetGatewayAttachment: AWSShape {
+    public struct InternetGatewayAttachment: AWSDecodableShape {
 
         /// The current state of the attachment. For an internet gateway, the state is available when attached to a VPC; otherwise, this value is not returned.
         public let state: AttachmentStatus?
@@ -20653,7 +20653,7 @@ extension EC2 {
         }
     }
 
-    public struct IpPermission: AWSShape {
+    public struct IpPermission: AWSEncodableShape & AWSDecodableShape {
         public struct _IpRangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6RangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrefixListIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -20695,7 +20695,7 @@ extension EC2 {
         }
     }
 
-    public struct IpRange: AWSShape {
+    public struct IpRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The IPv4 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv4 address, use the /32 prefix length.
         public let cidrIp: String?
@@ -20713,7 +20713,7 @@ extension EC2 {
         }
     }
 
-    public struct Ipv6CidrAssociation: AWSShape {
+    public struct Ipv6CidrAssociation: AWSDecodableShape {
 
         /// The resource that's associated with the IPv6 CIDR block.
         public let associatedResource: String?
@@ -20731,7 +20731,7 @@ extension EC2 {
         }
     }
 
-    public struct Ipv6CidrBlock: AWSShape {
+    public struct Ipv6CidrBlock: AWSDecodableShape {
 
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
@@ -20745,7 +20745,7 @@ extension EC2 {
         }
     }
 
-    public struct Ipv6Pool: AWSShape {
+    public struct Ipv6Pool: AWSDecodableShape {
         public struct _PoolCidrBlocksEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -20773,7 +20773,7 @@ extension EC2 {
         }
     }
 
-    public struct Ipv6Range: AWSShape {
+    public struct Ipv6Range: AWSEncodableShape & AWSDecodableShape {
 
         /// The IPv6 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv6 address, use the /128 prefix length.
         public let cidrIpv6: String?
@@ -20791,7 +20791,7 @@ extension EC2 {
         }
     }
 
-    public struct KeyPair: AWSShape {
+    public struct KeyPair: AWSDecodableShape {
 
         /// The SHA-1 digest of the DER encoded private key.
         public let keyFingerprint: String?
@@ -20817,7 +20817,7 @@ extension EC2 {
         }
     }
 
-    public struct KeyPairInfo: AWSShape {
+    public struct KeyPairInfo: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// If you used CreateKeyPair to create the key pair, this is the SHA-1 digest of the DER encoded private key. If you used ImportKeyPair to provide AWS the public key, this is the MD5 public key fingerprint as specified in section 4 of RFC4716.
@@ -20844,7 +20844,7 @@ extension EC2 {
         }
     }
 
-    public struct LastError: AWSShape {
+    public struct LastError: AWSDecodableShape {
 
         /// The error code for the VPC endpoint error.
         public let code: String?
@@ -20862,7 +20862,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchPermission: AWSShape {
+    public struct LaunchPermission: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the group.
         public let group: PermissionGroup?
@@ -20880,7 +20880,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchPermissionModifications: AWSShape {
+    public struct LaunchPermissionModifications: AWSEncodableShape {
         public struct _AddEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -20900,7 +20900,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchSpecification: AWSShape {
+    public struct LaunchSpecification: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -20972,7 +20972,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplate: AWSShape {
+    public struct LaunchTemplate: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The principal that created the launch template. 
@@ -21011,7 +21011,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateAndOverridesResponse: AWSShape {
+    public struct LaunchTemplateAndOverridesResponse: AWSDecodableShape {
 
         /// The launch template.
         public let launchTemplateSpecification: FleetLaunchTemplateSpecification?
@@ -21029,7 +21029,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateBlockDeviceMapping: AWSShape {
+    public struct LaunchTemplateBlockDeviceMapping: AWSDecodableShape {
 
         /// The device name.
         public let deviceName: String?
@@ -21055,7 +21055,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateBlockDeviceMappingRequest: AWSShape {
+    public struct LaunchTemplateBlockDeviceMappingRequest: AWSEncodableShape {
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -21081,7 +21081,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateCapacityReservationSpecificationRequest: AWSShape {
+    public struct LaunchTemplateCapacityReservationSpecificationRequest: AWSEncodableShape {
 
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.  
         public let capacityReservationPreference: CapacityReservationPreference?
@@ -21099,7 +21099,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateCapacityReservationSpecificationResponse: AWSShape {
+    public struct LaunchTemplateCapacityReservationSpecificationResponse: AWSDecodableShape {
 
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.  
         public let capacityReservationPreference: CapacityReservationPreference?
@@ -21117,7 +21117,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateConfig: AWSShape {
+    public struct LaunchTemplateConfig: AWSEncodableShape & AWSDecodableShape {
         public struct _OverridesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The launch template.
@@ -21140,7 +21140,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateCpuOptions: AWSShape {
+    public struct LaunchTemplateCpuOptions: AWSDecodableShape {
 
         /// The number of CPU cores for the instance.
         public let coreCount: Int?
@@ -21158,7 +21158,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateCpuOptionsRequest: AWSShape {
+    public struct LaunchTemplateCpuOptionsRequest: AWSEncodableShape {
 
         /// The number of CPU cores for the instance.
         public let coreCount: Int?
@@ -21176,7 +21176,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateEbsBlockDevice: AWSShape {
+    public struct LaunchTemplateEbsBlockDevice: AWSDecodableShape {
 
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -21214,7 +21214,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateEbsBlockDeviceRequest: AWSShape {
+    public struct LaunchTemplateEbsBlockDeviceRequest: AWSEncodableShape {
 
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -21252,7 +21252,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateElasticInferenceAccelerator: AWSShape {
+    public struct LaunchTemplateElasticInferenceAccelerator: AWSEncodableShape {
 
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
@@ -21274,7 +21274,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateElasticInferenceAcceleratorResponse: AWSShape {
+    public struct LaunchTemplateElasticInferenceAcceleratorResponse: AWSDecodableShape {
 
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
@@ -21292,7 +21292,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateHibernationOptions: AWSShape {
+    public struct LaunchTemplateHibernationOptions: AWSDecodableShape {
 
         /// If this parameter is set to true, the instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
@@ -21306,7 +21306,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateHibernationOptionsRequest: AWSShape {
+    public struct LaunchTemplateHibernationOptionsRequest: AWSEncodableShape {
 
         /// If you set this parameter to true, the instance is enabled for hibernation. Default: false 
         public let configured: Bool?
@@ -21320,7 +21320,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateIamInstanceProfileSpecification: AWSShape {
+    public struct LaunchTemplateIamInstanceProfileSpecification: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -21338,7 +21338,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateIamInstanceProfileSpecificationRequest: AWSShape {
+    public struct LaunchTemplateIamInstanceProfileSpecificationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -21356,7 +21356,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateInstanceMarketOptions: AWSShape {
+    public struct LaunchTemplateInstanceMarketOptions: AWSDecodableShape {
 
         /// The market type.
         public let marketType: MarketType?
@@ -21374,7 +21374,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateInstanceMarketOptionsRequest: AWSShape {
+    public struct LaunchTemplateInstanceMarketOptionsRequest: AWSEncodableShape {
 
         /// The market type.
         public let marketType: MarketType?
@@ -21392,7 +21392,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateInstanceMetadataOptions: AWSShape {
+    public struct LaunchTemplateInstanceMetadataOptions: AWSDecodableShape {
 
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.  
         public let httpEndpoint: LaunchTemplateInstanceMetadataEndpointState?
@@ -21418,7 +21418,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateInstanceMetadataOptionsRequest: AWSShape {
+    public struct LaunchTemplateInstanceMetadataOptionsRequest: AWSEncodableShape {
 
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.  
         public let httpEndpoint: LaunchTemplateInstanceMetadataEndpointState?
@@ -21440,7 +21440,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateInstanceNetworkInterfaceSpecification: AWSShape {
+    public struct LaunchTemplateInstanceNetworkInterfaceSpecification: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "groupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -21505,7 +21505,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateInstanceNetworkInterfaceSpecificationRequest: AWSShape {
+    public struct LaunchTemplateInstanceNetworkInterfaceSpecificationRequest: AWSEncodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "InstanceIpv6Address" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -21570,7 +21570,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateLicenseConfiguration: AWSShape {
+    public struct LaunchTemplateLicenseConfiguration: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
@@ -21584,7 +21584,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateLicenseConfigurationRequest: AWSShape {
+    public struct LaunchTemplateLicenseConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
@@ -21598,7 +21598,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateOverrides: AWSShape {
+    public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
@@ -21632,7 +21632,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplatePlacement: AWSShape {
+    public struct LaunchTemplatePlacement: AWSDecodableShape {
 
         /// The affinity setting for the instance on the Dedicated Host.
         public let affinity: String?
@@ -21674,7 +21674,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplatePlacementRequest: AWSShape {
+    public struct LaunchTemplatePlacementRequest: AWSEncodableShape {
 
         /// The affinity setting for an instance on a Dedicated Host.
         public let affinity: String?
@@ -21716,7 +21716,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateSpecification: AWSShape {
+    public struct LaunchTemplateSpecification: AWSEncodableShape {
 
         /// The ID of the launch template.
         public let launchTemplateId: String?
@@ -21738,7 +21738,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateSpotMarketOptions: AWSShape {
+    public struct LaunchTemplateSpotMarketOptions: AWSDecodableShape {
 
         /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360).
         public let blockDurationMinutes: Int?
@@ -21768,7 +21768,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateSpotMarketOptionsRequest: AWSShape {
+    public struct LaunchTemplateSpotMarketOptionsRequest: AWSEncodableShape {
 
         /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360).
         public let blockDurationMinutes: Int?
@@ -21798,7 +21798,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateTagSpecification: AWSShape {
+    public struct LaunchTemplateTagSpecification: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The type of resource.
@@ -21817,7 +21817,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateTagSpecificationRequest: AWSShape {
+    public struct LaunchTemplateTagSpecificationRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume. To tag a resource after it has been created, see CreateTags.
@@ -21836,7 +21836,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplateVersion: AWSShape {
+    public struct LaunchTemplateVersion: AWSDecodableShape {
 
         /// The principal that created the version.
         public let createdBy: String?
@@ -21878,7 +21878,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplatesMonitoring: AWSShape {
+    public struct LaunchTemplatesMonitoring: AWSDecodableShape {
 
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
@@ -21892,7 +21892,7 @@ extension EC2 {
         }
     }
 
-    public struct LaunchTemplatesMonitoringRequest: AWSShape {
+    public struct LaunchTemplatesMonitoringRequest: AWSEncodableShape {
 
         /// Specify true to enable detailed monitoring. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
@@ -21906,7 +21906,7 @@ extension EC2 {
         }
     }
 
-    public struct LicenseConfiguration: AWSShape {
+    public struct LicenseConfiguration: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
@@ -21920,7 +21920,7 @@ extension EC2 {
         }
     }
 
-    public struct LicenseConfigurationRequest: AWSShape {
+    public struct LicenseConfigurationRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
@@ -21934,7 +21934,7 @@ extension EC2 {
         }
     }
 
-    public struct LoadBalancersConfig: AWSShape {
+    public struct LoadBalancersConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Classic Load Balancers.
         public let classicLoadBalancersConfig: ClassicLoadBalancersConfig?
@@ -21957,7 +21957,7 @@ extension EC2 {
         }
     }
 
-    public struct LoadPermission: AWSShape {
+    public struct LoadPermission: AWSDecodableShape {
 
         /// The name of the group.
         public let group: PermissionGroup?
@@ -21975,7 +21975,7 @@ extension EC2 {
         }
     }
 
-    public struct LoadPermissionModifications: AWSShape {
+    public struct LoadPermissionModifications: AWSEncodableShape {
         public struct _AddEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -21995,7 +21995,7 @@ extension EC2 {
         }
     }
 
-    public struct LoadPermissionRequest: AWSShape {
+    public struct LoadPermissionRequest: AWSEncodableShape {
 
         /// The name of the group.
         public let group: PermissionGroup?
@@ -22013,7 +22013,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGateway: AWSShape {
+    public struct LocalGateway: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the local gateway.
@@ -22044,7 +22044,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGatewayRoute: AWSShape {
+    public struct LocalGatewayRoute: AWSDecodableShape {
 
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
@@ -22074,7 +22074,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGatewayRouteTable: AWSShape {
+    public struct LocalGatewayRouteTable: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the local gateway.
@@ -22105,7 +22105,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGatewayRouteTableVirtualInterfaceGroupAssociation: AWSShape {
+    public struct LocalGatewayRouteTableVirtualInterfaceGroupAssociation: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the local gateway.
@@ -22140,7 +22140,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGatewayRouteTableVpcAssociation: AWSShape {
+    public struct LocalGatewayRouteTableVpcAssociation: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the local gateway.
@@ -22175,7 +22175,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGatewayVirtualInterface: AWSShape {
+    public struct LocalGatewayVirtualInterface: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The local address.
@@ -22218,7 +22218,7 @@ extension EC2 {
         }
     }
 
-    public struct LocalGatewayVirtualInterfaceGroup: AWSShape {
+    public struct LocalGatewayVirtualInterfaceGroup: AWSDecodableShape {
         public struct _LocalGatewayVirtualInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -22246,7 +22246,7 @@ extension EC2 {
         }
     }
 
-    public struct MemoryInfo: AWSShape {
+    public struct MemoryInfo: AWSDecodableShape {
 
         /// Size of the memory, in MiB.
         public let sizeInMiB: Int64?
@@ -22260,7 +22260,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyAvailabilityZoneGroupRequest: AWSShape {
+    public struct ModifyAvailabilityZoneGroupRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22282,7 +22282,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyAvailabilityZoneGroupResult: AWSShape {
+    public struct ModifyAvailabilityZoneGroupResult: AWSDecodableShape {
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -22296,7 +22296,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyCapacityReservationRequest: AWSShape {
+    public struct ModifyCapacityReservationRequest: AWSEncodableShape {
 
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String
@@ -22326,7 +22326,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyCapacityReservationResult: AWSShape {
+    public struct ModifyCapacityReservationResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -22340,7 +22340,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyClientVpnEndpointRequest: AWSShape {
+    public struct ModifyClientVpnEndpointRequest: AWSEncodableShape {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the Client VPN endpoint to modify.
@@ -22391,7 +22391,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyClientVpnEndpointResult: AWSShape {
+    public struct ModifyClientVpnEndpointResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -22405,7 +22405,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyDefaultCreditSpecificationRequest: AWSShape {
+    public struct ModifyDefaultCreditSpecificationRequest: AWSEncodableShape {
 
         /// The credit option for CPU usage of the instance family. Valid Values: standard | unlimited 
         public let cpuCredits: String
@@ -22427,7 +22427,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyDefaultCreditSpecificationResult: AWSShape {
+    public struct ModifyDefaultCreditSpecificationResult: AWSDecodableShape {
 
         /// The default credit option for CPU usage of the instance family.
         public let instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification?
@@ -22441,7 +22441,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyEbsDefaultKmsKeyIdRequest: AWSShape {
+    public struct ModifyEbsDefaultKmsKeyIdRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22459,7 +22459,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyEbsDefaultKmsKeyIdResult: AWSShape {
+    public struct ModifyEbsDefaultKmsKeyIdResult: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the default CMK for encryption by default.
         public let kmsKeyId: String?
@@ -22473,7 +22473,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyFleetRequest: AWSShape {
+    public struct ModifyFleetRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22499,7 +22499,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyFleetResult: AWSShape {
+    public struct ModifyFleetResult: AWSDecodableShape {
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -22513,7 +22513,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyFpgaImageAttributeRequest: AWSShape {
+    public struct ModifyFpgaImageAttributeRequest: AWSEncodableShape {
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "ProductCode" }
         public struct _UserGroupsEncoding: ArrayCoderProperties { static public let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { static public let member = "UserId" }
@@ -22566,7 +22566,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyFpgaImageAttributeResult: AWSShape {
+    public struct ModifyFpgaImageAttributeResult: AWSDecodableShape {
 
         /// Information about the attribute.
         public let fpgaImageAttribute: FpgaImageAttribute?
@@ -22580,7 +22580,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyHostsRequest: AWSShape {
+    public struct ModifyHostsRequest: AWSEncodableShape {
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Specify whether to enable or disable auto-placement.
@@ -22611,7 +22611,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyHostsResult: AWSShape {
+    public struct ModifyHostsResult: AWSDecodableShape {
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -22631,7 +22631,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyIdFormatRequest: AWSShape {
+    public struct ModifyIdFormatRequest: AWSEncodableShape {
 
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. Alternatively, use the all-current option to include all resource types that are currently within their opt-in period for longer IDs.
         public let resource: String
@@ -22649,7 +22649,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyIdentityIdFormatRequest: AWSShape {
+    public struct ModifyIdentityIdFormatRequest: AWSEncodableShape {
 
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. Specify all to modify the ID format for all IAM users, IAM roles, and the root user of the account.
         public let principalArn: String
@@ -22671,7 +22671,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyImageAttributeRequest: AWSShape {
+    public struct ModifyImageAttributeRequest: AWSEncodableShape {
         public struct _ProductCodesEncoding: ArrayCoderProperties { static public let member = "ProductCode" }
         public struct _UserGroupsEncoding: ArrayCoderProperties { static public let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { static public let member = "UserId" }
@@ -22724,7 +22724,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceAttributeRequest: AWSShape {
+    public struct ModifyInstanceAttributeRequest: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "groupId" }
 
@@ -22800,7 +22800,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceCapacityReservationAttributesRequest: AWSShape {
+    public struct ModifyInstanceCapacityReservationAttributesRequest: AWSEncodableShape {
 
         /// Information about the Capacity Reservation targeting option.
         public let capacityReservationSpecification: CapacityReservationSpecification
@@ -22822,7 +22822,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceCapacityReservationAttributesResult: AWSShape {
+    public struct ModifyInstanceCapacityReservationAttributesResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -22836,7 +22836,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceCreditSpecificationRequest: AWSShape {
+    public struct ModifyInstanceCreditSpecificationRequest: AWSEncodableShape {
         public struct _InstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
@@ -22859,7 +22859,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceCreditSpecificationResult: AWSShape {
+    public struct ModifyInstanceCreditSpecificationResult: AWSDecodableShape {
         public struct _SuccessfulInstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulInstanceCreditSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -22879,7 +22879,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceEventStartTimeRequest: AWSShape {
+    public struct ModifyInstanceEventStartTimeRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22905,7 +22905,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceEventStartTimeResult: AWSShape {
+    public struct ModifyInstanceEventStartTimeResult: AWSDecodableShape {
 
         public let event: InstanceStatusEvent?
 
@@ -22918,7 +22918,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceMetadataOptionsRequest: AWSShape {
+    public struct ModifyInstanceMetadataOptionsRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22948,7 +22948,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstanceMetadataOptionsResult: AWSShape {
+    public struct ModifyInstanceMetadataOptionsResult: AWSDecodableShape {
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -22966,7 +22966,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstancePlacementRequest: AWSShape {
+    public struct ModifyInstancePlacementRequest: AWSEncodableShape {
 
         /// The affinity setting for the instance.
         public let affinity: Affinity?
@@ -23004,7 +23004,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyInstancePlacementResult: AWSShape {
+    public struct ModifyInstancePlacementResult: AWSDecodableShape {
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -23018,7 +23018,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyLaunchTemplateRequest: AWSShape {
+    public struct ModifyLaunchTemplateRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
@@ -23054,7 +23054,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyLaunchTemplateResult: AWSShape {
+    public struct ModifyLaunchTemplateResult: AWSDecodableShape {
 
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
@@ -23068,7 +23068,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
+    public struct ModifyNetworkInterfaceAttributeRequest: AWSEncodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
 
         /// Information about the interface attachment. If modifying the 'delete on termination' attribute, you must specify the ID of the interface attachment.
@@ -23103,7 +23103,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyReservedInstancesRequest: AWSShape {
+    public struct ModifyReservedInstancesRequest: AWSEncodableShape {
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "ReservedInstancesId" }
         public struct _TargetConfigurationsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -23127,7 +23127,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyReservedInstancesResult: AWSShape {
+    public struct ModifyReservedInstancesResult: AWSDecodableShape {
 
         /// The ID for the modification.
         public let reservedInstancesModificationId: String?
@@ -23141,7 +23141,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifySnapshotAttributeRequest: AWSShape {
+    public struct ModifySnapshotAttributeRequest: AWSEncodableShape {
         public struct _GroupNamesEncoding: ArrayCoderProperties { static public let member = "GroupName" }
         public struct _UserIdsEncoding: ArrayCoderProperties { static public let member = "UserId" }
 
@@ -23181,7 +23181,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifySpotFleetRequestRequest: AWSShape {
+    public struct ModifySpotFleetRequestRequest: AWSEncodableShape {
 
         /// Indicates whether running Spot Instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
@@ -23207,7 +23207,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifySpotFleetRequestResponse: AWSShape {
+    public struct ModifySpotFleetRequestResponse: AWSDecodableShape {
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -23221,7 +23221,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifySubnetAttributeRequest: AWSShape {
+    public struct ModifySubnetAttributeRequest: AWSEncodableShape {
 
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address).  If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API.
         public let assignIpv6AddressOnCreation: AttributeBooleanValue?
@@ -23243,7 +23243,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTrafficMirrorFilterNetworkServicesRequest: AWSShape {
+    public struct ModifyTrafficMirrorFilterNetworkServicesRequest: AWSEncodableShape {
         public struct _AddNetworkServicesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveNetworkServicesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -23271,7 +23271,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTrafficMirrorFilterNetworkServicesResult: AWSShape {
+    public struct ModifyTrafficMirrorFilterNetworkServicesResult: AWSDecodableShape {
 
         /// The Traffic Mirror filter that the network service is associated with.
         public let trafficMirrorFilter: TrafficMirrorFilter?
@@ -23285,7 +23285,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTrafficMirrorFilterRuleRequest: AWSShape {
+    public struct ModifyTrafficMirrorFilterRuleRequest: AWSEncodableShape {
 
         /// The description to assign to the Traffic Mirror rule.
         public let description: String?
@@ -23343,7 +23343,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTrafficMirrorFilterRuleResult: AWSShape {
+    public struct ModifyTrafficMirrorFilterRuleResult: AWSDecodableShape {
 
         /// Modifies a Traffic Mirror rule.
         public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
@@ -23357,7 +23357,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTrafficMirrorSessionRequest: AWSShape {
+    public struct ModifyTrafficMirrorSessionRequest: AWSEncodableShape {
 
         /// The description to assign to the Traffic Mirror session.
         public let description: String?
@@ -23403,7 +23403,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTrafficMirrorSessionResult: AWSShape {
+    public struct ModifyTrafficMirrorSessionResult: AWSDecodableShape {
 
         /// Information about the Traffic Mirror session.
         public let trafficMirrorSession: TrafficMirrorSession?
@@ -23417,7 +23417,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTransitGatewayVpcAttachmentRequest: AWSShape {
+    public struct ModifyTransitGatewayVpcAttachmentRequest: AWSEncodableShape {
         public struct _AddSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -23449,7 +23449,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTransitGatewayVpcAttachmentRequestOptions: AWSShape {
+    public struct ModifyTransitGatewayVpcAttachmentRequestOptions: AWSEncodableShape {
 
         /// Enable or disable DNS support. The default is enable.
         public let dnsSupport: DnsSupportValue?
@@ -23467,7 +23467,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyTransitGatewayVpcAttachmentResult: AWSShape {
+    public struct ModifyTransitGatewayVpcAttachmentResult: AWSDecodableShape {
 
         /// Information about the modified attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -23481,7 +23481,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVolumeAttributeRequest: AWSShape {
+    public struct ModifyVolumeAttributeRequest: AWSEncodableShape {
 
         /// Indicates whether the volume should be auto-enabled for I/O operations.
         public let autoEnableIO: AttributeBooleanValue?
@@ -23503,7 +23503,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVolumeRequest: AWSShape {
+    public struct ModifyVolumeRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23533,7 +23533,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVolumeResult: AWSShape {
+    public struct ModifyVolumeResult: AWSDecodableShape {
 
         /// Information about the volume modification.
         public let volumeModification: VolumeModification?
@@ -23547,7 +23547,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcAttributeRequest: AWSShape {
+    public struct ModifyVpcAttributeRequest: AWSEncodableShape {
 
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If enabled, instances in the VPC get DNS hostnames; otherwise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support.
         public let enableDnsHostnames: AttributeBooleanValue?
@@ -23569,7 +23569,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointConnectionNotificationRequest: AWSShape {
+    public struct ModifyVpcEndpointConnectionNotificationRequest: AWSEncodableShape {
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more events for the endpoint. Valid values are Accept, Connect, Delete, and Reject.
@@ -23596,7 +23596,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointConnectionNotificationResult: AWSShape {
+    public struct ModifyVpcEndpointConnectionNotificationResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
@@ -23610,7 +23610,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointRequest: AWSShape {
+    public struct ModifyVpcEndpointRequest: AWSEncodableShape {
         public struct _AddRouteTableIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _AddSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _AddSubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -23670,7 +23670,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointResult: AWSShape {
+    public struct ModifyVpcEndpointResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -23684,7 +23684,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointServiceConfigurationRequest: AWSShape {
+    public struct ModifyVpcEndpointServiceConfigurationRequest: AWSEncodableShape {
         public struct _AddNetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveNetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -23724,7 +23724,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointServiceConfigurationResult: AWSShape {
+    public struct ModifyVpcEndpointServiceConfigurationResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -23738,7 +23738,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointServicePermissionsRequest: AWSShape {
+    public struct ModifyVpcEndpointServicePermissionsRequest: AWSEncodableShape {
         public struct _AddAllowedPrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RemoveAllowedPrincipalsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -23766,7 +23766,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcEndpointServicePermissionsResult: AWSShape {
+    public struct ModifyVpcEndpointServicePermissionsResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
@@ -23780,7 +23780,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcPeeringConnectionOptionsRequest: AWSShape {
+    public struct ModifyVpcPeeringConnectionOptionsRequest: AWSEncodableShape {
 
         /// The VPC peering connection options for the accepter VPC.
         public let accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest?
@@ -23806,7 +23806,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcPeeringConnectionOptionsResult: AWSShape {
+    public struct ModifyVpcPeeringConnectionOptionsResult: AWSDecodableShape {
 
         /// Information about the VPC peering connection options for the accepter VPC.
         public let accepterPeeringConnectionOptions: PeeringConnectionOptions?
@@ -23824,7 +23824,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcTenancyRequest: AWSShape {
+    public struct ModifyVpcTenancyRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23846,7 +23846,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpcTenancyResult: AWSShape {
+    public struct ModifyVpcTenancyResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let returnValue: Bool?
@@ -23860,7 +23860,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnConnectionRequest: AWSShape {
+    public struct ModifyVpnConnectionRequest: AWSEncodableShape {
 
         /// The ID of the customer gateway at your end of the VPN connection.
         public let customerGatewayId: String?
@@ -23890,7 +23890,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnConnectionResult: AWSShape {
+    public struct ModifyVpnConnectionResult: AWSDecodableShape {
 
         public let vpnConnection: VpnConnection?
 
@@ -23903,7 +23903,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnTunnelCertificateRequest: AWSShape {
+    public struct ModifyVpnTunnelCertificateRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23925,7 +23925,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnTunnelCertificateResult: AWSShape {
+    public struct ModifyVpnTunnelCertificateResult: AWSDecodableShape {
 
         public let vpnConnection: VpnConnection?
 
@@ -23938,7 +23938,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnTunnelOptionsRequest: AWSShape {
+    public struct ModifyVpnTunnelOptionsRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23964,7 +23964,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnTunnelOptionsResult: AWSShape {
+    public struct ModifyVpnTunnelOptionsResult: AWSDecodableShape {
 
         public let vpnConnection: VpnConnection?
 
@@ -23977,7 +23977,7 @@ extension EC2 {
         }
     }
 
-    public struct ModifyVpnTunnelOptionsSpecification: AWSShape {
+    public struct ModifyVpnTunnelOptionsSpecification: AWSEncodableShape {
         public struct _IKEVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -24054,7 +24054,7 @@ extension EC2 {
         }
     }
 
-    public struct MonitorInstancesRequest: AWSShape {
+    public struct MonitorInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -24073,7 +24073,7 @@ extension EC2 {
         }
     }
 
-    public struct MonitorInstancesResult: AWSShape {
+    public struct MonitorInstancesResult: AWSDecodableShape {
         public struct _InstanceMonitoringsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The monitoring information.
@@ -24088,7 +24088,7 @@ extension EC2 {
         }
     }
 
-    public struct Monitoring: AWSShape {
+    public struct Monitoring: AWSDecodableShape {
 
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let state: MonitoringState?
@@ -24102,7 +24102,7 @@ extension EC2 {
         }
     }
 
-    public struct MoveAddressToVpcRequest: AWSShape {
+    public struct MoveAddressToVpcRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -24120,7 +24120,7 @@ extension EC2 {
         }
     }
 
-    public struct MoveAddressToVpcResult: AWSShape {
+    public struct MoveAddressToVpcResult: AWSDecodableShape {
 
         /// The allocation ID for the Elastic IP address.
         public let allocationId: String?
@@ -24138,7 +24138,7 @@ extension EC2 {
         }
     }
 
-    public struct MovingAddressStatus: AWSShape {
+    public struct MovingAddressStatus: AWSDecodableShape {
 
         /// The status of the Elastic IP address that's being moved to the EC2-VPC platform, or restored to the EC2-Classic platform.
         public let moveStatus: MoveStatus?
@@ -24156,7 +24156,7 @@ extension EC2 {
         }
     }
 
-    public struct NatGateway: AWSShape {
+    public struct NatGateway: AWSDecodableShape {
         public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -24212,7 +24212,7 @@ extension EC2 {
         }
     }
 
-    public struct NatGatewayAddress: AWSShape {
+    public struct NatGatewayAddress: AWSDecodableShape {
 
         /// The allocation ID of the Elastic IP address that's associated with the NAT gateway.
         public let allocationId: String?
@@ -24238,7 +24238,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkAcl: AWSShape {
+    public struct NetworkAcl: AWSDecodableShape {
         public struct _AssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _EntriesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -24279,7 +24279,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkAclAssociation: AWSShape {
+    public struct NetworkAclAssociation: AWSDecodableShape {
 
         /// The ID of the association between a network ACL and a subnet.
         public let networkAclAssociationId: String?
@@ -24301,7 +24301,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkAclEntry: AWSShape {
+    public struct NetworkAclEntry: AWSDecodableShape {
 
         /// The IPv4 network range to allow or deny, in CIDR notation.
         public let cidrBlock: String?
@@ -24343,7 +24343,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInfo: AWSShape {
+    public struct NetworkInfo: AWSDecodableShape {
 
         /// Indicates whether Elastic Network Adapter (ENA) is supported.
         public let enaSupport: EnaSupport?
@@ -24377,7 +24377,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterface: AWSShape {
+    public struct NetworkInterface: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -24475,7 +24475,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfaceAssociation: AWSShape {
+    public struct NetworkInterfaceAssociation: AWSDecodableShape {
 
         /// The allocation ID.
         public let allocationId: String?
@@ -24505,7 +24505,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfaceAttachment: AWSShape {
+    public struct NetworkInterfaceAttachment: AWSDecodableShape {
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -24543,7 +24543,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfaceAttachmentChanges: AWSShape {
+    public struct NetworkInterfaceAttachmentChanges: AWSEncodableShape {
 
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -24561,7 +24561,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfaceIpv6Address: AWSShape {
+    public struct NetworkInterfaceIpv6Address: AWSDecodableShape {
 
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -24575,7 +24575,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfacePermission: AWSShape {
+    public struct NetworkInterfacePermission: AWSDecodableShape {
 
         /// The AWS account ID.
         public let awsAccountId: String?
@@ -24609,7 +24609,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfacePermissionState: AWSShape {
+    public struct NetworkInterfacePermissionState: AWSDecodableShape {
 
         /// The state of the permission.
         public let state: NetworkInterfacePermissionStateCode?
@@ -24627,7 +24627,7 @@ extension EC2 {
         }
     }
 
-    public struct NetworkInterfacePrivateIpAddress: AWSShape {
+    public struct NetworkInterfacePrivateIpAddress: AWSDecodableShape {
 
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
         public let association: NetworkInterfaceAssociation?
@@ -24653,7 +24653,7 @@ extension EC2 {
         }
     }
 
-    public struct NewDhcpConfiguration: AWSShape {
+    public struct NewDhcpConfiguration: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         public let key: String?
@@ -24670,7 +24670,7 @@ extension EC2 {
         }
     }
 
-    public struct OnDemandOptions: AWSShape {
+    public struct OnDemandOptions: AWSDecodableShape {
 
         /// The order of the launch template overrides to use in fulfilling On-Demand capacity. If you specify lowest-price, EC2 Fleet uses price to determine the order, launching the lowest price first. If you specify prioritized, EC2 Fleet uses the priority that you assigned to each launch template override, launching the highest priority first. If you do not specify a value, EC2 Fleet defaults to lowest-price.
         public let allocationStrategy: FleetOnDemandAllocationStrategy?
@@ -24704,7 +24704,7 @@ extension EC2 {
         }
     }
 
-    public struct OnDemandOptionsRequest: AWSShape {
+    public struct OnDemandOptionsRequest: AWSEncodableShape {
 
         /// The order of the launch template overrides to use in fulfilling On-Demand capacity. If you specify lowest-price, EC2 Fleet uses price to determine the order, launching the lowest price first. If you specify prioritized, EC2 Fleet uses the priority that you assigned to each launch template override, launching the highest priority first. If you do not specify a value, EC2 Fleet defaults to lowest-price.
         public let allocationStrategy: FleetOnDemandAllocationStrategy?
@@ -24738,7 +24738,7 @@ extension EC2 {
         }
     }
 
-    public struct PciId: AWSShape {
+    public struct PciId: AWSDecodableShape {
 
         /// The ID of the device.
         public let deviceId: String?
@@ -24764,7 +24764,7 @@ extension EC2 {
         }
     }
 
-    public struct PeeringAttachmentStatus: AWSShape {
+    public struct PeeringAttachmentStatus: AWSDecodableShape {
 
         /// The status code.
         public let code: String?
@@ -24782,7 +24782,7 @@ extension EC2 {
         }
     }
 
-    public struct PeeringConnectionOptions: AWSShape {
+    public struct PeeringConnectionOptions: AWSDecodableShape {
 
         /// If true, the public DNS hostnames of instances in the specified VPC resolve to private IP addresses when queried from instances in the peer VPC.
         public let allowDnsResolutionFromRemoteVpc: Bool?
@@ -24804,7 +24804,7 @@ extension EC2 {
         }
     }
 
-    public struct PeeringConnectionOptionsRequest: AWSShape {
+    public struct PeeringConnectionOptionsRequest: AWSEncodableShape {
 
         /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
         public let allowDnsResolutionFromRemoteVpc: Bool?
@@ -24826,7 +24826,7 @@ extension EC2 {
         }
     }
 
-    public struct PeeringTgwInfo: AWSShape {
+    public struct PeeringTgwInfo: AWSDecodableShape {
 
         /// The AWS account ID of the owner of the transit gateway.
         public let ownerId: String?
@@ -24848,7 +24848,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase1DHGroupNumbersListValue: AWSShape {
+    public struct Phase1DHGroupNumbersListValue: AWSDecodableShape {
 
         /// The Diffie-Hellmann group number.
         public let value: Int?
@@ -24862,7 +24862,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase1DHGroupNumbersRequestListValue: AWSShape {
+    public struct Phase1DHGroupNumbersRequestListValue: AWSEncodableShape {
 
         /// The Diffie-Hellmann group number.
         public let value: Int?
@@ -24876,7 +24876,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase1EncryptionAlgorithmsListValue: AWSShape {
+    public struct Phase1EncryptionAlgorithmsListValue: AWSDecodableShape {
 
         /// The value for the encryption algorithm.
         public let value: String?
@@ -24890,7 +24890,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase1EncryptionAlgorithmsRequestListValue: AWSShape {
+    public struct Phase1EncryptionAlgorithmsRequestListValue: AWSEncodableShape {
 
         /// The value for the encryption algorithm.
         public let value: String?
@@ -24904,7 +24904,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase1IntegrityAlgorithmsListValue: AWSShape {
+    public struct Phase1IntegrityAlgorithmsListValue: AWSDecodableShape {
 
         /// The value for the integrity algorithm.
         public let value: String?
@@ -24918,7 +24918,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase1IntegrityAlgorithmsRequestListValue: AWSShape {
+    public struct Phase1IntegrityAlgorithmsRequestListValue: AWSEncodableShape {
 
         /// The value for the integrity algorithm.
         public let value: String?
@@ -24932,7 +24932,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase2DHGroupNumbersListValue: AWSShape {
+    public struct Phase2DHGroupNumbersListValue: AWSDecodableShape {
 
         /// The Diffie-Hellmann group number.
         public let value: Int?
@@ -24946,7 +24946,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase2DHGroupNumbersRequestListValue: AWSShape {
+    public struct Phase2DHGroupNumbersRequestListValue: AWSEncodableShape {
 
         /// The Diffie-Hellmann group number.
         public let value: Int?
@@ -24960,7 +24960,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase2EncryptionAlgorithmsListValue: AWSShape {
+    public struct Phase2EncryptionAlgorithmsListValue: AWSDecodableShape {
 
         /// The encryption algorithm.
         public let value: String?
@@ -24974,7 +24974,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase2EncryptionAlgorithmsRequestListValue: AWSShape {
+    public struct Phase2EncryptionAlgorithmsRequestListValue: AWSEncodableShape {
 
         /// The encryption algorithm.
         public let value: String?
@@ -24988,7 +24988,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase2IntegrityAlgorithmsListValue: AWSShape {
+    public struct Phase2IntegrityAlgorithmsListValue: AWSDecodableShape {
 
         /// The integrity algorithm.
         public let value: String?
@@ -25002,7 +25002,7 @@ extension EC2 {
         }
     }
 
-    public struct Phase2IntegrityAlgorithmsRequestListValue: AWSShape {
+    public struct Phase2IntegrityAlgorithmsRequestListValue: AWSEncodableShape {
 
         /// The integrity algorithm.
         public let value: String?
@@ -25016,7 +25016,7 @@ extension EC2 {
         }
     }
 
-    public struct Placement: AWSShape {
+    public struct Placement: AWSEncodableShape & AWSDecodableShape {
 
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command. This parameter is not supported by .
         public let affinity: String?
@@ -25058,7 +25058,7 @@ extension EC2 {
         }
     }
 
-    public struct PlacementGroup: AWSShape {
+    public struct PlacementGroup: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the placement group.
@@ -25093,7 +25093,7 @@ extension EC2 {
         }
     }
 
-    public struct PlacementGroupInfo: AWSShape {
+    public struct PlacementGroupInfo: AWSDecodableShape {
         public struct _SupportedStrategiesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A list of supported placement groups types.
@@ -25108,7 +25108,7 @@ extension EC2 {
         }
     }
 
-    public struct PlacementResponse: AWSShape {
+    public struct PlacementResponse: AWSDecodableShape {
 
         /// The name of the placement group that the instance is in.
         public let groupName: String?
@@ -25122,7 +25122,7 @@ extension EC2 {
         }
     }
 
-    public struct PoolCidrBlock: AWSShape {
+    public struct PoolCidrBlock: AWSDecodableShape {
 
         /// The CIDR block.
         public let cidr: String?
@@ -25136,7 +25136,7 @@ extension EC2 {
         }
     }
 
-    public struct PortRange: AWSShape {
+    public struct PortRange: AWSEncodableShape & AWSDecodableShape {
 
         /// The first port in the range.
         public let from: Int?
@@ -25154,7 +25154,7 @@ extension EC2 {
         }
     }
 
-    public struct PrefixList: AWSShape {
+    public struct PrefixList: AWSDecodableShape {
         public struct _CidrsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IP address range of the AWS service.
@@ -25177,7 +25177,7 @@ extension EC2 {
         }
     }
 
-    public struct PrefixListId: AWSShape {
+    public struct PrefixListId: AWSEncodableShape & AWSDecodableShape {
 
         /// A description for the security group rule that references this prefix list ID. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=;{}!$*
         public let description: String?
@@ -25195,7 +25195,7 @@ extension EC2 {
         }
     }
 
-    public struct PriceSchedule: AWSShape {
+    public struct PriceSchedule: AWSDecodableShape {
 
         /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
         public let active: Bool?
@@ -25221,7 +25221,7 @@ extension EC2 {
         }
     }
 
-    public struct PriceScheduleSpecification: AWSShape {
+    public struct PriceScheduleSpecification: AWSEncodableShape {
 
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
@@ -25243,7 +25243,7 @@ extension EC2 {
         }
     }
 
-    public struct PricingDetail: AWSShape {
+    public struct PricingDetail: AWSDecodableShape {
 
         /// The number of reservations available for the price.
         public let count: Int?
@@ -25261,7 +25261,7 @@ extension EC2 {
         }
     }
 
-    public struct PrincipalIdFormat: AWSShape {
+    public struct PrincipalIdFormat: AWSDecodableShape {
         public struct _StatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// PrincipalIdFormatARN description
@@ -25280,7 +25280,7 @@ extension EC2 {
         }
     }
 
-    public struct PrivateDnsNameConfiguration: AWSShape {
+    public struct PrivateDnsNameConfiguration: AWSDecodableShape {
 
         /// The name of the record subdomain the service provider needs to create. The service provider adds the value text to the name.
         public let name: String?
@@ -25306,7 +25306,7 @@ extension EC2 {
         }
     }
 
-    public struct PrivateIpAddressSpecification: AWSShape {
+    public struct PrivateIpAddressSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
         public let primary: Bool?
@@ -25324,7 +25324,7 @@ extension EC2 {
         }
     }
 
-    public struct ProcessorInfo: AWSShape {
+    public struct ProcessorInfo: AWSDecodableShape {
         public struct _SupportedArchitecturesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// A list of architectures supported by the instance type.
@@ -25343,7 +25343,7 @@ extension EC2 {
         }
     }
 
-    public struct ProductCode: AWSShape {
+    public struct ProductCode: AWSDecodableShape {
 
         /// The product code.
         public let productCodeId: String?
@@ -25361,7 +25361,7 @@ extension EC2 {
         }
     }
 
-    public struct PropagatingVgw: AWSShape {
+    public struct PropagatingVgw: AWSDecodableShape {
 
         /// The ID of the virtual private gateway.
         public let gatewayId: String?
@@ -25375,7 +25375,7 @@ extension EC2 {
         }
     }
 
-    public struct ProvisionByoipCidrRequest: AWSShape {
+    public struct ProvisionByoipCidrRequest: AWSEncodableShape {
 
         /// The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4 prefix that you can specify is /24. The most specific IPv6 prefix you can specify is /56. The address range cannot overlap with another address range that you've brought to this or another Region.
         public let cidr: String
@@ -25405,7 +25405,7 @@ extension EC2 {
         }
     }
 
-    public struct ProvisionByoipCidrResult: AWSShape {
+    public struct ProvisionByoipCidrResult: AWSDecodableShape {
 
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
@@ -25419,7 +25419,7 @@ extension EC2 {
         }
     }
 
-    public struct ProvisionedBandwidth: AWSShape {
+    public struct ProvisionedBandwidth: AWSDecodableShape {
 
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public let provisioned: String?
@@ -25449,7 +25449,7 @@ extension EC2 {
         }
     }
 
-    public struct PublicIpv4Pool: AWSShape {
+    public struct PublicIpv4Pool: AWSDecodableShape {
         public struct _PoolAddressRangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -25485,7 +25485,7 @@ extension EC2 {
         }
     }
 
-    public struct PublicIpv4PoolRange: AWSShape {
+    public struct PublicIpv4PoolRange: AWSDecodableShape {
 
         /// The number of addresses in the range.
         public let addressCount: Int?
@@ -25511,7 +25511,7 @@ extension EC2 {
         }
     }
 
-    public struct Purchase: AWSShape {
+    public struct Purchase: AWSDecodableShape {
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The currency in which the UpfrontPrice and HourlyPrice amounts are specified. At this time, the only supported currency is USD.
@@ -25554,7 +25554,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseHostReservationRequest: AWSShape {
+    public struct PurchaseHostReservationRequest: AWSEncodableShape {
         public struct _HostIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -25585,7 +25585,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseHostReservationResult: AWSShape {
+    public struct PurchaseHostReservationResult: AWSDecodableShape {
         public struct _PurchaseEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -25616,7 +25616,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseRequest: AWSShape {
+    public struct PurchaseRequest: AWSEncodableShape {
 
         /// The number of instances.
         public let instanceCount: Int
@@ -25634,7 +25634,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseReservedInstancesOfferingRequest: AWSShape {
+    public struct PurchaseReservedInstancesOfferingRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -25664,7 +25664,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseReservedInstancesOfferingResult: AWSShape {
+    public struct PurchaseReservedInstancesOfferingResult: AWSDecodableShape {
 
         /// The IDs of the purchased Reserved Instances.
         public let reservedInstancesId: String?
@@ -25678,7 +25678,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseScheduledInstancesRequest: AWSShape {
+    public struct PurchaseScheduledInstancesRequest: AWSEncodableShape {
         public struct _PurchaseRequestsEncoding: ArrayCoderProperties { static public let member = "PurchaseRequest" }
 
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -25705,7 +25705,7 @@ extension EC2 {
         }
     }
 
-    public struct PurchaseScheduledInstancesResult: AWSShape {
+    public struct PurchaseScheduledInstancesResult: AWSDecodableShape {
         public struct _ScheduledInstanceSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Scheduled Instances.
@@ -25720,7 +25720,7 @@ extension EC2 {
         }
     }
 
-    public struct RebootInstancesRequest: AWSShape {
+    public struct RebootInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -25739,7 +25739,7 @@ extension EC2 {
         }
     }
 
-    public struct RecurringCharge: AWSShape {
+    public struct RecurringCharge: AWSDecodableShape {
 
         /// The amount of the recurring charge.
         public let amount: Double?
@@ -25757,7 +25757,7 @@ extension EC2 {
         }
     }
 
-    public struct Region: AWSShape {
+    public struct Region: AWSDecodableShape {
 
         /// The Region service endpoint.
         public let endpoint: String?
@@ -25779,7 +25779,7 @@ extension EC2 {
         }
     }
 
-    public struct RegisterImageRequest: AWSShape {
+    public struct RegisterImageRequest: AWSEncodableShape {
         public struct _BillingProductsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
 
@@ -25843,7 +25843,7 @@ extension EC2 {
         }
     }
 
-    public struct RegisterImageResult: AWSShape {
+    public struct RegisterImageResult: AWSDecodableShape {
 
         /// The ID of the newly registered AMI.
         public let imageId: String?
@@ -25857,7 +25857,7 @@ extension EC2 {
         }
     }
 
-    public struct RegisterTransitGatewayMulticastGroupMembersRequest: AWSShape {
+    public struct RegisterTransitGatewayMulticastGroupMembersRequest: AWSEncodableShape {
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -25884,7 +25884,7 @@ extension EC2 {
         }
     }
 
-    public struct RegisterTransitGatewayMulticastGroupMembersResult: AWSShape {
+    public struct RegisterTransitGatewayMulticastGroupMembersResult: AWSDecodableShape {
 
         /// Information about the registered transit gateway multicast group members.
         public let registeredMulticastGroupMembers: TransitGatewayMulticastRegisteredGroupMembers?
@@ -25898,7 +25898,7 @@ extension EC2 {
         }
     }
 
-    public struct RegisterTransitGatewayMulticastGroupSourcesRequest: AWSShape {
+    public struct RegisterTransitGatewayMulticastGroupSourcesRequest: AWSEncodableShape {
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -25925,7 +25925,7 @@ extension EC2 {
         }
     }
 
-    public struct RegisterTransitGatewayMulticastGroupSourcesResult: AWSShape {
+    public struct RegisterTransitGatewayMulticastGroupSourcesResult: AWSDecodableShape {
 
         /// Information about the transit gateway multicast group sources.
         public let registeredMulticastGroupSources: TransitGatewayMulticastRegisteredGroupSources?
@@ -25939,7 +25939,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectTransitGatewayPeeringAttachmentRequest: AWSShape {
+    public struct RejectTransitGatewayPeeringAttachmentRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -25957,7 +25957,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectTransitGatewayPeeringAttachmentResult: AWSShape {
+    public struct RejectTransitGatewayPeeringAttachmentResult: AWSDecodableShape {
 
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
@@ -25971,7 +25971,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectTransitGatewayVpcAttachmentRequest: AWSShape {
+    public struct RejectTransitGatewayVpcAttachmentRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -25989,7 +25989,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectTransitGatewayVpcAttachmentResult: AWSShape {
+    public struct RejectTransitGatewayVpcAttachmentResult: AWSDecodableShape {
 
         /// Information about the attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
@@ -26003,7 +26003,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectVpcEndpointConnectionsRequest: AWSShape {
+    public struct RejectVpcEndpointConnectionsRequest: AWSEncodableShape {
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -26026,7 +26026,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectVpcEndpointConnectionsResult: AWSShape {
+    public struct RejectVpcEndpointConnectionsResult: AWSDecodableShape {
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the endpoints that were not rejected, if applicable.
@@ -26041,7 +26041,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectVpcPeeringConnectionRequest: AWSShape {
+    public struct RejectVpcPeeringConnectionRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -26059,7 +26059,7 @@ extension EC2 {
         }
     }
 
-    public struct RejectVpcPeeringConnectionResult: AWSShape {
+    public struct RejectVpcPeeringConnectionResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -26073,7 +26073,7 @@ extension EC2 {
         }
     }
 
-    public struct ReleaseAddressRequest: AWSShape {
+    public struct ReleaseAddressRequest: AWSEncodableShape {
 
         /// [EC2-VPC] The allocation ID. Required for EC2-VPC.
         public let allocationId: String?
@@ -26099,7 +26099,7 @@ extension EC2 {
         }
     }
 
-    public struct ReleaseHostsRequest: AWSShape {
+    public struct ReleaseHostsRequest: AWSEncodableShape {
         public struct _HostIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IDs of the Dedicated Hosts to release.
@@ -26114,7 +26114,7 @@ extension EC2 {
         }
     }
 
-    public struct ReleaseHostsResult: AWSShape {
+    public struct ReleaseHostsResult: AWSDecodableShape {
         public struct _SuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UnsuccessfulEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -26134,7 +26134,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceIamInstanceProfileAssociationRequest: AWSShape {
+    public struct ReplaceIamInstanceProfileAssociationRequest: AWSEncodableShape {
 
         /// The ID of the existing IAM instance profile association.
         public let associationId: String
@@ -26152,7 +26152,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceIamInstanceProfileAssociationResult: AWSShape {
+    public struct ReplaceIamInstanceProfileAssociationResult: AWSDecodableShape {
 
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -26166,7 +26166,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceNetworkAclAssociationRequest: AWSShape {
+    public struct ReplaceNetworkAclAssociationRequest: AWSEncodableShape {
 
         /// The ID of the current association between the original network ACL and the subnet.
         public let associationId: String
@@ -26188,7 +26188,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceNetworkAclAssociationResult: AWSShape {
+    public struct ReplaceNetworkAclAssociationResult: AWSDecodableShape {
 
         /// The ID of the new association.
         public let newAssociationId: String?
@@ -26202,7 +26202,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceNetworkAclEntryRequest: AWSShape {
+    public struct ReplaceNetworkAclEntryRequest: AWSEncodableShape {
 
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public let cidrBlock: String?
@@ -26252,7 +26252,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceRouteRequest: AWSShape {
+    public struct ReplaceRouteRequest: AWSEncodableShape {
 
         /// The IPv4 CIDR address block used for the destination match. The value that you provide must match the CIDR of an existing route in the table.
         public let destinationCidrBlock: String?
@@ -26314,7 +26314,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceRouteTableAssociationRequest: AWSShape {
+    public struct ReplaceRouteTableAssociationRequest: AWSEncodableShape {
 
         /// The association ID.
         public let associationId: String
@@ -26336,7 +26336,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceRouteTableAssociationResult: AWSShape {
+    public struct ReplaceRouteTableAssociationResult: AWSDecodableShape {
 
         /// The state of the association.
         public let associationState: RouteTableAssociationState?
@@ -26354,7 +26354,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceTransitGatewayRouteRequest: AWSShape {
+    public struct ReplaceTransitGatewayRouteRequest: AWSEncodableShape {
 
         /// Indicates whether traffic matching this route is to be dropped.
         public let blackhole: Bool?
@@ -26384,7 +26384,7 @@ extension EC2 {
         }
     }
 
-    public struct ReplaceTransitGatewayRouteResult: AWSShape {
+    public struct ReplaceTransitGatewayRouteResult: AWSDecodableShape {
 
         /// Information about the modified route.
         public let route: TransitGatewayRoute?
@@ -26398,7 +26398,7 @@ extension EC2 {
         }
     }
 
-    public struct ReportInstanceStatusRequest: AWSShape {
+    public struct ReportInstanceStatusRequest: AWSEncodableShape {
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
         public struct _ReasonCodesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -26438,7 +26438,7 @@ extension EC2 {
         }
     }
 
-    public struct RequestLaunchTemplateData: AWSShape {
+    public struct RequestLaunchTemplateData: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
         public struct _ElasticGpuSpecificationsEncoding: ArrayCoderProperties { static public let member = "ElasticGpuSpecification" }
         public struct _ElasticInferenceAcceleratorsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -26566,7 +26566,7 @@ extension EC2 {
         }
     }
 
-    public struct RequestSpotFleetRequest: AWSShape {
+    public struct RequestSpotFleetRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -26588,7 +26588,7 @@ extension EC2 {
         }
     }
 
-    public struct RequestSpotFleetResponse: AWSShape {
+    public struct RequestSpotFleetResponse: AWSDecodableShape {
 
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
@@ -26602,7 +26602,7 @@ extension EC2 {
         }
     }
 
-    public struct RequestSpotInstancesRequest: AWSShape {
+    public struct RequestSpotInstancesRequest: AWSEncodableShape {
 
         /// The user-specified name for a logical grouping of requests. When you specify an Availability Zone group in a Spot Instance request, all Spot Instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to requests for Spot Instances of the same instance type. Any additional Spot Instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot Instance request (all instances are terminated, the request is expired, or the maximum price you specified falls below current Spot price), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot Instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
         public let availabilityZoneGroup: String?
@@ -26660,7 +26660,7 @@ extension EC2 {
         }
     }
 
-    public struct RequestSpotInstancesResult: AWSShape {
+    public struct RequestSpotInstancesResult: AWSDecodableShape {
         public struct _SpotInstanceRequestsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more Spot Instance requests.
@@ -26675,7 +26675,7 @@ extension EC2 {
         }
     }
 
-    public struct RequestSpotLaunchSpecification: AWSShape {
+    public struct RequestSpotLaunchSpecification: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -26753,7 +26753,7 @@ extension EC2 {
         }
     }
 
-    public struct Reservation: AWSShape {
+    public struct Reservation: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _InstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -26785,7 +26785,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservationValue: AWSShape {
+    public struct ReservationValue: AWSDecodableShape {
 
         /// The hourly rate of the reservation.
         public let hourlyPrice: String?
@@ -26807,7 +26807,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstanceLimitPrice: AWSShape {
+    public struct ReservedInstanceLimitPrice: AWSEncodableShape {
 
         /// Used for Reserved Instance Marketplace offerings. Specifies the limit price on the total order (instanceCount * price).
         public let amount: Double?
@@ -26825,7 +26825,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstanceReservationValue: AWSShape {
+    public struct ReservedInstanceReservationValue: AWSDecodableShape {
 
         /// The total value of the Convertible Reserved Instance that you are exchanging.
         public let reservationValue: ReservationValue?
@@ -26843,7 +26843,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstances: AWSShape {
+    public struct ReservedInstances: AWSDecodableShape {
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -26927,7 +26927,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstancesConfiguration: AWSShape {
+    public struct ReservedInstancesConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The Availability Zone for the modified Reserved Instances.
         public let availabilityZone: String?
@@ -26957,7 +26957,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstancesId: AWSShape {
+    public struct ReservedInstancesId: AWSDecodableShape {
 
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
@@ -26971,7 +26971,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstancesListing: AWSShape {
+    public struct ReservedInstancesListing: AWSDecodableShape {
         public struct _InstanceCountsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PriceSchedulesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -27024,7 +27024,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstancesModification: AWSShape {
+    public struct ReservedInstancesModification: AWSDecodableShape {
         public struct _ModificationResultsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ReservedInstancesIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -27072,7 +27072,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstancesModificationResult: AWSShape {
+    public struct ReservedInstancesModificationResult: AWSDecodableShape {
 
         /// The ID for the Reserved Instances that were created as part of the modification request. This field is only available when the modification is fulfilled.
         public let reservedInstancesId: String?
@@ -27090,7 +27090,7 @@ extension EC2 {
         }
     }
 
-    public struct ReservedInstancesOffering: AWSShape {
+    public struct ReservedInstancesOffering: AWSDecodableShape {
         public struct _PricingDetailsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -27162,7 +27162,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetEbsDefaultKmsKeyIdRequest: AWSShape {
+    public struct ResetEbsDefaultKmsKeyIdRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -27176,7 +27176,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetEbsDefaultKmsKeyIdResult: AWSShape {
+    public struct ResetEbsDefaultKmsKeyIdResult: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the default CMK for EBS encryption by default.
         public let kmsKeyId: String?
@@ -27190,7 +27190,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetFpgaImageAttributeRequest: AWSShape {
+    public struct ResetFpgaImageAttributeRequest: AWSEncodableShape {
 
         /// The attribute.
         public let attribute: ResetFpgaImageAttributeName?
@@ -27212,7 +27212,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetFpgaImageAttributeResult: AWSShape {
+    public struct ResetFpgaImageAttributeResult: AWSDecodableShape {
 
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -27226,7 +27226,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetImageAttributeRequest: AWSShape {
+    public struct ResetImageAttributeRequest: AWSEncodableShape {
 
         /// The attribute to reset (currently you can only reset the launch permission attribute).
         public let attribute: ResetImageAttributeName
@@ -27248,7 +27248,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetInstanceAttributeRequest: AWSShape {
+    public struct ResetInstanceAttributeRequest: AWSEncodableShape {
 
         /// The attribute to reset.  You can only reset the following attributes: kernel | ramdisk | sourceDestCheck. To change an instance attribute, use ModifyInstanceAttribute. 
         public let attribute: InstanceAttributeName
@@ -27270,7 +27270,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetNetworkInterfaceAttributeRequest: AWSShape {
+    public struct ResetNetworkInterfaceAttributeRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -27292,7 +27292,7 @@ extension EC2 {
         }
     }
 
-    public struct ResetSnapshotAttributeRequest: AWSShape {
+    public struct ResetSnapshotAttributeRequest: AWSEncodableShape {
 
         /// The attribute to reset. Currently, only the attribute for permission to create volumes can be reset.
         public let attribute: SnapshotAttributeName
@@ -27314,7 +27314,7 @@ extension EC2 {
         }
     }
 
-    public struct ResponseError: AWSShape {
+    public struct ResponseError: AWSDecodableShape {
 
         /// The error code.
         public let code: LaunchTemplateErrorCode?
@@ -27332,7 +27332,7 @@ extension EC2 {
         }
     }
 
-    public struct ResponseLaunchTemplateData: AWSShape {
+    public struct ResponseLaunchTemplateData: AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticGpuSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticInferenceAcceleratorsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -27454,7 +27454,7 @@ extension EC2 {
         }
     }
 
-    public struct RestoreAddressToClassicRequest: AWSShape {
+    public struct RestoreAddressToClassicRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -27472,7 +27472,7 @@ extension EC2 {
         }
     }
 
-    public struct RestoreAddressToClassicResult: AWSShape {
+    public struct RestoreAddressToClassicResult: AWSDecodableShape {
 
         /// The Elastic IP address.
         public let publicIp: String?
@@ -27490,7 +27490,7 @@ extension EC2 {
         }
     }
 
-    public struct RevokeClientVpnIngressRequest: AWSShape {
+    public struct RevokeClientVpnIngressRequest: AWSEncodableShape {
 
         /// The ID of the Active Directory group for which to revoke access. 
         public let accessGroupId: String?
@@ -27520,7 +27520,7 @@ extension EC2 {
         }
     }
 
-    public struct RevokeClientVpnIngressResult: AWSShape {
+    public struct RevokeClientVpnIngressResult: AWSDecodableShape {
 
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
@@ -27534,7 +27534,7 @@ extension EC2 {
         }
     }
 
-    public struct RevokeSecurityGroupEgressRequest: AWSShape {
+    public struct RevokeSecurityGroupEgressRequest: AWSEncodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Not supported. Use a set of IP permissions to specify the CIDR.
@@ -27581,7 +27581,7 @@ extension EC2 {
         }
     }
 
-    public struct RevokeSecurityGroupIngressRequest: AWSShape {
+    public struct RevokeSecurityGroupIngressRequest: AWSEncodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The CIDR IP address range. You can't specify this parameter when specifying a source security group.
@@ -27632,7 +27632,7 @@ extension EC2 {
         }
     }
 
-    public struct Route: AWSShape {
+    public struct Route: AWSDecodableShape {
 
         /// The IPv4 CIDR block used for the destination match.
         public let destinationCidrBlock: String?
@@ -27698,7 +27698,7 @@ extension EC2 {
         }
     }
 
-    public struct RouteTable: AWSShape {
+    public struct RouteTable: AWSDecodableShape {
         public struct _AssociationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PropagatingVgwsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -27740,7 +27740,7 @@ extension EC2 {
         }
     }
 
-    public struct RouteTableAssociation: AWSShape {
+    public struct RouteTableAssociation: AWSDecodableShape {
 
         /// The state of the association.
         public let associationState: RouteTableAssociationState?
@@ -27774,7 +27774,7 @@ extension EC2 {
         }
     }
 
-    public struct RouteTableAssociationState: AWSShape {
+    public struct RouteTableAssociationState: AWSDecodableShape {
 
         /// The state of the association.
         public let state: RouteTableAssociationStateCode?
@@ -27792,7 +27792,7 @@ extension EC2 {
         }
     }
 
-    public struct RunInstancesMonitoringEnabled: AWSShape {
+    public struct RunInstancesMonitoringEnabled: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool
@@ -27806,7 +27806,7 @@ extension EC2 {
         }
     }
 
-    public struct RunInstancesRequest: AWSShape {
+    public struct RunInstancesRequest: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
         public struct _ElasticGpuSpecificationEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ElasticInferenceAcceleratorsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -27975,7 +27975,7 @@ extension EC2 {
         }
     }
 
-    public struct RunScheduledInstancesRequest: AWSShape {
+    public struct RunScheduledInstancesRequest: AWSEncodableShape {
 
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
@@ -28005,7 +28005,7 @@ extension EC2 {
         }
     }
 
-    public struct RunScheduledInstancesResult: AWSShape {
+    public struct RunScheduledInstancesResult: AWSDecodableShape {
         public struct _InstanceIdSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IDs of the newly launched instances.
@@ -28020,7 +28020,7 @@ extension EC2 {
         }
     }
 
-    public struct S3Storage: AWSShape {
+    public struct S3Storage: AWSEncodableShape & AWSDecodableShape {
 
         /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Managing AWS Access Keys.
         public let aWSAccessKeyId: String?
@@ -28050,7 +28050,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstance: AWSShape {
+    public struct ScheduledInstance: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -28120,7 +28120,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstanceAvailability: AWSShape {
+    public struct ScheduledInstanceAvailability: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -28182,7 +28182,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstanceRecurrence: AWSShape {
+    public struct ScheduledInstanceRecurrence: AWSDecodableShape {
         public struct _OccurrenceDaySetEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The frequency (Daily, Weekly, or Monthly).
@@ -28213,7 +28213,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstanceRecurrenceRequest: AWSShape {
+    public struct ScheduledInstanceRecurrenceRequest: AWSEncodableShape {
         public struct _OccurrenceDaysEncoding: ArrayCoderProperties { static public let member = "OccurenceDay" }
 
         /// The frequency (Daily, Weekly, or Monthly).
@@ -28244,7 +28244,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesBlockDeviceMapping: AWSShape {
+    public struct ScheduledInstancesBlockDeviceMapping: AWSEncodableShape {
 
         /// The device name (for example, /dev/sdh or xvdh).
         public let deviceName: String?
@@ -28270,7 +28270,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesEbs: AWSShape {
+    public struct ScheduledInstancesEbs: AWSEncodableShape {
 
         /// Indicates whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -28304,7 +28304,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesIamInstanceProfile: AWSShape {
+    public struct ScheduledInstancesIamInstanceProfile: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN).
         public let arn: String?
@@ -28322,7 +28322,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesIpv6Address: AWSShape {
+    public struct ScheduledInstancesIpv6Address: AWSEncodableShape {
 
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -28336,7 +28336,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesLaunchSpecification: AWSShape {
+    public struct ScheduledInstancesLaunchSpecification: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "BlockDeviceMapping" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "NetworkInterface" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
@@ -28405,7 +28405,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesMonitoring: AWSShape {
+    public struct ScheduledInstancesMonitoring: AWSEncodableShape {
 
         /// Indicates whether monitoring is enabled.
         public let enabled: Bool?
@@ -28419,7 +28419,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesNetworkInterface: AWSShape {
+    public struct ScheduledInstancesNetworkInterface: AWSEncodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "SecurityGroupId" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "Ipv6Address" }
         public struct _PrivateIpAddressConfigsEncoding: ArrayCoderProperties { static public let member = "PrivateIpAddressConfigSet" }
@@ -28480,7 +28480,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesPlacement: AWSShape {
+    public struct ScheduledInstancesPlacement: AWSEncodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -28498,7 +28498,7 @@ extension EC2 {
         }
     }
 
-    public struct ScheduledInstancesPrivateIpAddressConfig: AWSShape {
+    public struct ScheduledInstancesPrivateIpAddressConfig: AWSEncodableShape {
 
         /// Indicates whether this is a primary IPv4 address. Otherwise, this is a secondary IPv4 address.
         public let primary: Bool?
@@ -28516,7 +28516,7 @@ extension EC2 {
         }
     }
 
-    public struct SearchLocalGatewayRoutesRequest: AWSShape {
+    public struct SearchLocalGatewayRoutesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28547,7 +28547,7 @@ extension EC2 {
         }
     }
 
-    public struct SearchLocalGatewayRoutesResult: AWSShape {
+    public struct SearchLocalGatewayRoutesResult: AWSDecodableShape {
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -28566,7 +28566,7 @@ extension EC2 {
         }
     }
 
-    public struct SearchTransitGatewayMulticastGroupsRequest: AWSShape {
+    public struct SearchTransitGatewayMulticastGroupsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28602,7 +28602,7 @@ extension EC2 {
         }
     }
 
-    public struct SearchTransitGatewayMulticastGroupsResult: AWSShape {
+    public struct SearchTransitGatewayMulticastGroupsResult: AWSDecodableShape {
         public struct _MulticastGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the transit gateway multicast group.
@@ -28621,7 +28621,7 @@ extension EC2 {
         }
     }
 
-    public struct SearchTransitGatewayRoutesRequest: AWSShape {
+    public struct SearchTransitGatewayRoutesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28653,7 +28653,7 @@ extension EC2 {
         }
     }
 
-    public struct SearchTransitGatewayRoutesResult: AWSShape {
+    public struct SearchTransitGatewayRoutesResult: AWSDecodableShape {
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Indicates whether there are additional routes available.
@@ -28672,7 +28672,7 @@ extension EC2 {
         }
     }
 
-    public struct SecurityGroup: AWSShape {
+    public struct SecurityGroup: AWSDecodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _IpPermissionsEgressEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -28717,7 +28717,7 @@ extension EC2 {
         }
     }
 
-    public struct SecurityGroupIdentifier: AWSShape {
+    public struct SecurityGroupIdentifier: AWSDecodableShape {
 
         /// The ID of the security group.
         public let groupId: String?
@@ -28735,7 +28735,7 @@ extension EC2 {
         }
     }
 
-    public struct SecurityGroupReference: AWSShape {
+    public struct SecurityGroupReference: AWSDecodableShape {
 
         /// The ID of your security group.
         public let groupId: String?
@@ -28757,7 +28757,7 @@ extension EC2 {
         }
     }
 
-    public struct SendDiagnosticInterruptRequest: AWSShape {
+    public struct SendDiagnosticInterruptRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -28775,7 +28775,7 @@ extension EC2 {
         }
     }
 
-    public struct ServiceConfiguration: AWSShape {
+    public struct ServiceConfiguration: AWSDecodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _BaseEndpointDnsNamesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -28838,7 +28838,7 @@ extension EC2 {
         }
     }
 
-    public struct ServiceDetail: AWSShape {
+    public struct ServiceDetail: AWSDecodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _BaseEndpointDnsNamesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ServiceTypeEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -28900,7 +28900,7 @@ extension EC2 {
         }
     }
 
-    public struct ServiceTypeDetail: AWSShape {
+    public struct ServiceTypeDetail: AWSDecodableShape {
 
         /// The type of service.
         public let serviceType: ServiceType?
@@ -28914,7 +28914,7 @@ extension EC2 {
         }
     }
 
-    public struct SlotDateTimeRangeRequest: AWSShape {
+    public struct SlotDateTimeRangeRequest: AWSEncodableShape {
 
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
         public let earliestTime: TimeStamp
@@ -28932,7 +28932,7 @@ extension EC2 {
         }
     }
 
-    public struct SlotStartTimeRangeRequest: AWSShape {
+    public struct SlotStartTimeRangeRequest: AWSEncodableShape {
 
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
         public let earliestTime: TimeStamp?
@@ -28950,7 +28950,7 @@ extension EC2 {
         }
     }
 
-    public struct Snapshot: AWSShape {
+    public struct Snapshot: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by DescribeSnapshots.
@@ -29017,7 +29017,7 @@ extension EC2 {
         }
     }
 
-    public struct SnapshotDetail: AWSShape {
+    public struct SnapshotDetail: AWSDecodableShape {
 
         /// A description for the snapshot.
         public let description: String?
@@ -29067,7 +29067,7 @@ extension EC2 {
         }
     }
 
-    public struct SnapshotDiskContainer: AWSShape {
+    public struct SnapshotDiskContainer: AWSEncodableShape {
 
         /// The description of the disk image being imported.
         public let description: String?
@@ -29093,7 +29093,7 @@ extension EC2 {
         }
     }
 
-    public struct SnapshotInfo: AWSShape {
+    public struct SnapshotInfo: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Description specified by the CreateSnapshotRequest that has been applied to all snapshots.
@@ -29144,7 +29144,7 @@ extension EC2 {
         }
     }
 
-    public struct SnapshotTaskDetail: AWSShape {
+    public struct SnapshotTaskDetail: AWSDecodableShape {
 
         /// The description of the snapshot.
         public let description: String?
@@ -29198,7 +29198,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotDatafeedSubscription: AWSShape {
+    public struct SpotDatafeedSubscription: AWSDecodableShape {
 
         /// The Amazon S3 bucket where the Spot Instance data feed is located.
         public let bucket: String?
@@ -29228,7 +29228,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotFleetLaunchSpecification: AWSShape {
+    public struct SpotFleetLaunchSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfacesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -29314,7 +29314,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotFleetMonitoring: AWSShape {
+    public struct SpotFleetMonitoring: AWSEncodableShape & AWSDecodableShape {
 
         /// Enables monitoring for the instance. Default: false 
         public let enabled: Bool?
@@ -29328,7 +29328,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotFleetRequestConfig: AWSShape {
+    public struct SpotFleetRequestConfig: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The progress of the Spot Fleet request. If there is an error, the status is error. After all requests are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot Instances are terminating.
@@ -29363,7 +29363,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotFleetRequestConfigData: AWSShape {
+    public struct SpotFleetRequestConfigData: AWSEncodableShape & AWSDecodableShape {
         public struct _LaunchSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -29475,7 +29475,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotFleetTagSpecification: AWSShape {
+    public struct SpotFleetTagSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The type of resource. Currently, the only resource type that is supported is instance. To tag the Spot Fleet request on creation, use the TagSpecifications parameter in  SpotFleetRequestConfigData .
@@ -29494,7 +29494,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotInstanceRequest: AWSShape {
+    public struct SpotInstanceRequest: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// If you specified a duration and your Spot Instance request was fulfilled, this is the fixed hourly price in effect for the Spot Instance while it runs.
@@ -29581,7 +29581,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotInstanceStateFault: AWSShape {
+    public struct SpotInstanceStateFault: AWSDecodableShape {
 
         /// The reason code for the Spot Instance state change.
         public let code: String?
@@ -29599,7 +29599,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotInstanceStatus: AWSShape {
+    public struct SpotInstanceStatus: AWSDecodableShape {
 
         /// The status code. For a list of status codes, see Spot Status Codes in the Amazon EC2 User Guide for Linux Instances.
         public let code: String?
@@ -29621,7 +29621,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotMarketOptions: AWSShape {
+    public struct SpotMarketOptions: AWSEncodableShape {
 
         /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360).
         public let blockDurationMinutes: Int?
@@ -29651,7 +29651,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotOptions: AWSShape {
+    public struct SpotOptions: AWSDecodableShape {
 
         /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowest-price, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all of the Spot Instance pools that you specify. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotAllocationStrategy?
@@ -29689,7 +29689,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotOptionsRequest: AWSShape {
+    public struct SpotOptionsRequest: AWSEncodableShape {
 
         /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowest-price, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all of the Spot Instance pools that you specify. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotAllocationStrategy?
@@ -29727,7 +29727,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotPlacement: AWSShape {
+    public struct SpotPlacement: AWSEncodableShape & AWSDecodableShape {
 
         /// The Availability Zone. [Spot Fleet only] To specify multiple Availability Zones, separate them using commas; for example, "us-west-2a, us-west-2b".
         public let availabilityZone: String?
@@ -29749,7 +29749,7 @@ extension EC2 {
         }
     }
 
-    public struct SpotPrice: AWSShape {
+    public struct SpotPrice: AWSDecodableShape {
 
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -29779,7 +29779,7 @@ extension EC2 {
         }
     }
 
-    public struct StaleIpPermission: AWSShape {
+    public struct StaleIpPermission: AWSDecodableShape {
         public struct _IpRangesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _PrefixListIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _UserIdGroupPairsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -29816,7 +29816,7 @@ extension EC2 {
         }
     }
 
-    public struct StaleSecurityGroup: AWSShape {
+    public struct StaleSecurityGroup: AWSDecodableShape {
         public struct _StaleIpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _StaleIpPermissionsEgressEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -29852,7 +29852,7 @@ extension EC2 {
         }
     }
 
-    public struct StartInstancesRequest: AWSShape {
+    public struct StartInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
         /// Reserved.
@@ -29875,7 +29875,7 @@ extension EC2 {
         }
     }
 
-    public struct StartInstancesResult: AWSShape {
+    public struct StartInstancesResult: AWSDecodableShape {
         public struct _StartingInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the started instances.
@@ -29890,7 +29890,7 @@ extension EC2 {
         }
     }
 
-    public struct StartVpcEndpointServicePrivateDnsVerificationRequest: AWSShape {
+    public struct StartVpcEndpointServicePrivateDnsVerificationRequest: AWSEncodableShape {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -29908,7 +29908,7 @@ extension EC2 {
         }
     }
 
-    public struct StartVpcEndpointServicePrivateDnsVerificationResult: AWSShape {
+    public struct StartVpcEndpointServicePrivateDnsVerificationResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
@@ -29922,7 +29922,7 @@ extension EC2 {
         }
     }
 
-    public struct StateReason: AWSShape {
+    public struct StateReason: AWSDecodableShape {
 
         /// The reason code for the state change.
         public let code: String?
@@ -29940,7 +29940,7 @@ extension EC2 {
         }
     }
 
-    public struct StopInstancesRequest: AWSShape {
+    public struct StopInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -29967,7 +29967,7 @@ extension EC2 {
         }
     }
 
-    public struct StopInstancesResult: AWSShape {
+    public struct StopInstancesResult: AWSDecodableShape {
         public struct _StoppingInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the stopped instances.
@@ -29982,7 +29982,7 @@ extension EC2 {
         }
     }
 
-    public struct Storage: AWSShape {
+    public struct Storage: AWSEncodableShape & AWSDecodableShape {
 
         /// An Amazon S3 storage location.
         public let s3: S3Storage?
@@ -29996,7 +29996,7 @@ extension EC2 {
         }
     }
 
-    public struct StorageLocation: AWSShape {
+    public struct StorageLocation: AWSEncodableShape {
 
         /// The name of the S3 bucket.
         public let bucket: String?
@@ -30014,7 +30014,7 @@ extension EC2 {
         }
     }
 
-    public struct Subnet: AWSShape {
+    public struct Subnet: AWSDecodableShape {
         public struct _Ipv6CidrBlockAssociationSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -30086,7 +30086,7 @@ extension EC2 {
         }
     }
 
-    public struct SubnetAssociation: AWSShape {
+    public struct SubnetAssociation: AWSDecodableShape {
 
         /// The state of the subnet association.
         public let state: TransitGatewayMulitcastDomainAssociationState?
@@ -30104,7 +30104,7 @@ extension EC2 {
         }
     }
 
-    public struct SubnetCidrBlockState: AWSShape {
+    public struct SubnetCidrBlockState: AWSDecodableShape {
 
         /// The state of a CIDR block.
         public let state: SubnetCidrBlockStateCode?
@@ -30122,7 +30122,7 @@ extension EC2 {
         }
     }
 
-    public struct SubnetIpv6CidrBlockAssociation: AWSShape {
+    public struct SubnetIpv6CidrBlockAssociation: AWSDecodableShape {
 
         /// The association ID for the CIDR block.
         public let associationId: String?
@@ -30144,7 +30144,7 @@ extension EC2 {
         }
     }
 
-    public struct SuccessfulInstanceCreditSpecificationItem: AWSShape {
+    public struct SuccessfulInstanceCreditSpecificationItem: AWSDecodableShape {
 
         /// The ID of the instance.
         public let instanceId: String?
@@ -30158,7 +30158,7 @@ extension EC2 {
         }
     }
 
-    public struct SuccessfulQueuedPurchaseDeletion: AWSShape {
+    public struct SuccessfulQueuedPurchaseDeletion: AWSDecodableShape {
 
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
@@ -30172,7 +30172,7 @@ extension EC2 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws:.
         public let key: String?
@@ -30190,7 +30190,7 @@ extension EC2 {
         }
     }
 
-    public struct TagDescription: AWSShape {
+    public struct TagDescription: AWSDecodableShape {
 
         /// The tag key.
         public let key: String?
@@ -30216,7 +30216,7 @@ extension EC2 {
         }
     }
 
-    public struct TagSpecification: AWSShape {
+    public struct TagSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | client-vpn-endpoint | dedicated-host | fleet | fpga-image | instance | key-pair | launch-template | | natgateway | spot-fleet-request | placement-group | snapshot | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-route-table | vpc-endpoint (for interface VPC endpoints)| vpc-endpoint-service (for gateway VPC endpoints) | volume | vpc-flow-log. To tag a resource after it has been created, see CreateTags.
@@ -30235,7 +30235,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetCapacitySpecification: AWSShape {
+    public struct TargetCapacitySpecification: AWSDecodableShape {
 
         /// The default TotalTargetCapacity, which is either Spot or On-Demand.
         public let defaultTargetCapacityType: DefaultTargetCapacityType?
@@ -30261,7 +30261,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetCapacitySpecificationRequest: AWSShape {
+    public struct TargetCapacitySpecificationRequest: AWSEncodableShape {
 
         /// The default TotalTargetCapacity, which is either Spot or On-Demand.
         public let defaultTargetCapacityType: DefaultTargetCapacityType?
@@ -30287,7 +30287,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetConfiguration: AWSShape {
+    public struct TargetConfiguration: AWSDecodableShape {
 
         /// The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
         public let instanceCount: Int?
@@ -30305,7 +30305,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetConfigurationRequest: AWSShape {
+    public struct TargetConfigurationRequest: AWSEncodableShape {
 
         /// The number of instances the Covertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
         public let instanceCount: Int?
@@ -30323,7 +30323,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetGroup: AWSShape {
+    public struct TargetGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the target group.
         public let arn: String?
@@ -30337,7 +30337,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetGroupsConfig: AWSShape {
+    public struct TargetGroupsConfig: AWSEncodableShape & AWSDecodableShape {
         public struct _TargetGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// One or more target groups.
@@ -30357,7 +30357,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetNetwork: AWSShape {
+    public struct TargetNetwork: AWSDecodableShape {
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the association.
@@ -30392,7 +30392,7 @@ extension EC2 {
         }
     }
 
-    public struct TargetReservationValue: AWSShape {
+    public struct TargetReservationValue: AWSDecodableShape {
 
         /// The total value of the Convertible Reserved Instances that make up the exchange. This is the sum of the list value, remaining upfront price, and additional upfront cost of the exchange.
         public let reservationValue: ReservationValue?
@@ -30410,7 +30410,7 @@ extension EC2 {
         }
     }
 
-    public struct TerminateClientVpnConnectionsRequest: AWSShape {
+    public struct TerminateClientVpnConnectionsRequest: AWSEncodableShape {
 
         /// The ID of the Client VPN endpoint to which the client is connected.
         public let clientVpnEndpointId: String
@@ -30436,7 +30436,7 @@ extension EC2 {
         }
     }
 
-    public struct TerminateClientVpnConnectionsResult: AWSShape {
+    public struct TerminateClientVpnConnectionsResult: AWSDecodableShape {
         public struct _ConnectionStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the Client VPN endpoint.
@@ -30459,7 +30459,7 @@ extension EC2 {
         }
     }
 
-    public struct TerminateConnectionStatus: AWSShape {
+    public struct TerminateConnectionStatus: AWSDecodableShape {
 
         /// The ID of the client connection.
         public let connectionId: String?
@@ -30481,7 +30481,7 @@ extension EC2 {
         }
     }
 
-    public struct TerminateInstancesRequest: AWSShape {
+    public struct TerminateInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -30500,7 +30500,7 @@ extension EC2 {
         }
     }
 
-    public struct TerminateInstancesResult: AWSShape {
+    public struct TerminateInstancesResult: AWSDecodableShape {
         public struct _TerminatingInstancesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the terminated instances.
@@ -30515,7 +30515,7 @@ extension EC2 {
         }
     }
 
-    public struct TrafficMirrorFilter: AWSShape {
+    public struct TrafficMirrorFilter: AWSDecodableShape {
         public struct _EgressFilterRulesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _IngressFilterRulesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkServicesEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -30553,7 +30553,7 @@ extension EC2 {
         }
     }
 
-    public struct TrafficMirrorFilterRule: AWSShape {
+    public struct TrafficMirrorFilterRule: AWSDecodableShape {
 
         /// The description of the Traffic Mirror rule.
         public let description: String?
@@ -30607,7 +30607,7 @@ extension EC2 {
         }
     }
 
-    public struct TrafficMirrorPortRange: AWSShape {
+    public struct TrafficMirrorPortRange: AWSDecodableShape {
 
         /// The start of the Traffic Mirror port range. This applies to the TCP and UDP protocols.
         public let fromPort: Int?
@@ -30625,7 +30625,7 @@ extension EC2 {
         }
     }
 
-    public struct TrafficMirrorPortRangeRequest: AWSShape {
+    public struct TrafficMirrorPortRangeRequest: AWSEncodableShape {
 
         /// The first port in the Traffic Mirror port range. This applies to the TCP and UDP protocols.
         public let fromPort: Int?
@@ -30643,7 +30643,7 @@ extension EC2 {
         }
     }
 
-    public struct TrafficMirrorSession: AWSShape {
+    public struct TrafficMirrorSession: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The description of the Traffic Mirror session.
@@ -30694,7 +30694,7 @@ extension EC2 {
         }
     }
 
-    public struct TrafficMirrorTarget: AWSShape {
+    public struct TrafficMirrorTarget: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the Traffic Mirror target.
@@ -30733,7 +30733,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGateway: AWSShape {
+    public struct TransitGateway: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The creation time.
@@ -30776,7 +30776,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayAssociation: AWSShape {
+    public struct TransitGatewayAssociation: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -30806,7 +30806,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayAttachment: AWSShape {
+    public struct TransitGatewayAttachment: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The association.
@@ -30857,7 +30857,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayAttachmentAssociation: AWSShape {
+    public struct TransitGatewayAttachmentAssociation: AWSDecodableShape {
 
         /// The state of the association.
         public let state: TransitGatewayAssociationState?
@@ -30875,7 +30875,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayAttachmentPropagation: AWSShape {
+    public struct TransitGatewayAttachmentPropagation: AWSDecodableShape {
 
         /// The state of the propagation route table.
         public let state: TransitGatewayPropagationState?
@@ -30893,7 +30893,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSShape {
+    public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSDecodableShape {
         public struct _DeregisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The network interface IDs of the deregistered members.
@@ -30916,7 +30916,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastDeregisteredGroupSources: AWSShape {
+    public struct TransitGatewayMulticastDeregisteredGroupSources: AWSDecodableShape {
         public struct _DeregisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The network interface IDs of the non-registered members.
@@ -30939,7 +30939,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastDomain: AWSShape {
+    public struct TransitGatewayMulticastDomain: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The time the transit gateway multicast domain was created.
@@ -30970,7 +30970,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastDomainAssociation: AWSShape {
+    public struct TransitGatewayMulticastDomainAssociation: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -30996,7 +30996,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastDomainAssociations: AWSShape {
+    public struct TransitGatewayMulticastDomainAssociations: AWSDecodableShape {
         public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the resource.
@@ -31027,7 +31027,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastGroup: AWSShape {
+    public struct TransitGatewayMulticastGroup: AWSDecodableShape {
 
         /// The IP address assigned to the transit gateway multicast group.
         public let groupIpAddress: String?
@@ -31077,7 +31077,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastRegisteredGroupMembers: AWSShape {
+    public struct TransitGatewayMulticastRegisteredGroupMembers: AWSDecodableShape {
         public struct _RegisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IP address assigned to the transit gateway multicast group.
@@ -31100,7 +31100,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayMulticastRegisteredGroupSources: AWSShape {
+    public struct TransitGatewayMulticastRegisteredGroupSources: AWSDecodableShape {
         public struct _RegisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IP address assigned to the transit gateway multicast group.
@@ -31123,7 +31123,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayOptions: AWSShape {
+    public struct TransitGatewayOptions: AWSDecodableShape {
 
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs.
         public let amazonSideAsn: Int64?
@@ -31169,7 +31169,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayPeeringAttachment: AWSShape {
+    public struct TransitGatewayPeeringAttachment: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the accepter transit gateway.
@@ -31208,7 +31208,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayPropagation: AWSShape {
+    public struct TransitGatewayPropagation: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -31238,7 +31238,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayRequestOptions: AWSShape {
+    public struct TransitGatewayRequestOptions: AWSEncodableShape {
 
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs.
         public let amazonSideAsn: Int64?
@@ -31276,7 +31276,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayRoute: AWSShape {
+    public struct TransitGatewayRoute: AWSDecodableShape {
         public struct _TransitGatewayAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The CIDR block used for destination matches.
@@ -31303,7 +31303,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayRouteAttachment: AWSShape {
+    public struct TransitGatewayRouteAttachment: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -31325,7 +31325,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayRouteTable: AWSShape {
+    public struct TransitGatewayRouteTable: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The creation time.
@@ -31364,7 +31364,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayRouteTableAssociation: AWSShape {
+    public struct TransitGatewayRouteTableAssociation: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -31390,7 +31390,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayRouteTablePropagation: AWSShape {
+    public struct TransitGatewayRouteTablePropagation: AWSDecodableShape {
 
         /// The ID of the resource.
         public let resourceId: String?
@@ -31416,7 +31416,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayVpcAttachment: AWSShape {
+    public struct TransitGatewayVpcAttachment: AWSDecodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -31464,7 +31464,7 @@ extension EC2 {
         }
     }
 
-    public struct TransitGatewayVpcAttachmentOptions: AWSShape {
+    public struct TransitGatewayVpcAttachmentOptions: AWSDecodableShape {
 
         /// Indicates whether DNS support is enabled.
         public let dnsSupport: DnsSupportValue?
@@ -31482,7 +31482,7 @@ extension EC2 {
         }
     }
 
-    public struct TunnelOption: AWSShape {
+    public struct TunnelOption: AWSDecodableShape {
         public struct _IkeVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -31563,7 +31563,7 @@ extension EC2 {
         }
     }
 
-    public struct UnassignIpv6AddressesRequest: AWSShape {
+    public struct UnassignIpv6AddressesRequest: AWSEncodableShape {
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The IPv6 addresses to unassign from the network interface.
@@ -31582,7 +31582,7 @@ extension EC2 {
         }
     }
 
-    public struct UnassignIpv6AddressesResult: AWSShape {
+    public struct UnassignIpv6AddressesResult: AWSDecodableShape {
         public struct _UnassignedIpv6AddressesEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The ID of the network interface.
@@ -31601,7 +31601,7 @@ extension EC2 {
         }
     }
 
-    public struct UnassignPrivateIpAddressesRequest: AWSShape {
+    public struct UnassignPrivateIpAddressesRequest: AWSEncodableShape {
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { static public let member = "PrivateIpAddress" }
 
         /// The ID of the network interface.
@@ -31620,7 +31620,7 @@ extension EC2 {
         }
     }
 
-    public struct UnmonitorInstancesRequest: AWSShape {
+    public struct UnmonitorInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { static public let member = "InstanceId" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -31639,7 +31639,7 @@ extension EC2 {
         }
     }
 
-    public struct UnmonitorInstancesResult: AWSShape {
+    public struct UnmonitorInstancesResult: AWSDecodableShape {
         public struct _InstanceMonitoringsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The monitoring information.
@@ -31654,7 +31654,7 @@ extension EC2 {
         }
     }
 
-    public struct UnsuccessfulInstanceCreditSpecificationItem: AWSShape {
+    public struct UnsuccessfulInstanceCreditSpecificationItem: AWSDecodableShape {
 
         /// The applicable error for the burstable performance instance whose credit option for CPU usage was not modified.
         public let error: UnsuccessfulInstanceCreditSpecificationItemError?
@@ -31672,7 +31672,7 @@ extension EC2 {
         }
     }
 
-    public struct UnsuccessfulInstanceCreditSpecificationItemError: AWSShape {
+    public struct UnsuccessfulInstanceCreditSpecificationItemError: AWSDecodableShape {
 
         /// The error code.
         public let code: UnsuccessfulInstanceCreditSpecificationErrorCode?
@@ -31690,7 +31690,7 @@ extension EC2 {
         }
     }
 
-    public struct UnsuccessfulItem: AWSShape {
+    public struct UnsuccessfulItem: AWSDecodableShape {
 
         /// Information about the error.
         public let error: UnsuccessfulItemError?
@@ -31708,7 +31708,7 @@ extension EC2 {
         }
     }
 
-    public struct UnsuccessfulItemError: AWSShape {
+    public struct UnsuccessfulItemError: AWSDecodableShape {
 
         /// The error code.
         public let code: String?
@@ -31726,7 +31726,7 @@ extension EC2 {
         }
     }
 
-    public struct UpdateSecurityGroupRuleDescriptionsEgressRequest: AWSShape {
+    public struct UpdateSecurityGroupRuleDescriptionsEgressRequest: AWSEncodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -31753,7 +31753,7 @@ extension EC2 {
         }
     }
 
-    public struct UpdateSecurityGroupRuleDescriptionsEgressResult: AWSShape {
+    public struct UpdateSecurityGroupRuleDescriptionsEgressResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
@@ -31767,7 +31767,7 @@ extension EC2 {
         }
     }
 
-    public struct UpdateSecurityGroupRuleDescriptionsIngressRequest: AWSShape {
+    public struct UpdateSecurityGroupRuleDescriptionsIngressRequest: AWSEncodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -31794,7 +31794,7 @@ extension EC2 {
         }
     }
 
-    public struct UpdateSecurityGroupRuleDescriptionsIngressResult: AWSShape {
+    public struct UpdateSecurityGroupRuleDescriptionsIngressResult: AWSDecodableShape {
 
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
@@ -31808,7 +31808,7 @@ extension EC2 {
         }
     }
 
-    public struct UserBucket: AWSShape {
+    public struct UserBucket: AWSEncodableShape {
 
         /// The name of the S3 bucket where the disk image is located.
         public let s3Bucket: String?
@@ -31826,7 +31826,7 @@ extension EC2 {
         }
     }
 
-    public struct UserBucketDetails: AWSShape {
+    public struct UserBucketDetails: AWSDecodableShape {
 
         /// The S3 bucket from which the disk image was created.
         public let s3Bucket: String?
@@ -31844,7 +31844,7 @@ extension EC2 {
         }
     }
 
-    public struct UserData: AWSShape {
+    public struct UserData: AWSEncodableShape {
 
         /// The user data. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
         public let data: String?
@@ -31858,7 +31858,7 @@ extension EC2 {
         }
     }
 
-    public struct UserIdGroupPair: AWSShape {
+    public struct UserIdGroupPair: AWSEncodableShape & AWSDecodableShape {
 
         /// A description for the security group rule that references this user ID group pair. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=;{}!$*
         public let description: String?
@@ -31896,7 +31896,7 @@ extension EC2 {
         }
     }
 
-    public struct VCpuInfo: AWSShape {
+    public struct VCpuInfo: AWSDecodableShape {
         public struct _ValidCoresEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _ValidThreadsPerCoreEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -31928,7 +31928,7 @@ extension EC2 {
         }
     }
 
-    public struct VgwTelemetry: AWSShape {
+    public struct VgwTelemetry: AWSDecodableShape {
 
         /// The number of accepted routes.
         public let acceptedRouteCount: Int?
@@ -31962,7 +31962,7 @@ extension EC2 {
         }
     }
 
-    public struct Volume: AWSShape {
+    public struct Volume: AWSDecodableShape {
         public struct _AttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -32034,7 +32034,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeAttachment: AWSShape {
+    public struct VolumeAttachment: AWSDecodableShape {
 
         /// The time stamp when the attachment initiated.
         public let attachTime: TimeStamp?
@@ -32068,7 +32068,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeDetail: AWSShape {
+    public struct VolumeDetail: AWSEncodableShape {
 
         /// The size of the volume, in GiB.
         public let size: Int64
@@ -32082,7 +32082,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeModification: AWSShape {
+    public struct VolumeModification: AWSDecodableShape {
 
         /// The modification completion or failure time.
         public let endTime: TimeStamp?
@@ -32140,7 +32140,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeStatusAction: AWSShape {
+    public struct VolumeStatusAction: AWSDecodableShape {
 
         /// The code identifying the operation, for example, enable-volume-io.
         public let code: String?
@@ -32166,7 +32166,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeStatusAttachmentStatus: AWSShape {
+    public struct VolumeStatusAttachmentStatus: AWSDecodableShape {
 
         /// The ID of the attached instance.
         public let instanceId: String?
@@ -32184,7 +32184,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeStatusDetails: AWSShape {
+    public struct VolumeStatusDetails: AWSDecodableShape {
 
         /// The name of the volume status.
         public let name: VolumeStatusName?
@@ -32202,7 +32202,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeStatusEvent: AWSShape {
+    public struct VolumeStatusEvent: AWSDecodableShape {
 
         /// A description of the event.
         public let description: String?
@@ -32236,7 +32236,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeStatusInfo: AWSShape {
+    public struct VolumeStatusInfo: AWSDecodableShape {
         public struct _DetailsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// The details of the volume status.
@@ -32255,7 +32255,7 @@ extension EC2 {
         }
     }
 
-    public struct VolumeStatusItem: AWSShape {
+    public struct VolumeStatusItem: AWSDecodableShape {
         public struct _ActionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _AttachmentStatusesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _EventsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -32296,7 +32296,7 @@ extension EC2 {
         }
     }
 
-    public struct Vpc: AWSShape {
+    public struct Vpc: AWSDecodableShape {
         public struct _CidrBlockAssociationSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6CidrBlockAssociationSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -32349,7 +32349,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcAttachment: AWSShape {
+    public struct VpcAttachment: AWSDecodableShape {
 
         /// The current state of the attachment.
         public let state: AttachmentStatus?
@@ -32367,7 +32367,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcCidrBlockAssociation: AWSShape {
+    public struct VpcCidrBlockAssociation: AWSDecodableShape {
 
         /// The association ID for the IPv4 CIDR block.
         public let associationId: String?
@@ -32389,7 +32389,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcCidrBlockState: AWSShape {
+    public struct VpcCidrBlockState: AWSDecodableShape {
 
         /// The state of the CIDR block.
         public let state: VpcCidrBlockStateCode?
@@ -32407,7 +32407,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcClassicLink: AWSShape {
+    public struct VpcClassicLink: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Indicates whether the VPC is enabled for ClassicLink.
@@ -32430,7 +32430,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcEndpoint: AWSShape {
+    public struct VpcEndpoint: AWSDecodableShape {
         public struct _DnsEntriesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkInterfaceIdsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -32514,7 +32514,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcEndpointConnection: AWSShape {
+    public struct VpcEndpointConnection: AWSDecodableShape {
         public struct _DnsEntriesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -32554,7 +32554,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcIpv6CidrBlockAssociation: AWSShape {
+    public struct VpcIpv6CidrBlockAssociation: AWSDecodableShape {
 
         /// The association ID for the IPv6 CIDR block.
         public let associationId: String?
@@ -32584,7 +32584,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcPeeringConnection: AWSShape {
+    public struct VpcPeeringConnection: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Information about the accepter VPC. CIDR block information is only returned when describing an active VPC peering connection.
@@ -32619,7 +32619,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcPeeringConnectionOptionsDescription: AWSShape {
+    public struct VpcPeeringConnectionOptionsDescription: AWSDecodableShape {
 
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
         public let allowDnsResolutionFromRemoteVpc: Bool?
@@ -32641,7 +32641,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcPeeringConnectionStateReason: AWSShape {
+    public struct VpcPeeringConnectionStateReason: AWSDecodableShape {
 
         /// The status of the VPC peering connection.
         public let code: VpcPeeringConnectionStateReasonCode?
@@ -32659,7 +32659,7 @@ extension EC2 {
         }
     }
 
-    public struct VpcPeeringConnectionVpcInfo: AWSShape {
+    public struct VpcPeeringConnectionVpcInfo: AWSDecodableShape {
         public struct _CidrBlockSetEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Ipv6CidrBlockSetEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -32699,7 +32699,7 @@ extension EC2 {
         }
     }
 
-    public struct VpnConnection: AWSShape {
+    public struct VpnConnection: AWSDecodableShape {
         public struct _RoutesEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _VgwTelemetryEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -32760,7 +32760,7 @@ extension EC2 {
         }
     }
 
-    public struct VpnConnectionOptions: AWSShape {
+    public struct VpnConnectionOptions: AWSDecodableShape {
         public struct _TunnelOptionsEncoding: ArrayCoderProperties { static public let member = "item" }
 
         /// Indicates whether acceleration is enabled for the VPN connection.
@@ -32783,7 +32783,7 @@ extension EC2 {
         }
     }
 
-    public struct VpnConnectionOptionsSpecification: AWSShape {
+    public struct VpnConnectionOptionsSpecification: AWSEncodableShape {
 
         /// Indicate whether to enable acceleration for the VPN connection. Default: false 
         public let enableAcceleration: Bool?
@@ -32805,7 +32805,7 @@ extension EC2 {
         }
     }
 
-    public struct VpnGateway: AWSShape {
+    public struct VpnGateway: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _VpcAttachmentsEncoding: ArrayCoderProperties { static public let member = "item" }
 
@@ -32845,7 +32845,7 @@ extension EC2 {
         }
     }
 
-    public struct VpnStaticRoute: AWSShape {
+    public struct VpnStaticRoute: AWSDecodableShape {
 
         /// The CIDR block associated with the local subnet of the customer data center.
         public let destinationCidrBlock: String?
@@ -32867,7 +32867,7 @@ extension EC2 {
         }
     }
 
-    public struct VpnTunnelOptionsSpecification: AWSShape {
+    public struct VpnTunnelOptionsSpecification: AWSEncodableShape {
         public struct _IKEVersionsEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1DHGroupNumbersEncoding: ArrayCoderProperties { static public let member = "item" }
         public struct _Phase1EncryptionAlgorithmsEncoding: ArrayCoderProperties { static public let member = "item" }
@@ -32944,7 +32944,7 @@ extension EC2 {
         }
     }
 
-    public struct WithdrawByoipCidrRequest: AWSShape {
+    public struct WithdrawByoipCidrRequest: AWSEncodableShape {
 
         /// The address range, in CIDR notation.
         public let cidr: String
@@ -32962,7 +32962,7 @@ extension EC2 {
         }
     }
 
-    public struct WithdrawByoipCidrResult: AWSShape {
+    public struct WithdrawByoipCidrResult: AWSDecodableShape {
 
         /// Information about the address pool.
         public let byoipCidr: ByoipCidr?

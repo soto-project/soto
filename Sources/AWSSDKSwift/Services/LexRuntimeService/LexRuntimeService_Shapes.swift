@@ -68,7 +68,7 @@ extension LexRuntimeService {
 
     //MARK: Shapes
 
-    public struct Button: AWSShape {
+    public struct Button: AWSDecodableShape {
 
         /// Text that is visible to the user on the button.
         public let text: String
@@ -86,7 +86,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct DeleteSessionRequest: AWSShape {
+    public struct DeleteSessionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
@@ -112,14 +112,10 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "botAlias"
-            case botName = "botName"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSessionResponse: AWSShape {
+    public struct DeleteSessionResponse: AWSDecodableShape {
 
         /// The alias in use for the bot associated with the session data.
         public let botAlias: String?
@@ -145,7 +141,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct DialogAction: AWSShape {
+    public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
 
         /// The fulfillment state of the intent. The possible values are:    Failed - The Lambda function associated with the intent failed to fulfill the intent.    Fulfilled - The intent has fulfilled by the Lambda function associated with the intent.     ReadyForFulfillment - All of the information necessary for the intent is present and the intent ready to be fulfilled by the client application.  
         public let fulfillmentState: FulfillmentState?
@@ -188,7 +184,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct GenericAttachment: AWSShape {
+    public struct GenericAttachment: AWSDecodableShape {
 
         /// The URL of an attachment to the response card.
         public let attachmentLinkUrl: String?
@@ -218,7 +214,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct GetSessionRequest: AWSShape {
+    public struct GetSessionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
@@ -251,15 +247,10 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case botAlias = "botAlias"
-            case botName = "botName"
-            case checkpointLabelFilter = "checkpointLabelFilter"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSessionResponse: AWSShape {
+    public struct GetSessionResponse: AWSDecodableShape {
 
         /// Describes the current state of the bot.
         public let dialogAction: DialogAction?
@@ -285,7 +276,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct IntentSummary: AWSShape {
+    public struct IntentSummary: AWSEncodableShape & AWSDecodableShape {
 
         /// A user-defined label that identifies a particular intent. You can use this label to return to a previous intent.  Use the checkpointLabelFilter parameter of the GetSessionRequest operation to filter the intents returned by the operation to those with only the specified label.
         public let checkpointLabel: String?
@@ -329,7 +320,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct PostContentRequest: AWSShape {
+    public struct PostContentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "inputStream"
         public static var _encoding = [
@@ -352,7 +343,7 @@ extension LexRuntimeService {
         ///  You pass this value as the Content-Type HTTP header.   Indicates the audio format or text. The header value must start with one of the following prefixes:    PCM format, audio data must be in little-endian byte order.   audio/l16; rate=16000; channels=1   audio/x-l16; sample-rate=16000; channel-count=1   audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false      Opus format   audio/x-cbr-opus-with-preamble; preamble-size=0; bit-rate=256000; frame-size-milliseconds=4     Text format   text/plain; charset=utf-8    
         public let contentType: String
         ///  User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header.  You can stream audio data to Amazon Lex or you can create a local buffer that captures all of the audio data before sending. In general, you get better performance if you stream audio data rather than buffering the data locally.
-        public let inputStream: Data
+        public let inputStream: AWSPayload
         /// You pass this value as the x-amz-lex-request-attributes HTTP header. Request-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the requestAttributes and sessionAttributes headers is limited to 12 KB. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:. For more information, see Setting Request Attributes.
         public let requestAttributes: String?
         /// You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the sessionAttributes and requestAttributes headers is limited to 12 KB. For more information, see Setting Session Attributes.
@@ -360,7 +351,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.  
         public let userId: String
 
-        public init(accept: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: Data, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
+        public init(accept: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: AWSPayload, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
             self.accept = accept
             self.botAlias = botAlias
             self.botName = botName
@@ -377,19 +368,10 @@ extension LexRuntimeService {
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
-            case botAlias = "botAlias"
-            case botName = "botName"
-            case contentType = "Content-Type"
-            case inputStream = "inputStream"
-            case requestAttributes = "x-amz-lex-request-attributes"
-            case sessionAttributes = "x-amz-lex-session-attributes"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct PostContentResponse: AWSShape {
+    public struct PostContentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _encoding = [
@@ -463,7 +445,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct PostTextRequest: AWSShape {
+    public struct PostTextRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")), 
@@ -501,16 +483,13 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAlias = "botAlias"
-            case botName = "botName"
             case inputText = "inputText"
             case requestAttributes = "requestAttributes"
             case sessionAttributes = "sessionAttributes"
-            case userId = "userId"
         }
     }
 
-    public struct PostTextResponse: AWSShape {
+    public struct PostTextResponse: AWSDecodableShape {
 
         ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot - Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the intent.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.   
         public let dialogState: DialogState?
@@ -560,7 +539,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct PutSessionRequest: AWSShape {
+    public struct PutSessionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")), 
@@ -606,17 +585,13 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accept = "Accept"
-            case botAlias = "botAlias"
-            case botName = "botName"
             case dialogAction = "dialogAction"
             case recentIntentSummaryView = "recentIntentSummaryView"
             case sessionAttributes = "sessionAttributes"
-            case userId = "userId"
         }
     }
 
-    public struct PutSessionResponse: AWSShape {
+    public struct PutSessionResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "audioStream"
         public static var _encoding = [
@@ -680,7 +655,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct ResponseCard: AWSShape {
+    public struct ResponseCard: AWSDecodableShape {
 
         /// The content type of the response.
         public let contentType: ContentType?
@@ -702,7 +677,7 @@ extension LexRuntimeService {
         }
     }
 
-    public struct SentimentResponse: AWSShape {
+    public struct SentimentResponse: AWSDecodableShape {
 
         /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
         public let sentimentLabel: String?

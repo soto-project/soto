@@ -157,7 +157,7 @@ extension Firehose {
 
     //MARK: Shapes
 
-    public struct BufferingHints: AWSShape {
+    public struct BufferingHints: AWSEncodableShape & AWSDecodableShape {
 
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs, and vice versa.
         public let intervalInSeconds: Int?
@@ -182,7 +182,7 @@ extension Firehose {
         }
     }
 
-    public struct CloudWatchLoggingOptions: AWSShape {
+    public struct CloudWatchLoggingOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Enables or disables CloudWatch logging.
         public let enabled: Bool?
@@ -204,7 +204,7 @@ extension Firehose {
         }
     }
 
-    public struct CopyCommand: AWSShape {
+    public struct CopyCommand: AWSEncodableShape & AWSDecodableShape {
 
         /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Kinesis Data Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '|' - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
         public let copyOptions: String?
@@ -230,7 +230,7 @@ extension Firehose {
         }
     }
 
-    public struct CreateDeliveryStreamInput: AWSShape {
+    public struct CreateDeliveryStreamInput: AWSEncodableShape {
 
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
@@ -293,7 +293,7 @@ extension Firehose {
         }
     }
 
-    public struct CreateDeliveryStreamOutput: AWSShape {
+    public struct CreateDeliveryStreamOutput: AWSDecodableShape {
 
         /// The ARN of the delivery stream.
         public let deliveryStreamARN: String?
@@ -307,7 +307,7 @@ extension Firehose {
         }
     }
 
-    public struct DataFormatConversionConfiguration: AWSShape {
+    public struct DataFormatConversionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
         public let enabled: Bool?
@@ -339,7 +339,7 @@ extension Firehose {
         }
     }
 
-    public struct DeleteDeliveryStreamInput: AWSShape {
+    public struct DeleteDeliveryStreamInput: AWSEncodableShape {
 
         /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an AWS KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
         public let allowForceDelete: Bool?
@@ -363,7 +363,7 @@ extension Firehose {
         }
     }
 
-    public struct DeleteDeliveryStreamOutput: AWSShape {
+    public struct DeleteDeliveryStreamOutput: AWSDecodableShape {
 
 
         public init() {
@@ -371,7 +371,7 @@ extension Firehose {
 
     }
 
-    public struct DeliveryStreamDescription: AWSShape {
+    public struct DeliveryStreamDescription: AWSDecodableShape {
 
         /// The date and time that the delivery stream was created.
         public let createTimestamp: TimeStamp?
@@ -429,7 +429,7 @@ extension Firehose {
         }
     }
 
-    public struct DeliveryStreamEncryptionConfiguration: AWSShape {
+    public struct DeliveryStreamEncryptionConfiguration: AWSDecodableShape {
 
         /// Provides details in case one of the following operations fails due to an error related to KMS: CreateDeliveryStream, DeleteDeliveryStream, StartDeliveryStreamEncryption, StopDeliveryStreamEncryption.
         public let failureDescription: FailureDescription?
@@ -455,7 +455,7 @@ extension Firehose {
         }
     }
 
-    public struct DeliveryStreamEncryptionConfigurationInput: AWSShape {
+    public struct DeliveryStreamEncryptionConfigurationInput: AWSEncodableShape {
 
         /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to AWS_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
         public let keyARN: String?
@@ -479,7 +479,7 @@ extension Firehose {
         }
     }
 
-    public struct DescribeDeliveryStreamInput: AWSShape {
+    public struct DescribeDeliveryStreamInput: AWSEncodableShape {
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -511,7 +511,7 @@ extension Firehose {
         }
     }
 
-    public struct DescribeDeliveryStreamOutput: AWSShape {
+    public struct DescribeDeliveryStreamOutput: AWSDecodableShape {
 
         /// Information about the delivery stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
@@ -525,7 +525,7 @@ extension Firehose {
         }
     }
 
-    public struct Deserializer: AWSShape {
+    public struct Deserializer: AWSEncodableShape & AWSDecodableShape {
 
         /// The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the OpenX SerDe.
         public let hiveJsonSerDe: HiveJsonSerDe?
@@ -548,7 +548,7 @@ extension Firehose {
         }
     }
 
-    public struct DestinationDescription: AWSShape {
+    public struct DestinationDescription: AWSDecodableShape {
 
         /// The ID of the destination.
         public let destinationId: String
@@ -582,7 +582,7 @@ extension Firehose {
         }
     }
 
-    public struct ElasticsearchBufferingHints: AWSShape {
+    public struct ElasticsearchBufferingHints: AWSEncodableShape & AWSDecodableShape {
 
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
@@ -607,7 +607,7 @@ extension Firehose {
         }
     }
 
-    public struct ElasticsearchDestinationConfiguration: AWSShape {
+    public struct ElasticsearchDestinationConfiguration: AWSEncodableShape {
 
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -685,7 +685,7 @@ extension Firehose {
         }
     }
 
-    public struct ElasticsearchDestinationDescription: AWSShape {
+    public struct ElasticsearchDestinationDescription: AWSDecodableShape {
 
         /// The buffering options.
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -743,7 +743,7 @@ extension Firehose {
         }
     }
 
-    public struct ElasticsearchDestinationUpdate: AWSShape {
+    public struct ElasticsearchDestinationUpdate: AWSEncodableShape {
 
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used. 
         public let bufferingHints: ElasticsearchBufferingHints?
@@ -817,7 +817,7 @@ extension Firehose {
         }
     }
 
-    public struct ElasticsearchRetryOptions: AWSShape {
+    public struct ElasticsearchRetryOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int?
@@ -836,7 +836,7 @@ extension Firehose {
         }
     }
 
-    public struct EncryptionConfiguration: AWSShape {
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The encryption key.
         public let kMSEncryptionConfig: KMSEncryptionConfig?
@@ -858,7 +858,7 @@ extension Firehose {
         }
     }
 
-    public struct ExtendedS3DestinationConfiguration: AWSShape {
+    public struct ExtendedS3DestinationConfiguration: AWSEncodableShape {
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -930,7 +930,7 @@ extension Firehose {
         }
     }
 
-    public struct ExtendedS3DestinationDescription: AWSShape {
+    public struct ExtendedS3DestinationDescription: AWSDecodableShape {
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -988,7 +988,7 @@ extension Firehose {
         }
     }
 
-    public struct ExtendedS3DestinationUpdate: AWSShape {
+    public struct ExtendedS3DestinationUpdate: AWSEncodableShape {
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String?
@@ -1060,7 +1060,7 @@ extension Firehose {
         }
     }
 
-    public struct FailureDescription: AWSShape {
+    public struct FailureDescription: AWSDecodableShape {
 
         /// A message providing details about the error that caused the failure.
         public let details: String
@@ -1078,7 +1078,7 @@ extension Firehose {
         }
     }
 
-    public struct HiveJsonSerDe: AWSShape {
+    public struct HiveJsonSerDe: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates how you want Kinesis Data Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see Class DateTimeFormat. You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Kinesis Data Firehose uses java.sql.Timestamp::valueOf by default.
         public let timestampFormats: [String]?
@@ -1098,7 +1098,7 @@ extension Firehose {
         }
     }
 
-    public struct InputFormatConfiguration: AWSShape {
+    public struct InputFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public let deserializer: Deserializer?
@@ -1116,7 +1116,7 @@ extension Firehose {
         }
     }
 
-    public struct KMSEncryptionConfig: AWSShape {
+    public struct KMSEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let aWSKMSKeyARN: String
@@ -1136,7 +1136,7 @@ extension Firehose {
         }
     }
 
-    public struct KinesisStreamSourceConfiguration: AWSShape {
+    public struct KinesisStreamSourceConfiguration: AWSEncodableShape {
 
         /// The ARN of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String
@@ -1163,7 +1163,7 @@ extension Firehose {
         }
     }
 
-    public struct KinesisStreamSourceDescription: AWSShape {
+    public struct KinesisStreamSourceDescription: AWSDecodableShape {
 
         /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
         public let deliveryStartTimestamp: TimeStamp?
@@ -1185,7 +1185,7 @@ extension Firehose {
         }
     }
 
-    public struct ListDeliveryStreamsInput: AWSShape {
+    public struct ListDeliveryStreamsInput: AWSEncodableShape {
 
         /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.   This parameter is optional. If this parameter is omitted, delivery streams of all types are returned.
         public let deliveryStreamType: DeliveryStreamType?
@@ -1215,7 +1215,7 @@ extension Firehose {
         }
     }
 
-    public struct ListDeliveryStreamsOutput: AWSShape {
+    public struct ListDeliveryStreamsOutput: AWSDecodableShape {
 
         /// The names of the delivery streams.
         public let deliveryStreamNames: [String]
@@ -1233,7 +1233,7 @@ extension Firehose {
         }
     }
 
-    public struct ListTagsForDeliveryStreamInput: AWSShape {
+    public struct ListTagsForDeliveryStreamInput: AWSEncodableShape {
 
         /// The name of the delivery stream whose tags you want to list.
         public let deliveryStreamName: String
@@ -1265,7 +1265,7 @@ extension Firehose {
         }
     }
 
-    public struct ListTagsForDeliveryStreamOutput: AWSShape {
+    public struct ListTagsForDeliveryStreamOutput: AWSDecodableShape {
 
         /// If this is true in the response, more tags are available. To list the remaining tags, set ExclusiveStartTagKey to the key of the last tag returned and call ListTagsForDeliveryStream again.
         public let hasMoreTags: Bool
@@ -1283,7 +1283,7 @@ extension Firehose {
         }
     }
 
-    public struct OpenXJsonSerDe: AWSShape {
+    public struct OpenXJsonSerDe: AWSEncodableShape & AWSDecodableShape {
 
         /// When set to true, which is the default, Kinesis Data Firehose converts JSON keys to lowercase before deserializing them.
         public let caseInsensitive: Bool?
@@ -1312,7 +1312,7 @@ extension Firehose {
         }
     }
 
-    public struct OrcSerDe: AWSShape {
+    public struct OrcSerDe: AWSEncodableShape & AWSDecodableShape {
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
         public let blockSizeBytes: Int?
@@ -1377,7 +1377,7 @@ extension Firehose {
         }
     }
 
-    public struct OutputFormatConfiguration: AWSShape {
+    public struct OutputFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
         public let serializer: Serializer?
@@ -1395,7 +1395,7 @@ extension Firehose {
         }
     }
 
-    public struct ParquetSerDe: AWSShape {
+    public struct ParquetSerDe: AWSEncodableShape & AWSDecodableShape {
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
         public let blockSizeBytes: Int?
@@ -1435,7 +1435,7 @@ extension Firehose {
         }
     }
 
-    public struct ProcessingConfiguration: AWSShape {
+    public struct ProcessingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Enables or disables data processing.
         public let enabled: Bool?
@@ -1459,7 +1459,7 @@ extension Firehose {
         }
     }
 
-    public struct Processor: AWSShape {
+    public struct Processor: AWSEncodableShape & AWSDecodableShape {
 
         /// The processor parameters.
         public let parameters: [ProcessorParameter]?
@@ -1483,7 +1483,7 @@ extension Firehose {
         }
     }
 
-    public struct ProcessorParameter: AWSShape {
+    public struct ProcessorParameter: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the parameter.
         public let parameterName: ProcessorParameterName
@@ -1506,7 +1506,7 @@ extension Firehose {
         }
     }
 
-    public struct PutRecordBatchInput: AWSShape {
+    public struct PutRecordBatchInput: AWSEncodableShape {
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -1535,7 +1535,7 @@ extension Firehose {
         }
     }
 
-    public struct PutRecordBatchOutput: AWSShape {
+    public struct PutRecordBatchOutput: AWSDecodableShape {
 
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
@@ -1557,7 +1557,7 @@ extension Firehose {
         }
     }
 
-    public struct PutRecordBatchResponseEntry: AWSShape {
+    public struct PutRecordBatchResponseEntry: AWSDecodableShape {
 
         /// The error code for an individual record result.
         public let errorCode: String?
@@ -1579,7 +1579,7 @@ extension Firehose {
         }
     }
 
-    public struct PutRecordInput: AWSShape {
+    public struct PutRecordInput: AWSEncodableShape {
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -1604,7 +1604,7 @@ extension Firehose {
         }
     }
 
-    public struct PutRecordOutput: AWSShape {
+    public struct PutRecordOutput: AWSDecodableShape {
 
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
@@ -1622,7 +1622,7 @@ extension Firehose {
         }
     }
 
-    public struct Record: AWSShape {
+    public struct Record: AWSEncodableShape {
 
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
         public let data: Data
@@ -1641,7 +1641,7 @@ extension Firehose {
         }
     }
 
-    public struct RedshiftDestinationConfiguration: AWSShape {
+    public struct RedshiftDestinationConfiguration: AWSEncodableShape {
 
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -1710,7 +1710,7 @@ extension Firehose {
         }
     }
 
-    public struct RedshiftDestinationDescription: AWSShape {
+    public struct RedshiftDestinationDescription: AWSDecodableShape {
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -1760,7 +1760,7 @@ extension Firehose {
         }
     }
 
-    public struct RedshiftDestinationUpdate: AWSShape {
+    public struct RedshiftDestinationUpdate: AWSEncodableShape {
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -1829,7 +1829,7 @@ extension Firehose {
         }
     }
 
-    public struct RedshiftRetryOptions: AWSShape {
+    public struct RedshiftRetryOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public let durationInSeconds: Int?
@@ -1848,7 +1848,7 @@ extension Firehose {
         }
     }
 
-    public struct S3DestinationConfiguration: AWSShape {
+    public struct S3DestinationConfiguration: AWSEncodableShape {
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -1901,7 +1901,7 @@ extension Firehose {
         }
     }
 
-    public struct S3DestinationDescription: AWSShape {
+    public struct S3DestinationDescription: AWSDecodableShape {
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String
@@ -1943,7 +1943,7 @@ extension Firehose {
         }
     }
 
-    public struct S3DestinationUpdate: AWSShape {
+    public struct S3DestinationUpdate: AWSEncodableShape {
 
         /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let bucketARN: String?
@@ -1996,7 +1996,7 @@ extension Firehose {
         }
     }
 
-    public struct SchemaConfiguration: AWSShape {
+    public struct SchemaConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
         public let catalogId: String?
@@ -2039,7 +2039,7 @@ extension Firehose {
         }
     }
 
-    public struct Serializer: AWSShape {
+    public struct Serializer: AWSEncodableShape & AWSDecodableShape {
 
         /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see Apache ORC.
         public let orcSerDe: OrcSerDe?
@@ -2062,7 +2062,7 @@ extension Firehose {
         }
     }
 
-    public struct SourceDescription: AWSShape {
+    public struct SourceDescription: AWSDecodableShape {
 
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
@@ -2076,7 +2076,7 @@ extension Firehose {
         }
     }
 
-    public struct SplunkDestinationConfiguration: AWSShape {
+    public struct SplunkDestinationConfiguration: AWSEncodableShape {
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2130,7 +2130,7 @@ extension Firehose {
         }
     }
 
-    public struct SplunkDestinationDescription: AWSShape {
+    public struct SplunkDestinationDescription: AWSDecodableShape {
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2176,7 +2176,7 @@ extension Firehose {
         }
     }
 
-    public struct SplunkDestinationUpdate: AWSShape {
+    public struct SplunkDestinationUpdate: AWSEncodableShape {
 
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
@@ -2230,7 +2230,7 @@ extension Firehose {
         }
     }
 
-    public struct SplunkRetryOptions: AWSShape {
+    public struct SplunkRetryOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
         public let durationInSeconds: Int?
@@ -2249,7 +2249,7 @@ extension Firehose {
         }
     }
 
-    public struct StartDeliveryStreamEncryptionInput: AWSShape {
+    public struct StartDeliveryStreamEncryptionInput: AWSEncodableShape {
 
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
@@ -2274,7 +2274,7 @@ extension Firehose {
         }
     }
 
-    public struct StartDeliveryStreamEncryptionOutput: AWSShape {
+    public struct StartDeliveryStreamEncryptionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2282,7 +2282,7 @@ extension Firehose {
 
     }
 
-    public struct StopDeliveryStreamEncryptionInput: AWSShape {
+    public struct StopDeliveryStreamEncryptionInput: AWSEncodableShape {
 
         /// The name of the delivery stream for which you want to disable server-side encryption (SSE).
         public let deliveryStreamName: String
@@ -2302,7 +2302,7 @@ extension Firehose {
         }
     }
 
-    public struct StopDeliveryStreamEncryptionOutput: AWSShape {
+    public struct StopDeliveryStreamEncryptionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2310,7 +2310,7 @@ extension Firehose {
 
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let key: String
@@ -2335,7 +2335,7 @@ extension Firehose {
         }
     }
 
-    public struct TagDeliveryStreamInput: AWSShape {
+    public struct TagDeliveryStreamInput: AWSEncodableShape {
 
         /// The name of the delivery stream to which you want to add the tags.
         public let deliveryStreamName: String
@@ -2364,7 +2364,7 @@ extension Firehose {
         }
     }
 
-    public struct TagDeliveryStreamOutput: AWSShape {
+    public struct TagDeliveryStreamOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2372,7 +2372,7 @@ extension Firehose {
 
     }
 
-    public struct UntagDeliveryStreamInput: AWSShape {
+    public struct UntagDeliveryStreamInput: AWSEncodableShape {
 
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -2402,7 +2402,7 @@ extension Firehose {
         }
     }
 
-    public struct UntagDeliveryStreamOutput: AWSShape {
+    public struct UntagDeliveryStreamOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2410,7 +2410,7 @@ extension Firehose {
 
     }
 
-    public struct UpdateDestinationInput: AWSShape {
+    public struct UpdateDestinationInput: AWSEncodableShape {
 
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String
@@ -2463,7 +2463,7 @@ extension Firehose {
         }
     }
 
-    public struct UpdateDestinationOutput: AWSShape {
+    public struct UpdateDestinationOutput: AWSDecodableShape {
 
 
         public init() {

@@ -117,7 +117,7 @@ extension CloudSearch {
 
     //MARK: Shapes
 
-    public struct AccessPoliciesStatus: AWSShape {
+    public struct AccessPoliciesStatus: AWSDecodableShape {
 
         public let options: String
         public let status: OptionStatus
@@ -133,7 +133,7 @@ extension CloudSearch {
         }
     }
 
-    public struct AnalysisOptions: AWSShape {
+    public struct AnalysisOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide 
         public let algorithmicStemming: AlgorithmicStemming?
@@ -163,7 +163,7 @@ extension CloudSearch {
         }
     }
 
-    public struct AnalysisScheme: AWSShape {
+    public struct AnalysisScheme: AWSEncodableShape & AWSDecodableShape {
 
         public let analysisOptions: AnalysisOptions?
         public let analysisSchemeLanguage: AnalysisSchemeLanguage
@@ -188,7 +188,7 @@ extension CloudSearch {
         }
     }
 
-    public struct AnalysisSchemeStatus: AWSShape {
+    public struct AnalysisSchemeStatus: AWSDecodableShape {
 
         public let options: AnalysisScheme
         public let status: OptionStatus
@@ -204,7 +204,7 @@ extension CloudSearch {
         }
     }
 
-    public struct AvailabilityOptionsStatus: AWSShape {
+    public struct AvailabilityOptionsStatus: AWSDecodableShape {
 
         /// The availability options configured for the domain.
         public let options: Bool
@@ -221,7 +221,7 @@ extension CloudSearch {
         }
     }
 
-    public struct BuildSuggestersRequest: AWSShape {
+    public struct BuildSuggestersRequest: AWSEncodableShape {
 
         public let domainName: String
 
@@ -240,7 +240,7 @@ extension CloudSearch {
         }
     }
 
-    public struct BuildSuggestersResponse: AWSShape {
+    public struct BuildSuggestersResponse: AWSDecodableShape {
 
         @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
 
@@ -253,7 +253,7 @@ extension CloudSearch {
         }
     }
 
-    public struct CreateDomainRequest: AWSShape {
+    public struct CreateDomainRequest: AWSEncodableShape {
 
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
         public let domainName: String
@@ -273,7 +273,7 @@ extension CloudSearch {
         }
     }
 
-    public struct CreateDomainResponse: AWSShape {
+    public struct CreateDomainResponse: AWSDecodableShape {
 
         public let domainStatus: DomainStatus?
 
@@ -286,7 +286,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DateArrayOptions: AWSShape {
+    public struct DateArrayOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
@@ -322,7 +322,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DateOptions: AWSShape {
+    public struct DateOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
@@ -363,7 +363,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineAnalysisSchemeRequest: AWSShape {
+    public struct DefineAnalysisSchemeRequest: AWSEncodableShape {
 
         public let analysisScheme: AnalysisScheme
         public let domainName: String
@@ -386,7 +386,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineAnalysisSchemeResponse: AWSShape {
+    public struct DefineAnalysisSchemeResponse: AWSDecodableShape {
 
         public let analysisScheme: AnalysisSchemeStatus
 
@@ -399,7 +399,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineExpressionRequest: AWSShape {
+    public struct DefineExpressionRequest: AWSEncodableShape {
 
         public let domainName: String
         public let expression: Expression
@@ -422,7 +422,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineExpressionResponse: AWSShape {
+    public struct DefineExpressionResponse: AWSDecodableShape {
 
         public let expression: ExpressionStatus
 
@@ -435,7 +435,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineIndexFieldRequest: AWSShape {
+    public struct DefineIndexFieldRequest: AWSEncodableShape {
 
         public let domainName: String
         /// The index field and field options you want to configure. 
@@ -459,7 +459,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineIndexFieldResponse: AWSShape {
+    public struct DefineIndexFieldResponse: AWSDecodableShape {
 
         public let indexField: IndexFieldStatus
 
@@ -472,7 +472,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineSuggesterRequest: AWSShape {
+    public struct DefineSuggesterRequest: AWSEncodableShape {
 
         public let domainName: String
         public let suggester: Suggester
@@ -495,7 +495,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DefineSuggesterResponse: AWSShape {
+    public struct DefineSuggesterResponse: AWSDecodableShape {
 
         public let suggester: SuggesterStatus
 
@@ -508,7 +508,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteAnalysisSchemeRequest: AWSShape {
+    public struct DeleteAnalysisSchemeRequest: AWSEncodableShape {
 
         /// The name of the analysis scheme you want to delete.
         public let analysisSchemeName: String
@@ -534,7 +534,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteAnalysisSchemeResponse: AWSShape {
+    public struct DeleteAnalysisSchemeResponse: AWSDecodableShape {
 
         /// The status of the analysis scheme being deleted.
         public let analysisScheme: AnalysisSchemeStatus
@@ -548,7 +548,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteDomainRequest: AWSShape {
+    public struct DeleteDomainRequest: AWSEncodableShape {
 
         /// The name of the domain you want to permanently delete.
         public let domainName: String
@@ -568,7 +568,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteDomainResponse: AWSShape {
+    public struct DeleteDomainResponse: AWSDecodableShape {
 
         public let domainStatus: DomainStatus?
 
@@ -581,7 +581,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteExpressionRequest: AWSShape {
+    public struct DeleteExpressionRequest: AWSEncodableShape {
 
         public let domainName: String
         /// The name of the Expression to delete.
@@ -607,7 +607,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteExpressionResponse: AWSShape {
+    public struct DeleteExpressionResponse: AWSDecodableShape {
 
         /// The status of the expression being deleted.
         public let expression: ExpressionStatus
@@ -621,7 +621,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteIndexFieldRequest: AWSShape {
+    public struct DeleteIndexFieldRequest: AWSEncodableShape {
 
         public let domainName: String
         /// The name of the index field your want to remove from the domain's indexing options.
@@ -647,7 +647,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteIndexFieldResponse: AWSShape {
+    public struct DeleteIndexFieldResponse: AWSDecodableShape {
 
         /// The status of the index field being deleted.
         public let indexField: IndexFieldStatus
@@ -661,7 +661,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteSuggesterRequest: AWSShape {
+    public struct DeleteSuggesterRequest: AWSEncodableShape {
 
         public let domainName: String
         /// Specifies the name of the suggester you want to delete.
@@ -687,7 +687,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DeleteSuggesterResponse: AWSShape {
+    public struct DeleteSuggesterResponse: AWSDecodableShape {
 
         /// The status of the suggester being deleted.
         public let suggester: SuggesterStatus
@@ -701,7 +701,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeAnalysisSchemesRequest: AWSShape {
+    public struct DescribeAnalysisSchemesRequest: AWSEncodableShape {
 
         /// The analysis schemes you want to describe.
         @OptionalCoding<DefaultArrayCoder> public var analysisSchemeNames: [String]?
@@ -734,7 +734,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeAnalysisSchemesResponse: AWSShape {
+    public struct DescribeAnalysisSchemesResponse: AWSDecodableShape {
 
         /// The analysis scheme descriptions.
         @Coding<DefaultArrayCoder> public var analysisSchemes: [AnalysisSchemeStatus]
@@ -748,7 +748,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeAvailabilityOptionsRequest: AWSShape {
+    public struct DescribeAvailabilityOptionsRequest: AWSEncodableShape {
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -772,7 +772,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeAvailabilityOptionsResponse: AWSShape {
+    public struct DescribeAvailabilityOptionsResponse: AWSDecodableShape {
 
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
@@ -786,7 +786,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeDomainEndpointOptionsRequest: AWSShape {
+    public struct DescribeDomainEndpointOptionsRequest: AWSEncodableShape {
 
         /// Whether to retrieve the latest configuration (which might be in a Processing state) or the current, active configuration. Defaults to false.
         public let deployed: Bool?
@@ -810,7 +810,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeDomainEndpointOptionsResponse: AWSShape {
+    public struct DescribeDomainEndpointOptionsResponse: AWSDecodableShape {
 
         /// The status and configuration of a search domain's endpoint options.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
@@ -824,7 +824,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeDomainsRequest: AWSShape {
+    public struct DescribeDomainsRequest: AWSEncodableShape {
 
         /// The names of the domains you want to include in the response.
         @OptionalCoding<DefaultArrayCoder> public var domainNames: [String]?
@@ -846,7 +846,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeDomainsResponse: AWSShape {
+    public struct DescribeDomainsResponse: AWSDecodableShape {
 
         @Coding<DefaultArrayCoder> public var domainStatusList: [DomainStatus]
 
@@ -859,7 +859,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeExpressionsRequest: AWSShape {
+    public struct DescribeExpressionsRequest: AWSEncodableShape {
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -892,7 +892,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeExpressionsResponse: AWSShape {
+    public struct DescribeExpressionsResponse: AWSDecodableShape {
 
         /// The expressions configured for the domain.
         @Coding<DefaultArrayCoder> public var expressions: [ExpressionStatus]
@@ -906,7 +906,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeIndexFieldsRequest: AWSShape {
+    public struct DescribeIndexFieldsRequest: AWSEncodableShape {
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -939,7 +939,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeIndexFieldsResponse: AWSShape {
+    public struct DescribeIndexFieldsResponse: AWSDecodableShape {
 
         /// The index fields configured for the domain.
         @Coding<DefaultArrayCoder> public var indexFields: [IndexFieldStatus]
@@ -953,7 +953,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeScalingParametersRequest: AWSShape {
+    public struct DescribeScalingParametersRequest: AWSEncodableShape {
 
         public let domainName: String
 
@@ -972,7 +972,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeScalingParametersResponse: AWSShape {
+    public struct DescribeScalingParametersResponse: AWSDecodableShape {
 
         public let scalingParameters: ScalingParametersStatus
 
@@ -985,7 +985,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeServiceAccessPoliciesRequest: AWSShape {
+    public struct DescribeServiceAccessPoliciesRequest: AWSEncodableShape {
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1009,7 +1009,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeServiceAccessPoliciesResponse: AWSShape {
+    public struct DescribeServiceAccessPoliciesResponse: AWSDecodableShape {
 
         /// The access rules configured for the domain specified in the request.
         public let accessPolicies: AccessPoliciesStatus
@@ -1023,7 +1023,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeSuggestersRequest: AWSShape {
+    public struct DescribeSuggestersRequest: AWSEncodableShape {
 
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1056,7 +1056,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeSuggestersResponse: AWSShape {
+    public struct DescribeSuggestersResponse: AWSDecodableShape {
 
         /// The suggesters configured for the domain specified in the request.
         @Coding<DefaultArrayCoder> public var suggesters: [SuggesterStatus]
@@ -1070,7 +1070,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DocumentSuggesterOptions: AWSShape {
+    public struct DocumentSuggesterOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
         public let fuzzyMatching: SuggesterFuzzyMatching?
@@ -1098,7 +1098,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DomainEndpointOptions: AWSShape {
+    public struct DomainEndpointOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// Whether the domain is HTTPS only enabled.
         public let enforceHTTPS: Bool?
@@ -1116,7 +1116,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DomainEndpointOptionsStatus: AWSShape {
+    public struct DomainEndpointOptionsStatus: AWSDecodableShape {
 
         /// The domain endpoint options configured for the domain.
         public let options: DomainEndpointOptions
@@ -1134,7 +1134,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DomainStatus: AWSShape {
+    public struct DomainStatus: AWSDecodableShape {
 
         public let arn: String?
         /// True if the search domain is created. It can take several minutes to initialize a domain when CreateDomain is called. Newly created search domains are returned from DescribeDomains with a false value for Created until domain creation is complete.
@@ -1192,7 +1192,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DoubleArrayOptions: AWSShape {
+    public struct DoubleArrayOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: Double?
@@ -1226,7 +1226,7 @@ extension CloudSearch {
         }
     }
 
-    public struct DoubleOptions: AWSShape {
+    public struct DoubleOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
         public let defaultValue: Double?
@@ -1266,7 +1266,7 @@ extension CloudSearch {
         }
     }
 
-    public struct Expression: AWSShape {
+    public struct Expression: AWSEncodableShape & AWSDecodableShape {
 
         public let expressionName: String
         public let expressionValue: String
@@ -1290,7 +1290,7 @@ extension CloudSearch {
         }
     }
 
-    public struct ExpressionStatus: AWSShape {
+    public struct ExpressionStatus: AWSDecodableShape {
 
         /// The expression that is evaluated for sorting while processing a search request.
         public let options: Expression
@@ -1307,7 +1307,7 @@ extension CloudSearch {
         }
     }
 
-    public struct IndexDocumentsRequest: AWSShape {
+    public struct IndexDocumentsRequest: AWSEncodableShape {
 
         public let domainName: String
 
@@ -1326,7 +1326,7 @@ extension CloudSearch {
         }
     }
 
-    public struct IndexDocumentsResponse: AWSShape {
+    public struct IndexDocumentsResponse: AWSDecodableShape {
 
         /// The names of the fields that are currently being indexed.
         @OptionalCoding<DefaultArrayCoder> public var fieldNames: [String]?
@@ -1340,7 +1340,7 @@ extension CloudSearch {
         }
     }
 
-    public struct IndexField: AWSShape {
+    public struct IndexField: AWSEncodableShape & AWSDecodableShape {
 
         public let dateArrayOptions: DateArrayOptions?
         public let dateOptions: DateOptions?
@@ -1407,7 +1407,7 @@ extension CloudSearch {
         }
     }
 
-    public struct IndexFieldStatus: AWSShape {
+    public struct IndexFieldStatus: AWSDecodableShape {
 
         public let options: IndexField
         public let status: OptionStatus
@@ -1423,7 +1423,7 @@ extension CloudSearch {
         }
     }
 
-    public struct IntArrayOptions: AWSShape {
+    public struct IntArrayOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: Int64?
@@ -1457,7 +1457,7 @@ extension CloudSearch {
         }
     }
 
-    public struct IntOptions: AWSShape {
+    public struct IntOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
         public let defaultValue: Int64?
@@ -1497,7 +1497,7 @@ extension CloudSearch {
         }
     }
 
-    public struct LatLonOptions: AWSShape {
+    public struct LatLonOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
@@ -1538,7 +1538,7 @@ extension CloudSearch {
         }
     }
 
-    public struct Limits: AWSShape {
+    public struct Limits: AWSDecodableShape {
 
         public let maximumPartitionCount: Int
         public let maximumReplicationCount: Int
@@ -1554,7 +1554,7 @@ extension CloudSearch {
         }
     }
 
-    public struct ListDomainNamesResponse: AWSShape {
+    public struct ListDomainNamesResponse: AWSDecodableShape {
 
         /// The names of the search domains owned by an account.
         @OptionalCoding<DefaultDictionaryCoder> public var domainNames: [String: String]?
@@ -1568,7 +1568,7 @@ extension CloudSearch {
         }
     }
 
-    public struct LiteralArrayOptions: AWSShape {
+    public struct LiteralArrayOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
@@ -1604,7 +1604,7 @@ extension CloudSearch {
         }
     }
 
-    public struct LiteralOptions: AWSShape {
+    public struct LiteralOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
@@ -1645,7 +1645,7 @@ extension CloudSearch {
         }
     }
 
-    public struct OptionStatus: AWSShape {
+    public struct OptionStatus: AWSDecodableShape {
 
         /// A timestamp for when this option was created.
         public let creationDate: TimeStamp
@@ -1675,7 +1675,7 @@ extension CloudSearch {
         }
     }
 
-    public struct ScalingParameters: AWSShape {
+    public struct ScalingParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
         public let desiredInstanceType: PartitionInstanceType?
@@ -1702,7 +1702,7 @@ extension CloudSearch {
         }
     }
 
-    public struct ScalingParametersStatus: AWSShape {
+    public struct ScalingParametersStatus: AWSDecodableShape {
 
         public let options: ScalingParameters
         public let status: OptionStatus
@@ -1718,7 +1718,7 @@ extension CloudSearch {
         }
     }
 
-    public struct ServiceEndpoint: AWSShape {
+    public struct ServiceEndpoint: AWSDecodableShape {
 
         public let endpoint: String?
 
@@ -1731,7 +1731,7 @@ extension CloudSearch {
         }
     }
 
-    public struct Suggester: AWSShape {
+    public struct Suggester: AWSEncodableShape & AWSDecodableShape {
 
         public let documentSuggesterOptions: DocumentSuggesterOptions
         public let suggesterName: String
@@ -1754,7 +1754,7 @@ extension CloudSearch {
         }
     }
 
-    public struct SuggesterStatus: AWSShape {
+    public struct SuggesterStatus: AWSDecodableShape {
 
         public let options: Suggester
         public let status: OptionStatus
@@ -1770,7 +1770,7 @@ extension CloudSearch {
         }
     }
 
-    public struct TextArrayOptions: AWSShape {
+    public struct TextArrayOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of an analysis scheme for a text-array field.
         public let analysisScheme: String?
@@ -1807,7 +1807,7 @@ extension CloudSearch {
         }
     }
 
-    public struct TextOptions: AWSShape {
+    public struct TextOptions: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of an analysis scheme for a text field.
         public let analysisScheme: String?
@@ -1849,7 +1849,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateAvailabilityOptionsRequest: AWSShape {
+    public struct UpdateAvailabilityOptionsRequest: AWSEncodableShape {
 
         public let domainName: String
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
@@ -1872,7 +1872,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateAvailabilityOptionsResponse: AWSShape {
+    public struct UpdateAvailabilityOptionsResponse: AWSDecodableShape {
 
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
@@ -1886,7 +1886,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateDomainEndpointOptionsRequest: AWSShape {
+    public struct UpdateDomainEndpointOptionsRequest: AWSEncodableShape {
 
         /// Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPolicy. For compatibility with older clients, the default is Policy-Min-TLS-1-0-2019-07. 
         public let domainEndpointOptions: DomainEndpointOptions
@@ -1910,7 +1910,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateDomainEndpointOptionsResponse: AWSShape {
+    public struct UpdateDomainEndpointOptionsResponse: AWSDecodableShape {
 
         /// The newly-configured domain endpoint options.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
@@ -1924,7 +1924,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateScalingParametersRequest: AWSShape {
+    public struct UpdateScalingParametersRequest: AWSEncodableShape {
 
         public let domainName: String
         public let scalingParameters: ScalingParameters
@@ -1947,7 +1947,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateScalingParametersResponse: AWSShape {
+    public struct UpdateScalingParametersResponse: AWSDecodableShape {
 
         public let scalingParameters: ScalingParametersStatus
 
@@ -1960,7 +1960,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateServiceAccessPoliciesRequest: AWSShape {
+    public struct UpdateServiceAccessPoliciesRequest: AWSEncodableShape {
 
         /// The access rules you want to configure. These rules replace any existing rules. 
         public let accessPolicies: String
@@ -1983,7 +1983,7 @@ extension CloudSearch {
         }
     }
 
-    public struct UpdateServiceAccessPoliciesResponse: AWSShape {
+    public struct UpdateServiceAccessPoliciesResponse: AWSDecodableShape {
 
         /// The access rules configured for the domain.
         public let accessPolicies: AccessPoliciesStatus

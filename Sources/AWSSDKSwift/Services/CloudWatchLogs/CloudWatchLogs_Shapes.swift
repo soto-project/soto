@@ -53,7 +53,7 @@ extension CloudWatchLogs {
 
     //MARK: Shapes
 
-    public struct AssociateKmsKeyRequest: AWSShape {
+    public struct AssociateKmsKeyRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
@@ -78,7 +78,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct CancelExportTaskRequest: AWSShape {
+    public struct CancelExportTaskRequest: AWSEncodableShape {
 
         /// The ID of the export task.
         public let taskId: String
@@ -97,7 +97,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct CreateExportTaskRequest: AWSShape {
+    public struct CreateExportTaskRequest: AWSEncodableShape {
 
         /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
         public let destination: String
@@ -150,7 +150,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct CreateExportTaskResponse: AWSShape {
+    public struct CreateExportTaskResponse: AWSDecodableShape {
 
         /// The ID of the export task.
         public let taskId: String?
@@ -164,7 +164,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct CreateLogGroupRequest: AWSShape {
+    public struct CreateLogGroupRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
         public let kmsKeyId: String?
@@ -200,7 +200,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct CreateLogStreamRequest: AWSShape {
+    public struct CreateLogStreamRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -227,7 +227,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteDestinationRequest: AWSShape {
+    public struct DeleteDestinationRequest: AWSEncodableShape {
 
         /// The name of the destination.
         public let destinationName: String
@@ -247,7 +247,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteLogGroupRequest: AWSShape {
+    public struct DeleteLogGroupRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -267,7 +267,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteLogStreamRequest: AWSShape {
+    public struct DeleteLogStreamRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -294,7 +294,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteMetricFilterRequest: AWSShape {
+    public struct DeleteMetricFilterRequest: AWSEncodableShape {
 
         /// The name of the metric filter.
         public let filterName: String
@@ -321,7 +321,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteResourcePolicyRequest: AWSShape {
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
 
         /// The name of the policy to be revoked. This parameter is required.
         public let policyName: String?
@@ -335,7 +335,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteRetentionPolicyRequest: AWSShape {
+    public struct DeleteRetentionPolicyRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -355,7 +355,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DeleteSubscriptionFilterRequest: AWSShape {
+    public struct DeleteSubscriptionFilterRequest: AWSEncodableShape {
 
         /// The name of the subscription filter.
         public let filterName: String
@@ -382,7 +382,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeDestinationsRequest: AWSShape {
+    public struct DescribeDestinationsRequest: AWSEncodableShape {
 
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let destinationNamePrefix: String?
@@ -413,7 +413,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeDestinationsResponse: AWSShape {
+    public struct DescribeDestinationsResponse: AWSDecodableShape {
 
         /// The destinations.
         public let destinations: [Destination]?
@@ -430,7 +430,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeExportTasksRequest: AWSShape {
+    public struct DescribeExportTasksRequest: AWSEncodableShape {
 
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
@@ -464,7 +464,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeExportTasksResponse: AWSShape {
+    public struct DescribeExportTasksResponse: AWSDecodableShape {
 
         /// The export tasks.
         public let exportTasks: [ExportTask]?
@@ -481,7 +481,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeLogGroupsRequest: AWSShape {
+    public struct DescribeLogGroupsRequest: AWSEncodableShape {
 
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
@@ -512,7 +512,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeLogGroupsResponse: AWSShape {
+    public struct DescribeLogGroupsResponse: AWSDecodableShape {
 
         /// The log groups.
         public let logGroups: [LogGroup]?
@@ -529,7 +529,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeLogStreamsRequest: AWSShape {
+    public struct DescribeLogStreamsRequest: AWSEncodableShape {
 
         /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
         public let descending: Bool?
@@ -575,7 +575,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeLogStreamsResponse: AWSShape {
+    public struct DescribeLogStreamsResponse: AWSDecodableShape {
 
         /// The log streams.
         public let logStreams: [LogStream]?
@@ -592,7 +592,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeMetricFiltersRequest: AWSShape {
+    public struct DescribeMetricFiltersRequest: AWSEncodableShape {
 
         /// The prefix to match.
         public let filterNamePrefix: String?
@@ -642,7 +642,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeMetricFiltersResponse: AWSShape {
+    public struct DescribeMetricFiltersResponse: AWSDecodableShape {
 
         /// The metric filters.
         public let metricFilters: [MetricFilter]?
@@ -659,7 +659,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeQueriesRequest: AWSShape {
+    public struct DescribeQueriesRequest: AWSEncodableShape {
 
         /// Limits the returned queries to only those for the specified log group.
         public let logGroupName: String?
@@ -693,7 +693,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeQueriesResponse: AWSShape {
+    public struct DescribeQueriesResponse: AWSDecodableShape {
 
         public let nextToken: String?
         /// The list of queries that match the request.
@@ -710,7 +710,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeResourcePoliciesRequest: AWSShape {
+    public struct DescribeResourcePoliciesRequest: AWSEncodableShape {
 
         /// The maximum number of resource policies to be displayed with one call of this API.
         public let limit: Int?
@@ -733,7 +733,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeResourcePoliciesResponse: AWSShape {
+    public struct DescribeResourcePoliciesResponse: AWSDecodableShape {
 
         public let nextToken: String?
         /// The resource policies that exist in this account.
@@ -750,7 +750,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeSubscriptionFiltersRequest: AWSShape {
+    public struct DescribeSubscriptionFiltersRequest: AWSEncodableShape {
 
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let filterNamePrefix: String?
@@ -788,7 +788,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeSubscriptionFiltersResponse: AWSShape {
+    public struct DescribeSubscriptionFiltersResponse: AWSDecodableShape {
 
         public let nextToken: String?
         /// The subscription filters.
@@ -805,7 +805,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct Destination: AWSShape {
+    public struct Destination: AWSDecodableShape {
 
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
         public let accessPolicy: String?
@@ -839,7 +839,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DisassociateKmsKeyRequest: AWSShape {
+    public struct DisassociateKmsKeyRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -859,7 +859,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ExportTask: AWSShape {
+    public struct ExportTask: AWSDecodableShape {
 
         /// The name of Amazon S3 bucket to which the log data was exported.
         public let destination: String?
@@ -905,7 +905,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ExportTaskExecutionInfo: AWSShape {
+    public struct ExportTaskExecutionInfo: AWSDecodableShape {
 
         /// The completion time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let completionTime: Int64?
@@ -923,7 +923,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ExportTaskStatus: AWSShape {
+    public struct ExportTaskStatus: AWSDecodableShape {
 
         /// The status code of the export task.
         public let code: ExportTaskStatusCode?
@@ -941,7 +941,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct FilterLogEventsRequest: AWSShape {
+    public struct FilterLogEventsRequest: AWSEncodableShape {
 
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
         public let endTime: Int64?
@@ -1006,7 +1006,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct FilterLogEventsResponse: AWSShape {
+    public struct FilterLogEventsResponse: AWSDecodableShape {
 
         /// The matched events.
         public let events: [FilteredLogEvent]?
@@ -1028,7 +1028,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct FilteredLogEvent: AWSShape {
+    public struct FilteredLogEvent: AWSDecodableShape {
 
         /// The ID of the event.
         public let eventId: String?
@@ -1058,7 +1058,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetLogEventsRequest: AWSShape {
+    public struct GetLogEventsRequest: AWSEncodableShape {
 
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         public let endTime: Int64?
@@ -1110,7 +1110,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetLogEventsResponse: AWSShape {
+    public struct GetLogEventsResponse: AWSDecodableShape {
 
         /// The events.
         public let events: [OutputLogEvent]?
@@ -1132,7 +1132,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetLogGroupFieldsRequest: AWSShape {
+    public struct GetLogGroupFieldsRequest: AWSEncodableShape {
 
         /// The name of the log group to search.
         public let logGroupName: String
@@ -1157,7 +1157,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetLogGroupFieldsResponse: AWSShape {
+    public struct GetLogGroupFieldsResponse: AWSDecodableShape {
 
         /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
         public let logGroupFields: [LogGroupField]?
@@ -1171,7 +1171,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetLogRecordRequest: AWSShape {
+    public struct GetLogRecordRequest: AWSEncodableShape {
 
         /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
         public let logRecordPointer: String
@@ -1185,7 +1185,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetLogRecordResponse: AWSShape {
+    public struct GetLogRecordResponse: AWSDecodableShape {
 
         /// The requested log event, as a JSON string.
         public let logRecord: [String: String]?
@@ -1199,7 +1199,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetQueryResultsRequest: AWSShape {
+    public struct GetQueryResultsRequest: AWSEncodableShape {
 
         /// The ID number of the query.
         public let queryId: String
@@ -1218,7 +1218,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetQueryResultsResponse: AWSShape {
+    public struct GetQueryResultsResponse: AWSDecodableShape {
 
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
         public let results: [[ResultField]]?
@@ -1240,7 +1240,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct InputLogEvent: AWSShape {
+    public struct InputLogEvent: AWSEncodableShape {
 
         /// The raw event message.
         public let message: String
@@ -1263,7 +1263,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ListTagsLogGroupRequest: AWSShape {
+    public struct ListTagsLogGroupRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -1283,7 +1283,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ListTagsLogGroupResponse: AWSShape {
+    public struct ListTagsLogGroupResponse: AWSDecodableShape {
 
         /// The tags for the log group.
         public let tags: [String: String]?
@@ -1297,7 +1297,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct LogGroup: AWSShape {
+    public struct LogGroup: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the log group.
         public let arn: String?
@@ -1334,7 +1334,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct LogGroupField: AWSShape {
+    public struct LogGroupField: AWSDecodableShape {
 
         /// The name of a log field.
         public let name: String?
@@ -1352,7 +1352,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct LogStream: AWSShape {
+    public struct LogStream: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the log stream.
         public let arn: String?
@@ -1390,7 +1390,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct MetricFilter: AWSShape {
+    public struct MetricFilter: AWSDecodableShape {
 
         /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
@@ -1419,7 +1419,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct MetricFilterMatchRecord: AWSShape {
+    public struct MetricFilterMatchRecord: AWSDecodableShape {
 
         /// The raw event data.
         public let eventMessage: String?
@@ -1441,7 +1441,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct MetricTransformation: AWSShape {
+    public struct MetricTransformation: AWSEncodableShape & AWSDecodableShape {
 
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
         public let defaultValue: Double?
@@ -1475,7 +1475,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct OutputLogEvent: AWSShape {
+    public struct OutputLogEvent: AWSDecodableShape {
 
         /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let ingestionTime: Int64?
@@ -1497,7 +1497,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutDestinationPolicyRequest: AWSShape {
+    public struct PutDestinationPolicyRequest: AWSEncodableShape {
 
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
         public let accessPolicy: String
@@ -1522,7 +1522,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutDestinationRequest: AWSShape {
+    public struct PutDestinationRequest: AWSEncodableShape {
 
         /// A name for the destination.
         public let destinationName: String
@@ -1552,7 +1552,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutDestinationResponse: AWSShape {
+    public struct PutDestinationResponse: AWSDecodableShape {
 
         /// The destination.
         public let destination: Destination?
@@ -1566,7 +1566,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutLogEventsRequest: AWSShape {
+    public struct PutLogEventsRequest: AWSEncodableShape {
 
         /// The log events.
         public let logEvents: [InputLogEvent]
@@ -1607,7 +1607,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutLogEventsResponse: AWSShape {
+    public struct PutLogEventsResponse: AWSDecodableShape {
 
         /// The next sequence token.
         public let nextSequenceToken: String?
@@ -1625,7 +1625,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutMetricFilterRequest: AWSShape {
+    public struct PutMetricFilterRequest: AWSEncodableShape {
 
         /// A name for the metric filter.
         public let filterName: String
@@ -1667,7 +1667,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutResourcePolicyRequest: AWSShape {
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
 
         /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
         public let policyDocument: String?
@@ -1690,7 +1690,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutResourcePolicyResponse: AWSShape {
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
 
         /// The new policy.
         public let resourcePolicy: ResourcePolicy?
@@ -1704,7 +1704,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutRetentionPolicyRequest: AWSShape {
+    public struct PutRetentionPolicyRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -1727,7 +1727,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct PutSubscriptionFilterRequest: AWSShape {
+    public struct PutSubscriptionFilterRequest: AWSEncodableShape {
 
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
         public let destinationArn: String
@@ -1774,7 +1774,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct QueryInfo: AWSShape {
+    public struct QueryInfo: AWSDecodableShape {
 
         /// The date and time that this query was created.
         public let createTime: Int64?
@@ -1804,7 +1804,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct QueryStatistics: AWSShape {
+    public struct QueryStatistics: AWSDecodableShape {
 
         /// The total number of bytes in the log events scanned during the query.
         public let bytesScanned: Double?
@@ -1826,7 +1826,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct RejectedLogEventsInfo: AWSShape {
+    public struct RejectedLogEventsInfo: AWSDecodableShape {
 
         /// The expired log events.
         public let expiredLogEventEndIndex: Int?
@@ -1848,7 +1848,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ResourcePolicy: AWSShape {
+    public struct ResourcePolicy: AWSDecodableShape {
 
         /// Timestamp showing when this policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let lastUpdatedTime: Int64?
@@ -1870,7 +1870,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ResultField: AWSShape {
+    public struct ResultField: AWSDecodableShape {
 
         /// The log event field.
         public let field: String?
@@ -1888,7 +1888,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct SearchedLogStream: AWSShape {
+    public struct SearchedLogStream: AWSDecodableShape {
 
         /// The name of the log stream.
         public let logStreamName: String?
@@ -1906,7 +1906,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct StartQueryRequest: AWSShape {
+    public struct StartQueryRequest: AWSEncodableShape {
 
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
@@ -1957,7 +1957,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct StartQueryResponse: AWSShape {
+    public struct StartQueryResponse: AWSDecodableShape {
 
         /// The unique ID of the query. 
         public let queryId: String?
@@ -1971,7 +1971,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct StopQueryRequest: AWSShape {
+    public struct StopQueryRequest: AWSEncodableShape {
 
         /// The ID number of the query to stop. If necessary, you can use DescribeQueries to find this ID number.
         public let queryId: String
@@ -1990,7 +1990,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct StopQueryResponse: AWSShape {
+    public struct StopQueryResponse: AWSDecodableShape {
 
         /// This is true if the query was stopped by the StopQuery operation.
         public let success: Bool?
@@ -2004,7 +2004,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct SubscriptionFilter: AWSShape {
+    public struct SubscriptionFilter: AWSDecodableShape {
 
         /// The creation time of the subscription filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
@@ -2039,7 +2039,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct TagLogGroupRequest: AWSShape {
+    public struct TagLogGroupRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String
@@ -2070,7 +2070,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct TestMetricFilterRequest: AWSShape {
+    public struct TestMetricFilterRequest: AWSEncodableShape {
 
         public let filterPattern: String
         /// The log event messages to test.
@@ -2097,7 +2097,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct TestMetricFilterResponse: AWSShape {
+    public struct TestMetricFilterResponse: AWSDecodableShape {
 
         /// The matched events.
         public let matches: [MetricFilterMatchRecord]?
@@ -2111,7 +2111,7 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct UntagLogGroupRequest: AWSShape {
+    public struct UntagLogGroupRequest: AWSEncodableShape {
 
         /// The name of the log group.
         public let logGroupName: String

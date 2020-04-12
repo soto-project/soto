@@ -291,7 +291,7 @@ extension CodeDeploy {
 
     //MARK: Shapes
 
-    public struct AddTagsToOnPremisesInstancesInput: AWSShape {
+    public struct AddTagsToOnPremisesInstancesInput: AWSEncodableShape {
 
         /// The names of the on-premises instances to which to add tags.
         public let instanceNames: [String]
@@ -309,7 +309,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct Alarm: AWSShape {
+    public struct Alarm: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public let name: String?
@@ -323,7 +323,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct AlarmConfiguration: AWSShape {
+    public struct AlarmConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
         public let alarms: [Alarm]?
@@ -345,7 +345,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct AppSpecContent: AWSShape {
+    public struct AppSpecContent: AWSEncodableShape & AWSDecodableShape {
 
         ///  The YAML-formatted or JSON-formatted revision string.   For an AWS Lambda deployment, the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.   For an Amazon ECS deployment, the content includes the task name, information about the load balancer that serves traffic to the container, and more.   For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment. 
         public let content: String?
@@ -363,7 +363,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ApplicationInfo: AWSShape {
+    public struct ApplicationInfo: AWSDecodableShape {
 
         /// The application ID.
         public let applicationId: String?
@@ -397,7 +397,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct AutoRollbackConfiguration: AWSShape {
+    public struct AutoRollbackConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether a defined automatic rollback configuration is currently enabled.
         public let enabled: Bool?
@@ -415,7 +415,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct AutoScalingGroup: AWSShape {
+    public struct AutoScalingGroup: AWSDecodableShape {
 
         /// An Auto Scaling lifecycle event hook name.
         public let hook: String?
@@ -433,7 +433,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetApplicationRevisionsInput: AWSShape {
+    public struct BatchGetApplicationRevisionsInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application about which to get revision information.
         public let applicationName: String
@@ -456,7 +456,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetApplicationRevisionsOutput: AWSShape {
+    public struct BatchGetApplicationRevisionsOutput: AWSDecodableShape {
 
         /// The name of the application that corresponds to the revisions.
         public let applicationName: String?
@@ -478,7 +478,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetApplicationsInput: AWSShape {
+    public struct BatchGetApplicationsInput: AWSEncodableShape {
 
         /// A list of application names separated by spaces. The maximum number of application names you can specify is 25.
         public let applicationNames: [String]
@@ -499,7 +499,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetApplicationsOutput: AWSShape {
+    public struct BatchGetApplicationsOutput: AWSDecodableShape {
 
         /// Information about the applications.
         public let applicationsInfo: [ApplicationInfo]?
@@ -513,7 +513,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentGroupsInput: AWSShape {
+    public struct BatchGetDeploymentGroupsInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -540,7 +540,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentGroupsOutput: AWSShape {
+    public struct BatchGetDeploymentGroupsOutput: AWSDecodableShape {
 
         /// Information about the deployment groups.
         public let deploymentGroupsInfo: [DeploymentGroupInfo]?
@@ -558,7 +558,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentInstancesInput: AWSShape {
+    public struct BatchGetDeploymentInstancesInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String
@@ -576,7 +576,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentInstancesOutput: AWSShape {
+    public struct BatchGetDeploymentInstancesOutput: AWSDecodableShape {
 
         /// Information about errors that might have occurred during the API call.
         public let errorMessage: String?
@@ -594,7 +594,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentTargetsInput: AWSShape {
+    public struct BatchGetDeploymentTargetsInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -612,7 +612,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentTargetsOutput: AWSShape {
+    public struct BatchGetDeploymentTargetsOutput: AWSDecodableShape {
 
         ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises: Each target object is an EC2 or on-premises instance.     AWS Lambda: The target object is a specific version of an AWS Lambda function.     Amazon ECS: The target object is an Amazon ECS service.   
         public let deploymentTargets: [DeploymentTarget]?
@@ -626,7 +626,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentsInput: AWSShape {
+    public struct BatchGetDeploymentsInput: AWSEncodableShape {
 
         ///  A list of deployment IDs, separated by spaces. The maximum number of deployment IDs you can specify is 25.
         public let deploymentIds: [String]
@@ -640,7 +640,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetDeploymentsOutput: AWSShape {
+    public struct BatchGetDeploymentsOutput: AWSDecodableShape {
 
         ///  Information about the deployments. 
         public let deploymentsInfo: [DeploymentInfo]?
@@ -654,7 +654,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetOnPremisesInstancesInput: AWSShape {
+    public struct BatchGetOnPremisesInstancesInput: AWSEncodableShape {
 
         /// The names of the on-premises instances about which to get information. The maximum number of instance names you can specify is 25.
         public let instanceNames: [String]
@@ -668,7 +668,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BatchGetOnPremisesInstancesOutput: AWSShape {
+    public struct BatchGetOnPremisesInstancesOutput: AWSDecodableShape {
 
         /// Information about the on-premises instances.
         public let instanceInfos: [InstanceInfo]?
@@ -682,7 +682,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BlueGreenDeploymentConfiguration: AWSShape {
+    public struct BlueGreenDeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
         public let deploymentReadyOption: DeploymentReadyOption?
@@ -704,7 +704,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct BlueInstanceTerminationOption: AWSShape {
+    public struct BlueInstanceTerminationOption: AWSEncodableShape & AWSDecodableShape {
 
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
         public let action: InstanceAction?
@@ -722,7 +722,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ContinueDeploymentInput: AWSShape {
+    public struct ContinueDeploymentInput: AWSEncodableShape {
 
         ///  The unique ID of a blue/green deployment for which you want to start rerouting traffic to the replacement environment. 
         public let deploymentId: String?
@@ -740,7 +740,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateApplicationInput: AWSShape {
+    public struct CreateApplicationInput: AWSEncodableShape {
 
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -767,7 +767,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateApplicationOutput: AWSShape {
+    public struct CreateApplicationOutput: AWSDecodableShape {
 
         /// A unique application ID.
         public let applicationId: String?
@@ -781,7 +781,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateDeploymentConfigInput: AWSShape {
+    public struct CreateDeploymentConfigInput: AWSEncodableShape {
 
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
@@ -812,7 +812,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateDeploymentConfigOutput: AWSShape {
+    public struct CreateDeploymentConfigOutput: AWSDecodableShape {
 
         /// A unique deployment configuration ID.
         public let deploymentConfigId: String?
@@ -826,7 +826,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateDeploymentGroupInput: AWSShape {
+    public struct CreateDeploymentGroupInput: AWSEncodableShape {
 
         /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
@@ -913,7 +913,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateDeploymentGroupOutput: AWSShape {
+    public struct CreateDeploymentGroupOutput: AWSDecodableShape {
 
         /// A unique deployment group ID.
         public let deploymentGroupId: String?
@@ -927,7 +927,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateDeploymentInput: AWSShape {
+    public struct CreateDeploymentInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -986,7 +986,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct CreateDeploymentOutput: AWSShape {
+    public struct CreateDeploymentOutput: AWSDecodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -1000,7 +1000,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeleteApplicationInput: AWSShape {
+    public struct DeleteApplicationInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -1019,7 +1019,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeleteDeploymentConfigInput: AWSShape {
+    public struct DeleteDeploymentConfigInput: AWSEncodableShape {
 
         /// The name of a deployment configuration associated with the IAM user or AWS account.
         public let deploymentConfigName: String
@@ -1038,7 +1038,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeleteDeploymentGroupInput: AWSShape {
+    public struct DeleteDeploymentGroupInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -1063,7 +1063,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeleteDeploymentGroupOutput: AWSShape {
+    public struct DeleteDeploymentGroupOutput: AWSDecodableShape {
 
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
@@ -1077,7 +1077,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeleteGitHubAccountTokenInput: AWSShape {
+    public struct DeleteGitHubAccountTokenInput: AWSEncodableShape {
 
         /// The name of the GitHub account connection to delete.
         public let tokenName: String?
@@ -1091,7 +1091,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeleteGitHubAccountTokenOutput: AWSShape {
+    public struct DeleteGitHubAccountTokenOutput: AWSDecodableShape {
 
         /// The name of the GitHub account connection that was deleted.
         public let tokenName: String?
@@ -1105,7 +1105,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentConfigInfo: AWSShape {
+    public struct DeploymentConfigInfo: AWSDecodableShape {
 
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
@@ -1139,7 +1139,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentGroupInfo: AWSShape {
+    public struct DeploymentGroupInfo: AWSDecodableShape {
 
         /// A list of alarms associated with the deployment group.
         public let alarmConfiguration: AlarmConfiguration?
@@ -1233,7 +1233,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentInfo: AWSShape {
+    public struct DeploymentInfo: AWSDecodableShape {
 
         /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
         public let additionalDeploymentStatusInfo: String?
@@ -1351,7 +1351,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentOverview: AWSShape {
+    public struct DeploymentOverview: AWSDecodableShape {
 
         /// The number of instances in the deployment in a failed state.
         public let failed: Int64?
@@ -1385,7 +1385,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentReadyOption: AWSShape {
+    public struct DeploymentReadyOption: AWSEncodableShape & AWSDecodableShape {
 
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic rerouting is started using ContinueDeployment. If traffic rerouting is not started before the end of the specified wait period, the deployment status is changed to Stopped.  
         public let actionOnTimeout: DeploymentReadyAction?
@@ -1403,7 +1403,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentStyle: AWSShape {
+    public struct DeploymentStyle: AWSEncodableShape & AWSDecodableShape {
 
         /// Indicates whether to route deployment traffic behind a load balancer.
         public let deploymentOption: DeploymentOption?
@@ -1421,7 +1421,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentTarget: AWSShape {
+    public struct DeploymentTarget: AWSDecodableShape {
 
         ///  The deployment type that is specific to the deployment's compute platform. 
         public let deploymentTargetType: DeploymentTargetType?
@@ -1447,7 +1447,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeregisterOnPremisesInstanceInput: AWSShape {
+    public struct DeregisterOnPremisesInstanceInput: AWSEncodableShape {
 
         /// The name of the on-premises instance to deregister.
         public let instanceName: String
@@ -1461,7 +1461,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct Diagnostics: AWSShape {
+    public struct Diagnostics: AWSDecodableShape {
 
         /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.  
         public let errorCode: LifecycleErrorCode?
@@ -1487,7 +1487,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct EC2TagFilter: AWSShape {
+    public struct EC2TagFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag filter key.
         public let key: String?
@@ -1509,7 +1509,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct EC2TagSet: AWSShape {
+    public struct EC2TagSet: AWSEncodableShape & AWSDecodableShape {
 
         /// A list that contains other lists of EC2 instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let ec2TagSetList: [[EC2TagFilter]]?
@@ -1523,7 +1523,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ECSService: AWSShape {
+    public struct ECSService: AWSEncodableShape & AWSDecodableShape {
 
         ///  The name of the cluster that the Amazon ECS service is associated with. 
         public let clusterName: String?
@@ -1541,7 +1541,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ECSTarget: AWSShape {
+    public struct ECSTarget: AWSDecodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -1579,7 +1579,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ECSTaskSet: AWSShape {
+    public struct ECSTaskSet: AWSDecodableShape {
 
         ///  The number of tasks in a task set. During a deployment that uses the Amazon ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set and uses this value to determine how many tasks to create. After the updated task set is created, CodeDeploy shifts traffic to the new task set. 
         public let desiredCount: Int64?
@@ -1621,7 +1621,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ELBInfo: AWSShape {
+    public struct ELBInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// For blue/green deployments, the name of the load balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public let name: String?
@@ -1635,7 +1635,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ErrorInformation: AWSShape {
+    public struct ErrorInformation: AWSDecodableShape {
 
         /// For more information, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code is most likely raised if the application is deleted after the deployment is created, but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code is most likely raised if the deployment group is deleted after the deployment is created, but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.   NO_INSTANCES: No instances were specified, or no instances can be found.   OVER_MAX_INSTANCES: The maximum number of instances was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code is most likely raised if the revision is deleted after the deployment is created, but before it is started.  
         public let code: ErrorCode?
@@ -1653,7 +1653,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GenericRevisionInfo: AWSShape {
+    public struct GenericRevisionInfo: AWSDecodableShape {
 
         /// The deployment groups for which this is the current target revision.
         public let deploymentGroups: [String]?
@@ -1683,7 +1683,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetApplicationInput: AWSShape {
+    public struct GetApplicationInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -1702,7 +1702,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetApplicationOutput: AWSShape {
+    public struct GetApplicationOutput: AWSDecodableShape {
 
         /// Information about the application.
         public let application: ApplicationInfo?
@@ -1716,7 +1716,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetApplicationRevisionInput: AWSShape {
+    public struct GetApplicationRevisionInput: AWSEncodableShape {
 
         /// The name of the application that corresponds to the revision.
         public let applicationName: String
@@ -1739,7 +1739,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetApplicationRevisionOutput: AWSShape {
+    public struct GetApplicationRevisionOutput: AWSDecodableShape {
 
         /// The name of the application that corresponds to the revision.
         public let applicationName: String?
@@ -1761,7 +1761,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentConfigInput: AWSShape {
+    public struct GetDeploymentConfigInput: AWSEncodableShape {
 
         /// The name of a deployment configuration associated with the IAM user or AWS account.
         public let deploymentConfigName: String
@@ -1780,7 +1780,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentConfigOutput: AWSShape {
+    public struct GetDeploymentConfigOutput: AWSDecodableShape {
 
         /// Information about the deployment configuration.
         public let deploymentConfigInfo: DeploymentConfigInfo?
@@ -1794,7 +1794,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentGroupInput: AWSShape {
+    public struct GetDeploymentGroupInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -1819,7 +1819,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentGroupOutput: AWSShape {
+    public struct GetDeploymentGroupOutput: AWSDecodableShape {
 
         /// Information about the deployment group.
         public let deploymentGroupInfo: DeploymentGroupInfo?
@@ -1833,7 +1833,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentInput: AWSShape {
+    public struct GetDeploymentInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment associated with the IAM user or AWS account. 
         public let deploymentId: String
@@ -1847,7 +1847,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentInstanceInput: AWSShape {
+    public struct GetDeploymentInstanceInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String
@@ -1865,7 +1865,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentInstanceOutput: AWSShape {
+    public struct GetDeploymentInstanceOutput: AWSDecodableShape {
 
         ///  Information about the instance. 
         public let instanceSummary: InstanceSummary?
@@ -1879,7 +1879,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentOutput: AWSShape {
+    public struct GetDeploymentOutput: AWSDecodableShape {
 
         /// Information about the deployment.
         public let deploymentInfo: DeploymentInfo?
@@ -1893,7 +1893,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentTargetInput: AWSShape {
+    public struct GetDeploymentTargetInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -1911,7 +1911,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentTargetOutput: AWSShape {
+    public struct GetDeploymentTargetOutput: AWSDecodableShape {
 
         ///  A deployment target that contains information about a deployment such as its status, lifecyle events, and when it was last updated. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget). 
         public let deploymentTarget: DeploymentTarget?
@@ -1925,7 +1925,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetOnPremisesInstanceInput: AWSShape {
+    public struct GetOnPremisesInstanceInput: AWSEncodableShape {
 
         ///  The name of the on-premises instance about which to get information. 
         public let instanceName: String
@@ -1939,7 +1939,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetOnPremisesInstanceOutput: AWSShape {
+    public struct GetOnPremisesInstanceOutput: AWSDecodableShape {
 
         ///  Information about the on-premises instance. 
         public let instanceInfo: InstanceInfo?
@@ -1953,7 +1953,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GitHubLocation: AWSShape {
+    public struct GitHubLocation: AWSEncodableShape & AWSDecodableShape {
 
         /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
         public let commitId: String?
@@ -1971,7 +1971,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct GreenFleetProvisioningOption: AWSShape {
+    public struct GreenFleetProvisioningOption: AWSEncodableShape & AWSDecodableShape {
 
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
         public let action: GreenFleetProvisioningAction?
@@ -1985,7 +1985,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct InstanceInfo: AWSShape {
+    public struct InstanceInfo: AWSDecodableShape {
 
         /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
         public let deregisterTime: TimeStamp?
@@ -2023,7 +2023,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct InstanceSummary: AWSShape {
+    public struct InstanceSummary: AWSDecodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -2057,7 +2057,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct InstanceTarget: AWSShape {
+    public struct InstanceTarget: AWSDecodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -2095,7 +2095,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct LambdaFunctionInfo: AWSShape {
+    public struct LambdaFunctionInfo: AWSDecodableShape {
 
         ///  The version of a Lambda function that production traffic points to. 
         public let currentVersion: String?
@@ -2125,7 +2125,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct LambdaTarget: AWSShape {
+    public struct LambdaTarget: AWSDecodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -2163,7 +2163,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct LastDeploymentInfo: AWSShape {
+    public struct LastDeploymentInfo: AWSDecodableShape {
 
         /// A timestamp that indicates when the most recent deployment to the deployment group started.
         public let createTime: TimeStamp?
@@ -2189,7 +2189,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct LifecycleEvent: AWSShape {
+    public struct LifecycleEvent: AWSDecodableShape {
 
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
@@ -2219,7 +2219,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListApplicationRevisionsInput: AWSShape {
+    public struct ListApplicationRevisionsInput: AWSEncodableShape {
 
         ///  The name of an AWS CodeDeploy application associated with the IAM user or AWS account. 
         public let applicationName: String
@@ -2262,7 +2262,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListApplicationRevisionsOutput: AWSShape {
+    public struct ListApplicationRevisionsOutput: AWSDecodableShape {
 
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
         public let nextToken: String?
@@ -2280,7 +2280,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListApplicationsInput: AWSShape {
+    public struct ListApplicationsInput: AWSEncodableShape {
 
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
@@ -2294,7 +2294,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListApplicationsOutput: AWSShape {
+    public struct ListApplicationsOutput: AWSDecodableShape {
 
         /// A list of application names.
         public let applications: [String]?
@@ -2312,7 +2312,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentConfigsInput: AWSShape {
+    public struct ListDeploymentConfigsInput: AWSEncodableShape {
 
         /// An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list. 
         public let nextToken: String?
@@ -2326,7 +2326,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentConfigsOutput: AWSShape {
+    public struct ListDeploymentConfigsOutput: AWSDecodableShape {
 
         /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
         public let deploymentConfigsList: [String]?
@@ -2344,7 +2344,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentGroupsInput: AWSShape {
+    public struct ListDeploymentGroupsInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -2367,7 +2367,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentGroupsOutput: AWSShape {
+    public struct ListDeploymentGroupsOutput: AWSDecodableShape {
 
         /// The application name.
         public let applicationName: String?
@@ -2389,7 +2389,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentInstancesInput: AWSShape {
+    public struct ListDeploymentInstancesInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String
@@ -2415,7 +2415,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentInstancesOutput: AWSShape {
+    public struct ListDeploymentInstancesOutput: AWSDecodableShape {
 
         /// A list of instance IDs.
         public let instancesList: [String]?
@@ -2433,7 +2433,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentTargetsInput: AWSShape {
+    public struct ListDeploymentTargetsInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
@@ -2455,7 +2455,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentTargetsOutput: AWSShape {
+    public struct ListDeploymentTargetsOutput: AWSDecodableShape {
 
         ///  If a large amount of information is returned, a token identifier is also returned. It can be used in a subsequent ListDeploymentTargets call to return the next set of deployment targets in the list. 
         public let nextToken: String?
@@ -2473,7 +2473,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentsInput: AWSShape {
+    public struct ListDeploymentsInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.  
         public let applicationName: String?
@@ -2510,7 +2510,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListDeploymentsOutput: AWSShape {
+    public struct ListDeploymentsOutput: AWSDecodableShape {
 
         /// A list of deployment IDs.
         public let deployments: [String]?
@@ -2528,7 +2528,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListGitHubAccountTokenNamesInput: AWSShape {
+    public struct ListGitHubAccountTokenNamesInput: AWSEncodableShape {
 
         /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
         public let nextToken: String?
@@ -2542,7 +2542,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListGitHubAccountTokenNamesOutput: AWSShape {
+    public struct ListGitHubAccountTokenNamesOutput: AWSDecodableShape {
 
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list. 
         public let nextToken: String?
@@ -2560,7 +2560,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListOnPremisesInstancesInput: AWSShape {
+    public struct ListOnPremisesInstancesInput: AWSEncodableShape {
 
         /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
         public let nextToken: String?
@@ -2582,7 +2582,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListOnPremisesInstancesOutput: AWSShape {
+    public struct ListOnPremisesInstancesOutput: AWSDecodableShape {
 
         /// The list of matching on-premises instance names.
         public let instanceNames: [String]?
@@ -2600,7 +2600,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// An identifier returned from the previous ListTagsForResource call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
@@ -2623,7 +2623,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
         public let nextToken: String?
@@ -2641,7 +2641,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct LoadBalancerInfo: AWSShape {
+    public struct LoadBalancerInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// An array that contains information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.   Adding more than one load balancer to the array is not supported.  
         public let elbInfoList: [ELBInfo]?
@@ -2663,7 +2663,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct MinimumHealthyHosts: AWSShape {
+    public struct MinimumHealthyHosts: AWSEncodableShape & AWSDecodableShape {
 
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment is successful if four or more instance are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
         public let `type`: MinimumHealthyHostsType?
@@ -2681,7 +2681,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct OnPremisesTagSet: AWSShape {
+    public struct OnPremisesTagSet: AWSEncodableShape & AWSDecodableShape {
 
         /// A list that contains other lists of on-premises instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let onPremisesTagSetList: [[TagFilter]]?
@@ -2695,7 +2695,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct PutLifecycleEventHookExecutionStatusInput: AWSShape {
+    public struct PutLifecycleEventHookExecutionStatusInput: AWSEncodableShape {
 
         ///  The unique ID of a deployment. Pass this ID to a Lambda function that validates a deployment lifecycle event. 
         public let deploymentId: String?
@@ -2717,7 +2717,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct PutLifecycleEventHookExecutionStatusOutput: AWSShape {
+    public struct PutLifecycleEventHookExecutionStatusOutput: AWSDecodableShape {
 
         /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
         public let lifecycleEventHookExecutionId: String?
@@ -2731,7 +2731,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RawString: AWSShape {
+    public struct RawString: AWSEncodableShape & AWSDecodableShape {
 
         /// The YAML-formatted or JSON-formatted revision string. It includes information about which Lambda function to update and optional Lambda functions that validate deployment lifecycle events.
         public let content: String?
@@ -2749,7 +2749,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RegisterApplicationRevisionInput: AWSShape {
+    public struct RegisterApplicationRevisionInput: AWSEncodableShape {
 
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
@@ -2776,7 +2776,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RegisterOnPremisesInstanceInput: AWSShape {
+    public struct RegisterOnPremisesInstanceInput: AWSEncodableShape {
 
         /// The ARN of the IAM session to associate with the on-premises instance.
         public let iamSessionArn: String?
@@ -2798,7 +2798,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RemoveTagsFromOnPremisesInstancesInput: AWSShape {
+    public struct RemoveTagsFromOnPremisesInstancesInput: AWSEncodableShape {
 
         /// The names of the on-premises instances from which to remove tags.
         public let instanceNames: [String]
@@ -2816,7 +2816,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RevisionInfo: AWSShape {
+    public struct RevisionInfo: AWSDecodableShape {
 
         /// Information about an application revision, including usage details and associated deployment groups.
         public let genericRevisionInfo: GenericRevisionInfo?
@@ -2834,7 +2834,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RevisionLocation: AWSShape {
+    public struct RevisionLocation: AWSEncodableShape & AWSDecodableShape {
 
         ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString. 
         public let appSpecContent: AppSpecContent?
@@ -2864,7 +2864,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct RollbackInfo: AWSShape {
+    public struct RollbackInfo: AWSDecodableShape {
 
         /// The ID of the deployment rollback.
         public let rollbackDeploymentId: String?
@@ -2886,7 +2886,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct S3Location: AWSShape {
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the Amazon S3 bucket where the application revision is stored.
         public let bucket: String?
@@ -2916,7 +2916,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
+    public struct SkipWaitTimeForInstanceTerminationInput: AWSEncodableShape {
 
         ///  The unique ID of a blue/green deployment for which you want to skip the instance termination wait time. 
         public let deploymentId: String?
@@ -2930,7 +2930,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct StopDeploymentInput: AWSShape {
+    public struct StopDeploymentInput: AWSEncodableShape {
 
         ///  Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision. 
         public let autoRollbackEnabled: Bool?
@@ -2948,7 +2948,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct StopDeploymentOutput: AWSShape {
+    public struct StopDeploymentOutput: AWSDecodableShape {
 
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.  
         public let status: StopStatus?
@@ -2966,7 +2966,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag's key.
         public let key: String?
@@ -2984,7 +2984,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TagFilter: AWSShape {
+    public struct TagFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The on-premises instance tag filter key.
         public let key: String?
@@ -3006,7 +3006,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         ///  The ARN of a resource, such as a CodeDeploy application or deployment group. 
         public let resourceArn: String
@@ -3029,7 +3029,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TagResourceOutput: AWSShape {
+    public struct TagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -3037,7 +3037,7 @@ extension CodeDeploy {
 
     }
 
-    public struct TargetGroupInfo: AWSShape {
+    public struct TargetGroupInfo: AWSEncodableShape & AWSDecodableShape {
 
         /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment are registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete. 
         public let name: String?
@@ -3051,7 +3051,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TargetGroupPairInfo: AWSShape {
+    public struct TargetGroupPairInfo: AWSEncodableShape & AWSDecodableShape {
 
         ///  The path used by a load balancer to route production traffic when an Amazon ECS deployment is complete. 
         public let prodTrafficRoute: TrafficRoute?
@@ -3073,7 +3073,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TargetInstances: AWSShape {
+    public struct TargetInstances: AWSEncodableShape & AWSDecodableShape {
 
         /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
         public let autoScalingGroups: [String]?
@@ -3095,7 +3095,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TimeBasedCanary: AWSShape {
+    public struct TimeBasedCanary: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of minutes between the first and second traffic shifts of a TimeBasedCanary deployment.
         public let canaryInterval: Int?
@@ -3113,7 +3113,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TimeBasedLinear: AWSShape {
+    public struct TimeBasedLinear: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of minutes between each incremental traffic shift of a TimeBasedLinear deployment.
         public let linearInterval: Int?
@@ -3131,7 +3131,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TimeRange: AWSShape {
+    public struct TimeRange: AWSEncodableShape {
 
         /// The end time of the time range.  Specify null to leave the end time open-ended. 
         public let end: TimeStamp?
@@ -3149,7 +3149,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TrafficRoute: AWSShape {
+    public struct TrafficRoute: AWSEncodableShape & AWSDecodableShape {
 
         ///  The ARN of one listener. The listener identifies the route between a target group and a load balancer. This is an array of strings with a maximum size of one. 
         public let listenerArns: [String]?
@@ -3163,7 +3163,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TrafficRoutingConfig: AWSShape {
+    public struct TrafficRoutingConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// A configuration that shifts traffic from one version of a Lambda function to another in two increments. The original and target Lambda function versions are specified in the deployment's AppSpec file.
         public let timeBasedCanary: TimeBasedCanary?
@@ -3185,7 +3185,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct TriggerConfig: AWSShape {
+    public struct TriggerConfig: AWSEncodableShape & AWSDecodableShape {
 
         /// The event type or types for which notifications are triggered.
         public let triggerEvents: [TriggerEventType]?
@@ -3207,7 +3207,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         ///  The ARN that specifies from which resource to disassociate the tags with the keys in the TagKeys input paramter. 
         public let resourceArn: String
@@ -3230,7 +3230,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct UntagResourceOutput: AWSShape {
+    public struct UntagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -3238,7 +3238,7 @@ extension CodeDeploy {
 
     }
 
-    public struct UpdateApplicationInput: AWSShape {
+    public struct UpdateApplicationInput: AWSEncodableShape {
 
         /// The current name of the application you want to change.
         public let applicationName: String?
@@ -3263,7 +3263,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct UpdateDeploymentGroupInput: AWSShape {
+    public struct UpdateDeploymentGroupInput: AWSEncodableShape {
 
         /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
         public let alarmConfiguration: AlarmConfiguration?
@@ -3352,7 +3352,7 @@ extension CodeDeploy {
         }
     }
 
-    public struct UpdateDeploymentGroupOutput: AWSShape {
+    public struct UpdateDeploymentGroupOutput: AWSDecodableShape {
 
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
         public let hooksNotCleanedUp: [AutoScalingGroup]?

@@ -59,7 +59,7 @@ extension DLM {
 
     //MARK: Shapes
 
-    public struct CreateLifecyclePolicyRequest: AWSShape {
+    public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
 
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
         public let description: String
@@ -106,7 +106,7 @@ extension DLM {
         }
     }
 
-    public struct CreateLifecyclePolicyResponse: AWSShape {
+    public struct CreateLifecyclePolicyResponse: AWSDecodableShape {
 
         /// The identifier of the lifecycle policy.
         public let policyId: String?
@@ -120,7 +120,7 @@ extension DLM {
         }
     }
 
-    public struct CreateRule: AWSShape {
+    public struct CreateRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The interval between snapshots. The supported values are 2, 3, 4, 6, 8, 12, and 24.
         public let interval: Int
@@ -152,7 +152,7 @@ extension DLM {
         }
     }
 
-    public struct CrossRegionCopyRetainRule: AWSShape {
+    public struct CrossRegionCopyRetainRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
         public let interval: Int?
@@ -174,7 +174,7 @@ extension DLM {
         }
     }
 
-    public struct CrossRegionCopyRule: AWSShape {
+    public struct CrossRegionCopyRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
         public let cmkArn: String?
@@ -214,7 +214,7 @@ extension DLM {
         }
     }
 
-    public struct DeleteLifecyclePolicyRequest: AWSShape {
+    public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyId", location: .uri(locationName: "policyId"))
         ]
@@ -232,12 +232,10 @@ extension DLM {
             try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "policyId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteLifecyclePolicyResponse: AWSShape {
+    public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
 
 
         public init() {
@@ -245,7 +243,7 @@ extension DLM {
 
     }
 
-    public struct FastRestoreRule: AWSShape {
+    public struct FastRestoreRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The Availability Zones in which to enable fast snapshot restore.
         public let availabilityZones: [String]
@@ -284,7 +282,7 @@ extension DLM {
         }
     }
 
-    public struct GetLifecyclePoliciesRequest: AWSShape {
+    public struct GetLifecyclePoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyIds", location: .querystring(locationName: "policyIds")), 
             AWSMemberEncoding(label: "resourceTypes", location: .querystring(locationName: "resourceTypes")), 
@@ -336,16 +334,10 @@ extension DLM {
             try validate(self.targetTags, name:"targetTags", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyIds = "policyIds"
-            case resourceTypes = "resourceTypes"
-            case state = "state"
-            case tagsToAdd = "tagsToAdd"
-            case targetTags = "targetTags"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLifecyclePoliciesResponse: AWSShape {
+    public struct GetLifecyclePoliciesResponse: AWSDecodableShape {
 
         /// Summary information about the lifecycle policies.
         public let policies: [LifecyclePolicySummary]?
@@ -359,7 +351,7 @@ extension DLM {
         }
     }
 
-    public struct GetLifecyclePolicyRequest: AWSShape {
+    public struct GetLifecyclePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyId", location: .uri(locationName: "policyId"))
         ]
@@ -377,12 +369,10 @@ extension DLM {
             try validate(self.policyId, name:"policyId", parent: name, pattern: "policy-[A-Za-z0-9]+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyId = "policyId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLifecyclePolicyResponse: AWSShape {
+    public struct GetLifecyclePolicyResponse: AWSDecodableShape {
 
         /// Detailed information about the lifecycle policy.
         public let policy: LifecyclePolicy?
@@ -396,7 +386,7 @@ extension DLM {
         }
     }
 
-    public struct LifecyclePolicy: AWSShape {
+    public struct LifecyclePolicy: AWSDecodableShape {
 
         /// The local date and time when the lifecycle policy was created.
         public let dateCreated: TimeStamp?
@@ -446,7 +436,7 @@ extension DLM {
         }
     }
 
-    public struct LifecyclePolicySummary: AWSShape {
+    public struct LifecyclePolicySummary: AWSDecodableShape {
 
         /// The description of the lifecycle policy.
         public let description: String?
@@ -472,7 +462,7 @@ extension DLM {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -490,12 +480,10 @@ extension DLM {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:dlm:[A-Za-z0-9_/.-]{0,63}:\\d+:policy/[0-9A-Za-z_-]{1,128}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// Information about the tags.
         public let tags: [String: String]?
@@ -509,7 +497,7 @@ extension DLM {
         }
     }
 
-    public struct Parameters: AWSShape {
+    public struct Parameters: AWSEncodableShape & AWSDecodableShape {
 
         /// [EBS Snapshot Management – Instance policies only] Indicates whether to exclude the root volume from snapshots created using CreateSnapshots. The default is false.
         public let excludeBootVolume: Bool?
@@ -523,7 +511,7 @@ extension DLM {
         }
     }
 
-    public struct PolicyDetails: AWSShape {
+    public struct PolicyDetails: AWSEncodableShape & AWSDecodableShape {
 
         /// A set of optional parameters for the policy. 
         public let parameters: Parameters?
@@ -568,7 +556,7 @@ extension DLM {
         }
     }
 
-    public struct RetainRule: AWSShape {
+    public struct RetainRule: AWSEncodableShape & AWSDecodableShape {
 
         /// The number of snapshots to retain for each volume, up to a maximum of 1000.
         public let count: Int?
@@ -596,7 +584,7 @@ extension DLM {
         }
     }
 
-    public struct Schedule: AWSShape {
+    public struct Schedule: AWSEncodableShape & AWSDecodableShape {
 
         /// Copy all user-defined tags on a source volume to snapshots of the volume created by this policy.
         public let copyTags: Bool?
@@ -662,7 +650,7 @@ extension DLM {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The tag key.
         public let key: String
@@ -689,7 +677,7 @@ extension DLM {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -718,12 +706,11 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "Tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -731,7 +718,7 @@ extension DLM {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -760,13 +747,10 @@ extension DLM {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -774,7 +758,7 @@ extension DLM {
 
     }
 
-    public struct UpdateLifecyclePolicyRequest: AWSShape {
+    public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "policyId", location: .uri(locationName: "policyId"))
         ]
@@ -815,12 +799,11 @@ extension DLM {
             case description = "Description"
             case executionRoleArn = "ExecutionRoleArn"
             case policyDetails = "PolicyDetails"
-            case policyId = "policyId"
             case state = "State"
         }
     }
 
-    public struct UpdateLifecyclePolicyResponse: AWSShape {
+    public struct UpdateLifecyclePolicyResponse: AWSDecodableShape {
 
 
         public init() {

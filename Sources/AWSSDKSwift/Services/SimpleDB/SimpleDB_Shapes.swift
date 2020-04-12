@@ -22,7 +22,7 @@ extension SimpleDB {
 
     //MARK: Shapes
 
-    public struct Attribute: AWSShape {
+    public struct Attribute: AWSDecodableShape {
 
         public let alternateNameEncoding: String?
         public let alternateValueEncoding: String?
@@ -46,7 +46,7 @@ extension SimpleDB {
         }
     }
 
-    public struct BatchDeleteAttributesRequest: AWSShape {
+    public struct BatchDeleteAttributesRequest: AWSEncodableShape {
 
         /// The name of the domain in which the attributes are being deleted.
         public let domainName: String
@@ -64,7 +64,7 @@ extension SimpleDB {
         }
     }
 
-    public struct BatchPutAttributesRequest: AWSShape {
+    public struct BatchPutAttributesRequest: AWSEncodableShape {
 
         /// The name of the domain in which the attributes are being stored.
         public let domainName: String
@@ -82,7 +82,7 @@ extension SimpleDB {
         }
     }
 
-    public struct CreateDomainRequest: AWSShape {
+    public struct CreateDomainRequest: AWSEncodableShape {
 
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
         public let domainName: String
@@ -96,7 +96,7 @@ extension SimpleDB {
         }
     }
 
-    public struct DeletableAttribute: AWSShape {
+    public struct DeletableAttribute: AWSEncodableShape {
 
         /// The name of the attribute.
         public let name: String
@@ -114,7 +114,7 @@ extension SimpleDB {
         }
     }
 
-    public struct DeletableItem: AWSShape {
+    public struct DeletableItem: AWSEncodableShape {
 
         public let attributes: [DeletableAttribute]?
         public let name: String
@@ -130,7 +130,7 @@ extension SimpleDB {
         }
     }
 
-    public struct DeleteAttributesRequest: AWSShape {
+    public struct DeleteAttributesRequest: AWSEncodableShape {
 
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
         public let attributes: [DeletableAttribute]?
@@ -156,7 +156,7 @@ extension SimpleDB {
         }
     }
 
-    public struct DeleteDomainRequest: AWSShape {
+    public struct DeleteDomainRequest: AWSEncodableShape {
 
         /// The name of the domain to delete.
         public let domainName: String
@@ -170,7 +170,7 @@ extension SimpleDB {
         }
     }
 
-    public struct DomainMetadataRequest: AWSShape {
+    public struct DomainMetadataRequest: AWSEncodableShape {
 
         /// The name of the domain for which to display the metadata of.
         public let domainName: String
@@ -184,7 +184,7 @@ extension SimpleDB {
         }
     }
 
-    public struct DomainMetadataResult: AWSShape {
+    public struct DomainMetadataResult: AWSDecodableShape {
 
         /// The number of unique attribute names in the domain.
         public let attributeNameCount: Int?
@@ -222,7 +222,7 @@ extension SimpleDB {
         }
     }
 
-    public struct GetAttributesRequest: AWSShape {
+    public struct GetAttributesRequest: AWSEncodableShape {
 
         /// The names of the attributes.
         public let attributeNames: [String]?
@@ -248,7 +248,7 @@ extension SimpleDB {
         }
     }
 
-    public struct GetAttributesResult: AWSShape {
+    public struct GetAttributesResult: AWSDecodableShape {
 
         /// The list of attributes returned by the operation.
         public let attributes: [Attribute]?
@@ -262,7 +262,7 @@ extension SimpleDB {
         }
     }
 
-    public struct Item: AWSShape {
+    public struct Item: AWSDecodableShape {
 
         public let alternateNameEncoding: String?
         /// A list of attributes.
@@ -283,7 +283,7 @@ extension SimpleDB {
         }
     }
 
-    public struct ListDomainsRequest: AWSShape {
+    public struct ListDomainsRequest: AWSEncodableShape {
 
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
         public let maxNumberOfDomains: Int?
@@ -301,7 +301,7 @@ extension SimpleDB {
         }
     }
 
-    public struct ListDomainsResult: AWSShape {
+    public struct ListDomainsResult: AWSDecodableShape {
 
         /// A list of domain names that match the expression.
         public let domainNames: [String]?
@@ -319,7 +319,7 @@ extension SimpleDB {
         }
     }
 
-    public struct PutAttributesRequest: AWSShape {
+    public struct PutAttributesRequest: AWSEncodableShape {
 
         /// The list of attributes.
         public let attributes: [ReplaceableAttribute]
@@ -345,7 +345,7 @@ extension SimpleDB {
         }
     }
 
-    public struct ReplaceableAttribute: AWSShape {
+    public struct ReplaceableAttribute: AWSEncodableShape {
 
         /// The name of the replaceable attribute.
         public let name: String
@@ -367,7 +367,7 @@ extension SimpleDB {
         }
     }
 
-    public struct ReplaceableItem: AWSShape {
+    public struct ReplaceableItem: AWSEncodableShape {
 
         /// The list of attributes for a replaceable item.
         public let attributes: [ReplaceableAttribute]
@@ -385,7 +385,7 @@ extension SimpleDB {
         }
     }
 
-    public struct SelectRequest: AWSShape {
+    public struct SelectRequest: AWSEncodableShape {
 
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
@@ -407,7 +407,7 @@ extension SimpleDB {
         }
     }
 
-    public struct SelectResult: AWSShape {
+    public struct SelectResult: AWSDecodableShape {
 
         /// A list of items that match the select expression.
         public let items: [Item]?
@@ -425,7 +425,7 @@ extension SimpleDB {
         }
     }
 
-    public struct UpdateCondition: AWSShape {
+    public struct UpdateCondition: AWSEncodableShape {
 
         /// A value specifying whether or not the specified attribute must exist with the specified value in order for the update condition to be satisfied. Specify true if the attribute must exist for the update condition to be satisfied. Specify false if the attribute should not exist in order for the update condition to be satisfied.
         public let exists: Bool?

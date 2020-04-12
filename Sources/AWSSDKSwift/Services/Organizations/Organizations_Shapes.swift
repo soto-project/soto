@@ -138,7 +138,7 @@ extension Organizations {
 
     //MARK: Shapes
 
-    public struct AcceptHandshakeRequest: AWSShape {
+    public struct AcceptHandshakeRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
@@ -156,7 +156,7 @@ extension Organizations {
         }
     }
 
-    public struct AcceptHandshakeResponse: AWSShape {
+    public struct AcceptHandshakeResponse: AWSDecodableShape {
 
         /// A structure that contains details about the accepted handshake.
         public let handshake: Handshake?
@@ -170,7 +170,7 @@ extension Organizations {
         }
     }
 
-    public struct Account: AWSShape {
+    public struct Account: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -208,7 +208,7 @@ extension Organizations {
         }
     }
 
-    public struct AttachPolicyRequest: AWSShape {
+    public struct AttachPolicyRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
@@ -231,7 +231,7 @@ extension Organizations {
         }
     }
 
-    public struct CancelHandshakeRequest: AWSShape {
+    public struct CancelHandshakeRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
@@ -249,7 +249,7 @@ extension Organizations {
         }
     }
 
-    public struct CancelHandshakeResponse: AWSShape {
+    public struct CancelHandshakeResponse: AWSDecodableShape {
 
         /// A structure that contains details about the handshake that you canceled.
         public let handshake: Handshake?
@@ -263,7 +263,7 @@ extension Organizations {
         }
     }
 
-    public struct Child: AWSShape {
+    public struct Child: AWSDecodableShape {
 
         /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
@@ -281,7 +281,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateAccountRequest: AWSShape {
+    public struct CreateAccountRequest: AWSEncodableShape {
 
         /// The friendly name of the member account.
         public let accountName: String
@@ -317,7 +317,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateAccountResponse: AWSShape {
+    public struct CreateAccountResponse: AWSDecodableShape {
 
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to DescribeCreateAccountStatus to get status about the progress of the request at later times. You can also check the AWS CloudTrail log for the CreateAccountResult event. For more information, see Monitoring the Activity in Your Organization in the AWS Organizations User Guide.
         public let createAccountStatus: CreateAccountStatus?
@@ -331,7 +331,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateAccountStatus: AWSShape {
+    public struct CreateAccountStatus: AWSDecodableShape {
 
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String?
@@ -373,7 +373,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateGovCloudAccountRequest: AWSShape {
+    public struct CreateGovCloudAccountRequest: AWSEncodableShape {
 
         /// The friendly name of the member account.
         public let accountName: String
@@ -409,7 +409,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateGovCloudAccountResponse: AWSShape {
+    public struct CreateGovCloudAccountResponse: AWSDecodableShape {
 
         public let createAccountStatus: CreateAccountStatus?
 
@@ -422,7 +422,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateOrganizationRequest: AWSShape {
+    public struct CreateOrganizationRequest: AWSEncodableShape {
 
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated billing in the AWS Organizations User Guide.   The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any policy type to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.   
         public let featureSet: OrganizationFeatureSet?
@@ -436,7 +436,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateOrganizationResponse: AWSShape {
+    public struct CreateOrganizationResponse: AWSDecodableShape {
 
         /// A structure that contains details about the newly created organization.
         public let organization: Organization?
@@ -450,7 +450,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateOrganizationalUnitRequest: AWSShape {
+    public struct CreateOrganizationalUnitRequest: AWSEncodableShape {
 
         /// The friendly name to assign to the new OU.
         public let name: String
@@ -474,7 +474,7 @@ extension Organizations {
         }
     }
 
-    public struct CreateOrganizationalUnitResponse: AWSShape {
+    public struct CreateOrganizationalUnitResponse: AWSDecodableShape {
 
         /// A structure that contains details about the newly created OU.
         public let organizationalUnit: OrganizationalUnit?
@@ -488,7 +488,7 @@ extension Organizations {
         }
     }
 
-    public struct CreatePolicyRequest: AWSShape {
+    public struct CreatePolicyRequest: AWSEncodableShape {
 
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide. 
         public let content: String
@@ -522,7 +522,7 @@ extension Organizations {
         }
     }
 
-    public struct CreatePolicyResponse: AWSShape {
+    public struct CreatePolicyResponse: AWSDecodableShape {
 
         /// A structure that contains details about the newly created policy.
         public let policy: Policy?
@@ -536,7 +536,7 @@ extension Organizations {
         }
     }
 
-    public struct DeclineHandshakeRequest: AWSShape {
+    public struct DeclineHandshakeRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
@@ -554,7 +554,7 @@ extension Organizations {
         }
     }
 
-    public struct DeclineHandshakeResponse: AWSShape {
+    public struct DeclineHandshakeResponse: AWSDecodableShape {
 
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
         public let handshake: Handshake?
@@ -568,7 +568,7 @@ extension Organizations {
         }
     }
 
-    public struct DelegatedAdministrator: AWSShape {
+    public struct DelegatedAdministrator: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the delegated administrator's account.
         public let arn: String?
@@ -610,7 +610,7 @@ extension Organizations {
         }
     }
 
-    public struct DelegatedService: AWSShape {
+    public struct DelegatedService: AWSDecodableShape {
 
         /// The date that the account became a delegated administrator for this service. 
         public let delegationEnabledDate: TimeStamp?
@@ -628,7 +628,7 @@ extension Organizations {
         }
     }
 
-    public struct DeleteOrganizationalUnitRequest: AWSShape {
+    public struct DeleteOrganizationalUnitRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let organizationalUnitId: String
@@ -646,7 +646,7 @@ extension Organizations {
         }
     }
 
-    public struct DeletePolicyRequest: AWSShape {
+    public struct DeletePolicyRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
@@ -664,7 +664,7 @@ extension Organizations {
         }
     }
 
-    public struct DeregisterDelegatedAdministratorRequest: AWSShape {
+    public struct DeregisterDelegatedAdministratorRequest: AWSEncodableShape {
 
         /// The account ID number of the member account in the organization that you want to deregister as a delegated administrator.
         public let accountId: String
@@ -689,7 +689,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeAccountRequest: AWSShape {
+    public struct DescribeAccountRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -707,7 +707,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeAccountResponse: AWSShape {
+    public struct DescribeAccountResponse: AWSDecodableShape {
 
         /// A structure that contains information about the requested account.
         public let account: Account?
@@ -721,7 +721,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeCreateAccountStatusRequest: AWSShape {
+    public struct DescribeCreateAccountStatusRequest: AWSEncodableShape {
 
         /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
         public let createAccountRequestId: String
@@ -739,7 +739,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeCreateAccountStatusResponse: AWSShape {
+    public struct DescribeCreateAccountStatusResponse: AWSDecodableShape {
 
         /// A structure that contains the current status of an account creation request.
         public let createAccountStatus: CreateAccountStatus?
@@ -753,7 +753,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeEffectivePolicyRequest: AWSShape {
+    public struct DescribeEffectivePolicyRequest: AWSEncodableShape {
 
         /// The type of policy that you want information about.
         public let policyType: EffectivePolicyType
@@ -775,7 +775,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeEffectivePolicyResponse: AWSShape {
+    public struct DescribeEffectivePolicyResponse: AWSDecodableShape {
 
         /// The contents of the effective policy.
         public let effectivePolicy: EffectivePolicy?
@@ -789,7 +789,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeHandshakeRequest: AWSShape {
+    public struct DescribeHandshakeRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
@@ -807,7 +807,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeHandshakeResponse: AWSShape {
+    public struct DescribeHandshakeResponse: AWSDecodableShape {
 
         /// A structure that contains information about the specified handshake.
         public let handshake: Handshake?
@@ -821,7 +821,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeOrganizationResponse: AWSShape {
+    public struct DescribeOrganizationResponse: AWSDecodableShape {
 
         /// A structure that contains information about the organization.
         public let organization: Organization?
@@ -835,7 +835,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeOrganizationalUnitRequest: AWSShape {
+    public struct DescribeOrganizationalUnitRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let organizationalUnitId: String
@@ -853,7 +853,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribeOrganizationalUnitResponse: AWSShape {
+    public struct DescribeOrganizationalUnitResponse: AWSDecodableShape {
 
         /// A structure that contains details about the specified OU.
         public let organizationalUnit: OrganizationalUnit?
@@ -867,7 +867,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribePolicyRequest: AWSShape {
+    public struct DescribePolicyRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
@@ -885,7 +885,7 @@ extension Organizations {
         }
     }
 
-    public struct DescribePolicyResponse: AWSShape {
+    public struct DescribePolicyResponse: AWSDecodableShape {
 
         /// A structure that contains details about the specified policy.
         public let policy: Policy?
@@ -899,7 +899,7 @@ extension Organizations {
         }
     }
 
-    public struct DetachPolicyRequest: AWSShape {
+    public struct DetachPolicyRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
@@ -922,7 +922,7 @@ extension Organizations {
         }
     }
 
-    public struct DisableAWSServiceAccessRequest: AWSShape {
+    public struct DisableAWSServiceAccessRequest: AWSEncodableShape {
 
         /// The service principal name of the AWS service for which you want to disable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
         public let servicePrincipal: String
@@ -942,7 +942,7 @@ extension Organizations {
         }
     }
 
-    public struct DisablePolicyTypeRequest: AWSShape {
+    public struct DisablePolicyTypeRequest: AWSEncodableShape {
 
         /// The policy type that you want to disable in this root.
         public let policyType: PolicyType
@@ -964,7 +964,7 @@ extension Organizations {
         }
     }
 
-    public struct DisablePolicyTypeResponse: AWSShape {
+    public struct DisablePolicyTypeResponse: AWSDecodableShape {
 
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
@@ -978,7 +978,7 @@ extension Organizations {
         }
     }
 
-    public struct EffectivePolicy: AWSShape {
+    public struct EffectivePolicy: AWSDecodableShape {
 
         /// The time of the last update to this policy.
         public let lastUpdatedTimestamp: TimeStamp?
@@ -1004,7 +1004,7 @@ extension Organizations {
         }
     }
 
-    public struct EnableAWSServiceAccessRequest: AWSShape {
+    public struct EnableAWSServiceAccessRequest: AWSEncodableShape {
 
         /// The service principal name of the AWS service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
         public let servicePrincipal: String
@@ -1024,7 +1024,7 @@ extension Organizations {
         }
     }
 
-    public struct EnableAllFeaturesRequest: AWSShape {
+    public struct EnableAllFeaturesRequest: AWSEncodableShape {
 
 
         public init() {
@@ -1032,7 +1032,7 @@ extension Organizations {
 
     }
 
-    public struct EnableAllFeaturesResponse: AWSShape {
+    public struct EnableAllFeaturesResponse: AWSDecodableShape {
 
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?
@@ -1046,7 +1046,7 @@ extension Organizations {
         }
     }
 
-    public struct EnablePolicyTypeRequest: AWSShape {
+    public struct EnablePolicyTypeRequest: AWSEncodableShape {
 
         /// The policy type that you want to enable.
         public let policyType: PolicyType
@@ -1068,7 +1068,7 @@ extension Organizations {
         }
     }
 
-    public struct EnablePolicyTypeResponse: AWSShape {
+    public struct EnablePolicyTypeResponse: AWSDecodableShape {
 
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
@@ -1082,7 +1082,7 @@ extension Organizations {
         }
     }
 
-    public struct EnabledServicePrincipal: AWSShape {
+    public struct EnabledServicePrincipal: AWSDecodableShape {
 
         /// The date that the service principal was enabled for integration with AWS Organizations.
         public let dateEnabled: TimeStamp?
@@ -1100,7 +1100,7 @@ extension Organizations {
         }
     }
 
-    public struct Handshake: AWSShape {
+    public struct Handshake: AWSDecodableShape {
 
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the master account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the master account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's master account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the master account and signals the master that it can finalize the process to enable all features.  
         public let action: ActionType?
@@ -1142,7 +1142,7 @@ extension Organizations {
         }
     }
 
-    public struct HandshakeFilter: AWSShape {
+    public struct HandshakeFilter: AWSEncodableShape {
 
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public let actionType: ActionType?
@@ -1164,7 +1164,7 @@ extension Organizations {
         }
     }
 
-    public struct HandshakeParty: AWSShape {
+    public struct HandshakeParty: AWSEncodableShape & AWSDecodableShape {
 
         /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String
@@ -1187,7 +1187,7 @@ extension Organizations {
         }
     }
 
-    public class HandshakeResource: AWSShape {
+    public class HandshakeResource: AWSDecodableShape {
 
         /// When needed, contains an additional array of HandshakeResource objects.
         public let resources: [HandshakeResource]?
@@ -1209,7 +1209,7 @@ extension Organizations {
         }
     }
 
-    public struct InviteAccountToOrganizationRequest: AWSShape {
+    public struct InviteAccountToOrganizationRequest: AWSEncodableShape {
 
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public let notes: String?
@@ -1232,7 +1232,7 @@ extension Organizations {
         }
     }
 
-    public struct InviteAccountToOrganizationResponse: AWSShape {
+    public struct InviteAccountToOrganizationResponse: AWSDecodableShape {
 
         /// A structure that contains details about the handshake that is created to support this invitation request.
         public let handshake: Handshake?
@@ -1246,7 +1246,7 @@ extension Organizations {
         }
     }
 
-    public struct ListAWSServiceAccessForOrganizationRequest: AWSShape {
+    public struct ListAWSServiceAccessForOrganizationRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1269,7 +1269,7 @@ extension Organizations {
         }
     }
 
-    public struct ListAWSServiceAccessForOrganizationResponse: AWSShape {
+    public struct ListAWSServiceAccessForOrganizationResponse: AWSDecodableShape {
 
         /// A list of the service principals for the services that are enabled to integrate with your organization. Each principal is a structure that includes the name and the date that it was enabled for integration with AWS Organizations.
         public let enabledServicePrincipals: [EnabledServicePrincipal]?
@@ -1287,7 +1287,7 @@ extension Organizations {
         }
     }
 
-    public struct ListAccountsForParentRequest: AWSShape {
+    public struct ListAccountsForParentRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1315,7 +1315,7 @@ extension Organizations {
         }
     }
 
-    public struct ListAccountsForParentResponse: AWSShape {
+    public struct ListAccountsForParentResponse: AWSDecodableShape {
 
         /// A list of the accounts in the specified root or OU.
         public let accounts: [Account]?
@@ -1333,7 +1333,7 @@ extension Organizations {
         }
     }
 
-    public struct ListAccountsRequest: AWSShape {
+    public struct ListAccountsRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1356,7 +1356,7 @@ extension Organizations {
         }
     }
 
-    public struct ListAccountsResponse: AWSShape {
+    public struct ListAccountsResponse: AWSDecodableShape {
 
         /// A list of objects in the organization.
         public let accounts: [Account]?
@@ -1374,7 +1374,7 @@ extension Organizations {
         }
     }
 
-    public struct ListChildrenRequest: AWSShape {
+    public struct ListChildrenRequest: AWSEncodableShape {
 
         /// Filters the output to include only the specified child type.
         public let childType: ChildType
@@ -1406,7 +1406,7 @@ extension Organizations {
         }
     }
 
-    public struct ListChildrenResponse: AWSShape {
+    public struct ListChildrenResponse: AWSDecodableShape {
 
         /// The list of children of the specified parent container.
         public let children: [Child]?
@@ -1424,7 +1424,7 @@ extension Organizations {
         }
     }
 
-    public struct ListCreateAccountStatusRequest: AWSShape {
+    public struct ListCreateAccountStatusRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1451,7 +1451,7 @@ extension Organizations {
         }
     }
 
-    public struct ListCreateAccountStatusResponse: AWSShape {
+    public struct ListCreateAccountStatusResponse: AWSDecodableShape {
 
         /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
         public let createAccountStatuses: [CreateAccountStatus]?
@@ -1469,7 +1469,7 @@ extension Organizations {
         }
     }
 
-    public struct ListDelegatedAdministratorsRequest: AWSShape {
+    public struct ListDelegatedAdministratorsRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1499,7 +1499,7 @@ extension Organizations {
         }
     }
 
-    public struct ListDelegatedAdministratorsResponse: AWSShape {
+    public struct ListDelegatedAdministratorsResponse: AWSDecodableShape {
 
         /// The list of delegated administrators in your organization.
         public let delegatedAdministrators: [DelegatedAdministrator]?
@@ -1517,7 +1517,7 @@ extension Organizations {
         }
     }
 
-    public struct ListDelegatedServicesForAccountRequest: AWSShape {
+    public struct ListDelegatedServicesForAccountRequest: AWSEncodableShape {
 
         /// The account ID number of a delegated administrator account in the organization.
         public let accountId: String
@@ -1545,7 +1545,7 @@ extension Organizations {
         }
     }
 
-    public struct ListDelegatedServicesForAccountResponse: AWSShape {
+    public struct ListDelegatedServicesForAccountResponse: AWSDecodableShape {
 
         /// The services for which the account is a delegated administrator.
         public let delegatedServices: [DelegatedService]?
@@ -1563,7 +1563,7 @@ extension Organizations {
         }
     }
 
-    public struct ListHandshakesForAccountRequest: AWSShape {
+    public struct ListHandshakesForAccountRequest: AWSEncodableShape {
 
         /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
@@ -1591,7 +1591,7 @@ extension Organizations {
         }
     }
 
-    public struct ListHandshakesForAccountResponse: AWSShape {
+    public struct ListHandshakesForAccountResponse: AWSDecodableShape {
 
         /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
         public let handshakes: [Handshake]?
@@ -1609,7 +1609,7 @@ extension Organizations {
         }
     }
 
-    public struct ListHandshakesForOrganizationRequest: AWSShape {
+    public struct ListHandshakesForOrganizationRequest: AWSEncodableShape {
 
         /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
         public let filter: HandshakeFilter?
@@ -1637,7 +1637,7 @@ extension Organizations {
         }
     }
 
-    public struct ListHandshakesForOrganizationResponse: AWSShape {
+    public struct ListHandshakesForOrganizationResponse: AWSDecodableShape {
 
         /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
         public let handshakes: [Handshake]?
@@ -1655,7 +1655,7 @@ extension Organizations {
         }
     }
 
-    public struct ListOrganizationalUnitsForParentRequest: AWSShape {
+    public struct ListOrganizationalUnitsForParentRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1683,7 +1683,7 @@ extension Organizations {
         }
     }
 
-    public struct ListOrganizationalUnitsForParentResponse: AWSShape {
+    public struct ListOrganizationalUnitsForParentResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1701,7 +1701,7 @@ extension Organizations {
         }
     }
 
-    public struct ListParentsRequest: AWSShape {
+    public struct ListParentsRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the following:    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let childId: String
@@ -1729,7 +1729,7 @@ extension Organizations {
         }
     }
 
-    public struct ListParentsResponse: AWSShape {
+    public struct ListParentsResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1747,7 +1747,7 @@ extension Organizations {
         }
     }
 
-    public struct ListPoliciesForTargetRequest: AWSShape {
+    public struct ListPoliciesForTargetRequest: AWSEncodableShape {
 
         /// The type of policy that you want to include in the returned list.
         public let filter: PolicyType
@@ -1779,7 +1779,7 @@ extension Organizations {
         }
     }
 
-    public struct ListPoliciesForTargetResponse: AWSShape {
+    public struct ListPoliciesForTargetResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1797,7 +1797,7 @@ extension Organizations {
         }
     }
 
-    public struct ListPoliciesRequest: AWSShape {
+    public struct ListPoliciesRequest: AWSEncodableShape {
 
         /// Specifies the type of policy that you want to include in the response.
         public let filter: PolicyType
@@ -1824,7 +1824,7 @@ extension Organizations {
         }
     }
 
-    public struct ListPoliciesResponse: AWSShape {
+    public struct ListPoliciesResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1842,7 +1842,7 @@ extension Organizations {
         }
     }
 
-    public struct ListRootsRequest: AWSShape {
+    public struct ListRootsRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1865,7 +1865,7 @@ extension Organizations {
         }
     }
 
-    public struct ListRootsResponse: AWSShape {
+    public struct ListRootsResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1883,7 +1883,7 @@ extension Organizations {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
 
         /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -1905,7 +1905,7 @@ extension Organizations {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1923,7 +1923,7 @@ extension Organizations {
         }
     }
 
-    public struct ListTargetsForPolicyRequest: AWSShape {
+    public struct ListTargetsForPolicyRequest: AWSEncodableShape {
 
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -1951,7 +1951,7 @@ extension Organizations {
         }
     }
 
-    public struct ListTargetsForPolicyResponse: AWSShape {
+    public struct ListTargetsForPolicyResponse: AWSDecodableShape {
 
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1969,7 +1969,7 @@ extension Organizations {
         }
     }
 
-    public struct MoveAccountRequest: AWSShape {
+    public struct MoveAccountRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -1997,7 +1997,7 @@ extension Organizations {
         }
     }
 
-    public struct Organization: AWSShape {
+    public struct Organization: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2035,7 +2035,7 @@ extension Organizations {
         }
     }
 
-    public struct OrganizationalUnit: AWSShape {
+    public struct OrganizationalUnit: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2057,7 +2057,7 @@ extension Organizations {
         }
     }
 
-    public struct Parent: AWSShape {
+    public struct Parent: AWSDecodableShape {
 
         /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
@@ -2075,7 +2075,7 @@ extension Organizations {
         }
     }
 
-    public struct Policy: AWSShape {
+    public struct Policy: AWSDecodableShape {
 
         /// The text content of the policy.
         public let content: String?
@@ -2093,7 +2093,7 @@ extension Organizations {
         }
     }
 
-    public struct PolicySummary: AWSShape {
+    public struct PolicySummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2127,7 +2127,7 @@ extension Organizations {
         }
     }
 
-    public struct PolicyTargetSummary: AWSShape {
+    public struct PolicyTargetSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2153,7 +2153,7 @@ extension Organizations {
         }
     }
 
-    public struct PolicyTypeSummary: AWSShape {
+    public struct PolicyTypeSummary: AWSDecodableShape {
 
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
         public let status: PolicyTypeStatus?
@@ -2171,7 +2171,7 @@ extension Organizations {
         }
     }
 
-    public struct RegisterDelegatedAdministratorRequest: AWSShape {
+    public struct RegisterDelegatedAdministratorRequest: AWSEncodableShape {
 
         /// The account ID number of the member account in the organization to register as a delegated administrator.
         public let accountId: String
@@ -2196,7 +2196,7 @@ extension Organizations {
         }
     }
 
-    public struct RemoveAccountFromOrganizationRequest: AWSShape {
+    public struct RemoveAccountFromOrganizationRequest: AWSEncodableShape {
 
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -2214,7 +2214,7 @@ extension Organizations {
         }
     }
 
-    public struct Root: AWSShape {
+    public struct Root: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2240,7 +2240,7 @@ extension Organizations {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// The key identifier, or name, of the tag.
         public let key: String
@@ -2267,7 +2267,7 @@ extension Organizations {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
 
         /// The ID of the resource to add a tag to.
         public let resourceId: String
@@ -2292,7 +2292,7 @@ extension Organizations {
         }
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
 
         /// The ID of the resource to remove the tag from.
         public let resourceId: String
@@ -2319,7 +2319,7 @@ extension Organizations {
         }
     }
 
-    public struct UpdateOrganizationalUnitRequest: AWSShape {
+    public struct UpdateOrganizationalUnitRequest: AWSEncodableShape {
 
         /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2343,7 +2343,7 @@ extension Organizations {
         }
     }
 
-    public struct UpdateOrganizationalUnitResponse: AWSShape {
+    public struct UpdateOrganizationalUnitResponse: AWSDecodableShape {
 
         /// A structure that contains the details about the specified OU, including its new name.
         public let organizationalUnit: OrganizationalUnit?
@@ -2357,7 +2357,7 @@ extension Organizations {
         }
     }
 
-    public struct UpdatePolicyRequest: AWSShape {
+    public struct UpdatePolicyRequest: AWSEncodableShape {
 
         /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide. 
         public let content: String?
@@ -2392,7 +2392,7 @@ extension Organizations {
         }
     }
 
-    public struct UpdatePolicyResponse: AWSShape {
+    public struct UpdatePolicyResponse: AWSDecodableShape {
 
         /// A structure that contains details about the updated policy, showing the requested changes.
         public let policy: Policy?

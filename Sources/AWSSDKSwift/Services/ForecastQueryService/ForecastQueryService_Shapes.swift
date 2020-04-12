@@ -22,7 +22,7 @@ extension ForecastQueryService {
 
     //MARK: Shapes
 
-    public struct DataPoint: AWSShape {
+    public struct DataPoint: AWSDecodableShape {
 
         /// The timestamp of the specific forecast.
         public let timestamp: String?
@@ -40,7 +40,7 @@ extension ForecastQueryService {
         }
     }
 
-    public struct Forecast: AWSShape {
+    public struct Forecast: AWSDecodableShape {
 
         /// The forecast. The string of the string-to-array map is one of the following values:   p10   p50   p90  
         public let predictions: [String: [DataPoint]]?
@@ -54,7 +54,7 @@ extension ForecastQueryService {
         }
     }
 
-    public struct QueryForecastRequest: AWSShape {
+    public struct QueryForecastRequest: AWSEncodableShape {
 
         /// The end date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00. 
         public let endDate: String?
@@ -96,7 +96,7 @@ extension ForecastQueryService {
         }
     }
 
-    public struct QueryForecastResponse: AWSShape {
+    public struct QueryForecastResponse: AWSDecodableShape {
 
         /// The forecast.
         public let forecast: Forecast?

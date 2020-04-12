@@ -40,7 +40,7 @@ extension Mobile {
 
     //MARK: Shapes
 
-    public struct BundleDetails: AWSShape {
+    public struct BundleDetails: AWSDecodableShape {
 
         public let availablePlatforms: [Platform]?
         public let bundleId: String?
@@ -68,7 +68,7 @@ extension Mobile {
         }
     }
 
-    public struct CreateProjectRequest: AWSShape {
+    public struct CreateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
         public static var _encoding = [
@@ -79,7 +79,7 @@ extension Mobile {
         ]
 
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation. 
-        public let contents: Data?
+        public let contents: AWSPayload?
         ///  Name of the project. 
         public let name: String?
         ///  Default region where project resources should be created. 
@@ -87,22 +87,17 @@ extension Mobile {
         ///  Unique identifier for an exported snapshot of project configuration. This snapshot identifier is included in the share URL when a project is exported. 
         public let snapshotId: String?
 
-        public init(contents: Data? = nil, name: String? = nil, region: String? = nil, snapshotId: String? = nil) {
+        public init(contents: AWSPayload? = nil, name: String? = nil, region: String? = nil, snapshotId: String? = nil) {
             self.contents = contents
             self.name = name
             self.region = region
             self.snapshotId = snapshotId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contents = "contents"
-            case name = "name"
-            case region = "region"
-            case snapshotId = "snapshotId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateProjectResult: AWSShape {
+    public struct CreateProjectResult: AWSDecodableShape {
 
         ///  Detailed information about the created AWS Mobile Hub project. 
         public let details: ProjectDetails?
@@ -116,7 +111,7 @@ extension Mobile {
         }
     }
 
-    public struct DeleteProjectRequest: AWSShape {
+    public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
@@ -128,12 +123,10 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteProjectResult: AWSShape {
+    public struct DeleteProjectResult: AWSDecodableShape {
 
         ///  Resources which were deleted. 
         public let deletedResources: [Resource]?
@@ -151,7 +144,7 @@ extension Mobile {
         }
     }
 
-    public struct DescribeBundleRequest: AWSShape {
+    public struct DescribeBundleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId"))
         ]
@@ -163,12 +156,10 @@ extension Mobile {
             self.bundleId = bundleId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bundleId = "bundleId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeBundleResult: AWSShape {
+    public struct DescribeBundleResult: AWSDecodableShape {
 
         ///  The details of the bundle. 
         public let details: BundleDetails?
@@ -182,7 +173,7 @@ extension Mobile {
         }
     }
 
-    public struct DescribeProjectRequest: AWSShape {
+    public struct DescribeProjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId")), 
             AWSMemberEncoding(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"))
@@ -198,13 +189,10 @@ extension Mobile {
             self.syncFromResources = syncFromResources
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case syncFromResources = "syncFromResources"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeProjectResult: AWSShape {
+    public struct DescribeProjectResult: AWSDecodableShape {
 
         public let details: ProjectDetails?
 
@@ -217,7 +205,7 @@ extension Mobile {
         }
     }
 
-    public struct ExportBundleRequest: AWSShape {
+    public struct ExportBundleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bundleId", location: .uri(locationName: "bundleId")), 
             AWSMemberEncoding(label: "platform", location: .querystring(locationName: "platform")), 
@@ -237,14 +225,10 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bundleId = "bundleId"
-            case platform = "platform"
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ExportBundleResult: AWSShape {
+    public struct ExportBundleResult: AWSDecodableShape {
 
         ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
         public let downloadUrl: String?
@@ -258,7 +242,7 @@ extension Mobile {
         }
     }
 
-    public struct ExportProjectRequest: AWSShape {
+    public struct ExportProjectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
@@ -270,12 +254,10 @@ extension Mobile {
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ExportProjectResult: AWSShape {
+    public struct ExportProjectResult: AWSDecodableShape {
 
         ///  URL which can be used to download the exported project configuation file(s). 
         public let downloadUrl: String?
@@ -297,7 +279,7 @@ extension Mobile {
         }
     }
 
-    public struct ListBundlesRequest: AWSShape {
+    public struct ListBundlesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -313,13 +295,10 @@ extension Mobile {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBundlesResult: AWSShape {
+    public struct ListBundlesResult: AWSDecodableShape {
 
         ///  A list of bundles. 
         public let bundleList: [BundleDetails]?
@@ -337,7 +316,7 @@ extension Mobile {
         }
     }
 
-    public struct ListProjectsRequest: AWSShape {
+    public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
@@ -353,13 +332,10 @@ extension Mobile {
             self.nextToken = nextToken
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListProjectsResult: AWSShape {
+    public struct ListProjectsResult: AWSDecodableShape {
 
         public let nextToken: String?
         public let projects: [ProjectSummary]?
@@ -375,7 +351,7 @@ extension Mobile {
         }
     }
 
-    public struct ProjectDetails: AWSShape {
+    public struct ProjectDetails: AWSDecodableShape {
 
         ///  Website URL for this project in the AWS Mobile Hub console. 
         public let consoleUrl: String?
@@ -412,7 +388,7 @@ extension Mobile {
         }
     }
 
-    public struct ProjectSummary: AWSShape {
+    public struct ProjectSummary: AWSDecodableShape {
 
         ///  Name of the project. 
         public let name: String?
@@ -430,7 +406,7 @@ extension Mobile {
         }
     }
 
-    public struct Resource: AWSShape {
+    public struct Resource: AWSDecodableShape {
 
         public let arn: String?
         public let attributes: [String: String]?
@@ -455,7 +431,7 @@ extension Mobile {
         }
     }
 
-    public struct UpdateProjectRequest: AWSShape {
+    public struct UpdateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let payloadPath: String? = "contents"
         public static var _encoding = [
@@ -464,22 +440,19 @@ extension Mobile {
         ]
 
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation. 
-        public let contents: Data?
+        public let contents: AWSPayload?
         ///  Unique project identifier. 
         public let projectId: String
 
-        public init(contents: Data? = nil, projectId: String) {
+        public init(contents: AWSPayload? = nil, projectId: String) {
             self.contents = contents
             self.projectId = projectId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contents = "contents"
-            case projectId = "projectId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateProjectResult: AWSShape {
+    public struct UpdateProjectResult: AWSDecodableShape {
 
         ///  Detailed information about the updated AWS Mobile Hub project. 
         public let details: ProjectDetails?

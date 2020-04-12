@@ -105,7 +105,7 @@ extension ACMPCA {
 
     //MARK: Shapes
 
-    public struct ASN1Subject: AWSShape {
+    public struct ASN1Subject: AWSEncodableShape & AWSDecodableShape {
 
         /// Fully qualified domain name (FQDN) associated with the certificate subject.
         public let commonName: String?
@@ -202,7 +202,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CertificateAuthority: AWSShape {
+    public struct CertificateAuthority: AWSDecodableShape {
 
         /// Amazon Resource Name (ARN) for your private certificate authority (CA). The format is  12345678-1234-1234-1234-123456789012 .
         public let arn: String?
@@ -260,7 +260,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CertificateAuthorityConfiguration: AWSShape {
+    public struct CertificateAuthorityConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates when it issues a certificate. When you create a subordinate CA, you must use a key algorithm supported by the parent CA.
         public let keyAlgorithm: KeyAlgorithm
@@ -286,7 +286,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CreateCertificateAuthorityAuditReportRequest: AWSShape {
+    public struct CreateCertificateAuthorityAuditReportRequest: AWSEncodableShape {
 
         /// The format in which to create the report. This can be either JSON or CSV.
         public let auditReportResponseFormat: AuditReportResponseFormat
@@ -314,7 +314,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CreateCertificateAuthorityAuditReportResponse: AWSShape {
+    public struct CreateCertificateAuthorityAuditReportResponse: AWSDecodableShape {
 
         /// An alphanumeric string that contains a report identifier.
         public let auditReportId: String?
@@ -332,7 +332,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CreateCertificateAuthorityRequest: AWSShape {
+    public struct CreateCertificateAuthorityRequest: AWSEncodableShape {
 
         /// Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.
         public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration
@@ -375,7 +375,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CreateCertificateAuthorityResponse: AWSShape {
+    public struct CreateCertificateAuthorityResponse: AWSDecodableShape {
 
         /// If successful, the Amazon Resource Name (ARN) of the certificate authority (CA). This is of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String?
@@ -389,7 +389,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CreatePermissionRequest: AWSShape {
+    public struct CreatePermissionRequest: AWSEncodableShape {
 
         /// The actions that the specified AWS service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
         public let actions: [ActionType]
@@ -429,7 +429,7 @@ extension ACMPCA {
         }
     }
 
-    public struct CrlConfiguration: AWSShape {
+    public struct CrlConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.
         public let customCname: String?
@@ -464,7 +464,7 @@ extension ACMPCA {
         }
     }
 
-    public struct DeleteCertificateAuthorityRequest: AWSShape {
+    public struct DeleteCertificateAuthorityRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
@@ -490,7 +490,7 @@ extension ACMPCA {
         }
     }
 
-    public struct DeletePermissionRequest: AWSShape {
+    public struct DeletePermissionRequest: AWSEncodableShape {
 
         /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
@@ -524,7 +524,7 @@ extension ACMPCA {
         }
     }
 
-    public struct DescribeCertificateAuthorityAuditReportRequest: AWSShape {
+    public struct DescribeCertificateAuthorityAuditReportRequest: AWSEncodableShape {
 
         /// The report ID returned by calling the CreateCertificateAuthorityAuditReport action.
         public let auditReportId: String
@@ -551,7 +551,7 @@ extension ACMPCA {
         }
     }
 
-    public struct DescribeCertificateAuthorityAuditReportResponse: AWSShape {
+    public struct DescribeCertificateAuthorityAuditReportResponse: AWSDecodableShape {
 
         /// Specifies whether report creation is in progress, has succeeded, or has failed.
         public let auditReportStatus: AuditReportStatus?
@@ -577,7 +577,7 @@ extension ACMPCA {
         }
     }
 
-    public struct DescribeCertificateAuthorityRequest: AWSShape {
+    public struct DescribeCertificateAuthorityRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
@@ -597,7 +597,7 @@ extension ACMPCA {
         }
     }
 
-    public struct DescribeCertificateAuthorityResponse: AWSShape {
+    public struct DescribeCertificateAuthorityResponse: AWSDecodableShape {
 
         /// A CertificateAuthority structure that contains information about your private CA.
         public let certificateAuthority: CertificateAuthority?
@@ -611,7 +611,7 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateAuthorityCertificateRequest: AWSShape {
+    public struct GetCertificateAuthorityCertificateRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
@@ -631,7 +631,7 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateAuthorityCertificateResponse: AWSShape {
+    public struct GetCertificateAuthorityCertificateResponse: AWSDecodableShape {
 
         /// Base64-encoded certificate authority (CA) certificate.
         public let certificate: String?
@@ -649,7 +649,7 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateAuthorityCsrRequest: AWSShape {
+    public struct GetCertificateAuthorityCsrRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -669,7 +669,7 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateAuthorityCsrResponse: AWSShape {
+    public struct GetCertificateAuthorityCsrResponse: AWSDecodableShape {
 
         /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
         public let csr: String?
@@ -683,7 +683,7 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateRequest: AWSShape {
+    public struct GetCertificateRequest: AWSEncodableShape {
 
         /// The ARN of the issued certificate. The ARN contains the certificate serial number and must be in the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
         public let certificateArn: String
@@ -710,7 +710,7 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateResponse: AWSShape {
+    public struct GetCertificateResponse: AWSDecodableShape {
 
         /// The base64 PEM-encoded certificate specified by the CertificateArn parameter.
         public let certificate: String?
@@ -728,7 +728,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ImportCertificateAuthorityCertificateRequest: AWSShape {
+    public struct ImportCertificateAuthorityCertificateRequest: AWSEncodableShape {
 
         /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control.
         public let certificate: Data
@@ -760,7 +760,7 @@ extension ACMPCA {
         }
     }
 
-    public struct IssueCertificateRequest: AWSShape {
+    public struct IssueCertificateRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -809,7 +809,7 @@ extension ACMPCA {
         }
     }
 
-    public struct IssueCertificateResponse: AWSShape {
+    public struct IssueCertificateResponse: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
         public let certificateArn: String?
@@ -823,7 +823,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ListCertificateAuthoritiesRequest: AWSShape {
+    public struct ListCertificateAuthoritiesRequest: AWSEncodableShape {
 
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
         public let maxResults: Int?
@@ -848,7 +848,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ListCertificateAuthoritiesResponse: AWSShape {
+    public struct ListCertificateAuthoritiesResponse: AWSDecodableShape {
 
         /// Summary information about each certificate authority you have created.
         public let certificateAuthorities: [CertificateAuthority]?
@@ -866,7 +866,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ListPermissionsRequest: AWSShape {
+    public struct ListPermissionsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the ListCertificateAuthorities action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the ListCertificateAuthorities action.
         public let certificateAuthorityArn: String
@@ -898,7 +898,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ListPermissionsResponse: AWSShape {
+    public struct ListPermissionsResponse: AWSDecodableShape {
 
         /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request. 
         public let nextToken: String?
@@ -916,7 +916,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ListTagsRequest: AWSShape {
+    public struct ListTagsRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -948,7 +948,7 @@ extension ACMPCA {
         }
     }
 
-    public struct ListTagsResponse: AWSShape {
+    public struct ListTagsResponse: AWSDecodableShape {
 
         /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request. 
         public let nextToken: String?
@@ -966,7 +966,7 @@ extension ACMPCA {
         }
     }
 
-    public struct Permission: AWSShape {
+    public struct Permission: AWSDecodableShape {
 
         /// The private CA actions that can be performed by the designated AWS service.
         public let actions: [ActionType]?
@@ -1000,7 +1000,7 @@ extension ACMPCA {
         }
     }
 
-    public struct RestoreCertificateAuthorityRequest: AWSShape {
+    public struct RestoreCertificateAuthorityRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -1020,7 +1020,7 @@ extension ACMPCA {
         }
     }
 
-    public struct RevocationConfiguration: AWSShape {
+    public struct RevocationConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.
         public let crlConfiguration: CrlConfiguration?
@@ -1038,7 +1038,7 @@ extension ACMPCA {
         }
     }
 
-    public struct RevokeCertificateRequest: AWSShape {
+    public struct RevokeCertificateRequest: AWSEncodableShape {
 
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -1068,7 +1068,7 @@ extension ACMPCA {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// Key (name) of the tag.
         public let key: String
@@ -1095,7 +1095,7 @@ extension ACMPCA {
         }
     }
 
-    public struct TagCertificateAuthorityRequest: AWSShape {
+    public struct TagCertificateAuthorityRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -1124,7 +1124,7 @@ extension ACMPCA {
         }
     }
 
-    public struct UntagCertificateAuthorityRequest: AWSShape {
+    public struct UntagCertificateAuthorityRequest: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -1153,7 +1153,7 @@ extension ACMPCA {
         }
     }
 
-    public struct UpdateCertificateAuthorityRequest: AWSShape {
+    public struct UpdateCertificateAuthorityRequest: AWSEncodableShape {
 
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
@@ -1182,7 +1182,7 @@ extension ACMPCA {
         }
     }
 
-    public struct Validity: AWSShape {
+    public struct Validity: AWSEncodableShape {
 
         /// Specifies whether the Value parameter represents days, months, or years.
         public let `type`: ValidityPeriodType

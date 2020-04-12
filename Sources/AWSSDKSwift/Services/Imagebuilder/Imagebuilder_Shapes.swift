@@ -82,7 +82,7 @@ extension Imagebuilder {
 
     //MARK: Shapes
 
-    public struct Ami: AWSShape {
+    public struct Ami: AWSDecodableShape {
 
         ///  The description of the EC2 AMI. 
         public let description: String?
@@ -111,7 +111,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct AmiDistributionConfiguration: AWSShape {
+    public struct AmiDistributionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         ///  The tags to apply to AMIs distributed to this Region. 
         public let amiTags: [String: String]?
@@ -152,7 +152,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CancelImageCreationRequest: AWSShape {
+    public struct CancelImageCreationRequest: AWSEncodableShape {
 
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String
@@ -176,7 +176,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CancelImageCreationResponse: AWSShape {
+    public struct CancelImageCreationResponse: AWSDecodableShape {
 
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
@@ -198,7 +198,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct Component: AWSShape {
+    public struct Component: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
@@ -260,7 +260,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ComponentConfiguration: AWSShape {
+    public struct ComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the component. 
         public let componentArn: String
@@ -278,7 +278,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ComponentSummary: AWSShape {
+    public struct ComponentSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
@@ -328,7 +328,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ComponentVersion: AWSShape {
+    public struct ComponentVersion: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
@@ -370,7 +370,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateComponentRequest: AWSShape {
+    public struct CreateComponentRequest: AWSEncodableShape {
 
         /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component.
         public let changeDescription: String?
@@ -441,7 +441,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateComponentResponse: AWSShape {
+    public struct CreateComponentResponse: AWSDecodableShape {
 
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
@@ -463,7 +463,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateDistributionConfigurationRequest: AWSShape {
+    public struct CreateDistributionConfigurationRequest: AWSEncodableShape {
 
         ///  The idempotency token of the distribution configuration. 
         public let clientToken: String
@@ -510,7 +510,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateDistributionConfigurationResponse: AWSShape {
+    public struct CreateDistributionConfigurationResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -532,7 +532,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateImagePipelineRequest: AWSShape {
+    public struct CreateImagePipelineRequest: AWSEncodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -601,7 +601,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateImagePipelineResponse: AWSShape {
+    public struct CreateImagePipelineResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -623,7 +623,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateImageRecipeRequest: AWSShape {
+    public struct CreateImageRecipeRequest: AWSEncodableShape {
 
         ///  The block device mappings of the image recipe. 
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
@@ -689,7 +689,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateImageRecipeResponse: AWSShape {
+    public struct CreateImageRecipeResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -711,7 +711,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateImageRequest: AWSShape {
+    public struct CreateImageRequest: AWSEncodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -760,7 +760,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateImageResponse: AWSShape {
+    public struct CreateImageResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -782,7 +782,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateInfrastructureConfigurationRequest: AWSShape {
+    public struct CreateInfrastructureConfigurationRequest: AWSEncodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -866,7 +866,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct CreateInfrastructureConfigurationResponse: AWSShape {
+    public struct CreateInfrastructureConfigurationResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -888,7 +888,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DeleteComponentRequest: AWSShape {
+    public struct DeleteComponentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
@@ -904,12 +904,10 @@ extension Imagebuilder {
             try validate(self.componentBuildVersionArn, name:"componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentBuildVersionArn = "componentBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteComponentResponse: AWSShape {
+    public struct DeleteComponentResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the component build version that was deleted. 
         public let componentBuildVersionArn: String?
@@ -927,7 +925,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DeleteDistributionConfigurationRequest: AWSShape {
+    public struct DeleteDistributionConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
@@ -943,12 +941,10 @@ extension Imagebuilder {
             try validate(self.distributionConfigurationArn, name:"distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationArn = "distributionConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteDistributionConfigurationResponse: AWSShape {
+    public struct DeleteDistributionConfigurationResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the distribution configuration that was deleted. 
         public let distributionConfigurationArn: String?
@@ -966,7 +962,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DeleteImagePipelineRequest: AWSShape {
+    public struct DeleteImagePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
@@ -982,12 +978,10 @@ extension Imagebuilder {
             try validate(self.imagePipelineArn, name:"imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imagePipelineArn = "imagePipelineArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteImagePipelineResponse: AWSShape {
+    public struct DeleteImagePipelineResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image pipeline that was deleted. 
         public let imagePipelineArn: String?
@@ -1005,7 +999,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DeleteImageRecipeRequest: AWSShape {
+    public struct DeleteImageRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
@@ -1021,12 +1015,10 @@ extension Imagebuilder {
             try validate(self.imageRecipeArn, name:"imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteImageRecipeResponse: AWSShape {
+    public struct DeleteImageRecipeResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image recipe that was deleted. 
         public let imageRecipeArn: String?
@@ -1044,7 +1036,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DeleteImageRequest: AWSShape {
+    public struct DeleteImageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
@@ -1060,12 +1052,10 @@ extension Imagebuilder {
             try validate(self.imageBuildVersionArn, name:"imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn = "imageBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteImageResponse: AWSShape {
+    public struct DeleteImageResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image that was deleted. 
         public let imageBuildVersionArn: String?
@@ -1083,7 +1073,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DeleteInfrastructureConfigurationRequest: AWSShape {
+    public struct DeleteInfrastructureConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
@@ -1099,12 +1089,10 @@ extension Imagebuilder {
             try validate(self.infrastructureConfigurationArn, name:"infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteInfrastructureConfigurationResponse: AWSShape {
+    public struct DeleteInfrastructureConfigurationResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted. 
         public let infrastructureConfigurationArn: String?
@@ -1122,7 +1110,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct Distribution: AWSShape {
+    public struct Distribution: AWSEncodableShape & AWSDecodableShape {
 
         ///  The specific AMI settings (for example, launch permissions, AMI tags). 
         public let amiDistributionConfiguration: AmiDistributionConfiguration?
@@ -1150,7 +1138,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DistributionConfiguration: AWSShape {
+    public struct DistributionConfiguration: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public let arn: String?
@@ -1192,7 +1180,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct DistributionConfigurationSummary: AWSShape {
+    public struct DistributionConfigurationSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public let arn: String?
@@ -1226,7 +1214,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct EbsInstanceBlockDeviceSpecification: AWSShape {
+    public struct EbsInstanceBlockDeviceSpecification: AWSEncodableShape & AWSDecodableShape {
 
         /// Use to configure delete on termination of the associated device.
         public let deleteOnTermination: Bool?
@@ -1275,7 +1263,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct Filter: AWSShape {
+    public struct Filter: AWSEncodableShape {
 
         ///  The name of the filter. Filter names are case-sensitive. 
         public let name: String?
@@ -1302,7 +1290,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetComponentPolicyRequest: AWSShape {
+    public struct GetComponentPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "componentArn", location: .querystring(locationName: "componentArn"))
         ]
@@ -1318,12 +1306,10 @@ extension Imagebuilder {
             try validate(self.componentArn, name:"componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentArn = "componentArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetComponentPolicyResponse: AWSShape {
+    public struct GetComponentPolicyResponse: AWSDecodableShape {
 
         ///  The component policy. 
         public let policy: String?
@@ -1341,7 +1327,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetComponentRequest: AWSShape {
+    public struct GetComponentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
@@ -1357,12 +1343,10 @@ extension Imagebuilder {
             try validate(self.componentBuildVersionArn, name:"componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentBuildVersionArn = "componentBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetComponentResponse: AWSShape {
+    public struct GetComponentResponse: AWSDecodableShape {
 
         ///  The component object associated with the specified ARN. 
         public let component: Component?
@@ -1380,7 +1364,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetDistributionConfigurationRequest: AWSShape {
+    public struct GetDistributionConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
@@ -1396,12 +1380,10 @@ extension Imagebuilder {
             try validate(self.distributionConfigurationArn, name:"distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationArn = "distributionConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDistributionConfigurationResponse: AWSShape {
+    public struct GetDistributionConfigurationResponse: AWSDecodableShape {
 
         ///  The distribution configuration object. 
         public let distributionConfiguration: DistributionConfiguration?
@@ -1419,7 +1401,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetImagePipelineRequest: AWSShape {
+    public struct GetImagePipelineRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
@@ -1435,12 +1417,10 @@ extension Imagebuilder {
             try validate(self.imagePipelineArn, name:"imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imagePipelineArn = "imagePipelineArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImagePipelineResponse: AWSShape {
+    public struct GetImagePipelineResponse: AWSDecodableShape {
 
         ///  The image pipeline object. 
         public let imagePipeline: ImagePipeline?
@@ -1458,7 +1438,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetImagePolicyRequest: AWSShape {
+    public struct GetImagePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imageArn", location: .querystring(locationName: "imageArn"))
         ]
@@ -1474,12 +1454,10 @@ extension Imagebuilder {
             try validate(self.imageArn, name:"imageArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageArn = "imageArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImagePolicyResponse: AWSShape {
+    public struct GetImagePolicyResponse: AWSDecodableShape {
 
         ///  The image policy object. 
         public let policy: String?
@@ -1497,7 +1475,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetImageRecipePolicyRequest: AWSShape {
+    public struct GetImageRecipePolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
@@ -1513,12 +1491,10 @@ extension Imagebuilder {
             try validate(self.imageRecipeArn, name:"imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImageRecipePolicyResponse: AWSShape {
+    public struct GetImageRecipePolicyResponse: AWSDecodableShape {
 
         ///  The image recipe policy object. 
         public let policy: String?
@@ -1536,7 +1512,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetImageRecipeRequest: AWSShape {
+    public struct GetImageRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
@@ -1552,12 +1528,10 @@ extension Imagebuilder {
             try validate(self.imageRecipeArn, name:"imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImageRecipeResponse: AWSShape {
+    public struct GetImageRecipeResponse: AWSDecodableShape {
 
         ///  The image recipe object. 
         public let imageRecipe: ImageRecipe?
@@ -1575,7 +1549,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetImageRequest: AWSShape {
+    public struct GetImageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
@@ -1591,12 +1565,10 @@ extension Imagebuilder {
             try validate(self.imageBuildVersionArn, name:"imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn = "imageBuildVersionArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImageResponse: AWSShape {
+    public struct GetImageResponse: AWSDecodableShape {
 
         ///  The image object. 
         public let image: Image?
@@ -1614,7 +1586,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct GetInfrastructureConfigurationRequest: AWSShape {
+    public struct GetInfrastructureConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
@@ -1630,12 +1602,10 @@ extension Imagebuilder {
             try validate(self.infrastructureConfigurationArn, name:"infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetInfrastructureConfigurationResponse: AWSShape {
+    public struct GetInfrastructureConfigurationResponse: AWSDecodableShape {
 
         ///  The infrastructure configuration object. 
         public let infrastructureConfiguration: InfrastructureConfiguration?
@@ -1653,7 +1623,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct Image: AWSShape {
+    public struct Image: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
@@ -1719,7 +1689,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImagePipeline: AWSShape {
+    public struct ImagePipeline: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public let arn: String?
@@ -1789,7 +1759,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImageRecipe: AWSShape {
+    public struct ImageRecipe: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
@@ -1843,7 +1813,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImageRecipeSummary: AWSShape {
+    public struct ImageRecipeSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
@@ -1881,7 +1851,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImageState: AWSShape {
+    public struct ImageState: AWSDecodableShape {
 
         ///  The reason for the image's status. 
         public let reason: String?
@@ -1899,7 +1869,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImageSummary: AWSShape {
+    public struct ImageSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
@@ -1945,7 +1915,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImageTestsConfiguration: AWSShape {
+    public struct ImageTestsConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// Defines if tests should be executed when building this image.
         public let imageTestsEnabled: Bool?
@@ -1968,7 +1938,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImageVersion: AWSShape {
+    public struct ImageVersion: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the image semantic version.
         public let arn: String?
@@ -2002,7 +1972,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImportComponentRequest: AWSShape {
+    public struct ImportComponentRequest: AWSEncodableShape {
 
         ///  The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component. 
         public let changeDescription: String?
@@ -2081,7 +2051,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ImportComponentResponse: AWSShape {
+    public struct ImportComponentResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -2103,7 +2073,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct InfrastructureConfiguration: AWSShape {
+    public struct InfrastructureConfiguration: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public let arn: String?
@@ -2169,7 +2139,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct InfrastructureConfigurationSummary: AWSShape {
+    public struct InfrastructureConfigurationSummary: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public let arn: String?
@@ -2203,7 +2173,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct InstanceBlockDeviceMapping: AWSShape {
+    public struct InstanceBlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
 
         /// The device to which these mappings apply.
         public let deviceName: String?
@@ -2239,7 +2209,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct LaunchPermissionConfiguration: AWSShape {
+    public struct LaunchPermissionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the group. 
         public let userGroups: [String]?
@@ -2268,7 +2238,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListComponentBuildVersionsRequest: AWSShape {
+    public struct ListComponentBuildVersionsRequest: AWSEncodableShape {
 
         ///  The component version Amazon Resource Name (ARN) whose versions you want to list. 
         public let componentVersionArn: String
@@ -2298,7 +2268,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListComponentBuildVersionsResponse: AWSShape {
+    public struct ListComponentBuildVersionsResponse: AWSDecodableShape {
 
         ///  The list of component summaries for the specified semantic version. 
         public let componentSummaryList: [ComponentSummary]?
@@ -2320,7 +2290,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListComponentsRequest: AWSShape {
+    public struct ListComponentsRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2358,7 +2328,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListComponentsResponse: AWSShape {
+    public struct ListComponentsResponse: AWSDecodableShape {
 
         ///  The list of component semantic versions. 
         public let componentVersionList: [ComponentVersion]?
@@ -2380,7 +2350,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListDistributionConfigurationsRequest: AWSShape {
+    public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2414,7 +2384,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListDistributionConfigurationsResponse: AWSShape {
+    public struct ListDistributionConfigurationsResponse: AWSDecodableShape {
 
         ///  The list of distributions. 
         public let distributionConfigurationSummaryList: [DistributionConfigurationSummary]?
@@ -2436,7 +2406,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImageBuildVersionsRequest: AWSShape {
+    public struct ListImageBuildVersionsRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2475,7 +2445,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImageBuildVersionsResponse: AWSShape {
+    public struct ListImageBuildVersionsResponse: AWSDecodableShape {
 
         ///  The list of image build versions. 
         public let imageSummaryList: [ImageSummary]?
@@ -2497,7 +2467,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImagePipelineImagesRequest: AWSShape {
+    public struct ListImagePipelineImagesRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2536,7 +2506,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImagePipelineImagesResponse: AWSShape {
+    public struct ListImagePipelineImagesResponse: AWSDecodableShape {
 
         ///  The list of images built by this pipeline. 
         public let imageSummaryList: [ImageSummary]?
@@ -2558,7 +2528,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImagePipelinesRequest: AWSShape {
+    public struct ListImagePipelinesRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2592,7 +2562,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImagePipelinesResponse: AWSShape {
+    public struct ListImagePipelinesResponse: AWSDecodableShape {
 
         ///  The list of image pipelines. 
         public let imagePipelineList: [ImagePipeline]?
@@ -2614,7 +2584,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImageRecipesRequest: AWSShape {
+    public struct ListImageRecipesRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2652,7 +2622,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImageRecipesResponse: AWSShape {
+    public struct ListImageRecipesResponse: AWSDecodableShape {
 
         ///  The list of image pipelines. 
         public let imageRecipeSummaryList: [ImageRecipeSummary]?
@@ -2674,7 +2644,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImagesRequest: AWSShape {
+    public struct ListImagesRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2712,7 +2682,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListImagesResponse: AWSShape {
+    public struct ListImagesResponse: AWSDecodableShape {
 
         ///  The list of image semantic versions. 
         public let imageVersionList: [ImageVersion]?
@@ -2734,7 +2704,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListInfrastructureConfigurationsRequest: AWSShape {
+    public struct ListInfrastructureConfigurationsRequest: AWSEncodableShape {
 
         ///  The filters. 
         public let filters: [Filter]?
@@ -2768,7 +2738,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListInfrastructureConfigurationsResponse: AWSShape {
+    public struct ListInfrastructureConfigurationsResponse: AWSDecodableShape {
 
         ///  The list of infrastructure configurations. 
         public let infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]?
@@ -2790,7 +2760,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -2806,12 +2776,10 @@ extension Imagebuilder {
             try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):(?:image-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\\d+)\\.(?:x|\\d+)\\.(?:x|\\d+))(?:/\\d+)?)?$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
 
         ///  The tags for the specified resource. 
         public let tags: [String: String]?
@@ -2825,7 +2793,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct Logging: AWSShape {
+    public struct Logging: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 logging configuration.
         public let s3Logs: S3Logs?
@@ -2843,7 +2811,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct OutputResources: AWSShape {
+    public struct OutputResources: AWSDecodableShape {
 
         /// The EC2 AMIs created by this image. 
         public let amis: [Ami]?
@@ -2857,7 +2825,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct PutComponentPolicyRequest: AWSShape {
+    public struct PutComponentPolicyRequest: AWSEncodableShape {
 
         ///  The Amazon Resource Name (ARN) of the component that this policy should be applied to. 
         public let componentArn: String
@@ -2881,7 +2849,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct PutComponentPolicyResponse: AWSShape {
+    public struct PutComponentPolicyResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the component that this policy was applied to. 
         public let componentArn: String?
@@ -2899,7 +2867,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct PutImagePolicyRequest: AWSShape {
+    public struct PutImagePolicyRequest: AWSEncodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image that this policy should be applied to. 
         public let imageArn: String
@@ -2923,7 +2891,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct PutImagePolicyResponse: AWSShape {
+    public struct PutImagePolicyResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image that this policy was applied to. 
         public let imageArn: String?
@@ -2941,7 +2909,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct PutImageRecipePolicyRequest: AWSShape {
+    public struct PutImageRecipePolicyRequest: AWSEncodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. 
         public let imageRecipeArn: String
@@ -2965,7 +2933,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct PutImageRecipePolicyResponse: AWSShape {
+    public struct PutImageRecipePolicyResponse: AWSDecodableShape {
 
         ///  The Amazon Resource Name (ARN) of the image recipe that this policy was applied to. 
         public let imageRecipeArn: String?
@@ -2983,7 +2951,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct S3Logs: AWSShape {
+    public struct S3Logs: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket in which to store the logs.
         public let s3BucketName: String?
@@ -3008,7 +2976,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct Schedule: AWSShape {
+    public struct Schedule: AWSEncodableShape & AWSDecodableShape {
 
         ///  The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, EC2 Image Builder will build a new image only when there are known changes pending. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
@@ -3031,7 +2999,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct StartImagePipelineExecutionRequest: AWSShape {
+    public struct StartImagePipelineExecutionRequest: AWSEncodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -3055,7 +3023,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct StartImagePipelineExecutionResponse: AWSShape {
+    public struct StartImagePipelineExecutionResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent.
         public let clientToken: String?
@@ -3077,7 +3045,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
@@ -3103,12 +3071,11 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
             case tags = "tags"
         }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct TagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3116,7 +3083,7 @@ extension Imagebuilder {
 
     }
 
-    public struct UntagResourceRequest: AWSShape {
+    public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
@@ -3143,13 +3110,10 @@ extension Imagebuilder {
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UntagResourceResponse: AWSShape {
+    public struct UntagResourceResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3157,7 +3121,7 @@ extension Imagebuilder {
 
     }
 
-    public struct UpdateDistributionConfigurationRequest: AWSShape {
+    public struct UpdateDistributionConfigurationRequest: AWSEncodableShape {
 
         ///  The idempotency token of the distribution configuration. 
         public let clientToken: String
@@ -3194,7 +3158,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct UpdateDistributionConfigurationResponse: AWSShape {
+    public struct UpdateDistributionConfigurationResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -3216,7 +3180,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct UpdateImagePipelineRequest: AWSShape {
+    public struct UpdateImagePipelineRequest: AWSEncodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -3275,7 +3239,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct UpdateImagePipelineResponse: AWSShape {
+    public struct UpdateImagePipelineResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?
@@ -3297,7 +3261,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct UpdateInfrastructureConfigurationRequest: AWSShape {
+    public struct UpdateInfrastructureConfigurationRequest: AWSEncodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String
@@ -3371,7 +3335,7 @@ extension Imagebuilder {
         }
     }
 
-    public struct UpdateInfrastructureConfigurationResponse: AWSShape {
+    public struct UpdateInfrastructureConfigurationResponse: AWSDecodableShape {
 
         ///  The idempotency token used to make this request idempotent. 
         public let clientToken: String?

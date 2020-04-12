@@ -113,7 +113,7 @@ extension CloudWatch {
 
     //MARK: Shapes
 
-    public struct AlarmHistoryItem: AWSShape {
+    public struct AlarmHistoryItem: AWSDecodableShape {
 
         /// The descriptive name for the alarm.
         public let alarmName: String?
@@ -147,7 +147,7 @@ extension CloudWatch {
         }
     }
 
-    public struct AnomalyDetector: AWSShape {
+    public struct AnomalyDetector: AWSDecodableShape {
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
         public let configuration: AnomalyDetectorConfiguration?
@@ -181,7 +181,7 @@ extension CloudWatch {
         }
     }
 
-    public struct AnomalyDetectorConfiguration: AWSShape {
+    public struct AnomalyDetectorConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
         @OptionalCoding<DefaultArrayCoder> public var excludedTimeRanges: [Range]?
@@ -204,7 +204,7 @@ extension CloudWatch {
         }
     }
 
-    public struct CompositeAlarm: AWSShape {
+    public struct CompositeAlarm: AWSDecodableShape {
 
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
@@ -266,7 +266,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DashboardEntry: AWSShape {
+    public struct DashboardEntry: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -292,7 +292,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DashboardValidationMessage: AWSShape {
+    public struct DashboardValidationMessage: AWSDecodableShape {
 
         /// The data path related to the message.
         public let dataPath: String?
@@ -310,7 +310,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Datapoint: AWSShape {
+    public struct Datapoint: AWSDecodableShape {
 
         /// The average of the metric values that correspond to the data point.
         public let average: Double?
@@ -352,7 +352,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteAlarmsInput: AWSShape {
+    public struct DeleteAlarmsInput: AWSEncodableShape {
 
         /// The alarms to be deleted.
         @Coding<DefaultArrayCoder> public var alarmNames: [String]
@@ -374,7 +374,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteAnomalyDetectorInput: AWSShape {
+    public struct DeleteAnomalyDetectorInput: AWSEncodableShape {
 
         /// The metric dimensions associated with the anomaly detection model to delete.
         @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
@@ -413,7 +413,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteAnomalyDetectorOutput: AWSShape {
+    public struct DeleteAnomalyDetectorOutput: AWSDecodableShape {
 
 
         public init() {
@@ -421,7 +421,7 @@ extension CloudWatch {
 
     }
 
-    public struct DeleteDashboardsInput: AWSShape {
+    public struct DeleteDashboardsInput: AWSEncodableShape {
 
         /// The dashboards to be deleted. This parameter is required.
         @Coding<DefaultArrayCoder> public var dashboardNames: [String]
@@ -435,7 +435,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteDashboardsOutput: AWSShape {
+    public struct DeleteDashboardsOutput: AWSDecodableShape {
 
 
         public init() {
@@ -443,7 +443,7 @@ extension CloudWatch {
 
     }
 
-    public struct DeleteInsightRulesInput: AWSShape {
+    public struct DeleteInsightRulesInput: AWSEncodableShape {
 
         /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules.
         @Coding<DefaultArrayCoder> public var ruleNames: [String]
@@ -465,7 +465,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DeleteInsightRulesOutput: AWSShape {
+    public struct DeleteInsightRulesOutput: AWSDecodableShape {
 
         /// An array listing the rules that could not be deleted. You cannot delete built-in rules.
         @OptionalCoding<DefaultArrayCoder> public var failures: [PartialFailure]?
@@ -479,7 +479,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmHistoryInput: AWSShape {
+    public struct DescribeAlarmHistoryInput: AWSEncodableShape {
 
         /// The name of the alarm.
         public let alarmName: String?
@@ -528,7 +528,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmHistoryOutput: AWSShape {
+    public struct DescribeAlarmHistoryOutput: AWSDecodableShape {
 
         /// The alarm histories, in JSON format.
         @OptionalCoding<DefaultArrayCoder> public var alarmHistoryItems: [AlarmHistoryItem]?
@@ -546,7 +546,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsForMetricInput: AWSShape {
+    public struct DescribeAlarmsForMetricInput: AWSEncodableShape {
 
         /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
         @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
@@ -598,7 +598,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsForMetricOutput: AWSShape {
+    public struct DescribeAlarmsForMetricOutput: AWSDecodableShape {
 
         /// The information for each alarm with the specified metric.
         @OptionalCoding<DefaultArrayCoder> public var metricAlarms: [MetricAlarm]?
@@ -612,7 +612,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsInput: AWSShape {
+    public struct DescribeAlarmsInput: AWSEncodableShape {
 
         /// Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
         public let actionPrefix: String?
@@ -676,7 +676,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAlarmsOutput: AWSShape {
+    public struct DescribeAlarmsOutput: AWSDecodableShape {
 
         /// The information about any composite alarms returned by the operation.
         @OptionalCoding<DefaultArrayCoder> public var compositeAlarms: [CompositeAlarm]?
@@ -698,7 +698,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAnomalyDetectorsInput: AWSShape {
+    public struct DescribeAnomalyDetectorsInput: AWSEncodableShape {
 
         /// Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
         @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
@@ -741,7 +741,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeAnomalyDetectorsOutput: AWSShape {
+    public struct DescribeAnomalyDetectorsOutput: AWSDecodableShape {
 
         /// The list of anomaly detection models returned by the operation.
         @OptionalCoding<DefaultArrayCoder> public var anomalyDetectors: [AnomalyDetector]?
@@ -759,7 +759,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeInsightRulesInput: AWSShape {
+    public struct DescribeInsightRulesInput: AWSEncodableShape {
 
         /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value may be different.
         public let maxResults: Int?
@@ -782,7 +782,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DescribeInsightRulesOutput: AWSShape {
+    public struct DescribeInsightRulesOutput: AWSDecodableShape {
 
         /// The rules returned by the operation.
         @OptionalCoding<DefaultArrayCoder> public var insightRules: [InsightRule]?
@@ -800,7 +800,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Dimension: AWSShape {
+    public struct Dimension: AWSEncodableShape & AWSDecodableShape {
 
         /// The name of the dimension.
         public let name: String
@@ -825,7 +825,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DimensionFilter: AWSShape {
+    public struct DimensionFilter: AWSEncodableShape {
 
         /// The dimension name to be matched.
         public let name: String
@@ -850,7 +850,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DisableAlarmActionsInput: AWSShape {
+    public struct DisableAlarmActionsInput: AWSEncodableShape {
 
         /// The names of the alarms.
         @Coding<DefaultArrayCoder> public var alarmNames: [String]
@@ -872,7 +872,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DisableInsightRulesInput: AWSShape {
+    public struct DisableInsightRulesInput: AWSEncodableShape {
 
         /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules.
         @Coding<DefaultArrayCoder> public var ruleNames: [String]
@@ -894,7 +894,7 @@ extension CloudWatch {
         }
     }
 
-    public struct DisableInsightRulesOutput: AWSShape {
+    public struct DisableInsightRulesOutput: AWSDecodableShape {
 
         /// An array listing the rules that could not be disabled. You cannot disable built-in rules.
         @OptionalCoding<DefaultArrayCoder> public var failures: [PartialFailure]?
@@ -908,7 +908,7 @@ extension CloudWatch {
         }
     }
 
-    public struct EnableAlarmActionsInput: AWSShape {
+    public struct EnableAlarmActionsInput: AWSEncodableShape {
 
         /// The names of the alarms.
         @Coding<DefaultArrayCoder> public var alarmNames: [String]
@@ -930,7 +930,7 @@ extension CloudWatch {
         }
     }
 
-    public struct EnableInsightRulesInput: AWSShape {
+    public struct EnableInsightRulesInput: AWSEncodableShape {
 
         /// An array of the rule names to enable. If you need to find out the names of your rules, use DescribeInsightRules.
         @Coding<DefaultArrayCoder> public var ruleNames: [String]
@@ -952,7 +952,7 @@ extension CloudWatch {
         }
     }
 
-    public struct EnableInsightRulesOutput: AWSShape {
+    public struct EnableInsightRulesOutput: AWSDecodableShape {
 
         /// An array listing the rules that could not be enabled. You cannot disable or enable built-in rules.
         @OptionalCoding<DefaultArrayCoder> public var failures: [PartialFailure]?
@@ -966,7 +966,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetDashboardInput: AWSShape {
+    public struct GetDashboardInput: AWSEncodableShape {
 
         /// The name of the dashboard to be described.
         public let dashboardName: String
@@ -980,7 +980,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetDashboardOutput: AWSShape {
+    public struct GetDashboardOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -1002,7 +1002,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetInsightRuleReportInput: AWSShape {
+    public struct GetInsightRuleReportInput: AWSEncodableShape {
 
         /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let endTime: TimeStamp
@@ -1055,7 +1055,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetInsightRuleReportOutput: AWSShape {
+    public struct GetInsightRuleReportOutput: AWSDecodableShape {
 
         /// The sum of the values from all individual contributors that match the rule.
         public let aggregateValue: Double?
@@ -1089,7 +1089,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricDataInput: AWSShape {
+    public struct GetMetricDataInput: AWSEncodableShape {
 
         /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
         public let endTime: TimeStamp
@@ -1129,7 +1129,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricDataOutput: AWSShape {
+    public struct GetMetricDataOutput: AWSDecodableShape {
 
         /// Contains a message about this GetMetricData operation, if the operation results in such a message. An example of a message that may be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
         @OptionalCoding<DefaultArrayCoder> public var messages: [MessageData]?
@@ -1151,7 +1151,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricStatisticsInput: AWSShape {
+    public struct GetMetricStatisticsInput: AWSEncodableShape {
 
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
         @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
@@ -1217,7 +1217,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricStatisticsOutput: AWSShape {
+    public struct GetMetricStatisticsOutput: AWSDecodableShape {
 
         /// The data points for the specified metric.
         @OptionalCoding<DefaultArrayCoder> public var datapoints: [Datapoint]?
@@ -1235,7 +1235,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricWidgetImageInput: AWSShape {
+    public struct GetMetricWidgetImageInput: AWSEncodableShape {
 
         /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
         public let metricWidget: String
@@ -1253,7 +1253,7 @@ extension CloudWatch {
         }
     }
 
-    public struct GetMetricWidgetImageOutput: AWSShape {
+    public struct GetMetricWidgetImageOutput: AWSDecodableShape {
 
         /// The image of the graph, in the output format specified.
         public let metricWidgetImage: Data?
@@ -1267,7 +1267,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRule: AWSShape {
+    public struct InsightRule: AWSDecodableShape {
 
         /// The definition of the rule, as a JSON object. The definition contains the keywords used to define contributors, the value to aggregate on if this rule returns a sum instead of a count, and the filters. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let definition: String
@@ -1293,7 +1293,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRuleContributor: AWSShape {
+    public struct InsightRuleContributor: AWSDecodableShape {
 
         /// An approximation of the aggregate value that comes from this contributor.
         public let approximateAggregateValue: Double
@@ -1315,7 +1315,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRuleContributorDatapoint: AWSShape {
+    public struct InsightRuleContributorDatapoint: AWSDecodableShape {
 
         /// The approximate value that this contributor added during this timestamp.
         public let approximateValue: Double
@@ -1333,7 +1333,7 @@ extension CloudWatch {
         }
     }
 
-    public struct InsightRuleMetricDatapoint: AWSShape {
+    public struct InsightRuleMetricDatapoint: AWSDecodableShape {
 
         /// The average value from all contributors during the time period represented by that data point. This statistic is returned only if you included it in the Metrics array in your request.
         public let average: Double?
@@ -1375,7 +1375,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListDashboardsInput: AWSShape {
+    public struct ListDashboardsInput: AWSEncodableShape {
 
         /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_". 
         public let dashboardNamePrefix: String?
@@ -1393,7 +1393,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListDashboardsOutput: AWSShape {
+    public struct ListDashboardsOutput: AWSDecodableShape {
 
         /// The list of matching dashboards.
         @OptionalCoding<DefaultArrayCoder> public var dashboardEntries: [DashboardEntry]?
@@ -1411,7 +1411,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListMetricsInput: AWSShape {
+    public struct ListMetricsInput: AWSEncodableShape {
 
         /// The dimensions to filter against.
         @OptionalCoding<DefaultArrayCoder> public var dimensions: [DimensionFilter]?
@@ -1449,7 +1449,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListMetricsOutput: AWSShape {
+    public struct ListMetricsOutput: AWSDecodableShape {
 
         /// The metrics.
         @OptionalCoding<DefaultArrayCoder> public var metrics: [Metric]?
@@ -1467,7 +1467,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListTagsForResourceInput: AWSShape {
+    public struct ListTagsForResourceInput: AWSEncodableShape {
 
         /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
@@ -1486,7 +1486,7 @@ extension CloudWatch {
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
 
         /// The list of tag keys and values associated with the resource you specified.
         @OptionalCoding<DefaultArrayCoder> public var tags: [Tag]?
@@ -1500,7 +1500,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MessageData: AWSShape {
+    public struct MessageData: AWSDecodableShape {
 
         /// The error code or status code associated with the message.
         public let code: String?
@@ -1518,7 +1518,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Metric: AWSShape {
+    public struct Metric: AWSEncodableShape & AWSDecodableShape {
 
         /// The dimensions for the metric.
         @OptionalCoding<DefaultArrayCoder> public var dimensions: [Dimension]?
@@ -1552,7 +1552,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricAlarm: AWSShape {
+    public struct MetricAlarm: AWSDecodableShape {
 
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
@@ -1670,7 +1670,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDataQuery: AWSShape {
+    public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
 
         /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let expression: String?
@@ -1713,7 +1713,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDataResult: AWSShape {
+    public struct MetricDataResult: AWSDecodableShape {
 
         /// The short name you specified to represent this metric.
         public let id: String?
@@ -1747,7 +1747,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricDatum: AWSShape {
+    public struct MetricDatum: AWSEncodableShape {
 
         /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period.  If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
         @OptionalCoding<DefaultArrayCoder> public var counts: [Double]?
@@ -1803,7 +1803,7 @@ extension CloudWatch {
         }
     }
 
-    public struct MetricStat: AWSShape {
+    public struct MetricStat: AWSEncodableShape & AWSDecodableShape {
 
         /// The metric to return, including the metric name, namespace, and dimensions.
         public let metric: Metric
@@ -1834,7 +1834,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PartialFailure: AWSShape {
+    public struct PartialFailure: AWSDecodableShape {
 
         /// The type of error.
         public let exceptionType: String?
@@ -1860,7 +1860,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutAnomalyDetectorInput: AWSShape {
+    public struct PutAnomalyDetectorInput: AWSEncodableShape {
 
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric. You can in
         public let configuration: AnomalyDetectorConfiguration?
@@ -1904,7 +1904,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutAnomalyDetectorOutput: AWSShape {
+    public struct PutAnomalyDetectorOutput: AWSDecodableShape {
 
 
         public init() {
@@ -1912,7 +1912,7 @@ extension CloudWatch {
 
     }
 
-    public struct PutCompositeAlarmInput: AWSShape {
+    public struct PutCompositeAlarmInput: AWSEncodableShape {
 
         /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE.
         public let actionsEnabled: Bool?
@@ -1981,7 +1981,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutDashboardInput: AWSShape {
+    public struct PutDashboardInput: AWSEncodableShape {
 
         /// The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see Dashboard Body Structure and Syntax.
         public let dashboardBody: String
@@ -1999,7 +1999,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutDashboardOutput: AWSShape {
+    public struct PutDashboardOutput: AWSDecodableShape {
 
         /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be created or modified, but some elements of the dashboard may not render. If this result includes error messages, the input was not valid and the operation failed.
         @OptionalCoding<DefaultArrayCoder> public var dashboardValidationMessages: [DashboardValidationMessage]?
@@ -2013,7 +2013,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutInsightRuleInput: AWSShape {
+    public struct PutInsightRuleInput: AWSEncodableShape {
 
         /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
         public let ruleDefinition: String
@@ -2054,7 +2054,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutInsightRuleOutput: AWSShape {
+    public struct PutInsightRuleOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2062,7 +2062,7 @@ extension CloudWatch {
 
     }
 
-    public struct PutMetricAlarmInput: AWSShape {
+    public struct PutMetricAlarmInput: AWSEncodableShape {
 
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
         public let actionsEnabled: Bool?
@@ -2207,7 +2207,7 @@ extension CloudWatch {
         }
     }
 
-    public struct PutMetricDataInput: AWSShape {
+    public struct PutMetricDataInput: AWSEncodableShape {
 
         /// The data for the metric. The array can include no more than 20 metrics per call.
         @Coding<DefaultArrayCoder> public var metricData: [MetricDatum]
@@ -2234,7 +2234,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Range: AWSShape {
+    public struct Range: AWSEncodableShape & AWSDecodableShape {
 
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let endTime: TimeStamp
@@ -2252,7 +2252,7 @@ extension CloudWatch {
         }
     }
 
-    public struct SetAlarmStateInput: AWSShape {
+    public struct SetAlarmStateInput: AWSEncodableShape {
 
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
         public let alarmName: String
@@ -2287,7 +2287,7 @@ extension CloudWatch {
         }
     }
 
-    public struct StatisticSet: AWSShape {
+    public struct StatisticSet: AWSEncodableShape {
 
         /// The maximum value of the sample set.
         public let maximum: Double
@@ -2313,7 +2313,7 @@ extension CloudWatch {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
 
         /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
@@ -2338,7 +2338,7 @@ extension CloudWatch {
         }
     }
 
-    public struct TagResourceInput: AWSShape {
+    public struct TagResourceInput: AWSEncodableShape {
 
         /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
@@ -2364,7 +2364,7 @@ extension CloudWatch {
         }
     }
 
-    public struct TagResourceOutput: AWSShape {
+    public struct TagResourceOutput: AWSDecodableShape {
 
 
         public init() {
@@ -2372,7 +2372,7 @@ extension CloudWatch {
 
     }
 
-    public struct UntagResourceInput: AWSShape {
+    public struct UntagResourceInput: AWSEncodableShape {
 
         /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
@@ -2399,7 +2399,7 @@ extension CloudWatch {
         }
     }
 
-    public struct UntagResourceOutput: AWSShape {
+    public struct UntagResourceOutput: AWSDecodableShape {
 
 
         public init() {

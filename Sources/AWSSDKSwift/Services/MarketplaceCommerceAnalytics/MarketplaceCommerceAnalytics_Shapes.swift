@@ -57,7 +57,7 @@ extension MarketplaceCommerceAnalytics {
 
     //MARK: Shapes
 
-    public struct GenerateDataSetRequest: AWSShape {
+    public struct GenerateDataSetRequest: AWSEncodableShape {
 
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file. These key-value pairs can be used to correlated responses with tracking information from other systems.
         public let customerDefinedValues: [String: String]?
@@ -107,7 +107,7 @@ extension MarketplaceCommerceAnalytics {
         }
     }
 
-    public struct GenerateDataSetResult: AWSShape {
+    public struct GenerateDataSetResult: AWSDecodableShape {
 
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
@@ -121,7 +121,7 @@ extension MarketplaceCommerceAnalytics {
         }
     }
 
-    public struct StartSupportDataExportRequest: AWSShape {
+    public struct StartSupportDataExportRequest: AWSEncodableShape {
 
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
         public let customerDefinedValues: [String: String]?
@@ -171,7 +171,7 @@ extension MarketplaceCommerceAnalytics {
         }
     }
 
-    public struct StartSupportDataExportResult: AWSShape {
+    public struct StartSupportDataExportResult: AWSDecodableShape {
 
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?

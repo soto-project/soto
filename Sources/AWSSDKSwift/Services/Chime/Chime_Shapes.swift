@@ -168,7 +168,7 @@ extension Chime {
 
     //MARK: Shapes
 
-    public struct Account: AWSShape {
+    public struct Account: AWSDecodableShape {
 
         /// The Amazon Chime account ID.
         public let accountId: String
@@ -210,7 +210,7 @@ extension Chime {
         }
     }
 
-    public struct AccountSettings: AWSShape {
+    public struct AccountSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Setting that stops or starts remote control of shared screens during meetings.
         public let disableRemoteControl: Bool?
@@ -228,7 +228,7 @@ extension Chime {
         }
     }
 
-    public struct AlexaForBusinessMetadata: AWSShape {
+    public struct AlexaForBusinessMetadata: AWSEncodableShape & AWSDecodableShape {
 
         /// The ARN of the room resource.
         public let alexaForBusinessRoomArn: String?
@@ -246,7 +246,7 @@ extension Chime {
         }
     }
 
-    public struct AssociatePhoneNumberWithUserRequest: AWSShape {
+    public struct AssociatePhoneNumberWithUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -270,13 +270,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case e164PhoneNumber = "E164PhoneNumber"
-            case userId = "userId"
         }
     }
 
-    public struct AssociatePhoneNumberWithUserResponse: AWSShape {
+    public struct AssociatePhoneNumberWithUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -284,7 +282,7 @@ extension Chime {
 
     }
 
-    public struct AssociatePhoneNumbersWithVoiceConnectorGroupRequest: AWSShape {
+    public struct AssociatePhoneNumbersWithVoiceConnectorGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri(locationName: "voiceConnectorGroupId"))
         ]
@@ -312,11 +310,10 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
             case forceAssociate = "ForceAssociate"
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
         }
     }
 
-    public struct AssociatePhoneNumbersWithVoiceConnectorGroupResponse: AWSShape {
+    public struct AssociatePhoneNumbersWithVoiceConnectorGroupResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
@@ -330,7 +327,7 @@ extension Chime {
         }
     }
 
-    public struct AssociatePhoneNumbersWithVoiceConnectorRequest: AWSShape {
+    public struct AssociatePhoneNumbersWithVoiceConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -358,11 +355,10 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
             case forceAssociate = "ForceAssociate"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct AssociatePhoneNumbersWithVoiceConnectorResponse: AWSShape {
+    public struct AssociatePhoneNumbersWithVoiceConnectorResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
@@ -376,7 +372,7 @@ extension Chime {
         }
     }
 
-    public struct AssociateSigninDelegateGroupsWithAccountRequest: AWSShape {
+    public struct AssociateSigninDelegateGroupsWithAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -399,12 +395,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case signinDelegateGroups = "SigninDelegateGroups"
         }
     }
 
-    public struct AssociateSigninDelegateGroupsWithAccountResponse: AWSShape {
+    public struct AssociateSigninDelegateGroupsWithAccountResponse: AWSDecodableShape {
 
 
         public init() {
@@ -412,7 +407,7 @@ extension Chime {
 
     }
 
-    public struct Attendee: AWSShape {
+    public struct Attendee: AWSDecodableShape {
 
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
@@ -434,7 +429,7 @@ extension Chime {
         }
     }
 
-    public struct BatchCreateAttendeeRequest: AWSShape {
+    public struct BatchCreateAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
@@ -458,11 +453,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case attendees = "Attendees"
-            case meetingId = "meetingId"
         }
     }
 
-    public struct BatchCreateAttendeeResponse: AWSShape {
+    public struct BatchCreateAttendeeResponse: AWSDecodableShape {
 
         /// The attendee information, including attendees IDs and join tokens.
         public let attendees: [Attendee]?
@@ -480,7 +474,7 @@ extension Chime {
         }
     }
 
-    public struct BatchCreateRoomMembershipRequest: AWSShape {
+    public struct BatchCreateRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
@@ -509,13 +503,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case membershipItemList = "MembershipItemList"
-            case roomId = "roomId"
         }
     }
 
-    public struct BatchCreateRoomMembershipResponse: AWSShape {
+    public struct BatchCreateRoomMembershipResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the member IDs in the request, a list of the member IDs is returned, along with error codes and error messages.
         public let errors: [MemberError]?
@@ -529,7 +521,7 @@ extension Chime {
         }
     }
 
-    public struct BatchDeletePhoneNumberRequest: AWSShape {
+    public struct BatchDeletePhoneNumberRequest: AWSEncodableShape {
 
         /// List of phone number IDs.
         public let phoneNumberIds: [String]
@@ -547,7 +539,7 @@ extension Chime {
         }
     }
 
-    public struct BatchDeletePhoneNumberResponse: AWSShape {
+    public struct BatchDeletePhoneNumberResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
@@ -561,7 +553,7 @@ extension Chime {
         }
     }
 
-    public struct BatchSuspendUserRequest: AWSShape {
+    public struct BatchSuspendUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -585,12 +577,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case userIdList = "UserIdList"
         }
     }
 
-    public struct BatchSuspendUserResponse: AWSShape {
+    public struct BatchSuspendUserResponse: AWSDecodableShape {
 
         /// If the BatchSuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
@@ -604,7 +595,7 @@ extension Chime {
         }
     }
 
-    public struct BatchUnsuspendUserRequest: AWSShape {
+    public struct BatchUnsuspendUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -628,12 +619,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case userIdList = "UserIdList"
         }
     }
 
-    public struct BatchUnsuspendUserResponse: AWSShape {
+    public struct BatchUnsuspendUserResponse: AWSDecodableShape {
 
         /// If the BatchUnsuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
@@ -647,7 +637,7 @@ extension Chime {
         }
     }
 
-    public struct BatchUpdatePhoneNumberRequest: AWSShape {
+    public struct BatchUpdatePhoneNumberRequest: AWSEncodableShape {
 
         /// The request containing the phone number IDs and product types or calling names to update.
         public let updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]
@@ -667,7 +657,7 @@ extension Chime {
         }
     }
 
-    public struct BatchUpdatePhoneNumberResponse: AWSShape {
+    public struct BatchUpdatePhoneNumberResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
@@ -681,7 +671,7 @@ extension Chime {
         }
     }
 
-    public struct BatchUpdateUserRequest: AWSShape {
+    public struct BatchUpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -705,12 +695,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case updateUserRequestItems = "UpdateUserRequestItems"
         }
     }
 
-    public struct BatchUpdateUserResponse: AWSShape {
+    public struct BatchUpdateUserResponse: AWSDecodableShape {
 
         /// If the BatchUpdateUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
@@ -724,7 +713,7 @@ extension Chime {
         }
     }
 
-    public struct Bot: AWSShape {
+    public struct Bot: AWSDecodableShape {
 
         /// The bot email address.
         public let botEmail: String?
@@ -770,7 +759,7 @@ extension Chime {
         }
     }
 
-    public struct BusinessCallingSettings: AWSShape {
+    public struct BusinessCallingSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
@@ -784,7 +773,7 @@ extension Chime {
         }
     }
 
-    public struct CreateAccountRequest: AWSShape {
+    public struct CreateAccountRequest: AWSEncodableShape {
 
         /// The name of the Amazon Chime account.
         public let name: String
@@ -804,7 +793,7 @@ extension Chime {
         }
     }
 
-    public struct CreateAccountResponse: AWSShape {
+    public struct CreateAccountResponse: AWSDecodableShape {
 
         /// The Amazon Chime account details.
         public let account: Account?
@@ -818,7 +807,7 @@ extension Chime {
         }
     }
 
-    public struct CreateAttendeeError: AWSShape {
+    public struct CreateAttendeeError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: String?
@@ -840,7 +829,7 @@ extension Chime {
         }
     }
 
-    public struct CreateAttendeeRequest: AWSShape {
+    public struct CreateAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
@@ -863,11 +852,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case externalUserId = "ExternalUserId"
-            case meetingId = "meetingId"
         }
     }
 
-    public struct CreateAttendeeRequestItem: AWSShape {
+    public struct CreateAttendeeRequestItem: AWSEncodableShape {
 
         /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
@@ -886,7 +874,7 @@ extension Chime {
         }
     }
 
-    public struct CreateAttendeeResponse: AWSShape {
+    public struct CreateAttendeeResponse: AWSDecodableShape {
 
         /// The attendee information, including attendee ID and join token.
         public let attendee: Attendee?
@@ -900,7 +888,7 @@ extension Chime {
         }
     }
 
-    public struct CreateBotRequest: AWSShape {
+    public struct CreateBotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -924,13 +912,12 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case displayName = "DisplayName"
             case domain = "Domain"
         }
     }
 
-    public struct CreateBotResponse: AWSShape {
+    public struct CreateBotResponse: AWSDecodableShape {
 
         /// The bot details.
         public let bot: Bot?
@@ -944,7 +931,7 @@ extension Chime {
         }
     }
 
-    public struct CreateMeetingRequest: AWSShape {
+    public struct CreateMeetingRequest: AWSEncodableShape {
 
         /// The unique identifier for the client request. Use a different token for different meetings.
         public let clientRequestToken: String
@@ -979,7 +966,7 @@ extension Chime {
         }
     }
 
-    public struct CreateMeetingResponse: AWSShape {
+    public struct CreateMeetingResponse: AWSDecodableShape {
 
         /// The meeting information, including the meeting ID and MediaPlacement.
         public let meeting: Meeting?
@@ -993,7 +980,7 @@ extension Chime {
         }
     }
 
-    public struct CreatePhoneNumberOrderRequest: AWSShape {
+    public struct CreatePhoneNumberOrderRequest: AWSEncodableShape {
 
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
@@ -1017,7 +1004,7 @@ extension Chime {
         }
     }
 
-    public struct CreatePhoneNumberOrderResponse: AWSShape {
+    public struct CreatePhoneNumberOrderResponse: AWSDecodableShape {
 
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
@@ -1031,7 +1018,7 @@ extension Chime {
         }
     }
 
-    public struct CreateRoomMembershipRequest: AWSShape {
+    public struct CreateRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
@@ -1060,14 +1047,12 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case memberId = "MemberId"
             case role = "Role"
-            case roomId = "roomId"
         }
     }
 
-    public struct CreateRoomMembershipResponse: AWSShape {
+    public struct CreateRoomMembershipResponse: AWSDecodableShape {
 
         /// The room membership details.
         public let roomMembership: RoomMembership?
@@ -1081,7 +1066,7 @@ extension Chime {
         }
     }
 
-    public struct CreateRoomRequest: AWSShape {
+    public struct CreateRoomRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1107,13 +1092,12 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case clientRequestToken = "ClientRequestToken"
             case name = "Name"
         }
     }
 
-    public struct CreateRoomResponse: AWSShape {
+    public struct CreateRoomResponse: AWSDecodableShape {
 
         /// The room details.
         public let room: Room?
@@ -1127,7 +1111,7 @@ extension Chime {
         }
     }
 
-    public struct CreateUserRequest: AWSShape {
+    public struct CreateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1154,14 +1138,13 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case email = "Email"
             case username = "Username"
             case userType = "UserType"
         }
     }
 
-    public struct CreateUserResponse: AWSShape {
+    public struct CreateUserResponse: AWSDecodableShape {
 
         public let user: User?
 
@@ -1174,7 +1157,7 @@ extension Chime {
         }
     }
 
-    public struct CreateVoiceConnectorGroupRequest: AWSShape {
+    public struct CreateVoiceConnectorGroupRequest: AWSEncodableShape {
 
         /// The name of the Amazon Chime Voice Connector group.
         public let name: String
@@ -1200,7 +1183,7 @@ extension Chime {
         }
     }
 
-    public struct CreateVoiceConnectorGroupResponse: AWSShape {
+    public struct CreateVoiceConnectorGroupResponse: AWSDecodableShape {
 
         /// The Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
@@ -1214,7 +1197,7 @@ extension Chime {
         }
     }
 
-    public struct CreateVoiceConnectorRequest: AWSShape {
+    public struct CreateVoiceConnectorRequest: AWSEncodableShape {
 
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
@@ -1241,7 +1224,7 @@ extension Chime {
         }
     }
 
-    public struct CreateVoiceConnectorResponse: AWSShape {
+    public struct CreateVoiceConnectorResponse: AWSDecodableShape {
 
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
@@ -1255,7 +1238,7 @@ extension Chime {
         }
     }
 
-    public struct Credential: AWSShape {
+    public struct Credential: AWSEncodableShape {
 
         /// The RFC2617 compliant password associated with the SIP credentials, in US-ASCII format.
         public let password: String?
@@ -1273,7 +1256,7 @@ extension Chime {
         }
     }
 
-    public struct DeleteAccountRequest: AWSShape {
+    public struct DeleteAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1289,12 +1272,10 @@ extension Chime {
             try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteAccountResponse: AWSShape {
+    public struct DeleteAccountResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1302,7 +1283,7 @@ extension Chime {
 
     }
 
-    public struct DeleteAttendeeRequest: AWSShape {
+    public struct DeleteAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
@@ -1323,13 +1304,10 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attendeeId = "attendeeId"
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteEventsConfigurationRequest: AWSShape {
+    public struct DeleteEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
@@ -1350,13 +1328,10 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMeetingRequest: AWSShape {
+    public struct DeleteMeetingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
@@ -1372,12 +1347,10 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePhoneNumberRequest: AWSShape {
+    public struct DeletePhoneNumberRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "phoneNumberId", location: .uri(locationName: "phoneNumberId"))
         ]
@@ -1389,12 +1362,10 @@ extension Chime {
             self.phoneNumberId = phoneNumberId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberId = "phoneNumberId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteRoomMembershipRequest: AWSShape {
+    public struct DeleteRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
@@ -1420,14 +1391,10 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case memberId = "memberId"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteRoomRequest: AWSShape {
+    public struct DeleteRoomRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
@@ -1448,13 +1415,10 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceConnectorGroupRequest: AWSShape {
+    public struct DeleteVoiceConnectorGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri(locationName: "voiceConnectorGroupId"))
         ]
@@ -1470,12 +1434,10 @@ extension Chime {
             try validate(self.voiceConnectorGroupId, name:"voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceConnectorOriginationRequest: AWSShape {
+    public struct DeleteVoiceConnectorOriginationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -1491,12 +1453,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceConnectorRequest: AWSShape {
+    public struct DeleteVoiceConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -1512,12 +1472,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceConnectorStreamingConfigurationRequest: AWSShape {
+    public struct DeleteVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -1533,12 +1491,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceConnectorTerminationCredentialsRequest: AWSShape {
+    public struct DeleteVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -1559,11 +1515,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case usernames = "Usernames"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct DeleteVoiceConnectorTerminationRequest: AWSShape {
+    public struct DeleteVoiceConnectorTerminationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -1579,12 +1534,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DisassociatePhoneNumberFromUserRequest: AWSShape {
+    public struct DisassociatePhoneNumberFromUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -1600,13 +1553,10 @@ extension Chime {
             self.userId = userId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct DisassociatePhoneNumberFromUserResponse: AWSShape {
+    public struct DisassociatePhoneNumberFromUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1614,7 +1564,7 @@ extension Chime {
 
     }
 
-    public struct DisassociatePhoneNumbersFromVoiceConnectorGroupRequest: AWSShape {
+    public struct DisassociatePhoneNumbersFromVoiceConnectorGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri(locationName: "voiceConnectorGroupId"))
         ]
@@ -1638,11 +1588,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
         }
     }
 
-    public struct DisassociatePhoneNumbersFromVoiceConnectorGroupResponse: AWSShape {
+    public struct DisassociatePhoneNumbersFromVoiceConnectorGroupResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
@@ -1656,7 +1605,7 @@ extension Chime {
         }
     }
 
-    public struct DisassociatePhoneNumbersFromVoiceConnectorRequest: AWSShape {
+    public struct DisassociatePhoneNumbersFromVoiceConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -1680,11 +1629,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct DisassociatePhoneNumbersFromVoiceConnectorResponse: AWSShape {
+    public struct DisassociatePhoneNumbersFromVoiceConnectorResponse: AWSDecodableShape {
 
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
@@ -1698,7 +1646,7 @@ extension Chime {
         }
     }
 
-    public struct DisassociateSigninDelegateGroupsFromAccountRequest: AWSShape {
+    public struct DisassociateSigninDelegateGroupsFromAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1719,12 +1667,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case groupNames = "GroupNames"
         }
     }
 
-    public struct DisassociateSigninDelegateGroupsFromAccountResponse: AWSShape {
+    public struct DisassociateSigninDelegateGroupsFromAccountResponse: AWSDecodableShape {
 
 
         public init() {
@@ -1732,7 +1679,7 @@ extension Chime {
 
     }
 
-    public struct EventsConfiguration: AWSShape {
+    public struct EventsConfiguration: AWSDecodableShape {
 
         /// The bot ID.
         public let botId: String?
@@ -1754,7 +1701,7 @@ extension Chime {
         }
     }
 
-    public struct GetAccountRequest: AWSShape {
+    public struct GetAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1770,12 +1717,10 @@ extension Chime {
             try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAccountResponse: AWSShape {
+    public struct GetAccountResponse: AWSDecodableShape {
 
         /// The Amazon Chime account details.
         public let account: Account?
@@ -1789,7 +1734,7 @@ extension Chime {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSShape {
+    public struct GetAccountSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -1805,12 +1750,10 @@ extension Chime {
             try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAccountSettingsResponse: AWSShape {
+    public struct GetAccountSettingsResponse: AWSDecodableShape {
 
         /// The Amazon Chime account settings.
         public let accountSettings: AccountSettings?
@@ -1824,7 +1767,7 @@ extension Chime {
         }
     }
 
-    public struct GetAttendeeRequest: AWSShape {
+    public struct GetAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
@@ -1845,13 +1788,10 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attendeeId = "attendeeId"
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAttendeeResponse: AWSShape {
+    public struct GetAttendeeResponse: AWSDecodableShape {
 
         /// The Amazon Chime SDK attendee information.
         public let attendee: Attendee?
@@ -1865,7 +1805,7 @@ extension Chime {
         }
     }
 
-    public struct GetBotRequest: AWSShape {
+    public struct GetBotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
@@ -1886,13 +1826,10 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBotResponse: AWSShape {
+    public struct GetBotResponse: AWSDecodableShape {
 
         /// The chat bot details.
         public let bot: Bot?
@@ -1906,7 +1843,7 @@ extension Chime {
         }
     }
 
-    public struct GetEventsConfigurationRequest: AWSShape {
+    public struct GetEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
@@ -1927,13 +1864,10 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetEventsConfigurationResponse: AWSShape {
+    public struct GetEventsConfigurationResponse: AWSDecodableShape {
 
         /// The events configuration details.
         public let eventsConfiguration: EventsConfiguration?
@@ -1947,7 +1881,7 @@ extension Chime {
         }
     }
 
-    public struct GetGlobalSettingsResponse: AWSShape {
+    public struct GetGlobalSettingsResponse: AWSDecodableShape {
 
         /// The Amazon Chime Business Calling settings.
         public let businessCalling: BusinessCallingSettings?
@@ -1965,7 +1899,7 @@ extension Chime {
         }
     }
 
-    public struct GetMeetingRequest: AWSShape {
+    public struct GetMeetingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
@@ -1981,12 +1915,10 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case meetingId = "meetingId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMeetingResponse: AWSShape {
+    public struct GetMeetingResponse: AWSDecodableShape {
 
         /// The Amazon Chime SDK meeting information.
         public let meeting: Meeting?
@@ -2000,7 +1932,7 @@ extension Chime {
         }
     }
 
-    public struct GetPhoneNumberOrderRequest: AWSShape {
+    public struct GetPhoneNumberOrderRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "phoneNumberOrderId", location: .uri(locationName: "phoneNumberOrderId"))
         ]
@@ -2016,12 +1948,10 @@ extension Chime {
             try validate(self.phoneNumberOrderId, name:"phoneNumberOrderId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberOrderId = "phoneNumberOrderId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPhoneNumberOrderResponse: AWSShape {
+    public struct GetPhoneNumberOrderResponse: AWSDecodableShape {
 
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
@@ -2035,7 +1965,7 @@ extension Chime {
         }
     }
 
-    public struct GetPhoneNumberRequest: AWSShape {
+    public struct GetPhoneNumberRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "phoneNumberId", location: .uri(locationName: "phoneNumberId"))
         ]
@@ -2047,12 +1977,10 @@ extension Chime {
             self.phoneNumberId = phoneNumberId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberId = "phoneNumberId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPhoneNumberResponse: AWSShape {
+    public struct GetPhoneNumberResponse: AWSDecodableShape {
 
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
@@ -2066,7 +1994,7 @@ extension Chime {
         }
     }
 
-    public struct GetPhoneNumberSettingsResponse: AWSShape {
+    public struct GetPhoneNumberSettingsResponse: AWSDecodableShape {
 
         /// The default outbound calling name for the account.
         public let callingName: String?
@@ -2084,7 +2012,7 @@ extension Chime {
         }
     }
 
-    public struct GetRoomRequest: AWSShape {
+    public struct GetRoomRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
@@ -2105,13 +2033,10 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetRoomResponse: AWSShape {
+    public struct GetRoomResponse: AWSDecodableShape {
 
         /// The room details.
         public let room: Room?
@@ -2125,7 +2050,7 @@ extension Chime {
         }
     }
 
-    public struct GetUserRequest: AWSShape {
+    public struct GetUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -2146,13 +2071,10 @@ extension Chime {
             try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetUserResponse: AWSShape {
+    public struct GetUserResponse: AWSDecodableShape {
 
         /// The user details.
         public let user: User?
@@ -2166,7 +2088,7 @@ extension Chime {
         }
     }
 
-    public struct GetUserSettingsRequest: AWSShape {
+    public struct GetUserSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -2182,13 +2104,10 @@ extension Chime {
             self.userId = userId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetUserSettingsResponse: AWSShape {
+    public struct GetUserSettingsResponse: AWSDecodableShape {
 
         /// The user settings.
         public let userSettings: UserSettings?
@@ -2202,7 +2121,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorGroupRequest: AWSShape {
+    public struct GetVoiceConnectorGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri(locationName: "voiceConnectorGroupId"))
         ]
@@ -2218,12 +2137,10 @@ extension Chime {
             try validate(self.voiceConnectorGroupId, name:"voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorGroupResponse: AWSShape {
+    public struct GetVoiceConnectorGroupResponse: AWSDecodableShape {
 
         /// The Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
@@ -2237,7 +2154,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorLoggingConfigurationRequest: AWSShape {
+    public struct GetVoiceConnectorLoggingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -2253,12 +2170,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorLoggingConfigurationResponse: AWSShape {
+    public struct GetVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
 
         /// The logging configuration details.
         public let loggingConfiguration: LoggingConfiguration?
@@ -2272,7 +2187,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorOriginationRequest: AWSShape {
+    public struct GetVoiceConnectorOriginationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -2288,12 +2203,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorOriginationResponse: AWSShape {
+    public struct GetVoiceConnectorOriginationResponse: AWSDecodableShape {
 
         /// The origination setting details.
         public let origination: Origination?
@@ -2307,7 +2220,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorRequest: AWSShape {
+    public struct GetVoiceConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -2323,12 +2236,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorResponse: AWSShape {
+    public struct GetVoiceConnectorResponse: AWSDecodableShape {
 
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
@@ -2342,7 +2253,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorStreamingConfigurationRequest: AWSShape {
+    public struct GetVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -2358,12 +2269,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorStreamingConfigurationResponse: AWSShape {
+    public struct GetVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
 
         /// The streaming configuration details.
         public let streamingConfiguration: StreamingConfiguration?
@@ -2377,7 +2286,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorTerminationHealthRequest: AWSShape {
+    public struct GetVoiceConnectorTerminationHealthRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -2393,12 +2302,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorTerminationHealthResponse: AWSShape {
+    public struct GetVoiceConnectorTerminationHealthResponse: AWSDecodableShape {
 
         /// The termination health details.
         public let terminationHealth: TerminationHealth?
@@ -2412,7 +2319,7 @@ extension Chime {
         }
     }
 
-    public struct GetVoiceConnectorTerminationRequest: AWSShape {
+    public struct GetVoiceConnectorTerminationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -2428,12 +2335,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceConnectorTerminationResponse: AWSShape {
+    public struct GetVoiceConnectorTerminationResponse: AWSDecodableShape {
 
         /// The termination setting details.
         public let termination: Termination?
@@ -2447,7 +2352,7 @@ extension Chime {
         }
     }
 
-    public struct Invite: AWSShape {
+    public struct Invite: AWSDecodableShape {
 
         /// The email address to which the invite is sent.
         public let emailAddress: String?
@@ -2473,7 +2378,7 @@ extension Chime {
         }
     }
 
-    public struct InviteUsersRequest: AWSShape {
+    public struct InviteUsersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -2500,13 +2405,12 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case userEmailList = "UserEmailList"
             case userType = "UserType"
         }
     }
 
-    public struct InviteUsersResponse: AWSShape {
+    public struct InviteUsersResponse: AWSDecodableShape {
 
         /// The email invitation details.
         public let invites: [Invite]?
@@ -2520,7 +2424,7 @@ extension Chime {
         }
     }
 
-    public struct ListAccountsRequest: AWSShape {
+    public struct ListAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
@@ -2553,15 +2457,10 @@ extension Chime {
             try validate(self.userEmail, name:"userEmail", parent: name, pattern: ".+@.+\\..+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case name = "name"
-            case nextToken = "next-token"
-            case userEmail = "user-email"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAccountsResponse: AWSShape {
+    public struct ListAccountsResponse: AWSDecodableShape {
 
         /// List of Amazon Chime accounts and account details.
         public let accounts: [Account]?
@@ -2579,7 +2478,7 @@ extension Chime {
         }
     }
 
-    public struct ListAttendeesRequest: AWSShape {
+    public struct ListAttendeesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId")), 
@@ -2605,14 +2504,10 @@ extension Chime {
             try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case meetingId = "meetingId"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListAttendeesResponse: AWSShape {
+    public struct ListAttendeesResponse: AWSDecodableShape {
 
         /// The Amazon Chime SDK attendee information.
         public let attendees: [Attendee]?
@@ -2630,7 +2525,7 @@ extension Chime {
         }
     }
 
-    public struct ListBotsRequest: AWSShape {
+    public struct ListBotsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
@@ -2656,14 +2551,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListBotsResponse: AWSShape {
+    public struct ListBotsResponse: AWSDecodableShape {
 
         /// List of bots and bot details.
         public let bots: [Bot]?
@@ -2681,7 +2572,7 @@ extension Chime {
         }
     }
 
-    public struct ListMeetingsRequest: AWSShape {
+    public struct ListMeetingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
@@ -2702,13 +2593,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListMeetingsResponse: AWSShape {
+    public struct ListMeetingsResponse: AWSDecodableShape {
 
         /// The Amazon Chime SDK meeting information.
         public let meetings: [Meeting]?
@@ -2726,7 +2614,7 @@ extension Chime {
         }
     }
 
-    public struct ListPhoneNumberOrdersRequest: AWSShape {
+    public struct ListPhoneNumberOrdersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
@@ -2747,13 +2635,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPhoneNumberOrdersResponse: AWSShape {
+    public struct ListPhoneNumberOrdersResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -2771,7 +2656,7 @@ extension Chime {
         }
     }
 
-    public struct ListPhoneNumbersRequest: AWSShape {
+    public struct ListPhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "filterName", location: .querystring(locationName: "filter-name")), 
             AWSMemberEncoding(label: "filterValue", location: .querystring(locationName: "filter-value")), 
@@ -2808,17 +2693,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case filterName = "filter-name"
-            case filterValue = "filter-value"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case productType = "product-type"
-            case status = "status"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPhoneNumbersResponse: AWSShape {
+    public struct ListPhoneNumbersResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -2836,7 +2714,7 @@ extension Chime {
         }
     }
 
-    public struct ListRoomMembershipsRequest: AWSShape {
+    public struct ListRoomMembershipsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
@@ -2867,15 +2745,10 @@ extension Chime {
             try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case roomId = "roomId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListRoomMembershipsResponse: AWSShape {
+    public struct ListRoomMembershipsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -2893,7 +2766,7 @@ extension Chime {
         }
     }
 
-    public struct ListRoomsRequest: AWSShape {
+    public struct ListRoomsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
@@ -2923,15 +2796,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case memberId = "member-id"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListRoomsResponse: AWSShape {
+    public struct ListRoomsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -2949,7 +2817,7 @@ extension Chime {
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
@@ -2984,16 +2852,10 @@ extension Chime {
             try validate(self.userEmail, name:"userEmail", parent: name, pattern: ".+@.+\\..+")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case userEmail = "user-email"
-            case userType = "user-type"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListUsersResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -3011,7 +2873,7 @@ extension Chime {
         }
     }
 
-    public struct ListVoiceConnectorGroupsRequest: AWSShape {
+    public struct ListVoiceConnectorGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
@@ -3032,13 +2894,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListVoiceConnectorGroupsResponse: AWSShape {
+    public struct ListVoiceConnectorGroupsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -3056,7 +2915,7 @@ extension Chime {
         }
     }
 
-    public struct ListVoiceConnectorTerminationCredentialsRequest: AWSShape {
+    public struct ListVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -3072,12 +2931,10 @@ extension Chime {
             try validate(self.voiceConnectorId, name:"voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceConnectorId = "voiceConnectorId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListVoiceConnectorTerminationCredentialsResponse: AWSShape {
+    public struct ListVoiceConnectorTerminationCredentialsResponse: AWSDecodableShape {
 
         /// A list of user names.
         public let usernames: [String]?
@@ -3091,7 +2948,7 @@ extension Chime {
         }
     }
 
-    public struct ListVoiceConnectorsRequest: AWSShape {
+    public struct ListVoiceConnectorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
@@ -3112,13 +2969,10 @@ extension Chime {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListVoiceConnectorsResponse: AWSShape {
+    public struct ListVoiceConnectorsResponse: AWSDecodableShape {
 
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -3136,7 +2990,7 @@ extension Chime {
         }
     }
 
-    public struct LoggingConfiguration: AWSShape {
+    public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
         public let enableSIPLogs: Bool?
@@ -3150,7 +3004,7 @@ extension Chime {
         }
     }
 
-    public struct LogoutUserRequest: AWSShape {
+    public struct LogoutUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -3171,13 +3025,10 @@ extension Chime {
             try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct LogoutUserResponse: AWSShape {
+    public struct LogoutUserResponse: AWSDecodableShape {
 
 
         public init() {
@@ -3185,7 +3036,7 @@ extension Chime {
 
     }
 
-    public struct MediaPlacement: AWSShape {
+    public struct MediaPlacement: AWSDecodableShape {
 
         /// The audio fallback URL.
         public let audioFallbackUrl: String?
@@ -3223,7 +3074,7 @@ extension Chime {
         }
     }
 
-    public struct Meeting: AWSShape {
+    public struct Meeting: AWSDecodableShape {
 
         /// The media placement for the meeting.
         public let mediaPlacement: MediaPlacement?
@@ -3245,7 +3096,7 @@ extension Chime {
         }
     }
 
-    public struct MeetingNotificationConfiguration: AWSShape {
+    public struct MeetingNotificationConfiguration: AWSEncodableShape {
 
         /// The SNS topic ARN.
         public let snsTopicArn: String?
@@ -3272,7 +3123,7 @@ extension Chime {
         }
     }
 
-    public struct Member: AWSShape {
+    public struct Member: AWSDecodableShape {
 
         /// The Amazon Chime account ID.
         public let accountId: String?
@@ -3302,7 +3153,7 @@ extension Chime {
         }
     }
 
-    public struct MemberError: AWSShape {
+    public struct MemberError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: ErrorCode?
@@ -3324,7 +3175,7 @@ extension Chime {
         }
     }
 
-    public struct MembershipItem: AWSShape {
+    public struct MembershipItem: AWSEncodableShape {
 
         /// The member ID.
         public let memberId: String?
@@ -3346,7 +3197,7 @@ extension Chime {
         }
     }
 
-    public struct OrderedPhoneNumber: AWSShape {
+    public struct OrderedPhoneNumber: AWSDecodableShape {
 
         /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
@@ -3364,7 +3215,7 @@ extension Chime {
         }
     }
 
-    public struct Origination: AWSShape {
+    public struct Origination: AWSEncodableShape & AWSDecodableShape {
 
         /// When origination settings are disabled, inbound calls are not enabled for your Amazon Chime Voice Connector.
         public let disabled: Bool?
@@ -3388,7 +3239,7 @@ extension Chime {
         }
     }
 
-    public struct OriginationRoute: AWSShape {
+    public struct OriginationRoute: AWSEncodableShape & AWSDecodableShape {
 
         /// The FQDN or IP address to contact for origination traffic.
         public let host: String?
@@ -3427,7 +3278,7 @@ extension Chime {
         }
     }
 
-    public struct PhoneNumber: AWSShape {
+    public struct PhoneNumber: AWSDecodableShape {
 
         /// The phone number associations.
         public let associations: [PhoneNumberAssociation]?
@@ -3485,7 +3336,7 @@ extension Chime {
         }
     }
 
-    public struct PhoneNumberAssociation: AWSShape {
+    public struct PhoneNumberAssociation: AWSDecodableShape {
 
         /// The timestamp of the phone number association, in ISO 8601 format.
         public let associatedTimestamp: TimeStamp?
@@ -3507,7 +3358,7 @@ extension Chime {
         }
     }
 
-    public struct PhoneNumberCapabilities: AWSShape {
+    public struct PhoneNumberCapabilities: AWSDecodableShape {
 
         /// Allows or denies inbound calling for the specified phone number.
         public let inboundCall: Bool?
@@ -3541,7 +3392,7 @@ extension Chime {
         }
     }
 
-    public struct PhoneNumberError: AWSShape {
+    public struct PhoneNumberError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: ErrorCode?
@@ -3563,7 +3414,7 @@ extension Chime {
         }
     }
 
-    public struct PhoneNumberOrder: AWSShape {
+    public struct PhoneNumberOrder: AWSDecodableShape {
 
         /// The phone number order creation timestamp, in ISO 8601 format.
         public let createdTimestamp: TimeStamp?
@@ -3597,7 +3448,7 @@ extension Chime {
         }
     }
 
-    public struct PutEventsConfigurationRequest: AWSShape {
+    public struct PutEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
@@ -3625,14 +3476,12 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
             case lambdaFunctionArn = "LambdaFunctionArn"
             case outboundEventsHTTPSEndpoint = "OutboundEventsHTTPSEndpoint"
         }
     }
 
-    public struct PutEventsConfigurationResponse: AWSShape {
+    public struct PutEventsConfigurationResponse: AWSDecodableShape {
 
         public let eventsConfiguration: EventsConfiguration?
 
@@ -3645,7 +3494,7 @@ extension Chime {
         }
     }
 
-    public struct PutVoiceConnectorLoggingConfigurationRequest: AWSShape {
+    public struct PutVoiceConnectorLoggingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -3666,11 +3515,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case loggingConfiguration = "LoggingConfiguration"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct PutVoiceConnectorLoggingConfigurationResponse: AWSShape {
+    public struct PutVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
 
         /// The updated logging configuration details.
         public let loggingConfiguration: LoggingConfiguration?
@@ -3684,7 +3532,7 @@ extension Chime {
         }
     }
 
-    public struct PutVoiceConnectorOriginationRequest: AWSShape {
+    public struct PutVoiceConnectorOriginationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -3706,11 +3554,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case origination = "Origination"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct PutVoiceConnectorOriginationResponse: AWSShape {
+    public struct PutVoiceConnectorOriginationResponse: AWSDecodableShape {
 
         /// The updated origination setting details.
         public let origination: Origination?
@@ -3724,7 +3571,7 @@ extension Chime {
         }
     }
 
-    public struct PutVoiceConnectorStreamingConfigurationRequest: AWSShape {
+    public struct PutVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -3746,11 +3593,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case streamingConfiguration = "StreamingConfiguration"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct PutVoiceConnectorStreamingConfigurationResponse: AWSShape {
+    public struct PutVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
 
         /// The updated streaming configuration details.
         public let streamingConfiguration: StreamingConfiguration?
@@ -3764,7 +3610,7 @@ extension Chime {
         }
     }
 
-    public struct PutVoiceConnectorTerminationCredentialsRequest: AWSShape {
+    public struct PutVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -3785,11 +3631,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case credentials = "Credentials"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct PutVoiceConnectorTerminationRequest: AWSShape {
+    public struct PutVoiceConnectorTerminationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -3811,11 +3656,10 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case termination = "Termination"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct PutVoiceConnectorTerminationResponse: AWSShape {
+    public struct PutVoiceConnectorTerminationResponse: AWSDecodableShape {
 
         /// The updated termination setting details.
         public let termination: Termination?
@@ -3829,7 +3673,7 @@ extension Chime {
         }
     }
 
-    public struct RegenerateSecurityTokenRequest: AWSShape {
+    public struct RegenerateSecurityTokenRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
@@ -3850,13 +3694,10 @@ extension Chime {
             try validate(self.botId, name:"botId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RegenerateSecurityTokenResponse: AWSShape {
+    public struct RegenerateSecurityTokenResponse: AWSDecodableShape {
 
         public let bot: Bot?
 
@@ -3869,7 +3710,7 @@ extension Chime {
         }
     }
 
-    public struct ResetPersonalPINRequest: AWSShape {
+    public struct ResetPersonalPINRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -3890,13 +3731,10 @@ extension Chime {
             try validate(self.userId, name:"userId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct ResetPersonalPINResponse: AWSShape {
+    public struct ResetPersonalPINResponse: AWSDecodableShape {
 
         /// The user details and new personal meeting PIN.
         public let user: User?
@@ -3910,7 +3748,7 @@ extension Chime {
         }
     }
 
-    public struct RestorePhoneNumberRequest: AWSShape {
+    public struct RestorePhoneNumberRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "phoneNumberId", location: .uri(locationName: "phoneNumberId"))
         ]
@@ -3926,12 +3764,10 @@ extension Chime {
             try validate(self.phoneNumberId, name:"phoneNumberId", parent: name, pattern: ".*\\S.*")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case phoneNumberId = "phoneNumberId"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RestorePhoneNumberResponse: AWSShape {
+    public struct RestorePhoneNumberResponse: AWSDecodableShape {
 
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
@@ -3945,7 +3781,7 @@ extension Chime {
         }
     }
 
-    public struct Room: AWSShape {
+    public struct Room: AWSDecodableShape {
 
         /// The Amazon Chime account ID.
         public let accountId: String?
@@ -3979,7 +3815,7 @@ extension Chime {
         }
     }
 
-    public struct RoomMembership: AWSShape {
+    public struct RoomMembership: AWSDecodableShape {
 
         /// The identifier of the user that invited the room member.
         public let invitedBy: String?
@@ -4008,7 +3844,7 @@ extension Chime {
         }
     }
 
-    public struct SearchAvailablePhoneNumbersRequest: AWSShape {
+    public struct SearchAvailablePhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "areaCode", location: .querystring(locationName: "area-code")), 
             AWSMemberEncoding(label: "city", location: .querystring(locationName: "city")), 
@@ -4052,18 +3888,10 @@ extension Chime {
             try validate(self.tollFreePrefix, name:"tollFreePrefix", parent: name, pattern: "^8(00|33|44|55|66|77|88)$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case areaCode = "area-code"
-            case city = "city"
-            case country = "country"
-            case maxResults = "max-results"
-            case nextToken = "next-token"
-            case state = "state"
-            case tollFreePrefix = "toll-free-prefix"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct SearchAvailablePhoneNumbersResponse: AWSShape {
+    public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
 
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]?
@@ -4077,7 +3905,7 @@ extension Chime {
         }
     }
 
-    public struct SigninDelegateGroup: AWSShape {
+    public struct SigninDelegateGroup: AWSEncodableShape & AWSDecodableShape {
 
         /// The group name.
         public let groupName: String?
@@ -4095,7 +3923,7 @@ extension Chime {
         }
     }
 
-    public struct StreamingConfiguration: AWSShape {
+    public struct StreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
 
         /// The retention period, in hours, for the Amazon Kinesis data.
         public let dataRetentionInHours: Int
@@ -4117,7 +3945,7 @@ extension Chime {
         }
     }
 
-    public struct TelephonySettings: AWSShape {
+    public struct TelephonySettings: AWSEncodableShape & AWSDecodableShape {
 
         /// Allows or denies inbound calling.
         public let inboundCalling: Bool
@@ -4139,7 +3967,7 @@ extension Chime {
         }
     }
 
-    public struct Termination: AWSShape {
+    public struct Termination: AWSEncodableShape & AWSDecodableShape {
 
         /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required.
         public let callingRegions: [String]?
@@ -4174,7 +4002,7 @@ extension Chime {
         }
     }
 
-    public struct TerminationHealth: AWSShape {
+    public struct TerminationHealth: AWSDecodableShape {
 
         /// The source IP address.
         public let source: String?
@@ -4192,7 +4020,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateAccountRequest: AWSShape {
+    public struct UpdateAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -4215,12 +4043,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case name = "Name"
         }
     }
 
-    public struct UpdateAccountResponse: AWSShape {
+    public struct UpdateAccountResponse: AWSDecodableShape {
 
         /// The updated Amazon Chime account details.
         public let account: Account?
@@ -4234,7 +4061,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateAccountSettingsRequest: AWSShape {
+    public struct UpdateAccountSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
@@ -4254,12 +4081,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case accountSettings = "AccountSettings"
         }
     }
 
-    public struct UpdateAccountSettingsResponse: AWSShape {
+    public struct UpdateAccountSettingsResponse: AWSDecodableShape {
 
 
         public init() {
@@ -4267,7 +4093,7 @@ extension Chime {
 
     }
 
-    public struct UpdateBotRequest: AWSShape {
+    public struct UpdateBotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
@@ -4292,13 +4118,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case botId = "botId"
             case disabled = "Disabled"
         }
     }
 
-    public struct UpdateBotResponse: AWSShape {
+    public struct UpdateBotResponse: AWSDecodableShape {
 
         /// The updated bot details.
         public let bot: Bot?
@@ -4312,7 +4136,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateGlobalSettingsRequest: AWSShape {
+    public struct UpdateGlobalSettingsRequest: AWSEncodableShape {
 
         /// The Amazon Chime Business Calling settings.
         public let businessCalling: BusinessCallingSettings
@@ -4330,7 +4154,7 @@ extension Chime {
         }
     }
 
-    public struct UpdatePhoneNumberRequest: AWSShape {
+    public struct UpdatePhoneNumberRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "phoneNumberId", location: .uri(locationName: "phoneNumberId"))
         ]
@@ -4354,12 +4178,11 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case callingName = "CallingName"
-            case phoneNumberId = "phoneNumberId"
             case productType = "ProductType"
         }
     }
 
-    public struct UpdatePhoneNumberRequestItem: AWSShape {
+    public struct UpdatePhoneNumberRequestItem: AWSEncodableShape {
 
         /// The outbound calling name to update.
         public let callingName: String?
@@ -4386,7 +4209,7 @@ extension Chime {
         }
     }
 
-    public struct UpdatePhoneNumberResponse: AWSShape {
+    public struct UpdatePhoneNumberResponse: AWSDecodableShape {
 
         /// The updated phone number details.
         public let phoneNumber: PhoneNumber?
@@ -4400,7 +4223,7 @@ extension Chime {
         }
     }
 
-    public struct UpdatePhoneNumberSettingsRequest: AWSShape {
+    public struct UpdatePhoneNumberSettingsRequest: AWSEncodableShape {
 
         /// The default outbound calling name for the account.
         public let callingName: String
@@ -4418,7 +4241,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateRoomMembershipRequest: AWSShape {
+    public struct UpdateRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
@@ -4448,14 +4271,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case memberId = "memberId"
             case role = "Role"
-            case roomId = "roomId"
         }
     }
 
-    public struct UpdateRoomMembershipResponse: AWSShape {
+    public struct UpdateRoomMembershipResponse: AWSDecodableShape {
 
         /// The room membership details.
         public let roomMembership: RoomMembership?
@@ -4469,7 +4289,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateRoomRequest: AWSShape {
+    public struct UpdateRoomRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
@@ -4494,13 +4314,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case name = "Name"
-            case roomId = "roomId"
         }
     }
 
-    public struct UpdateRoomResponse: AWSShape {
+    public struct UpdateRoomResponse: AWSDecodableShape {
 
         /// The room details.
         public let room: Room?
@@ -4514,7 +4332,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateUserRequest: AWSShape {
+    public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -4545,15 +4363,13 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
             case alexaForBusinessMetadata = "AlexaForBusinessMetadata"
             case licenseType = "LicenseType"
-            case userId = "userId"
             case userType = "UserType"
         }
     }
 
-    public struct UpdateUserRequestItem: AWSShape {
+    public struct UpdateUserRequestItem: AWSEncodableShape {
 
         /// The Alexa for Business metadata.
         public let alexaForBusinessMetadata: AlexaForBusinessMetadata?
@@ -4583,7 +4399,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateUserResponse: AWSShape {
+    public struct UpdateUserResponse: AWSDecodableShape {
 
         /// The updated user details.
         public let user: User?
@@ -4597,7 +4413,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateUserSettingsRequest: AWSShape {
+    public struct UpdateUserSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
@@ -4617,13 +4433,11 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userId = "userId"
             case userSettings = "UserSettings"
         }
     }
 
-    public struct UpdateVoiceConnectorGroupRequest: AWSShape {
+    public struct UpdateVoiceConnectorGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri(locationName: "voiceConnectorGroupId"))
         ]
@@ -4652,12 +4466,11 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case voiceConnectorGroupId = "voiceConnectorGroupId"
             case voiceConnectorItems = "VoiceConnectorItems"
         }
     }
 
-    public struct UpdateVoiceConnectorGroupResponse: AWSShape {
+    public struct UpdateVoiceConnectorGroupResponse: AWSDecodableShape {
 
         /// The updated Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
@@ -4671,7 +4484,7 @@ extension Chime {
         }
     }
 
-    public struct UpdateVoiceConnectorRequest: AWSShape {
+    public struct UpdateVoiceConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
@@ -4698,11 +4511,10 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case requireEncryption = "RequireEncryption"
-            case voiceConnectorId = "voiceConnectorId"
         }
     }
 
-    public struct UpdateVoiceConnectorResponse: AWSShape {
+    public struct UpdateVoiceConnectorResponse: AWSDecodableShape {
 
         /// The updated Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
@@ -4716,7 +4528,7 @@ extension Chime {
         }
     }
 
-    public struct User: AWSShape {
+    public struct User: AWSDecodableShape {
 
         /// The Amazon Chime account ID.
         public let accountId: String?
@@ -4778,7 +4590,7 @@ extension Chime {
         }
     }
 
-    public struct UserError: AWSShape {
+    public struct UserError: AWSDecodableShape {
 
         /// The error code.
         public let errorCode: ErrorCode?
@@ -4800,7 +4612,7 @@ extension Chime {
         }
     }
 
-    public struct UserSettings: AWSShape {
+    public struct UserSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The telephony settings associated with the user.
         public let telephony: TelephonySettings
@@ -4814,7 +4626,7 @@ extension Chime {
         }
     }
 
-    public struct VoiceConnector: AWSShape {
+    public struct VoiceConnector: AWSDecodableShape {
 
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
@@ -4852,7 +4664,7 @@ extension Chime {
         }
     }
 
-    public struct VoiceConnectorGroup: AWSShape {
+    public struct VoiceConnectorGroup: AWSDecodableShape {
 
         /// The Amazon Chime Voice Connector group creation timestamp, in ISO 8601 format.
         public let createdTimestamp: TimeStamp?
@@ -4882,7 +4694,7 @@ extension Chime {
         }
     }
 
-    public struct VoiceConnectorItem: AWSShape {
+    public struct VoiceConnectorItem: AWSEncodableShape & AWSDecodableShape {
 
         /// The priority associated with the Amazon Chime Voice Connector, with 1 being the highest priority. Higher priority Amazon Chime Voice Connectors are attempted first. 
         public let priority: Int
@@ -4906,7 +4718,7 @@ extension Chime {
         }
     }
 
-    public struct VoiceConnectorSettings: AWSShape {
+    public struct VoiceConnectorSettings: AWSEncodableShape & AWSDecodableShape {
 
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?

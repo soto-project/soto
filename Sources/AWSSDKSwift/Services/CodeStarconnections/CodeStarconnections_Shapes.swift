@@ -34,7 +34,7 @@ extension CodeStarconnections {
 
     //MARK: Shapes
 
-    public struct Connection: AWSShape {
+    public struct Connection: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String?
@@ -64,7 +64,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct CreateConnectionInput: AWSShape {
+    public struct CreateConnectionInput: AWSEncodableShape {
 
         /// The name of the connection to be created. The name must be unique in the calling AWS account.
         public let connectionName: String
@@ -87,7 +87,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct CreateConnectionOutput: AWSShape {
+    public struct CreateConnectionOutput: AWSDecodableShape {
 
         /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String
@@ -101,7 +101,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct DeleteConnectionInput: AWSShape {
+    public struct DeleteConnectionInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted. 
         public let connectionArn: String
@@ -121,7 +121,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct DeleteConnectionOutput: AWSShape {
+    public struct DeleteConnectionOutput: AWSDecodableShape {
 
 
         public init() {
@@ -129,7 +129,7 @@ extension CodeStarconnections {
 
     }
 
-    public struct GetConnectionInput: AWSShape {
+    public struct GetConnectionInput: AWSEncodableShape {
 
         /// The Amazon Resource Name (ARN) of a connection.
         public let connectionArn: String
@@ -149,7 +149,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct GetConnectionOutput: AWSShape {
+    public struct GetConnectionOutput: AWSDecodableShape {
 
         /// The connection details, such as status, owner, and provider type.
         public let connection: Connection?
@@ -163,7 +163,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct ListConnectionsInput: AWSShape {
+    public struct ListConnectionsInput: AWSEncodableShape {
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -193,7 +193,7 @@ extension CodeStarconnections {
         }
     }
 
-    public struct ListConnectionsOutput: AWSShape {
+    public struct ListConnectionsOutput: AWSDecodableShape {
 
         /// A list of connections and the details for each connection, such as status, owner, and provider type.
         public let connections: [Connection]?
