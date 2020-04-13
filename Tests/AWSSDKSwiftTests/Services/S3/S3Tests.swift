@@ -48,7 +48,7 @@ class S3Tests: XCTestCase {
         }
         return data
     }
-    
+
     func createBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
         let s3 = s3 ?? Self.s3
         let bucketRequest = S3.CreateBucketRequest(bucket: name)
@@ -68,7 +68,7 @@ class S3Tests: XCTestCase {
                 }
         }
     }
-    
+
     func deleteBucket(name: String, s3: S3? = nil) -> EventLoopFuture<Void> {
         let s3 = s3 ?? Self.s3
         let request = S3.ListObjectsV2Request(bucket: name)
@@ -84,7 +84,7 @@ class S3Tests: XCTestCase {
             return s3.deleteBucket(request).map { _ in }
         }
     }
-    
+
     //MARK: TESTS
 
     func testHeadBucket() {
@@ -98,7 +98,7 @@ class S3Tests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testPutGetObject() {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.PutObject and S3.GetObject"
@@ -153,7 +153,7 @@ class S3Tests: XCTestCase {
         }
         XCTAssertNoThrow(try response.wait())
     }
-    
+
     func testMultiPartDownload() {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
@@ -207,7 +207,7 @@ class S3Tests: XCTestCase {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
-        
+
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
@@ -237,7 +237,7 @@ class S3Tests: XCTestCase {
         let data = createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTestFail"
-        
+
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
@@ -346,7 +346,7 @@ class S3Tests: XCTestCase {
         .flatAlways { _ in
             self.deleteBucket(name: name, s3: s3)
         }
-        
+
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -437,7 +437,7 @@ class S3Tests: XCTestCase {
                 XCTAssertEqual(getBody.asString(), body)
             }
         }
-        
+
         let name = TestEnvironment.generateResourceName()
         let eventLoop = Self.s3.client.eventLoopGroup.next()
         let response = createBucket(name: name)
@@ -513,6 +513,44 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testStreamObject() {
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        defer {
+            XCTAssertNoThrow(try eventLoopGroup.syncShutdownGracefully())
+        }
+        let s3 = S3(
+            accessKeyId: "key",
+            secretAccessKey: "secret",
+            region: .euwest1,
+            endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
+            eventLoopGroupProvider: .shared(eventLoopGroup)
+        )
+
+        // create buffer
+        let dataSize = 1024*1024
+        var data = Data(count: dataSize)
+        for i in 0..<dataSize {
+            data[i] = UInt8.random(in:0...255)
+        }
+
+        attempt {
+            let testData = try TestData(#function, client: s3)
+            var byteBufferCollate = ByteBufferAllocator().buffer(capacity: 1024*1024)
+
+            let putRequest = S3.PutObjectRequest(body: .data(data), bucket: testData.bucket, key: "tempfile")
+            _ = try s3.putObject(putRequest).wait()
+
+            let getRequest = S3.GetObjectRequest(bucket: testData.bucket, key: "tempfile")
+            _ = try s3.getObjectStreaming(getRequest) { byteBuffer, eventLoop in
+                var byteBuffer = byteBuffer
+                byteBufferCollate.writeBuffer(&byteBuffer)
+                return eventLoop.makeSucceededFuture(())
+            }.wait()
+
+            XCTAssertEqual(data, byteBufferCollate.getData(at: 0, length: byteBufferCollate.readableBytes))
+        }
+    }
+
     func testS3VirtualAddressing(_ urlString: String) throws -> String {
         let url = URL(string: urlString)!
         let request = try AWSRequest(
@@ -551,7 +589,8 @@ class S3Tests: XCTestCase {
             ("testMetaData", testMetaData),
             ("testMultipleUpload", testMultipleUpload),
             ("testListPaginator", testListPaginator),
-            ("testS3VirtualAddressing", testS3VirtualAddressing)
+            ("testS3VirtualAddressing", testS3VirtualAddressing),
+            ("testStreamObject", testStreamObject)
         ]
     }
 }

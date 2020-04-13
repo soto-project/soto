@@ -246,6 +246,7 @@ class Shape: Decodable {
         var deprecated: Bool?
         var xmlNamespace: API.XMLNamespace?
         var flattened: Bool?
+        var streaming: Bool?
         var idempotencyToken: Bool?
         var streaming: Bool?
         // set after decode in postProcess stage
@@ -259,6 +260,7 @@ class Shape: Decodable {
             case deprecated
             case xmlNamespace
             case flattened
+            case streaming
             case idempotencyToken
             case streaming
         }
@@ -550,6 +552,7 @@ class Shape: Decodable {
         }
     }
 
+    // remember to add to init(from:Decoder) function as well
     private enum CodingKeys: String, CodingKey {
         case type
         case payload
