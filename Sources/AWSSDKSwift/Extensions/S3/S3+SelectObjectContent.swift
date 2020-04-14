@@ -15,6 +15,7 @@
 import Foundation
 import AWSSDKSwiftCore
 import AWSCrypto
+import CNIOExtrasZlib
 import NIO
 
 //MARK: SelectObjectContent EventStream
@@ -23,22 +24,6 @@ public enum S3SelectError: Error {
     case corruptHeader
     case corruptPayload
     case selectContentError(String)
-}
-
-// CRC32 calculation from https://gist.github.com/antfarm/695fa78e0730b67eb094c77d53942216
-struct CRC32 {
-    static var table: [UInt32] = {
-        (0...255).map { i -> UInt32 in
-            (0..<8).reduce(UInt32(i), { c, _ in
-                (c % 2 == 0) ? (c >> 1) : (0xEDB88320 ^ (c >> 1))
-            })
-        }
-    }()
-    static func checksum<D: DataProtocol>(_ bytes: D) -> UInt32 {
-        return ~(bytes.reduce(~UInt32(0), { crc, byte in
-            (crc >> 8) ^ table[(Int(crc) ^ Int(byte)) & 0xFF]
-        }))
-    }
 }
 
 extension S3.SelectObjectContentEventStream: AWSClientStreamable {
@@ -68,8 +53,9 @@ extension S3.SelectObjectContentEventStream: AWSClientStreamable {
             guard var preludeBuffer = byteBuffer.getSlice(at: byteBuffer.readerIndex, length: 8) else { return nil }
             guard let preludeCRC: UInt32 = byteBuffer.getInteger(at: byteBuffer.readerIndex + 8) else { return nil }
             // verify crc
-            let calculatedPreludeCRC = preludeBuffer.withUnsafeReadableBytes({ buffer in CRC32.checksum(buffer) })
-            guard preludeCRC == calculatedPreludeCRC else { throw S3SelectError.corruptPayload }
+            let preludeBufferView = ByteBufferView(preludeBuffer)
+            let calculatedPreludeCRC = preludeBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
+            guard UInt(preludeCRC) == calculatedPreludeCRC else { throw S3SelectError.corruptPayload }
             // get lengths
             guard let totalLength: Int32 = preludeBuffer.readInteger(),
                 let headerLength: Int32 = preludeBuffer.readInteger() else { return nil }
@@ -78,8 +64,9 @@ extension S3.SelectObjectContentEventStream: AWSClientStreamable {
             guard var messageBuffer = byteBuffer.readSlice(length: Int(totalLength - 4)),
                 let messageCRC: UInt32 = byteBuffer.readInteger()  else { return nil }
             // verify message CRC
-            let calculatedCRC = messageBuffer.withUnsafeReadableBytes({ buffer in CRC32.checksum(buffer) })
-            guard messageCRC == calculatedCRC else { throw S3SelectError.corruptPayload }
+            let messageBufferView = ByteBufferView(messageBuffer)
+            let calculatedCRC = messageBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
+            guard UInt(messageCRC) == calculatedCRC else { throw S3SelectError.corruptPayload }
 
             // skip past prelude
             messageBuffer.moveReaderIndex(forwardBy: 12)
