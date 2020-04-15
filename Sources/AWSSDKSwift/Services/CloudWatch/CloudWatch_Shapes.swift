@@ -199,6 +199,11 @@ extension CloudWatch {
             self.metricTimezone = metricTimezone
         }
 
+        public func validate(name: String) throws {
+            try validate(self.metricTimezone, name:"metricTimezone", parent: name, max: 50)
+            try validate(self.metricTimezone, name:"metricTimezone", parent: name, pattern: ".*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case excludedTimeRanges = "ExcludedTimeRanges"
             case metricTimezone = "MetricTimezone"
@@ -447,6 +452,7 @@ extension CloudWatch {
             try validate(self.namespace, name:"namespace", parent: name, max: 255)
             try validate(self.namespace, name:"namespace", parent: name, min: 1)
             try validate(self.namespace, name:"namespace", parent: name, pattern: "[^:].*")
+            try validate(self.stat, name:"stat", parent: name, pattern: "(SampleCount|Average|Sum|Minimum|Maximum|p(\\d{1,2}|100)(\\.\\d{0,2})?|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1715,7 +1721,7 @@ extension CloudWatch {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
 
-        /// The ARN of the CloudWatch resource that you want to view tags for. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.
+        /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -2215,6 +2221,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
@@ -2224,6 +2231,7 @@ extension CloudWatch {
             try validate(self.namespace, name:"namespace", parent: name, max: 255)
             try validate(self.namespace, name:"namespace", parent: name, min: 1)
             try validate(self.namespace, name:"namespace", parent: name, pattern: "[^:].*")
+            try validate(self.stat, name:"stat", parent: name, pattern: "(SampleCount|Average|Sum|Minimum|Maximum|p(\\d{1,2}|100)(\\.\\d{0,2})?|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2365,7 +2373,8 @@ extension CloudWatch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleDefinition", required: true, type: .string), 
             AWSShapeMember(label: "RuleName", required: true, type: .string), 
-            AWSShapeMember(label: "RuleState", required: false, type: .string)
+            AWSShapeMember(label: "RuleState", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
         /// The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
@@ -2374,11 +2383,14 @@ extension CloudWatch {
         public let ruleName: String
         /// The state of the rule. Valid values are ENABLED and DISABLED.
         public let ruleState: String?
+        /// A list of key-value pairs to associate with the Contributor Insights rule. You can associate as many as 50 tags with a rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values. To be able to associate tags with a rule, you must have the cloudwatch:TagResource permission in addition to the cloudwatch:PutInsightRule permission. If you are using this operation to update an existing Contributor Insights rule, any tags you specify in this parameter are ignored. To change the tags of an existing rule, use TagResource.
+        public let tags: [Tag]?
 
-        public init(ruleDefinition: String, ruleName: String, ruleState: String? = nil) {
+        public init(ruleDefinition: String, ruleName: String, ruleState: String? = nil, tags: [Tag]? = nil) {
             self.ruleDefinition = ruleDefinition
             self.ruleName = ruleName
             self.ruleState = ruleState
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2391,12 +2403,16 @@ extension CloudWatch {
             try validate(self.ruleState, name:"ruleState", parent: name, max: 32)
             try validate(self.ruleState, name:"ruleState", parent: name, min: 1)
             try validate(self.ruleState, name:"ruleState", parent: name, pattern: "[\\x20-\\x7E]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case ruleDefinition = "RuleDefinition"
             case ruleName = "RuleName"
             case ruleState = "RuleState"
+            case tags = "Tags"
         }
     }
 
@@ -2738,7 +2754,7 @@ extension CloudWatch {
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// The ARN of the CloudWatch alarm that you're adding tags to. The ARN format is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  
+        /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
         /// The list of key-value pairs to associate with the alarm.
         public let tags: [Tag]
@@ -2776,7 +2792,7 @@ extension CloudWatch {
             AWSShapeMember(label: "TagKeys", required: true, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// The ARN of the CloudWatch resource that you're removing tags from. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.
+        /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information on ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]

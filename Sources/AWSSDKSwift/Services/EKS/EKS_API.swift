@@ -59,7 +59,7 @@ public struct EKS {
         return client.send(operation: "CreateNodegroup", path: "/clusters/{name}/node-groups", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodegroup andDeleteFargateProfile.
+    ///  Deletes the Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodegroup and DeleteFargateProfile.
     public func deleteCluster(_ input: DeleteClusterRequest) -> EventLoopFuture<DeleteClusterResponse> {
         return client.send(operation: "DeleteCluster", path: "/clusters/{name}", httpMethod: "DELETE", input: input)
     }
@@ -104,7 +104,7 @@ public struct EKS {
         return client.send(operation: "ListFargateProfiles", path: "/clusters/{name}/fargate-profiles", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the Amazon EKS node groups associated with the specified cluster in your AWS account in the specified Region.
+    ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS account in the specified Region. Self-managed node groups are not listed.
     public func listNodegroups(_ input: ListNodegroupsRequest) -> EventLoopFuture<ListNodegroupsResponse> {
         return client.send(operation: "ListNodegroups", path: "/clusters/{name}/node-groups", httpMethod: "GET", input: input)
     }

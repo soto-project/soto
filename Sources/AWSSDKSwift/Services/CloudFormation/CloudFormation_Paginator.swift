@@ -21,7 +21,7 @@ extension CloudFormation {
         return client.paginate(input: input, command: describeStacks, tokenKey: \DescribeStacksOutput.nextToken, onPage: onPage)
     }
 
-    ///  Lists all exported output values in the account and region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
+    ///  Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
     public func listExportsPaginator(_ input: ListExportsInput, onPage: @escaping (ListExportsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listExports, tokenKey: \ListExportsOutput.nextToken, onPage: onPage)
     }

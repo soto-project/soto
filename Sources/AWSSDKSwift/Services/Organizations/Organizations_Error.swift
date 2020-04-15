@@ -7,7 +7,9 @@ public enum OrganizationsErrorType: AWSErrorType {
     case aWSOrganizationsNotInUseException(message: String?)
     case accessDeniedException(message: String?)
     case accessDeniedForDependencyException(message: String?)
+    case accountAlreadyRegisteredException(message: String?)
     case accountNotFoundException(message: String?)
+    case accountNotRegisteredException(message: String?)
     case accountOwnerNotVerifiedException(message: String?)
     case alreadyInOrganizationException(message: String?)
     case childNotFoundException(message: String?)
@@ -61,8 +63,12 @@ extension OrganizationsErrorType {
             self = .accessDeniedException(message: message)
         case "AccessDeniedForDependencyException":
             self = .accessDeniedForDependencyException(message: message)
+        case "AccountAlreadyRegisteredException":
+            self = .accountAlreadyRegisteredException(message: message)
         case "AccountNotFoundException":
             self = .accountNotFoundException(message: message)
+        case "AccountNotRegisteredException":
+            self = .accountNotRegisteredException(message: message)
         case "AccountOwnerNotVerifiedException":
             self = .accountOwnerNotVerifiedException(message: message)
         case "AlreadyInOrganizationException":
@@ -154,8 +160,12 @@ extension OrganizationsErrorType : CustomStringConvertible {
             return "AccessDeniedException: \(message ?? "")"
         case .accessDeniedForDependencyException(let message):
             return "AccessDeniedForDependencyException: \(message ?? "")"
+        case .accountAlreadyRegisteredException(let message):
+            return "AccountAlreadyRegisteredException: \(message ?? "")"
         case .accountNotFoundException(let message):
             return "AccountNotFoundException: \(message ?? "")"
+        case .accountNotRegisteredException(let message):
+            return "AccountNotRegisteredException: \(message ?? "")"
         case .accountOwnerNotVerifiedException(let message):
             return "AccountOwnerNotVerifiedException: \(message ?? "")"
         case .alreadyInOrganizationException(let message):

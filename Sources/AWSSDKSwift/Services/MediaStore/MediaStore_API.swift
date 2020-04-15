@@ -70,6 +70,11 @@ public struct MediaStore {
         return client.send(operation: "DeleteLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
+    public func deleteMetricPolicy(_ input: DeleteMetricPolicyInput) -> EventLoopFuture<DeleteMetricPolicyOutput> {
+        return client.send(operation: "DeleteMetricPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves the properties of the requested container. This request is commonly used to retrieve the endpoint of a container. An endpoint is a value assigned by the service when a new container is created. A container's endpoint does not change after it has been assigned. The DescribeContainer request returns a single Container object based on ContainerName. To return all Container objects that are associated with a specified AWS account, use ListContainers.
     public func describeContainer(_ input: DescribeContainerInput) -> EventLoopFuture<DescribeContainerOutput> {
         return client.send(operation: "DescribeContainer", path: "/", httpMethod: "POST", input: input)
@@ -88,6 +93,11 @@ public struct MediaStore {
     ///  Retrieves the object lifecycle policy that is assigned to a container.
     public func getLifecyclePolicy(_ input: GetLifecyclePolicyInput) -> EventLoopFuture<GetLifecyclePolicyOutput> {
         return client.send(operation: "GetLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the metric policy for the specified container. 
+    public func getMetricPolicy(_ input: GetMetricPolicyInput) -> EventLoopFuture<GetMetricPolicyOutput> {
+        return client.send(operation: "GetMetricPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the properties of all containers in AWS Elemental MediaStore.  You can query to receive all the containers in one response. Or you can include the MaxResults parameter to receive a limited number of containers in each response. In this case, the response includes a token. To get the next set of containers, send the command again, this time with the NextToken parameter (with the returned token as its value). The next set of responses appears, with a token if there are still more containers to receive.  See also DescribeContainer, which gets the properties of one container. 
@@ -113,6 +123,11 @@ public struct MediaStore {
     ///  Writes an object lifecycle policy to a container. If the container already has an object lifecycle policy, the service replaces the existing policy with the new policy. It takes up to 20 minutes for the change to take effect. For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy.
     public func putLifecyclePolicy(_ input: PutLifecyclePolicyInput) -> EventLoopFuture<PutLifecyclePolicyOutput> {
         return client.send(operation: "PutLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
+    public func putMetricPolicy(_ input: PutMetricPolicyInput) -> EventLoopFuture<PutMetricPolicyOutput> {
+        return client.send(operation: "PutMetricPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.

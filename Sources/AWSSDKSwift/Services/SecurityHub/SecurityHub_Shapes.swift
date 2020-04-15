@@ -3547,7 +3547,7 @@ extension SecurityHub {
 
         /// One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
         public let filters: AwsSecurityFindingFilters
-        /// The attribute used as the aggregator to group related findings for the insight.
+        /// The attribute used to group the findings for the insight. The grouping attribute identifies the type of item that the insight applies to. For example, if an insight is grouped by resource identifier, then the insight produces a list of resource identifiers.
         public let groupByAttribute: String
         /// The name of the custom insight to create.
         public let name: String
@@ -4263,13 +4263,17 @@ extension SecurityHub {
 
     public struct EnableSecurityHubRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableDefaultStandards", required: false, type: .boolean), 
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
 
+        /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
+        public let enableDefaultStandards: Bool?
         /// The tags to add to the Hub resource when you enable Security Hub.
         public let tags: [String: String]?
 
-        public init(tags: [String: String]? = nil) {
+        public init(enableDefaultStandards: Bool? = nil, tags: [String: String]? = nil) {
+            self.enableDefaultStandards = enableDefaultStandards
             self.tags = tags
         }
 
@@ -4283,6 +4287,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableDefaultStandards = "EnableDefaultStandards"
             case tags = "Tags"
         }
     }
@@ -4614,11 +4619,11 @@ extension SecurityHub {
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
 
-        /// The code of the error made during the BatchImportFindings operation.
+        /// The code of the error returned by the BatchImportFindings operation.
         public let errorCode: String
-        /// The message of the error made during the BatchImportFindings operation.
+        /// The message of the error returned by the BatchImportFindings operation.
         public let errorMessage: String
-        /// The ID of the error made during the BatchImportFindings operation.
+        /// The identifier of the finding that could not be updated.
         public let id: String
 
         public init(errorCode: String, errorMessage: String, id: String) {
@@ -4644,7 +4649,7 @@ extension SecurityHub {
 
         /// One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
         public let filters: AwsSecurityFindingFilters
-        /// The attribute that the insight's findings are grouped by. This attribute is used as a findings aggregator for the purposes of viewing and managing multiple related findings under a single operand.
+        /// The grouping attribute for the insight's findings. Indicates how to group the matching findings, and identifies the type of item that the insight applies to. For example, if an insight is grouped by resource identifier, then the insight produces a list of resource identifiers.
         public let groupByAttribute: String
         /// The ARN of a Security Hub insight.
         public let insightArn: String
@@ -5772,25 +5777,30 @@ extension SecurityHub {
     public struct Standard: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EnabledByDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "StandardsArn", required: false, type: .string)
         ]
 
         /// A description of the standard.
         public let description: String?
+        /// Whether the standard is enabled by default. When Security Hub is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default. When Security Hub is enabled using the EnableSecurityHub API operation, the standard is enabled by default unless EnableDefaultStandards is set to false.
+        public let enabledByDefault: Bool?
         /// The name of the standard.
         public let name: String?
         /// The ARN of a standard.
         public let standardsArn: String?
 
-        public init(description: String? = nil, name: String? = nil, standardsArn: String? = nil) {
+        public init(description: String? = nil, enabledByDefault: Bool? = nil, name: String? = nil, standardsArn: String? = nil) {
             self.description = description
+            self.enabledByDefault = enabledByDefault
             self.name = name
             self.standardsArn = standardsArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case enabledByDefault = "EnabledByDefault"
             case name = "Name"
             case standardsArn = "StandardsArn"
         }

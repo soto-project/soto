@@ -37,6 +37,7 @@ public struct Shield {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-06-02",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "shield-fips.us-east-1.amazonaws.com", "us-east-1": "shield.us-east-1.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ShieldErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

@@ -178,7 +178,7 @@ extension APIGateway {
             AWSShapeMember(label: "format", required: false, type: .string)
         ]
 
-        /// The ARN of the CloudWatch Logs log group to receive access logs.
+        /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or Kinesis Data Firehose delivery stream to receive access logs. If you specify a Kinesis Data Firehose delivery stream, the stream name must begin with amazon-apigateway-.
         public let destinationArn: String?
         /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
         public let format: String?
@@ -607,7 +607,7 @@ extension APIGateway {
         public let description: String?
         /// Specifies whether the ApiKey can be used by callers.
         public let enabled: Bool?
-        /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
+        /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value. This parameter is deprecated and should not be used.
         public let generateDistinctId: Bool?
         /// The name of the ApiKey.
         public let name: String?
@@ -717,7 +717,7 @@ extension APIGateway {
         public let domainName: String
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
-        /// The name of the API's stage that you want to use for this mapping. Specify '(none)' if you do not want callers to explicitly specify the stage name after any base path name.
+        /// The name of the API's stage that you want to use for this mapping. Specify '(none)' if you want callers to explicitly specify the stage name after any base path name.
         public let stage: String?
 
         public init(basePath: String? = nil, domainName: String, restApiId: String, stage: String? = nil) {
@@ -1230,7 +1230,7 @@ extension APIGateway {
         public let name: String
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
-        /// [Required] The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
+        /// [Required] The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same AWS account of the API owner.
         public let targetArns: [String]
 
         public init(description: String? = nil, name: String, tags: [String: String]? = nil, targetArns: [String]) {
@@ -3216,7 +3216,7 @@ extension APIGateway {
         public let limit: Int?
         /// (Not currently supported) The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
+        /// [Required] The ARN of a resource that can be tagged.
         public let resourceArn: String
 
         public init(limit: Int? = nil, position: String? = nil, resourceArn: String) {
@@ -3738,7 +3738,7 @@ extension APIGateway {
         public let cachingEnabled: Bool?
         /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
         public let dataTraceEnabled: Bool?
-        /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO.
+        /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO. Choose ERROR to write only error-level entries to CloudWatch Logs, or choose INFO to include all ERROR events as well as extra informational events.
         public let loggingLevel: String?
         /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
         public let metricsEnabled: Bool?
@@ -4723,7 +4723,7 @@ extension APIGateway {
             AWSShapeMember(label: "tags", required: true, type: .map)
         ]
 
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
+        /// [Required] The ARN of a resource that can be tagged.
         public let resourceArn: String
         /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]
@@ -4998,7 +4998,7 @@ extension APIGateway {
             AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
 
-        /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
+        /// [Required] The ARN of a resource that can be tagged.
         public let resourceArn: String
         /// [Required] The Tag keys to delete.
         public let tagKeys: [String]
@@ -5791,7 +5791,7 @@ extension APIGateway {
         public let statusMessage: String?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        /// The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
+        /// The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same AWS account of the API owner.
         public let targetArns: [String]?
 
         public init(description: String? = nil, id: String? = nil, name: String? = nil, status: VpcLinkStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil, targetArns: [String]? = nil) {

@@ -66,11 +66,22 @@ extension TranscribeService {
         public var description: String { return self.rawValue }
     }
 
+    public enum Specialty: String, CustomStringConvertible, Codable {
+        case primarycare = "PRIMARYCARE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable {
         case queued = "QUEUED"
         case inProgress = "IN_PROGRESS"
         case failed = "FAILED"
         case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case conversation = "CONVERSATION"
+        case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 
@@ -95,7 +106,7 @@ extension TranscribeService {
             AWSShapeMember(label: "RedactionType", required: true, type: .enum)
         ]
 
-        /// Request parameter where you choose whether to output only the redacted transcript or generate an additional unredacted transcript. When you choose redacted Amazon Transcribe outputs a JSON file with only the redacted transcript and related information. When you choose redacted_and_unredacted Amazon Transcribe outputs a JSON file with the unredacted transcript and related information in addition to the JSON file with the redacted transcript.
+        /// The output transcript file stored in either the default S3 bucket or in a bucket you specify. When you choose redacted Amazon Transcribe outputs only the redacted transcript. When you choose redacted_and_unredacted Amazon Transcribe outputs both the redacted and unredacted transcripts.
         public let redactionOutput: RedactionOutput
         /// Request parameter that defines the entities to be redacted. The only accepted value is PII.
         public let redactionType: RedactionType
@@ -267,6 +278,29 @@ extension TranscribeService {
         }
     }
 
+    public struct DeleteMedicalTranscriptionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MedicalTranscriptionJobName", required: true, type: .string)
+        ]
+
+        /// The name you provide to the DeleteMedicalTranscriptionJob object to delete a transcription job.
+        public let medicalTranscriptionJobName: String
+
+        public init(medicalTranscriptionJobName: String) {
+            self.medicalTranscriptionJobName = medicalTranscriptionJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, max: 200)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, min: 1)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medicalTranscriptionJobName = "MedicalTranscriptionJobName"
+        }
+    }
+
     public struct DeleteTranscriptionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
@@ -333,6 +367,46 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case vocabularyName = "VocabularyName"
+        }
+    }
+
+    public struct GetMedicalTranscriptionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MedicalTranscriptionJobName", required: true, type: .string)
+        ]
+
+        /// The name of the medical transcription job.
+        public let medicalTranscriptionJobName: String
+
+        public init(medicalTranscriptionJobName: String) {
+            self.medicalTranscriptionJobName = medicalTranscriptionJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, max: 200)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, min: 1)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medicalTranscriptionJobName = "MedicalTranscriptionJobName"
+        }
+    }
+
+    public struct GetMedicalTranscriptionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MedicalTranscriptionJob", required: false, type: .structure)
+        ]
+
+        /// An object that contains the results of the medical transcription job.
+        public let medicalTranscriptionJob: MedicalTranscriptionJob?
+
+        public init(medicalTranscriptionJob: MedicalTranscriptionJob? = nil) {
+            self.medicalTranscriptionJob = medicalTranscriptionJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medicalTranscriptionJob = "MedicalTranscriptionJob"
         }
     }
 
@@ -502,9 +576,9 @@ extension TranscribeService {
             AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string)
         ]
 
-        /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and will be executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
+        /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let allowDeferredExecution: Bool?
-        /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket that contains the input files. Amazon Transcribe will assume this role to read queued media files. If you have specified an output S3 bucket for the transcription results, this role should have access to the output bucket as well. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
+        /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket that contains the input files. Amazon Transcribe assumes this role to read queued media files. If you have specified an output S3 bucket for the transcription results, this role should have access to the output bucket as well. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let dataAccessRoleArn: String?
 
         public init(allowDeferredExecution: Bool? = nil, dataAccessRoleArn: String? = nil) {
@@ -519,6 +593,75 @@ extension TranscribeService {
         private enum CodingKeys: String, CodingKey {
             case allowDeferredExecution = "AllowDeferredExecution"
             case dataAccessRoleArn = "DataAccessRoleArn"
+        }
+    }
+
+    public struct ListMedicalTranscriptionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobNameContains", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
+        public let jobNameContains: String?
+        /// The maximum number of medical transcription jobs to return in the response. IF there are fewer results in the list, this response contains only the actual results.
+        public let maxResults: Int?
+        /// If you a receive a truncated result in the previous request of ListMedicalTranscriptionJobs, include NextToken to fetch the next set of jobs.
+        public let nextToken: String?
+        /// When specified, returns only medical transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don't specify a status, Amazon Transcribe Medical returns all transcription jobs ordered by creation date.
+        public let status: TranscriptionJobStatus?
+
+        public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
+            self.jobNameContains = jobNameContains
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobNameContains, name:"jobNameContains", parent: name, max: 200)
+            try validate(self.jobNameContains, name:"jobNameContains", parent: name, min: 1)
+            try validate(self.jobNameContains, name:"jobNameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobNameContains = "JobNameContains"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case status = "Status"
+        }
+    }
+
+    public struct ListMedicalTranscriptionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MedicalTranscriptionJobSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// A list of objects containing summary information for a transcription job.
+        public let medicalTranscriptionJobSummaries: [MedicalTranscriptionJobSummary]?
+        /// The ListMedicalTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If the number of jobs exceeds what can fit on a page, Amazon Transcribe Medical returns the NextPage token. Include the token in the next request to the ListMedicalTranscriptionJobs operation to return in the next page of jobs.
+        public let nextToken: String?
+        /// The requested status of the medical transcription jobs returned.
+        public let status: TranscriptionJobStatus?
+
+        public init(medicalTranscriptionJobSummaries: [MedicalTranscriptionJobSummary]? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
+            self.medicalTranscriptionJobSummaries = medicalTranscriptionJobSummaries
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medicalTranscriptionJobSummaries = "MedicalTranscriptionJobSummaries"
+            case nextToken = "NextToken"
+            case status = "Status"
         }
     }
 
@@ -601,7 +744,7 @@ extension TranscribeService {
 
         /// The maximum number of vocabularies to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
-        /// When specified, the vocabularies returned in the list are limited to vocabularies whose name contains the specified string. The search is case-insensitive, ListVocabularies will return both "vocabularyname" and "VocabularyName" in the response list.
+        /// When specified, the vocabularies returned in the list are limited to vocabularies whose name contains the specified string. The search is case-insensitive, ListVocabularies returns both "vocabularyname" and "VocabularyName" in the response list.
         public let nameContains: String?
         /// If the result of the previous request to ListVocabularies was truncated, include the NextToken to fetch the next set of jobs.
         public let nextToken: String?
@@ -705,7 +848,7 @@ extension TranscribeService {
 
         /// The ListVocabularyFilters operation returns a page of collections at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularyFilters operation to return in the next page of jobs.
         public let nextToken: String?
-        /// The list of vocabulary filters. It will contain at most MaxResults number of filters. If there are more filters, call the ListVocabularyFilters operation again with the NextToken parameter in the request set to the value of the NextToken field in the response.
+        /// The list of vocabulary filters. It contains at most MaxResults number of filters. If there are more filters, call the ListVocabularyFilters operation again with the NextToken parameter in the request set to the value of the NextToken field in the response.
         public let vocabularyFilters: [VocabularyFilterInfo]?
 
         public init(nextToken: String? = nil, vocabularyFilters: [VocabularyFilterInfo]? = nil) {
@@ -742,6 +885,210 @@ extension TranscribeService {
         }
     }
 
+    public struct MedicalTranscript: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TranscriptFileUri", required: false, type: .string)
+        ]
+
+        /// The S3 object location of the medical transcript. Use this URI to access the medical transcript. This URI points to the S3 bucket you created to store the medical transcript.
+        public let transcriptFileUri: String?
+
+        public init(transcriptFileUri: String? = nil) {
+            self.transcriptFileUri = transcriptFileUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcriptFileUri = "TranscriptFileUri"
+        }
+    }
+
+    public struct MedicalTranscriptionJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Media", required: false, type: .structure), 
+            AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
+            AWSShapeMember(label: "MedicalTranscriptionJobName", required: false, type: .string), 
+            AWSShapeMember(label: "Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "Specialty", required: false, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Transcript", required: false, type: .structure), 
+            AWSShapeMember(label: "TranscriptionJobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// A timestamp that shows when the job was completed.
+        public let completionTime: TimeStamp?
+        /// A timestamp that shows when the job was created.
+        public let creationTime: TimeStamp?
+        /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field contains one of the following values:    Unsupported media format- The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format- The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure the two values match.    Invalid sample rate for audio file- The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate- The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large- The size of your audio file is larger than what Amazon Transcribe Medical can process. For more information, see Guidlines and Quotas in the Amazon Transcribe Medical Guide     Invalid number of channels: number of channels too large- Your audio contains more channels than Amazon Transcribe Medical is configured to process. To request additional channels, see Amazon Transcribe Medical Endpoints and Quotas in the Amazon Web Services General Reference   
+        public let failureReason: String?
+        /// The language code for the language spoken in the source audio file. US English (en-US) is the only supported language for medical transcriptions. Any other value you enter for language code results in a BadRequestException error.
+        public let languageCode: LanguageCode?
+        public let media: Media?
+        /// The format of the input media file.
+        public let mediaFormat: MediaFormat?
+        /// The sample rate, in Hertz, of the source audio containing medical information. If you don't specify the sample rate, Amazon Transcribe Medical determines it for you. If you choose to specify the sample rate, it must match the rate detected by Amazon Transcribe Medical. In most cases, you should leave the MediaSampleHertz blank and let Amazon Transcribe Medical determine the sample rate.
+        public let mediaSampleRateHertz: Int?
+        /// The name for a given medical transcription job.
+        public let medicalTranscriptionJobName: String?
+        /// Object that contains object.
+        public let settings: MedicalTranscriptionSetting?
+        /// The medical specialty of any clinicians providing a dictation or having a conversation. PRIMARYCARE is the only available setting for this object. This specialty enables you to generate transcriptions for the following medical fields:   Family Medicine  
+        public let specialty: Specialty?
+        /// A timestamp that shows when the job started processing.
+        public let startTime: TimeStamp?
+        /// An object that contains the MedicalTranscript. The MedicalTranscript contains the TranscriptFileUri.
+        public let transcript: MedicalTranscript?
+        /// The completion status of a medical transcription job.
+        public let transcriptionJobStatus: TranscriptionJobStatus?
+        /// The type of speech in the transcription job. CONVERSATION is generally used for patient-physician dialogues. DICTATION is the setting for physicians speaking their notes after seeing a patient. For more information, see how-it-works-med 
+        public let `type`: `Type`?
+
+        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: TimeStamp? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.languageCode = languageCode
+            self.media = media
+            self.mediaFormat = mediaFormat
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.medicalTranscriptionJobName = medicalTranscriptionJobName
+            self.settings = settings
+            self.specialty = specialty
+            self.startTime = startTime
+            self.transcript = transcript
+            self.transcriptionJobStatus = transcriptionJobStatus
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "CompletionTime"
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case languageCode = "LanguageCode"
+            case media = "Media"
+            case mediaFormat = "MediaFormat"
+            case mediaSampleRateHertz = "MediaSampleRateHertz"
+            case medicalTranscriptionJobName = "MedicalTranscriptionJobName"
+            case settings = "Settings"
+            case specialty = "Specialty"
+            case startTime = "StartTime"
+            case transcript = "Transcript"
+            case transcriptionJobStatus = "TranscriptionJobStatus"
+            case `type` = "Type"
+        }
+    }
+
+    public struct MedicalTranscriptionJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "MedicalTranscriptionJobName", required: false, type: .string), 
+            AWSShapeMember(label: "OutputLocationType", required: false, type: .enum), 
+            AWSShapeMember(label: "Specialty", required: false, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TranscriptionJobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// A timestamp that shows when the job was completed.
+        public let completionTime: TimeStamp?
+        /// A timestamp that shows when the medical transcription job was created.
+        public let creationTime: TimeStamp?
+        /// If the TranscriptionJobStatus field is FAILED, a description of the error.
+        public let failureReason: String?
+        /// The language of the transcript in the source audio file.
+        public let languageCode: LanguageCode?
+        /// The name of a medical transcription job.
+        public let medicalTranscriptionJobName: String?
+        /// Indicates the location of the transcription job's output. The CUSTOMER_BUCKET is the S3 location provided in the OutputBucketName field when the 
+        public let outputLocationType: OutputLocationType?
+        /// The medical specialty of the transcription job. Primary care is the only valid value.
+        public let specialty: Specialty?
+        /// A timestamp that shows when the job began processing.
+        public let startTime: TimeStamp?
+        /// The status of the medical transcription job.
+        public let transcriptionJobStatus: TranscriptionJobStatus?
+        /// The speech of the clinician in the input audio.
+        public let `type`: `Type`?
+
+        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: TimeStamp? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.languageCode = languageCode
+            self.medicalTranscriptionJobName = medicalTranscriptionJobName
+            self.outputLocationType = outputLocationType
+            self.specialty = specialty
+            self.startTime = startTime
+            self.transcriptionJobStatus = transcriptionJobStatus
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "CompletionTime"
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case languageCode = "LanguageCode"
+            case medicalTranscriptionJobName = "MedicalTranscriptionJobName"
+            case outputLocationType = "OutputLocationType"
+            case specialty = "Specialty"
+            case startTime = "StartTime"
+            case transcriptionJobStatus = "TranscriptionJobStatus"
+            case `type` = "Type"
+        }
+    }
+
+    public struct MedicalTranscriptionSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelIdentification", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxAlternatives", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxSpeakerLabels", required: false, type: .integer), 
+            AWSShapeMember(label: "ShowAlternatives", required: false, type: .boolean), 
+            AWSShapeMember(label: "ShowSpeakerLabels", required: false, type: .boolean)
+        ]
+
+        /// Instructs Amazon Transcribe Medical to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of item. The alternative transcriptions also come with confidence scores provided by Amazon Transcribe Medical. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException 
+        public let channelIdentification: Bool?
+        /// The maximum number of alternatives that you tell the service to return. If you specify the MaxAlternatives field, you must set the ShowAlternatives field to true.
+        public let maxAlternatives: Int?
+        /// The maximum number of speakers to identify in the input audio. If there are more speakers in the audio than this number, multiple speakers are identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
+        public let maxSpeakerLabels: Int?
+        /// Determines whether alternative transcripts are generated along with the transcript that has the highest confidence. If you set ShowAlternatives field to true, you must also set the maximum number of alternatives to return in the MaxAlternatives field.
+        public let showAlternatives: Bool?
+        /// Determines whether the transcription job uses speaker recognition to identify different speakers in the input audio. Speaker recongition labels individual speakers in the audio file. If you set the ShowSpeakerLabels field to true, you must also set the maximum number of speaker labels in the MaxSpeakerLabels field. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        public let showSpeakerLabels: Bool?
+
+        public init(channelIdentification: Bool? = nil, maxAlternatives: Int? = nil, maxSpeakerLabels: Int? = nil, showAlternatives: Bool? = nil, showSpeakerLabels: Bool? = nil) {
+            self.channelIdentification = channelIdentification
+            self.maxAlternatives = maxAlternatives
+            self.maxSpeakerLabels = maxSpeakerLabels
+            self.showAlternatives = showAlternatives
+            self.showSpeakerLabels = showSpeakerLabels
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxAlternatives, name:"maxAlternatives", parent: name, max: 10)
+            try validate(self.maxAlternatives, name:"maxAlternatives", parent: name, min: 2)
+            try validate(self.maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, max: 10)
+            try validate(self.maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelIdentification = "ChannelIdentification"
+            case maxAlternatives = "MaxAlternatives"
+            case maxSpeakerLabels = "MaxSpeakerLabels"
+            case showAlternatives = "ShowAlternatives"
+            case showSpeakerLabels = "ShowSpeakerLabels"
+        }
+    }
+
     public struct Settings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelIdentification", required: false, type: .boolean), 
@@ -758,7 +1105,7 @@ extension TranscribeService {
         public let channelIdentification: Bool?
         /// The number of alternative transcriptions that the service should return. If you specify the MaxAlternatives field, you must set the ShowAlternatives field to true.
         public let maxAlternatives: Int?
-        /// The maximum number of speakers to identify in the input audio. If there are more speakers in the audio than this number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
+        /// The maximum number of speakers to identify in the input audio. If there are more speakers in the audio than this number, multiple speakers are identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public let maxSpeakerLabels: Int?
         /// Determines whether the transcription contains alternative transcriptions. If you set the ShowAlternatives field to true, you must also set the maximum number of alternatives to return in the MaxAlternatives field.
         public let showAlternatives: Bool?
@@ -804,6 +1151,99 @@ extension TranscribeService {
             case vocabularyFilterMethod = "VocabularyFilterMethod"
             case vocabularyFilterName = "VocabularyFilterName"
             case vocabularyName = "VocabularyName"
+        }
+    }
+
+    public struct StartMedicalTranscriptionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Media", required: true, type: .structure), 
+            AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
+            AWSShapeMember(label: "MedicalTranscriptionJobName", required: true, type: .string), 
+            AWSShapeMember(label: "OutputBucketName", required: true, type: .string), 
+            AWSShapeMember(label: "OutputEncryptionKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "Specialty", required: true, type: .enum), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// The language code for the language spoken in the input media file. US English (en-US) is the valid value for medical transcription jobs. Any other value you enter for language code results in a BadRequestException error.
+        public let languageCode: LanguageCode
+        public let media: Media
+        /// The audio format of the input media file.
+        public let mediaFormat: MediaFormat?
+        /// The sample rate, in Hertz, of the audio track in the input media file. If you do not specify the media sample rate, Amazon Transcribe Medical determines the sample rate. If you specify the sample rate, it must match the rate detected by Amazon Transcribe Medical. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe Medical determine the sample rate.
+        public let mediaSampleRateHertz: Int?
+        /// The name of the medical transcription job. You can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account.
+        public let medicalTranscriptionJobName: String
+        /// The Amazon S3 location where the transcription is stored. You must set OutputBucketName for Amazon Transcribe Medical to store the transcription results. Your transcript appears in the S3 location you specify. When you call the GetMedicalTranscriptionJob, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe Medical to put files in the bucket. For more information, see Permissions Required for IAM User Roles. You can specify an AWS Key Management Service (KMS) key to encrypt the output of your transcription using the OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe Medical uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket.
+        public let outputBucketName: String
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartMedicalTranscriptionJob operation must have permission to use the specified KMS key. You use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS key in the current account or another account: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the medical transcription job is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
+        public let outputEncryptionKMSKeyId: String?
+        /// Optional settings for the medical transcription job.
+        public let settings: MedicalTranscriptionSetting?
+        /// The medical specialty of any clinician speaking in the input media.
+        public let specialty: Specialty
+        /// The speech of clinician in the input audio. CONVERSATION refers to conversations clinicians have with patients. DICTATION refers to medical professionals dictating their notes about a patient encounter.
+        public let `type`: `Type`
+
+        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, type: `Type`) {
+            self.languageCode = languageCode
+            self.media = media
+            self.mediaFormat = mediaFormat
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.medicalTranscriptionJobName = medicalTranscriptionJobName
+            self.outputBucketName = outputBucketName
+            self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
+            self.settings = settings
+            self.specialty = specialty
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.media.validate(name: "\(name).media")
+            try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, max: 48000)
+            try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, min: 8000)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, max: 200)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, min: 1)
+            try validate(self.medicalTranscriptionJobName, name:"medicalTranscriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.outputBucketName, name:"outputBucketName", parent: name, max: 64)
+            try validate(self.outputBucketName, name:"outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
+            try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, max: 2048)
+            try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, min: 1)
+            try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.settings?.validate(name: "\(name).settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case media = "Media"
+            case mediaFormat = "MediaFormat"
+            case mediaSampleRateHertz = "MediaSampleRateHertz"
+            case medicalTranscriptionJobName = "MedicalTranscriptionJobName"
+            case outputBucketName = "OutputBucketName"
+            case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
+            case settings = "Settings"
+            case specialty = "Specialty"
+            case `type` = "Type"
+        }
+    }
+
+    public struct StartMedicalTranscriptionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MedicalTranscriptionJob", required: false, type: .structure)
+        ]
+
+        /// A batch job submitted to transcribe medical speech to text.
+        public let medicalTranscriptionJob: MedicalTranscriptionJob?
+
+        public init(medicalTranscriptionJob: MedicalTranscriptionJob? = nil) {
+            self.medicalTranscriptionJob = medicalTranscriptionJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medicalTranscriptionJob = "MedicalTranscriptionJob"
         }
     }
 

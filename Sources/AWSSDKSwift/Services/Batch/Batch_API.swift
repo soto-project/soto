@@ -36,6 +36,7 @@ public struct Batch {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-08-10",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "batch-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "batch-fips.us-east-1.amazonaws.com", "fips-us-east-2": "batch-fips.us-east-2.amazonaws.com", "fips-us-west-1": "batch-fips.us-west-1.amazonaws.com", "fips-us-west-2": "batch-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [BatchErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

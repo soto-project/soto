@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS IoT service.
 
-AWS IoT AWS IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. For more information about how AWS IoT works, see the Developer Guide. For information about how to use the credentials provider for AWS IoT, see Authorizing Direct Calls to AWS Services.
+AWS IoT AWS IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. The service endpoints that expose this API are listed in AWS IoT Core Endpoints and Quotas. You must use the endpoint for the region that has the resources you want to access. The service name used by AWS Signature Version 4 to sign the request is: execute-api. For more information about how AWS IoT works, see the Developer Guide. For information about how to use the credentials provider for AWS IoT, see Authorizing Direct Calls to AWS Services.
 */
 public struct IoT {
 
@@ -136,6 +136,11 @@ public struct IoT {
         return client.send(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: "POST", input: input)
     }
 
+    ///  Create a dimension that you can use to limit the scope of a metric used in a security profile for AWS IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
+    public func createDimension(_ input: CreateDimensionRequest) -> EventLoopFuture<CreateDimensionResponse> {
+        return client.send(operation: "CreateDimension", path: "/dimensions/{name}", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
     public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest) -> EventLoopFuture<CreateDomainConfigurationResponse> {
         return client.send(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: "POST", input: input)
@@ -259,6 +264,11 @@ public struct IoT {
     ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
     @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes the specified dimension from your AWS account.
+    public func deleteDimension(_ input: DeleteDimensionRequest) -> EventLoopFuture<DeleteDimensionResponse> {
+        return client.send(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change. 
@@ -414,6 +424,11 @@ public struct IoT {
     ///  Describes the default authorizer.
     public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest) -> EventLoopFuture<DescribeDefaultAuthorizerResponse> {
         return client.send(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: "GET", input: input)
+    }
+
+    ///  Provides details about a dimension that is defined in your AWS account.
+    public func describeDimension(_ input: DescribeDimensionRequest) -> EventLoopFuture<DescribeDimensionResponse> {
+        return client.send(operation: "DescribeDimension", path: "/dimensions/{name}", httpMethod: "GET", input: input)
     }
 
     ///  Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
@@ -655,6 +670,11 @@ public struct IoT {
     ///  List the device certificates signed by the specified CA certificate.
     public func listCertificatesByCA(_ input: ListCertificatesByCARequest) -> EventLoopFuture<ListCertificatesByCAResponse> {
         return client.send(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: "GET", input: input)
+    }
+
+    ///  List the set of dimensions that are defined for your AWS account.
+    public func listDimensions(_ input: ListDimensionsRequest) -> EventLoopFuture<ListDimensionsResponse> {
+        return client.send(operation: "ListDimensions", path: "/dimensions", httpMethod: "GET", input: input)
     }
 
     ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
@@ -972,6 +992,11 @@ public struct IoT {
     ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
     @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and re-create it).
+    public func updateDimension(_ input: UpdateDimensionRequest) -> EventLoopFuture<UpdateDimensionResponse> {
+        return client.send(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change. 

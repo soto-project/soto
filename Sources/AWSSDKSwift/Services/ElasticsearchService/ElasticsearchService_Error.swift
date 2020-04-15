@@ -4,7 +4,9 @@ import AWSSDKSwiftCore
 
 /// Error enum for ElasticsearchService
 public enum ElasticsearchServiceErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
     case baseException(message: String?)
+    case conflictException(message: String?)
     case disabledOperationException(message: String?)
     case internalException(message: String?)
     case invalidTypeException(message: String?)
@@ -21,8 +23,12 @@ extension ElasticsearchServiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "BaseException":
             self = .baseException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "DisabledOperationException":
             self = .disabledOperationException(message: message)
         case "InternalException":
@@ -46,8 +52,12 @@ extension ElasticsearchServiceErrorType {
 extension ElasticsearchServiceErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
         case .baseException(let message):
             return "BaseException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .disabledOperationException(let message):
             return "DisabledOperationException: \(message ?? "")"
         case .internalException(let message):

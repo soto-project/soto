@@ -15,6 +15,22 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable {
+        case packageid = "PackageID"
+        case packagename = "PackageName"
+        case packagestatus = "PackageStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainPackageStatus: String, CustomStringConvertible, Codable {
+        case associating = "ASSOCIATING"
+        case associationFailed = "ASSOCIATION_FAILED"
+        case active = "ACTIVE"
+        case dissociating = "DISSOCIATING"
+        case dissociationFailed = "DISSOCIATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ESPartitionInstanceType: String, CustomStringConvertible, Codable {
         case m3MediumElasticsearch = "m3.medium.elasticsearch"
         case m3LargeElasticsearch = "m3.large.elasticsearch"
@@ -94,6 +110,23 @@ extension ElasticsearchService {
         case requiresindexdocuments = "RequiresIndexDocuments"
         case processing = "Processing"
         case active = "Active"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PackageStatus: String, CustomStringConvertible, Codable {
+        case copying = "COPYING"
+        case copyFailed = "COPY_FAILED"
+        case validating = "VALIDATING"
+        case validationFailed = "VALIDATION_FAILED"
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PackageType: String, CustomStringConvertible, Codable {
+        case txtDictionary = "TXT-DICTIONARY"
         public var description: String { return self.rawValue }
     }
 
@@ -300,6 +333,51 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
+        }
+    }
+
+    public struct AssociatePackageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
+            AWSShapeMember(label: "PackageID", location: .uri(locationName: "PackageID"), required: true, type: .string)
+        ]
+
+        /// Name of the domain that you want to associate the package with.
+        public let domainName: String
+        /// Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value.
+        public let packageID: String
+
+        public init(domainName: String, packageID: String) {
+            self.domainName = domainName
+            self.packageID = packageID
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 28)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case packageID = "PackageID"
+        }
+    }
+
+    public struct AssociatePackageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainPackageDetails", required: false, type: .structure)
+        ]
+
+        /// DomainPackageDetails
+        public let domainPackageDetails: DomainPackageDetails?
+
+        public init(domainPackageDetails: DomainPackageDetails? = nil) {
+            self.domainPackageDetails = domainPackageDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPackageDetails = "DomainPackageDetails"
         }
     }
 
@@ -537,6 +615,63 @@ extension ElasticsearchService {
         }
     }
 
+    public struct CreatePackageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PackageDescription", required: false, type: .string), 
+            AWSShapeMember(label: "PackageName", required: true, type: .string), 
+            AWSShapeMember(label: "PackageSource", required: true, type: .structure), 
+            AWSShapeMember(label: "PackageType", required: true, type: .enum)
+        ]
+
+        /// Description of the package.
+        public let packageDescription: String?
+        /// Unique identifier for the package.
+        public let packageName: String
+        /// The customer S3 location PackageSource for importing the package.
+        public let packageSource: PackageSource
+        /// Type of package. Currently supports only TXT-DICTIONARY.
+        public let packageType: PackageType
+
+        public init(packageDescription: String? = nil, packageName: String, packageSource: PackageSource, packageType: PackageType) {
+            self.packageDescription = packageDescription
+            self.packageName = packageName
+            self.packageSource = packageSource
+            self.packageType = packageType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.packageDescription, name:"packageDescription", parent: name, max: 1024)
+            try validate(self.packageName, name:"packageName", parent: name, max: 28)
+            try validate(self.packageName, name:"packageName", parent: name, min: 3)
+            try validate(self.packageName, name:"packageName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.packageSource.validate(name: "\(name).packageSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageDescription = "PackageDescription"
+            case packageName = "PackageName"
+            case packageSource = "PackageSource"
+            case packageType = "PackageType"
+        }
+    }
+
+    public struct CreatePackageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PackageDetails", required: false, type: .structure)
+        ]
+
+        /// Information about the package PackageDetails.
+        public let packageDetails: PackageDetails?
+
+        public init(packageDetails: PackageDetails? = nil) {
+            self.packageDetails = packageDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageDetails = "PackageDetails"
+        }
+    }
+
     public struct DeleteElasticsearchDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
@@ -574,6 +709,40 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case domainStatus = "DomainStatus"
+        }
+    }
+
+    public struct DeletePackageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PackageID", location: .uri(locationName: "PackageID"), required: true, type: .string)
+        ]
+
+        /// Internal ID of the package that you want to delete. Use DescribePackages to find this value.
+        public let packageID: String
+
+        public init(packageID: String) {
+            self.packageID = packageID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageID = "PackageID"
+        }
+    }
+
+    public struct DeletePackageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PackageDetails", required: false, type: .structure)
+        ]
+
+        /// PackageDetails
+        public let packageDetails: PackageDetails?
+
+        public init(packageDetails: PackageDetails? = nil) {
+            self.packageDetails = packageDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageDetails = "PackageDetails"
         }
     }
 
@@ -748,6 +917,89 @@ extension ElasticsearchService {
         }
     }
 
+    public struct DescribePackagesFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .list)
+        ]
+
+        /// Any field from PackageDetails.
+        public let name: DescribePackagesFilterName?
+        /// A list of values for the specified field.
+        public let value: [String]?
+
+        public init(name: DescribePackagesFilterName? = nil, value: [String]? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.value?.forEach {
+                try validate($0, name: "value[]", parent: name, pattern: "^[0-9a-zA-Z\\*\\.\\\\/\\?-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct DescribePackagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Only returns packages that match the DescribePackagesFilterList values.
+        public let filters: [DescribePackagesFilter]?
+        /// Limits results to a maximum number of packages.
+        public let maxResults: Int?
+        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        public let nextToken: String?
+
+        public init(filters: [DescribePackagesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribePackagesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PackageDetailsList", required: false, type: .list)
+        ]
+
+        public let nextToken: String?
+        /// List of PackageDetails objects.
+        public let packageDetailsList: [PackageDetails]?
+
+        public init(nextToken: String? = nil, packageDetailsList: [PackageDetails]? = nil) {
+            self.nextToken = nextToken
+            self.packageDetailsList = packageDetailsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case packageDetailsList = "PackageDetailsList"
+        }
+    }
+
     public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -856,6 +1108,51 @@ extension ElasticsearchService {
         }
     }
 
+    public struct DissociatePackageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
+            AWSShapeMember(label: "PackageID", location: .uri(locationName: "PackageID"), required: true, type: .string)
+        ]
+
+        /// Name of the domain that you want to associate the package with.
+        public let domainName: String
+        /// Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value.
+        public let packageID: String
+
+        public init(domainName: String, packageID: String) {
+            self.domainName = domainName
+            self.packageID = packageID
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 28)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case packageID = "PackageID"
+        }
+    }
+
+    public struct DissociatePackageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainPackageDetails", required: false, type: .structure)
+        ]
+
+        /// DomainPackageDetails
+        public let domainPackageDetails: DomainPackageDetails?
+
+        public init(domainPackageDetails: DomainPackageDetails? = nil) {
+            self.domainPackageDetails = domainPackageDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPackageDetails = "DomainPackageDetails"
+        }
+    }
+
     public struct DomainEndpointOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnforceHTTPS", required: false, type: .boolean), 
@@ -914,6 +1211,58 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
+        }
+    }
+
+    public struct DomainPackageDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "DomainPackageStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PackageID", required: false, type: .string), 
+            AWSShapeMember(label: "PackageName", required: false, type: .string), 
+            AWSShapeMember(label: "PackageType", required: false, type: .enum), 
+            AWSShapeMember(label: "ReferencePath", required: false, type: .string)
+        ]
+
+        /// Name of the domain you've associated a package with.
+        public let domainName: String?
+        /// State of the association. Values are ASSOCIATING/ASSOCIATION_FAILED/ACTIVE/DISSOCIATING/DISSOCIATION_FAILED.
+        public let domainPackageStatus: DomainPackageStatus?
+        /// Additional information if the package is in an error state. Null otherwise.
+        public let errorDetails: ErrorDetails?
+        /// Timestamp of the most-recent update to the association status.
+        public let lastUpdated: TimeStamp?
+        /// Internal ID of the package.
+        public let packageID: String?
+        /// User specified name of the package.
+        public let packageName: String?
+        /// Currently supports only TXT-DICTIONARY.
+        public let packageType: PackageType?
+        /// The relative path on Amazon ES nodes, which can be used as synonym_path when the package is synonym file.
+        public let referencePath: String?
+
+        public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: TimeStamp? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, referencePath: String? = nil) {
+            self.domainName = domainName
+            self.domainPackageStatus = domainPackageStatus
+            self.errorDetails = errorDetails
+            self.lastUpdated = lastUpdated
+            self.packageID = packageID
+            self.packageName = packageName
+            self.packageType = packageType
+            self.referencePath = referencePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case domainPackageStatus = "DomainPackageStatus"
+            case errorDetails = "ErrorDetails"
+            case lastUpdated = "LastUpdated"
+            case packageID = "PackageID"
+            case packageName = "PackageName"
+            case packageType = "PackageType"
+            case referencePath = "ReferencePath"
         }
     }
 
@@ -1329,6 +1678,26 @@ extension ElasticsearchService {
         }
     }
 
+    public struct ErrorDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorType", required: false, type: .string)
+        ]
+
+        public let errorMessage: String?
+        public let errorType: String?
+
+        public init(errorMessage: String? = nil, errorType: String? = nil) {
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorType = "ErrorType"
+        }
+    }
+
     public struct GetCompatibleElasticsearchVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string)
@@ -1549,6 +1918,58 @@ extension ElasticsearchService {
         }
     }
 
+    public struct ListDomainsForPackageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PackageID", location: .uri(locationName: "PackageID"), required: true, type: .string)
+        ]
+
+        /// Limits results to a maximum number of domains.
+        public let maxResults: Int?
+        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        public let nextToken: String?
+        /// The package for which to list domains.
+        public let packageID: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.packageID = packageID
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case packageID = "PackageID"
+        }
+    }
+
+    public struct ListDomainsForPackageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainPackageDetailsList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// List of DomainPackageDetails objects.
+        public let domainPackageDetailsList: [DomainPackageDetails]?
+        public let nextToken: String?
+
+        public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
+            self.domainPackageDetailsList = domainPackageDetailsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPackageDetailsList = "DomainPackageDetailsList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListElasticsearchInstanceTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
@@ -1651,6 +2072,62 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case elasticsearchVersions = "ElasticsearchVersions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPackagesForDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The name of the domain for which you want to list associated packages.
+        public let domainName: String
+        /// Limits results to a maximum number of packages.
+        public let maxResults: Int?
+        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 28)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPackagesForDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainPackageDetailsList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// List of DomainPackageDetails objects.
+        public let domainPackageDetailsList: [DomainPackageDetails]?
+        /// Pagination token that needs to be supplied to the next call to get the next page of results.
+        public let nextToken: String?
+
+        public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
+            self.domainPackageDetailsList = domainPackageDetailsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPackageDetailsList = "DomainPackageDetailsList"
             case nextToken = "NextToken"
         }
     }
@@ -1837,6 +2314,80 @@ extension ElasticsearchService {
             case state = "State"
             case updateDate = "UpdateDate"
             case updateVersion = "UpdateVersion"
+        }
+    }
+
+    public struct PackageDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "PackageDescription", required: false, type: .string), 
+            AWSShapeMember(label: "PackageID", required: false, type: .string), 
+            AWSShapeMember(label: "PackageName", required: false, type: .string), 
+            AWSShapeMember(label: "PackageStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "PackageType", required: false, type: .enum)
+        ]
+
+        /// Timestamp which tells creation date of the package.
+        public let createdAt: TimeStamp?
+        /// Additional information if the package is in an error state. Null otherwise.
+        public let errorDetails: ErrorDetails?
+        /// User-specified description of the package.
+        public let packageDescription: String?
+        /// Internal ID of the package.
+        public let packageID: String?
+        /// User specified name of the package.
+        public let packageName: String?
+        /// Current state of the package. Values are COPYING/COPY_FAILED/AVAILABLE/DELETING/DELETE_FAILED
+        public let packageStatus: PackageStatus?
+        /// Currently supports only TXT-DICTIONARY.
+        public let packageType: PackageType?
+
+        public init(createdAt: TimeStamp? = nil, errorDetails: ErrorDetails? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
+            self.createdAt = createdAt
+            self.errorDetails = errorDetails
+            self.packageDescription = packageDescription
+            self.packageID = packageID
+            self.packageName = packageName
+            self.packageStatus = packageStatus
+            self.packageType = packageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case errorDetails = "ErrorDetails"
+            case packageDescription = "PackageDescription"
+            case packageID = "PackageID"
+            case packageName = "PackageName"
+            case packageStatus = "PackageStatus"
+            case packageType = "PackageType"
+        }
+    }
+
+    public struct PackageSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3Key", required: false, type: .string)
+        ]
+
+        /// Name of the bucket containing the package.
+        public let s3BucketName: String?
+        /// Key (file name) of the package.
+        public let s3Key: String?
+
+        public init(s3BucketName: String? = nil, s3Key: String? = nil) {
+            self.s3BucketName = s3BucketName
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, max: 63)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case s3Key = "S3Key"
         }
     }
 

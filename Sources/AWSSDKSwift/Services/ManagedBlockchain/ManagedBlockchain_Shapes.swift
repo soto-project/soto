@@ -30,6 +30,7 @@ extension ManagedBlockchain {
         case creating = "CREATING"
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
+        case updating = "UPDATING"
         case deleting = "DELETING"
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
@@ -48,6 +49,7 @@ extension ManagedBlockchain {
         case creating = "CREATING"
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
+        case updating = "UPDATING"
         case deleting = "DELETING"
         case deleted = "DELETED"
         case failed = "FAILED"
@@ -1075,12 +1077,47 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct LogConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+
+        /// Indicates whether logging is enabled.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct LogConfigurations: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cloudwatch", required: false, type: .structure)
+        ]
+
+        /// Parameters for publishing logs to Amazon CloudWatch Logs.
+        public let cloudwatch: LogConfiguration?
+
+        public init(cloudwatch: LogConfiguration? = nil) {
+            self.cloudwatch = cloudwatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudwatch = "Cloudwatch"
+        }
+    }
+
     public struct Member: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "FrameworkAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LogPublishingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "NetworkId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
@@ -1094,6 +1131,8 @@ extension ManagedBlockchain {
         public let frameworkAttributes: MemberFrameworkAttributes?
         /// The unique identifier of the member.
         public let id: String?
+        /// Configuration properties for logging events associated with a member.
+        public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String?
         /// The unique identifier of the network to which the member belongs.
@@ -1101,11 +1140,12 @@ extension ManagedBlockchain {
         /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.  
         public let status: MemberStatus?
 
-        public init(creationDate: TimeStamp? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil) {
+        public init(creationDate: TimeStamp? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil) {
             self.creationDate = creationDate
             self.description = description
             self.frameworkAttributes = frameworkAttributes
             self.id = id
+            self.logPublishingConfiguration = logPublishingConfiguration
             self.name = name
             self.networkId = networkId
             self.status = status
@@ -1116,6 +1156,7 @@ extension ManagedBlockchain {
             case description = "Description"
             case frameworkAttributes = "FrameworkAttributes"
             case id = "Id"
+            case logPublishingConfiguration = "LogPublishingConfiguration"
             case name = "Name"
             case networkId = "NetworkId"
             case status = "Status"
@@ -1126,6 +1167,7 @@ extension ManagedBlockchain {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "FrameworkConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "LogPublishingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
@@ -1133,12 +1175,14 @@ extension ManagedBlockchain {
         public let description: String?
         /// Configuration properties of the blockchain framework relevant to the member.
         public let frameworkConfiguration: MemberFrameworkConfiguration
+        public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String
 
-        public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, name: String) {
+        public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String) {
             self.description = description
             self.frameworkConfiguration = frameworkConfiguration
+            self.logPublishingConfiguration = logPublishingConfiguration
             self.name = name
         }
 
@@ -1153,6 +1197,7 @@ extension ManagedBlockchain {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case frameworkConfiguration = "FrameworkConfiguration"
+            case logPublishingConfiguration = "LogPublishingConfiguration"
             case name = "Name"
         }
     }
@@ -1210,6 +1255,23 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct MemberFabricLogPublishingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaLogs", required: false, type: .structure)
+        ]
+
+        /// Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA.
+        public let caLogs: LogConfigurations?
+
+        public init(caLogs: LogConfigurations? = nil) {
+            self.caLogs = caLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caLogs = "CaLogs"
+        }
+    }
+
     public struct MemberFrameworkAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Fabric", required: false, type: .structure)
@@ -1241,6 +1303,23 @@ extension ManagedBlockchain {
 
         public func validate(name: String) throws {
             try self.fabric?.validate(name: "\(name).fabric")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fabric = "Fabric"
+        }
+    }
+
+    public struct MemberLogPublishingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fabric", required: false, type: .structure)
+        ]
+
+        /// Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.
+        public let fabric: MemberFabricLogPublishingConfiguration?
+
+        public init(fabric: MemberFabricLogPublishingConfiguration? = nil) {
+            self.fabric = fabric
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1479,6 +1558,7 @@ extension ManagedBlockchain {
             AWSShapeMember(label: "FrameworkAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "LogPublishingConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "MemberId", required: false, type: .string), 
             AWSShapeMember(label: "NetworkId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
@@ -1494,6 +1574,7 @@ extension ManagedBlockchain {
         public let id: String?
         /// The instance type of the node.
         public let instanceType: String?
+        public let logPublishingConfiguration: NodeLogPublishingConfiguration?
         /// The unique identifier of the member to which the node belongs.
         public let memberId: String?
         /// The unique identifier of the network that the node is in.
@@ -1501,12 +1582,13 @@ extension ManagedBlockchain {
         /// The status of the node.
         public let status: NodeStatus?
 
-        public init(availabilityZone: String? = nil, creationDate: TimeStamp? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, memberId: String? = nil, networkId: String? = nil, status: NodeStatus? = nil) {
+        public init(availabilityZone: String? = nil, creationDate: TimeStamp? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, status: NodeStatus? = nil) {
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.frameworkAttributes = frameworkAttributes
             self.id = id
             self.instanceType = instanceType
+            self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
             self.networkId = networkId
             self.status = status
@@ -1518,6 +1600,7 @@ extension ManagedBlockchain {
             case frameworkAttributes = "FrameworkAttributes"
             case id = "Id"
             case instanceType = "InstanceType"
+            case logPublishingConfiguration = "LogPublishingConfiguration"
             case memberId = "MemberId"
             case networkId = "NetworkId"
             case status = "Status"
@@ -1527,22 +1610,26 @@ extension ManagedBlockchain {
     public struct NodeConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string)
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "LogPublishingConfiguration", required: false, type: .structure)
         ]
 
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String
         /// The Amazon Managed Blockchain instance type for the node.
         public let instanceType: String
+        public let logPublishingConfiguration: NodeLogPublishingConfiguration?
 
-        public init(availabilityZone: String, instanceType: String) {
+        public init(availabilityZone: String, instanceType: String, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
+            self.logPublishingConfiguration = logPublishingConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case instanceType = "InstanceType"
+            case logPublishingConfiguration = "LogPublishingConfiguration"
         }
     }
 
@@ -1568,6 +1655,28 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct NodeFabricLogPublishingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChaincodeLogs", required: false, type: .structure), 
+            AWSShapeMember(label: "PeerLogs", required: false, type: .structure)
+        ]
+
+        /// Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode.
+        public let chaincodeLogs: LogConfigurations?
+        /// Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. 
+        public let peerLogs: LogConfigurations?
+
+        public init(chaincodeLogs: LogConfigurations? = nil, peerLogs: LogConfigurations? = nil) {
+            self.chaincodeLogs = chaincodeLogs
+            self.peerLogs = peerLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chaincodeLogs = "ChaincodeLogs"
+            case peerLogs = "PeerLogs"
+        }
+    }
+
     public struct NodeFrameworkAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Fabric", required: false, type: .structure)
@@ -1577,6 +1686,23 @@ extension ManagedBlockchain {
         public let fabric: NodeFabricAttributes?
 
         public init(fabric: NodeFabricAttributes? = nil) {
+            self.fabric = fabric
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fabric = "Fabric"
+        }
+    }
+
+    public struct NodeLogPublishingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fabric", required: false, type: .structure)
+        ]
+
+        /// Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework.
+        public let fabric: NodeFabricLogPublishingConfiguration?
+
+        public init(fabric: NodeFabricLogPublishingConfiguration? = nil) {
             self.fabric = fabric
         }
 
@@ -1658,7 +1784,7 @@ extension ManagedBlockchain {
         public let proposedByMemberId: String?
         /// The name of the member that created the proposal.
         public let proposedByMemberName: String?
-        /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error.  
+        /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error. The ACTION_FAILED status occurs even if only one ProposalAction fails and other actions are successful.  
         public let status: ProposalStatus?
         ///  The current total of YES votes cast on the proposal by members. 
         public let yesVoteCount: Int?
@@ -1819,6 +1945,97 @@ extension ManagedBlockchain {
         private enum CodingKeys: String, CodingKey {
             case memberId = "MemberId"
         }
+    }
+
+    public struct UpdateMemberInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPublishingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
+            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string)
+        ]
+
+        /// Configuration properties for publishing to Amazon CloudWatch Logs.
+        public let logPublishingConfiguration: MemberLogPublishingConfiguration?
+        /// The unique ID of the member.
+        public let memberId: String
+        /// The unique ID of the Managed Blockchain network to which the member belongs.
+        public let networkId: String
+
+        public init(logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, memberId: String, networkId: String) {
+            self.logPublishingConfiguration = logPublishingConfiguration
+            self.memberId = memberId
+            self.networkId = networkId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.memberId, name:"memberId", parent: name, max: 32)
+            try validate(self.memberId, name:"memberId", parent: name, min: 1)
+            try validate(self.networkId, name:"networkId", parent: name, max: 32)
+            try validate(self.networkId, name:"networkId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPublishingConfiguration = "LogPublishingConfiguration"
+            case memberId = "memberId"
+            case networkId = "networkId"
+        }
+    }
+
+    public struct UpdateMemberOutput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateNodeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPublishingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
+            AWSShapeMember(label: "NetworkId", location: .uri(locationName: "networkId"), required: true, type: .string), 
+            AWSShapeMember(label: "NodeId", location: .uri(locationName: "nodeId"), required: true, type: .string)
+        ]
+
+        /// Configuration properties for publishing to Amazon CloudWatch Logs.
+        public let logPublishingConfiguration: NodeLogPublishingConfiguration?
+        /// The unique ID of the member that owns the node.
+        public let memberId: String
+        /// The unique ID of the Managed Blockchain network to which the node belongs.
+        public let networkId: String
+        /// The unique ID of the node.
+        public let nodeId: String
+
+        public init(logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String, networkId: String, nodeId: String) {
+            self.logPublishingConfiguration = logPublishingConfiguration
+            self.memberId = memberId
+            self.networkId = networkId
+            self.nodeId = nodeId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.memberId, name:"memberId", parent: name, max: 32)
+            try validate(self.memberId, name:"memberId", parent: name, min: 1)
+            try validate(self.networkId, name:"networkId", parent: name, max: 32)
+            try validate(self.networkId, name:"networkId", parent: name, min: 1)
+            try validate(self.nodeId, name:"nodeId", parent: name, max: 32)
+            try validate(self.nodeId, name:"nodeId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPublishingConfiguration = "LogPublishingConfiguration"
+            case memberId = "memberId"
+            case networkId = "networkId"
+            case nodeId = "nodeId"
+        }
+    }
+
+    public struct UpdateNodeOutput: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct VoteOnProposalInput: AWSShape {

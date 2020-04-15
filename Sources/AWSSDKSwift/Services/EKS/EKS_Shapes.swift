@@ -62,8 +62,11 @@ extension EKS {
         case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
         case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
         case ec2subnetnotfound = "Ec2SubnetNotFound"
+        case ec2subnetinvalidconfiguration = "Ec2SubnetInvalidConfiguration"
         case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
+        case iamlimitexceeded = "IamLimitExceeded"
         case iamnoderolenotfound = "IamNodeRoleNotFound"
+        case nodecreationfailure = "NodeCreationFailure"
         case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
         case instancelimitexceeded = "InstanceLimitExceeded"
         case insufficientfreeaddresses = "InsufficientFreeAddresses"
@@ -423,7 +426,7 @@ extension EKS {
         public let labels: [String: String]?
         /// The unique name to give your node group.
         public let nodegroupName: String
-        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide .
         public let nodeRole: String
         /// The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide.
         public let releaseVersion: String?

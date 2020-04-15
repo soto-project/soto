@@ -6,6 +6,11 @@ import AWSSDKSwiftCore
 extension CodeGuruProfiler {
     //MARK: Enums
 
+    public enum ActionGroup: String, CustomStringConvertible, Codable {
+        case agentpermissions = "agentPermissions"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregationPeriod: String, CustomStringConvertible, Codable {
         case p1d = "P1D"
         case pt1h = "PT1H"
@@ -251,6 +256,51 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case profilingGroup = "profilingGroup"
+        }
+    }
+
+    public struct GetPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string)
+        ]
+
+        /// The name of the profiling group.
+        public let profilingGroupName: String
+
+        public init(profilingGroupName: String) {
+            self.profilingGroupName = profilingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profilingGroupName = "profilingGroupName"
+        }
+    }
+
+    public struct GetPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policy", required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", required: true, type: .string)
+        ]
+
+        /// The resource-based policy attached to the ProfilingGroup.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(policy: String, revisionId: String) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
@@ -606,6 +656,125 @@ extension CodeGuruProfiler {
             case latestAgentOrchestratedAt = "latestAgentOrchestratedAt"
             case latestAgentProfileReportedAt = "latestAgentProfileReportedAt"
             case latestAggregatedProfile = "latestAggregatedProfile"
+        }
+    }
+
+    public struct PutPermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionGroup", location: .uri(locationName: "actionGroup"), required: true, type: .enum), 
+            AWSShapeMember(label: "principals", required: true, type: .list), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string)
+        ]
+
+        /// The list of actions that the users and roles can perform on the profiling group.
+        public let actionGroup: ActionGroup
+        /// The list of role and user ARNs or the accountId that needs access (wildcards are not allowed).
+        public let principals: [String]
+        /// The name of the profiling group.
+        public let profilingGroupName: String
+        /// A unique identifier for the current revision of the policy. This is required, if a policy exists for the profiling group. This is not required when creating the policy for the first time.
+        public let revisionId: String?
+
+        public init(actionGroup: ActionGroup, principals: [String], profilingGroupName: String, revisionId: String? = nil) {
+            self.actionGroup = actionGroup
+            self.principals = principals
+            self.profilingGroupName = profilingGroupName
+            self.revisionId = revisionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.principals, name:"principals", parent: name, max: 50)
+            try validate(self.principals, name:"principals", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.revisionId, name:"revisionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionGroup = "actionGroup"
+            case principals = "principals"
+            case profilingGroupName = "profilingGroupName"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct PutPermissionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policy", required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", required: true, type: .string)
+        ]
+
+        /// The resource-based policy.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(policy: String, revisionId: String) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct RemovePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionGroup", location: .uri(locationName: "actionGroup"), required: true, type: .enum), 
+            AWSShapeMember(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", location: .querystring(locationName: "revisionId"), required: true, type: .string)
+        ]
+
+        /// The list of actions that the users and roles can perform on the profiling group.
+        public let actionGroup: ActionGroup
+        /// The name of the profiling group.
+        public let profilingGroupName: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(actionGroup: ActionGroup, profilingGroupName: String, revisionId: String) {
+            self.actionGroup = actionGroup
+            self.profilingGroupName = profilingGroupName
+            self.revisionId = revisionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, max: 255)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, min: 1)
+            try validate(self.profilingGroupName, name:"profilingGroupName", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.revisionId, name:"revisionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionGroup = "actionGroup"
+            case profilingGroupName = "profilingGroupName"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct RemovePermissionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policy", required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", required: true, type: .string)
+        ]
+
+        /// The resource-based policy.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let revisionId: String
+
+        public init(policy: String, revisionId: String) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 

@@ -63,6 +63,11 @@ public struct CodeGuruProfiler {
         return client.send(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets the profiling group policy.
+    public func getPolicy(_ input: GetPolicyRequest) -> EventLoopFuture<GetPolicyResponse> {
+        return client.send(operation: "GetPolicy", path: "/profilingGroups/{profilingGroupName}/policy", httpMethod: "GET", input: input)
+    }
+
     ///  Gets the aggregated profile of a profiling group for the specified time range. If the requested time range does not align with the available aggregated profiles, it is expanded to attain alignment. If aggregated profiles are available only for part of the period requested, the profile is returned from the earliest available to the latest within the requested time range.  For example, if the requested time range is from 00:00 to 00:20 and the available profiles are from 00:15 to 00:25, the returned profile will be from 00:15 to 00:20.  You must specify exactly two of the following parameters: startTime, period, and endTime. 
     public func getProfile(_ input: GetProfileRequest) -> EventLoopFuture<GetProfileResponse> {
         return client.send(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: "GET", input: input)
@@ -80,6 +85,16 @@ public struct CodeGuruProfiler {
 
     public func postAgentProfile(_ input: PostAgentProfileRequest) -> EventLoopFuture<PostAgentProfileResponse> {
         return client.send(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides permission to the principals. This overwrites the existing permissions, and is not additive.
+    public func putPermission(_ input: PutPermissionRequest) -> EventLoopFuture<PutPermissionResponse> {
+        return client.send(operation: "PutPermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Removes statement for the provided action group from the policy.
+    public func removePermission(_ input: RemovePermissionRequest) -> EventLoopFuture<RemovePermissionResponse> {
+        return client.send(operation: "RemovePermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates a profiling group.

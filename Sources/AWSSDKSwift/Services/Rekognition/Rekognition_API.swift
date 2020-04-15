@@ -80,6 +80,16 @@ public struct Rekognition {
         return client.send(operation: "DeleteFaces", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an Amazon Rekognition Custom Labels project. To delete a project you must first delete all versions of the model associated with the project. To delete a version of a model, see DeleteProjectVersion. This operation requires permissions to perform the rekognition:DeleteProject action. 
+    public func deleteProject(_ input: DeleteProjectRequest) -> EventLoopFuture<DeleteProjectResponse> {
+        return client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a version of a model.  You must first stop the model before you can delete it. To check if a model is running, use the Status field returned from DescribeProjectVersions. To stop a running model call StopProjectVersion.  This operation requires permissions to perform the rekognition:DeleteProjectVersion action. 
+    public func deleteProjectVersion(_ input: DeleteProjectVersionRequest) -> EventLoopFuture<DeleteProjectVersionResponse> {
+        return client.send(operation: "DeleteProjectVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
     public func deleteStreamProcessor(_ input: DeleteStreamProcessorRequest) -> EventLoopFuture<DeleteStreamProcessorResponse> {
         return client.send(operation: "DeleteStreamProcessor", path: "/", httpMethod: "POST", input: input)

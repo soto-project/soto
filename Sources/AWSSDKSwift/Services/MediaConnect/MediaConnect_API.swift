@@ -54,6 +54,11 @@ public struct MediaConnect {
         return client.send(operation: "AddFlowSources", path: "/v1/flows/{flowArn}/source", httpMethod: "POST", input: input)
     }
 
+    ///  Adds VPC interfaces to flow
+    public func addFlowVpcInterfaces(_ input: AddFlowVpcInterfacesRequest) -> EventLoopFuture<AddFlowVpcInterfacesResponse> {
+        return client.send(operation: "AddFlowVpcInterfaces", path: "/v1/flows/{flowArn}/vpcInterfaces", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     public func createFlow(_ input: CreateFlowRequest) -> EventLoopFuture<CreateFlowResponse> {
         return client.send(operation: "CreateFlow", path: "/v1/flows", httpMethod: "POST", input: input)
@@ -97,6 +102,11 @@ public struct MediaConnect {
     ///  Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     public func removeFlowSource(_ input: RemoveFlowSourceRequest) -> EventLoopFuture<RemoveFlowSourceResponse> {
         return client.send(operation: "RemoveFlowSource", path: "/v1/flows/{flowArn}/source/{sourceArn}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
+    public func removeFlowVpcInterface(_ input: RemoveFlowVpcInterfaceRequest) -> EventLoopFuture<RemoveFlowVpcInterfaceResponse> {
+        return client.send(operation: "RemoveFlowVpcInterface", path: "/v1/flows/{flowArn}/vpcInterfaces/{vpcInterfaceName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.

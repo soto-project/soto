@@ -36,6 +36,11 @@ extension Chime {
         return client.paginate(input: input, command: listPhoneNumbers, tokenKey: \ListPhoneNumbersResponse.nextToken, onPage: onPage)
     }
 
+    ///  Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    public func listProxySessionsPaginator(_ input: ListProxySessionsRequest, onPage: @escaping (ListProxySessionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listProxySessions, tokenKey: \ListProxySessionsResponse.nextToken, onPage: onPage)
+    }
+
     ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     public func listRoomMembershipsPaginator(_ input: ListRoomMembershipsRequest, onPage: @escaping (ListRoomMembershipsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listRoomMemberships, tokenKey: \ListRoomMembershipsResponse.nextToken, onPage: onPage)
@@ -126,6 +131,18 @@ extension Chime.ListPhoneNumbersRequest: AWSPaginateStringToken {
             nextToken: token, 
             productType: self.productType, 
             status: self.status
+        )
+
+    }
+}
+
+extension Chime.ListProxySessionsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Chime.ListProxySessionsRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            status: self.status, 
+            voiceConnectorId: self.voiceConnectorId
         )
 
     }

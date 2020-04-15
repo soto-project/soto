@@ -72,6 +72,7 @@ extension Lambda {
         case dotnetcore10 = "dotnetcore1.0"
         case dotnetcore20 = "dotnetcore2.0"
         case dotnetcore21 = "dotnetcore2.1"
+        case dotnetcore31 = "dotnetcore3.1"
         case nodejs43Edge = "nodejs4.3-edge"
         case go1X = "go1.x"
         case ruby25 = "ruby2.5"
@@ -275,7 +276,7 @@ extension Lambda {
         public let qualifier: String?
         /// Only update the policy if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
         public let revisionId: String?
-        /// For AWS services, the ID of the account that owns the resource. Use this instead of SourceArn to grant permission to resources that are owned by another account (for example, all of an account's Amazon S3 buckets). Or use it together with SourceArn to ensure that the resource is owned by the specified account. For example, an Amazon S3 bucket could be deleted by its owner and recreated by another account.
+        /// For Amazon S3, the ID of the account that owns the resource. Use this together with SourceArn to ensure that the resource is owned by the specified account. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
         public let sourceAccount: String?
         /// For AWS services, the ARN of the AWS resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
         public let sourceArn: String?
@@ -509,7 +510,7 @@ extension Lambda {
         public let eventSourceArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
-        /// The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
         public let maximumRecordAgeInSeconds: Int?
@@ -1026,7 +1027,7 @@ extension Lambda {
         public let lastModified: TimeStamp?
         /// The result of the last AWS Lambda invocation of your Lambda function.
         public let lastProcessingResult: String?
-        /// The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
         public let maximumRecordAgeInSeconds: Int?
@@ -3297,7 +3298,7 @@ extension Lambda {
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
-        /// The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
         public let maximumRecordAgeInSeconds: Int?

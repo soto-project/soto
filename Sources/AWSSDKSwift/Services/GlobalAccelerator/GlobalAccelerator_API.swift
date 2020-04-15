@@ -95,7 +95,7 @@ public struct GlobalAccelerator {
         return client.send(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describe an endpoint group.
+    ///  Describe an endpoint group. To see an AWS CLI example of describing an endpoint group, scroll down to Example.
     public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest) -> EventLoopFuture<DescribeEndpointGroupResponse> {
         return client.send(operation: "DescribeEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -110,7 +110,7 @@ public struct GlobalAccelerator {
         return client.send(operation: "ListAccelerators", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the IP address ranges that were specified in calls to ProvisionByoipCidr. To see an AWS CLI example of listing BYOIP CIDR addresses, scroll down to Example.
+    ///  Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, including the current state and a history of state changes. To see an AWS CLI example of listing BYOIP CIDR addresses, scroll down to Example.
     public func listByoipCidrs(_ input: ListByoipCidrsRequest) -> EventLoopFuture<ListByoipCidrsResponse> {
         return client.send(operation: "ListByoipCidrs", path: "/", httpMethod: "POST", input: input)
     }

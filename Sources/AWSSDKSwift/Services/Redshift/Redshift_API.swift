@@ -36,6 +36,7 @@ public struct Redshift {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2012-12-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "redshift-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "redshift-fips.us-east-1.amazonaws.com", "fips-us-east-2": "redshift-fips.us-east-2.amazonaws.com", "fips-us-west-1": "redshift-fips.us-west-1.amazonaws.com", "fips-us-west-2": "redshift-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [RedshiftErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -129,7 +130,7 @@ public struct Redshift {
         return client.send(operation: "CreateSnapshotCopyGrant", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a snapshot schedule with the rate of every 12 hours.
+    ///  Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule. 
     public func createSnapshotSchedule(_ input: CreateSnapshotScheduleMessage) -> EventLoopFuture<SnapshotSchedule> {
         return client.send(operation: "CreateSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
@@ -449,7 +450,7 @@ public struct Redshift {
         return client.send(operation: "ResetClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ds2.xlarge   ds2.8xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.  
+    ///  Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ds2.xlarge   ds2.8xlarge   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.  
     public func resizeCluster(_ input: ResizeClusterMessage) -> EventLoopFuture<ResizeClusterResult> {
         return client.send(operation: "ResizeCluster", path: "/", httpMethod: "POST", input: input)
     }
