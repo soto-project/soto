@@ -230,7 +230,7 @@ let package = Package(
         .library(name: "XRay", targets: ["XRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "4.3.0"))
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift-core.git", .upToNextMinor(from: "4.4.0"))
     ],
     targets: [
         .target(name: "ACM", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/ACM"),
@@ -454,7 +454,7 @@ let package = Package(
         .target(name: "WorkMailMessageFlow", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkMailMessageFlow"),
         .target(name: "WorkSpaces", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/WorkSpaces"),
         .target(name: "XRay", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Services/XRay"),
-        
+
         .target(name: "APIGatewayMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/APIGateway"),
         .target(name: "GlacierMiddleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/Glacier"),
         .target(name: "S3Middleware", dependencies: ["AWSSDKSwiftCore"], path: "./Sources/AWSSDKSwift/Middlewares/S3"),
