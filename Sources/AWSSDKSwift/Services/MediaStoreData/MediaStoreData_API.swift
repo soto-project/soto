@@ -100,4 +100,11 @@ public struct MediaStoreData {
     public func putObject(_ input: PutObjectRequest, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutObjectResponse> {
         return client.send(operation: "PutObject", path: "/{Path+}", httpMethod: "PUT", input: input, on: eventLoop)
     }
+
+    //MARK: Streaming API Calls
+
+    ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
+    public func getObjectStreaming(_ input: GetObjectRequest, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetObjectResponse> {
+        return client.send(operation: "GetObject", path: "/{Path+}", httpMethod: "GET", input: input, stream: stream)
+    }
 }

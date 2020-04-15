@@ -110,7 +110,7 @@ extension API {
             try shape.value.setupShapes(api: self)
         }
 
-        // set where shapes are used
+        // process operations, set where shapes are used, set streaming and eventstream flags
         for operation in operations.values {
             if let input = operation.input {
                 let inputShape = try getShape(named: input.shapeName)
@@ -118,20 +118,30 @@ extension API {
                     inputShape.xmlNamespace = xmlNamespace
                 }
                 inputShape.authtype = operation.authType
-                try setShapeUsedIn(shape: inputShape, input: true, output: false)
+                setShapeUsedIn(shape: inputShape, input: true, output: false)
             }
             if let output = operation.output {
-                try setShapeUsedIn(shape: getShape(named: output.shapeName), input: false, output: true)
+                let outputShape = try getShape(named: output.shapeName)
+                setShapeUsedIn(shape: outputShape, input: false, output: true)
+                // set eventStream flag if payload is flagged as an eventStream, set streaming flags if payload member or payload shape is flagged as streaming
+                if let payload = outputShape.payload,
+                    case .structure(let structure) = outputShape.type,
+                    let member = structure.members[payload] {
+                    operation.eventStream = member.shape.eventStream ?? false
+                    if (member.streaming == true || member.shape.streaming == true) && member.required == false {
+                        operation.streaming = true
+                    }
+                }
             }
         }
 
-        // post processing of shapes
+        // post processing of shapes, now that used in flags are set
         for shape in shapes {
             shape.value.postProcess(api: self)
         }
     }
 
-    mutating func setShapeUsedIn(shape: Shape, input: Bool, output: Bool) throws {
+    mutating func setShapeUsedIn(shape: Shape, input: Bool, output: Bool) {
         if input == true {
             guard shape.usedInInput == false else { return }
             shape.usedInInput = true
@@ -143,13 +153,13 @@ extension API {
 
         switch shape.type {
         case .list(let list):
-            try setShapeUsedIn(shape: list.member.shape, input: input, output: output)
+            setShapeUsedIn(shape: list.member.shape, input: input, output: output)
         case .map(let map):
-            try setShapeUsedIn(shape: map.key.shape, input: input, output: output)
-            try setShapeUsedIn(shape: map.value.shape, input: input, output: output)
+            setShapeUsedIn(shape: map.key.shape, input: input, output: output)
+            setShapeUsedIn(shape: map.value.shape, input: input, output: output)
         case .structure(let structure):
             for member in structure.members.values {
-                try setShapeUsedIn(shape: member.shape, input: input, output: output)
+                setShapeUsedIn(shape: member.shape, input: input, output: output)
             }
         default:
             break
@@ -200,8 +210,12 @@ struct Operation: Decodable {
     var authType: String?
     var deprecated: Bool
     var deprecatedMessage: String?
+    var eventStream: Bool
+    var streaming: Bool
 
     init(from decoder: Decoder) throws {
+        self.eventStream = false
+        self.streaming = false
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
         self.http = try container.decode(HTTP.self, forKey: .http)
@@ -222,6 +236,7 @@ struct Operation: Decodable {
         case authType = "authtype"
         case deprecated
         case deprecatedMessage
+        case eventStream
     }
 }
 
@@ -248,7 +263,6 @@ class Shape: Decodable {
         var flattened: Bool?
         var streaming: Bool?
         var idempotencyToken: Bool?
-        var streaming: Bool?
         // set after decode in postProcess stage
         var required: Bool = false
         var shape: Shape!
@@ -262,7 +276,6 @@ class Shape: Decodable {
             case flattened
             case streaming
             case idempotencyToken
-            case streaming
         }
     }
 
@@ -278,7 +291,7 @@ class Shape: Decodable {
             var required: [String]
             var members: [String: Member]
             var isEnum: Bool
-            
+
             init(required: [String]? = nil, members: [String: Member], isEnum: Bool) {
                 self.required = required ?? []
                 self.members = members
@@ -486,6 +499,7 @@ class Shape: Decodable {
     var error: Error?
     var exception: Bool?
     var streaming: Bool?
+    var eventStream: Bool?
     // set after decode in postProcess stage
     var usedInInput: Bool
     var usedInOutput: Bool
@@ -509,6 +523,7 @@ class Shape: Decodable {
         self.error = try container.decodeIfPresent(Error.self, forKey: .error)
         self.exception = try container.decodeIfPresent(Bool.self, forKey: .exception)
         self.streaming = try container.decodeIfPresent(Bool.self, forKey: .streaming)
+        self.eventStream = try container.decodeIfPresent(Bool.self, forKey: .eventStream)
         self.type = try ShapeType(from: decoder)
     }
 
@@ -560,5 +575,6 @@ class Shape: Decodable {
         case error
         case exception
         case streaming
+        case eventStream = "eventstream"
     }
 }

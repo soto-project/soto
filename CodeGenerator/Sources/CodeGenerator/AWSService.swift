@@ -259,21 +259,19 @@ extension AWSService {
     }
 
     /// generate operations context for streaming version of function
-    func generateStreamingOperationContext(_ operation: Operation, name: String) -> OperationContext? {
+    func generateStreamingOperationContext(_ operation: Operation, name: String) -> OperationContext {
         // get output shape
-        guard let output = operation.output,
+        /*guard let output = operation.output,
             let shape = try? api.getShape(named: output.shapeName) else { return nil }
         
-        if shape.streaming != true {
-            guard let payload = shape.payload,
-                case .structure(let structure) = shape.type,
-                let member = structure.members[payload],
-                member.streaming == true || member.shape.streaming == true,
-                member.required == false else {
-                        return nil
-            }
-        }
-
+        guard let payload = shape.payload,
+            case .structure(let structure) = shape.type,
+            let member = structure.members[payload],
+            member.streaming == true || member.shape.streaming == true,
+            member.required == false else {
+                    return nil
+        }*/
+    
         return OperationContext(
             comment: docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase() + "Streaming",
@@ -335,9 +333,11 @@ extension AWSService {
         var operationContexts: [OperationContext] = []
         var streamingOperationContexts: [OperationContext] = []
         for operation in api.operations {
-            operationContexts.append(generateOperationContext(operation.value, name: operation.key))
-            if let streamingOperationContext = generateStreamingOperationContext(operation.value, name: operation.key) {
-                streamingOperationContexts.append(streamingOperationContext)
+            if operation.value.eventStream != true {
+                operationContexts.append(generateOperationContext(operation.value, name: operation.key))
+            }
+            if operation.value.streaming == true {
+                streamingOperationContexts.append(generateStreamingOperationContext(operation.value, name: operation.key))
             }
         }
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
