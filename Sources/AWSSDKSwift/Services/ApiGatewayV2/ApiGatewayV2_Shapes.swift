@@ -801,7 +801,7 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
+            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, max: 30000)
             try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
         }
 
@@ -3451,7 +3451,7 @@ extension ApiGatewayV2 {
         public let requestTemplates: [String: String]?
         /// The template selection expression for the integration. Supported only for WebSocket APIs.
         public let templateSelectionExpression: String?
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds for WebSocket APIs. The default value is 5,000 milliseconds, or 5 seconds for HTTP APIs.
+        /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29 seconds for WebSocket APIs and 30 seconds for HTTP APIs.
         public let timeoutInMillis: Int?
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfig?
@@ -4490,7 +4490,7 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
+            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, max: 30000)
             try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
         }
 

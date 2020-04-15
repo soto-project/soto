@@ -37,6 +37,7 @@ public struct CodePipeline {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-07-09",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-ca-central-1": "codepipeline-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "codepipeline-fips.us-east-1.amazonaws.com", "fips-us-east-2": "codepipeline-fips.us-east-2.amazonaws.com", "fips-us-west-1": "codepipeline-fips.us-west-1.amazonaws.com", "fips-us-west-2": "codepipeline-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [CodePipelineErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

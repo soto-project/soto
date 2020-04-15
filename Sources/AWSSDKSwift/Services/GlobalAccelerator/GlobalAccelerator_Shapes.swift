@@ -185,22 +185,49 @@ extension GlobalAccelerator {
     public struct ByoipCidr: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cidr", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .list), 
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
 
         /// The address range, in CIDR notation.
         public let cidr: String?
+        /// A history of status changes for an IP address range that that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
+        public let events: [ByoipCidrEvent]?
         /// The state of the address pool.
         public let state: ByoipCidrState?
 
-        public init(cidr: String? = nil, state: ByoipCidrState? = nil) {
+        public init(cidr: String? = nil, events: [ByoipCidrEvent]? = nil, state: ByoipCidrState? = nil) {
             self.cidr = cidr
+            self.events = events
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case cidr = "Cidr"
+            case events = "Events"
             case state = "State"
+        }
+    }
+
+    public struct ByoipCidrEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
+        ]
+
+        /// A string that contains an Event message describing changes that you make in the status of an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
+        public let message: String?
+        /// A timestamp when you make a status change for an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
+        public let timestamp: TimeStamp?
+
+        public init(message: String? = nil, timestamp: TimeStamp? = nil) {
+            self.message = message
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -723,7 +750,7 @@ extension GlobalAccelerator {
             AWSShapeMember(label: "Weight", required: false, type: .integer)
         ]
 
-        /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
+        /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Preserve Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
         public let endpointId: String?

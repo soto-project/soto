@@ -114,7 +114,7 @@ public struct RDS {
         return client.send(operation: "CreateCustomAvailabilityZone", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new Amazon Aurora DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Creates a new Amazon Aurora DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a read replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func createDBCluster(_ input: CreateDBClusterMessage) -> EventLoopFuture<CreateDBClusterResult> {
         return client.send(operation: "CreateDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -139,7 +139,7 @@ public struct RDS {
         return client.send(operation: "CreateDBInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DB instance that acts as a Read Replica for an existing source DB instance. You can create a Read Replica for a DB instance running MySQL, MariaDB, Oracle, or PostgreSQL. For more information, see Working with Read Replicas in the Amazon RDS User Guide.  Amazon Aurora doesn't support this action. You must call the CreateDBInstance action to create a DB instance for an Aurora DB cluster.  All Read Replica DB instances are created with backups disabled. All other DB instance attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance, except as specified following.   Your source DB instance must have backup retention enabled.  
+    ///  Creates a new DB instance that acts as a read replica for an existing source DB instance. You can create a read replica for a DB instance running MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server. For more information, see Working with Read Replicas in the Amazon RDS User Guide.  Amazon Aurora doesn't support this action. Call the CreateDBInstance action to create a DB instance for an Aurora DB cluster. All read replica DB instances are created with backups disabled. All other DB instance attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance, except as specified.  Your source DB instance must have backup retention enabled.  
     public func createDBInstanceReadReplica(_ input: CreateDBInstanceReadReplicaMessage) -> EventLoopFuture<CreateDBInstanceReadReplicaResult> {
         return client.send(operation: "CreateDBInstanceReadReplica", path: "/", httpMethod: "POST", input: input)
     }
@@ -209,7 +209,7 @@ public struct RDS {
         return client.send(operation: "DeleteDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted.  When a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when you skip creation of the final snapshot with the SkipFinalSnapshot parameter. If the specified DB instance is part of an Amazon Aurora DB cluster, you can't delete the DB instance if both of the following conditions are true:   The DB cluster is a Read Replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a Read Replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
+    ///  The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted.  If you request a final DB snapshot the status of the Amazon RDS DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted.  When a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when you skip creation of the final snapshot with the SkipFinalSnapshot parameter. If the specified DB instance is part of an Amazon Aurora DB cluster, you can't delete the DB instance if both of the following conditions are true:   The DB cluster is a read replica of another Amazon Aurora DB cluster.   The DB instance is the only instance in the DB cluster.   To delete a DB instance in this case, first call the PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a read replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
     public func deleteDBInstance(_ input: DeleteDBInstanceMessage) -> EventLoopFuture<DeleteDBInstanceResult> {
         return client.send(operation: "DeleteDBInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -454,7 +454,7 @@ public struct RDS {
         return client.send(operation: "DescribeReservedDBInstancesOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of the source AWS Regions where the current AWS Region can create a Read Replica or copy a DB snapshot from. This API action supports pagination.
+    ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica or copy a DB snapshot from. This API action supports pagination.
     public func describeSourceRegions(_ input: DescribeSourceRegionsMessage) -> EventLoopFuture<SourceRegionMessage> {
         return client.send(operation: "DescribeSourceRegions", path: "/", httpMethod: "POST", input: input)
     }
@@ -534,7 +534,7 @@ public struct RDS {
         return client.send(operation: "ModifyDBProxyTargetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a manual DB snapshot, which can be encrypted or not encrypted, with a new engine version.  Amazon RDS supports upgrading DB snapshots for MySQL, Oracle, and PostgreSQL. 
+    ///  Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public.  Amazon RDS supports upgrading DB snapshots for MySQL, Oracle, and PostgreSQL. 
     public func modifyDBSnapshot(_ input: ModifyDBSnapshotMessage) -> EventLoopFuture<ModifyDBSnapshotResult> {
         return client.send(operation: "ModifyDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -564,12 +564,12 @@ public struct RDS {
         return client.send(operation: "ModifyOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Promotes a Read Replica DB instance to a standalone DB instance.    Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a Read Replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a Read Replica cannot be promoted to a standalone instance when it is in the backing-up status. If you have enabled backups on your Read Replica, configure the automated backup window so that daily backups do not interfere with Read Replica promotion.   This command doesn't apply to Aurora MySQL and Aurora PostgreSQL.   
+    ///  Promotes a read replica DB instance to a standalone DB instance.    Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone instance when it is in the backing-up status. If you have enabled backups on your read replica, configure the automated backup window so that daily backups do not interfere with read replica promotion.   This command doesn't apply to Aurora MySQL and Aurora PostgreSQL.   
     public func promoteReadReplica(_ input: PromoteReadReplicaMessage) -> EventLoopFuture<PromoteReadReplicaResult> {
         return client.send(operation: "PromoteReadReplica", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Promotes a Read Replica DB cluster to a standalone DB cluster.  This action only applies to Aurora DB clusters. 
+    ///  Promotes a read replica DB cluster to a standalone DB cluster.  This action only applies to Aurora DB clusters. 
     public func promoteReadReplicaDBCluster(_ input: PromoteReadReplicaDBClusterMessage) -> EventLoopFuture<PromoteReadReplicaDBClusterResult> {
         return client.send(operation: "PromoteReadReplicaDBCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -629,7 +629,7 @@ public struct RDS {
         return client.send(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster. If you don't specify a security group, the new DB cluster is associated with the default security group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. This action only applies to Aurora DB clusters. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group.  This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB cluster is available.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. 
     public func restoreDBClusterFromSnapshot(_ input: RestoreDBClusterFromSnapshotMessage) -> EventLoopFuture<RestoreDBClusterFromSnapshotResult> {
         return client.send(operation: "RestoreDBClusterFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }

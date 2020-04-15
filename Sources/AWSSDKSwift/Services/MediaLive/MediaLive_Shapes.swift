@@ -494,6 +494,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum H264ForceFieldPictures: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H264FramerateControl: String, CustomStringConvertible, Codable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
@@ -914,6 +920,12 @@ extension MediaLive {
         case max10Mbps = "MAX_10_MBPS"
         case max20Mbps = "MAX_20_MBPS"
         case max50Mbps = "MAX_50_MBPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputPreference: String, CustomStringConvertible, Codable {
+        case equalInputPreference = "EQUAL_INPUT_PREFERENCE"
+        case primaryInputPreferred = "PRIMARY_INPUT_PREFERRED"
         public var description: String { return self.rawValue }
     }
 
@@ -1925,6 +1937,28 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case audioLanguageSelection = "audioLanguageSelection"
             case audioPidSelection = "audioPidSelection"
+        }
+    }
+
+    public struct AutomaticInputFailoverSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputPreference", location: .body(locationName: "inputPreference"), required: false, type: .enum), 
+            AWSShapeMember(label: "SecondaryInputId", location: .body(locationName: "secondaryInputId"), required: true, type: .string)
+        ]
+
+        /// Input preference when deciding which input to make active when a previously failed input has recovered.
+        public let inputPreference: InputPreference?
+        /// The input ID of the secondary input in the automatic input failover pair.
+        public let secondaryInputId: String
+
+        public init(inputPreference: InputPreference? = nil, secondaryInputId: String) {
+            self.inputPreference = inputPreference
+            self.secondaryInputId = secondaryInputId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputPreference = "inputPreference"
+            case secondaryInputId = "secondaryInputId"
         }
     }
 
@@ -4656,6 +4690,7 @@ extension MediaLive {
             AWSShapeMember(label: "EntropyEncoding", location: .body(locationName: "entropyEncoding"), required: false, type: .enum), 
             AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd"), required: false, type: .enum), 
             AWSShapeMember(label: "FlickerAq", location: .body(locationName: "flickerAq"), required: false, type: .enum), 
+            AWSShapeMember(label: "ForceFieldPictures", location: .body(locationName: "forceFieldPictures"), required: false, type: .enum), 
             AWSShapeMember(label: "FramerateControl", location: .body(locationName: "framerateControl"), required: false, type: .enum), 
             AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: false, type: .integer), 
             AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: false, type: .integer), 
@@ -4706,6 +4741,10 @@ extension MediaLive {
         public let fixedAfd: FixedAfd?
         /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
         public let flickerAq: H264FlickerAq?
+        /// This setting applies only when scan type is "interlaced." It controls whether coding is on a field basis or a frame basis. (When the video is progressive, the coding is always on a frame basis.)
+        /// enabled: Always code on a field basis, so that odd and even sets of fields are coded separately.
+        /// disabled: Code the two sets of fields separately (on a field basis) or together (on a frame basis, using PAFF or MBAFF), depending on what is most appropriate for the content.
+        public let forceFieldPictures: H264ForceFieldPictures?
         /// This field indicates how the output video frame rate is specified.  If "specified" is selected then the output video frame rate is determined by framerateNumerator and framerateDenominator, else if "initializeFromSource" is selected then the output video frame rate will be set equal to the input video frame rate of the first input.
         public let framerateControl: H264FramerateControl?
         /// Framerate denominator.
@@ -4783,7 +4822,7 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -4794,6 +4833,7 @@ extension MediaLive {
             self.entropyEncoding = entropyEncoding
             self.fixedAfd = fixedAfd
             self.flickerAq = flickerAq
+            self.forceFieldPictures = forceFieldPictures
             self.framerateControl = framerateControl
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
@@ -4859,6 +4899,7 @@ extension MediaLive {
             case entropyEncoding = "entropyEncoding"
             case fixedAfd = "fixedAfd"
             case flickerAq = "flickerAq"
+            case forceFieldPictures = "forceFieldPictures"
             case framerateControl = "framerateControl"
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
@@ -5838,11 +5879,14 @@ extension MediaLive {
 
     public struct InputAttachment: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomaticInputFailoverSettings", location: .body(locationName: "automaticInputFailoverSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "InputAttachmentName", location: .body(locationName: "inputAttachmentName"), required: false, type: .string), 
             AWSShapeMember(label: "InputId", location: .body(locationName: "inputId"), required: false, type: .string), 
             AWSShapeMember(label: "InputSettings", location: .body(locationName: "inputSettings"), required: false, type: .structure)
         ]
 
+        /// User-specified settings for defining what the conditions are for declaring the input unhealthy and failing over to a different input.
+        public let automaticInputFailoverSettings: AutomaticInputFailoverSettings?
         /// User-specified name for the attachment. This is required if the user wants to use this input in an input switch action.
         public let inputAttachmentName: String?
         /// The ID of the input
@@ -5850,7 +5894,8 @@ extension MediaLive {
         /// Settings of an input (caption selector, etc.)
         public let inputSettings: InputSettings?
 
-        public init(inputAttachmentName: String? = nil, inputId: String? = nil, inputSettings: InputSettings? = nil) {
+        public init(automaticInputFailoverSettings: AutomaticInputFailoverSettings? = nil, inputAttachmentName: String? = nil, inputId: String? = nil, inputSettings: InputSettings? = nil) {
+            self.automaticInputFailoverSettings = automaticInputFailoverSettings
             self.inputAttachmentName = inputAttachmentName
             self.inputId = inputId
             self.inputSettings = inputSettings
@@ -5861,6 +5906,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automaticInputFailoverSettings = "automaticInputFailoverSettings"
             case inputAttachmentName = "inputAttachmentName"
             case inputId = "inputId"
             case inputSettings = "inputSettings"

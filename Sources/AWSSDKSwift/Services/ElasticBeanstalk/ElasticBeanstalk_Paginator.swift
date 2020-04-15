@@ -11,6 +11,11 @@ extension ElasticBeanstalk {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventDescriptionsMessage.nextToken, onPage: onPage)
     }
 
+    ///  Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    public func listPlatformBranchesPaginator(_ input: ListPlatformBranchesRequest, onPage: @escaping (ListPlatformBranchesResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listPlatformBranches, tokenKey: \ListPlatformBranchesResult.nextToken, onPage: onPage)
+    }
+
 }
 
 extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
@@ -28,6 +33,17 @@ extension ElasticBeanstalk.DescribeEventsMessage: AWSPaginateStringToken {
             startTime: self.startTime, 
             templateName: self.templateName, 
             versionLabel: self.versionLabel
+        )
+
+    }
+}
+
+extension ElasticBeanstalk.ListPlatformBranchesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElasticBeanstalk.ListPlatformBranchesRequest {
+        return .init(
+            filters: self.filters, 
+            maxRecords: self.maxRecords, 
+            nextToken: token
         )
 
     }

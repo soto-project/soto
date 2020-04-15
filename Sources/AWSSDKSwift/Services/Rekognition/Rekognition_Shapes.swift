@@ -892,6 +892,86 @@ extension Rekognition {
         }
     }
 
+    public struct DeleteProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the project that you want to delete.
+        public let projectArn: String
+
+        public init(projectArn: String) {
+            self.projectArn = projectArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 2048)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 20)
+            try validate(self.projectArn, name:"projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "ProjectArn"
+        }
+    }
+
+    public struct DeleteProjectResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The current status of the delete project operation.
+        public let status: ProjectStatus?
+
+        public init(status: ProjectStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteProjectVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectVersionArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the model version that you want to delete.
+        public let projectVersionArn: String
+
+        public init(projectVersionArn: String) {
+            self.projectVersionArn = projectVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, max: 2048)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, min: 20)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectVersionArn = "ProjectVersionArn"
+        }
+    }
+
+    public struct DeleteProjectVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The status of the deletion operation.
+        public let status: ProjectVersionStatus?
+
+        public init(status: ProjectVersionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct DeleteStreamProcessorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)

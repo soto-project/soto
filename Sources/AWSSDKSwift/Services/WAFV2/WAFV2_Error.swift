@@ -7,7 +7,9 @@ public enum WAFV2ErrorType: AWSErrorType {
     case wAFAssociatedItemException(message: String?)
     case wAFDuplicateItemException(message: String?)
     case wAFInternalErrorException(message: String?)
+    case wAFInvalidOperationException(message: String?)
     case wAFInvalidParameterException(message: String?)
+    case wAFInvalidPermissionPolicyException(message: String?)
     case wAFInvalidResourceException(message: String?)
     case wAFLimitsExceededException(message: String?)
     case wAFNonexistentItemException(message: String?)
@@ -32,8 +34,12 @@ extension WAFV2ErrorType {
             self = .wAFDuplicateItemException(message: message)
         case "WAFInternalErrorException":
             self = .wAFInternalErrorException(message: message)
+        case "WAFInvalidOperationException":
+            self = .wAFInvalidOperationException(message: message)
         case "WAFInvalidParameterException":
             self = .wAFInvalidParameterException(message: message)
+        case "WAFInvalidPermissionPolicyException":
+            self = .wAFInvalidPermissionPolicyException(message: message)
         case "WAFInvalidResourceException":
             self = .wAFInvalidResourceException(message: message)
         case "WAFLimitsExceededException":
@@ -67,8 +73,12 @@ extension WAFV2ErrorType : CustomStringConvertible {
             return "WAFDuplicateItemException: \(message ?? "")"
         case .wAFInternalErrorException(let message):
             return "WAFInternalErrorException: \(message ?? "")"
+        case .wAFInvalidOperationException(let message):
+            return "WAFInvalidOperationException: \(message ?? "")"
         case .wAFInvalidParameterException(let message):
             return "WAFInvalidParameterException: \(message ?? "")"
+        case .wAFInvalidPermissionPolicyException(let message):
+            return "WAFInvalidPermissionPolicyException: \(message ?? "")"
         case .wAFInvalidResourceException(let message):
             return "WAFInvalidResourceException: \(message ?? "")"
         case .wAFLimitsExceededException(let message):

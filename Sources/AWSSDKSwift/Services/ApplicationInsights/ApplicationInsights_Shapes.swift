@@ -6,6 +6,13 @@ import AWSSDKSwiftCore
 extension ApplicationInsights {
     //MARK: Enums
 
+    public enum CloudWatchEventSource: String, CustomStringConvertible, Codable {
+        case ec2 = "EC2"
+        case codeDeploy = "CODE_DEPLOY"
+        case health = "HEALTH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigurationEventResourceType: String, CustomStringConvertible, Codable {
         case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case cloudformation = "CLOUDFORMATION"
@@ -98,6 +105,7 @@ extension ApplicationInsights {
 
     public struct ApplicationInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CWEMonitorEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "LifeCycle", required: false, type: .string), 
             AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
@@ -105,6 +113,8 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
         ]
 
+        ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. 
+        public let cWEMonitorEnabled: Bool?
         /// The lifecycle of the application. 
         public let lifeCycle: String?
         ///  Indicates whether Application Insights will create opsItems for any problem detected by Application Insights for an application. 
@@ -116,7 +126,8 @@ extension ApplicationInsights {
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
 
-        public init(lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+        public init(cWEMonitorEnabled: Bool? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+            self.cWEMonitorEnabled = cWEMonitorEnabled
             self.lifeCycle = lifeCycle
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
@@ -125,6 +136,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cWEMonitorEnabled = "CWEMonitorEnabled"
             case lifeCycle = "LifeCycle"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
@@ -177,12 +189,15 @@ extension ApplicationInsights {
 
     public struct CreateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CWEMonitorEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
+        ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. 
+        public let cWEMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application. 
         public let opsCenterEnabled: Bool?
         ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. 
@@ -192,7 +207,8 @@ extension ApplicationInsights {
         /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]?
 
-        public init(opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String, tags: [Tag]? = nil) {
+        public init(cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String, tags: [Tag]? = nil) {
+            self.cWEMonitorEnabled = cWEMonitorEnabled
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.resourceGroupName = resourceGroupName
@@ -213,6 +229,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cWEMonitorEnabled = "CWEMonitorEnabled"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case resourceGroupName = "ResourceGroupName"
@@ -1294,7 +1311,21 @@ extension ApplicationInsights {
 
     public struct Observation: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchEventDetailType", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchEventId", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchEventSource", required: false, type: .enum), 
+            AWSShapeMember(label: "CodeDeployApplication", required: false, type: .string), 
+            AWSShapeMember(label: "CodeDeployDeploymentGroup", required: false, type: .string), 
+            AWSShapeMember(label: "CodeDeployDeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "CodeDeployInstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "CodeDeployState", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2State", required: false, type: .string), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HealthEventArn", required: false, type: .string), 
+            AWSShapeMember(label: "HealthEventDescription", required: false, type: .string), 
+            AWSShapeMember(label: "HealthEventTypeCategory", required: false, type: .string), 
+            AWSShapeMember(label: "HealthEventTypeCode", required: false, type: .string), 
+            AWSShapeMember(label: "HealthService", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "LineTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LogFilter", required: false, type: .enum), 
@@ -1306,11 +1337,46 @@ extension ApplicationInsights {
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .double)
+            AWSShapeMember(label: "Value", required: false, type: .double), 
+            AWSShapeMember(label: "XRayErrorPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "XRayFaultPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "XRayNodeName", required: false, type: .string), 
+            AWSShapeMember(label: "XRayNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "XRayRequestAverageLatency", required: false, type: .long), 
+            AWSShapeMember(label: "XRayRequestCount", required: false, type: .integer), 
+            AWSShapeMember(label: "XRayThrottlePercent", required: false, type: .integer)
         ]
 
+        ///  The detail type of the CloudWatch Event-based observation, for example, EC2 Instance State-change Notification. 
+        public let cloudWatchEventDetailType: String?
+        ///  The ID of the CloudWatch Event-based observation related to the detected problem. 
+        public let cloudWatchEventId: String?
+        ///  The source of the CloudWatch Event. 
+        public let cloudWatchEventSource: CloudWatchEventSource?
+        ///  The CodeDeploy application to which the deployment belongs. 
+        public let codeDeployApplication: String?
+        ///  The deployment group to which the CodeDeploy deployment belongs. 
+        public let codeDeployDeploymentGroup: String?
+        ///  The deployment ID of the CodeDeploy-based observation related to the detected problem. 
+        public let codeDeployDeploymentId: String?
+        ///  The instance group to which the CodeDeploy instance belongs. 
+        public let codeDeployInstanceGroupId: String?
+        ///  The status of the CodeDeploy deployment, for example SUCCESS or  FAILURE. 
+        public let codeDeployState: String?
+        ///  The state of the instance, such as STOPPING or TERMINATING. 
+        public let ec2State: String?
         /// The time when the observation ended, in epoch seconds.
         public let endTime: TimeStamp?
+        ///  The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
+        public let healthEventArn: String?
+        ///  The description of the AWS Health event provided by the service, such as Amazon EC2. 
+        public let healthEventDescription: String?
+        ///  The category of the AWS Health event, such as issue. 
+        public let healthEventTypeCategory: String?
+        ///  The type of the AWS Health event, for example, AWS_EC2_POWER_CONNECTIVITY_ISSUE. 
+        public let healthEventTypeCode: String?
+        ///  The service to which the AWS Health Event belongs, such as EC2. 
+        public let healthService: String?
         /// The ID of the observation type.
         public let id: String?
         /// The timestamp in the CloudWatch Logs that specifies when the matched line occurred.
@@ -1335,9 +1401,37 @@ extension ApplicationInsights {
         public let unit: String?
         /// The value of the source observation metric.
         public let value: Double?
+        ///  The X-Ray request error percentage for this node. 
+        public let xRayErrorPercent: Int?
+        ///  The X-Ray request fault percentage for this node. 
+        public let xRayFaultPercent: Int?
+        ///  The name of the X-Ray node. 
+        public let xRayNodeName: String?
+        ///  The type of the X-Ray node. 
+        public let xRayNodeType: String?
+        ///  The X-Ray node request average latency for this node. 
+        public let xRayRequestAverageLatency: Int64?
+        ///  The X-Ray request count for this node. 
+        public let xRayRequestCount: Int?
+        ///  The X-Ray request throttle percentage for this node. 
+        public let xRayThrottlePercent: Int?
 
-        public init(endTime: TimeStamp? = nil, id: String? = nil, lineTime: TimeStamp? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: TimeStamp? = nil, unit: String? = nil, value: Double? = nil) {
+        public init(cloudWatchEventDetailType: String? = nil, cloudWatchEventId: String? = nil, cloudWatchEventSource: CloudWatchEventSource? = nil, codeDeployApplication: String? = nil, codeDeployDeploymentGroup: String? = nil, codeDeployDeploymentId: String? = nil, codeDeployInstanceGroupId: String? = nil, codeDeployState: String? = nil, ec2State: String? = nil, endTime: TimeStamp? = nil, healthEventArn: String? = nil, healthEventDescription: String? = nil, healthEventTypeCategory: String? = nil, healthEventTypeCode: String? = nil, healthService: String? = nil, id: String? = nil, lineTime: TimeStamp? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: TimeStamp? = nil, unit: String? = nil, value: Double? = nil, xRayErrorPercent: Int? = nil, xRayFaultPercent: Int? = nil, xRayNodeName: String? = nil, xRayNodeType: String? = nil, xRayRequestAverageLatency: Int64? = nil, xRayRequestCount: Int? = nil, xRayThrottlePercent: Int? = nil) {
+            self.cloudWatchEventDetailType = cloudWatchEventDetailType
+            self.cloudWatchEventId = cloudWatchEventId
+            self.cloudWatchEventSource = cloudWatchEventSource
+            self.codeDeployApplication = codeDeployApplication
+            self.codeDeployDeploymentGroup = codeDeployDeploymentGroup
+            self.codeDeployDeploymentId = codeDeployDeploymentId
+            self.codeDeployInstanceGroupId = codeDeployInstanceGroupId
+            self.codeDeployState = codeDeployState
+            self.ec2State = ec2State
             self.endTime = endTime
+            self.healthEventArn = healthEventArn
+            self.healthEventDescription = healthEventDescription
+            self.healthEventTypeCategory = healthEventTypeCategory
+            self.healthEventTypeCode = healthEventTypeCode
+            self.healthService = healthService
             self.id = id
             self.lineTime = lineTime
             self.logFilter = logFilter
@@ -1350,10 +1444,31 @@ extension ApplicationInsights {
             self.startTime = startTime
             self.unit = unit
             self.value = value
+            self.xRayErrorPercent = xRayErrorPercent
+            self.xRayFaultPercent = xRayFaultPercent
+            self.xRayNodeName = xRayNodeName
+            self.xRayNodeType = xRayNodeType
+            self.xRayRequestAverageLatency = xRayRequestAverageLatency
+            self.xRayRequestCount = xRayRequestCount
+            self.xRayThrottlePercent = xRayThrottlePercent
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchEventDetailType = "CloudWatchEventDetailType"
+            case cloudWatchEventId = "CloudWatchEventId"
+            case cloudWatchEventSource = "CloudWatchEventSource"
+            case codeDeployApplication = "CodeDeployApplication"
+            case codeDeployDeploymentGroup = "CodeDeployDeploymentGroup"
+            case codeDeployDeploymentId = "CodeDeployDeploymentId"
+            case codeDeployInstanceGroupId = "CodeDeployInstanceGroupId"
+            case codeDeployState = "CodeDeployState"
+            case ec2State = "Ec2State"
             case endTime = "EndTime"
+            case healthEventArn = "HealthEventArn"
+            case healthEventDescription = "HealthEventDescription"
+            case healthEventTypeCategory = "HealthEventTypeCategory"
+            case healthEventTypeCode = "HealthEventTypeCode"
+            case healthService = "HealthService"
             case id = "Id"
             case lineTime = "LineTime"
             case logFilter = "LogFilter"
@@ -1366,6 +1481,13 @@ extension ApplicationInsights {
             case startTime = "StartTime"
             case unit = "Unit"
             case value = "Value"
+            case xRayErrorPercent = "XRayErrorPercent"
+            case xRayFaultPercent = "XRayFaultPercent"
+            case xRayNodeName = "XRayNodeName"
+            case xRayNodeType = "XRayNodeType"
+            case xRayRequestAverageLatency = "XRayRequestAverageLatency"
+            case xRayRequestCount = "XRayRequestCount"
+            case xRayThrottlePercent = "XRayThrottlePercent"
         }
     }
 
@@ -1560,12 +1682,15 @@ extension ApplicationInsights {
 
     public struct UpdateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CWEMonitorEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "RemoveSNSTopic", required: false, type: .boolean), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
 
+        ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. 
+        public let cWEMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application. 
         public let opsCenterEnabled: Bool?
         ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
@@ -1575,7 +1700,8 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+        public init(cWEMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+            self.cWEMonitorEnabled = cWEMonitorEnabled
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.removeSNSTopic = removeSNSTopic
@@ -1591,6 +1717,7 @@ extension ApplicationInsights {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cWEMonitorEnabled = "CWEMonitorEnabled"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case removeSNSTopic = "RemoveSNSTopic"

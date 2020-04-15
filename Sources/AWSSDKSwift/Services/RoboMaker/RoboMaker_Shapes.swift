@@ -328,6 +328,45 @@ extension RoboMaker {
 
     }
 
+    public struct Compute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "simulationUnitLimit", required: false, type: .integer)
+        ]
+
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. 
+        public let simulationUnitLimit: Int?
+
+        public init(simulationUnitLimit: Int? = nil) {
+            self.simulationUnitLimit = simulationUnitLimit
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.simulationUnitLimit, name:"simulationUnitLimit", parent: name, max: 15)
+            try validate(self.simulationUnitLimit, name:"simulationUnitLimit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simulationUnitLimit = "simulationUnitLimit"
+        }
+    }
+
+    public struct ComputeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "simulationUnitLimit", required: false, type: .integer)
+        ]
+
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. 
+        public let simulationUnitLimit: Int?
+
+        public init(simulationUnitLimit: Int? = nil) {
+            self.simulationUnitLimit = simulationUnitLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simulationUnitLimit = "simulationUnitLimit"
+        }
+    }
+
     public struct CreateDeploymentJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
@@ -997,6 +1036,7 @@ extension RoboMaker {
     public struct CreateSimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "compute", required: false, type: .structure), 
             AWSShapeMember(label: "dataSources", required: false, type: .list), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "iamRole", required: true, type: .string), 
@@ -1011,6 +1051,8 @@ extension RoboMaker {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
+        /// Compute information for the simulation job.
+        public let compute: Compute?
         /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
         public let dataSources: [DataSourceConfig]?
         /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
@@ -1032,8 +1074,9 @@ extension RoboMaker {
         /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
         public let vpcConfig: VPCConfig?
 
-        public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
+        public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), compute: Compute? = nil, dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.compute = compute
             self.dataSources = dataSources
             self.failureBehavior = failureBehavior
             self.iamRole = iamRole
@@ -1050,6 +1093,7 @@ extension RoboMaker {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try self.compute?.validate(name: "\(name).compute")
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
@@ -1082,6 +1126,7 @@ extension RoboMaker {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
             case dataSources = "dataSources"
             case failureBehavior = "failureBehavior"
             case iamRole = "iamRole"
@@ -1099,6 +1144,7 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "compute", required: false, type: .structure), 
             AWSShapeMember(label: "dataSources", required: false, type: .list), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
@@ -1120,6 +1166,8 @@ extension RoboMaker {
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
+        /// Compute information for the simulation job.
+        public let compute: ComputeResponse?
         /// The data sources for the simulation job.
         public let dataSources: [DataSource]?
         /// the failure behavior for the simulation job.
@@ -1151,9 +1199,10 @@ extension RoboMaker {
         /// Information about the vpc configuration.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
+            self.compute = compute
             self.dataSources = dataSources
             self.failureBehavior = failureBehavior
             self.failureCode = failureCode
@@ -1174,6 +1223,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
             case dataSources = "dataSources"
             case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
@@ -2187,6 +2237,7 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "compute", required: false, type: .structure), 
             AWSShapeMember(label: "dataSources", required: false, type: .list), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
@@ -2211,6 +2262,8 @@ extension RoboMaker {
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
+        /// Compute information for the simulation job.
+        public let compute: ComputeResponse?
         /// The data sources for the simulation job.
         public let dataSources: [DataSource]?
         /// The failure behavior for the simulation job.
@@ -2248,9 +2301,10 @@ extension RoboMaker {
         /// The VPC configuration.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
+            self.compute = compute
             self.dataSources = dataSources
             self.failureBehavior = failureBehavior
             self.failureCode = failureCode
@@ -2274,6 +2328,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
             case dataSources = "dataSources"
             case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
@@ -3554,6 +3609,7 @@ extension RoboMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "compute", required: false, type: .structure), 
             AWSShapeMember(label: "dataSources", required: false, type: .list), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "failureCode", required: false, type: .enum), 
@@ -3578,6 +3634,8 @@ extension RoboMaker {
         public let arn: String?
         /// A unique identifier for this SimulationJob request.
         public let clientRequestToken: String?
+        /// Compute information for the simulation job
+        public let compute: ComputeResponse?
         /// The data sources for the simulation job.
         public let dataSources: [DataSource]?
         /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
@@ -3615,9 +3673,10 @@ extension RoboMaker {
         /// VPC configuration information.
         public let vpcConfig: VPCConfigResponse?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, compute: ComputeResponse? = nil, dataSources: [DataSource]? = nil, failureBehavior: FailureBehavior? = nil, failureCode: SimulationJobErrorCode? = nil, failureReason: String? = nil, iamRole: String? = nil, lastStartedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64? = nil, name: String? = nil, networkInterface: NetworkInterface? = nil, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, simulationTimeMillis: Int64? = nil, status: SimulationJobStatus? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfigResponse? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
+            self.compute = compute
             self.dataSources = dataSources
             self.failureBehavior = failureBehavior
             self.failureCode = failureCode
@@ -3641,6 +3700,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
             case dataSources = "dataSources"
             case failureBehavior = "failureBehavior"
             case failureCode = "failureCode"
@@ -3711,6 +3771,7 @@ extension RoboMaker {
 
     public struct SimulationJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "compute", required: false, type: .structure), 
             AWSShapeMember(label: "dataSources", required: false, type: .list), 
             AWSShapeMember(label: "failureBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "iamRole", required: false, type: .string), 
@@ -3724,6 +3785,8 @@ extension RoboMaker {
             AWSShapeMember(label: "vpcConfig", required: false, type: .structure)
         ]
 
+        /// Compute information for the simulation job
+        public let compute: Compute?
         /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
         public let dataSources: [DataSourceConfig]?
         /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
@@ -3744,7 +3807,8 @@ extension RoboMaker {
         public let useDefaultApplications: Bool?
         public let vpcConfig: VPCConfig?
 
-        public init(dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, useDefaultApplications: Bool? = nil, vpcConfig: VPCConfig? = nil) {
+        public init(compute: Compute? = nil, dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String? = nil, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, useDefaultApplications: Bool? = nil, vpcConfig: VPCConfig? = nil) {
+            self.compute = compute
             self.dataSources = dataSources
             self.failureBehavior = failureBehavior
             self.iamRole = iamRole
@@ -3759,6 +3823,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.compute?.validate(name: "\(name).compute")
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
@@ -3790,6 +3855,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compute = "compute"
             case dataSources = "dataSources"
             case failureBehavior = "failureBehavior"
             case iamRole = "iamRole"

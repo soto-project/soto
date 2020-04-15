@@ -167,6 +167,17 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum DimensionType: String, CustomStringConvertible, Codable {
+        case topicFilter = "TOPIC_FILTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DimensionValueOperator: String, CustomStringConvertible, Codable {
+        case `in` = "IN"
+        case notIn = "NOT_IN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
@@ -496,7 +507,7 @@ extension IoT {
 
         /// Change the state of a CloudWatch alarm.
         public let cloudwatchAlarm: CloudwatchAlarmAction?
-        /// Send data to CloudWatch logs.
+        /// Send data to CloudWatch Logs.
         public let cloudwatchLogs: CloudwatchLogsAction?
         /// Capture a CloudWatch metric.
         public let cloudwatchMetric: CloudwatchMetricAction?
@@ -1643,6 +1654,7 @@ extension IoT {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "criteria", required: false, type: .structure), 
             AWSShapeMember(label: "metric", required: false, type: .string), 
+            AWSShapeMember(label: "metricDimension", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
 
@@ -1650,17 +1662,21 @@ extension IoT {
         public let criteria: BehaviorCriteria?
         /// What is measured by the behavior.
         public let metric: String?
+        /// The dimension for a metric in your behavior. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
+        public let metricDimension: MetricDimension?
         /// The name you have given to the behavior.
         public let name: String
 
-        public init(criteria: BehaviorCriteria? = nil, metric: String? = nil, name: String) {
+        public init(criteria: BehaviorCriteria? = nil, metric: String? = nil, metricDimension: MetricDimension? = nil, name: String) {
             self.criteria = criteria
             self.metric = metric
+            self.metricDimension = metricDimension
             self.name = name
         }
 
         public func validate(name: String) throws {
             try self.criteria?.validate(name: "\(name).criteria")
+            try self.metricDimension?.validate(name: "\(name).metricDimension")
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -1669,6 +1685,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case criteria = "criteria"
             case metric = "metric"
+            case metricDimension = "metricDimension"
             case name = "name"
         }
     }
@@ -2620,6 +2637,80 @@ extension IoT {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
             case certificatePem = "certificatePem"
+        }
+    }
+
+    public struct CreateDimensionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "stringValues", required: true, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        public let clientRequestToken: String
+        /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
+        public let name: String
+        /// Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, "admin/#").
+        public let stringValues: [String]
+        /// Metadata that can be used to manage the dimension.
+        public let tags: [Tag]?
+        /// Specifies the type of dimension. Supported types: TOPIC_FILTER. 
+        public let `type`: DimensionType
+
+        public init(clientRequestToken: String = CreateDimensionRequest.idempotencyToken(), name: String, stringValues: [String], tags: [Tag]? = nil, type: DimensionType) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.stringValues = stringValues
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.stringValues.forEach {
+                try validate($0, name: "stringValues[]", parent: name, max: 256)
+                try validate($0, name: "stringValues[]", parent: name, min: 1)
+            }
+            try validate(self.stringValues, name:"stringValues", parent: name, max: 100)
+            try validate(self.stringValues, name:"stringValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
+            case stringValues = "stringValues"
+            case tags = "tags"
+            case `type` = "type"
+        }
+    }
+
+    public struct CreateDimensionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+
+        /// The ARN (Amazon resource name) of the created dimension.
+        public let arn: String?
+        /// A unique identifier for the dimension.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -3596,7 +3687,7 @@ extension IoT {
 
     public struct CreateSecurityProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
+            AWSShapeMember(label: "additionalMetricsToRetainV2", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
@@ -3605,7 +3696,7 @@ extension IoT {
         ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
-        public let additionalMetricsToRetain: [String]?
+        public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -3617,8 +3708,8 @@ extension IoT {
         /// Metadata that can be used to manage the security profile.
         public let tags: [Tag]?
 
-        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
-            self.additionalMetricsToRetain = additionalMetricsToRetain
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.securityProfileDescription = securityProfileDescription
@@ -3627,6 +3718,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.additionalMetricsToRetainV2?.forEach {
+                try $0.validate(name: "\(name).additionalMetricsToRetainV2[]")
+            }
             try self.alertTargets?.forEach {
                 try $0.value.validate(name: "\(name).alertTargets[\"\($0.key)\"]")
             }
@@ -3642,7 +3736,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalMetricsToRetain = "additionalMetricsToRetain"
+            case additionalMetricsToRetainV2 = "additionalMetricsToRetainV2"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case securityProfileDescription = "securityProfileDescription"
@@ -4214,6 +4308,37 @@ extension IoT {
             case certificateId = "certificateId"
             case forceDelete = "forceDelete"
         }
+    }
+
+    public struct DeleteDimensionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the dimension that you want to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DeleteDimensionResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDomainConfigurationRequest: AWSShape {
@@ -5342,6 +5467,71 @@ extension IoT {
         }
     }
 
+    public struct DescribeDimensionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the dimension.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DescribeDimensionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "stringValues", required: false, type: .list), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        /// The ARN (Amazon resource name) for the dimension.
+        public let arn: String?
+        /// The date the dimension was created.
+        public let creationDate: TimeStamp?
+        /// The date the dimension was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The unique identifier for the dimension.
+        public let name: String?
+        /// The value or list of values used to scope the dimension. For example, for topic filters, this is the pattern used to match the MQTT topic name.
+        public let stringValues: [String]?
+        /// The type of the dimension.
+        public let `type`: DimensionType?
+
+        public init(arn: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.stringValues = stringValues
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case stringValues = "stringValues"
+            case `type` = "type"
+        }
+    }
+
     public struct DescribeDomainConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string)
@@ -5982,7 +6172,7 @@ extension IoT {
 
     public struct DescribeSecurityProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
+            AWSShapeMember(label: "additionalMetricsToRetainV2", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -5994,7 +6184,7 @@ extension IoT {
         ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
-        public let additionalMetricsToRetain: [String]?
+        public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -6012,8 +6202,8 @@ extension IoT {
         /// The version of the security profile. A new version is generated whenever the security profile is updated.
         public let version: Int64?
 
-        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
-            self.additionalMetricsToRetain = additionalMetricsToRetain
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.creationDate = creationDate
@@ -6025,7 +6215,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalMetricsToRetain = "additionalMetricsToRetain"
+            case additionalMetricsToRetainV2 = "additionalMetricsToRetainV2"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case creationDate = "creationDate"
@@ -7637,7 +7827,7 @@ extension IoT {
 
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public let auth: HttpAuthorization?
-        /// The URL to which AWS IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL AWS IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substituion template before traffic is allowed to your endpoint URL.
+        /// The URL to which AWS IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL AWS IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
         public let confirmationUrl: String?
         /// The HTTP headers to send with the message data.
         public let headers: [HttpActionHeader]?
@@ -9082,6 +9272,55 @@ extension IoT {
         }
     }
 
+    public struct ListDimensionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The maximum number of results to retrieve at one time.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDimensionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dimensionNames", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A list of the names of the defined dimensions. Use DescribeDimension to get details for a dimension.
+        public let dimensionNames: [String]?
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(dimensionNames: [String]? = nil, nextToken: String? = nil) {
+            self.dimensionNames = dimensionNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionNames = "dimensionNames"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDomainConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
@@ -10091,26 +10330,34 @@ extension IoT {
 
     public struct ListSecurityProfilesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dimensionName", location: .querystring(locationName: "dimensionName"), required: false, type: .string), 
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
+        /// A filter to limit results to the security profiles that use the defined dimension.
+        public let dimensionName: String?
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dimensionName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dimensionName = dimensionName
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try validate(self.dimensionName, name:"dimensionName", parent: name, max: 128)
+            try validate(self.dimensionName, name:"dimensionName", parent: name, min: 1)
+            try validate(self.dimensionName, name:"dimensionName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dimensionName = "dimensionName"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
         }
@@ -11183,6 +11430,60 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case logLevel = "logLevel"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct MetricDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dimensionName", required: true, type: .string), 
+            AWSShapeMember(label: "operator", required: false, type: .enum)
+        ]
+
+        /// A unique identifier for the dimension.
+        public let dimensionName: String
+        /// Defines how the dimensionValues of a dimension are interpreted. For example, for DimensionType TOPIC_FILTER, with IN operator, a message will be counted only if its topic matches one of the topic filters. With NOT_IN Operator, a message will be counted only if it doesn't match any of the topic filters. The operator is optional: if it's not provided (is null), it will be interpreted as IN.
+        public let `operator`: DimensionValueOperator?
+
+        public init(dimensionName: String, operator: DimensionValueOperator? = nil) {
+            self.dimensionName = dimensionName
+            self.`operator` = `operator`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dimensionName, name:"dimensionName", parent: name, max: 128)
+            try validate(self.dimensionName, name:"dimensionName", parent: name, min: 1)
+            try validate(self.dimensionName, name:"dimensionName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionName = "dimensionName"
+            case `operator` = "operator"
+        }
+    }
+
+    public struct MetricToRetain: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metric", required: true, type: .string), 
+            AWSShapeMember(label: "metricDimension", required: false, type: .structure)
+        ]
+
+        /// What is measured by the behavior.
+        public let metric: String
+        /// The dimension of a metric.
+        public let metricDimension: MetricDimension?
+
+        public init(metric: String, metricDimension: MetricDimension? = nil) {
+            self.metric = metric
+            self.metricDimension = metricDimension
+        }
+
+        public func validate(name: String) throws {
+            try self.metricDimension?.validate(name: "\(name).metricDimension")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "metric"
+            case metricDimension = "metricDimension"
         }
     }
 
@@ -14786,6 +15087,82 @@ extension IoT {
         }
     }
 
+    public struct UpdateDimensionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "stringValues", required: true, type: .list)
+        ]
+
+        /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
+        public let name: String
+        /// Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, "admin/#").
+        public let stringValues: [String]
+
+        public init(name: String, stringValues: [String]) {
+            self.name = name
+            self.stringValues = stringValues
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.stringValues.forEach {
+                try validate($0, name: "stringValues[]", parent: name, max: 256)
+                try validate($0, name: "stringValues[]", parent: name, min: 1)
+            }
+            try validate(self.stringValues, name:"stringValues", parent: name, max: 100)
+            try validate(self.stringValues, name:"stringValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case stringValues = "stringValues"
+        }
+    }
+
+    public struct UpdateDimensionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "stringValues", required: false, type: .list), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        /// The ARN (Amazon resource name) of the created dimension.
+        public let arn: String?
+        /// The date and time, in milliseconds since epoch, when the dimension was initially created.
+        public let creationDate: TimeStamp?
+        /// The date and time, in milliseconds since epoch, when the dimension was most recently updated.
+        public let lastModifiedDate: TimeStamp?
+        /// A unique identifier for the dimension.
+        public let name: String?
+        /// The value or list of values used to scope the dimension. For example, for topic filters, this is the pattern used to match the MQTT topic name.
+        public let stringValues: [String]?
+        /// The type of the dimension.
+        public let `type`: DimensionType?
+
+        public init(arn: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.stringValues = stringValues
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case stringValues = "stringValues"
+            case `type` = "type"
+        }
+    }
+
     public struct UpdateDomainConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
@@ -15260,7 +15637,7 @@ extension IoT {
 
     public struct UpdateSecurityProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
+            AWSShapeMember(label: "additionalMetricsToRetainV2", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "deleteAdditionalMetricsToRetain", required: false, type: .boolean), 
@@ -15272,7 +15649,7 @@ extension IoT {
         ]
 
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
-        public let additionalMetricsToRetain: [String]?
+        public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -15290,8 +15667,8 @@ extension IoT {
         /// The name of the security profile you want to update.
         public let securityProfileName: String
 
-        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, expectedVersion: Int64? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
-            self.additionalMetricsToRetain = additionalMetricsToRetain
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, expectedVersion: Int64? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetain
@@ -15303,6 +15680,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.additionalMetricsToRetainV2?.forEach {
+                try $0.validate(name: "\(name).additionalMetricsToRetainV2[]")
+            }
             try self.alertTargets?.forEach {
                 try $0.value.validate(name: "\(name).alertTargets[\"\($0.key)\"]")
             }
@@ -15318,7 +15698,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalMetricsToRetain = "additionalMetricsToRetain"
+            case additionalMetricsToRetainV2 = "additionalMetricsToRetainV2"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case deleteAdditionalMetricsToRetain = "deleteAdditionalMetricsToRetain"
@@ -15332,7 +15712,7 @@ extension IoT {
 
     public struct UpdateSecurityProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalMetricsToRetain", required: false, type: .list), 
+            AWSShapeMember(label: "additionalMetricsToRetainV2", required: false, type: .list), 
             AWSShapeMember(label: "alertTargets", required: false, type: .map), 
             AWSShapeMember(label: "behaviors", required: false, type: .list), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
@@ -15343,8 +15723,8 @@ extension IoT {
             AWSShapeMember(label: "version", required: false, type: .long)
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the security profile's behaviors, but it is also retained for any metric specified here.
-        public let additionalMetricsToRetain: [String]?
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
+        public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -15362,8 +15742,8 @@ extension IoT {
         /// The updated version of the security profile.
         public let version: Int64?
 
-        public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
-            self.additionalMetricsToRetain = additionalMetricsToRetain
+        public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
+            self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
             self.alertTargets = alertTargets
             self.behaviors = behaviors
             self.creationDate = creationDate
@@ -15375,7 +15755,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalMetricsToRetain = "additionalMetricsToRetain"
+            case additionalMetricsToRetainV2 = "additionalMetricsToRetainV2"
             case alertTargets = "alertTargets"
             case behaviors = "behaviors"
             case creationDate = "creationDate"

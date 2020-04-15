@@ -6,6 +6,16 @@ import AWSSDKSwiftCore
 extension AppConfig {
     //MARK: Enums
 
+    public enum DeploymentEventType: String, CustomStringConvertible, Codable {
+        case percentageUpdated = "PERCENTAGE_UPDATED"
+        case rollbackStarted = "ROLLBACK_STARTED"
+        case rollbackCompleted = "ROLLBACK_COMPLETED"
+        case bakeTimeStarted = "BAKE_TIME_STARTED"
+        case deploymentStarted = "DEPLOYMENT_STARTED"
+        case deploymentCompleted = "DEPLOYMENT_COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentState: String, CustomStringConvertible, Codable {
         case baking = "BAKING"
         case validating = "VALIDATING"
@@ -33,6 +43,14 @@ extension AppConfig {
     public enum ReplicateTo: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case ssmDocument = "SSM_DOCUMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggeredBy: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case appconfig = "APPCONFIG"
+        case cloudwatchAlarm = "CLOUDWATCH_ALARM"
+        case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -571,6 +589,7 @@ extension AppConfig {
             AWSShapeMember(label: "DeploymentStrategyId", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "EventLog", required: false, type: .list), 
             AWSShapeMember(label: "FinalBakeTimeInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "GrowthFactor", required: false, type: .float), 
             AWSShapeMember(label: "GrowthType", required: false, type: .enum), 
@@ -601,6 +620,8 @@ extension AppConfig {
         public let description: String?
         /// The ID of the environment that was deployed.
         public let environmentId: String?
+        /// A list containing all events related to a deployment. The most recent events are displayed first.
+        public let eventLog: [DeploymentEvent]?
         /// The amount of time AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
@@ -614,7 +635,7 @@ extension AppConfig {
         /// The state of the deployment.
         public let state: DeploymentState?
 
-        public init(applicationId: String? = nil, completedAt: TimeStamp? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: TimeStamp? = nil, state: DeploymentState? = nil) {
+        public init(applicationId: String? = nil, completedAt: TimeStamp? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: TimeStamp? = nil, state: DeploymentState? = nil) {
             self.applicationId = applicationId
             self.completedAt = completedAt
             self.configurationLocationUri = configurationLocationUri
@@ -626,6 +647,7 @@ extension AppConfig {
             self.deploymentStrategyId = deploymentStrategyId
             self.description = description
             self.environmentId = environmentId
+            self.eventLog = eventLog
             self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
             self.growthFactor = growthFactor
             self.growthType = growthType
@@ -646,12 +668,45 @@ extension AppConfig {
             case deploymentStrategyId = "DeploymentStrategyId"
             case description = "Description"
             case environmentId = "EnvironmentId"
+            case eventLog = "EventLog"
             case finalBakeTimeInMinutes = "FinalBakeTimeInMinutes"
             case growthFactor = "GrowthFactor"
             case growthType = "GrowthType"
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
+        }
+    }
+
+    public struct DeploymentEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EventType", required: false, type: .enum), 
+            AWSShapeMember(label: "OccurredAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TriggeredBy", required: false, type: .enum)
+        ]
+
+        /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
+        public let description: String?
+        /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; the start or completion of a rollback.
+        public let eventType: DeploymentEventType?
+        /// The date and time the event occurred.
+        public let occurredAt: TimeStamp?
+        /// The entity that triggered the deployment event. Events can be triggered by a user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error.
+        public let triggeredBy: TriggeredBy?
+
+        public init(description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: TimeStamp? = nil, triggeredBy: TriggeredBy? = nil) {
+            self.description = description
+            self.eventType = eventType
+            self.occurredAt = occurredAt
+            self.triggeredBy = triggeredBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case eventType = "EventType"
+            case occurredAt = "OccurredAt"
+            case triggeredBy = "TriggeredBy"
         }
     }
 

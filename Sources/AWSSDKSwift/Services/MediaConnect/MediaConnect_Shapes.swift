@@ -139,6 +139,49 @@ extension MediaConnect {
         }
     }
 
+    public struct AddFlowVpcInterfacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "VpcInterfaces", location: .body(locationName: "vpcInterfaces"), required: true, type: .list)
+        ]
+
+        public let flowArn: String
+        /// A list of VPC interfaces that you want to add.
+        public let vpcInterfaces: [VpcInterfaceRequest]
+
+        public init(flowArn: String, vpcInterfaces: [VpcInterfaceRequest]) {
+            self.flowArn = flowArn
+            self.vpcInterfaces = vpcInterfaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case vpcInterfaces = "vpcInterfaces"
+        }
+    }
+
+    public struct AddFlowVpcInterfacesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcInterfaces", location: .body(locationName: "vpcInterfaces"), required: false, type: .list)
+        ]
+
+        /// The ARN of the flow that these VPC interfaces were added to.
+        public let flowArn: String?
+        /// The details of the newly added VPC interfaces.
+        public let vpcInterfaces: [VpcInterface]?
+
+        public init(flowArn: String? = nil, vpcInterfaces: [VpcInterface]? = nil) {
+            self.flowArn = flowArn
+            self.vpcInterfaces = vpcInterfaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case vpcInterfaces = "vpcInterfaces"
+        }
+    }
+
     public struct AddOutputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList"), required: false, type: .list), 
@@ -151,7 +194,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
             AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId"), required: false, type: .string), 
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcInterfaceAttachment", location: .body(locationName: "vpcInterfaceAttachment"), required: false, type: .structure)
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -176,8 +220,10 @@ extension MediaConnect {
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
+        /// The name of the VPC interface attachment to use for this output.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -189,6 +235,7 @@ extension MediaConnect {
             self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -203,6 +250,7 @@ extension MediaConnect {
             case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -214,7 +262,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Outputs", location: .body(locationName: "outputs"), required: false, type: .list), 
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: false, type: .structure), 
             AWSShapeMember(label: "SourceFailoverConfig", location: .body(locationName: "sourceFailoverConfig"), required: false, type: .structure), 
-            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list)
+            AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
+            AWSShapeMember(label: "VpcInterfaces", location: .body(locationName: "vpcInterfaces"), required: false, type: .list)
         ]
 
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
@@ -228,8 +277,10 @@ extension MediaConnect {
         public let source: SetSourceRequest?
         public let sourceFailoverConfig: FailoverConfig?
         public let sources: [SetSourceRequest]?
+        /// The VPC interfaces you want on the flow.
+        public let vpcInterfaces: [VpcInterfaceRequest]?
 
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
             self.name = name
@@ -237,6 +288,7 @@ extension MediaConnect {
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
             self.sources = sources
+            self.vpcInterfaces = vpcInterfaces
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -247,6 +299,7 @@ extension MediaConnect {
             case source = "source"
             case sourceFailoverConfig = "sourceFailoverConfig"
             case sources = "sources"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
@@ -472,7 +525,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Source", location: .body(locationName: "source"), required: true, type: .structure), 
             AWSShapeMember(label: "SourceFailoverConfig", location: .body(locationName: "sourceFailoverConfig"), required: false, type: .structure), 
             AWSShapeMember(label: "Sources", location: .body(locationName: "sources"), required: false, type: .list), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum)
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
+            AWSShapeMember(label: "VpcInterfaces", location: .body(locationName: "vpcInterfaces"), required: false, type: .list)
         ]
 
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
@@ -494,8 +548,10 @@ extension MediaConnect {
         public let sources: [Source]?
         /// The current status of the flow.
         public let status: Status
+        /// The VPC Interfaces for this flow.
+        public let vpcInterfaces: [VpcInterface]?
 
-        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status) {
+        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
@@ -507,6 +563,7 @@ extension MediaConnect {
             self.sourceFailoverConfig = sourceFailoverConfig
             self.sources = sources
             self.status = status
+            self.vpcInterfaces = vpcInterfaces
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -521,6 +578,7 @@ extension MediaConnect {
             case sourceFailoverConfig = "sourceFailoverConfig"
             case sources = "sources"
             case status = "status"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
@@ -828,7 +886,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "OutputArn", location: .body(locationName: "outputArn"), required: true, type: .string), 
             AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
-            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure)
+            AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure), 
+            AWSShapeMember(label: "VpcInterfaceAttachment", location: .body(locationName: "vpcInterfaceAttachment"), required: false, type: .structure)
         ]
 
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
@@ -851,8 +910,10 @@ extension MediaConnect {
         public let port: Int?
         /// Attributes related to the transport stream that are used in the output.
         public let transport: Transport?
+        /// The name of the VPC interface attachment to use for this output.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
@@ -863,6 +924,7 @@ extension MediaConnect {
             self.outputArn = outputArn
             self.port = port
             self.transport = transport
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -876,6 +938,7 @@ extension MediaConnect {
             case outputArn = "outputArn"
             case port = "port"
             case transport = "transport"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -963,6 +1026,53 @@ extension MediaConnect {
         }
     }
 
+    public struct RemoveFlowVpcInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .uri(locationName: "flowArn"), required: true, type: .string), 
+            AWSShapeMember(label: "VpcInterfaceName", location: .uri(locationName: "vpcInterfaceName"), required: true, type: .string)
+        ]
+
+        public let flowArn: String
+        public let vpcInterfaceName: String
+
+        public init(flowArn: String, vpcInterfaceName: String) {
+            self.flowArn = flowArn
+            self.vpcInterfaceName = vpcInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case vpcInterfaceName = "vpcInterfaceName"
+        }
+    }
+
+    public struct RemoveFlowVpcInterfaceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string), 
+            AWSShapeMember(label: "NonDeletedNetworkInterfaceIds", location: .body(locationName: "nonDeletedNetworkInterfaceIds"), required: false, type: .list), 
+            AWSShapeMember(label: "VpcInterfaceName", location: .body(locationName: "vpcInterfaceName"), required: false, type: .string)
+        ]
+
+        /// The ARN of the flow that is associated with the VPC interface you removed.
+        public let flowArn: String?
+        /// IDs of network interfaces associated with the removed VPC interface that Media Connect was unable to remove.
+        public let nonDeletedNetworkInterfaceIds: [String]?
+        /// The name of the VPC interface that was removed.
+        public let vpcInterfaceName: String?
+
+        public init(flowArn: String? = nil, nonDeletedNetworkInterfaceIds: [String]? = nil, vpcInterfaceName: String? = nil) {
+            self.flowArn = flowArn
+            self.nonDeletedNetworkInterfaceIds = nonDeletedNetworkInterfaceIds
+            self.vpcInterfaceName = vpcInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case nonDeletedNetworkInterfaceIds = "nonDeletedNetworkInterfaceIds"
+            case vpcInterfaceName = "vpcInterfaceName"
+        }
+    }
+
     public struct RevokeFlowEntitlementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntitlementArn", location: .uri(locationName: "entitlementArn"), required: true, type: .string), 
@@ -1016,6 +1126,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcInterfaceName", location: .body(locationName: "vpcInterfaceName"), required: false, type: .string), 
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
 
@@ -1037,10 +1148,12 @@ extension MediaConnect {
         public let `protocol`: Protocol?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
+        /// The name of the VPC interface to use for this source.
+        public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -1050,6 +1163,7 @@ extension MediaConnect {
             self.name = name
             self.`protocol` = `protocol`
             self.streamId = streamId
+            self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
         }
 
@@ -1063,6 +1177,7 @@ extension MediaConnect {
             case name = "name"
             case `protocol` = "protocol"
             case streamId = "streamId"
+            case vpcInterfaceName = "vpcInterfaceName"
             case whitelistCidr = "whitelistCidr"
         }
     }
@@ -1078,6 +1193,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "SourceArn", location: .body(locationName: "sourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure), 
+            AWSShapeMember(label: "VpcInterfaceName", location: .body(locationName: "vpcInterfaceName"), required: false, type: .string), 
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
 
@@ -1099,10 +1215,12 @@ extension MediaConnect {
         public let sourceArn: String
         /// Attributes related to the transport stream that are used in the source.
         public let transport: Transport?
+        /// The name of the VPC Interface this Source is configured with.
+        public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, name: String, sourceArn: String, transport: Transport? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, name: String, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
@@ -1112,6 +1230,7 @@ extension MediaConnect {
             self.name = name
             self.sourceArn = sourceArn
             self.transport = transport
+            self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
         }
 
@@ -1125,6 +1244,7 @@ extension MediaConnect {
             case name = "name"
             case sourceArn = "sourceArn"
             case transport = "transport"
+            case vpcInterfaceName = "vpcInterfaceName"
             case whitelistCidr = "whitelistCidr"
         }
     }
@@ -1440,7 +1560,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
             AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId"), required: false, type: .string), 
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
-            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
+            AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcInterfaceAttachment", location: .body(locationName: "vpcInterfaceAttachment"), required: false, type: .structure)
         ]
 
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -1465,8 +1586,10 @@ extension MediaConnect {
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
+        /// The name of the VPC interface attachment to use for this output.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -1479,6 +1602,7 @@ extension MediaConnect {
             self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1494,6 +1618,7 @@ extension MediaConnect {
             case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -1566,6 +1691,7 @@ extension MediaConnect {
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
             AWSShapeMember(label: "SourceArn", location: .uri(locationName: "sourceArn"), required: true, type: .string), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string), 
+            AWSShapeMember(label: "VpcInterfaceName", location: .body(locationName: "vpcInterfaceName"), required: false, type: .string), 
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
 
@@ -1587,10 +1713,12 @@ extension MediaConnect {
         public let sourceArn: String
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
+        /// The name of the VPC Interface to configure this Source with.
+        public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -1601,6 +1729,7 @@ extension MediaConnect {
             self.`protocol` = `protocol`
             self.sourceArn = sourceArn
             self.streamId = streamId
+            self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
         }
 
@@ -1615,6 +1744,7 @@ extension MediaConnect {
             case `protocol` = "protocol"
             case sourceArn = "sourceArn"
             case streamId = "streamId"
+            case vpcInterfaceName = "vpcInterfaceName"
             case whitelistCidr = "whitelistCidr"
         }
     }
@@ -1638,6 +1768,92 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
             case source = "source"
+        }
+    }
+
+    public struct VpcInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceIds", location: .body(locationName: "networkInterfaceIds"), required: true, type: .list), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: true, type: .list), 
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"), required: true, type: .string)
+        ]
+
+        /// Immutable and has to be a unique against other VpcInterfaces in this Flow
+        public let name: String
+        /// IDs of the network interfaces created in customer's account by MediaConnect.
+        public let networkInterfaceIds: [String]
+        /// Role Arn MediaConnect can assumes to create ENIs in customer's account
+        public let roleArn: String
+        /// Security Group IDs to be used on ENI.
+        public let securityGroupIds: [String]
+        /// Subnet must be in the AZ of the Flow
+        public let subnetId: String
+
+        public init(name: String, networkInterfaceIds: [String], roleArn: String, securityGroupIds: [String], subnetId: String) {
+            self.name = name
+            self.networkInterfaceIds = networkInterfaceIds
+            self.roleArn = roleArn
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case networkInterfaceIds = "networkInterfaceIds"
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
+        }
+    }
+
+    public struct VpcInterfaceAttachment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcInterfaceName", location: .body(locationName: "vpcInterfaceName"), required: false, type: .string)
+        ]
+
+        /// The name of the VPC interface to use for this output.
+        public let vpcInterfaceName: String?
+
+        public init(vpcInterfaceName: String? = nil) {
+            self.vpcInterfaceName = vpcInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcInterfaceName = "vpcInterfaceName"
+        }
+    }
+
+    public struct VpcInterfaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", location: .body(locationName: "securityGroupIds"), required: true, type: .list), 
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"), required: true, type: .string)
+        ]
+
+        /// The name of the VPC Interface. This value must be unique within the current flow.
+        public let name: String
+        /// Role Arn MediaConnect can assumes to create ENIs in customer's account
+        public let roleArn: String
+        /// Security Group IDs to be used on ENI.
+        public let securityGroupIds: [String]
+        /// Subnet must be in the AZ of the Flow
+        public let subnetId: String
+
+        public init(name: String, roleArn: String, securityGroupIds: [String], subnetId: String) {
+            self.name = name
+            self.roleArn = roleArn
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
         }
     }
 }

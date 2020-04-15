@@ -37,6 +37,7 @@ public struct Kinesis {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2013-12-02",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "kinesis-fips.us-east-1.amazonaws.com", "fips-us-east-2": "kinesis-fips.us-east-2.amazonaws.com", "fips-us-west-1": "kinesis-fips.us-west-1.amazonaws.com", "fips-us-west-2": "kinesis-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [KinesisErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

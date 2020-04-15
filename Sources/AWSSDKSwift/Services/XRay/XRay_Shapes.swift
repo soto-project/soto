@@ -461,17 +461,22 @@ extension XRay {
 
     public struct ErrorRootCause: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientImpacting", required: false, type: .boolean), 
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
 
+        /// A flag that denotes that the root cause impacts the trace client.
+        public let clientImpacting: Bool?
         /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [ErrorRootCauseService]?
 
-        public init(services: [ErrorRootCauseService]? = nil) {
+        public init(clientImpacting: Bool? = nil, services: [ErrorRootCauseService]? = nil) {
+            self.clientImpacting = clientImpacting
             self.services = services
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientImpacting = "ClientImpacting"
             case services = "Services"
         }
     }
@@ -574,17 +579,22 @@ extension XRay {
 
     public struct FaultRootCause: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientImpacting", required: false, type: .boolean), 
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
 
+        /// A flag that denotes that the root cause impacts the trace client.
+        public let clientImpacting: Bool?
         /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [FaultRootCauseService]?
 
-        public init(services: [FaultRootCauseService]? = nil) {
+        public init(clientImpacting: Bool? = nil, services: [FaultRootCauseService]? = nil) {
+            self.clientImpacting = clientImpacting
             self.services = services
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientImpacting = "ClientImpacting"
             case services = "Services"
         }
     }
@@ -1487,17 +1497,22 @@ extension XRay {
 
     public struct ResponseTimeRootCause: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientImpacting", required: false, type: .boolean), 
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
 
+        /// A flag that denotes that the root cause impacts the trace client.
+        public let clientImpacting: Bool?
         /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
         public let services: [ResponseTimeRootCauseService]?
 
-        public init(services: [ResponseTimeRootCauseService]? = nil) {
+        public init(clientImpacting: Bool? = nil, services: [ResponseTimeRootCauseService]? = nil) {
+            self.clientImpacting = clientImpacting
             self.services = services
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientImpacting = "ClientImpacting"
             case services = "Services"
         }
     }

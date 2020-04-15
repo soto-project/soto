@@ -8661,6 +8661,7 @@ extension Pinpoint {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "Keyword", required: false, type: .string), 
+            AWSShapeMember(label: "MediaUrl", required: false, type: .string), 
             AWSShapeMember(label: "MessageType", required: false, type: .enum), 
             AWSShapeMember(label: "OriginationNumber", required: false, type: .string), 
             AWSShapeMember(label: "SenderId", required: false, type: .string), 
@@ -8671,6 +8672,8 @@ extension Pinpoint {
         public let body: String?
         /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
         public let keyword: String?
+        /// The URL of an image or video to display in the SMS message.
+        public let mediaUrl: String?
         /// The SMS message type. Valid values are: TRANSACTIONAL, the message is critical or time-sensitive, such as a one-time password that supports a customer transaction; and, PROMOTIONAL, the message is not critical or time-sensitive, such as a marketing message.
         public let messageType: MessageType?
         /// The number to send the SMS message from. This value should be one of the dedicated long or short codes that's assigned to your AWS account. If you don't specify a long or short code, Amazon Pinpoint assigns a random long code to the SMS message and sends the message from that code.
@@ -8680,9 +8683,10 @@ extension Pinpoint {
         /// The message variables to use in the SMS message. You can override the default variables with individual address variables.
         public let substitutions: [String: [String]]?
 
-        public init(body: String? = nil, keyword: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, substitutions: [String: [String]]? = nil) {
+        public init(body: String? = nil, keyword: String? = nil, mediaUrl: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, substitutions: [String: [String]]? = nil) {
             self.body = body
             self.keyword = keyword
+            self.mediaUrl = mediaUrl
             self.messageType = messageType
             self.originationNumber = originationNumber
             self.senderId = senderId
@@ -8692,6 +8696,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
             case keyword = "Keyword"
+            case mediaUrl = "MediaUrl"
             case messageType = "MessageType"
             case originationNumber = "OriginationNumber"
             case senderId = "SenderId"

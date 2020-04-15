@@ -72,7 +72,7 @@ extension RDSDataService {
 
         /// The name of the database.
         public let database: String?
-        /// The parameter set for the batch operation. The maximum number of parameters in a parameter set is 1,000.
+        /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided. To execute a SQL statement with no parameters, use one of the following options:   Specify one or more empty parameter sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.    Array parameters are not supported. 
         public let parameterSets: [[SqlParameter]]?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -420,7 +420,7 @@ extension RDSDataService {
         public let database: String?
         /// A value that indicates whether to include metadata in the results.
         public let includeResultMetadata: Bool?
-        /// The parameters for the SQL statement.
+        /// The parameters for the SQL statement.  Array parameters are not supported. 
         public let parameters: [SqlParameter]?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String

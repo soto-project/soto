@@ -107,7 +107,7 @@ public struct CostExplorer {
         return client.send(operation: "GetSavingsPlansCoverage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves your request parameters, Savings Plan Recommendations Summary and Details.
+    ///  Retrieves your request parameters, Savings Plan Recommendations Summary and Details. 
     public func getSavingsPlansPurchaseRecommendation(_ input: GetSavingsPlansPurchaseRecommendationRequest) -> EventLoopFuture<GetSavingsPlansPurchaseRecommendationResponse> {
         return client.send(operation: "GetSavingsPlansPurchaseRecommendation", path: "/", httpMethod: "POST", input: input)
     }

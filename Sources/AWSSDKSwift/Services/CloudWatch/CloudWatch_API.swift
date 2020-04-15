@@ -36,6 +36,7 @@ public struct CloudWatch {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-08-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "monitoring-fips.us-east-1.amazonaws.com", "fips-us-east-2": "monitoring-fips.us-east-2.amazonaws.com", "fips-us-west-1": "monitoring-fips.us-west-1.amazonaws.com", "fips-us-west-2": "monitoring-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [CloudWatchErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -144,7 +145,7 @@ public struct CloudWatch {
         return client.send(operation: "ListMetrics", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Displays the tags associated with a CloudWatch resource. Alarms support tagging.
+    ///  Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor Insights rules support tagging.
     public func listTagsForResource(_ input: ListTagsForResourceInput) -> EventLoopFuture<ListTagsForResourceOutput> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -184,7 +185,7 @@ public struct CloudWatch {
         return client.send(operation: "SetAlarmState", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
+    ///  Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     public func tagResource(_ input: TagResourceInput) -> EventLoopFuture<TagResourceOutput> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
