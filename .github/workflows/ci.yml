@@ -39,9 +39,6 @@ jobs:
           --workdir /opt/code/localstack/
     container:
       image: ${{ matrix.tag }}
-      volumes:
-      - $GITHUB_WORKSPACE:/src
-      options: --workdir /src
       env:
         APIGATEWAY_ENDPOINT : "http://localstack:4567"
         DYNAMODB_ENDPOINT   : "http://localstack:4569"
